@@ -453,7 +453,7 @@
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-12" id="adult_identity_type{{forloop.counter}}">
+                                        <div class="col-lg-12" id="adult_identity_type{{forloop.counter}}" style="display:block;">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <label style="color:red">*</label>
@@ -478,7 +478,7 @@
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off" readonly>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('adult_passport_expired_date{{forloop.counter}}')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -493,7 +493,7 @@
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_country_of_issued{{forloop.counter}}','');default_data_select2('adult_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
                                                     </div>
                                                 </div>
@@ -525,7 +525,7 @@
                                                             <label>{% trans 'Identity Expired Date' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_passport_expired_date{{forloop.counter}}" id="adult_passport_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off" readonly>
-                                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('adult_passport_passport_expired_date{{forloop.counter}}')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -540,7 +540,7 @@
                                                                         {% endfor %}
                                                                     </select>
                                                                 </div>
-                                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                                <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_country_of_issued{{forloop.counter}}','');default_data_select2('adult_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                                 <input type="hidden" name="adult_passport_passport_country_of_issued{{forloop.counter}}" id="adult_passport_passport_country_of_issued{{forloop.counter}}" />
                                                             </div>
                                                         </div>
@@ -707,7 +707,7 @@
                                                         <label>{% trans 'Identity Expired Date' %}</label>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_relation1_passport_expired_date{{forloop.counter}}" id="adult_relation1_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off" readonly>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('adult_relation1_passport_expired_date{{forloop.counter}}')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -722,7 +722,7 @@
                                                                     {% endfor %}
                                                                 </select>
                                                             </div>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_country_of_issued{{forloop.counter}}','');default_data_select2('adult_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             <input type="hidden" name="adult_relation1_passport_country_of_issued{{forloop.counter}}" id="adult_relation1_passport_country_of_issued{{forloop.counter}}" />
                                                         </div>
                                                     </div>
@@ -818,7 +818,7 @@
                                                         <label>{% trans 'Identity Expired Date' %}</label>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_relation2_passport_expired_date{{forloop.counter}}" id="adult_relation2_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off" readonly>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('adult_relation2_passport_expired_date{{forloop.counter}}')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -833,7 +833,7 @@
                                                                     {% endfor %}
                                                                 </select>
                                                             </div>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_country_of_issued{{forloop.counter}}','');default_data_select2('adult_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             <input type="hidden" name="adult_relation2_passport_country_of_issued{{forloop.counter}}" id="adult_relation2_passport_country_of_issued{{forloop.counter}}" />
                                                         </div>
                                                     </div>
@@ -929,7 +929,7 @@
                                                         <label>{% trans 'Identity Expired Date' %}</label>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_relation3_passport_expired_date{{forloop.counter}}" id="adult_relation3_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off" readonly>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('adult_relation3_passport_expired_date{{forloop.counter}}')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -944,7 +944,7 @@
                                                                     {% endfor %}
                                                                 </select>
                                                             </div>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_country_of_issued{{forloop.counter}}','');default_data_select2('adult_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             <input type="hidden" name="adult_relation3_passport_country_of_issued{{forloop.counter}}" id="adult_relation3_passport_country_of_issued{{forloop.counter}}" />
                                                         </div>
                                                     </div>
@@ -1040,7 +1040,7 @@
                                                         <label>{% trans 'Identity Expired Date' %}</label>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_relation4_passport_expired_date{{forloop.counter}}" id="adult_relation4_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off" readonly>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('adult_relation4_passport_expired_date{{forloop.counter}}')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -1055,7 +1055,7 @@
                                                                     {% endfor %}
                                                                 </select>
                                                             </div>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_country_of_issued{{forloop.counter}}','');default_data_select2('adult_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             <input type="hidden" name="adult_relation4_passport_country_of_issued{{forloop.counter}}" id="adult_relation4_passport_country_of_issued{{forloop.counter}}" />
                                                         </div>
                                                     </div>
@@ -1152,7 +1152,7 @@
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_relation5_passport_expired_date{{forloop.counter}}" id="adult_relation5_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Identity Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Expired Date '" autocomplete="off" readonly>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('adult_relation5_passport_expired_date{{forloop.counter}}')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -1167,7 +1167,7 @@
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_country_of_issued{{forloop.counter}}','');default_data_select2('adult_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         <input type="hidden" name="adult_relation5_passport_country_of_issued{{forloop.counter}}" id="adult_relation5_passport_country_of_issued{{forloop.counter}}" />
                                                     </div>
                                                 </div>
@@ -1669,7 +1669,7 @@
                                                 <label>{% trans 'Passport Expired Date' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" style="background:white;" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
-                                                    <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('adult_passport_expired_date{{forloop.counter}}')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -1682,7 +1682,7 @@
                                                         {% endfor %}
                                                     </select>
                                                 </div>
-                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_country_of_issued{{forloop.counter}}','');default_data_select2('adult_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
