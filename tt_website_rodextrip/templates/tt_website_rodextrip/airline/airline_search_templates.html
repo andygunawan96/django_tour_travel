@@ -2318,65 +2318,6 @@
         document.getElementById('is_combo_price').checked = {{airline_request.is_combo_price}};
         counter_mc = {{airline_request.counter}};
         count = 0;
-        while(count<counter_mc){
-            add_multi_city('search');
-            count++;
-        }
-        $('#show_total_pax_flight1').text({{airline_request.adult}} + " Adult, " + {{airline_request.child}} + " Child, " +{{airline_request.infant}} + " Infant");
-        document.getElementById('adult_flight1').value = {{airline_request.adult}};
-        document.getElementById('child_flight1').value = {{airline_request.child}};
-        document.getElementById('infant_flight1').value = {{airline_request.infant}};
-        if (quantity_adult_flight+quantity_child_flight == 9){
-            document.getElementById("right-plus-adult-flight1").disabled = true;
-            document.getElementById("right-plus-child-flight1").disabled = true;
-
-            if(quantity_adult_flight == 1 ){
-              document.getElementById("left-minus-adult-flight1").disabled = true;
-            }
-            else{
-              document.getElementById("left-minus-adult-flight1").disabled = false;
-            }
-
-            if(quantity_child_flight == 0){
-              document.getElementById("left-minus-child-flight1").disabled = true;
-            }
-            else{
-              document.getElementById("left-minus-child-flight1").disabled = false;
-            }
-          }
-          else{
-            if(quantity_adult_flight == 1 ){
-              document.getElementById("left-minus-adult-flight1").disabled = true;
-              document.getElementById("right-plus-adult-flight1").disabled = false;
-            }
-            else{
-              document.getElementById("left-minus-adult-flight1").disabled = false;
-              document.getElementById("right-plus-adult-flight1").disabled = false;
-            }
-
-            if(quantity_child_flight == 0){
-              document.getElementById("left-minus-child-flight1").disabled = true;
-              document.getElementById("right-plus-child-flight1").disabled = false;
-            }
-            else{
-              document.getElementById("left-minus-child-flight1").disabled = false;
-              document.getElementById("right-plus-child-flight1").disabled = false;
-            }
-          }
-
-          if (quantity_infant_flight == 0){
-              document.getElementById("left-minus-infant-flight1").disabled = true;
-              document.getElementById("right-plus-infant-flight1").disabled = false;
-          }
-          else if (quantity_infant_flight == quantity_adult_flight){
-              document.getElementById("left-minus-infant-flight1").disabled = false;
-              document.getElementById("right-plus-infant-flight1").disabled = true;
-          }
-          else{
-              document.getElementById("right-plus-infant-flight1").disabled = false;
-              document.getElementById("left-minus-infant-flight1").disabled = false;
-          }
-
       }
     });
     sorting_value = 'Lowest Price';
