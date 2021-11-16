@@ -468,6 +468,52 @@ $(document).ready(function(){
         }
     });
 
+    $('.right-plus-adult-insurance').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#insurance_adult').val());
+
+        // If is not undefined
+        if(quantity < 4){
+            $('#insurance_adult').val(quantity + 1);
+            quantity_adult_insurance = quantity + 1;
+
+            $('#show_total_pax_insurance').text(quantity_adult_insurance + " Customer");
+        }
+
+        if (quantity_adult_insurance == 4){
+            document.getElementById("left-minus-adult-insurance").disabled = false;
+            document.getElementById("right-plus-adult-insurance").disabled = true;
+        }
+        else{
+            document.getElementById("left-minus-adult-insurance").disabled = false;
+        }
+    });
+    $('.left-minus-adult-insurance').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#insurance_adult').val());
+
+        // If is not undefined
+        // Increment
+        if(quantity > 1){
+            $('#insurance_adult').val(quantity - 1);
+            quantity_adult_insurance = quantity - 1;
+
+            $('#show_total_pax_insurance').text(quantity_adult_insurance + " Customer");
+        }
+
+        if (quantity_adult_insurance == 1){
+            document.getElementById("left-minus-adult-insurance").disabled = true;
+            document.getElementById("right-plus-adult-insurance").disabled = false;
+        }
+        else{
+            document.getElementById("right-plus-adult-insurance").disabled = false;
+        }
+    });
+
 
     var quantity_adult_flight = parseInt($('#adult_flight').val());
     var quantity_child_flight = parseInt($('#child_flight').val());
@@ -2100,16 +2146,19 @@ function show_paxs(pax_type, key){
     var paxs = document.getElementById(pax_type+'_paxs'+key);
     var paxs_down = document.getElementById(pax_type+'_down_paxs'+key);
     var paxs_up = document.getElementById(pax_type+'_up_paxs'+key);
-    for (var i=1; i <= parseInt(adult); i++){
-        paxs = document.getElementById('adult_paxs'+i);
-        paxs_up = document.getElementById('adult_up_paxs'+i);
-        paxs_down = document.getElementById('adult_down_paxs'+i);
+    if(typeof(adult) !== 'undefined'){
+        for (var i=1; i <= parseInt(adult); i++){
+            paxs = document.getElementById('adult_paxs'+i);
+            paxs_up = document.getElementById('adult_up_paxs'+i);
+            paxs_down = document.getElementById('adult_down_paxs'+i);
+        }
     }
-
-    for (var i=1; i <= parseInt(infant); i++){
-        paxs = document.getElementById('infant_paxs'+i);
-        paxs_up = document.getElementById('infant_up_paxs'+i);
-        paxs_down = document.getElementById('infant_down_paxs'+i);
+    if(typeof(infant) !== 'undefined'){
+        for (var i=1; i <= parseInt(infant); i++){
+            paxs = document.getElementById('infant_paxs'+i);
+            paxs_up = document.getElementById('infant_up_paxs'+i);
+            paxs_down = document.getElementById('infant_down_paxs'+i);
+        }
     }
 
     paxs = document.getElementById(pax_type+'_paxs'+key);
@@ -2168,22 +2217,28 @@ function show_paxs_airline(pax_type, key){
     var paxs_down = document.getElementById(pax_type+'_down_paxs'+key);
     var paxs_up = document.getElementById(pax_type+'_up_paxs'+key);
 
-    for (var i=1; i <= parseInt(adult); i++){
-        paxs = document.getElementById('adult_paxs'+i);
-        paxs_up = document.getElementById('adult_up_paxs'+i);
-        paxs_down = document.getElementById('adult_down_paxs'+i);
+    if(typeof(adult) !== 'undefined'){
+        for (var i=1; i <= parseInt(adult); i++){
+            paxs = document.getElementById('adult_paxs'+i);
+            paxs_up = document.getElementById('adult_up_paxs'+i);
+            paxs_down = document.getElementById('adult_down_paxs'+i);
+        }
     }
 
-    for (var i=1; i <= parseInt(child); i++){
-        paxs = document.getElementById('child_paxs'+i);
-        paxs_up = document.getElementById('child_up_paxs'+i);
-        paxs_down = document.getElementById('child_down_paxs'+i);
+    if(typeof(child) !== 'undefined'){
+        for (var i=1; i <= parseInt(child); i++){
+            paxs = document.getElementById('child_paxs'+i);
+            paxs_up = document.getElementById('child_up_paxs'+i);
+            paxs_down = document.getElementById('child_down_paxs'+i);
+        }
     }
 
-    for (var i=1; i <= parseInt(infant); i++){
-        paxs = document.getElementById('infant_paxs'+i);
-        paxs_up = document.getElementById('infant_up_paxs'+i);
-        paxs_down = document.getElementById('infant_down_paxs'+i);
+    if(typeof(infant) !== 'undefined'){
+        for (var i=1; i <= parseInt(infant); i++){
+            paxs = document.getElementById('infant_paxs'+i);
+            paxs_up = document.getElementById('infant_up_paxs'+i);
+            paxs_down = document.getElementById('infant_down_paxs'+i);
+        }
     }
 
     paxs = document.getElementById(pax_type+'_paxs'+key);
