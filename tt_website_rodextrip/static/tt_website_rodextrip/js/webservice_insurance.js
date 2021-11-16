@@ -1358,20 +1358,17 @@ function check_passenger(){
         }
 
         //CHECK KTP
-        if(document.getElementById('adult_relation5_identity_type'+i).style.display == 'block'){
-            if(document.getElementById('adult_relation5_identity_type'+i).value == 'ktp'){
-                if(check_ktp(document.getElementById('adult_relation5_passport_number'+i).value) == false){
-                   error_log+= 'Please fill id number, nik only contain 16 digits for beneficiary customer '+i+'!</br>\n';
-                   document.getElementById('adult_relation5_passport_number'+i).style['border-color'] = 'red';
-                }else{
-                   document.getElementById('adult_relation5_passport_number'+i).style['border-color'] = '#EFEFEF';
-                }if(document.getElementById('adult_relation5_country_of_issued'+i).value == '' || document.getElementById('adult_country_of_issued'+i).value == 'Country of Issued'){
-                   error_log+= 'Please fill country of issued for beneficiary customer '+i+'!</br>\n';
-                   document.getElementById('adult_relation5_country_of_issued'+i).style['border-color'] = 'red';
-                }else{
-                   document.getElementById('adult_relation5_country_of_issued'+i).style['border-color'] = '#EFEFEF';
-                }
-
+        if(document.getElementById('adult_relation5_identity_type'+i).value == 'ktp'){
+            if(check_ktp(document.getElementById('adult_relation5_passport_number'+i).value) == false){
+               error_log+= 'Please fill id number, nik only contain 16 digits for beneficiary customer '+i+'!</br>\n';
+               document.getElementById('adult_relation5_passport_number'+i).style['border-color'] = 'red';
+            }else{
+               document.getElementById('adult_relation5_passport_number'+i).style['border-color'] = '#EFEFEF';
+            }if(document.getElementById('adult_relation5_country_of_issued'+i).value == '' || document.getElementById('adult_country_of_issued'+i).value == 'Country of Issued'){
+               error_log+= 'Please fill country of issued for beneficiary customer '+i+'!</br>\n';
+               document.getElementById('adult_relation5_country_of_issued'+i).style['border-color'] = 'red';
+            }else{
+               document.getElementById('adult_relation5_country_of_issued'+i).style['border-color'] = '#EFEFEF';
             }
         }
 
