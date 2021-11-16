@@ -2680,3 +2680,15 @@ function insurance_issued_booking(data){
       }
     })
 }
+
+function delete_expired_date_data(data){
+    document.getElementById(data).value = '';
+}
+
+function default_data_select2(id, value){
+    document.getElementById(id).value = value;
+}
+
+function default_data_select2_html(id, value){
+    document.getElementById(id).innerHTML = value;
+}
