@@ -1332,6 +1332,8 @@ $('#report_form').submit(function(evt){
                 contents = overview_medical(result.raw_data.result.response.first_overview);
             } else if (provider_type == 'overall_bus'){
                 contents = overview_bus(result.raw_data.result.response.first_overview);
+            } else if (provider_type == 'overall_insurance'){
+                contents = overview_insurance(result.raw_data.result.response.first_overview);
             } else if (provider_type == 'overall_swabexpress'){
                 contents = overview_swabexpress(result.raw_data.result.response.first_overview);
             } else if (provider_type == 'overall_labpintar'){
@@ -2658,6 +2660,47 @@ function overview_bus(data){
         </table>
     `;
 
+    return content;
+}
+
+// handler for overview data for insurance
+// input is object that has been trim to the exact object needed to print
+// in overall case means
+// return.raw_data.result.response.first_overview
+// why first, this will be the default page (hence first section)
+// will also  be use to name the section(s)
+function overview_insurance(data){
+    var content = ``;
+    // table
+    content += `
+        <div class="mb-3" style="overflow:auto;">
+        <table class="table list-of-reservation">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th># of Transaction</th>
+                    <th># of Passengers</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    // content
+    for(i in data){
+        content += `
+            <tr>
+                <td>`+ data[i]['product'] +`</td>
+                <td>`+ data[i]['counter'] +`</td>
+                <td>`+ data[i]['passenger_count'] +`</td>
+            </tr>
+        `;
+    }
+
+    // close table
+    content += `
+            </tbody>
+        </table>
+        </div>
+    `;
     return content;
 }
 
