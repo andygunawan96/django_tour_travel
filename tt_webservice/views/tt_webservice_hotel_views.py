@@ -400,7 +400,7 @@ def detail(request):
         else:
             logging.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = url + 'booking/hotel'
-    res = send_request_api(request, url_request, headers, data, 'POST')
+    res = send_request_api(request, url_request, headers, data, 'POST', timeout=180)
     try:
         signature = copy.deepcopy(request.session['hotel_signature'])
         set_session(request, 'hotel_error', {
@@ -589,7 +589,7 @@ def create_booking(request):
         data = {
             "passengers": passenger,
             'user_id': request.session.get('co_uid') or '',
-            'search_data': request.session['hotel_request'],
+            'search_data': request.session['hotel_detail_request'],
             # 'cancellation_policy': request.session['hotel_cancellation_policy']['result']['response'],
             'cancellation_policy': [],
             'promotion_codes_booking': [],

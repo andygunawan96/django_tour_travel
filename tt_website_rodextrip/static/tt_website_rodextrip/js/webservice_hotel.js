@@ -938,7 +938,7 @@ function hotel_detail_request(checkin_date, checkout_date){
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel detail request');
-           },timeout: 60000
+           },timeout: 180000
         });
     },500);
 }
