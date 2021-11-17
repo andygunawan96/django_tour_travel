@@ -290,7 +290,7 @@
             $("#show_loading_booking_mitra_keluarga").hide();
         }catch(err){}
 
-        breadcrumb_create("mitra_keluarga", 4, 1);
+        breadcrumb_create("mitrakeluarga", 4, 1);
     });
     function check_booking(){
         if(document.getElementById('order_number_field').value != '' &&
@@ -316,7 +316,7 @@
         show_loading();
         document.getElementById('get_booking').disabled = true;
         data = {
-            'product': 'medical',
+            'product': 'mitrakeluarga',
             'signature': signature,
             'booker_name': document.getElementById('booker_name_field').value,
             'order_number': document.getElementById('order_number_field').value.replace(' ','').toUpperCase()
@@ -334,7 +334,7 @@
            success: function(msg) {
                console.log(msg);
                if(msg.result.error_code == 0 && msg.result.response != ''){
-                    window.location.href = '/medical_global/confirm_order/'+btoa(msg.result.response.order_number);
+                    window.location.href = '/mitra_keluarga/confirm_order/'+btoa(msg.result.response.order_number);
                }else{
                    Swal.fire({
                       type: 'error',
