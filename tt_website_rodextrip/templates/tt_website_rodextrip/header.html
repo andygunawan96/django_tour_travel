@@ -101,6 +101,9 @@
                             {% if "confirm_order_medical" in username.co_agent_frontend_security %}
                             <li><a href="{% url 'tt_website_rodextrip:medical_global_confirm_order_page'%}">Confirm Order Medical</a></li>
                             {% endif %}
+                            {% if "confirm_order_mitra_keluarga" in username.co_agent_frontend_security %}
+                            <li><a href="{% url 'tt_website_rodextrip:mitra_keluarga_confirm_order_page'%}">Confirm Order Mitra Keluarga</a></li>
+                            {% endif %}
                             {% if "analyst_phc" in username.co_agent_frontend_security or "assign_analyst_phc" in username.co_agent_frontend_security %}
                             <li><a href="/assign_analyst/phc">Analyst Phc Schedule</a></li>
                             {% endif %}
@@ -129,6 +132,9 @@
                             {% endif %}
                             {% if "confirm_order_medical" in username.co_agent_frontend_security %}
                             <li><a href="{% url 'tt_website_rodextrip:medical_global_confirm_order_page'%}">Confirm Order Medical</a></li>
+                            {% endif %}
+                            {% if "confirm_order_mitra_keluarga" in username.co_agent_frontend_security %}
+                            <li><a href="{% url 'tt_website_rodextrip:mitra_keluarga_confirm_order_page'%}">Confirm Order Mitra Keluarga</a></li>
                             {% endif %}
                             {% if "analyst_phc" in username.co_agent_frontend_security or "assign_analyst_phc" in username.co_agent_frontend_security %}
                             <li><a href="/assign_analyst/phc">Analyst Phc Schedule</a></li>
@@ -371,6 +377,9 @@
                                     {% if "confirm_order_medical" in username.co_agent_frontend_security %}
                                     <li><a href="{% url 'tt_website_rodextrip:medical_global_confirm_order_page'%}">Confirm Order Medical</a></li>
                                     {% endif %}
+                                    {% if "confirm_order_mitra_keluarga" in username.co_agent_frontend_security %}
+                                    <li><a href="{% url 'tt_website_rodextrip:mitra_keluarga_confirm_order_page'%}">Confirm Order Mitra Keluarga</a></li>
+                                    {% endif %}
                                     {% if "analyst_phc" in username.co_agent_frontend_security or "assign_analyst_phc" in username.co_agent_frontend_security %}
                                     <li><a href="/assign_analyst/phc">Analyst Phc Schedule</a></li>
                                     {% endif %}
@@ -400,6 +409,9 @@
                                     {% endif %}
                                     {% if "confirm_order_medical" in username.co_agent_frontend_security %}
                                     <li><a href="{% url 'tt_website_rodextrip:medical_global_confirm_order_page'%}">Confirm Order Medical</a></li>
+                                    {% endif %}
+                                    {% if "confirm_order_mitra_keluarga" in username.co_agent_frontend_security %}
+                                    <li><a href="{% url 'tt_website_rodextrip:mitra_keluarga_confirm_order_page'%}">Confirm Order Mitra Keluarga</a></li>
                                     {% endif %}
                                     {% if "analyst_phc" in username.co_agent_frontend_security or "assign_analyst_phc" in username.co_agent_frontend_security %}
                                     <li><a href="/assign_analyst/phc">Analyst Phc Schedule</a></li>
@@ -591,6 +603,9 @@
                                 {% if "confirm_order_medical" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:medical_global_confirm_order_page'%}">Confirm Order Medical</a></li>
                                 {% endif %}
+                                {% if "confirm_order_mitra_keluarga" in username.co_agent_frontend_security %}
+                                <li><a href="{% url 'tt_website_rodextrip:mitra_keluarga_confirm_order_page'%}">Confirm Order Mitra Keluarga</a></li>
+                                {% endif %}
                                 {% if "analyst_phc" in username.co_agent_frontend_security or "assign_analyst_phc" in username.co_agent_frontend_security %}
                                 <li><a href="/assign_analyst/phc">Analyst Phc Schedule</a></li>
                                 {% endif %}
@@ -620,6 +635,9 @@
                                 {% endif %}
                                 {% if "confirm_order_medical" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:medical_global_confirm_order_page'%}">Confirm Order Medical</a></li>
+                                {% endif %}
+                                {% if "confirm_order_mitra_keluarga" in username.co_agent_frontend_security %}
+                                <li><a href="{% url 'tt_website_rodextrip:mitra_keluarga_confirm_order_page'%}">Confirm Order Mitra Keluarga</a></li>
                                 {% endif %}
                                 {% if "analyst_phc" in username.co_agent_frontend_security or "assign_analyst_phc" in username.co_agent_frontend_security %}
                                 <li><a href="/assign_analyst/phc">Analyst Phc Schedule</a></li>
@@ -813,6 +831,9 @@
                                 {% if "confirm_order_medical" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:medical_global_confirm_order_page'%}">Confirm Order Medical</a></li>
                                 {% endif %}
+                                {% if "confirm_order_mitra_keluarga" in username.co_agent_frontend_security %}
+                                <li><a href="{% url 'tt_website_rodextrip:mitra_keluarga_confirm_order_page'%}">Confirm Order Mitra Keluarga</a></li>
+                                {% endif %}
                                 {% if "analyst_phc" in username.co_agent_frontend_security or "assign_analyst_phc" in username.co_agent_frontend_security %}
                                 <li><a href="/assign_analyst/phc">Analyst Phc Schedule</a></li>
                                 {% endif %}
@@ -840,6 +861,9 @@
                                 {% endif %}
                                 {% if "confirm_order_medical" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:medical_global_confirm_order_page'%}">Confirm Order Medical</a></li>
+                                {% endif %}
+                                {% if "confirm_order_mitra_keluarga" in username.co_agent_frontend_security %}
+                                <li><a href="{% url 'tt_website_rodextrip:mitra_keluarga_confirm_order_page'%}">Confirm Order Mitra Keluarga</a></li>
                                 {% endif %}
                                 {% if "analyst_phc" in username.co_agent_frontend_security or "assign_analyst_phc" in username.co_agent_frontend_security %}
                                 <li><a href="/assign_analyst/phc">Analyst Phc Schedule</a></li>
@@ -1035,6 +1059,9 @@
                             {% if "confirm_order_medical" in username.co_agent_frontend_security %}
                             <li><a href="{% url 'tt_website_rodextrip:medical_global_confirm_order_page'%}">Confirm Order Medical</a></li>
                             {% endif %}
+                            {% if "confirm_order_mitra_keluarga" in username.co_agent_frontend_security %}
+                            <li><a href="{% url 'tt_website_rodextrip:mitra_keluarga_confirm_order_page'%}">Confirm Order Mitra Keluarga</a></li>
+                            {% endif %}
                             {% if "analyst_phc" in username.co_agent_frontend_security or "assign_analyst_phc" in username.co_agent_frontend_security %}
                             <li><a href="/assign_analyst/phc">Analyst Phc Schedule</a></li>
                             {% endif %}
@@ -1062,6 +1089,9 @@
                             {% endif %}
                             {% if "confirm_order_medical" in username.co_agent_frontend_security %}
                             <li><a href="{% url 'tt_website_rodextrip:medical_global_confirm_order_page'%}">Confirm Order Medical</a></li>
+                            {% endif %}
+                            {% if "confirm_order_mitra_keluarga" in username.co_agent_frontend_security %}
+                            <li><a href="{% url 'tt_website_rodextrip:mitra_keluarga_confirm_order_page'%}">Confirm Order Mitra Keluarga</a></li>
                             {% endif %}
                             {% if "analyst_phc" in username.co_agent_frontend_security or "assign_analyst_phc" in username.co_agent_frontend_security %}
                             <li><a href="/assign_analyst/phc">Analyst Phc Schedule</a></li>
