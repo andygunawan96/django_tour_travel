@@ -4762,6 +4762,20 @@ function on_change_ssr(){
     airline_detail(type);
 }
 
+function update_identity(type, val){
+    if(document.getElementById('adult_nationality'+val).value != 'Indonesia' &&
+       is_international == 'false' && is_identity_required == 'true' && is_lionair == 'false'){
+        document.getElementById(type+'_identity_type'+val).style.display = 'none';
+        document.getElementById(type+'_passport_number'+val).value = '';
+        document.getElementById(type+'_identity_type'+val).value = '';
+        document.getElementById(type+'_passport_expired_date'+val).value = '';
+        document.getElementById('select2-'+type+'_country_of_issued'+val+'_id-container').innerHTML = 'Country of Issued';
+        document.getElementById(type+'_country_of_issued'+val).value = '';
+        $('#'+type+'_identity_type'+val).niceSelect('update');
+    }else if(is_identity_required == 'true')
+        document.getElementById(type+'_identity_type'+val).style.display = 'block';
+}
+
 function check_passenger(adult, child, infant){
     //booker
     error_log = '';
