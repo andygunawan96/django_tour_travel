@@ -532,15 +532,7 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
-                                                                {% if is_garuda == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                {% elif is_lionair == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_international == False %} <!--KALAU DOMESTIK BISA NIK(WNI) & PASSPORT(WNA) KARENA COVID19-->
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -818,15 +810,7 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
-                                                                {% if is_garuda == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                {% elif is_lionair == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_international == False %} <!--KALAU DOMESTIK BISA NIK(WNI) & PASSPORT(WNA) KARENA COVID19-->
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -1068,15 +1052,7 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
-                                                                {% if is_garuda == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                {% elif is_lionair == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_international == False %} <!--KALAU DOMESTIK BISA NIK(WNI) & PASSPORT(WNA) KARENA COVID19-->
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -1610,15 +1586,7 @@
                                                                 <div class="form-select" id="default-select">
                                                                     <select class="form-control" id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                         <option value="">Choose Identity Type</option>
-                                                                        {% if is_garuda == True and is_international == False %}
-                                                                        <option value="ktp">NIK</option>
-                                                                        {% elif is_lionair == True and is_international == False %}
-                                                                        <option value="ktp">NIK</option>
-                                                                        <option value="passport">Passport</option>
-                                                                        {% elif is_international == False %} <!--KALAU DOMESTIK BISA NIK(WNI) & PASSPORT(WNA) KARENA COVID19-->
-                                                                        <option value="ktp">NIK</option>
-                                                                        <option value="passport">Passport</option>
-                                                                        {% elif is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                        {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                         <option value="ktp">NIK</option>
                                                                         <option value="passport">Passport</option>
                                                                         {% else %}
@@ -1849,15 +1817,7 @@
                                                             <div class="input-container-search-ticket">
                                                                 <select class="form-control" id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                                     <option value="">Choose Identity Type</option>
-                                                                    {% if is_garuda == True and is_international == False %}
-                                                                    <option value="ktp">NIK</option>
-                                                                    {% elif is_lionair == True and is_international == False %}
-                                                                    <option value="ktp">NIK</option>
-                                                                    <option value="passport">Passport</option>
-                                                                    {% elif is_international == False %} <!--KALAU DOMESTIK BISA NIK(WNI) & PASSPORT(WNA) KARENA COVID19-->
-                                                                    <option value="ktp">NIK</option>
-                                                                    <option value="passport">Passport</option>
-                                                                    {% elif is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                    {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                     <option value="ktp">NIK</option>
                                                                     <option value="passport">Passport</option>
                                                                     {% else %}
@@ -2057,15 +2017,7 @@
                                                                 <div class="form-select" id="default-select">
                                                                     <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
                                                                         <option value="">Choose Identity Type</option>
-                                                                        {% if is_garuda == True and is_international == False %}
-                                                                        <option value="ktp">NIK</option>
-                                                                        {% elif is_lionair == True and is_international == False %}
-                                                                        <option value="ktp">NIK</option>
-                                                                        <option value="passport">Passport</option>
-                                                                        {% elif is_international == False %} <!--KALAU DOMESTIK BISA NIK(WNI) & PASSPORT(WNA) KARENA COVID19-->
-                                                                        <option value="ktp">NIK</option>
-                                                                        <option value="passport">Passport</option>
-                                                                        {% elif is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                        {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                         <option value="ktp">NIK</option>
                                                                         <option value="passport">Passport</option>
                                                                         {% else %}
@@ -2620,15 +2572,7 @@
                                                         <div class="default-select" id="default-select">
                                                             <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
-                                                                {% if is_garuda == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                {% elif is_lionair == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_international == False %} <!--KALAU DOMESTIK BISA NIK(WNI) & PASSPORT(WNA) KARENA COVID19-->
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -2908,15 +2852,7 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
-                                                                {% if is_garuda == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                {% elif is_lionair == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_international == False %} <!--KALAU DOMESTIK BISA NIK(WNI) & PASSPORT(WNA) KARENA COVID19-->
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -3162,15 +3098,7 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
-                                                                {% if is_garuda == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                {% elif is_lionair == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_international == False %} <!--KALAU DOMESTIK BISA NIK(WNI) & PASSPORT(WNA) KARENA COVID19-->
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -3742,15 +3670,7 @@
                                                     <div class="form-select" id="default-select">
                                                         <select class="nice-select-default" id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                             <option value="">Choose Identity Type</option>
-                                                            {% if is_garuda == True and is_international == False %}
-                                                            <option value="ktp">NIK</option>
-                                                            {% elif is_lionair == True and is_international == False %}
-                                                            <option value="ktp">NIK</option>
-                                                            <option value="passport">Passport</option>
-                                                            {% elif is_international == False %} <!--KALAU DOMESTIK BISA NIK(WNI) & PASSPORT(WNA) KARENA COVID19-->
-                                                            <option value="ktp">NIK</option>
-                                                            <option value="passport">Passport</option>
-                                                            {% elif is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                            {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                             <option value="ktp">NIK</option>
                                                             <option value="passport">Passport</option>
                                                             {% else %}
@@ -4027,15 +3947,7 @@
                                                     <div class="form-select" id="default-select">
                                                         <select class="nice-select-default" id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                             <option value="">Choose Identity Type</option>
-                                                            {% if is_garuda == True and is_international == False %}
-                                                            <option value="ktp">NIK</option>
-                                                            {% elif is_lionair == True and is_international == False %}
-                                                            <option value="ktp">NIK</option>
-                                                            <option value="passport">Passport</option>
-                                                            {% elif is_international == False %} <!--KALAU DOMESTIK BISA NIK(WNI) & PASSPORT(WNA) KARENA COVID19-->
-                                                            <option value="ktp">NIK</option>
-                                                            <option value="passport">Passport</option>
-                                                            {% elif is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                            {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                             <option value="ktp">NIK</option>
                                                             <option value="passport">Passport</option>
                                                             {% else %}
@@ -4279,15 +4191,7 @@
                                                     <div class="form-select" id="default-select">
                                                         <select class="nice-select-default" id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
                                                             <option value="">Choose Identity Type</option>
-                                                            {% if is_garuda == True and is_international == False %}
-                                                            <option value="ktp">NIK</option>
-                                                            {% elif is_lionair == True and is_international == False %}
-                                                            <option value="ktp">NIK</option>
-                                                            <option value="passport">Passport</option>
-                                                            {% elif is_international == False %} <!--KALAU DOMESTIK BISA NIK(WNI) & PASSPORT(WNA) KARENA COVID19-->
-                                                            <option value="ktp">NIK</option>
-                                                            <option value="passport">Passport</option>
-                                                            {% elif is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                            {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                             <option value="ktp">NIK</option>
                                                             <option value="passport">Passport</option>
                                                             {% else %}
@@ -4847,15 +4751,7 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
-                                                                {% if is_garuda == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                {% elif is_lionair == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_international == False %} <!--KALAU DOMESTIK BISA NIK(WNI) & PASSPORT(WNA) KARENA COVID19-->
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -5132,15 +5028,7 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
-                                                                {% if is_garuda == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                {% elif is_lionair == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_international == False %} <!--KALAU DOMESTIK BISA NIK(WNI) & PASSPORT(WNA) KARENA COVID19-->
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -5357,15 +5245,7 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
-                                                                {% if is_garuda == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                {% elif is_lionair == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_international == False %} <!--KALAU DOMESTIK BISA NIK(WNI) & PASSPORT(WNA) KARENA COVID19-->
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -5952,15 +5832,7 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
-                                                                {% if is_garuda == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                {% elif is_lionair == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_international == False %} <!--KALAU DOMESTIK BISA NIK(WNI) & PASSPORT(WNA) KARENA COVID19-->
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -6237,15 +6109,7 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
-                                                                {% if is_garuda == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                {% elif is_lionair == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_international == False %} <!--KALAU DOMESTIK BISA NIK(WNI) & PASSPORT(WNA) KARENA COVID19-->
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -6464,15 +6328,7 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
-                                                                {% if is_garuda == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                {% elif is_lionair == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_international == False %} <!--KALAU DOMESTIK BISA NIK(WNI) & PASSPORT(WNA) KARENA COVID19-->
-                                                                <option value="ktp">NIK</option>
-                                                                <option value="passport">Passport</option>
-                                                                {% elif is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
