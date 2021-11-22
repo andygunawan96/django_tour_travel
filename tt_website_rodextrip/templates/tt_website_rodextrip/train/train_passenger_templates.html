@@ -1467,6 +1467,53 @@
                                                     <input type="text" class="form-control date-picker-birth" style="background:white;" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 </div>
                                             </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <label style="color:red">*</label>
+                                                <label>{% trans 'ID Type' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select" id="default-select">
+                                                        <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="id_type_change('infant',{{forloop.counter}})">
+                                                            {% for id_type in id_types%}
+                                                            {% if id_type.0 != 'sim' and id_type.0 != 'other' %}
+                                                            <option value="{{id_type.0}}">{{id_type.1}}</option>
+                                                            {% endif %}
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <label style="color:red">*</label>
+                                                <label>{% trans 'ID Number' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'ID Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Number '">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <label id="infant_passport_number_required{{forloop.counter}}" style="color:{{text_color}}">*</label>
+                                                <label>{% trans 'ID Expired Date' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'ID Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Expired Date '" autocomplete="off" readonly>
+                                                    <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <label id="infant_country_of_issued_required{{forloop.counter}}_id" style="color:red">*</label>
+                                                <label>{% trans 'Country of Issued' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                            <option value="">{% trans 'Country of Issued' %}</option>
+                                                            {% for country in countries %}
+                                                            <option value="{{country.name}}">{{country.name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -2150,6 +2197,53 @@
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="form-group">
                                                 <input type="text" style="background-color:white;" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'ID Type' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select" id="default-select">
+                                                    <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="id_type_change('infant',{{forloop.counter}})">
+                                                        {% for id_type in id_types%}
+                                                        {% if id_type.0 != 'sim' and id_type.0 != 'other' %}
+                                                        <option value="{{id_type.0}}">{{id_type.1}}</option>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'ID Number' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'ID Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Number '">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label id="infant_passport_number_required{{forloop.counter}}" style="color:{{text_color}}">*</label>
+                                            <label>{% trans 'ID Expired Date' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'ID Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Expired Date '" autocomplete="off" readonly>
+                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label id="infant_country_of_issued_required{{forloop.counter}}_id" style="color:red">*</label>
+                                            <label>{% trans 'Country of Issued' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                        <option value="">{% trans 'Country of Issued' %}</option>
+                                                        {% for country in countries %}
+                                                        <option value="{{country.name}}">{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
                                             </div>
                                         </div>
                                     </div>
@@ -2851,6 +2945,53 @@
                                         <label>{% trans 'Birth Date' %}</label>
                                         <div class="input-container-search-ticket">
                                             <input type="text" style="background:white;" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'ID Type' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select" id="default-select">
+                                                <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="id_type_change('infant',{{forloop.counter}})">
+                                                    {% for id_type in id_types%}
+                                                    {% if id_type.0 != 'sim' and id_type.0 != 'other' %}
+                                                    <option value="{{id_type.0}}">{{id_type.1}}</option>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'ID Number' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'ID Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Number '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label id="infant_passport_number_required{{forloop.counter}}" style="color:{{text_color}}">*</label>
+                                        <label>{% trans 'ID Expired Date' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'ID Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Expired Date '" autocomplete="off" readonly>
+                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label id="infant_country_of_issued_required{{forloop.counter}}_id" style="color:red">*</label>
+                                        <label>{% trans 'Country of Issued' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select">
+                                                <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                    <option value="">{% trans 'Country of Issued' %}</option>
+                                                    {% for country in countries %}
+                                                    <option value="{{country.name}}">{{country.name}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                            <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
                                         </div>
                                     </div>
                                 </div>
@@ -3555,6 +3696,53 @@
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                             </div>
                                         </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'ID Type' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select" id="default-select">
+                                                    <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="id_type_change('infant',{{forloop.counter}})">
+                                                        {% for id_type in id_types%}
+                                                        {% if id_type.0 != 'sim' and id_type.0 != 'other' %}
+                                                        <option value="{{id_type.0}}">{{id_type.1}}</option>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'ID Number' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'ID Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Number '">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label id="infant_passport_number_required{{forloop.counter}}" style="color:{{text_color}}">*</label>
+                                            <label>{% trans 'ID Expired Date' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'ID Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Expired Date '" autocomplete="off" readonly>
+                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label id="infant_country_of_issued_required{{forloop.counter}}_id" style="color:red">*</label>
+                                            <label>{% trans 'Country of Issued' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                        <option value="">{% trans 'Country of Issued' %}</option>
+                                                        {% for country in countries %}
+                                                        <option value="{{country.name}}">{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -4256,6 +4444,53 @@
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'ID Type' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select" id="default-select">
+                                                    <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="id_type_change('infant',{{forloop.counter}})">
+                                                        {% for id_type in id_types%}
+                                                        {% if id_type.0 != 'sim' and id_type.0 != 'other' %}
+                                                        <option value="{{id_type.0}}">{{id_type.1}}</option>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'ID Number' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'ID Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Number '">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label id="infant_passport_number_required{{forloop.counter}}" style="color:{{text_color}}">*</label>
+                                            <label>{% trans 'ID Expired Date' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'ID Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Expired Date '" autocomplete="off" readonly>
+                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label id="infant_country_of_issued_required{{forloop.counter}}_id" style="color:red">*</label>
+                                            <label>{% trans 'Country of Issued' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                        <option value="">{% trans 'Country of Issued' %}</option>
+                                                        {% for country in countries %}
+                                                        <option value="{{country.name}}">{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
                                             </div>
                                         </div>
                                     </div>

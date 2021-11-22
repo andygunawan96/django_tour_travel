@@ -1339,7 +1339,7 @@ def review(request):
                     passport_number = ''
                     passport_ed = ''
                     passport_country_of_issued = ''
-                    if request.POST['child_passport_number' + str(i + 1)] and request.POST['child_passport_expired_date' + str(i + 1)] and request.POST['child_country_of_issued' + str(i + 1)]:
+                    if request.POST['child_id_type' + str(i + 1)]:
                         passport_number = request.POST['child_passport_number' + str(i + 1)]
                         passport_ed = request.POST['child_passport_expired_date' + str(i + 1)]
                         passport_country_of_issued = request.POST['child_country_of_issued' + str(i + 1)]
@@ -1362,7 +1362,7 @@ def review(request):
                     passport_number = ''
                     passport_ed = ''
                     passport_country_of_issued = ''
-                    if request.POST['infant_passport_number' + str(i + 1)] and request.POST['infant_passport_expired_date' + str(i + 1)] and request.POST['infant_country_of_issued' + str(i + 1)]:
+                    if request.POST['infant_id_type' + str(i + 1)]:
                         passport_number = request.POST['infant_passport_number' + str(i + 1)]
                         passport_ed = request.POST['infant_passport_expired_date' + str(i + 1)]
                         passport_country_of_issued = request.POST['infant_country_of_issued' + str(i + 1)]
