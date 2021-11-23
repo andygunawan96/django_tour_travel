@@ -88,26 +88,35 @@ function insurance_get_config(page=false){
                     }
                     document.getElementById('insurance_trip').innerHTML += choice;
                     $('#insurance_trip').niceSelect('update');
-                    new jBox('Tooltip', {
-                        attach: '#insurance_info',
-                        target: '#insurance_info',
-                        theme: 'TooltipBorder',
-                        trigger: 'click',
-                        adjustTracker: true,
-                        closeOnClick: 'body',
-                        closeButton: 'box',
-                        animation: 'move',
-                        position: {
-                          x: 'left',
-                          y: 'top'
-                        },
-                        outside: 'y',
-                        pointer: 'left:20',
-                        offset: {
-                          x: 25
-                        },
-                        content: msg.result.response['bcainsurance']['Info Trip'],
-                    });
+                    setTimeout(function(){
+                        try{
+                            new jBox('Tooltip', {
+                                attach: '#insurance_info',
+                                target: '#insurance_info',
+                                theme: 'TooltipBorder',
+                                trigger: 'click',
+                                adjustTracker: true,
+                                closeOnClick: 'body',
+                                closeButton: 'box',
+                                animation: 'move',
+                                width: 280,
+                                position: {
+                                  x: 'left',
+                                  y: 'top'
+                                },
+                                outside: 'y',
+                                pointer: 'left:20',
+                                offset: {
+                                  x: 25
+                                },
+                                content: msg.result.response['bcainsurance']['Info Trip'],
+                            });
+                        }catch(err){
+                            console.log(err);
+
+                        }
+                    }, 200);
+
                 }
                 if(page == 'passenger'){
                     var choice = '<option value=""></option>';

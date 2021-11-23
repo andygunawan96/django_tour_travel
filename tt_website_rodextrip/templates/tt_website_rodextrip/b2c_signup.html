@@ -109,6 +109,11 @@
                                     <hr/>
                                     <button type="button" class="primary-btn-ticket" data-dismiss="modal" onclick="signup_b2c();">{% trans 'Sign Up Now' %}</button>
                                 </div>
+                                {%if template == 6%}
+                                <div class="col-lg-12 mt-3" style="text-align:center;">
+                                    <a style="margin-top:5px; font-size:13px; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c" onclick="open_signin_close_signup_modal();"><i class="fas fa-sign-in-alt"></i> {% trans 'Sign In' %}</a>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

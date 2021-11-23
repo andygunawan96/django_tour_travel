@@ -42,7 +42,9 @@ function get_consulate(type){
 function set_price_visa(val){
     price = 0;
     qty = document.getElementById('qty_pax_'+val).value;
-    price += parseInt(qty) * visa[val].sale_price.total_price;
+    for(i in visa[val].service_charges)
+        if(visa[val].service_charges[i].charge_type != 'RAC')
+            price += parseInt(qty) * visa[val].service_charges[i].amount;
     document.getElementById('fare'+val).innerHTML = 'IDR '+ getrupiah(price.toString());
 }
 
@@ -50,7 +52,9 @@ function set_total_price_visa(){
     price = 0;
     for(i in visa){
         qty = document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value;
-        price += parseInt(qty) * visa[i].sale_price.total_price;
+        for(j in visa[i].service_charges)
+            if(visa[i].service_charges[j].charge_type != 'RAC')
+                price += parseInt(qty) * visa[i].service_charges[j].amount;
     }
     //tinggal set html
 }
@@ -59,7 +63,9 @@ function set_commission_price_visa(){
     price = 0;
     for(i in visa){
         qty = document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value;
-        price += parseInt(qty) * visa[i].sale_price.commission;
+        for(j in visa[i].service_charges)
+            if(visa[i].service_charges[j].charge_type == 'RAC')
+                price += parseInt(qty) * visa[i].service_charges[j].amount;
     }
     //tinggal set html
 }
@@ -83,15 +89,24 @@ function update_table(type){
                 pax_count = 0;
             }
 
+            currency = '';
+            price_perpax = 0;
+            for(j in visa[i].service_charges){
+                if(visa[i].service_charges[j].charge_type != 'RAC')
+                    price_perpax += visa[i].service_charges[j].amount;
+                if(currency == '')
+                    currency = visa[i].service_charges[j].currency;
+            }
+
             if(pax_count != 0){
                 count_price_detail[i] = 1;
                 text+=`
                 <div class="row">
                     <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                        <span style="font-size:13px;">`+pax_count+` `+visa[i].pax_type[1]+` <br/> `+visa[i].visa_type[1]+`, `+visa[i].entry_type[1]+` <br/> `+visa[i].sale_price.currency+` `+getrupiah(visa[i].sale_price.total_price)+`</span>
+                        <span style="font-size:13px;">`+pax_count+` `+visa[i].pax_type[1]+` <br/> `+visa[i].visa_type[1]+`, `+visa[i].entry_type[1]+` <br/> `+currency+` `+getrupiah(price_perpax)+`</span>
                     </div>
                     <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                        <span style="font-size:13px;">`+visa[i].sale_price.currency+` `+getrupiah(visa[i].sale_price.total_price*pax_count)+`</span>
+                        <span style="font-size:13px;">`+currency+` `+getrupiah(price_perpax*pax_count)+`</span>
                     </div>
                     <div class="col-lg-12">
                         <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
@@ -122,8 +137,12 @@ function update_table(type){
                 count_price_detail[i] = 0;
             }
             try{
-                price += pax_count * visa[i].sale_price.total_price;
-                commission += pax_count * (visa[i].commission[0].amount * -1);
+                for(j in visa[i].service_charges){
+                    if(visa[i].service_charges[j].charge_type == 'RAC')
+                        commission += pax_count * (visa[i].service_charges[j].amount * -1);
+                    else
+                        price += pax_count * visa[i].service_charges[j].amount;
+                }
             }catch(err){
 
             }
@@ -153,10 +172,17 @@ function update_table(type){
                 if(isNaN(pax_count)){
                     pax_count = 0;
                 }
-
+                price_perpax = 0;
+                currency = '';
+                for(j in visa[i].service_charges){
+                    if(currency == '')
+                        currency = visa[i].service_charges[j].currency
+                    if(visa[i].service_charges[j].charge_type != 'RAC')
+                        price_perpax += visa[i].service_charges[j].amount;
+                }
                 if(pax_count != 0){
                     $text += pax_count + ' ' + visa[i].pax_type[1] + ' ' + visa[i].visa_type[1] + ',' + visa[i].entry_type[1];
-                    $text += ' @'+ visa[i].sale_price.currency + ' ' +getrupiah(visa[i].sale_price.total_price);
+                    $text += ' @'+ currency + ' ' +getrupiah(price_perpax);
                     $text += '\n';
                 }
             }
@@ -167,11 +193,11 @@ function update_table(type){
                         <h6>Grand Total</h6>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                        <h6>`+visa[0].sale_price.currency+` `+getrupiah(price)+`</h6>
+                        <h6>`+currency+` `+getrupiah(price)+`</h6>
                     </div>
                 </div>`;
             $text += '\n';
-            $text += 'Grand Total: '+visa[0].sale_price.currency + ' '+getrupiah(price);
+            $text += 'Grand Total: '+currency + ' '+getrupiah(price);
             try{
                 display = document.getElementById('show_commission').style.display;
             }catch(err){
@@ -182,7 +208,7 @@ function update_table(type){
                 <div class="row" id="show_commission" style="display: `+display+`;">
                     <div class="col-lg-12" style="text-align:center;">
                         <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+visa[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+currency+` `+getrupiah(commission)+`</span><br>
                         </div>
                     </div>
                 </div>`;
@@ -247,14 +273,22 @@ function update_table(type){
         count_i = 0;
         for(i in visa.list_of_visa){
             if(visa.list_of_visa[i].total_pax != 0){
+                currency = '';
+                price_perpax = 0;
+                for(j in visa.list_of_visa[i].service_charges){
+                    if(visa.list_of_visa[i].service_charges[j].charge_type != 'RAC')
+                        price_perpax += visa.list_of_visa[i].service_charges[j].amount;
+                    if(currency == '')
+                        currency = visa.list_of_visa[i].service_charges[j].currency;
+                }
                 count_price_detail[i] = 1;
                 text+=`
                 <div class="row">
                     <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                        <span style="font-size:13px;">`+visa.list_of_visa[i].total_pax+` `+visa.list_of_visa[i].pax_type[1]+` <br/> `+visa.list_of_visa[i].visa_type[1]+`, `+visa.list_of_visa[i].entry_type[1]+` <br/> `+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</span>
+                        <span style="font-size:13px;">`+visa.list_of_visa[i].total_pax+` `+visa.list_of_visa[i].pax_type[1]+` <br/> `+visa.list_of_visa[i].visa_type[1]+`, `+visa.list_of_visa[i].entry_type[1]+` <br/> `+currency+` `+getrupiah(price_perpax)+`</span>
                     </div>
                     <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                        <span style="font-size:13px;">`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price*visa.list_of_visa[i].total_pax)+`</span>
+                        <span style="font-size:13px;">`+currency+` `+getrupiah(price_perpax)+`</span>
                     </div>
                     <div class="col-lg-12">
                         <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
@@ -284,8 +318,10 @@ function update_table(type){
 
             }
             try{
-                price += visa.list_of_visa[i].total_pax * visa.list_of_visa[i].sale_price.total_price;
-                commission += visa.list_of_visa[i].total_pax * (visa.list_of_visa[i].commission[0].amount * -1);
+                price += visa.list_of_visa[i].total_pax * price_perpax;
+                for(j in visa.list_of_visa[i].service_charges)
+                    if(visa.list_of_visa[i].service_charges[j].charge_type == 'RAC')
+                        commission += visa.list_of_visa[i].total_pax * (visa.list_of_visa[i].service_charges[j].amount * -1);
             }catch(err){
 
             }
@@ -295,7 +331,7 @@ function update_table(type){
         for(i in visa.list_of_visa){
             if(visa.list_of_visa[i].total_pax != 0){
                 $text += visa.list_of_visa[i].total_pax + ' ' + visa.list_of_visa[i].pax_type[1];
-                $text += ' @'+ visa.list_of_visa[i].sale_price.currency+ ' ' +getrupiah(visa.list_of_visa[i].sale_price.total_price) + '\n';
+                $text += ' @'+ currency+ ' ' +getrupiah(price_perpax) + '\n';
             }
         }
 
@@ -305,11 +341,11 @@ function update_table(type){
                     <h6>Grand Total</h6>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                    <h6>`+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(price)+`</h6>
+                    <h6>`+currency+` `+getrupiah(price)+`</h6>
                 </div>
             </div>`;
         $text += '\n';
-        $text += 'Grand Total: '+visa.list_of_visa[0].sale_price.currency + ' '+getrupiah(price);
+        $text += 'Grand Total: '+currency + ' '+getrupiah(price);
         try{
             display = document.getElementById('show_commission').style.display;
         }catch(err){
@@ -341,7 +377,7 @@ function update_table(type){
                 <div class="row" id="show_commission" style="display: `+display+`;">
                     <div class="col-lg-12 col-xs-12" style="text-align:center;">
                         <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+currency+` `+getrupiah(commission)+`</span><br>
                         </div>
                     </div>
                 </div>`;
@@ -414,14 +450,21 @@ function update_table(type){
         for(i in visa.list_of_visa){
             if(visa.list_of_visa[i].pax_count != 0){
                 count_price_detail[i] = 1;
-
+                currency = '';
+                price_perpax = 0;
+                for(j in visa.list_of_visa[i].service_charges){
+                    if(visa.list_of_visa[i].service_charges[j].charge_type != 'RAC')
+                        price_perpax += visa.list_of_visa[i].service_charges[j].amount;
+                    if(currency == '')
+                        currency = visa.list_of_visa[i].service_charges[j].currency;
+                }
                 text+=`
                 <div class="row">
                     <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                        <span style="font-size:13px;">`+visa.list_of_visa[i].pax_count+` `+visa.list_of_visa[i].pax_type[1]+` <br/> `+visa.list_of_visa[i].visa_type[1]+`, `+visa.list_of_visa[i].entry_type[1]+` <br/> `+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</span>
+                        <span style="font-size:13px;">`+visa.list_of_visa[i].pax_count+` `+visa.list_of_visa[i].pax_type[1]+` <br/> `+visa.list_of_visa[i].visa_type[1]+`, `+visa.list_of_visa[i].entry_type[1]+` <br/> `+currency+` `+getrupiah(price_perpax)+`</span>
                     </div>
                     <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                        <span style="font-size:13px;">`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price*visa.list_of_visa[i].pax_count)+`</span>
+                        <span style="font-size:13px;">`+currency+` `+getrupiah(price_perpax*visa.list_of_visa[i].pax_count)+`</span>
                     </div>
                     <div class="col-lg-12">
                         <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
@@ -432,8 +475,8 @@ function update_table(type){
 //                <tr>
 //                    <td>`+visa.list_of_visa[i].pax_count+` `+visa.list_of_visa[i].pax_type[1]+` <br/> `+visa.list_of_visa[i].visa_type[1]+`, `+visa.list_of_visa[i].entry_type[1]+`</td>
 //                    <td>x</td>
-//                    <td>`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</td>
-//                    <td style="text-align:right;">`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price*visa.list_of_visa[i].pax_count)+`</td>
+//                    <td>`+currency+` `+getrupiah(price_perpax)+`</td>
+//                    <td style="text-align:right;">`+currency+` `+getrupiah(price_perpax*visa.list_of_visa[i].pax_count)+`</td>
 //                </tr>`;
 
                 count_i = count_i+1;
@@ -460,8 +503,10 @@ function update_table(type){
 
             }
             try{
-                price += visa.list_of_visa[i].pax_count * visa.list_of_visa[i].sale_price.total_price;
-                commission += visa.list_of_visa[i].pax_count * (visa.list_of_visa[i].commission[0].amount * -1);
+                price += visa.list_of_visa[i].pax_count * price_perpax;
+                for(j in visa.list_of_visa[i].service_charges)
+                    if(visa.list_of_visa[i].service_charges[j].charge_type == 'RAC')
+                        commission += visa.list_of_visa[i].total_pax * (visa.list_of_visa[i].service_charges[j].amount * -1);
             }catch(err){
 
             }
@@ -488,8 +533,16 @@ function update_table(type){
         $text += '\nPrice\n';
         for(i in visa.list_of_visa){
             if(visa.list_of_visa[i].pax_count != 0){
+                currency = '';
+                price_perpax = 0;
+                for(j in visa.list_of_visa[i].service_charges){
+                    if(visa.list_of_visa[i].service_charges[j].charge_type != 'RAC')
+                        price_perpax += visa.list_of_visa[i].service_charges[j].amount;
+                    if(currency == '')
+                        currency = visa.list_of_visa[i].service_charges[j].currency;
+                }
                 $text += visa.list_of_visa[i].pax_count + ' ' + visa.list_of_visa[i].pax_type[1];
-                $text += ' @'+ visa.list_of_visa[i].sale_price.currency+ ' ' +getrupiah(visa.list_of_visa[i].sale_price.total_price) + '\n';
+                $text += ' @'+ currency+ ' ' +getrupiah(price_perpax) + '\n';
             }
         }
         try{
@@ -500,12 +553,12 @@ function update_table(type){
                     <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
                 </div>
                 <div class="col-lg-5" style="text-align:right;">`;
-                if(visa.list_of_visa[0].sale_price.currency == 'IDR')
+                if(currency == 'IDR')
                 text+=`
-                    <span style="font-size:13px; font-weight:500;">`+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(upsell_price)+`</span><br/>`;
+                    <span style="font-size:13px; font-weight:500;">`+currency+` `+getrupiah(upsell_price)+`</span><br/>`;
                 else
                 text+=`
-                    <span style="font-size:13px; font-weight:500;">`+visa.list_of_visa[0].sale_price.currency+` `+upsell_price+`</span><br/>`;
+                    <span style="font-size:13px; font-weight:500;">`+currency+` `+upsell_price+`</span><br/>`;
                 text+=`</div></div>`;
             }
         }catch(err){}
@@ -524,11 +577,11 @@ function update_table(type){
                     <h6>Grand Total</h6>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                    <h6>`+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(grand_total_price)+`</h6>
+                    <h6>`+currency+` `+getrupiah(grand_total_price)+`</h6>
                 </div>
             </div>`;
         $text += '\n';
-        $text += 'Grand Total: '+visa.list_of_visa[0].sale_price.currency + ' '+getrupiah(grand_total_price);
+        $text += 'Grand Total: '+currency + ' '+getrupiah(grand_total_price);
         try{
             display = document.getElementById('show_commission').style.display;
         }catch(err){
@@ -560,7 +613,7 @@ function update_table(type){
                 <div class="row" id="show_commission" style="display: `+display+`;">
                     <div class="col-lg-12 col-xs-12" style="text-align:center;">
                         <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+currency+` `+getrupiah(commission)+`</span><br>
                         </div>
                     </div>
                 </div>`;
@@ -578,7 +631,6 @@ function update_table(type){
                    </div>
                 </div>`;
     }else if(type == 'booking'){
-        text += `<h4>Price detail</h4><hr/>`;
         price = 0;
         price_pax = 0;
         commission = 0;
@@ -596,163 +648,430 @@ function update_table(type){
         $text += visa.contact.email + '\n';
         if(visa.contact.phone != '')
             $text += visa.contact.phone + '\n';
-        for(i in visa.passengers){
-            if(i == 0)
-                $text += '\nPassengers\n';
-            $text += visa.passengers[i].sequence + ' ' + visa.passengers[i].title + ' ' + visa.passengers[i].first_name + ' ' + visa.passengers[i].last_name + '\n';
-            if(visa.passengers[i].passport_number != '')
-                $text += visa.passengers[i].passport_number + ' ' + visa.passengers[i].passport_expdate + '\n';
-            $text += visa.passengers[i].visa.entry_type + ' ' + visa.passengers[i].visa.visa_type + ' ' + visa.passengers[i].visa.process + '\n';
-            $text += 'Consulate: '+ visa.passengers[i].visa.immigration_consulate + '\n';
-            $text += 'Process: ' + visa.passengers[i].visa.duration + ' Days';
-            if(visa.journey.in_process_date != '')
-                $text += ' from '+ visa.journey.in_process_date + '\n';
-            else
-                $text == '\n';
-            for(j in visa.passengers[i].visa.requirements){
-                if(j == 0)
-                    $text += '\nRequirements\n';
-                $text += visa.passengers[i].visa.requirements[j].name + '\n';
-            }
-            if(visa.passengers[i].visa.interview.needs == true){
-                $text += '\nInterview\b'
-                for(j in visa.passengers[i].visa.interview.interview_list){
-                    $text += visa.passengers[i].visa.interview.interview_list[j].location + ' ' + visa.passengers[i].visa.interview.interview_list[j].datetime + '\n';
-                }
-            }
-            if(visa.passengers[i].visa.biometrics.needs == true){
-                $text += '\nInterview\b'
-                for(j in visa.passengers[i].visa.biometrics.biometrics_list){
-                    $text += visa.passengers[i].visa.biometrics.biometrics_list[j].location + ' ' + visa.passengers[i].visa.biometrics.biometrics_list[j].datetime + '\n';
-                }
-            }
-            price_pax = 0;
-            for(j in visa.passengers[i].visa.price){
-                if(visa.passengers[i].visa.price[j].charge_code == 'total'){
-                    price += visa.passengers[i].visa.price[j].amount;
-                    price_pax += visa.passengers[i].visa.price[j].amount;
-                    currency = visa.passengers[i].visa.price[j].currency;
-                }else if(visa.passengers[i].visa.price[j].charge_code == 'rac'){
-                    commission += (visa.passengers[i].visa.price[j].amount) *-1;
-                }else if(visa.passengers[i].visa.price[j].charge_code == 'csc'){
-                    price += visa.passengers[i].visa.price[j].amount;
-                    csc += visa.passengers[i].visa.price[j].amount;
-                }else if(visa.passengers[i].visa.price[j].charge_code == 'disc'){
-                    price += visa.passengers[i].visa.price[j].amount;
-                    disc -= visa.passengers[i].visa.price[j].amount;
-                }
-            }
-            $text += 'Price '+ visa.passengers[i].visa.price[j].currency + ' ' + getrupiah(price_pax) + '\n';
 
-            text+=`
-            <div class="row">
+        text = '';
+        tax = 0;
+        fare = 0;
+        total_price = 0;
+        commission = 0;
+        service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'CSC'];
+        text_detail=`
+        <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
+            <h5> Price Detail</h5>
+        <hr/>`;
+
+        //repricing
+        type_amount_repricing = ['Repricing'];
+        //repricing
+        counter_service_charge = 0;
+        disc = 0;
+
+        total_price_provider = [];
+        $text += '\nPrice:\n';
+        for(i in visa.provider_bookings){
+            try{
+                csc = 0;
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || visa.state == 'issued')
+                    text_detail+=`
+                        <div style="text-align:left">
+                            <span style="font-weight:500; font-size:14px;">PNR: `+visa.provider_bookings[i].pnr+` </span>
+                        </div>`;
+                for(j in visa.passengers){
+                    price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                    for(k in visa.passengers[j].sale_service_charges[visa.provider_bookings[i].pnr]){
+                        price[k] += visa.passengers[j].sale_service_charges[visa.provider_bookings[i].pnr][k].amount;
+                        if(price['currency'] == '')
+                            price['currency'] = visa.passengers[j].sale_service_charges[visa.provider_bookings[i].pnr][k].currency;
+                    }
+                    disc -= price['DISC'];
+                    try{
+                        if(visa.passengers[j].channel_service_charges.hasOwnProperty('amount')){
+                            price['CSC'] = visa.passengers[j].channel_service_charges.amount;
+                            csc += visa.passengers[j].channel_service_charges.amount;
+                        }
+                    }catch(err){}
+                    //repricing
+                    check = 0;
+                    for(k in pax_type_repricing){
+                        if(pax_type_repricing[k][0] == visa.passengers[j].name)
+                            check = 1;
+                    }
+                    if(check == 0){
+                        pax_type_repricing.push([visa.passengers[j].name, visa.passengers[j].name]);
+                        price_arr_repricing[visa.passengers[j].name] = {
+                            'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
+                            'Tax': price['TAX'] + price['ROC'],
+                            'Repricing': price['CSC']
+                        }
+                    }else{
+                        price_arr_repricing[visa.passengers[j].name] = {
+                            'Fare': price_arr_repricing[visa.passengers[j].name]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'] + price['SEAT'],
+                            'Tax': price_arr_repricing[visa.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
+                            'Repricing': price['CSC']
+                        }
+                    }
+                    text_repricing = `
+                    <div class="col-lg-12">
+                        <div style="padding:5px;" class="row">
+                            <div class="col-lg-3"></div>
+                            <div class="col-lg-3">Price</div>
+                            <div class="col-lg-3">Repricing</div>
+                            <div class="col-lg-3">Total</div>
+                        </div>
+                    </div>`;
+                    for(k in price_arr_repricing){
+                       text_repricing += `
+                       <div class="col-lg-12">
+                            <div style="padding:5px;" class="row" id="adult">
+                                <div class="col-lg-3" id="`+j+`_`+k+`">`+k+`</div>
+                                <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
+                                if(price_arr_repricing[k].Repricing == 0)
+                                text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
+                                else
+                                text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
+                                text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
+                            </div>
+                        </div>`;
+                    }
+                    text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+                    document.getElementById('repricing_div').innerHTML = text_repricing;
+                    //repricing
+
+                    text_detail+=`
+                    <div class="row" style="margin-bottom:5px;">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                            <span style="font-size:12px;">`+visa.passengers[j].name+`</span>`;
+                        text_detail+=`</div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT))+`</span>
+                        </div>
+                    </div>`;
+                    $text += visa.passengers[j].title +' '+ visa.passengers[j].name + ' ['+visa.provider_bookings[i].pnr+'] ';
+
+                    $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
+                    if(counter_service_charge == 0){
+                        total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
+                    }else{
+                        total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                    }
+                    commission += parseInt(price.RAC);
+                    total_price_provider.push({
+                        'pnr': visa.provider_bookings[i].pnr,
+                        'provider': visa.provider_bookings[i].provider,
+                        'price': JSON.parse(JSON.stringify(price))
+                    });
+                }
+                if(csc != 0){
+                    text_detail+=`
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">Other service charges</span>`;
+                            text_detail+=`</div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
+                            </div>
+                        </div>`;
+                }
+                counter_service_charge++;
+            }catch(err){console.log(err);}
+        }
+        try{
+            $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price);
+            if(visa.state == 'booked')
+            $text += '\n\nPrices and availability may change at any time';
+            if(disc != 0){
+                text_detail+=`
+                    <div class="row" style="margin-bottom:5px;">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                            <span style="font-size:12px;">Discount</span>`;
+                        text_detail+=`</div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                            <span style="font-size:13px;">`+price.currency+` -`+getrupiah(parseInt(disc))+`</span>
+                        </div>
+                    </div>`;
+            }
+            text_detail+=`
+            <div>
+                <hr/>
+            </div>
+            <div class="row" style="margin-bottom:10px;">
                 <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                    <span style="font-size:13px;">`+visa.passengers[i].title+` `+visa.passengers[i].first_name+` `+visa.passengers[i].last_name+`</span>
+                    <span style="font-size:13px; font-weight: bold;">Grand Total</span>
                 </div>
                 <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                    <span style="font-size:13px;">`+currency+` `+getrupiah(price_pax)+`</span>
-                </div>
-                <div class="col-lg-12">
-                    <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
-                </div>
-            </div>`;
-        }
+                    <span style="font-size:13px; font-weight: bold;">`;
+                    try{
+                        if(total_price != 0)
+                            text_detail+= price.currency+` `+getrupiah(total_price);
+                        else
+                            text_detail+= 'Free';
+                    }catch(err){
 
-        if(csc != 0){
-            text+=`
-                <div class="row" style="margin-bottom:5px;">
-                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                        <span style="font-size:12px;">Other service charges</span>`;
-                    text+=`</div>
-                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                        <span style="font-size:13px;">`+currency+` `+getrupiah(parseInt(csc))+`</span>
-                    </div>
-                </div>`;
-        }
-        if(disc != 0){
-            text+=`
-                <div class="row" style="margin-bottom:5px;">
-                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                        <span style="font-size:12px;">Discount</span>`;
-                    text+=`</div>
-                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                        <span style="font-size:13px;">`+currency+` -`+getrupiah(parseInt(disc))+`</span>
-                    </div>
-                </div>`;
-        }
-        text+=`
-            <div class="row" style="padding-bottom:15px;">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                    <h6>Grand Total</h6>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                    <h6>`+currency+` `+getrupiah(price)+`</h6>
+                    }
+                    text_detail+= `</span>
                 </div>
             </div>`;
 
-        $text += `\nGrand total `+currency+` `+getrupiah(price);
-        try{
-            display = document.getElementById('show_commission').style.display;
-        }catch(err){
-            display = 'none';
-        }
-        if(visa.journey.state == 'booked')
-        text+=`<div style="text-align:right; cursor:pointer; padding-bottom:10px;" onclick="show_repricing();"><i class="image-rounded-icon"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:30px; height:30px;"/></i></div>`;
-        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-            text+=`
-            <div class="row" id="show_commission" style="display: `+display+`;">
-                <div class="col-lg-12" style="text-align:center;">
-                    <div class="alert alert-success">
-                        <div class="row">
-                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px; font-weight:bold;">Commission</span>
-                            </div>
-                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(parseInt(commission))+`</span>
-                            </div>
-                        </div>`;
-                        if(visa.hasOwnProperty('agent_nta') == true){
-                            total_nta = 0;
-                            total_nta = visa.agent_nta;
-                            text+=`<div class="row">
-                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px; font-weight:bold;">Agent NTA</span>
-                            </div>
-                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(total_nta)+`</span>
-                            </div>
-                        </div>`;
-                        }
-                        if(visa.hasOwnProperty('total_nta') == true){
-                            total_nta = 0;
-                            total_nta = visa.total_nta;
-                            text+=`<div class="row">
-                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px; font-weight:bold;">HO NTA</span>
-                            </div>
-                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(total_nta)+`</span>
-                            </div>
-                        </div>`;
-                        }
-                        text+=`
-                    </div>
+            if(visa.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+            }
+            text_detail+=`<div class="row">
+            <div class="col-lg-12" style="padding-bottom:10px;">
+                <hr/>
+                <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                share_data();
+                var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                if (isMobile) {
+                    text_detail+=`
+                        <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
+                        <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
+                        <a href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
+                } else {
+                    text_detail+=`
+                        <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
+                        <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
+                        <a href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
+                }
+
+            text_detail+=`
                 </div>
             </div>`;
-        }
-        text+=`
-        <div class="row" style="margin-top:10px; text-align:center;">
-           <div class="col-lg-12">
-                <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('review');" value="Copy">
-           </div>
+            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                text_detail+=`
+                <div class="row" id="show_commission" style="display:none;">
+                    <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                        <div class="alert alert-success">
+                            <div class="row">
+                                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                    <span style="font-size:13px; font-weight:bold;">Commission</span>
+                                </div>
+                                <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                    <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(parseInt(commission) * -1)+`</span>
+                                </div>
+                            </div>`;
+                            if(visa.hasOwnProperty('agent_nta') == true){
+                                total_nta = 0;
+                                total_nta = visa.agent_nta;
+                                text_detail+=`<div class="row">
+                                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                    <span style="font-size:13px; font-weight:bold;">Agent NTA</span>
+                                </div>
+                                <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                    <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
+                                </div>
+                            </div>`;
+                            }
+                            if(visa.hasOwnProperty('total_nta') == true){
+                                total_nta = 0;
+                                total_nta = visa.total_nta;
+                                text_detail+=`<div class="row">
+                                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                    <span style="font-size:13px; font-weight:bold;">HO NTA</span>
+                                </div>
+                                <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                    <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
+                                </div>
+                            </div>`;
+                            }
+                            text_detail+=`
+                        </div>
+                    </div>
+                </div>`;
+            }
+            text_detail+=`<center>
+
+            <div style="padding-bottom:10px;">
+                <center>
+                    <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
+                </center>
+            </div>`;
+            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                text_detail+=`
+                <div style="margin-bottom:5px;">
+                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
+                </div>`;
+            text_detail+=`
         </div>`;
-        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-            text+=`
-            <div class="row" style="margin-top:10px; text-align:center;">
-               <div class="col-lg-12" style="padding-bottom:10px;">
-                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
-               </div>
-            </div>`;
+        }catch(err){
+            console.log(err);
+        }
+        try{
+            testing_price = price.currency;
+            text += text_detail;
+        }catch(err){
+
+        }
+        add_repricing();
+//        document.getElementById('show_title_train').hidden = false;
+//        document.getElementById('show_loading_booking_train').hidden = true;
+//        document.getElementById('train_detail').innerHTML = text;
+
+
+
+
+
+
+//        for(k in visa.provider_bookings){
+//            for(i in visa.passengers){
+//                if(i == 0)
+//                    $text += '\nPassengers\n';
+//                $text += visa.passengers[i].sequence + ' ' + visa.passengers[i].title + ' ' + visa.passengers[i].first_name + ' ' + visa.passengers[i].last_name + '\n';
+//                if(visa.passengers[i].passport_number != '')
+//                    $text += visa.passengers[i].passport_number + ' ' + visa.passengers[i].passport_expdate + '\n';
+//                $text += visa.passengers[i].visa.entry_type + ' ' + visa.passengers[i].visa.visa_type + ' ' + visa.passengers[i].visa.process + '\n';
+//                $text += 'Consulate: '+ visa.passengers[i].visa.immigration_consulate + '\n';
+//                $text += 'Process: ' + visa.passengers[i].visa.duration + ' Days';
+//                if(visa.journey.in_process_date != '')
+//                    $text += ' from '+ visa.journey.in_process_date + '\n';
+//                else
+//                    $text == '\n';
+//                for(j in visa.passengers[i].visa.requirements){
+//                    if(j == 0)
+//                        $text += '\nRequirements\n';
+//                    $text += visa.passengers[i].visa.requirements[j].name + '\n';
+//                }
+//                if(visa.passengers[i].visa.interview.needs == true){
+//                    $text += '\nInterview\b'
+//                    for(j in visa.passengers[i].visa.interview.interview_list){
+//                        $text += visa.passengers[i].visa.interview.interview_list[j].location + ' ' + visa.passengers[i].visa.interview.interview_list[j].datetime + '\n';
+//                    }
+//                }
+//                if(visa.passengers[i].visa.biometrics.needs == true){
+//                    $text += '\nInterview\b'
+//                    for(j in visa.passengers[i].visa.biometrics.biometrics_list){
+//                        $text += visa.passengers[i].visa.biometrics.biometrics_list[j].location + ' ' + visa.passengers[i].visa.biometrics.biometrics_list[j].datetime + '\n';
+//                    }
+//                }
+//                price_pax = 0;
+//                for(j in visa.passengers[i].sale_service_charges[msg.result.response.provider_bookings[k].pnr]){
+//                    if(visa.passengers[i].sale_service_charges[msg.result.response.provider_bookings[k].pnr][j].charge_code == 'total'){
+//                        price += visa.passengers[i].sale_service_charges[j].amount;
+//                        price_pax += visa.passengers[i].sale_service_charges[j].amount;
+//                        currency = visa.passengers[i].sale_service_charges[j].currency;
+//                    }else if(visa.passengers[i].sale_service_charges[j].charge_code == 'rac'){
+//                        commission += (visa.passengers[i].sale_service_charges[j].amount) *-1;
+//                    }else if(visa.passengers[i].sale_service_charges[j].charge_code == 'csc'){
+//                        price += visa.passengers[i].sale_service_charges[j].amount;
+//                        csc += visa.passengers[i].sale_service_charges[j].amount;
+//                    }else if(visa.passengers[i].sale_service_charges[j].charge_code == 'disc'){
+//                        price += visa.passengers[i].sale_service_charges[j].amount;
+//                        disc -= visa.passengers[i].sale_service_charges[j].amount;
+//                    }
+//                }
+//                $text += 'Price '+ currency + ' ' + getrupiah(price_pax) + '\n';
+//
+//                text+=`
+//                <div class="row">
+//                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
+//                        <span style="font-size:13px;">`+visa.passengers[i].title+` `+visa.passengers[i].first_name+` `+visa.passengers[i].last_name+`</span>
+//                    </div>
+//                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
+//                        <span style="font-size:13px;">`+currency+` `+getrupiah(price_pax)+`</span>
+//                    </div>
+//                    <div class="col-lg-12">
+//                        <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
+//                    </div>
+//                </div>`;
+//            }
+//        }
+//
+//        if(csc != 0){
+//            text+=`
+//                <div class="row" style="margin-bottom:5px;">
+//                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+//                        <span style="font-size:12px;">Other service charges</span>`;
+//                    text+=`</div>
+//                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+//                        <span style="font-size:13px;">`+currency+` `+getrupiah(parseInt(csc))+`</span>
+//                    </div>
+//                </div>`;
+//        }
+//        if(disc != 0){
+//            text+=`
+//                <div class="row" style="margin-bottom:5px;">
+//                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+//                        <span style="font-size:12px;">Discount</span>`;
+//                    text+=`</div>
+//                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+//                        <span style="font-size:13px;">`+currency+` -`+getrupiah(parseInt(disc))+`</span>
+//                    </div>
+//                </div>`;
+//        }
+//        text+=`
+//            <div class="row" style="padding-bottom:15px;">
+//                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+//                    <h6>Grand Total</h6>
+//                </div>
+//                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+//                    <h6>`+currency+` `+getrupiah(price)+`</h6>
+//                </div>
+//            </div>`;
+//
+//        $text += `\nGrand total `+currency+` `+getrupiah(price);
+//        try{
+//            display = document.getElementById('show_commission').style.display;
+//        }catch(err){
+//            display = 'none';
+//        }
+//        if(visa.journey.state == 'booked')
+//        text+=`<div style="text-align:right; cursor:pointer; padding-bottom:10px;" onclick="show_repricing();"><i class="image-rounded-icon"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:30px; height:30px;"/></i></div>`;
+//        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+//            text+=`
+//            <div class="row" id="show_commission" style="display: `+display+`;">
+//                <div class="col-lg-12" style="text-align:center;">
+//                    <div class="alert alert-success">
+//                        <div class="row">
+//                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+//                                <span style="font-size:13px; font-weight:bold;">Commission</span>
+//                            </div>
+//                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+//                                <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(parseInt(commission))+`</span>
+//                            </div>
+//                        </div>`;
+//                        if(visa.hasOwnProperty('agent_nta') == true){
+//                            total_nta = 0;
+//                            total_nta = visa.agent_nta;
+//                            text+=`<div class="row">
+//                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+//                                <span style="font-size:13px; font-weight:bold;">Agent NTA</span>
+//                            </div>
+//                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+//                                <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(total_nta)+`</span>
+//                            </div>
+//                        </div>`;
+//                        }
+//                        if(visa.hasOwnProperty('total_nta') == true){
+//                            total_nta = 0;
+//                            total_nta = visa.total_nta;
+//                            text+=`<div class="row">
+//                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+//                                <span style="font-size:13px; font-weight:bold;">HO NTA</span>
+//                            </div>
+//                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+//                                <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(total_nta)+`</span>
+//                            </div>
+//                        </div>`;
+//                        }
+//                        text+=`
+//                    </div>
+//                </div>
+//            </div>`;
+//        }
+//        text+=`
+//        <div class="row" style="margin-top:10px; text-align:center;">
+//           <div class="col-lg-12">
+//                <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('review');" value="Copy">
+//           </div>
+//        </div>`;
+//        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+//            text+=`
+//            <div class="row" style="margin-top:10px; text-align:center;">
+//               <div class="col-lg-12" style="padding-bottom:10px;">
+//                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
+//               </div>
+//            </div>`;
 
     }
     document.getElementById('detail').innerHTML = text;
@@ -1291,7 +1610,15 @@ function check_on_off_radio(pax_type,number,value){
                 visa.list_of_visa[i].entry_type[0] == entry_type &&
                 visa.list_of_visa[i].type.process_type[0] == process_type &&
                 visa.list_of_visa[i].pax_count != 0){
-                pax_price.innerHTML = visa.list_of_visa[i].sale_price.currency + ' ' + getrupiah(visa.list_of_visa[i].sale_price.total_price.toString());
+                currency = '';
+                price_perpax = 0;
+                for(j in visa.list_of_visa[i].service_charges){
+                    if(visa.list_of_visa[i].service_charges[j].charge_type != 'RAC')
+                        price_perpax += visa.list_of_visa[i].service_charges[j].amount;
+                    if(currency == '')
+                        currency = visa.list_of_visa[i].service_charges[j].currency;
+                }
+                pax_price.innerHTML = currency + ' ' + getrupiah(price_perpax.toString());
                 text_requirements = '';
                 text_requirements+=`<div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><h6>Document</h6><br/></div>
@@ -1354,12 +1681,17 @@ function check_on_off_radio(pax_type,number,value){
                     if(list_passenger[j].name == list_of_name)
                         check = 1;
                 }
+                commission = 0;
+                for(j in visa.list_of_visa[i].service_charges){
+                    if(visa.list_of_visa[i].service_charges[j].charge_type == 'RAC')
+                        price_perpax += visa.list_of_visa[i].service_charges[j].amount;
+                }
                 if(check == 0)
                     list_passenger.push({
                         'name': list_of_name,
-                        'Fare': visa.list_of_visa[i].sale_price.total_price,
-                        'currency':visa.list_of_visa[i].sale_price.currency,
-                        'commission':visa.list_of_visa[i].sale_price.commission,
+                        'Fare': price_perpax,
+                        'currency':currency,
+                        'commission':commission,
                         'type':{
                             'entry': visa.list_of_visa[i].entry_type[1],
                             'type': visa.list_of_visa[i].type.process_type[1],

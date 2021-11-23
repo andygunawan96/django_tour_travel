@@ -455,6 +455,10 @@
                                         </div>
                                         <div class="col-lg-12" id="adult_identity_type{{forloop.counter}}" style="display:block;">
                                             <div class="row">
+                                                <div class="col-lg-12 mt-2 mb-2">
+                                                    <hr/>
+                                                    <h6 style="width:fit-content; border-bottom:2px solid {{color}};">KTP</h6>
+                                                </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <label style="color:red">*</label>
                                                     <label>{% trans 'Identity' %}</label>
@@ -499,6 +503,11 @@
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-sm-12" {% if response.sector_type != 'International' %} hidden {% endif %}>
                                                     <div class="row">
+                                                        <div class="col-lg-12 mt-2 mb-2">
+                                                            <hr/>
+                                                            <h6 style="width:fit-content; border-bottom:2px solid {{color}};">Passport</h6>
+                                                        </div>
+
                                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                                             <label style="color:{% if response.sector_type == 'International' %}red{% else %}white{% endif %}">*</label>
                                                             <label>{% trans 'Identity' %}</label>
@@ -549,6 +558,10 @@
                                                 <div class="col-lg-6 col-md-6 col-sm-6"></div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12 mt-2 mb-2">
+                                            <hr/>
+                                        </div>
+
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Address' %}</label>
@@ -617,7 +630,8 @@
                                             <div id="adult_additional_data_for_insurance{{forloop.counter}}" style="display:none;">
                                                 <div class="row">
                                                     <div class="col-lg-12 col-md-12 col-sm-12">
-                                                        <label>{% trans 'Relation 1' %}</label>
+                                                        <hr/>
+                                                        <h6 style="width:fit-content; border-bottom:2px solid {{color}};">{% trans 'Relation 1' %}</h6>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                         <label style="color:red">*</label>
@@ -728,7 +742,8 @@
                                                     </div>
 
                                                     <div class="col-lg-12 col-md-12 col-sm-12">
-                                                        <label>{% trans 'Relation 2' %}</label>
+                                                        <hr/>
+                                                        <h6 style="width:fit-content; border-bottom:2px solid {{color}};">{% trans 'Relation 2' %}</h6>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                         <label style="color:red">*</label>
@@ -839,7 +854,8 @@
                                                     </div>
 
                                                     <div class="col-lg-12 col-md-12 col-sm-12">
-                                                        <label>{% trans 'Relation 3' %}</label>
+                                                        <hr/>
+                                                        <h6 style="width:fit-content; border-bottom:2px solid {{color}};">{% trans 'Relation 3' %}</h6>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                         <label style="color:red">*</label>
@@ -950,7 +966,8 @@
                                                     </div>
 
                                                     <div class="col-lg-12 col-md-12 col-sm-12">
-                                                        <label>{% trans 'Relation 4' %}</label>
+                                                        <hr/>
+                                                        <h6 style="width:fit-content; border-bottom:2px solid {{color}};">{% trans 'Relation 4' %}</h6>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                         <label style="color:red">*</label>
@@ -1063,8 +1080,9 @@
                                             </div>
                                             <div id="adult_additional_data_for_insurance_ahli_waris{{forloop.counter}}">
                                                 <div class="row">
-                                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                                    <label>{% trans 'Beneficiary' %}</label>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 mt-2 mb-2">
+                                                    <hr/>
+                                                    <h6 style="width:fit-content; border-bottom:2px solid {{color}};">{% trans 'Beneficiary' %}</h6>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <label style="color:red">*</label>

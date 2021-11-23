@@ -175,7 +175,7 @@
                                 <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px; color:{{text_color_login}};"></i>
                                 <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px; width:220px;" id="password" placeholder="Password" tabindex="2" />
                                 <div style="margin-top:10px;width:50px;" onclick="change_password_type();">
-                                    <i id="password_style" class="fas fa-eye" style="width:10px;color:{{text_color_login}};"></i>
+                                    <i id="password_style" class="fas fa-eye-slash" style="padding-left:5px;cursor:pointer;font-size:18px;color:{{text_color_login}};"></i>
                                 </div>
                             </div>
                             <div class="input-container-search-ticket">
@@ -456,7 +456,7 @@
                                     <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px; color:{{text_color_login}};"></i>
                                     <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
                                     <div style="margin-top:10px;width:50px;" onclick="change_password_type();">
-                                        <i id="password_style" class="fas fa-eye" style="width:10px;color:{{text_color_login}};"></i>
+                                        <i id="password_style" class="fas fa-eye-slash" style="padding-left:5px;cursor:pointer;font-size:18px;color:{{text_color_login}};"></i>
                                     </div>
                                 </div>
                                 <div class="input-container-search-ticket">
@@ -477,6 +477,7 @@
                             <li id="password_mb" style="padding-right:5px; display:none;">
                                 <div class="input-container-search-ticket">
                                     <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password2" placeholder="Password"/>
+                                    <div style="margin-top:10px;width:50px;" onclick="change_password_type();"><i id="password_style2" class="fas fa-eye-slash" style="font-size:18px;color:{{color}};"></i></div>
                                 </div>
                                 <label class="check_box_custom" style="margin-left:5px;">
                                     <input type="hidden" id="g-recaptcha-response" />
@@ -670,7 +671,7 @@
                                     <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px; color:{{text_color_login}};"></i>
                                     <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
                                     <div style="margin-top:10px;width:50px;" onclick="change_password_type();">
-                                        <i id="password_style" class="fas fa-eye" style="width:10px;color:{{text_color_login}};"></i>
+                                        <i id="password_style" class="fas fa-eye-slash" style="padding-left:5px;cursor:pointer;font-size:18px;color:{{text_color_login}};"></i>
                                     </div>
                                 </div>
                                 <div class="input-container-search-ticket">
@@ -817,7 +818,6 @@
                                 <!--                                </li>-->
                             </ul>
                         </li>
-
                         {% if username.co_user_login != '' %}
                         <li class="has-children notification-pc" style="display:inline-flex;"><a href="#" title="{{username.co_user_login}}" style="font-weight:700; display:inline-block; overflow: hidden; overflow: -moz-hidden-unscrollable; text-overflow: ellipsis; white-space: nowrap; max-width:100px;">{{username.co_user_login}}</a>
                             <ul class="dropdown">
@@ -895,6 +895,7 @@
                             <li class="password_mobile" style="padding-right:5px;">
                                 <div class="input-container-search-ticket">
                                     <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password2" placeholder="Password"/>
+                                    <div style="margin-top:15px;width:50px;" onclick="change_password_type();"><i id="password_style2" class="fas fa-eye-slash" style="font-size:18px;color:'+text_color_login+';"></i></div>
                                 </div>
                                 <label class="check_box_custom" style="margin-left:5px; float:left;">
                                     <input type="hidden" id="g-recaptcha-response" />
@@ -1127,7 +1128,7 @@
                                 <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px; color:{{text_color_login}};"></i>
                                 <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
                                 <div style="margin-top:10px;width:50px;" onclick="change_password_type();">
-                                    <i id="password_style" class="fas fa-eye" style="width:10px;color:{{text_color_login}};"></i>
+                                    <i id="password_style" class="fas fa-eye-slash" style="padding-left:5px;cursor:pointer;font-size:18px;color:{{text_color_login}};"></i>
                                 </div>
                             </div>
                             <label class="check_box_custom" style="margin-left:5px; margin-right:5px;">
@@ -1175,7 +1176,11 @@
                     <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="{% if username.co_user_login != 'agent_b2c' %} max-height:40px;max-width:150px;{%else%} max-height:60px;max-width:225px; {%endif%}" alt="Logo {{name}}" title="{{name}}" /></a>
                 </h1>
 			</div>
+            {% if username.co_user_login == 'agent_b2c' %}
+			<label for="drop" class="toggle"><span class="fa fa-bars" onclick="open_signin_modal();"></span></label>
+            {% else %}
 			<label for="drop" class="toggle"><span class="fa fa-bars"></span></label>
+            {% endif %}
 			<input type="checkbox" id="drop" />
             <ul class="menu mt-lg-3 ml-auto" id="nav-menu-container_login" {% if username.co_user_login == 'agent_b2c' %} style="display:none;" {% endif %}>
                 <li><a href="{% url 'tt_website_rodextrip:index'%}">{% trans 'Home' %}</a></li>
@@ -1298,8 +1303,8 @@
                     <div class="input-container-search-ticket">
                         <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px; color:{{text_color_login}};"></i>
                         <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px; width:220px;" id="password" placeholder="Password" tabindex="2" />
-                        <div style="margin-top:10px;width:50px;" onclick="change_password_type();">
-                            <i id="password_style" class="fas fa-eye" style="width:10px;color:{{text_color_login}};"></i>
+                        <div style="margin-top:15px;width:50px;" onclick="change_password_type();">
+                            <i id="password_style" class="fas fa-eye-slash" style="padding-left:5px;cursor:pointer;font-size:18px;color:{{text_color_login}};"></i>
                         </div>
                     </div>
                     <div class="input-container-search-ticket">
@@ -1330,6 +1335,54 @@
 		<!-- //nav -->
 	</div>
 </header>
+<div class="modal fade" id="mylogintemplate6" role="dialog" data-keyboard="false">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Signin' %}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username2" placeholder="Username"/>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="input-container-search-ticket">
+                            <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password2" placeholder="Password"/>
+                            <div style="margin-top:10px;width:50px;" onclick="change_password_type();">
+                                <i id="password_style2" class="fas fa-eye-slash" style="font-size:18px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12" style="padding:15px 15px 0px 20px;">
+                        <label class="check_box_custom" style="margin-bottom:0px;">
+                            <span style="font-size:13px;">Keep Me Signin</span>
+                            <input type="checkbox" value="" id="keep_me_signin2" name="keep_me_signin" checked="checked">
+                            <span class="check_box_span_custom"></span>
+                        </label>
+                    </div>
+                    <div class="col-lg-12">
+                        <a style="cursor:pointer; text-transform: unset; padding:0px 5px;" onclick="reset_password_btc();">
+                            <i class="fa fa-lock" style="font-size: 20px;padding-top: 12px;"></i>
+                            Forgot Password
+                        </a>
+                    </div>
+                    <div class="col-lg-12 mt-3">
+                        <button onclick="get_captcha('g-recaptcha-response','signin_btc');" class="loading-button primary-btn-custom ld-ext-right" style="margin-bottom:10px;">
+                            Sign in <i class="fas fa-sign-in-alt"></i>
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button><br/>
+                        <span class="signup_pc_mb">
+                            <a style="margin-top:5px; font-size:13px; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c" onclick="open_signup_modal();"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {%endif%}
 <div class="modal fade" id="myModalNotification" role="dialog" style="z-index:10001;">
     <div class="modal-dialog">

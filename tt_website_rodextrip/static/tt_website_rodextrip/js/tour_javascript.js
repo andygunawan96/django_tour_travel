@@ -429,7 +429,7 @@ function select_tour_date(key_change_date){
             }
             room_amount = 0;
             document.getElementById("tour_room_input").innerHTML = "";
-            tour_table_detail();
+            reset_tour_table_detail();
         });
     }
     else
@@ -440,7 +440,7 @@ function select_tour_date(key_change_date){
     $('#ChangeDateModal').modal('hide');
     room_amount = 0;
     document.getElementById("tour_room_input").innerHTML = "";
-    tour_table_detail();
+    reset_tour_table_detail();
 }
 
 function set_tour_arrival_date(){
@@ -459,7 +459,7 @@ function add_tour_room(key_accomodation){
     document.getElementById("total-price-container").classList.remove("hide");
     $('select').niceSelect();
     console.log(room_data);
-    tour_table_detail();
+    reset_tour_table_detail();
 }
 
 function render_room_tour_field(idx, room_data, key_accomodation) {
@@ -545,11 +545,11 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
             template_txt += '<div class="input-container-search-ticket btn-group">';
         }
         if(template == 3){
-            template_txt += '<div class="default-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail(); room_chose_render(this,'+idx+',2)">';
+            template_txt += '<div class="default-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="reset_tour_table_detail(); room_chose_render(this,'+idx+',2)">';
         }else if(template == 4){
-            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="nice-select-default rounded child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail(); room_chose_render(this,'+idx+',2)">';
+            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="nice-select-default rounded child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="reset_tour_table_detail(); room_chose_render(this,'+idx+',2)">';
         }else{
-            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail(); room_chose_render(this,'+idx+',2)">';
+            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="reset_tour_table_detail(); room_chose_render(this,'+idx+',2)">';
         }
 
         for (var i=0; i<=parseInt(room_data.pax_limit)-1; i++)
@@ -569,11 +569,11 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
             template_txt += '<div class="input-container-search-ticket btn-group">';
         }
         if(template == 3){
-            template_txt += '<div class="default-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail(); room_chose_render(this,'+idx+',3)">';
+            template_txt += '<div class="default-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="reset_tour_table_detail(); room_chose_render(this,'+idx+',3)">';
         }else if(template == 4){
-            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="nice-select-default rounded infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail(); room_chose_render(this,'+idx+',3)">';
+            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="nice-select-default rounded infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="reset_tour_table_detail(); room_chose_render(this,'+idx+',3)">';
         }else{
-            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail(); room_chose_render(this,'+idx+',3)">';
+            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="reset_tour_table_detail(); room_chose_render(this,'+idx+',3)">';
         }
 
         template_txt += '<option selected value="0">0</option>';
@@ -654,7 +654,7 @@ function delete_tour_room(){
     var temp = '#room_field_' + String(room_amount);
     $(temp).remove();
     room_amount -= 1;
-    tour_table_detail();
+    reset_tour_table_detail();
 }
 
 function render_child_infant_selection(adult_select) {
@@ -692,7 +692,7 @@ function render_child_infant_selection(adult_select) {
     $('#'+temp2).niceSelect('update');
     document.getElementById("room_choose_child"+id).innerText = "";
     document.getElementById("room_choose_infant"+id).innerText = "";
-    tour_table_detail();
+    reset_tour_table_detail();
 }
 
 function check_detail(){
@@ -2161,15 +2161,11 @@ function tour_table_detail()
     $('#loading-price-tour').show();
     if (room_amount <= 0)
     {
-        $('#btnDeleteRooms').hide();
-        $('#add_room_first').show();
         $('#loading-price-tour').hide();
     }
     else
     {
         room_ids_list = [];
-        $('#btnDeleteRooms').show();
-        $('#add_room_first').hide();
         $('#total-price-container').removeClass("hide");
         for (i=0; i < room_amount; i++)
         {
@@ -2191,6 +2187,29 @@ function tour_table_detail()
             request['departure_date'] = document.getElementById('open_tour_departure_date').value;
         }
         get_price_itinerary(JSON.stringify(request),'detail');
+    }
+}
+
+function reset_tour_table_detail()
+{
+    document.getElementById('tour_detail_table').innerHTML = '';
+    if (room_amount <= 0)
+    {
+        $('#btnDeleteRooms').hide();
+        $('#add_room_first').show();
+        document.getElementById('tour_detail_next_btn').innerHTML = '';
+    }
+    else
+    {
+        $('#btnDeleteRooms').show();
+        $('#add_room_first').hide();
+        document.getElementById('tour_detail_next_btn').innerHTML = `
+        <center>
+            <button type="button" class="primary-btn-ticket" value="Next" onclick="tour_table_detail();" style="width:100%;">
+                Check Price
+            </button>
+        </center>
+        `;
     }
 }
 
