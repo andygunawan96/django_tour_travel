@@ -17,45 +17,9 @@
     signature = '{{signature}}';
     time_limit = {{time_limit}};
     session_time_limit();
-    facilities = `{{hotel_pick.facilities}}`;
-    facilities = facilities.replace(/&#39;/g, '"');
-    facilities = facilities.replace(/&quot;/g, '"');
-    facilities = facilities.replace(/False/g, 'false');
-    facilities = facilities.replace(/True/g, 'true');
-    adult = `{{adults}}`;
-    adult = adult.replace(/True/g, 'true');
-    adult = adult.replace(/False/g, 'false');
-    adult = adult.replace(/&#39;/g, '"');
-    adult = JSON.parse(adult);
-    booker = `{{booker}}`;
-    booker = booker.replace(/True/g, 'true');
-    booker = booker.replace(/False/g, 'false');
-    booker = booker.replace(/&#39;/g, '"');
-    booker = JSON.parse(booker);
-    contact = `{{contact}}`;
-    contact = contact.replace(/True/g, 'true');
-    contact = contact.replace(/False/g, 'false');
-    contact = contact.replace(/&#39;/g, '"');
-    contact = JSON.parse(contact);
-    child = `{{childs}}`;
-    child = child.replace(/True/g, 'true');
-    child = child.replace(/False/g, 'False');
-    child = child.replace(/&#39;/g, '"');
-    child = JSON.parse(child);
-    hotel = `{{hotel_pick}}`;
-    hotel = hotel.replace(/&#39;/g, '"').replace(/&quot;/g, '"').replace(/False/g, 'false').replace(/True/g, 'true').replace(/None/g, '""');
-    hotel = JSON.parse(hotel);
+
     upsell_price = {{upsell}};
-    hotel_price = `{{hotel_room_detail_pick}}`;
-    hotel_price = hotel_price.replace(/&#39;/g, '"');
-    hotel_price = hotel_price.replace(/&quot;/g, '"');
-    hotel_price = hotel_price.replace(/False/g, 'false');
-    hotel_price = hotel_price.replace(/True/g, 'true');
-    hotel_price = hotel_price.replace(/None/g, '""');
     last_session = 'review';
-    hotel_price = JSON.parse(hotel_price);
-    cancellation_policy = `{{hotel_cancellation_policy}}`;
-    cancellation_policy = JSON.parse(cancellation_policy.replace(/&#39;/g, '"').replace(/&quot;/g, '"').replace(/False/g, 'false').replace(/True/g, 'true').replace(/None/g, '""'));
 
 </script>
 
@@ -510,9 +474,7 @@
 
 <script>
     //document.getElementById('voucher_discount').style.display = 'none';
-    hotel_detail(cancellation_policy);
-    hotel_facility_request(facilities);
-    hotel_provision('{{hotel_room_detail_pick.price_code}}', '{{hotel_room_detail_pick.provider}}');
+    hotel_review_page();
     //get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'hotel_review');
     $( document ).ready(function() {
       breadcrumb_create("hotel", 5, 0);

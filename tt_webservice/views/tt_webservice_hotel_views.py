@@ -77,6 +77,8 @@ def api_models(request):
             res = get_facility_img(request)
         elif req_data['action'] == 'update_service_charge':
             res = update_service_charge(request)
+        elif req_data['action'] == 'review_page':
+            res = review_page(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -764,6 +766,22 @@ def update_service_charge(request):
             _logger.info("SUCCESS update_service_charge HOTEL SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_airline HOTEL SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def review_page(request):
+    try:
+        res = {}
+        res['facilities'] = request.session['hotel_detail']['facilities']
+        res['adult'] = request.session['hotel_review_pax']['adult']
+        res['booker'] = request.session['hotel_review_pax']['booker']
+        res['contact'] = request.session['hotel_review_pax']['contact']
+        res['child'] = request.session['hotel_review_pax']['child']
+        res['hotel'] = request.session['hotel_detail']
+        res['hotel_price'] = request.session['hotel_room_pick']
+        res['cancellation_policy'] = request.session['hotel_cancellation_policy']['result']['response']['policies']
+
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

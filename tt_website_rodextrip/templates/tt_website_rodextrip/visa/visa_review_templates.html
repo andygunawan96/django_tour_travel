@@ -15,23 +15,8 @@
 
 <script>
     static_path_url_server = '{{static_path_url_server}}'
-    passenger = `{{passengers}}`;
-    passenger = passenger.replace(/&#39;/g, '"');
-    passenger = passenger.replace(/True/g, true);
-    passenger = passenger.replace(/False/g, false);
-    passenger = JSON.parse(passenger);
-    visa_request = `{{visa_request}}`;
     signature = `{{signature}}`;
-    visa_request = JSON.parse(visa_request.replace(/&#39;/g, '"'));
     upsell_price = {{upsell}};
-    adult = passenger.adult;
-    infant = passenger.infant;
-    elder = passenger.elder;
-    child = passenger.child;
-    visa = `{{visa}}`;
-    visa = visa.replace(/True/g, 'true');
-    visa = visa.replace(/False/g, 'false');
-    visa = JSON.parse(visa.replace(/&#39;/g, '"'));
     time_limit = {{time_limit}};
     session_time_limit();
 </script>
@@ -575,16 +560,9 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
+    visa_page_review();
     $( document ).ready(function() {
         breadcrumb_create("visa", 4, 0);
-        for(i in passenger.adult)
-            set_value_radio_first('adult',parseInt(i)+1);
-        for(i in passenger.child)
-            set_value_radio_first('child',parseInt(i)+1);
-        for(i in passenger.infant)
-            set_value_radio_first('infant',parseInt(i)+1);
-        for(i in passenger.elder)
-            set_value_radio_first('elder',parseInt(i)+1);
         get_payment_acq('Issued','{{passengers.booker.booker_seq_id}}', '', 'billing',signature,'visa');
     });
 
