@@ -799,7 +799,7 @@ $(document).ready(function(){
             // When the window has finished loading create our google map below
 
     if(document.getElementById("map")){
-            if(google !== undefined){ //check kalau google tidak ada tidak dipakai
+            if(typeof google !== 'undefined'){ //check kalau google tidak ada tidak dipakai
                 google.maps.event.addDomListener(window, 'load', init);
 
                 function init() {
