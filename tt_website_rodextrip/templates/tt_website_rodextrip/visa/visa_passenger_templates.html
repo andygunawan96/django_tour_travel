@@ -15,21 +15,14 @@
 <script>
     static_path_url_server = '{{static_path_url_server}}';
     signature = `{{signature}}`;
-    passenger = `{{passengers}}`;
-    passenger = JSON.parse(passenger.replace(/&#39;/g, '"'));
-    adult = passenger.adult;
-    infant = passenger.infant;
-    elder = passenger.elder;
-    child = passenger.child;
-    visa = `{{visa}}`;
-    visa = visa.replace(/True/g, 'true');
-    visa = visa.replace(/False/g, 'false');
-    visa = JSON.parse(visa.replace(/&#39;/g, '"'));
-    visa_request = `{{visa_request}}`;
-    visa_request = JSON.parse(visa_request.replace(/&#39;/g, '"'));
+
+    adult = {{passengers.adult}};
+    infant = {{passengers.infant}};
+    elder = {{passengers.elder}};
+    child = {{passengers.child}};
+
     time_limit = {{time_limit}};
     session_time_limit();
-    sell_visa();
 </script>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
@@ -5384,7 +5377,7 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
-    update_table('passenger');
+    visa_page_passenger();
     $( document ).ready(function() {
         breadcrumb_create("visa", 3, 0);
         $('.js-example-basic-single').select2();

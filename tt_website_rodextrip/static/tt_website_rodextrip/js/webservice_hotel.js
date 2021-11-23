@@ -463,6 +463,37 @@ function hotel_search(){
    });
 }
 
+function hotel_review_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/hotel",
+       headers:{
+            'action': 'review_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            facilities = msg.facilities;
+            adult = msg.adult;
+            booker = msg.booker;
+            contact = msg.contact;
+            child = msg.child;
+            hotel = msg.hotel;
+            //upsell_price = {{upsell}};
+            hotel_price = msg.hotel_price;
+            cancellation_policy = msg.cancellation_policy
+            hotel_detail(cancellation_policy);
+            hotel_facility_request(facilities);
+            hotel_provision(hotel_price.price_code, hotel_price.provider);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
+            $('#loading-search-hotel').hide();
+       },timeout: 180000
+   });
+}
+
 function get_top_facility(){
     getToken();
     $.ajax({

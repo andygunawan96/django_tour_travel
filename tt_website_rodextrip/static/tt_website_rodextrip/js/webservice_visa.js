@@ -75,7 +75,8 @@ function visa_signin(data){
                 signature = msg.result.response.signature;
                 get_carriers_visa();
                 if(data == ''){
-                    visa_get_config_provider();
+                    search_visa()
+//                    visa_get_config_provider();
                 }else if(data != ''){
                     visa_get_data(data);
                 }
@@ -120,6 +121,65 @@ function get_carriers_visa(){
     });
 }
 
+function visa_page_passenger(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/visa",
+       headers:{
+            'action': 'page_passenger',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg)
+            passenger = msg.passenger;
+            visa = msg.visa;
+            visa_request = msg.visa_request;
+            sell_visa();
+            update_table('passenger');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error visa get config provider');
+       },timeout: 60000
+    });
+}
+
+function visa_page_review(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/visa",
+       headers:{
+            'action': 'page_review',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg)
+            passenger = msg.passengers;
+            visa_request = msg.visa_request;
+            visa = msg.visa;
+            adult = passenger.adult;
+            infant = passenger.infant;
+            elder = passenger.elder;
+            child = passenger.child;
+
+            for(i in passenger.adult)
+                set_value_radio_first('adult',parseInt(i)+1);
+            for(i in passenger.child)
+                set_value_radio_first('child',parseInt(i)+1);
+            for(i in passenger.infant)
+                set_value_radio_first('infant',parseInt(i)+1);
+            for(i in passenger.elder)
+                set_value_radio_first('elder',parseInt(i)+1);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error visa get config provider');
+       },timeout: 60000
+    });
+}
+
 function visa_get_config_provider(){
     $.ajax({
        type: "POST",
@@ -160,7 +220,7 @@ function visa_get_config_provider(){
     });
 }
 
-function search_visa(provider){
+function search_visa(){
     counter_visa = 0;
     $.ajax({
        type: "POST",
@@ -173,7 +233,6 @@ function search_visa(provider){
             'departure_date': document.getElementById('visa_departure').value,
             'consulate': document.getElementById('visa_consulate_id_hidden').value,
             'signature': signature,
-            'provider': provider,
        },
        success: function(msg) {
             console.log(msg);
@@ -243,8 +302,16 @@ function search_visa(provider){
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6" style="text-align:right;">
-                                            <span id="fare`+counter_visa+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050;">`+msg.result.response.list_of_visa[i].sale_price.currency+` `+getrupiah(msg.result.response.list_of_visa[i].sale_price.total_price)+`</span>
+                                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6" style="text-align:right;">`;
+                                        price = 0
+                                        currency = '';
+                                        for(j in msg.result.response.list_of_visa[i].service_charges)
+                                            if(msg.result.response.list_of_visa[i].service_charges[j].charge_type != 'RAC')
+                                                price += msg.result.response.list_of_visa[i].service_charges[j].amount;
+                                            if(currency == '')
+                                                currency = msg.result.response.list_of_visa[i].service_charges[j].currency;
+                                        text+=`
+                                            <span id="fare`+counter_visa+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050;">`+currency+` `+getrupiah(price)+`</span>
                                         </div>
                                     </div>
                                 </div>
@@ -298,7 +365,7 @@ function search_visa(provider){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error visa search');
-       },timeout: 120000
+       },timeout: 180000
     });
 }
 
@@ -1293,6 +1360,7 @@ function visa_get_data(data){
                     hide_modal_waiting_transaction();
                 }
             }catch(err){
+                console.log(err);
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
@@ -1337,7 +1405,10 @@ function update_service_charge(type){
         upsell_price = 0;
         upsell = []
         counter_pax = -1;
-        currency = visa.list_of_visa[0].sale_price.currency;
+        for(j in visa.list_of_visa[0].service_charges){
+            currency = visa.list_of_visa[0].service_charges[j].currency;
+            break
+        }
         for(i in passenger){
             list_price = []
             if(i != 'booker' && i != 'contact'){
