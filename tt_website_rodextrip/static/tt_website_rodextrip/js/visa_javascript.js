@@ -208,7 +208,7 @@ function update_table(type){
                 <div class="row" id="show_commission" style="display: `+display+`;">
                     <div class="col-lg-12" style="text-align:center;">
                         <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+currency+` `+getrupiah(commission*-1)+`</span><br>
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+currency+` `+getrupiah(commission)+`</span><br>
                         </div>
                     </div>
                 </div>`;
@@ -377,7 +377,7 @@ function update_table(type){
                 <div class="row" id="show_commission" style="display: `+display+`;">
                     <div class="col-lg-12 col-xs-12" style="text-align:center;">
                         <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+currency+` `+getrupiah(commission*-1)+`</span><br>
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+currency+` `+getrupiah(commission)+`</span><br>
                         </div>
                     </div>
                 </div>`;
@@ -613,7 +613,7 @@ function update_table(type){
                 <div class="row" id="show_commission" style="display: `+display+`;">
                     <div class="col-lg-12 col-xs-12" style="text-align:center;">
                         <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+currency+` `+getrupiah(commission*-1)+`</span><br>
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+currency+` `+getrupiah(commission)+`</span><br>
                         </div>
                     </div>
                 </div>`;
@@ -848,7 +848,7 @@ function update_table(type){
                                     <span style="font-size:13px; font-weight:bold;">Commission</span>
                                 </div>
                                 <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                    <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span>
+                                    <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(parseInt(commission) * -1)+`</span>
                                 </div>
                             </div>`;
                             if(visa.hasOwnProperty('agent_nta') == true){
