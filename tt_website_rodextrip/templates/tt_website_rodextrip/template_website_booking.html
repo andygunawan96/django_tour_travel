@@ -91,12 +91,15 @@ Licence URI: http://www.os-templates.com/template-terms
             }
         }
         function change_password_type(){
-            if($("#password_style").hasClass("fa-eye")){
-
+            if($("#password_style").hasClass("fa-eye-slash") || $("#password_style2").hasClass("fa-eye-slash")){
                 try{
-
-                    $("#password_style").addClass('fa-eye-slash');
-                    $("#password_style").removeClass("fa-eye");
+                    document.getElementById('text_show_hide_pw').innerText = "Hide Password";
+                }catch(err){}
+                try{
+                    $("#password_style").addClass('fa-eye');
+                    $("#password_style").removeClass("fa-eye-slash");
+                    $("#password_style2").addClass('fa-eye');
+                    $("#password_style2").removeClass("fa-eye-slash");
                     try{
                         //PAGE LOGIN
                         document.getElementById('password2').type = 'text';
@@ -107,8 +110,14 @@ Licence URI: http://www.os-templates.com/template-terms
                 }catch(err){}
             }else{
                 try{
-                    $("#password_style").addClass('fa-eye');
-                    $("#password_style").removeClass("fa-eye-slash");
+                    document.getElementById('text_show_hide_pw').innerText = "Show Password";
+                }catch(err){}
+
+                try{
+                    $("#password_style").addClass('fa-eye-slash');
+                    $("#password_style").removeClass("fa-eye");
+                    $("#password_style2").addClass('fa-eye-slash');
+                    $("#password_style2").removeClass("fa-eye");
                     try{
                         //PAGE LOGIN
                         document.getElementById('password2').type = 'password';
@@ -133,13 +142,11 @@ Licence URI: http://www.os-templates.com/template-terms
     <link rel="icon" href="{{ logo_icon }}" sizes="16x16" type="image/png">
     <!--<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">-->
 
-    {% if username.co_user_login == 'agent_b2c' %}
     <script>
         login_color_base = '{{login_background_color}}';
         login_color_base = login_color_base.substr(0,7);
         text_color_login = `{{text_color_login}}`;
     </script>
-    {% endif %}
 
     <!--template1-->
 

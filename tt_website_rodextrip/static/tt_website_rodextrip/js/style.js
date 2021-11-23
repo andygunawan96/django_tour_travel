@@ -2020,6 +2020,47 @@ $(document).ready(function(){
         }
     });
 
+    $('#radio_insurance_search').click(function(){
+        selected_value = $("input[name='radio_insurance_type']:checked").val();
+        if (selected_value == "Annual"){
+            $("#insurance_date").val(moment().subtract(-1, 'days').format('DD MMM YYYY') + ' - ' + moment().subtract(-1, 'days').subtract(-1, 'years').format('DD MMM YYYY'));
+
+            $('input[name="insurance_date"]').daterangepicker({
+                singleDatePicker: true,
+                autoUpdateInput: false,
+                minDate: moment().subtract(-1, 'days'),
+                maxDate: moment().subtract(-1, 'years'),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+
+            $('input[name="insurance_date"]').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + moment(picker.startDate).subtract(-1, 'years').format('DD MMM YYYY'));
+                $("#insurance_date").val(picker.startDate.format('DD MMM YYYY') + ' - ' + moment(picker.startDate).subtract(-1, 'years').format('DD MMM YYYY'));
+            });
+        }
+        else{
+            $('input[name="insurance_date"]').daterangepicker({
+                singleDatePicker: false,
+                autoUpdateInput: true,
+                startDate: moment(),
+                endDate: moment().subtract(-2, 'days'),
+                minDate: moment().subtract(-1, 'days'),
+                maxDate: moment().subtract(-1, 'years'),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+        }
+    });
+
+
+
 });
 
 
@@ -3156,4 +3197,18 @@ function go_guide(id){
     $('html, body').animate({
         scrollTop: $("#"+id).offset().top
     }, 500);
+}
+
+function open_signin_modal(){
+    $('#mylogintemplate6').modal('show');
+}
+
+function open_signup_modal(){
+    $('#mylogintemplate6').modal('hide');
+    $('#myModalb2c').modal('show');
+}
+
+function open_signin_close_signup_modal(){
+    $('#myModalb2c').modal('hide');
+    $('#mylogintemplate6').modal('show');
 }

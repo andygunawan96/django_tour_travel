@@ -1461,7 +1461,7 @@ function get_dynamic_page(type){
                 }
                 else if(type == 'login' || type == 'home'){
                     //buat owlcaoursel
-                    text = `<div class="owl-carousel-login owl-theme">`;
+                    text = `<div class="owl-carousel-login owl-theme" style="z-index:0;">`;
                     for(i in msg.result.response){
                         console.log(msg.result.response);
                         if(msg.result.response[i].state == true){
