@@ -1346,109 +1346,104 @@ function get_customer_list(passenger, number, product){
                     if(msg.result.response.length != 0){
                         response+=`
                         <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> We found `+msg.result.response.length+` user(s) with name like " `+like_name_paxs+` "</h6></div>
-                        <div style="overflow-y:auto;height:45vh;margin-top:10px;">
-                        <table style="width:100%" id="list-of-passenger">
-                            <tr>
-                                <th style="width:5%;">No</th>
-                                <th style="width:70%;">Name</th>
-                                <th style="width:25%">Action</th>
-                            </tr>`;
+                        <div class="row">`;
 
                         for(i in msg.result.response){
                             response+=`
-                            <tr>
-                                <td>`+(parseInt(i)+1)+`</td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
-                                            if(msg.result.response[i].face_image.length > 0)
-                                                response+=`<img src="`+msg.result.response[i].face_image[0]+`" alt="User" style="width:100%;">`;
-                                            else if(msg.result.response[i].title == "MR"){
-                                                response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" alt="User MR" style="width:100%;">`;
-                                            }
-                                            else if(msg.result.response[i].title == "MRS"){
-                                                response+=`<img src="/static/tt_website_rodextrip/img/user_mrs.png" alt="User MRS" style="width:100%;">`;
-                                            }
-                                            else if(msg.result.response[i].title == "MS"){
-                                                response+=`<img src="/static/tt_website_rodextrip/img/user_ms.png" alt="User MS" style="width:100%;">`;
-                                            }
-                                            else if(msg.result.response[i].title == "MSTR"){
-                                                response+=`<img src="/static/tt_website_rodextrip/img/user_mistr.png" alt="User MSTR" style="width:100%;">`;
-                                            }
-                                            else if(msg.result.response[i].title == "MISS"){
-                                                response+=`<img src="/static/tt_website_rodextrip/img/user_miss.png" alt="User MISS" style="width:100%;">`;
-                                            }
-                                    response+=`
-                                        </div>
-                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                        <span style="font-weight:600; font-size:14px;"> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name+``;
-                                        if(msg.result.response[i].birth_date != '')
-                                            response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
-                                        if(msg.result.response[i].phones.length != 0){
-                                            if(template == 1 || template == 5 || template == 6){
-                                                response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i>`;
-                                            }else if(template == 2){
-                                                response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i>`;
-                                            }else if(template == 3){
-                                                response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i><div class="default-select">`;
-                                            }else if(template == 4){
-                                                response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i>`;
-                                            }
-                                            response+=`<select class="phone_chosen_cls" id="phone_chosen`+i+`" style="width:100%;">`;
-                                            for(j in msg.result.response[i].phones){
-                                                response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
-                                            }
-                                            if(template == 1 || template == 5 || template == 6){
-                                                response+=`</select></div>`;
-                                            }else if(template == 2){
-                                                response+=`</select></div></div></div>`;
-                                            }else if(template == 3){
-                                                response+=`</select></div></div></div></div>`;
-                                            }else if(template == 4){
-                                                response+=`</select></div>`;
-                                            }
-                                        }else{
-                                            response+=`<br/>`;
+                            <div class="col-lg-8">
+                                <div class="row">
+                                    <div class="col-lg-5 col-md-5 col-sm-5">`;
+                                        if(msg.result.response[i].face_image.length > 0)
+                                            response+=`<img src="`+msg.result.response[i].face_image[0]+`" alt="User" style="width:80%;">`;
+                                        else if(msg.result.response[i].title == "MR"){
+                                            response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" alt="User MR" style="width:80%;">`;
                                         }
-                                        check_br = false
-                                        if(msg.result.response[i].email != '' && msg.result.response[i].email != false){
-                                            response+=`<span><i class="fas fa-envelope"></i> `+msg.result.response[i].email+`</span>`;
-                                            check_br = true;
-                                        }if(msg.result.response[i].nationality_name != ''){
-                                            if(check_br == true)
-                                                response += `<br/>`;
-                                            response+=` <span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_name+`</span>`;
-                                            check_br = true;
+                                        else if(msg.result.response[i].title == "MRS"){
+                                            response+=`<img src="/static/tt_website_rodextrip/img/user_mrs.png" alt="User MRS" style="width:80%;">`;
                                         }
-                                        if(msg.result.response[i].identities.hasOwnProperty('passport') == true){
-                                            if(check_br == true)
-                                                response += `<br/>`;
-                                            response+=` <span><i class="fas fa-passport"></i> Passport - `+msg.result.response[i].identities.passport.identity_number+`</span>`;
-                                            check_br = true;
+                                        else if(msg.result.response[i].title == "MS"){
+                                            response+=`<img src="/static/tt_website_rodextrip/img/user_ms.png" alt="User MS" style="width:80%;">`;
                                         }
-                                        if(msg.result.response[i].identities.hasOwnProperty('ktp') == true){
-                                            if(check_br == true)
-                                                response += `<br/>`;
-                                            response+=` <span><i class="fas fa-id-card"></i> KTP - `+msg.result.response[i].identities.ktp.identity_number+`</span>`;
+                                        else if(msg.result.response[i].title == "MSTR"){
+                                            response+=`<img src="/static/tt_website_rodextrip/img/user_mistr.png" alt="User MSTR" style="width:80%;">`;
                                         }
-                                        if(msg.result.response[i].identities.hasOwnProperty('sim') == true){
-                                            if(check_br == true)
-                                                response += `<br/>`;
-                                            response+=` <span><i class="fas fa-id-badge"></i> SIM - `+msg.result.response[i].identities.sim.identity_number+`</span>`;
+                                        else if(msg.result.response[i].title == "MISS"){
+                                            response+=`<img src="/static/tt_website_rodextrip/img/user_miss.png" alt="User MISS" style="width:80%;">`;
                                         }
-
-                                        if(msg.result.response[i].customer_parents.length != 0){
-                                            response += `<br/><label id="pop_corporate_detail`+i+`" style="border:1px solid #cdcdcd; background:`+text_color+`; color:`+color+`; padding:5px 10px;"><i class="fas fa-money-bill-wave-alt"></i> Corporate Booker</label>`;
-                                        }
-                                    response+=`
+                                response+=`
                                     </div>
-                                </td>`;
-    //                            <td>`+msg.response.result[i].booker_type+`</td>
-    //                            <td>Rp. `+getrupiah(msg.response.result[i].agent_id.credit_limit+ msg.response.result[i].agent_id.balance)+`</td>
-                                response+=`<td><button type="button" class="primary-btn-custom" onclick="pick_passenger('`+passenger+`',`+msg.result.response[i].sequence+`,'`+product+`');">Choose</button></td>
-                            </tr>`;
+                                    <div class="col-lg-7 col-md-7 col-sm-7">
+                                    <span style="font-weight:600; font-size:14px;"> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name+`</span>`;
+                                    if(msg.result.response[i].customer_parents.length != 0){
+                                        response += `<label id="pop_corporate_detail`+i+`" style="border:1px solid #cdcdcd; background:`+text_color+`; color:`+color+`; padding:5px 10px;"><i class="fas fa-money-bill-wave-alt"></i> Corporate Booker</label>`;
+                                    }
+
+                                    response+=`<span style="font-weight:600; font-size:14px;">`;
+                                    if(msg.result.response[i].birth_date != '')
+                                        response+=`<br/> <span><i class="fas fa-birthday-cake"></i> <i>Birth Date:</i>`+msg.result.response[i].birth_date+`</span>`;
+                                    if(msg.result.response[i].phones.length != 0){
+                                        if(template == 1 || template == 5 || template == 6){
+                                            response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i> <i>Mobile:</i>`;
+                                        }else if(template == 2){
+                                            response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i> <i>Mobile:</i>`;
+                                        }else if(template == 3){
+                                            response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i> <i>Mobile:</i><div class="default-select">`;
+                                        }else if(template == 4){
+                                            response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i> <i>Mobile:</i>`;
+                                        }
+                                        response+=`<select class="phone_chosen_cls" id="phone_chosen`+i+`" style="width:100%;">`;
+                                        for(j in msg.result.response[i].phones){
+                                            response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
+                                        }
+                                        if(template == 1 || template == 5 || template == 6){
+                                            response+=`</select></div>`;
+                                        }else if(template == 2){
+                                            response+=`</select></div></div></div>`;
+                                        }else if(template == 3){
+                                            response+=`</select></div></div></div></div>`;
+                                        }else if(template == 4){
+                                            response+=`</select></div>`;
+                                        }
+                                    }else{
+                                        response+=`<br/>`;
+                                    }
+                                    check_br = false
+                                    if(msg.result.response[i].email != '' && msg.result.response[i].email != false){
+                                        response+=`<span><i class="fas fa-envelope"></i> <i>Email:</i> `+msg.result.response[i].email+`</span>`;
+                                        check_br = true;
+                                    }if(msg.result.response[i].nationality_name != ''){
+                                        if(check_br == true)
+                                            response += `<br/>`;
+                                        response+=` <span><i class="fas fa-globe-asia"></i> <i>Nationality:</i> `+msg.result.response[i].nationality_name+`</span>`;
+                                        check_br = true;
+                                    }
+                                    if(msg.result.response[i].identities.hasOwnProperty('passport') == true){
+                                        if(check_br == true)
+                                            response += `<br/>`;
+                                        response+=` <span><i class="fas fa-passport"></i> <i>Passport:</i> `+msg.result.response[i].identities.passport.identity_number+`</span>`;
+                                        check_br = true;
+                                    }
+                                    if(msg.result.response[i].identities.hasOwnProperty('ktp') == true){
+                                        if(check_br == true)
+                                            response += `<br/>`;
+                                        response+=` <span><i class="fas fa-id-card"></i> <i>KTP:</i> `+msg.result.response[i].identities.ktp.identity_number+`</span>`;
+                                    }
+                                    if(msg.result.response[i].identities.hasOwnProperty('sim') == true){
+                                        if(check_br == true)
+                                            response += `<br/>`;
+                                        response+=` <span><i class="fas fa-id-badge"></i> <i>SIM:</i> `+msg.result.response[i].identities.sim.identity_number+`</span>`;
+                                    }
+
+                                response+=`
+                                    </div>
+                                </div>
+                            </div>`;
+//                            <td>`+msg.response.result[i].booker_type+`</td>
+//                            <td>Rp. `+getrupiah(msg.response.result[i].agent_id.credit_limit+ msg.response.result[i].agent_id.balance)+`</td>
+                            response+=`<div class="col-lg-4" style="text-align:center; padding:15px;"><button type="button" class="primary-btn-custom" onclick="pick_passenger('`+passenger+`',`+msg.result.response[i].sequence+`,'`+product+`');">Choose</button></div>`;
+                            response+=`<div class="col-lg-12"><hr/></div>`;
                         }
-                        response+=`</table></div>`;
+                        response+=`</div>`;
                         document.getElementById('search_result_'+passenger+number).innerHTML = response;
                         for(i in msg.result.response){
                             if(msg.result.response[i].customer_parents.length != 0){
@@ -3827,17 +3822,10 @@ function del_passenger_cache(sequence){
         if(msg.result.error_code == 0){
             document.getElementById('passenger_chosen').innerHTML = '';
             var response = '';
-            var like_name_booker = document.getElementById('train_booker_search').value;
             if(msg.result.response.length != 0){
                 response+=`
                 <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> Selected Passenger</h6></div>
-                <div style="overflow:auto;height:45vh;margin-top:10px;">
-                <table style="width:100%" id="list-of-passenger">
-                    <tr>
-                        <th style="width:5%;">No</th>
-                        <th style="width:70%;">Name</th>
-                        <th style="width:25%"></th>
-                    </tr>`;
+                <div class="row">`;
 
                 for(i in msg.result.response){
                     response+=`
@@ -3864,13 +3852,13 @@ function del_passenger_cache(sequence){
                         response+=`<td><button type="button" class="primary-btn-custom" onclick="del_passenger_cache(`+i+`);">Delete</button></td>
                     </tr>`;
                 }
-                response+=`</table></div>`;
-                document.getElementById('booker_chosen').innerHTML = response;
+                response+=`</div>`;
+                document.getElementById('passenger_chosen').innerHTML = response;
                 passenger_data = msg.result.response;
             }else{
                 response = '';
                 response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> Oops! User not found!</h6></div></center>`;
-                document.getElementById('booker_chosen').innerHTML = response;
+                document.getElementById('passenger_chosen').innerHTML = response;
             }
         }
        },
@@ -3902,112 +3890,122 @@ function get_passenger_cache(type){
                 if(msg.result.response.length != 0){
                     response+=`
                     <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> Selected Passenger</h6></div>
-                    <div style="overflow:auto;width:100%;height:60vh;margin-top:10px;">
-                    <table style="width:100%" id="list-of-passenger">
-                        <tr>
-                            <th style="width:5%;">No</th>`;
-                            if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'passenger' || window.location.href.split('/')[window.location.href.split('/').length-1] == 'issued_offline'){
-                                response+=`<th style="width:40%;">Name</th>
-                                           <th style="width:20%"></th>
-                                           <th style="width:15%"></th>
-                                           <th style="width:15%"></th>`;
-                            }else{
-                                response+=` <th style="width:70%;">Name</th>
-                                            <th style="width:25%"></th>`;
-                            }
-                            text+=`
-                        </tr>`;
+                    <div class="row">`;
 
                     for(i in msg.result.response){
                         response+=`
-                        <tr>
-                            <td>`+(parseInt(i)+1)+`</td>
-                            <td>
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
-                                        if(msg.result.response[i].face_image.length > 0)
-                                            response+=`<img src="`+msg.result.response[i].face_image[0]+`" alt="User" style="width:100%;">`;
-                                        else if(msg.result.response[i].title == "MR"){
-                                            response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" alt="User MR" style="width:100%;">`;
-                                        }
-                                        else if(msg.result.response[i].title == "MRS"){
-                                            response+=`<img src="/static/tt_website_rodextrip/img/user_mrs.png" alt="User MRS" style="width:100%;">`;
-                                        }
-                                        else if(msg.result.response[i].title == "MS"){
-                                            response+=`<img src="/static/tt_website_rodextrip/img/user_ms.png" alt="User MS" style="width:100%;">`;
-                                        }
-                                        else if(msg.result.response[i].title == "MSTR"){
-                                            response+=`<img src="/static/tt_website_rodextrip/img/user_mistr.png" alt="User MSTR" style="width:100%;">`;
-                                        }
-                                        else if(msg.result.response[i].title == "MISS"){
-                                            response+=`<img src="/static/tt_website_rodextrip/img/user_miss.png" alt="User MISS" style="width:100%;">`;
-                                        }
-                                response+=`
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                    <span style="font-weight:600; font-size:14px;"> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name+``;
-                                    if(msg.result.response[i].birth_date != '')
-                                        response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
-                                    if(msg.result.response[i].phones.length != 0){
-                                        if(template == 1 || template == 5 || template == 6){
-                                            response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> `;
-                                        }else if(template == 2){
-                                            response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> `;
-                                        }else if(template == 3){
-                                            response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i><div class="default-select">`;
-                                        }else if(template == 4){
-                                            response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i>`;
-                                        }
-                                        response+=`<select class="phone_chosen_cls" id="phone_chosen`+i+`" style="width:100%;">`;
-                                        for(j in msg.result.response[i].phones){
-                                            response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
-                                        }
-                                        if(template == 1 || template == 5 || template == 6){
-                                            response+=`</select></div>`;
-                                        }else if(template == 2){
-                                            response+=`</select></div></div></div>`;
-                                        }else if(template == 3){
-                                            response+=`</select></div></div></div></div>`;
-                                        }else if(template == 4){
-                                            response+=`</select></div>`;
-                                        }
-                                    }else{
-                                        response+=`<br/>`;
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4">`;
+                                    if(msg.result.response[i].face_image.length > 0)
+                                        response+=`<img src="`+msg.result.response[i].face_image[0]+`" alt="User" style="width:80%;">`;
+                                    else if(msg.result.response[i].title == "MR"){
+                                        response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" alt="User MR" style="width:80%;">`;
                                     }
-                                    if(msg.result.response[i].nationality_name != '')
-                                        response+=`<span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_name+`</span>`;
-                                    if(msg.result.response[i].identities.hasOwnProperty('passport') == true)
-                                        response+=`<br/> <span><i class="fas fa-passport"></i> Passport - `+msg.result.response[i].identities.passport.identity_number+`</span>`;
-                                    if(msg.result.response[i].identities.hasOwnProperty('ktp') == true)
-                                        response+=`<br/> <span><i class="fas fa-id-card"></i> KTP - `+msg.result.response[i].identities.ktp.identity_number+`</span>`;
-                                    if(msg.result.response[i].identities.hasOwnProperty('sim') == true)
-                                        response+=`<br/> <span><i class="fas fa-id-badge"></i> SIM - `+msg.result.response[i].identities.sim.identity_number+`</span>`;
+                                    else if(msg.result.response[i].title == "MRS"){
+                                        response+=`<img src="/static/tt_website_rodextrip/img/user_mrs.png" alt="User MRS" style="width:80%;">`;
+                                    }
+                                    else if(msg.result.response[i].title == "MS"){
+                                        response+=`<img src="/static/tt_website_rodextrip/img/user_ms.png" alt="User MS" style="width:80%;">`;
+                                    }
+                                    else if(msg.result.response[i].title == "MSTR"){
+                                        response+=`<img src="/static/tt_website_rodextrip/img/user_mistr.png" alt="User MSTR" style="width:80%;">`;
+                                    }
+                                    else if(msg.result.response[i].title == "MISS"){
+                                        response+=`<img src="/static/tt_website_rodextrip/img/user_miss.png" alt="User MISS" style="width:80%;">`;
+                                    }
+                                    response+=`
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <span style="font-weight:600; font-size:18px; padding-right:5px;"> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name+`</span>`;
+                                            if(msg.result.response[i].customer_parents.length != 0){
+                                                response += `<label id="pop_corporate_detail`+i+`" style="border:1px solid #cdcdcd; background:`+text_color+`; color:`+color+`; padding:5px 10px;"><i class="fas fa-money-bill-wave-alt"></i> Corporate Booker</label>`;
+                                            }
+                                            response+=`<br/>`;
+                                            if(msg.result.response[i].birth_date != ''){
+                                                response+=`<span><i class="fas fa-birthday-cake"></i> <i>Birth Date:</i> <b> `+msg.result.response[i].birth_date+`</b></span>`;
+                                            }
+                                            if(msg.result.response[i].phones.length != 0){
+                                                if(template == 1 || template == 5 || template == 6){
+                                                    response+=`
+                                                    <div class="row" style="margin-left:0">
+                                                        <div class="col-lg-12" style="padding:0px;">
+                                                            <i class="fas fa-mobile-alt"></i> <i>Mobile:</i><br/>
+                                                        </div>`;
+                                                }
+                                                else if(template == 2){
+                                                    response+=`
+                                                    <div class="row">
+                                                        <div class="col-lg-12"><div class="input-container-search-ticket">
+                                                            <i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Mobile:</i>`;
+                                                }
+                                                else if(template == 3){
+                                                    response+=`
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="input-container-search-ticket">
+                                                                <i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Mobile:</i>
+                                                                    <div class="default-select">`;
+                                                }
+                                                else if(template == 4){
+                                                    response+=`
+                                                    <div class="row" style="margin-left:0">
+                                                        <i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Mobile:</i>`;
+                                                }
 
-                                    if(msg.result.response[i].customer_parents.length != 0){
-                                        response += `<br/><label id="pop_corporate_detail`+i+`" style="border:1px solid #cdcdcd; background:`+text_color+`; color:`+color+`; padding:5px 10px;"><i class="fas fa-money-bill-wave-alt"></i> Corporate Booker</label>`;
-                                        cor_resp = '';
-                                        for(j in msg.result.response[i].customer_parents){
-                                            cor_resp += `<option value="`+msg.result.response[i].customer_parents[j].seq_id+`">`+msg.result.response[i].customer_parents[j].type + ` ` + msg.result.response[i].customer_parents[j].name+`</option>`
-                                        }
-                                        response += `<div class="row" style="margin-left:0">`;
-                                        response += `<div class="col-lg-12 mt-2" style="padding:0px;"><h6>--Corporate--</h6>
-                                            <select id="corpor_mode_select`+i+`" class="corpor_select_cls mt-2" style="width:100%;">
-                                                `+cor_resp+`
-                                            </select>
-                                        </div>`;
-                                        if(msg.result.response[i].customer_parents.length != 0){
+                                                response+=`<select class="phone_chosen_cls" id="phone_chosen`+i+`" style="width:100%;">`;
+                                                for(j in msg.result.response[i].phones){
+                                                    response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
+                                                }
+                                                response+=`</select>`;
+
+                                                if(template == 1 || template == 5 || template == 6){
+                                                    response+=`</div>`;
+                                                }else if(template == 2){
+                                                    response+=`</div></div></div>`;
+                                                }else if(template == 3){
+                                                    response+=`</div></div></div></div>`;
+                                                }else if(template == 4){
+                                                    response+=`</div>`;
+                                                }
+                                            }
+                                            else{
+                                                response+=`<br/>`;
+                                            }
+                                            if(msg.result.response[i].nationality_name != '')
+                                                response+=`<span><i class="fas fa-globe-asia"></i> <i>Country:</i> <b>`+msg.result.response[i].nationality_name+`</b></span>`;
+                                            if(msg.result.response[i].identities.hasOwnProperty('passport') == true)
+                                                response+=`<br/> <span><i class="fas fa-passport"></i> <i>Passport:</i> <b>`+msg.result.response[i].identities.passport.identity_number+`</b></span>`;
+                                            if(msg.result.response[i].identities.hasOwnProperty('ktp') == true)
+                                                response+=`<br/> <span><i class="fas fa-id-card"></i> <i>KTP:</i> <b>`+msg.result.response[i].identities.ktp.identity_number+`</b></span>`;
+                                            if(msg.result.response[i].identities.hasOwnProperty('sim') == true)
+                                                response+=`<br/> <span><i class="fas fa-id-badge"></i> <i>SIM:</i> <b>`+msg.result.response[i].identities.sim.identity_number+`</b></span>`;
+
                                             response+=`
-                                            <div class="col-lg-12 mt-2" style="padding:0px;">
-                                                <button type="button" class="primary-btn-custom corpor-mode-btn" onclick="activate_corporate_mode(`+i+`);">Go Corporate Mode</button>
-                                            </div>`;
-                                        }
-                                    }
-                                response+=`
+                                        </div>
                                     </div>
                                 </div>
-                            </td>`;
+                            </div>`;
+                            response+=`<div class="row mt-2">`;
+                            response+=`<div class="col-lg-4 mt-2">
+                                <button type="button" class="primary-btn-custom" onclick="del_passenger_cache(`+i+`);">Delete</button>`;
+                            if(agent_security.includes('p_cache_2') == true)
+                            {
+                                response+=`
+                                <button type="button" class="primary-btn-custom" onclick="edit_passenger_cache(`+i+`);">Edit</button>`;
+                            }
+                            response+=`
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="row">`;
+
                             if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'passenger'){
-                                response+=`<td><select class="selection_type_ns" id="selection_type`+i+`" style="width:100%;" onchange="btn_move_passenger_cache_enable(`+i+`);">`;
+                                response+=`<div class="col-xs-8 mt-2">`;
+
+                                response+=`
+                                    <select class="selection_type_ns nice-select-default" id="selection_type`+i+`" style="width:100%;" onchange="btn_move_passenger_cache_enable(`+i+`);">`;
                                 if(msg.result.response[i].title == "MR" || msg.result.response[i].title == "MRS" || msg.result.response[i].title == "MS"){
                                     response+=`<optgroup label="Booker">`;
                                     response+=`<option value="booker">Booker</option>`;
@@ -4049,7 +4047,7 @@ function get_passenger_cache(type){
                                 }catch(err){
 
                                 }
-                                response+=`</select></td>`;
+                                response+=`</select></div>`;
                                 check = 0;
                                 var passenger_sequence = '';
                                 for(j in passenger_data_pick){
@@ -4061,11 +4059,13 @@ function get_passenger_cache(type){
                                     }
                                 }
                                 if(check == 0)
-                                    response+=`<td><button type="button" class="primary-btn-custom" onclick="update_customer_cache_list(`+i+`)" id="move_btn_`+i+`">Move</button></td>`;
+                                    response+=`<div class="col-xs-4 mt-2"><button type="button" class="primary-btn-custom" onclick="update_customer_cache_list(`+i+`)" id="move_btn_`+i+`">Move</button></div>`;
                                 else
-                                    response+=`<td><button type="button" class="primary-btn-custom" id="move_btn_`+i+`" disabled>`+passenger_sequence+`</button></td>`;
-                            }else if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'issued_offline'){
-                                response+=`<td><select class="selection_type_ns" id="selection_type`+i+`" style="width:100%;">`;
+                                    response+=`<div class="col-xs-4 mt-2"><button type="button" class="primary-btn-custom" id="move_btn_`+i+`" disabled>`+passenger_sequence+`</button></div>`;
+                            }
+
+                            else if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'issued_offline'){
+                                response+=`<div class="col-lg-12 mt-2"><select class="selection_type_ns" id="selection_type`+i+`" style="width:100%;">`;
                                 if(msg.result.response[i].title == "MR" || msg.result.response[i].title == "MRS" || msg.result.response[i].title == "MS"){
                                     response+=`<optgroup label="Booker">`;
                                     response+=`<option value="booker">Booker</option>`;
@@ -4080,7 +4080,7 @@ function get_passenger_cache(type){
                                 }catch(err){
 
                                 }
-                                response+=`</select></td>`;
+                                response+=`</select></div>`;
                                 check = 0;
                                 var passenger_sequence = '';
                                 console.log(msg.result.response[i].seq_id);
@@ -4095,24 +4095,46 @@ function get_passenger_cache(type){
                                 }
                                 console.log(check);
                                 if(check == 0)
-                                    response+=`<td><button type="button" class="primary-btn-custom" onclick="update_customer_cache_list(`+i+`)" id="move_btn_`+i+`">Move</button></td>`;
+                                    response+=`<div class="col-lg-12 mt-2"><button type="button" class="primary-btn-custom" onclick="update_customer_cache_list(`+i+`)" id="move_btn_`+i+`">Move</button></div>`;
                                 else
-                                    response+=`<td><button type="button" class="primary-btn-custom" disabled id="move_btn_`+i+`">`+passenger_sequence+`</button></td>`;
-                            }
-                            response+=`<td>
-                                            <button type="button" class="primary-btn-custom" onclick="del_passenger_cache(`+i+`);">Delete</button>`;
-                            if(agent_security.includes('p_cache_2') == true)
-                            {
-                                response+=`
-                                            <button type="button" class="primary-btn-custom" onclick="edit_passenger_cache(`+i+`);">Edit</button>`;
+                                    response+=`<div class="col-lg-12 mt-2"><button type="button" class="primary-btn-custom" disabled id="move_btn_`+i+`">`+passenger_sequence+`</button></div>`;
                             }
                             response+=`
-                                       </td>`;
+                                </div>
+                            </div>
+                        </div>`;
 
-                            text+=`
-                        </tr>`;
+                        if(msg.result.response[i].customer_parents.length != 0){
+                            cor_resp = '';
+                            for(j in msg.result.response[i].customer_parents){
+                                cor_resp += `<option value="`+msg.result.response[i].customer_parents[j].seq_id+`">`+msg.result.response[i].customer_parents[j].type + ` ` + msg.result.response[i].customer_parents[j].name+`</option>`
+                            }
+                            response += `
+                            <div class="col-lg-12 mt-3" style="padding:0px;">
+                                <h6 style="background:`+color+`; color:`+text_color+`; border:1px solid #cdcdcd; border-radius:14px; width:fit-content; padding:5px;">Corporate Mode</h6>
+                                <div class="row">
+                                    <div class="col-xs-8">
+                                        <select id="corpor_mode_select`+i+`" class="corpor_select_cls nice-select-default mt-2" style="width:100%;">
+                                            `+cor_resp+`
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-4">`;
+
+                                    if(msg.result.response[i].customer_parents.length != 0){
+                                        response+=`<button type="button" class="mt-2 ml-2 primary-btn-custom corpor-mode-btn" onclick="activate_corporate_mode(`+i+`);">GO</button>`;
+                                    }
+                                response += `
+                                </div>
+                            </div>`;
+                        }
+
+                        response+=`
+                            <div class="col-lg-12">
+                                <hr/>
+                            </div>
+                        </div>`;
                     }
-                    response+=`</table></div>`;
+                    response+=`</div>`;
                     document.getElementById('passenger_chosen').innerHTML = response;
                     for(i in msg.result.response){
                         if(msg.result.response[i].customer_parents.length != 0){

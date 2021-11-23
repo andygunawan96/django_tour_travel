@@ -4905,6 +4905,7 @@ ul.tabs li.current{
   font-size: 12px;
   font-weight: 300;
   height: 42px;
+  width: 100% !important;
   line-height: 40px;
   outline: none;
   padding-left: 8px;
@@ -6564,6 +6565,7 @@ th input {
   font-size: 12px;
   font-weight: 300;
   height: 42px;
+  width: 100% !important;
   line-height: 40px;
   outline: none;
   padding-left: 8px;
