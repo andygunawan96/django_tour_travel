@@ -1139,22 +1139,22 @@ function check_passenger(){
                    }else{
                        document.getElementById('adult_relation1_passport_number'+i).style['border-color'] = '#EFEFEF';
                    }
-                   if(document.getElementById('adult_relation1_expired_date'+i).value == ''){
+                   if(document.getElementById('adult_relation1_passport_expired_date'+i).value == ''){
                        error_log+= 'Please fill passport expired date for spouse customer '+i+'!</br>\n';
                        document.getElementById('adult_relation1_expired_date'+i).style['border-color'] = 'red';
                    }else{
-                       duration = moment.duration(moment(document.getElementById('adult_relation1_expired_date'+i).value).diff(last_departure_date));
+                       duration = moment.duration(moment(document.getElementById('adult_relation1_passport_expired_date'+i).value).diff(last_departure_date));
                        //CHECK EXPIRED
                        if(duration._milliseconds < 0 ){
                             error_log+= 'Please update passport expired date for spouse customer '+i+'!</br>\n';
-                            document.getElementById('adult_relation1_expired_date'+i).style['border-color'] = 'red';
+                            document.getElementById('adult_relation1_passport_expired_date'+i).style['border-color'] = 'red';
                        }else
-                            document.getElementById('adult_relation1_expired_date'+i).style['border-color'] = '#EFEFEF';
-                   }if(document.getElementById('adult_relation1_country_of_issued'+i).value == '' || document.getElementById('adult_relation1_country_of_issued'+i).value == 'Country of Issued'){
+                            document.getElementById('adult_relation1_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                   }if(document.getElementById('adult_relation1_passport_country_of_issued'+i).value == '' || document.getElementById('adult_relation1_passport_country_of_issued'+i).value == 'Country of Issued'){
                        error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                       document.getElementById('adult_relation1_country_of_issued'+i).style['border-color'] = 'red';
+                       document.getElementById('adult_relation1_passport_country_of_issued'+i).style['border-color'] = 'red';
                    }else{
-                       document.getElementById('adult_relation1_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+                       document.getElementById('adult_relation1_passport_country_of_issued'+i).style['border-color'] = '#EFEFEF';
                    }
                }
             }
@@ -1198,22 +1198,22 @@ function check_passenger(){
                        }else{
                            document.getElementById('adult_relation2_passport_number'+i).style['border-color'] = '#EFEFEF';
                        }
-                       if(document.getElementById('adult_relation2_expired_date'+i).value == ''){
+                       if(document.getElementById('adult_relation2_passport_expired_date'+i).value == ''){
                            error_log+= 'Please fill passport expired date for spouse customer '+i+'!</br>\n';
-                           document.getElementById('adult_relation2_expired_date'+i).style['border-color'] = 'red';
+                           document.getElementById('adult_relation2_passport_expired_date'+i).style['border-color'] = 'red';
                        }else{
-                           duration = moment.duration(moment(document.getElementById('adult_relation2_expired_date'+i).value).diff(last_departure_date));
+                           duration = moment.duration(moment(document.getElementById('adult_relation2_passport_expired_date'+i).value).diff(last_departure_date));
                            //CHECK EXPIRED
                            if(duration._milliseconds < 0 ){
                                 error_log+= 'Please update passport expired date for spouse customer '+i+'!</br>\n';
-                                document.getElementById('adult_relation2_expired_date'+i).style['border-color'] = 'red';
+                                document.getElementById('adult_relation2_passport_expired_date'+i).style['border-color'] = 'red';
                            }else
                                 document.getElementById('adult_relation2_expired_date'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('adult_relation2_country_of_issued'+i).value == '' || document.getElementById('adult_relation2_country_of_issued'+i).value == 'Country of Issued'){
+                       }if(document.getElementById('adult_relation2_passport_country_of_issued'+i).value == '' || document.getElementById('adult_relation2_passport_country_of_issued'+i).value == 'Country of Issued'){
                            error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                           document.getElementById('adult_relation2_country_of_issued'+i).style['border-color'] = 'red';
+                           document.getElementById('adult_relation2_passport_country_of_issued'+i).style['border-color'] = 'red';
                        }else{
-                           document.getElementById('adult_relation2_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+                           document.getElementById('adult_relation2_passport_country_of_issued'+i).style['border-color'] = '#EFEFEF';
                        }
                    }
                 }
@@ -1256,22 +1256,22 @@ function check_passenger(){
                        }else{
                            document.getElementById('adult_relation3_passport_number'+i).style['border-color'] = '#EFEFEF';
                        }
-                       if(document.getElementById('adult_relation3_expired_date'+i).value == ''){
+                       if(document.getElementById('adult_relation3_passport_expired_date'+i).value == ''){
                            error_log+= 'Please fill passport expired date for spouse customer '+i+'!</br>\n';
-                           document.getElementById('adult_relation3_expired_date'+i).style['border-color'] = 'red';
+                           document.getElementById('adult_relation3_passport_expired_date'+i).style['border-color'] = 'red';
                        }else{
-                           duration = moment.duration(moment(document.getElementById('adult_relation3_expired_date'+i).value).diff(last_departure_date));
+                           duration = moment.duration(moment(document.getElementById('adult_relation3_passport_expired_date'+i).value).diff(last_departure_date));
                            //CHECK EXPIRED
                            if(duration._milliseconds < 0 ){
                                 error_log+= 'Please update passport expired date for spouse customer '+i+'!</br>\n';
-                                document.getElementById('adult_relation3_expired_date'+i).style['border-color'] = 'red';
+                                document.getElementById('adult_relation3_passport_expired_date'+i).style['border-color'] = 'red';
                            }else
-                                document.getElementById('adult_relation3_expired_date'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('adult_relation3_country_of_issued'+i).value == '' || document.getElementById('adult_relation3_country_of_issued'+i).value == 'Country of Issued'){
+                                document.getElementById('adult_relation3_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                       }if(document.getElementById('adult_relation3_passport_country_of_issued'+i).value == '' || document.getElementById('adult_relation3_passport_country_of_issued'+i).value == 'Country of Issued'){
                            error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                           document.getElementById('adult_relation3_country_of_issued'+i).style['border-color'] = 'red';
+                           document.getElementById('adult_relation3_passport_country_of_issued'+i).style['border-color'] = 'red';
                        }else{
-                           document.getElementById('adult_relation3_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+                           document.getElementById('adult_relation3_passport_country_of_issued'+i).style['border-color'] = '#EFEFEF';
                        }
                    }
                 }
@@ -1314,22 +1314,22 @@ function check_passenger(){
                        }else{
                            document.getElementById('adult_relation4_passport_number'+i).style['border-color'] = '#EFEFEF';
                        }
-                       if(document.getElementById('adult_relation4_expired_date'+i).value == ''){
+                       if(document.getElementById('adult_relation4_passport_expired_date'+i).value == ''){
                            error_log+= 'Please fill passport expired date for spouse customer '+i+'!</br>\n';
-                           document.getElementById('adult_relation4_expired_date'+i).style['border-color'] = 'red';
+                           document.getElementById('adult_relation4_passport_expired_date'+i).style['border-color'] = 'red';
                        }else{
                            duration = moment.duration(moment(document.getElementById('adult_relation4_expired_date'+i).value).diff(last_departure_date));
                            //CHECK EXPIRED
                            if(duration._milliseconds < 0 ){
                                 error_log+= 'Please update passport expired date for spouse customer '+i+'!</br>\n';
-                                document.getElementById('adult_relation4_expired_date'+i).style['border-color'] = 'red';
+                                document.getElementById('adult_relation4_passport_expired_date'+i).style['border-color'] = 'red';
                            }else
-                                document.getElementById('adult_relation4_expired_date'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('adult_relation4_country_of_issued'+i).value == '' || document.getElementById('adult_relation4_country_of_issued'+i).value == 'Country of Issued'){
+                                document.getElementById('adult_relation4_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                       }if(document.getElementById('adult_relation4_passport_country_of_issued'+i).value == '' || document.getElementById('adult_relation4_passport_country_of_issued'+i).value == 'Country of Issued'){
                            error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                           document.getElementById('adult_relation4_country_of_issued'+i).style['border-color'] = 'red';
+                           document.getElementById('adult_relation4_passport_country_of_issued'+i).style['border-color'] = 'red';
                        }else{
-                           document.getElementById('adult_relation4_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+                           document.getElementById('adult_relation4_passport_country_of_issued'+i).style['border-color'] = '#EFEFEF';
                        }
                    }
                 }
