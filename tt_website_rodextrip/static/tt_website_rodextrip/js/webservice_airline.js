@@ -8784,7 +8784,7 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
                 //yang baru harus diganti
                 if(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'Y')
                     cabin_class = 'Economy Class';
-                else if(airline_get_detail.result.response.provider_bookings[i].journeys[j].carrier_code_list.includes('QG') && airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'W')
+                else if(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code == 'QG' && airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'W')
                     cabin_class = 'Royal Green Class';
                 else if(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'W')
                     cabin_class = 'Premium Economy Class';
