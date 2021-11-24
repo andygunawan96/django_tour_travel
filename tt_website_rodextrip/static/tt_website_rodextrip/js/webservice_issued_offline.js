@@ -48,6 +48,34 @@ function get_data_issued_offline(){
     });
 }
 
+function issued_offline_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/bus",
+       headers:{
+            'action': 'search_page',
+       },
+       data: {
+       },
+       success: function(msg) {
+            console.log(msg);
+            titles = msg.titles;
+            countries = msg.countries;
+            signin_rodextrip('');
+            get_data_issued_offline();
+            try{
+                get_public_holiday(moment().format('YYYY-MM-DD'), moment().subtract(-1, 'years').format('YYYY-MM-DD'), 100 );
+            }catch(err){
+                console.log(err);
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
+            $('#loading-search-hotel').hide();
+       },timeout: 180000
+   });
+}
+
 function check_issued_offline(){
     error_log = '';
     request = {};

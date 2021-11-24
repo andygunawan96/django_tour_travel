@@ -51,6 +51,10 @@ def api_models(request):
             res = get_auto_complete_gateway(request)
         elif req_data['action'] == 'get_carriers':
             res = get_carriers(request)
+        elif req_data['action'] == 'page_search':
+            res = page_search(request)
+        elif req_data['action'] == 'page_review':
+            res = page_review(request)
         elif req_data['action'] == 'get_data':
             res = get_data(request)
         elif req_data['action'] == 'search':
@@ -852,5 +856,23 @@ def get_auto_complete(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
     return record_json
+
+def page_search(request):
+    try:
+        res = {}
+        res['tour_request'] = request.session['tour_request']
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def page_review(request):
+    try:
+        res = {}
+        res['all_pax'] = request.session['all_pax']
+        res['booker'] = request.session['tour_booking_data']['booker']
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
 
 

@@ -649,6 +649,7 @@ def review(request):
             })
 
             set_session(request, 'tour_booking_data', temp_booking_data)
+            set_session(request, 'all_pax', all_pax)
 
             printout_prices = []
             for temp_prices in request.session['tour_price']['result']['response']['service_charges']:

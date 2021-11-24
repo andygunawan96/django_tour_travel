@@ -19,11 +19,6 @@
     vendor = `{{vendor}}`;
     test_type = `{{test_type}}`;
 
-    passengers = `{{passenger_booker}}`;
-    passengers = passengers.replace(/&#39;/g, '"');
-    passengers = passengers.replace(/True/g, true);
-    passengers = passengers.replace(/False/g, false);
-    passengers = JSON.parse(passengers);
 </script>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
@@ -399,7 +394,7 @@
     get_config_swab_express('review','{{vendor}}');
     $( document ).ready(function() {
         breadcrumb_create("medical", 3, 0);
-        swab_express_get_cache_price();
+        swab_express_page_review();
         $('.loader-rodextrip').fadeOut();
     });
     function goto_edit_passenger(){

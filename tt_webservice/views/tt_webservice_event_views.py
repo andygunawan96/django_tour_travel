@@ -71,6 +71,10 @@ def api_models(request):
             res = get_booking(request)
         elif req_data['action'] == 'update_service_charge':
             res = update_service_charge(request)
+        elif req_data['action'] == 'page_passenger':
+            res = page_passenger(request)
+        elif req_data['action'] == 'page_review':
+            res = page_review(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -555,6 +559,27 @@ def update_service_charge(request):
             _logger.info("SUCCESS update_service_charge EVENT SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_event EVENT SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def page_passenger(request):
+    try:
+        res = {}
+        res['event_option_code'] = request.session['event_option_code' + request.POST['signature']]
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def page_review(request):
+    try:
+        res = {}
+        pax = request.session['event_review_pax']
+        res['adult'] = pax['adult']
+        res['booker'] = pax['booker']
+        res['contact'] = pax['contact']
+        res['event_option_code'] = request.session['event_option_code' + request.session['event_signature']]
+        res['event_extra_question'] = request.session['event_json_printout' + request.session['event_signature']]['price_lines']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

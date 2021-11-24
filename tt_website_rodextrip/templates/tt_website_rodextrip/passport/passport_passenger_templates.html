@@ -15,17 +15,7 @@
 <script>
     static_path_url_server = '{{static_path_url_server}}';
     signature = `{{signature}}`;
-    passenger = `{{passengers}}`;
-    passenger = JSON.parse(passenger.replace(/&#39;/g, '"'));
-    adult = passenger.adult;
-    child = 0;
-    infant = 0;
-    passport = `{{passport}}`;
-    passport = passport.replace(/True/g, 'true');
-    passport = passport.replace(/False/g, 'false');
-    passport = JSON.parse(passport.replace(/&#39;/g, '"'));
-    passport_request = `{{passport_request}}`;
-    passport_request = JSON.parse(passport_request.replace(/&#39;/g, '"'));
+
     time_limit = {{time_limit}};
     session_time_limit();
     sell_passport();
@@ -3287,8 +3277,9 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
-    update_table('passenger');
+
     $( document ).ready(function() {
+        passport_page_passenger();
         breadcrumb_create("visa", 3, 0);
         $('.js-example-basic-single').select2();
         auto_complete('booker_nationality');
@@ -3298,41 +3289,6 @@
             //auto_complete('adult_country_of_issued{{forloop.counter}}');
             auto_complete('adult_phone_code{{forloop.counter}}');
         {% endfor %}
-        //sesuaikan mindate max date
-        for (var i = 1; i <= adult; i++){
-              document.getElementById("train_adult"+i+"_search").addEventListener("keyup", function(event) {
-                if (event.keyCode === 13) {
-                 event.preventDefault();
-                 var adult_enter = "search_adult_"+event.target.id.toString().replace(/[^\d.]/g, '');
-                 document.getElementById(adult_enter).click();
-                }
-              });
-
-              $('input[name="adult_birth_date'+i+'"]').daterangepicker({
-                  singleDatePicker: true,
-                  autoUpdateInput: true,
-                  startDate: moment().subtract(18, 'years'),
-                  showDropdowns: true,
-                  opens: 'center',
-                  locale: {
-                      format: 'DD MMM YYYY',
-                  }
-              });
-              //$('input[name="adult_birth_date'+i+'"]').val("");
-
-              $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
-                  singleDatePicker: true,
-                  autoUpdateInput: true,
-                  startDate: moment(),
-                  minDate: moment(),
-                  showDropdowns: true,
-                  opens: 'center',
-                  locale: {
-                      format: 'DD MMM YYYY',
-                  }
-              });
-              $('input[name="adult_passport_expired_date'+i+'"]').val("");
-        }
     });
     {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" %}
         get_automatic_booker('{{username.co_customer_seq_id}}');

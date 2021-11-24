@@ -16,23 +16,13 @@
 <script>
     static_path_url_server = '{{static_path_url_server}}'
 
-    all_pax = `{{all_pax}}`;
-    all_pax = all_pax.replace(/&#39;/g,'"');
-    all_pax = all_pax.replace(/True/g,'true');
-    all_pax = all_pax.replace(/False/g,'false');
-    all_pax = all_pax.replace(/None/g,'""');
-    all_pax = JSON.parse(all_pax);
+
     provider = '{{tour_data.provider}}';
     signature = '{{signature}}';
     room_amount = {{room_amount}};
     total_pax_amount = {{total_pax_all}};
     upsell_price = {{upsell}};
-    booker = `{{booker}}`;
-    booker = booker.replace(/&#39;/g,'"');
-    booker = booker.replace(/True/g,'true');
-    booker = booker.replace(/False/g,'false');
-    booker = booker.replace(/None/g,'""');
-    booker = JSON.parse(booker);
+
     last_session = 'sell_journeys';
     time_limit = {{time_limit}};
     session_time_limit();
@@ -664,7 +654,7 @@
 <script>
     $(document).ready(function () {
         breadcrumb_create("tour", 5, 0);
-        get_price_itinerary_cache('review');
+        tour_page_review();
         get_payment_rules('{{tour_data.tour_code}}', '{{tour_line_code}}');
         //get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'tour');
     });

@@ -82,6 +82,10 @@ def api_models(request):
             res = get_voucher(request)
         elif req_data['action'] == 'get_auto_complete':
             res = get_auto_complete(request)
+        elif req_data['action'] == 'passenger_page':
+            res = passenger_page(request)
+        elif req_data['action'] == 'review_page':
+            res = review_page(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -809,3 +813,34 @@ def get_auto_complete(request):
     except Exception as e:
         _logger.error('ERROR get activity_cache_data file\n' + str(e) + '\n' + traceback.format_exc())
     return record_json
+
+def passenger_page(request):
+    try:
+        res = {}
+        res['response'] = request.session['activity_pick']
+        res['highlights'] = request.session['activity_pick']['highlights']
+        res['activity_pax_data'] = request.session['activity_pax_data']
+        res['pax_count'] = request.session['activity_pax_data']['pax_count']
+        res['detail'] = request.session['activity_request']['activity_types_data'][request.session['activity_type_pick']]['options']
+        res['price'] = request.session['activity_request']['activity_date_data'][request.session['activity_event_pick']][request.session['activity_date_pick']]
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def review_page(request):
+    try:
+        res = {}
+        res['pax_count'] = request.session['activity_pax_data']['pax_count']
+        res['printout_paxs'] = request.session['printout_paxs' + request.POST['signature']]
+        res['printout_prices'] = request.session['printout_prices' + request.POST['signature']]
+        res['price'] = request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])]
+        res['options'] = request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['options']
+        res['booker'] = request.session['activity_review_booking']['booker']
+        res['contact_person'] = request.session['activity_review_booking']['contacts']
+        res['all_pax'] = request.session['activity_review_booking']['all_pax']
+
+        res['response'] = request.session['activity_pick']
+        res['highlights'] = request.session['activity_pick']['highlights']
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res

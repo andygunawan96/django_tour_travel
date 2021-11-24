@@ -63,6 +63,50 @@ function medical_signin(data){
 
 }
 
+function medical_page_passenger(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical",
+       headers:{
+            'action': 'page_passenger',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            titles = msg.titles;
+            countries = msg.countries;
+            get_list_report_footer();
+            medical_signin('passenger');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data medical');
+       },timeout: 300000
+    });
+}
+
+function medical_page_review(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/lab_pintar",
+       headers:{
+            'action': 'page_review',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            passengers = msg.passenger;
+            medical_get_cache_price();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data medical');
+       },timeout: 300000
+    });
+}
+
 function get_config_medical(type='', vendor=''){
     $.ajax({
        type: "POST",
@@ -434,7 +478,7 @@ function medical_check_price(){
                                     <span style="font-size:12px;">`+msg.result.response.service_charges[i].pax_count+`x `+charge_code+` @IDR `+getrupiah(msg.result.response.service_charges[i].amount)+`</span>`;
                         text+=`</div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.service_charges[i].total_amount)+`</span></b>
+                                    <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.service_charges[i].total)+`</span></b>
                                 </div>
                             </div>`;
                         }
@@ -557,7 +601,7 @@ function medical_get_cache_price(){
                                 <span style="font-size:12px;">`+msg.result.response.service_charges[i].pax_count+`x `+charge_code+` @IDR `+getrupiah(msg.result.response.service_charges[i].amount)+`</span>`;
                     text+=`</div>
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.service_charges[i].total_amount)+`</span></b>
+                                <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.service_charges[i].total)+`</span></b>
                             </div>
                         </div>`;
                     }

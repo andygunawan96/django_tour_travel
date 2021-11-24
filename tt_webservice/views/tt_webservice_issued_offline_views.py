@@ -65,6 +65,8 @@ def api_models(request):
             res = validate(request)
         elif req_data['action'] == 'update_service_charge':
             res = update_service_charge(request)
+        elif req_data['action'] == 'page_issued_offline':
+            res = page_issued_offline(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -589,6 +591,18 @@ def update_service_charge(request):
             _logger.info("SUCCESS update_service_charge ISSUED OFFLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_airline ISSUED OFFLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def page_issued_offline(request):
+    try:
+        cache_version = get_cache_version()
+        res = {
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+        }
+        response = get_cache_data(cache_version)
+        res['countries'] = response['result']['response']['airline']['country']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

@@ -16,13 +16,6 @@
 <script>
     static_path_url_server = '{{static_path_url_server}}'
     signature = `{{signature}}`;
-    event_option_code = `{{event_option_code}}`;
-    event_option_code = event_option_code.replace(/&#39;/g, '"');
-    event_option_code = event_option_code.replace(/&quot;/g, '"');
-    event_option_code = event_option_code.replace(/False/g, 'false');
-    event_option_code = event_option_code.replace(/True/g, 'true');
-    event_option_code = event_option_code.replace(/None/g, '[]');
-    event_option_code = JSON.parse(event_option_code);
 
     time_limit = {{time_limit}};
     session_time_limit();
@@ -3252,9 +3245,7 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
-    event_get_extra_question(event_option_code,'event_internal');
-    render_object_from_value(event_option_code);
-
+    event_page_passenger();
     $( document ).ready(function() {
       breadcrumb_create("event", 4, 0);
       $('.js-example-basic-single').niceSelect('destroy');

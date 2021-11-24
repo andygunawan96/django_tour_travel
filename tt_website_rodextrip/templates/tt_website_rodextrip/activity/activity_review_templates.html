@@ -15,17 +15,6 @@
 <script>
     static_path_url_server = '{{static_path_url_server}}';
 
-    pax_count = `{{pax_count}}`;
-    pax_count = JSON.parse(pax_count.replace(/&#39;/g,'"'));
-    printout_paxs = `{{printout_paxs}}`;
-    printout_paxs = printout_paxs.replace(/&#39;/g,'"');
-    printout_paxs = JSON.parse(printout_paxs);
-    printout_prices = `{{printout_prices}}`;
-    printout_prices = printout_prices.replace(/&#39;/g,'"');
-    printout_prices = JSON.parse(printout_prices);
-    price = `{{price}}`;
-    price = price.replace(/&#39;/g,'"');
-    price = JSON.parse(price.replace(/True/g,'true'));
     try{
         temp_timeslot_start = `{{timeslot.startTime}}`;
         temp_timeslot_end = `{{timeslot.endTime}}`;
@@ -38,77 +27,12 @@
             time_slot_pick = '';
         }
     }catch(err){}
-    detail = `{{detail.options}}`;
-    detail = detail.replace(/&#39;/g,'"');
-    detail = detail.replace(/True/g,'true');
-    detail = detail.replace('\n','\\n');
-    detail = JSON.parse(detail.replace(/False/g,'false'));
     additional_price = parseInt({{additional_price}});
     act_booker_id = '{{booker.booker_seq_id}}';
-    passenger = `{{pax_count}}`;
-    passenger = passenger.replace(/&#39;/g,'"');
-    passenger = JSON.parse(passenger);
+
     upsell_price = {{upsell}};
-    booker = `{{booker}}`;
-    booker = booker.replace(/&#39;/g,'"');
-    booker = booker.replace(/True/g,'true');
-    booker = booker.replace(/False/g,'false');
-    booker = booker.replace(/None/g,'""');
-    booker = JSON.parse(booker);
 
-    contact = `{{contact_person}}`;
-    contact = contact.replace(/&#39;/g,'"');
-    contact = contact.replace(/True/g,'true');
-    contact = contact.replace(/False/g,'false');
-    contact = contact.replace(/None/g,'""');
-    contact = JSON.parse(contact);
-
-    all_pax = `{{all_pax}}`;
-    all_pax = all_pax.replace(/&#39;/g,'"');
-    all_pax = all_pax.replace(/True/g,'true');
-    all_pax = all_pax.replace(/False/g,'false');
-    all_pax = all_pax.replace(/None/g,'""');
-    all_pax = JSON.parse(all_pax);
     signature = `{{signature}}`;
-    locations = [];
-    images = [];
-    {% for i in response.locations %}
-        locations.push({
-            'country_name': '{{i.country_name}}',
-            'city_name': '{{i.city_name}}',
-            'state_name': '{{i.state_name}}'
-        })
-    {% endfor %}
-
-    {% for i in response.images %}
-        images.push({
-            'url': '{{i.url}}',
-            'path': '{{i.path}}',
-        })
-    {% endfor %}
-
-    highlights = `{{response.highlights}}`;
-
-    response = {
-        'locations':locations,
-        'images': images,
-        'additionalInfo': `{{response.additionalInfo}}`,
-        'uuid': '{{response.uuid}}',
-        'highlights': highlights.replace('&#39;', "'"),
-        'safety': `{{response.safety}}`,
-        'longitude': {{response.longitude}},
-        'latitude': {{response.latitude}},
-        'provider': '{{response.provider_code}}',
-        'description': `{{response.description}}`,
-        'warnings': `{{response.warnings}}`,
-        'priceExcludes': `{{response.priceExcludes}}`,
-        'minPax': {{response.minPax}},
-        'maxPax': {{response.maxPax}},
-        'businessHoursFrom': `{{response.businessHoursFrom}}`,
-        'businessHoursTo': `{{response.businessHoursTo}}`,
-        'name': '{{response.name}}',
-        'itinerary': `{{response.itinerary}}`,
-    };
     time_slot_pick = `{{timeslot_pick}}`;
     time_limit = {{time_limit}};
     last_session = 'review';
@@ -608,7 +532,7 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
-    activity_table_detail2('review');
+    activity_review_page();
     $(document).ready(function () {
         breadcrumb_create("activity", 5, 0);
     });

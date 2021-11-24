@@ -29,18 +29,7 @@
             "city": "{{airline.city}}"
         });
     {% endfor %}
-
-
-    titles = `{{titles}}`;
-    titles = JSON.parse(titles.replace(/&#39;/g, '"'));
-    countries = `{{countries}}`;
-    countries = countries.replace(/&quot;Côte d&#39;Ivoire&quot;/g, `"Cote D'Ivoire"`); //case khusus
-    countries = countries.replace(/&#39;/g, '"');
-    countries = countries.replace(/&quot;/g, '"');
-    countries = countries.replace(/False/g, 'false');
-    countries = countries.replace(/True/g, 'true');
-    countries = JSON.parse(countries);
-    signin_rodextrip('');
+    signature = `{{signature}}`;
     function check_years_old(sequence){
         var birth_date = '';
         birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD MMM YYYY');
@@ -2590,12 +2579,13 @@
 
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
+    issued_offline_page();
     try{
         document.getElementById('voucher_discount').style.display = 'none';
     }catch(err){}
     $( document ).ready(function() {
       $('.js-example-basic-single').select2();
-      get_data_issued_offline();
+
       //radio_button('booker');
       auto_complete('booker_nationality');
       auto_complete('booker_phone_code');
@@ -2617,11 +2607,7 @@
       document.getElementById('timelimit').value = '';
 
     });
-    try{
-        get_public_holiday(moment().format('YYYY-MM-DD'), moment().subtract(-1, 'years').format('YYYY-MM-DD'), 100 );
-    }catch(err){
-        console.log(err);
-    }
+
 </script>
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% endblock %}
