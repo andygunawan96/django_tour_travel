@@ -39,7 +39,7 @@
                                 <ul>
                             {% endif %}
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                {% if provider_type != 'payment' and  provider_type != 'bank' %}
+                                {% if provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
                             <li><a href="/{% if provider_type == 'phc' or provider_type == 'periksain' %}medical/{% endif %}{% if provider_type == 'medical' %}medical_global{% elif provider_type == 'labpintar' %}lab_pintar{% elif provider_type == 'swabexpress' %}swab_express{% else %}{{provider_type}}{% endif %}"><script>
                             temp = `{{provider_type}}`;
                             temp = temp.split('_');
@@ -49,7 +49,7 @@
                             document.write(data);</script></a></li>
                                 {% endif %}
                             {% else %}
-                                {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' and  provider_type != 'bank' %}
+                                {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
                             <li><a href="/{{provider_type}}"><script>
                             temp = `{{provider_type}}`;
                             temp = temp.split('_');
@@ -142,7 +142,7 @@
                                 <ul class="footer-nav">
                             {% endif %}
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                {% if provider_type != 'payment' and  provider_type != 'bank' %}
+                                {% if provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
                             <li><a href="/{% if provider_type == 'phc' or provider_type == 'periksain' %}medical/{% endif %}{{provider_type}}"><script>
                             temp = `{{provider_type}}`;
                             temp = temp.split('_');
@@ -152,7 +152,7 @@
                             document.write(data);</script></a></li>
                                 {% endif %}
                             {% else %}
-                                {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' and  provider_type != 'bank' %}
+                                {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
                             <li><a href="/{{provider_type}}"><script>
                             temp = `{{provider_type}}`;
                             temp = temp.split('_');
@@ -249,7 +249,7 @@
                             <ul class="footer-nav">
                         {% endif %}
                         {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                            {% if provider_type != 'payment' and  provider_type != 'bank' %}
+                            {% if provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
                         <li><a href="/{{provider_type}}"><script>
                         temp = `{{provider_type}}`;
                         temp = temp.split('_');
@@ -259,7 +259,7 @@
                         document.write(data);</script></a></li>
                             {% endif %}
                         {% else %}
-                            {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' and  provider_type != 'bank' %}
+                            {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
                         <li><a href="/{{provider_type}}"><script>
                         temp = `{{provider_type}}`;
                         temp = temp.split('_');
@@ -347,7 +347,7 @@
                                 <ul class="footer-nav">
                             {% endif %}
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                {% if provider_type != 'payment' and  provider_type != 'bank' %}
+                                {% if provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
                             <li><a href="/{{provider_type}}"><script>
                             temp = `{{provider_type}}`;
                             temp = temp.split('_');
@@ -357,7 +357,7 @@
                             document.write(data);</script></a></li>
                                 {% endif %}
                             {% else %}
-                                {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' and  provider_type != 'bank' %}
+                                {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
                             <li><a href="/{{provider_type}}"><script>
                             temp = `{{provider_type}}`;
                             temp = temp.split('_');
@@ -451,7 +451,7 @@
                                 <ul class="footer-nav">
                             {% endif %}
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                {% if provider_type != 'payment' and  provider_type != 'bank' %}
+                                {% if provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
                             <li><a href="/{{provider_type}}"><script>
                             temp = `{{provider_type}}`;
                             temp = temp.split('_');
@@ -461,7 +461,7 @@
                             document.write(data);</script></a></li>
                                 {% endif %}
                             {% else %}
-                                {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' and  provider_type != 'bank' %}
+                                {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
                             <li><a href="/{{provider_type}}"><script>
                             temp = `{{provider_type}}`;
                             temp = temp.split('_');
@@ -542,7 +542,7 @@
                         <ul style="font-size:15px;">
                             {% endif %}
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                            {% if provider_type != 'payment' and  provider_type != 'bank' %}
+                            {% if provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
                             <li><i class="fas fa-caret-right"></i><a href="/{{provider_type}}"><script>
                             temp = `{{provider_type}}`;
                             temp = temp.split('_');
@@ -552,7 +552,7 @@
                             document.write(data);</script></a></li>
                             {% endif %}
                             {% else %}
-                            {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' and  provider_type != 'bank' %}
+                            {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
                             <li><i class="fas fa-caret-right"></i><a href="/{{provider_type}}"><script>
                             temp = `{{provider_type}}`;
                             temp = temp.split('_');
