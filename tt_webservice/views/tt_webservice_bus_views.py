@@ -389,9 +389,7 @@ def commit_booking(request):
                     pax['nationality_code'] = country['code']
                     break
         passenger = []
-        pax_request_seat = request.POST.get('paxs')
-        if pax_request_seat:
-            pax_request_seat = json.loads(pax_request_seat)
+
         for pax_type in request.session['bus_create_passengers']:
             if pax_type != 'booker' and pax_type != 'contact':
                 for pax in request.session['bus_create_passengers'][pax_type]:
@@ -440,18 +438,6 @@ def commit_booking(request):
                     passenger.append(pax)
 
         schedules = request.session['bus_booking']
-        for schedule_count, schedule in enumerate(schedules):
-            for journey_count, journey in enumerate(schedule['journeys']):
-                if not journey.get('seat'):
-                    journey['seat'] = []
-                if pax_request_seat:
-                    for idx, request_seat in enumerate(pax_request_seat):
-                        if len(request_seat['seat_pick']) >= schedule_count:
-                            if request_seat['seat_pick'][schedule_count]['seat_code'] != '':
-                                journey['seat'].append(request_seat['seat_pick'][schedule_count])
-                                journey['seat'][len(journey['seat'])-1].update({
-                                    "sequence": idx+1
-                                })
         data = {
             "contacts": contacts,
             "passengers": passenger,
@@ -801,6 +787,7 @@ def review_page(request):
         res['response'] = request.session['bus_pick']
         res['passenger'] = request.session['bus_create_passengers']
         res['bus_request'] = request.session['bus_request']
+        res['bus_booking'] = request.session['bus_booking']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
