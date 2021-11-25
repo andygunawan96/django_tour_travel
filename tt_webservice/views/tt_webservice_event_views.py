@@ -579,7 +579,7 @@ def page_review(request):
         res['booker'] = pax['booker']
         res['contact'] = pax['contact']
         res['event_option_code'] = request.session['event_option_code' + request.session['event_signature']]
-        res['event_extra_question'] = request.session['event_json_printout' + request.session['event_signature']]['price_lines']
+        res['event_extra_question'] = json.loads(request.session['event_json_printout' + request.session['event_signature']])['price_lines']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

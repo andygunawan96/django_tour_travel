@@ -185,6 +185,7 @@
                                         <th>{% trans 'Pax Type' %}</th>
                                         <th>{% trans 'ID Type' %}</th>
                                         <th>{% trans 'ID Number' %}</th>
+                                        <th>{% trans 'Seat' %}</th>
                                     </tr>
                                     {% for adult in passenger.adult%}
                                     <tr>
@@ -199,6 +200,7 @@
                                             {% endfor%}
                                         </td>
                                         <td>{{adult.identity_number}}</td>
+                                        <td id="seat_adult{{forloop.counter}}"></td>
                                     </tr>
                                     {% endfor %}
 
@@ -209,6 +211,7 @@
                                         <td>{% trans 'Infant' %}</td>
                                         <td></td>
                                         <td>{{infant.identity_number}}</td>
+                                        <td id="seat_infant{{forloop.counter}}"></td>
                                     </tr>
                                     {% endfor %}
                                 </table>
@@ -357,15 +360,6 @@
     function bus_seat_map(){
         document.getElementById('seat_map_request').innerHTML += `{% csrf_token %}`;
         document.getElementById('seat_map_request').submit();
-    }
-    var print_seat = false;
-    for(i in bus_data){
-        if(bus_data[i].available_seat_map)
-            print_seat = true;
-    }
-    if(print_seat){
-        document.getElementById('seat_map_div_mb').hidden = false;
-        document.getElementById('seat_map_div_wb').hidden = false;
     }
 </script>
 
