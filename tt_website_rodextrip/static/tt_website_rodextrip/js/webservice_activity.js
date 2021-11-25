@@ -306,6 +306,67 @@ function activity_login(data, type=''){
     });
 }
 
+function activity_passenger_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/activity",
+       headers:{
+            'action': 'passenger_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            price = msg.price;
+            detail = msg.detail;
+            passenger = msg.pax_count;
+            activity_pax_data = msg.activity_pax_data;
+            highlights = msg.highlights;
+            response = msg.response;
+            activity_table_detail2('passenger')
+
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
+            $('#loading-search-hotel').hide();
+       },timeout: 180000
+   });
+}
+
+function activity_review_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/activity",
+       headers:{
+            'action': 'review_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            pax_count = msg.pax_count;
+            printout_paxs = msg.printout_paxs;
+            printout_prices = msg.printout_prices;
+            price = msg.price;
+            detail = msg.options;
+            passenger = msg.pax_count;
+            booker = msg.booker;
+            contact = msg.contact_person;
+            all_pax = msg.all_pax;
+            highlights = msg.highlights;
+            response = msg.response;
+
+            activity_table_detail2('review');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
+            $('#loading-search-hotel').hide();
+       },timeout: 180000
+   });
+}
+
 function get_carriers_activity(){
     $.ajax({
        type: "POST",

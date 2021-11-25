@@ -463,6 +463,31 @@ function hotel_search(){
    });
 }
 
+function hotel_detail_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/hotel",
+       headers:{
+            'action': 'detail_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            facilities = msg.facilities;
+            hotel_search_data = JSON.stringify(msg.hotel_search);
+            hotel_facility_request(facilities);
+            var firstDate = msg.check_in;
+            var secondDate = msg.check_out;
+            hotel_detail_request(moment(firstDate).format('DD MMM YYYY'), moment(secondDate).format('DD MMM YYYY'));
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
+            $('#loading-search-hotel').hide();
+       },timeout: 180000
+   });
+}
+
 function hotel_review_page(){
     $.ajax({
        type: "POST",
@@ -696,6 +721,7 @@ function hotel_detail_request(checkin_date, checkout_date){
             document.getElementById('hotel_detail_table').innerHTML = '';
             document.getElementById("select_copy_all").innerHTML = '';
             $('#loading-detail-hotel').hide();
+            off_overlay();
             console.log(msg);
             //show package
             if(msg.result.error_code == 0){

@@ -19,11 +19,7 @@
     vendor = `{{vendor}}`;
     test_type = `{{test_type}}`;
 
-    passengers = `{{passenger_booker}}`;
-    passengers = passengers.replace(/&#39;/g, '"');
-    passengers = passengers.replace(/True/g, true);
-    passengers = passengers.replace(/False/g, false);
-    passengers = JSON.parse(passengers);
+
 </script>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
@@ -391,15 +387,12 @@
         $text += 'Name: {{adult.title}} {{adult.first_name}} {{adult.last_name}}\n';
         $text += 'Birth Date: {{adult.birth_date}}\n';
         $text += '{{adult.identity.identity_type}}: {{adult.identity.identity_number}}\n';
-        {% if vendor == 'periksain' %}
-        $text += 'Sample Method: {{adult.sample_method}}\n';
-        {% endif %}
     {% endfor %}
     $text += `\n`;
     get_config_lab_pintar('review','{{vendor}}');
     $( document ).ready(function() {
         breadcrumb_create("medical", 3, 0);
-        lab_pintar_get_cache_price();
+        lab_pintar_page_review();
         $('.loader-rodextrip').fadeOut();
     });
     function goto_edit_passenger(){

@@ -160,6 +160,54 @@ function tour_login(data, type=''){
     });
 }
 
+function tour_page_search(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/tour",
+       headers:{
+            'action': 'page_search',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            tour_request = msg.tour_request;
+            tour_login('');
+            get_dept_year();
+            tour_filter_render();
+            get_tour_auto_complete('search');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data swab express');
+       },timeout: 300000
+    });
+}
+
+function tour_page_review(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/tour",
+       headers:{
+            'action': 'page_review',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            all_pax = msg.all_pax;
+
+            booker = msg.booker;
+
+            get_price_itinerary_cache('review');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data swab express');
+       },timeout: 300000
+    });
+}
+
 function get_carriers_tour(){
     $.ajax({
        type: "POST",

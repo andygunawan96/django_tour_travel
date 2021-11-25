@@ -96,6 +96,94 @@ function passport_signin(data){
     });
 }
 
+function passport_page_passenger(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/passport",
+       headers:{
+            'action': 'page_passenger',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            passenger = msg.passenger;
+            passport = msg.passport;
+            passport_request = msg.passport_request;
+            adult = passenger.adult;
+            child = 0;
+            infant = 0;
+            update_table('passenger');
+            for (var i = 1; i <= adult; i++){
+                  document.getElementById("train_adult"+i+"_search").addEventListener("keyup", function(event) {
+                    if (event.keyCode === 13) {
+                     event.preventDefault();
+                     var adult_enter = "search_adult_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                     document.getElementById(adult_enter).click();
+                    }
+                  });
+
+                  $('input[name="adult_birth_date'+i+'"]').daterangepicker({
+                      singleDatePicker: true,
+                      autoUpdateInput: true,
+                      startDate: moment().subtract(18, 'years'),
+                      showDropdowns: true,
+                      opens: 'center',
+                      locale: {
+                          format: 'DD MMM YYYY',
+                      }
+                  });
+                  //$('input[name="adult_birth_date'+i+'"]').val("");
+
+                  $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
+                      singleDatePicker: true,
+                      autoUpdateInput: true,
+                      startDate: moment(),
+                      minDate: moment(),
+                      showDropdowns: true,
+                      opens: 'center',
+                      locale: {
+                          format: 'DD MMM YYYY',
+                      }
+                  });
+                  $('input[name="adult_passport_expired_date'+i+'"]').val("");
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
+       },timeout: 300000
+    });
+}
+
+function passport_page_review(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/passport",
+       headers:{
+            'action': 'page_review',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            passenger = msg.passengers;
+
+            passport_request = msg.passport_request;
+
+            adult = passenger.adult;
+            passport = msg.passport;
+
+            for(i in passenger.adult)
+                set_value_radio_first('adult',parseInt(i)+1);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
+       },timeout: 300000
+    });
+}
+
 function get_carriers_passport(){
     $.ajax({
        type: "POST",

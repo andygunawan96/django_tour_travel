@@ -18,64 +18,8 @@
     child = {{child_count}};
     infant = {{infant_count}};
     time_slot_pick = `{{timeslot_pick}}`;
-    price = `{{price}}`;
-    price = price.replace(/&#39;/g,'"');
-    price = JSON.parse(price.replace(/True/g,'true'));
-
-    detail = `{{detail.options}}`;
-    detail = detail.replace(/&#39;/g,'"');
-    detail = detail.replace(/True/g,'true');
-    detail = detail.replace('\n','\\n');
-    detail = JSON.parse(detail.replace(/False/g,'false'));
     additional_price = parseInt({{additional_price}});
-    passenger = `{{pax_count}}`;
-    passenger = passenger.replace(/&#39;/g,'"');
-    passenger = JSON.parse(passenger);
-    activity_pax_data = `{{activity_pax_data}}`;
-    activity_pax_data = activity_pax_data.replace(/&#39;/g,'"');
-    activity_pax_data = activity_pax_data.replace(/True/g,'true');
-    activity_pax_data = activity_pax_data.replace('\n','\\n');
-    activity_pax_data = JSON.parse(activity_pax_data.replace(/False/g,'false'));
-    console.log(activity_pax_data);
-    locations = [];
-    images = [];
-    {% for i in response.locations %}
-        locations.push({
-            'country_name': '{{i.country_name}}',
-            'city_name': '{{i.city_name}}',
-            'state_name': '{{i.state_name}}'
-        })
-    {% endfor %}
 
-    {% for i in response.images %}
-        images.push({
-            'url': '{{i.url}}',
-            'path': '{{i.path}}',
-        })
-    {% endfor %}
-
-    highlights = `{{response.highlights}}`;
-
-    response = {
-        'locations':locations,
-        'images': images,
-        'additionalInfo': `{{response.additionalInfo}}`,
-        'uuid': '{{response.uuid}}',
-        'highlights': highlights.replace('&#39;', "'"),
-        'safety': `{{response.safety}}`,
-        'longitude': {{response.longitude}},
-        'latitude': {{response.latitude}},
-        'provider': '{{response.provider}}',
-        'description': `{{response.description}}`,
-        'warnings': `{{response.warnings}}`,
-        'priceExcludes': `{{response.priceExcludes}}`,
-        'minPax': {{response.minPax}},
-        'maxPax': {{response.maxPax}},
-        'businessHoursFrom': `{{response.businessHoursFrom}}`,
-        'businessHoursTo': `{{response.businessHoursTo}}`,
-        'name': '{{response.name}}',
-        'itinerary': `{{response.itinerary}}`,
-    };
 
     //check years old
     function check_years_old(sequence, type){
@@ -8093,7 +8037,7 @@
 {% endif %}
 
 <script>
-    activity_table_detail2('passenger')
+    activity_passenger_page();
     $( document ).ready(function() {
       breadcrumb_create("activity", 4, 0);
       $('.js-example-basic-single').niceSelect('destroy');

@@ -17,15 +17,13 @@
         'arrival_time': 'all',
         'cabin_class': 'all'
     };
-    bus_request = `{{bus_request}}`;
-    bus_request = JSON.parse(bus_request.replace(/&#39;/g, '"'));
+
     bus_request_pick = 0;
-    console.log(bus_request);
     time_limit = {{time_limit}};
     session_time_limit();
     signature = `{{signature}}`;
     sorting_value = '';
-    get_bus_config();
+
     passengers = {
         'adult': {{bus_request.adult}},
     }
@@ -1851,7 +1849,7 @@
     });
 
     //bus_filter_render();
-    bus_signin('');
+    bus_search_page();
     try{
         get_public_holiday(moment().format('YYYY-MM-DD'), moment().subtract(-1, 'years').format('YYYY-MM-DD'), 100 );
     }catch(err){

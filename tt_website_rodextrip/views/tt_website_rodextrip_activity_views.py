@@ -1345,6 +1345,8 @@ def review(request):
                 ],
             }
             set_session(request, 'activity_json_printout' + request.session['activity_signature'], printout_rec)
+            set_session(request, 'printout_paxs' + request.session['activity_signature'], printout_paxs)
+            set_session(request, 'printout_prices' + request.session['activity_signature'], printout_prices)
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser

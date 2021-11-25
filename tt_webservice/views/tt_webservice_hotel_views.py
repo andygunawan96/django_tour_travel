@@ -79,6 +79,8 @@ def api_models(request):
             res = update_service_charge(request)
         elif req_data['action'] == 'review_page':
             res = review_page(request)
+        elif req_data['action'] == 'detail_page':
+            res = detail_page(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -782,6 +784,18 @@ def review_page(request):
         res['hotel_price'] = request.session['hotel_room_pick']
         res['cancellation_policy'] = request.session['hotel_cancellation_policy']['result']['response']['policies']
 
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def detail_page(request):
+    try:
+        res = {}
+        data = request.session.get('hotel_request')
+        res['facilities'] = request.session['hotel_detail']['facilities']
+        res['hotel_search'] = data
+        res['check_in'] = data['checkin_date']
+        res['check_out'] = data['checkout_date']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
