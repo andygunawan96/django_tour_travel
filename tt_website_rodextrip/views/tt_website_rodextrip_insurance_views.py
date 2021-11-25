@@ -152,67 +152,6 @@ def search(request):
     else:
         return no_session_logout(request)
 
-def detail(request, activity_uuid):
-    if 'user_account' in request.session._session:
-        try:
-            javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
-            airline_country = response['result']['response']['airline']['country']
-            phone_code = []
-            for i in airline_country:
-                if i['phone_code'] not in phone_code:
-                    phone_code.append(i['phone_code'])
-            phone_code = sorted(phone_code)
-
-            values = get_data_template(request, 'search')
-
-            try:
-                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
-            except:
-                if request.session.get('time_limit'):
-                    set_session(request, 'time_limit', request.session['time_limit'])
-                else:
-                    set_session(request, 'time_limit', 1200)
-
-            if translation.LANGUAGE_SESSION_KEY in request.session:
-                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-
-            if not request.session.get('insurance_search_request'):
-                set_session(request, 'insurance_search_request', {
-                    'query': '',
-                    'country': 0,
-                    'city': 0,
-                    'type': 0,
-                    'category': 0,
-                    'sub_category': 0,
-                })
-
-            values.update({
-                'static_path': path_util.get_static_path(MODEL_NAME),
-                # 'response': request.session['activity_search'][request.session['activity_pick_seq']],
-                'username': request.session['user_account'],
-                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-                'countries': airline_country,
-                'phone_code': phone_code,
-                'activity_uuid': activity_uuid,
-                'query': request.session['activity_search_request']['query'],
-                'parsed_country': request.session['activity_search_request']['country'],
-                'parsed_city': request.session['activity_search_request']['city'],
-                'parsed_type': request.session['activity_search_request']['type'],
-                'parsed_category': request.session['activity_search_request']['category'],
-                'parsed_sub_category': request.session['activity_search_request']['sub_category'],
-                'javascript_version': javascript_version,
-                'signature': request.session.get('activity_signature') and request.session['activity_signature'] or '',
-                'time_limit': request.session.get('time_limit') and request.session['time_limit'] or 1200,
-                'static_path_url_server': get_url_static_path(),
-            })
-        except Exception as e:
-            _logger.error(str(e) + '\n' + traceback.format_exc())
-            raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME+'/insurance/insurance_detail_templates.html', values)
-    else:
-        return no_session_logout(request)
 
 def passenger(request):
     if 'user_account' in request.session._session:
@@ -241,7 +180,7 @@ def passenger(request):
             try:
                 set_session(request, 'time_limit', int(request.POST['time_limit_input']))
                 set_session(request, 'insurance_pick', json.loads(request.POST['data_insurance']))
-                set_session(request, 'insurance_signature', request.POST['signature'])
+                set_session(request, 'insurance_signature', request.POST['signature_data'])
             except:
                 pass
 

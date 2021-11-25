@@ -57,6 +57,50 @@ function lab_pintar_signin(data){
 
 }
 
+function lab_pintar_page_passenger(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/lab_pintar",
+       headers:{
+            'action': 'page_passenger',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            titles = msg.titles;
+            countries = msg.countries;
+            get_list_report_footer();
+            lab_pintar_signin('passenger');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
+       },timeout: 300000
+    });
+}
+
+function lab_pintar_page_review(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/lab_pintar",
+       headers:{
+            'action': 'page_review',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            passengers = msg.passenger;
+            lab_pintar_get_cache_price();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
+       },timeout: 300000
+    });
+}
+
 function get_config_lab_pintar(type){
     $.ajax({
        type: "POST",
@@ -384,23 +428,29 @@ function lab_pintar_get_cache_price(){
                 <div style="background-color:white; padding:10px; margin-bottom:15px;">
                     <h5> Price Detail</h5>
                 <hr/>`;
+                price_list = {
+                    "fare": {
+                        "amount":0,
+                        "currency":'',
+                        "pax_count":0,
+                    }
+                };
                 for(i in msg.result.response.service_charges){
-                    if(msg.result.response.service_charges[i].charge_code != 'rac'){
-                        if(msg.result.response.service_charges[i].charge_code == 'fare')
-                            charge_code = 'FARE';
-                        else if(msg.result.response.service_charges[i].charge_code == 'adm')
-                            charge_code = 'Admin Fee Drive Thru';
-                        text+=`
-                        <div class="row" style="margin-bottom:5px;">
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                <span style="font-size:12px;">`+msg.result.response.service_charges[i].pax_count+`x `+charge_code+` @IDR `+getrupiah(msg.result.response.service_charges[i].amount)+`</span>`;
-                    text+=`</div>
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.service_charges[i].total_amount)+`</span></b>
-                            </div>
-                        </div>`;
+                    if(msg.result.response.service_charges[i].charge_type != 'RAC' && msg.result.response.service_charges[i].charge_code != "fare_address_charge"){
+                        price_list['fare']['amount'] += msg.result.response.service_charges[i].amount;
+                        price_list['fare']['pax_count'] = msg.result.response.service_charges[i].pax_count;
+                        price_list['fare']['currency'] = msg.result.response.service_charges[i].currency;
                     }
                 }
+                text+=`
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">`+price_list['fare']['pax_count']+`x Fare @IDR `+getrupiah(price_list['fare']['amount'])+`</span>`;
+                    text+=`</div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                <b><span style="font-size:13px;">IDR `+getrupiah(price_list['fare']['amount']*price_list['fare']['pax_count'])+`</span></b>
+                            </div>
+                        </div>`;
                 text+=`
                     <div class="row" style="margin-bottom:5px;">
                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">

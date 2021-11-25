@@ -18,15 +18,7 @@
     //session_time_limit();
     test_time = 1;
     counter_passenger = 0;
-    titles = `{{titles}}`;
-    titles = JSON.parse(titles.replace(/&#39;/g, '"'));
-    countries = `{{countries}}`;
-    countries = countries.replace(/&quot;Côte d&#39;Ivoire&quot;/g, `"Cote D'Ivoire"`); //case khusus
-    countries = countries.replace(/&#39;/g, '"');
-    countries = countries.replace(/&quot;/g, '"');
-    countries = countries.replace(/False/g, 'false');
-    countries = countries.replace(/True/g, 'true');
-    countries = JSON.parse(countries);
+
     google_api_key = '{{google_api_key}}';
     total_passengers_rebooking = {{total_passengers_rebooking}};
     global_zip_code = '';
@@ -3277,7 +3269,6 @@
     use_google_map = false;
     last_counter = 0;
     vendor = `{{vendor}}`;
-    get_list_report_footer();
     alamat_ss = 'Jl. Boulevard Famili Sel. No.Kav. 1, Babatan, Kec. Wiyung, Kota SBY, Jawa Timur 60227';
     test_type = `{{test_type}}`;
 
@@ -3291,7 +3282,7 @@
       $('.js-example-basic-single').select2();
       auto_complete('booker_nationality');
       auto_complete('booker_phone_code');
-      lab_pintar_signin('passenger');
+      lab_pintar_page_passenger();
     });
     $(function() {
       breadcrumb_create("medical", 2, 0);

@@ -13,38 +13,7 @@
 
 <script>
     static_path_url_server = '{{static_path_url_server}}'
-    bus_data = `{{response}}`;
-    bus_data = bus_data.replace(/&#39;/g, '"');
-    bus_data = bus_data.replace(/True/g, 'true');
-    bus_data = bus_data.replace(/False/g, 'false');
-    bus_data = bus_data.replace(/None/g, '""');
-    bus_data = JSON.parse(bus_data);
-    console.log(bus_data);
-    bus_carriers = `{{bus_carriers}}`;
-    bus_carriers = bus_carriers.replace(/&#39;/g, '"');
-    bus_carriers = bus_carriers.replace(/&quot;/g, '"');
-    bus_carriers = bus_carriers.replace(/False/g, 'false');
-    bus_carriers = bus_carriers.replace(/None/g, '""');
-    bus_carriers = bus_carriers.replace(/True/g, 'true');
-
-    bus_response = `{{response}}`;
-    bus_response = bus_response.replace(/&#39;/g, '"');
-    bus_response = bus_response.replace(/&quot;/g, '"');
-    bus_response = bus_response.replace(/False/g, 'false');
-    bus_response = bus_response.replace(/True/g, 'true');
-    bus_response = bus_response.replace(/None/g, '""');
-
-    bus_response = JSON.parse(bus_response);
-    birth_date_required = false;
-    /*for(j in bus_data){
-       if(birth_date_required == false){
-            birth_date_required = bus_carriers[bus_data[j].carrier_code].is_adult_birth_date_required;
-       }
-    }*/
-
-    bus_request = `{{bus_request}}`;
-    bus_request = JSON.parse(bus_request.replace(/&#39;/g, '"'));
-    console.log(bus_request);
+    birth_date_required = true;
     adult = {{bus_request.adult}};
     infant = 0;
     child = 0;
@@ -4394,9 +4363,9 @@
 {% include 'tt_website_rodextrip/modal_signin_signup.html' %}
 {% endif %}
 <script>
-    bus_detail();
-    $( document ).ready(function() {
 
+    $( document ).ready(function() {
+      bus_passenger_page();
       $('.js-example-basic-single').niceSelect('destroy');
       $('.js-example-basic-single').select2();
       auto_complete('booker_nationality');
@@ -4413,45 +4382,7 @@
     });
     $(function() {
       breadcrumb_create("bus", 3, 0);
-      for (var i = 1; i <= adult; i++){
-          document.getElementById("bus_adult"+i+"_search").addEventListener("keyup", function(event) {
-            if (event.keyCode === 13) {
-             event.preventDefault();
-             var adult_enter = "search_adult_"+event.target.id.toString().replace(/[^\d.]/g, '');
-             document.getElementById(adult_enter).click();
-            }
-          });
-          $('input[name="adult_birth_date'+i+'"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              startDate: moment().subtract(18, 'years'),
-              minDate: moment(bus_request.departure[bus_request.departure.length-1],'DD MMM YYYY').subtract(100, 'years'),
-              maxDate: moment(bus_request.departure[bus_request.departure.length-1],'DD MMM YYYY').subtract(3, 'years'),
-              showDropdowns: true,
-              opens: 'center',
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
-          });
-          if(birth_date_required == false)
-              $('input[name="adult_birth_date'+i+'"]').val("");
-
-          $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              startDate: moment(),
-              minDate: moment(),
-              showDropdowns: true,
-              opens: 'center',
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
-          });
-          $('input[name="adult_passport_expired_date'+i+'"]').val("");
-      }
-
-
-  });
+    });
     {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" %}
         get_automatic_booker('{{username.co_customer_seq_id}}');
     {% endif %}

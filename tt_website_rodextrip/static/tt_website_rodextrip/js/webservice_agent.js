@@ -5475,3 +5475,23 @@ function print_success_issued(){
       }
    })
 }
+
+function change_identity_type(id){
+    try{
+        if(is_identity_required == 'true'){
+            //KALAU ADA BINTANG TETAP ADA TIDAK ADA YG BERUBAH
+        }else if(document.getElementById(id).value == 'ktp'){
+            document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'white';
+            document.getElementById(id.replace('id_type','identity_number_required')).style.color = 'red';
+            document.getElementById(id.replace('id_type','country_of_issued_required')).style.color = 'red';
+        }else if(document.getElementById(id).value == 'passport'){
+            document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'red';
+            document.getElementById(id.replace('id_type','identity_number_required')).style.color = 'red';
+            document.getElementById(id.replace('id_type','country_of_issued_required')).style.color = 'red';
+        }else{
+            document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'white';
+            document.getElementById(id.replace('id_type','identity_number_required')).style.color = 'white';
+            document.getElementById(id.replace('id_type','country_of_issued_required')).style.color = 'white';
+        }
+    }catch(err){console.log(err)}
+}

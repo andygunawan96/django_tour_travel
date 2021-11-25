@@ -150,6 +150,154 @@ function bus_signin(data){
     });
 }
 
+function bus_search_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/bus",
+       headers:{
+            'action': 'search_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            bus_request = msg.bus_request;
+            get_bus_config();
+            bus_signin('');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
+            $('#loading-search-hotel').hide();
+       },timeout: 180000
+   });
+}
+
+function bus_search_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/bus",
+       headers:{
+            'action': 'search_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            bus_request = msg.bus_request;
+            get_bus_config();
+            bus_signin('');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
+            $('#loading-search-hotel').hide();
+       },timeout: 180000
+   });
+}
+
+function bus_passenger_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/bus",
+       headers:{
+            'action': 'passenger_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            bus_data = msg.response;
+            bus_carriers = msg.bus_carriers;
+
+            bus_response = msg.response;
+
+            bus_request = msg.bus_request;
+            bus_detail();
+            for (var i = 1; i <= adult; i++){
+              document.getElementById("bus_adult"+i+"_search").addEventListener("keyup", function(event) {
+                if (event.keyCode === 13) {
+                 event.preventDefault();
+                 var adult_enter = "search_adult_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                 document.getElementById(adult_enter).click();
+                }
+              });
+              $('input[name="adult_birth_date'+i+'"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  startDate: moment().subtract(18, 'years'),
+                  minDate: moment(bus_request.departure[bus_request.departure.length-1],'DD MMM YYYY').subtract(100, 'years'),
+                  maxDate: moment(bus_request.departure[bus_request.departure.length-1],'DD MMM YYYY').subtract(3, 'years'),
+                  showDropdowns: true,
+                  opens: 'center',
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+              });
+              if(birth_date_required == false)
+                  $('input[name="adult_birth_date'+i+'"]').val("");
+
+              $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  startDate: moment(),
+                  minDate: moment(),
+                  showDropdowns: true,
+                  opens: 'center',
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+              });
+              $('input[name="adult_passport_expired_date'+i+'"]').val("");
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
+            $('#loading-search-hotel').hide();
+       },timeout: 180000
+   });
+}
+
+function bus_review_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/bus",
+       headers:{
+            'action': 'review_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            bus_data = msg.response;
+
+            passengers = msg.passenger;
+            passenger_with_booker = JSON.parse(JSON.stringify(passengers));
+            console.log(passengers);
+
+            adult = passengers.adult
+
+            infant = passengers.infant;
+            passengers = {
+                'adult': adult,
+                'infant': infant
+            }
+            bus_request = msg.bus_request;
+            adult = bus_request.adult;
+            infant = 0;
+            child = 0;
+
+            bus_detail();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
+            $('#loading-search-hotel').hide();
+       },timeout: 180000
+   });
+}
+
 function get_bus_config(){
     getToken();
     $.ajax({

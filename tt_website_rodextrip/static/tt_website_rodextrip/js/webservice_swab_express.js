@@ -57,6 +57,50 @@ function swab_express_signin(data){
 
 }
 
+function swab_express_page_passenger(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/swab_express",
+       headers:{
+            'action': 'page_passenger',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            titles = msg.titles;
+            countries = msg.countries;
+            get_list_report_footer();
+            swab_express_signin('passenger');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data swab express');
+       },timeout: 300000
+    });
+}
+
+function swab_express_page_review(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/swab_express",
+       headers:{
+            'action': 'page_review',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            passengers = msg.passenger;
+            swab_express_get_cache_price();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data swab express');
+       },timeout: 300000
+    });
+}
+
 function get_config_swab_express(type){
     $.ajax({
        type: "POST",

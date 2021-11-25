@@ -362,11 +362,11 @@ def commit_booking(request):
                         if pax['data_insurance'][type]:
                             if type == 'relation': #LIST RELASI
                                 for rec in pax['data_insurance'][type]:
-                                    rec['data_insurance'][type].update({
+                                    rec.update({
                                         'birth_date': '%s-%s-%s' % (
-                                            rec['data_insurance'][type]['birth_date'].split(' ')[2],
-                                            month[rec['data_insurance'][type]['birth_date'].split(' ')[1]],
-                                            rec['data_insurance'][type]['birth_date'].split(' ')[0]),
+                                            rec['birth_date'].split(' ')[2],
+                                            month[rec['birth_date'].split(' ')[1]],
+                                            rec['birth_date'].split(' ')[0]),
                                     })
                             if type == 'beneficiary': #DICT AHLI WARIS
                                 if pax['data_insurance'][type]['birth_date'] != '':

@@ -85,6 +85,10 @@ def api_models(request):
             res = get_booking(request)
         elif req_data['action'] == 'update_service_charge':
             res = update_service_charge(request)
+        elif req_data['action'] == 'page_passenger':
+            res = page_passenger(request)
+        elif req_data['action'] == 'page_review':
+            res = page_review(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -515,6 +519,26 @@ def update_service_charge(request):
             _logger.info("SUCCESS update_service_charge PASSPORT SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge PASSPORT SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def page_passenger(request):
+    try:
+        res = {}
+        res['passenger'] = request.session['passport_passenger']
+        res['passport'] = request.session['passport_search']['result']['response']
+        res['passport_request'] = request.session['passport_request']
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def page_review(request):
+    try:
+        res = {}
+        res['passengers'] = request.session['passport_create_passengers']
+        res['passport_request'] = request.session['passport_request']
+        res['passport'] = request.session['passport_search']['result']['response']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

@@ -161,7 +161,7 @@ def api_models(request):
         elif req_data['action'] == 'get_reschedule_availability_v2':
             res = get_reschedule_availability_v2(request)
         elif req_data['action'] == 'sell_reschedule_v2':
-            res = sell_reschedule_v2(request, False, 1)
+            res = sell_reschedule_v2(request)
 
         elif req_data['action'] == 'split_booking_v2':
             res = split_booking_v2(request)
@@ -3247,7 +3247,7 @@ def get_reschedule_availability_v2(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
-def sell_reschedule_v2(request,boolean, counter):
+def sell_reschedule_v2(request):
     try:
         schedules = []
         journeys = []
@@ -3259,15 +3259,16 @@ def sell_reschedule_v2(request,boolean, counter):
         for pax in data_booking['result']['response']['passengers']:
             passenger.append({'passenger_number': pax['sequence']})
         pnr_list = json.loads(request.POST['pnr'])
-
+        last_pnr = ''
         for idx, journey in enumerate(journey_booking):
-            if boolean == True:
-                # NO COMBO
+            # NO COMBO
+            if len(pnr_list) == len(journey_booking):
                 journeys.append({'segments': journey['segments']})
                 try:
-                    schedules.append({'journeys': journeys, 'pnr': pnr_list[idx]})
+                    schedules.append({'journeys': journeys, 'pnr': pnr_list[idx], 'passengers': passenger})
+                    last_pnr = pnr_list[idx]
                 except:
-                    schedules.append({'journeys': journeys})
+                    schedules.append({'journeys': journeys, 'pnr': last_pnr, 'passengers': passenger})
                 journeys = []
             else:
                 # COMBO
@@ -3399,13 +3400,7 @@ def sell_reschedule_v2(request,boolean, counter):
                                     'destination_name': destination['name'],
                                 })
                                 break
-    elif boolean == True:
-        pass
-    else:
-        counter += 1
-        if counter < 3:
-            res = sell_reschedule_v2(request, True, counter)
-        boolean = True
+
     return res
 
 def split_booking_v2(request):

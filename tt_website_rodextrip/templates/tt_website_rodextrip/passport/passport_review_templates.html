@@ -15,21 +15,10 @@
 
 <script>
     static_path_url_server = '{{static_path_url_server}}'
-    passenger = `{{passengers}}`;
-    passenger = passenger.replace(/&#39;/g, '"');
-    passenger = passenger.replace(/True/g, true);
-    passenger = passenger.replace(/False/g, false);
-    passenger = JSON.parse(passenger);
-    passport_request = `{{passport_request}}`;
+
     signature = `{{signature}}`;
-    passport_request = JSON.parse(passport_request.replace(/&#39;/g, '"'));
+
     upsell_price = {{upsell}};
-    adult = passenger.adult;
-    passport = `{{passport}}`;
-    passport = passport.replace(/True/g, 'true');
-    passport = passport.replace(/False/g, 'false');
-    passport = JSON.parse(passport.replace(/&#39;/g, '"'));
-    console.log(passport);
     time_limit = {{time_limit}};
     session_time_limit();
 </script>
@@ -439,14 +428,7 @@
     $( document ).ready(function() {
         breadcrumb_create("visa", 4, 0);
         $('select').niceSelect();
-        for(i in passenger.adult)
-            set_value_radio_first('adult',parseInt(i)+1);
-        for(i in passenger.child)
-            set_value_radio_first('child',parseInt(i)+1);
-        for(i in passenger.infant)
-            set_value_radio_first('infant',parseInt(i)+1);
-        for(i in passenger.elder)
-            set_value_radio_first('elder',parseInt(i)+1);
+        passport_page_review();
         get_payment_acq('Issued','{{passengers.booker.booker_seq_id}}', '', 'billing',signature,'passport');
     });
 

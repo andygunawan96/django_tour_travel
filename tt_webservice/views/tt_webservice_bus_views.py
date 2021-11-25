@@ -76,6 +76,12 @@ def api_models(request):
             res = cancel(request)
         elif req_data['action'] == 'update_service_charge':
             res = update_service_charge(request)
+        elif req_data['action'] == 'search_page':
+            res = search_page(request)
+        elif req_data['action'] == 'passenger_page':
+            res = passenger_page(request)
+        elif req_data['action'] == 'review_page':
+            res = review_page(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -764,4 +770,37 @@ def assign_seats(request):
                 }]
             }
         }
+    return res
+
+def search_page(request):
+    try:
+        res = {}
+        res['bus_request'] = request.session['bus_request']
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def passenger_page(request):
+    try:
+        res = {}
+        res['response'] = request.session['bus_pick']
+        carrier = {}
+        file = read_cache_with_folder_path("get_bus_config", 90911)
+        if file:
+            carrier = file
+        res['bus_carriers'] = carrier
+        res['response'] = request.session['bus_pick']
+        res['bus_request'] = request.session['bus_request']
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def review_page(request):
+    try:
+        res = {}
+        res['response'] = request.session['bus_pick']
+        res['passenger'] = request.session['bus_create_passengers']
+        res['bus_request'] = request.session['bus_request']
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

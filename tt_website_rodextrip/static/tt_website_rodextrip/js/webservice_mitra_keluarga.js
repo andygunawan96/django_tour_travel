@@ -57,6 +57,50 @@ function mitra_keluarga_signin(data){
 
 }
 
+function mitra_keluarga_page_passenger(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/mitra_keluarga",
+       headers:{
+            'action': 'page_passenger',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            titles = msg.titles;
+            countries = msg.countries;
+            get_list_report_footer();
+            mitra_keluarga_signin('passenger');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data mitra keluarga');
+       },timeout: 300000
+    });
+}
+
+function mitra_keluarga_page_review(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/mitra_keluarga",
+       headers:{
+            'action': 'page_review',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            passengers = msg.passenger;
+            mitra_keluarga_get_cache_price();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data mitra keluarga');
+       },timeout: 300000
+    });
+}
+
 function get_config_mitra_keluarga(type){
     $.ajax({
        type: "POST",

@@ -87,7 +87,10 @@ def api_models(request):
             res = confirm_order(request)
         elif req_data['action'] == 'update_service_charge':
             res = update_service_charge(request)
-
+        elif req_data['action'] == 'page_passenger':
+            res = page_passenger(request)
+        elif req_data['action'] == 'page_review':
+            res = page_review(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -800,6 +803,29 @@ def update_service_charge(request):
             _logger.info("SUCCESS update_service_charge TRAIN SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def page_passenger(request):
+    try:
+        cache_version = get_cache_version()
+        res = {
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+        }
+        response = get_cache_data(cache_version)
+        res['countries'] = response['result']['response']['airline']['country']
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def page_review(request):
+    try:
+        res = {}
+        data = request.session['lab_pintar_data_%s' % request.POST['signature']]
+        res['passenger'] = {
+            "booker_seq_id": data['booker']['booker_seq_id']
+        }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

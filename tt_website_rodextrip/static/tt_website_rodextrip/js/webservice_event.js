@@ -143,6 +143,59 @@ function event_search_autocomplete(term){
     return priority.concat(suggestions).slice(0,100);
 }
 
+function event_page_passenger(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/event",
+       headers:{
+            'action': 'page_passenger',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            event_option_code = msg.event_option_code;
+            event_get_extra_question(event_option_code,'event_internal');
+            render_object_from_value(event_option_code);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
+       },timeout: 300000
+    });
+}
+
+function event_page_review(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/event",
+       headers:{
+            'action': 'page_review',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            adult = msg.adult;
+            booker = msg.booker;
+
+            contact = msg.contact;
+
+            json_event_option_code = msg.event_option_code;
+
+            json_event_answer = msg.event_extra_question;
+
+            document.getElementById('json_event_code').value = json_event_option_code;
+            render_extra_question(json_event_answer);
+            render_object_from_value(json_event_option_code);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
+       },timeout: 300000
+    });
+}
+
 function event_get_booking(data){
     price_arr_repricing = {};
     get_vendor_balance('false');
