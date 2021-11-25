@@ -51,9 +51,9 @@ function get_data_issued_offline(){
 function issued_offline_page(){
     $.ajax({
        type: "POST",
-       url: "/webservice/bus",
+       url: "/webservice/issued_offline",
        headers:{
-            'action': 'search_page',
+            'action': 'page_issued_offline',
        },
        data: {
        },
