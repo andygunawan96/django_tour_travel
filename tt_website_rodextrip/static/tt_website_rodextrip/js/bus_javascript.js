@@ -2011,3 +2011,32 @@ function show_commission(){
         scs.value = "Show Commission";
     }
 }
+
+function bus_switch(){
+    var temp = document.getElementById("bus_origin").value;
+    document.getElementById("bus_origin").value = document.getElementById("bus_destination").value;
+    document.getElementById("bus_destination").value = temp;
+}
+
+function reset_seat(){
+    for(i in pax){
+        for(j in pax[i].seat_pick){
+            pax[i].seat_pick[j]['column'] = '';
+            pax[i].seat_pick[j]['seat'] = '';
+            pax[i].seat_pick[j]['seat_code'] = '';
+            pax[i].seat_pick[j]['wagon'] = '';
+        }
+    }
+    for(i in seat_map_response)
+        document.getElementById('seat_journey' + parseInt(parseInt(i)+1)).innerHTML = '';
+    print_seat_map();
+}
+
+function from_seat_goto_review_booking(){
+    text += `<input type="hidden" name="paxs" value='`+JSON.stringify(pax)+`'/>
+             <input type="hidden" name="time_limit_input" value="`+time+`"/>
+             <input type="hidden" name="signature" value="`+signature+`"/>
+    `;
+    document.getElementById('bus_review').innerHTML += text;
+    document.getElementById('bus_review').submit();
+}

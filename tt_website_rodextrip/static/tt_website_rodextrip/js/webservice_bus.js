@@ -275,7 +275,6 @@ function bus_review_page(){
 
             passengers = msg.passenger;
             passenger_with_booker = JSON.parse(JSON.stringify(passengers));
-            console.log(passengers);
 
             adult = passengers.adult
 
@@ -285,10 +284,41 @@ function bus_review_page(){
                 'infant': infant
             }
             bus_request = msg.bus_request;
+            bus_booking = msg.bus_booking;
             adult = bus_request.adult;
             infant = 0;
             child = 0;
+            var print_seat = false;
+            for(i in bus_data){
+                if(bus_data[i].available_seat_map)
+                    print_seat = true;
+            }
 
+            for(i in bus_booking){
+                index = 1
+                pax_type = 'adult'
+                for(j in bus_booking[i].journeys){
+                    for(k in bus_booking[i].journeys[j].seat){
+                        if(bus_booking[i].journeys[j].seat[k].seat_code != ''){
+                            console.log(pax_type+index.toString());
+                            console.log(bus_booking[i].journeys[j].seat[k].seat + bus_booking[i].journeys[j].seat[k].column);
+                            try{
+                                document.getElementById('seat_'+pax_type+index.toString()).innerHTML += bus_booking[i].journeys[j].seat[k].seat + bus_booking[i].journeys[j].seat[k].column;
+                            }catch(err){
+                                pax_type = 'infant';
+                                try{
+                                    document.getElementById('seat_'+pax_type+index.toString()).innerHTML += bus_booking[i].journeys[j].seat[k].seat + bus_booking[i].journeys[j].seat[k].column;
+                                }catch(err){}
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(print_seat){
+                document.getElementById('seat_map_div_mb').hidden = false;
+                document.getElementById('seat_map_div_wb').hidden = false;
+            }
             bus_detail();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

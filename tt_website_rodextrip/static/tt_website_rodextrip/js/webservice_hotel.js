@@ -1998,7 +1998,6 @@ function hotel_get_booking(data){
        },
        success: function(msg) {
             console.log(msg);
-
             try{
                 list_pnr = [];
                 if(msg.result.error_code == 0){
@@ -2514,6 +2513,7 @@ function hotel_get_booking(data){
                     text_detail += `<div id="price_detail_hotel_div" style="display:none;">`;
                     for(i in msg.result.response.hotel_rooms){
                         try{
+                            //HARGA PER ROOM MAU DI BIKIN PER PAX
                             // Update Vin Harga Pax yg diterima di FE adalah Total per pax tidak  perlu dikali total per night lagi
                             // Todo: Pertimbangkan better mechanism
                             total_price = 0
@@ -2550,67 +2550,70 @@ function hotel_get_booking(data){
                             }
 
                             text_repricing = `
-                                <div class="col-lg-12">
-                                    <div style="padding:5px;" class="row">
-                                        <div class="col-lg-3"></div>
-                                        <div class="col-lg-3">Price</div>
-                                        <div class="col-lg-3">Repricing</div>
-                                        <div class="col-lg-3">Total</div>
+                            <div class="col-lg-12">
+                                <div style="padding:5px;" class="row">
+                                    <div class="col-lg-3"></div>
+                                    <div class="col-lg-3">Price</div>
+                                    <div class="col-lg-3">Repricing</div>
+                                    <div class="col-lg-3">Total</div>
+                                </div>
+                            </div>`;
+                            for(j in price_arr_repricing){
+                               text_repricing += `
+                               <div class="col-lg-12">
+                                    <div style="padding:5px;" class="row" id="adult">
+                                        <div class="col-lg-3" id="`+i+`_`+j+`">`+j+`</div>
+                                        <div class="col-lg-3" id="`+j+`_price">`+getrupiah(price_arr_repricing[j].Fare + price_arr_repricing[j].Tax)+`</div>`;
+                                        if(price_arr_repricing[j].Repricing == 0)
+                                        text_repricing+=`<div class="col-lg-3" id="`+j+`_repricing">-</div>`;
+                                        else
+                                        text_repricing+=`<div class="col-lg-3" id="`+j+`_repricing">`+getrupiah(price_arr_repricing[j].Repricing)+`</div>`;
+                                        text_repricing+=`<div class="col-lg-3" id="`+j+`_total">`+getrupiah(price_arr_repricing[j].Fare + price_arr_repricing[j].Tax + price_arr_repricing[j].Repricing)+`</div>
                                     </div>
                                 </div>`;
-                                for(j in price_arr_repricing){
-                                   text_repricing += `
-                                   <div class="col-lg-12">
-                                        <div style="padding:5px;" class="row" id="adult">
-                                            <div class="col-lg-3" id="`+i+`_`+j+`">`+j+`</div>
-                                            <div class="col-lg-3" id="`+j+`_price">`+getrupiah(price_arr_repricing[j].Fare + price_arr_repricing[j].Tax)+`</div>`;
-                                            if(price_arr_repricing[j].Repricing == 0)
-                                            text_repricing+=`<div class="col-lg-3" id="`+j+`_repricing">-</div>`;
-                                            else
-                                            text_repricing+=`<div class="col-lg-3" id="`+j+`_repricing">`+getrupiah(price_arr_repricing[j].Repricing)+`</div>`;
-                                            text_repricing+=`<div class="col-lg-3" id="`+j+`_total">`+getrupiah(price_arr_repricing[j].Fare + price_arr_repricing[j].Tax + price_arr_repricing[j].Repricing)+`</div>
-                                        </div>
-                                    </div>`;
-                                }
-                                text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
-                                document.getElementById('repricing_div').innerHTML = text_repricing;
-                                //repricing
-
-                                var idx_room = parseInt(i)+1;
-                                text_detail+=`
-                                <div class="row" style="margin-bottom:5px;">
-                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <h6><span style="color:`+color+`;">Room #`+idx_room+` </span>`+msg.result.response.hotel_rooms[i].room_name+`</h6>
-                                        <span style="font-size:12px;">`+msg.result.response.hotel_rooms[i].room_type+`</span><br/>`;
-                                        for(j in msg.result.response.hotel_rooms[i].dates){
-                                            text_detail+=`<span style="font-size:12px;">`+msg.result.response.hotel_rooms[i].dates[j].date+`</span><br/>`;
-                                        }
-                                    text_detail+=`</div>
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <br/>`;
-                                        for(j in msg.result.response.hotel_rooms[i].dates){
-                                            text_detail+=`<br/>`;
-                                        }
-                                        try{
-                                        var total_per_room = parseInt(0);
-                                        for(j in msg.result.response.hotel_rooms[i].dates){
-                                            total_per_room = total_per_room + parseInt(msg.result.response.hotel_rooms[i].dates[j].sale_price);
-                                        }
-                                        text_detail+=`
-                                        <span style="font-size:13px; font-weight:700;">`+msg.result.response.hotel_rooms[i].dates[j].currency+` `+ getrupiah(total_per_room) +`</span>`;
-                                        }catch(err){}
-                                        text_detail+=`
-                                    </div>
-                                </div>`;
-                                text_detail += `<div class="row"><div class="col-lg-12"><hr/></div></div>`;
-                                try{
+                            }
+                            text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+                            document.getElementById('repricing_div').innerHTML = text_repricing;
+                            //repricing
+                            break;
+                        }catch(err){console.log(err);}
+                    }
+                    //DETAIL PER ROOM
+                    for(i in msg.result.response.hotel_rooms){
+                        try{
+                            var idx_room = parseInt(i)+1;
+                            text_detail+=`
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                    <h6><span style="color:`+color+`;">Room #`+idx_room+` </span>`+msg.result.response.hotel_rooms[i].room_name+`</h6>
+                                    <span style="font-size:12px;">`+msg.result.response.hotel_rooms[i].room_type+`</span><br/>`;
                                     for(j in msg.result.response.hotel_rooms[i].dates){
-                                        $text += msg.result.response.hotel_rooms[i].dates[j].date + ' ';
+                                        text_detail+=`<span style="font-size:12px;">`+msg.result.response.hotel_rooms[i].dates[j].date+`</span><br/>`;
                                     }
-                                    $text += currency+` `+getrupiah(parseInt(total_price_provider[i].price.FARE + total_price_provider[i].price.TAX + total_price_provider[i].price.ROC))+'\n';
-                                }catch(err){}
-                                //commission += parseInt(price.RAC);
-                            counter_service_charge++;
+                                text_detail+=`</div>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                    <br/>`;
+                                    for(j in msg.result.response.hotel_rooms[i].dates){
+                                        text_detail+=`<br/>`;
+                                    }
+                                    try{
+                                    var total_per_room = parseInt(0);
+                                    for(j in msg.result.response.hotel_rooms[i].dates){
+                                        total_per_room = total_per_room + parseInt(msg.result.response.hotel_rooms[i].dates[j].sale_price);
+                                    }
+                                    text_detail+=`
+                                    <span style="font-size:13px; font-weight:700;">`+msg.result.response.hotel_rooms[i].dates[j].currency+` `+ getrupiah(total_per_room) +`</span>`;
+                                    }catch(err){}
+                                    text_detail+=`
+                                </div>
+                            </div>`;
+                            text_detail += `<div class="row"><div class="col-lg-12"><hr/></div></div>`;
+                            try{
+                                for(j in msg.result.response.hotel_rooms[i].dates){
+                                    $text += msg.result.response.hotel_rooms[i].dates[j].date + ' ';
+                                }
+                                $text += currency+` `+getrupiah(parseInt(total_price_provider[i].price.FARE + total_price_provider[i].price.TAX + total_price_provider[i].price.ROC))+'\n';
+                            }catch(err){}
                         }catch(err){console.log(err);}
                     }
                     text_detail += `</div>`;
