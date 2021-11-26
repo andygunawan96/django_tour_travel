@@ -1609,7 +1609,7 @@ function lab_pintar_get_booking(order_number, sync=false){
                             // === Button 1 ===
                             if (msg.result.response.state  == 'issued') {
                                 print_text+=`
-                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket','lab_pintar');" style="width:100%;">
+                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket','labpintar');" style="width:100%;">
                                     Print Ticket
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
@@ -1618,7 +1618,7 @@ function lab_pintar_get_booking(order_number, sync=false){
                             // === Button 2 ===
                             if (msg.result.response.state  == 'issued'){
                                 print_text+=`
-                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','lab_pintar');" style="width:100%;">
+                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','labpintar');" style="width:100%;">
                                     Print Ticket (With Price)
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
@@ -1670,7 +1670,7 @@ function lab_pintar_get_booking(order_number, sync=false){
                                                         <div style="text-align:right;">
                                                             <span>Don't want to edit? just submit</span>
                                                             <br/>
-                                                            <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','lab_pintar');">
+                                                            <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','labpintar');">
                                                                 Submit
                                                                 <div class="ld ld-ring ld-cycle"></div>
                                                             </button>
