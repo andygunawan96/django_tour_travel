@@ -1655,7 +1655,7 @@ function swab_express_get_booking(order_number, sync=false){
                             // === Button 1 ===
                             if (msg.result.response.state  == 'issued') {
                                 print_text+=`
-                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket','swab_express');" style="width:100%;">
+                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket','swabexpress');" style="width:100%;">
                                     Print Ticket
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
@@ -1664,7 +1664,7 @@ function swab_express_get_booking(order_number, sync=false){
                             // === Button 2 ===
                             if (msg.result.response.state  == 'issued'){
                                 print_text+=`
-                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','swab_express');" style="width:100%;">
+                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','swabexpress');" style="width:100%;">
                                     Print Ticket (With Price)
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
@@ -1716,7 +1716,7 @@ function swab_express_get_booking(order_number, sync=false){
                                                         <div style="text-align:right;">
                                                             <span>Don't want to edit? just submit</span>
                                                             <br/>
-                                                            <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','swab_express');">
+                                                            <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','swabexpress');">
                                                                 Submit
                                                                 <div class="ld ld-ring ld-cycle"></div>
                                                             </button>
