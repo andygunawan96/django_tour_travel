@@ -8531,3 +8531,15 @@ ul.progress_tabs li.current .image-rounded-icon{
     display:flex;
     padding-top:5px;
 }
+
+.single-recent-blog-post{
+    margin-bottom:15px;
+}
+
+.form-select-2{
+    width:100%;
+}
+
+.main-menu{
+    padding: 15px 0px;
+}
