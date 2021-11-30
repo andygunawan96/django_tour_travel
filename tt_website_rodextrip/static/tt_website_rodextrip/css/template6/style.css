@@ -2138,3 +2138,7 @@ h3.heading, h2.heading {
 }
 
 /*-- //Responsive design --*/
+
+.single-recent-blog-post{
+    margin-bottom:15px;
+}

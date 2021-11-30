@@ -426,7 +426,7 @@ function add_table_of_passenger_verify(type){
                     </div>
                     <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
 
-                    <div id="search_result_`+(counter_passenger+1)+`">
+                    <div id="search_result_`+(counter_passenger+1)+`" style="max-height:600px; overflow:auto; padding:15px;">
 
                     </div>
                 </div>
@@ -938,7 +938,7 @@ function add_table_of_passenger(type){
                     </div>
                     <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
 
-                    <div id="search_result_`+(counter_passenger+1)+`">
+                    <div id="search_result_`+(counter_passenger+1)+`" style="max-height:600px; overflow:auto; padding:15px;">
 
                     </div>
                 </div>
