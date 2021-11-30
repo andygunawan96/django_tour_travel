@@ -215,19 +215,23 @@ function insurance_get_availability(){
        try{
            console.log(msg);
            if(msg.result.error_code == 0){
-                insurance_data = msg.result.response
-                if (insurance_data.length == 0){
+                insurance_data = msg.result.response;
+                var sequence = 0;
+                var text = '';
+                var length = 0;
+                for(i in insurance_data)
+                    length += insurance_data[i].length;
+                if (length == 0){
                     text += `
                     <div class="col-lg-12">
                         <div style="text-align:center">
-                            <img src="/static/tt_website_rodextrip/images/nofound/no-activity.png" alt="Not Found Activity" style="width:70px; height:70px;" title="" />
+                            <img src="/static/tt_website_rodextrip/images/nofound/no-activity.png" alt="Product not Found" style="width:70px; height:70px;" title="" />
                             <br/>
                         </div>
-                        <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try again or search another activity. </h6></div></center>
+                        <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Product not found. Please try again or search another product. </h6></div></center>
                     </div>`;
+                    document.getElementById('insurance_ticket').innerHTML += text;
                 }else{
-                    var sequence = 0;
-                    var text = '';
                     for(i in insurance_data){
                         for(j in insurance_data[i]){
                             text+=`

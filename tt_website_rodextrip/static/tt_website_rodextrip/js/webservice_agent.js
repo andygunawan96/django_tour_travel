@@ -1560,18 +1560,24 @@ function pick_passenger(type, sequence, product){
         if(found_selection.length == 1){
             pick_passenger_copy(type, sequence, product, found_selection[0]);
         }else{
-            text = '<br/><div>';
+            text = '<br/><select id="found_selection" class="form-select">';
             for(i in found_selection)
-                text += `<button class="swal2-confirm swal2-styled" onclick="pick_passenger_copy('`+type+`','`+sequence+`','`+product+`','`+found_selection[i]+`');Swal.close();">`+found_selection[i]+`</button>`;
-            text += '</div>';
+                text += `<option value=`+found_selection[i]+`>`+found_selection[i]+`</option>`;
+            text += '</select>';
             Swal.fire({
               type: 'info',
               title: 'Pick Identity to Copy',
-              allowEnterKey: false,
-              showCancelButton: false,
-              showConfirmButton: false,
-              showCloseButton: false,
+              showCancelButton: true,
+              showConfirmButton: true,
+              showCloseButton: true,
+              confirmButtonText:'Copy',
+              cancelButtonText:'Cancel',
+
               html: text
+            }).then((result) => {
+              if (result.value) {
+                pick_passenger_copy(type,sequence,product,document.getElementById('found_selection').value);
+              }
             });
         }
     }else{
@@ -2465,18 +2471,23 @@ function copy_booker_to_passenger(val, type){
             if(found_selection.length == 1){
                 copy_booker(val,type, found_selection[0])
             }else{
-                text = '<br/><div>';
+                text = '<br/><select id="found_selection" class="form-select">';
                 for(i in found_selection)
-                    text += `<button class="swal2-confirm swal2-styled" onclick="copy_booker('`+val+`','`+type+`','`+found_selection[i]+`');Swal.close();">`+found_selection[i]+`</button>`;
-                text += '</div>';
+                    text += `<option value=`+found_selection[i]+`>`+found_selection[i]+`</option>`;
+                text += '</select>';
                 Swal.fire({
                   type: 'info',
                   title: 'Pick Identity to Copy',
-                  allowEnterKey: false,
-                  showCancelButton: false,
-                  showConfirmButton: false,
-                  showCloseButton: false,
+                  showCancelButton: true,
+                  showConfirmButton: true,
+                  showCloseButton: true,
                   html: text
+                }).then((result) => {
+                  if (result.value) {
+                    copy_booker(val,type,document.getElementById('found_selection').value);
+                  }else{
+                    document.getElementsByName('myRadios')[1].checked = true;
+                  }
                 });
             }
         }else{
@@ -2529,15 +2540,17 @@ function copy_booker(val,type,identity){
                 }
                 change_identity_type(`adult_id_type1`);
             }else if( typeof expired !== 'undefined' && expired < -180){
-                //PASSPORT
-                if(data[1] != '')
-                    document.getElementById('adult_passport_number1').value = data[1];
-                if(data[4] != '')
-                    document.getElementById('adult_passport_expired_date1').value = data[3];
-                if(data[2] != ''){
-                    document.getElementById('select2-adult_country_of_issued1_id-container').innerHTML = data[2];
-                    document.getElementById('adult_country_of_issued1').value = data[2];
-                }
+                try{ //KALAU ADA IDENTITY
+                    //PASSPORT
+                    if(data[1] != '')
+                        document.getElementById('adult_passport_number1').value = data[1];
+                    if(data[4] != '')
+                        document.getElementById('adult_passport_expired_date1').value = data[3];
+                    if(data[2] != ''){
+                        document.getElementById('select2-adult_country_of_issued1_id-container').innerHTML = data[2];
+                        document.getElementById('adult_country_of_issued1').value = data[2];
+                    }
+                }catch(err){}
             }
 
             date1 = '';
