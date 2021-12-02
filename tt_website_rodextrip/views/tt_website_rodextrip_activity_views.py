@@ -248,7 +248,6 @@ def passenger(request):
                 set_session(request, 'activity_request', {
                     'activity_uuid': request.POST['activity_uuid'],
                     'activity_type_pick': request.POST['activity_type_pick'],
-                    'activity_date_pick': request.POST['activity_date_pick'],
                     'activity_timeslot': request.POST['activity_timeslot'].split(' ~ ')[0] if len(request.POST['activity_timeslot'].split(' - ')) == 2 else '',
                     'additional_price': request.POST.get('additional_price') and request.POST['additional_price'] or 0,
                     'event_pick': request.POST['event_pick'],
@@ -439,7 +438,6 @@ def passenger(request):
                 set_session(request, 'activity_type_pick', int(request.POST['activity_type_pick']))
                 set_session(request, 'activity_timeslot', request.POST['activity_timeslot'])
                 set_session(request, 'additional_price_input', request.POST.get('additional_price_input') and request.POST['additional_price_input'] or 0)
-                set_session(request, 'activity_date_pick', int(request.POST['activity_date_pick']))
                 set_session(request, 'activity_event_pick', int(request.POST['event_pick']))
             except:
                 set_session(request, 'activity_perbooking', request.session['activity_perbooking'])
@@ -448,7 +446,6 @@ def passenger(request):
                 set_session(request, 'activity_type_pick', request.session['activity_type_pick'])
                 set_session(request, 'activity_timeslot', request.session['activity_timeslot'])
                 set_session(request, 'additional_price_input', request.session['additional_price_input'])
-                set_session(request, 'activity_date_pick', request.session['activity_date_pick'])
                 set_session(request, 'activity_event_pick', request.session['activity_event_pick'])
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -483,7 +480,7 @@ def passenger(request):
                 'seniors': request.session['activity_pax_data']['senior'],
                 'childs': request.session['activity_pax_data']['child'],
                 'timeslot_pick': request.session['activity_timeslot'].split(' ~ ')[1] if len(request.session['activity_timeslot'].split(' - ')) == 2 else '',
-                'price': request.session['activity_request']['activity_date_data'][request.session['activity_event_pick']][request.session['activity_date_pick']],
+                'price': request.session['activity_request']['activity_date_data'],
                 'detail': request.session['activity_request']['activity_types_data'][request.session['activity_type_pick']],
                 'username': request.session['user_account'],
                 'javascript_version': javascript_version,
@@ -520,7 +517,6 @@ def review(request):
                 skus = []
                 all_pax = []
                 printout_paxs = []
-                used_price = []
 
                 javascript_version = get_javascript_version()
                 cache_version = get_cache_version()
@@ -1250,48 +1246,28 @@ def review(request):
                         if time['uuid'] == request.session['activity_request']['activity_timeslot']:
                             timeslot = time
 
-                all_price = request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])]
-
-                for temp_key, temp_val in no_low_pax_count.items():
-                    if temp_val != 0 and temp_key not in ['Infant']:
-                        if all_price['prices'][temp_key].get(str(temp_val)):
-                            temp_used_price = copy.deepcopy(all_price['prices'][temp_key][str(temp_val)]['service_charges'])
-                        else:
-                            temp_used_price = copy.deepcopy(all_price['prices'][temp_key]['1']['service_charges'])
-
-                        for temp_sc in temp_used_price:
-                            temp_sc.update({
-                                'sku_id': str(temp_key)
-                            })
-                        used_price.append(temp_used_price)
-
+                price_list = request.session['activity_price']['result']['response']
+                pax_type_conv = {
+                    'Adult': 'ADT',
+                    'Senior': 'YCD',
+                    'Child': 'CHD',
+                    'Infant': 'INF',
+                }
                 printout_prices = []
-                for usdp in used_price:
-                    total_amount = 0
-                    total_price = 0
-                    temp_pax_count = 0
-                    temp_pax_type = 'ADT'
-                    temp_sku_id = ''
-                    for usdp2 in usdp:
-                        if usdp2['charge_type'] in ['FARE', 'ROC']:
-                            total_amount += usdp2['amount']
-                            total_price += usdp2['total']
-                            temp_pax_count = usdp2['pax_count']
-                            temp_pax_type = usdp2['pax_type']
-                            temp_sku_id = str(usdp2['sku_id'])
+                for key, val in price_list['prices'].items():
                     printout_prices.append({
-                        "fare": total_amount,
-                        "name": temp_sku_id,
-                        "qty": temp_pax_count,
-                        "total": total_price,
-                        "pax_type": temp_pax_type,
+                        "fare": val['amount'],
+                        "name": key,
+                        "qty": val['pax_count'],
+                        "total": val['total'],
+                        "pax_type": pax_type_conv[key],
                         "tax": 0
                     })
 
                 search_request = {
                     "product_uuid": request.session['activity_request']['activity_uuid'],
                     "product_type_uuid": request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['uuid'],
-                    "visit_date": request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])]['date'],
+                    "visit_date": request.session['activity_price']['result']['response']['date'],
                     "timeslot": timeslot and timeslot['uuid'] or False,
                     "event_seq": event_id,
                 }
@@ -1314,7 +1290,7 @@ def review(request):
                 printout_paxs = json.loads(request.POST['printout_paxs'])
                 printout_prices = json.loads(request.POST['printout_prices'])
                 pax_count = json.loads(request.POST['pax_count'])
-                all_price = json.loads(request.POST['all_price']) #price
+                price_list = json.loads(request.POST['price_list']) #price
                 adult = request.session['activity_review_booking']['adult']
                 infant = request.session['activity_review_booking']['infant']
                 child = request.session['activity_review_booking']['child']
@@ -1337,7 +1313,7 @@ def review(request):
                 "line": [
                     {
                         "resv": "-",
-                        "checkin": request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])]['date'],
+                        "checkin": request.session['activity_price']['result']['response']['date'],
                         "time_slot": timeslot and str(timeslot['startTime']) + ' - ' + str(timeslot['endTime']) or '-',
                         "activity_title": request.session['activity_pick']['name'],
                         "product_type": request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['name'],
@@ -1378,8 +1354,8 @@ def review(request):
                 'upsell': request.session.get('activity_upsell_'+request.session['activity_signature']) and request.session.get('activity_upsell_'+request.session['activity_signature']) or 0,
                 "timeslot": timeslot and timeslot or False,
                 'timeslot_pick': request.session['activity_timeslot'].split(' ~ ')[1] if len(request.session['activity_timeslot'].split(' - ')) == 2 else '',
-                'price': all_price,
-                'visit_date': all_price.get('date') and datetime.strptime(all_price['date'], '%Y-%m-%d').strftime('%d %b %Y') or '',
+                'price': price_list,
+                'visit_date': price_list.get('date') and datetime.strptime(price_list['date'], '%Y-%m-%d').strftime('%d %b %Y') or '',
                 'detail': request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])],
                 'printout_rec': json.dumps(printout_rec),
                 'username': request.session['user_account'],

@@ -259,7 +259,7 @@ function pick_activity(val){
 }
 
 function update_pax(){
-    activity_table_detail();
+    reset_activity_table_detail();
 }
 
 function share_data(){
@@ -273,8 +273,8 @@ function share_data(){
 }
 
 function activity_table_detail(){
-   var grand_total = 0;
-   var grand_commission = 0;
+   var grand_total = activity_date.sale_price;
+   var grand_commission = activity_date.commission_price;
    text = '';
    name = activity_data.name.replace(/&#39;/g,"'");
    name = name.replace(/&amp;/g, '&');
@@ -298,41 +298,18 @@ function activity_table_detail(){
    document.getElementById('product_visit_date').innerHTML = visit_date_txt;
    $test += '‣ Price \n';
    try{
-       skus = activity_date[event_pick][activity_date_pick].prices;
-       for (sku in skus)
+       for (price in activity_date.prices)
        {
-            low_sku_id = sku.toLowerCase();
-            if(document.getElementById(low_sku_id+'_passenger'))
-            {
-                if(document.getElementById(low_sku_id+'_passenger').value != 0){
-                   text+= `<div class="row">
+            text+= `<div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                    <span style="font-size:13px; font-weight:500;">`+document.getElementById(low_sku_id+'_passenger').value+`x `+skus[sku].sku_title+` @IDR `;
-
-                   if(document.getElementById(low_sku_id+'_passenger').value in skus[sku])
-                   {
-                       text+= getrupiah(parseInt(skus[sku][document.getElementById(low_sku_id+'_passenger').value.toString()].sale_price))+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">IDR `;
-                       text+= getrupiah(parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku][document.getElementById(low_sku_id+'_passenger').value.toString()].sale_price);
-                       $test += document.getElementById(low_sku_id+'_passenger').value.toString() + ' ' + skus[sku].sku_title + ' Price @IDR ' + getrupiah(skus[sku][document.getElementById(low_sku_id+'_passenger').value.toString()].sale_price)+'\n';
-                       grand_total += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku][document.getElementById(low_sku_id+'_passenger').value].sale_price;
-                       grand_commission += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku][document.getElementById(low_sku_id+'_passenger').value].commission_price;
-                   }
-                   else
-                   {
-                       text+= getrupiah(parseInt(skus[sku]['1'].sale_price))+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">IDR `;
-                       text+= getrupiah(parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku]['1'].sale_price);
-                       $test += document.getElementById(low_sku_id+'_passenger').value.toString() + ' ' + skus[sku].sku_title + ' Price @IDR ' + getrupiah(skus[sku]['1'].sale_price)+'\n';
-                       grand_total += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku]['1'].sale_price;
-                       grand_commission += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku]['1'].commission_price;
-                   }
-                   text+= `</span></div>
-                       <div class="col-lg-12">
+                                    <span style="font-size:13px; font-weight:500;">`+activity_date.prices[price].pax_count+`x `+price+` @IDR `;
+            text+= getrupiah(activity_date.prices[price].amount)+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">IDR `;
+            text+= getrupiah(activity_date.prices[price].total)+`</span></div>`;
+            text+= `<div class="col-lg-12">
                            <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
-                       </div>
-
+                    </div>
                    </div>`;
-               }
-            }
+            $test += activity_date.prices[price].pax_count + ' ' + price + ' Price @IDR ' + getrupiah(activity_date.prices[price].amount)+'\n';
        }
        if(document.getElementById('infant_passenger'))
        {
@@ -447,6 +424,18 @@ function activity_table_detail(){
    document.getElementById('activity_detail_next_btn2').innerHTML = text_btn;
 }
 
+function reset_activity_table_detail(){
+   document.getElementById('activity_detail_table').innerHTML = `
+   <center>
+       <button type="button" id="check_price_btn" class="btn-next primary-btn-ticket ld-ext-right" value="Check Price" onclick='activity_get_price_date();' style="width:100%;">
+            Check Price
+       </button>
+   </center>
+   `;
+   document.getElementById('activity_detail_next_btn').innerHTML = '';
+   document.getElementById('activity_detail_next_btn2').innerHTML = '';
+}
+
 
 function activity_table_detail2(pagetype){
    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
@@ -492,8 +481,8 @@ function activity_table_detail2(pagetype){
         document.getElementById('repricing_div').innerHTML = text_repricing;
         //repricing
    }
-   grand_total = 0;
-   var grand_commission = 0;
+   grand_total = price.sale_price;
+   var grand_commission = price.commission_price;
    text = '';
    $test = '';
    if (document.getElementById('product_title'))
@@ -521,8 +510,6 @@ function activity_table_detail2(pagetype){
 
    document.getElementById('product_visit_date').innerHTML = visit_date_txt;
 
-
-
    try{
         if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
            $test += '‣ Contact Person:\n';
@@ -539,64 +526,20 @@ function activity_table_detail2(pagetype){
    }catch(err){}
 
    $test += '‣ Price:\n';
+   console.log(price.prices);
    try{
-       skus = price.prices;
-       console.log(skus);
-       for (sku in skus)
+       for (pri in price.prices)
        {
-            low_sku_id = sku.toLowerCase();
-            if(passenger[low_sku_id] && passenger[low_sku_id] != 0)
-            {
-               text+= `<div class="row">
+            text+= `<div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px; font-weight:500;">`+passenger[low_sku_id]+`x `+skus[sku].sku_title+` @IDR `;
-
-               if(passenger[low_sku_id] in skus[sku])
-               {
-                   text+= getrupiah(parseInt(skus[sku][passenger[low_sku_id]].sale_price))+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">IDR `;
-                   text+= getrupiah(parseInt(passenger[low_sku_id]) * skus[sku][passenger[low_sku_id]].sale_price);
-                   $test += passenger[low_sku_id].toString() + ' ' + skus[sku].sku_title + ' Price @IDR ' + getrupiah(skus[sku][passenger[low_sku_id]].sale_price)+'\n';
-                   grand_total += parseInt(passenger[low_sku_id]) * skus[sku][passenger[low_sku_id]].sale_price;
-                   grand_commission += parseInt(passenger[low_sku_id]) * skus[sku][passenger[low_sku_id]].commission_price;
-                   if(pagetype == 'review'){
-                       price_discount = {"currency": ''};
-                       for(i in skus[sku][passenger[low_sku_id]].service_charges){
-                            if(price_discount.hasOwnProperty(skus[sku][passenger[low_sku_id]].service_charges[i].charge_type) == true)
-                                price_discount[skus[sku][passenger[low_sku_id]].service_charges[i].charge_type] += skus[sku][passenger[low_sku_id]].service_charges[i].total;
-                            else
-                                price_discount[skus[sku][passenger[low_sku_id]].service_charges[i].charge_type] = skus[sku][passenger[low_sku_id]].service_charges[i].total;
-                            if(price_discount['currency'] == '')
-                                price_discount['currency'] = skus[sku][passenger[low_sku_id]].service_charges[i].currency;
-                       }
-                       total_price_provider.push({"price":price_discount,"provider":response.provider});
-                   }
-               }
-               else
-               {
-                   text+= getrupiah(parseInt(skus[sku]['1'].sale_price))+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">IDR `;
-                   text+= getrupiah(parseInt(passenger[low_sku_id]) * skus[sku]['1'].sale_price);
-                   $test += passenger[low_sku_id].toString() + ' ' + skus[sku].sku_title + ' Price @IDR ' + getrupiah(skus[sku]['1'].sale_price)+'\n';
-                   grand_total += parseInt(passenger[low_sku_id]) * skus[sku]['1'].sale_price;
-                   grand_commission += parseInt(passenger[low_sku_id]) * skus[sku]['1'].commission_price;
-                   if(pagetype == 'review'){
-                       price_discount = {"currency": ''};
-                       for(i in skus[sku]['1'].service_charges){
-                            if(price_discount.hasOwnProperty(skus[sku]['1'].service_charges[i].charge_type) == true)
-                                price_discount[skus[sku]['1'].service_charges[i].charge_type] += skus[sku][passenger[low_sku_id]].service_charges[i].total;
-                            else
-                                price_discount[skus[sku]['1'].service_charges[i].charge_type] = skus[sku][passenger[low_sku_id]].service_charges[i].total;
-                            if(price_discount['currency'] == '')
-                                price_discount['currency'] = skus[sku][passenger[low_sku_id]].service_charges[i].currency;
-                       }
-                       total_price_provider.push({"price":price_discount,"provider":activity_data.provider_code});
-                   }
-               }
-               text+= `</span></div>
-                   <div class="col-lg-12">
+                                <span style="font-size:13px; font-weight:500;">`+price.prices[pri].pax_count+`x `+pri+` @IDR `;
+            text+= getrupiah(price.prices[pri].amount)+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">IDR `;
+            text+= getrupiah(price.prices[pri].total)+`</span></div>`;
+            $test += price.prices[pri].pax_count + ' ' + pri + ' Price @IDR ' + getrupiah(price.prices[pri].amount)+'\n';
+            text+= `<div class="col-lg-12">
                        <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                    </div>
                </div>`;
-           }
        }
        if (passenger['infant'] && passenger['infant'] != 0)
        {
@@ -784,16 +727,13 @@ function check_detail(){
     text = '' ;
     check = 0;
     pax = 0;
-    console.log(activity_date_pick);
-    console.log(activity_date[event_pick][parseInt(activity_date_pick)].date);
-    console.log(activity_date[event_pick][parseInt(activity_date_pick)].available);
     $('.btn-next').addClass("running");
     $('.btn-next').prop('disabled', true);
 
     date = document.getElementById('activity_date').value.split(' ')[2]+'-'+month[document.getElementById('activity_date').value.split(' ')[1]]+'-'+document.getElementById('activity_date').value.split(' ')[0]
     console.log(date);
     //check tiket
-    if(activity_date[event_pick][parseInt(activity_date_pick)].date == date && activity_date[event_pick][parseInt(activity_date_pick)].available == false)
+    if(activity_date.available == false)
         text+='Visit date not available, please pick other date!\n';
 
     //check pax
@@ -1662,12 +1602,12 @@ function check_passenger(adult, senior, child, infant){
 
 function change_event(val){
     event_pick = val;
-    activity_table_detail();
+    reset_activity_table_detail();
 }
 
 function timeslot_change(){
     activity_timeslot = document.getElementById('timeslot_1').value + ' ~ ' + document.getElementById('timeslot_1').options[document.getElementById('timeslot_1').selectedIndex].text;
-    activity_table_detail();
+    reset_activity_table_detail();
 }
 
 //perbooking
@@ -1680,7 +1620,7 @@ function input_type_change_perbooking(val){
         additional_price = additional_price - activity_type[activity_type_pick].options.perBooking[val].price_pick;
         activity_type[activity_type_pick].options.perBooking[val].price_pick = 0;
     }
-    activity_table_detail();
+    reset_activity_table_detail();
 }
 
 function input_type11_change_perbooking(val){
@@ -1691,7 +1631,7 @@ function input_type11_change_perbooking(val){
         additional_price = additional_price - activity_type[activity_type_pick].options.perBooking[val].price_pick;
         activity_type[activity_type_pick].options.perBooking[val].price_pick = 0;
     }
-    activity_table_detail();
+    reset_activity_table_detail();
 }
 
 function input_type5_change_perbooking(val){
@@ -1700,7 +1640,7 @@ function input_type5_change_perbooking(val){
     }else if(document.getElementById('perbooking'+val).checked == false){
         additional_price -= activity_type[activity_type_pick].options.perBooking[val].price;
     }
-    activity_table_detail();
+    reset_activity_table_detail();
 }
 
 function input_type1_change_perbooking(val){
@@ -1711,7 +1651,7 @@ function input_type1_change_perbooking(val){
             break;
         }
     }
-    activity_table_detail();
+    reset_activity_table_detail();
 }
 
 function input_type2_change_perbooking(val,val1){
@@ -1722,7 +1662,7 @@ function input_type2_change_perbooking(val,val1){
             activity_type[activity_type_pick].options.perBooking[val].price_pick += activity_type[activity_type_pick].options.perBooking[val].items[i].price;
     }
     additional_price += additional_price + activity_type[activity_type_pick].options.perBooking[val].price_pick;
-    activity_table_detail();
+    reset_activity_table_detail();
 }
 
 //perpax
