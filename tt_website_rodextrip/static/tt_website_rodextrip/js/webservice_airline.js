@@ -10019,7 +10019,7 @@ function airline_get_booking_refund(data){
                                 //yang baru harus diganti
                                 if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'Y')
                                     cabin_class = 'Economy Class';
-                                else if(msg.result.response.provider_bookings[i].journeys[j].carrier_code_list.includes('QG') && msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'W')
+                                else if(msg.result.response.provider_bookings[i].journeys[j].carrier_code == 'QG' && msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'W')
                                     cabin_class = 'Royal Green Class';
                                 else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'W')
                                     cabin_class = 'Premium Economy Class';

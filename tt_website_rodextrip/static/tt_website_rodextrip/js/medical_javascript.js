@@ -5249,23 +5249,23 @@ function copy_ktp(val){
                 document.getElementById('adult_rw'+val).readOnly = true;
                 document.getElementById('adult_zip_code'+val).value = document.getElementById('adult_zip_code_ktp'+val).value;
                 document.getElementById('adult_zip_code'+val).readOnly = true;
-                document.getElementById('adult_kecamatan'+val).innerHTML = document.getElementById('adult_kecamatan_ktp'+val).innerHTML
-                document.getElementById('adult_kelurahan'+val).innerHTML = document.getElementById('adult_kelurahan_ktp'+val).innerHTML
+                document.getElementById('adult_kecamatan'+val).innerHTML = document.getElementById('adult_kecamatan_ktp'+val).innerHTML.replace(' KTP', '')
+                document.getElementById('adult_kelurahan'+val).innerHTML = document.getElementById('adult_kelurahan_ktp'+val).innerHTML.replace(' KTP', '')
                 $('#adult_kabupaten'+val+'_id').select2();
                 $('#adult_kecamatan'+val+'_id').select2();
                 $('#adult_kelurahan'+val+'_id').select2();
                 $('#adult_kabupaten'+val).val(document.getElementById('adult_kabupaten_ktp'+val).value);
-                document.getElementById('select2-adult_kabupaten'+val+'_id-container').innerHTML = document.getElementById('adult_kabupaten_ktp'+val).value;
+                document.getElementById('select2-adult_kabupaten'+val+'_id-container').innerHTML = document.getElementById('adult_kabupaten_ktp'+val).value.replace(' KTP', '');
                 document.getElementById('adult_kabupaten'+val+'_id').disabled = true
 
-                $('#adult_kecamatan'+val).val(document.getElementById('adult_kecamatan_ktp'+val).value);
-                $('#adult_kecamatan'+val+'_id').val(document.getElementById('adult_kecamatan_ktp'+val).value);
-                document.getElementById('select2-adult_kecamatan'+val+'_id-container').innerHTML = document.getElementById('adult_kecamatan_ktp'+val).value;
+                $('#adult_kecamatan'+val).val(document.getElementById('adult_kecamatan_ktp'+val).value.replace(' KTP', ''));
+                $('#adult_kecamatan'+val+'_id').val(document.getElementById('adult_kecamatan_ktp'+val).value.replace(' KTP', ''));
+                document.getElementById('select2-adult_kecamatan'+val+'_id-container').innerHTML = document.getElementById('adult_kecamatan_ktp'+val).value.replace(' KTP', '');
                 document.getElementById('adult_kecamatan'+val+'_id').disabled = true
 
-                $('#adult_kelurahan'+val).val(document.getElementById('adult_kelurahan_ktp'+val).value);
-                $('#adult_kelurahan'+val+'_id').val(document.getElementById('adult_kelurahan_ktp'+val).value);
-                document.getElementById('select2-adult_kelurahan'+val+'_id-container').innerHTML = document.getElementById('adult_kelurahan_ktp'+val).value;
+                $('#adult_kelurahan'+val).val(document.getElementById('adult_kelurahan_ktp'+val).value.replace(' KTP', ''));
+                $('#adult_kelurahan'+val+'_id').val(document.getElementById('adult_kelurahan_ktp'+val).value.replace(' KTP', ''));
+                document.getElementById('select2-adult_kelurahan'+val+'_id-container').innerHTML = document.getElementById('adult_kelurahan_ktp'+val).value.replace(' KTP', '');
                 document.getElementById('adult_kelurahan'+val+'_id').disabled = true
 
             }else if(radios[i].value == 'false'){
@@ -5990,7 +5990,7 @@ function check_passenger(){
                             document.getElementById('adult_address' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
 
-                        if(document.getElementById('adult_provinsi' + nomor_pax + '_id').value == ''){
+                        if(document.getElementById('adult_provinsi' + nomor_pax + '_id').value == '' || document.getElementById('adult_provinsi' + nomor_pax + '_id').value == 'Select Provinsi'){
                             error_log+= 'Please fill provinsi for customer '+nomor_pax+'!</br>\n';
                             $("#adult_provinsi"+nomor_pax+"_id").each(function() {
                               $(this).siblings(".select2-container").css('border', '1px solid red');
@@ -6002,7 +6002,7 @@ function check_passenger(){
                             });
                         }
 
-                        if(document.getElementById('adult_kecamatan' + nomor_pax + '_id').value == ''){
+                        if(document.getElementById('adult_kecamatan' + nomor_pax + '_id').value == '' || document.getElementById('adult_kecamatan' + nomor_pax + '_id').value == 'Select Kecamatan' || document.getElementById('adult_kecamatan' + nomor_pax + '_id').value == 'Choose'){
                             error_log+= 'Please fill kecamatan for customer '+nomor_pax+'!</br>\n';
                             $("#adult_kecamatan"+nomor_pax+"_id").each(function() {
                               $(this).siblings(".select2-container").css('border', '1px solid red');
@@ -6014,7 +6014,7 @@ function check_passenger(){
                             });
                         }
 
-                        if(document.getElementById('adult_kabupaten' + nomor_pax + '_id').value == ''){
+                        if(document.getElementById('adult_kabupaten' + nomor_pax + '_id').value == '' || document.getElementById('adult_kabupaten' + nomor_pax + '_id').value == 'Select Kabupaten' || document.getElementById('adult_kabupaten' + nomor_pax + '_id').value == 'Choose'){
                             error_log+= 'Please fill kabupaten for customer '+nomor_pax+'!</br>\n';
                             $("#adult_kabupaten"+nomor_pax+"_id").each(function() {
                               $(this).siblings(".select2-container").css('border', '1px solid red');
@@ -6026,7 +6026,7 @@ function check_passenger(){
                             });
                         }
 
-                        if(document.getElementById('adult_kelurahan' + nomor_pax + '_id').value == ''){
+                        if(document.getElementById('adult_kelurahan' + nomor_pax + '_id').value == '' || document.getElementById('adult_kelurahan' + nomor_pax + '_id').value == 'Select Kelurahan' || document.getElementById('adult_kelurahan' + nomor_pax + '_id').value == 'Choose'){
                             error_log+= 'Please fill kelurahan for customer '+nomor_pax+'!</br>\n';
                             $("#adult_kelurahan"+nomor_pax+"_id").each(function() {
                               $(this).siblings(".select2-container").css('border', '1px solid red');
@@ -6329,7 +6329,7 @@ function check_passenger(){
                         }else{
                             document.getElementById('adult_rw' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
-                        if(document.getElementById('adult_kabupaten' + nomor_pax).value == ''){
+                        if(document.getElementById('adult_kabupaten' + nomor_pax).value == '' || document.getElementById('adult_kabupaten' + nomor_pax).value == 'Select Kabupaten' || document.getElementById('adult_kabupaten' + nomor_pax).value == 'Choose'){
                             error_log+= 'Please choose Kabupaten Domisili for customer '+nomor_pax+'!</br>\n';
                             $("#adult_kabupaten"+nomor_pax+"_id").each(function() {
                               $(this).siblings(".select2-container").css('border', '1px solid red');
@@ -6340,7 +6340,7 @@ function check_passenger(){
                               $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
                             });
                         }
-                        if(document.getElementById('adult_kecamatan' + nomor_pax).value == ''){
+                        if(document.getElementById('adult_kecamatan' + nomor_pax).value == '' || document.getElementById('adult_kecamatan' + nomor_pax).value == 'Select Kecamatan' || document.getElementById('adult_kecamatan' + nomor_pax).value == 'Choose'){
                             error_log+= 'Please choose Kecamatan Domisili for customer '+nomor_pax+'!</br>\n';
                             $("#adult_kecamatan"+nomor_pax+"_id").each(function() {
                               $(this).siblings(".select2-container").css('border', '1px solid red');
@@ -6351,7 +6351,7 @@ function check_passenger(){
                               $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
                             });
                         }
-                        if(document.getElementById('adult_kelurahan' + nomor_pax).value == ''){
+                        if(document.getElementById('adult_kelurahan' + nomor_pax).value == '' || document.getElementById('adult_kelurahan' + nomor_pax).value == 'Select Kelurahan' || document.getElementById('adult_kelurahan' + nomor_pax).value == 'Choose'){
                             error_log+= 'Please choose Kelurahan Domisili for customer '+nomor_pax+'!</br>\n';
                             $("#adult_kelurahan"+nomor_pax+"_id").each(function() {
                               $(this).siblings(".select2-container").css('border', '1px solid red');
@@ -6384,7 +6384,7 @@ function check_passenger(){
                         }else{
                             document.getElementById('adult_rw_ktp' + nomor_pax).style['border-color'] = '#EFEFEF';
                         }
-                        if(document.getElementById('adult_kabupaten_ktp' + nomor_pax).value == ''){
+                        if(document.getElementById('adult_kabupaten_ktp' + nomor_pax).value == '' || document.getElementById('adult_kabupaten_ktp' + nomor_pax).value == 'Select Kabupaten KTP' || document.getElementById('adult_kabupaten_ktp' + nomor_pax).value == 'Choose'){
                             error_log+= 'Please choose Kabupaten KTP for customer '+nomor_pax+'!</br>\n';
                             $("#adult_kabupaten_ktp"+nomor_pax+"_id").each(function() {
                               $(this).siblings(".select2-container").css('border', '1px solid red');
@@ -6395,7 +6395,7 @@ function check_passenger(){
                               $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
                             });
                         }
-                        if(document.getElementById('adult_kecamatan_ktp' + nomor_pax).value == ''){
+                        if(document.getElementById('adult_kecamatan_ktp' + nomor_pax).value == '' || document.getElementById('adult_kecamatan_ktp' + nomor_pax).value == 'Select Kecamatan KTP' || document.getElementById('adult_kecamatan_ktp' + nomor_pax).value == 'Choose'){
                             error_log+= 'Please choose Kecamatan KTP for customer '+nomor_pax+'!</br>\n';
                             $("#adult_kecamatan_ktp"+nomor_pax+"_id").each(function() {
                               $(this).siblings(".select2-container").css('border', '1px solid red');
@@ -6406,7 +6406,7 @@ function check_passenger(){
                               $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
                             });
                         }
-                        if(document.getElementById('adult_kelurahan_ktp' + nomor_pax).value == ''){
+                        if(document.getElementById('adult_kelurahan_ktp' + nomor_pax).value == '' || document.getElementById('adult_kelurahan_ktp' + nomor_pax).value == 'Select Kelurahan KTP' || document.getElementById('adult_kelurahan_ktp' + nomor_pax).value == 'Choose'){
                             error_log+= 'Please choose Kelurahan KTP for customer '+nomor_pax+'!</br>\n';
                             $("#adult_kelurahan_ktp"+nomor_pax+"_id").each(function() {
                               $(this).siblings(".select2-container").css('border', '1px solid red');

@@ -270,19 +270,35 @@ function get_kecamatan(id_kabupaten,id_kecamatan){
             }
         }
     }else{
-        if(id_kecamatan.includes('ktp'))
-            text += '<option value="">Choose Kecamatan KTP</option>';
-        else
-            text += '<option value="">Choose Kecamatan</option>';
+        if(id_kecamatan.includes('ktp')){
+            text += '<option value="">Select Kecamatan KTP</option>';
+            if(document.getElementById('adult_copy_yes' + id_kabupaten.replace(/[^0-9]/g,'')).checked == true){
+                text_ktp = '<option value="">Choose Kecamatan</option>';
+                document.getElementById(id_kecamatan.replace('kecamatan_ktp','kecamatan')).innerHTML = text_ktp;
+                document.getElementById(id_kecamatan.replace('kecamatan_ktp','kecamatan')).val = '';
+                $('#'+id_kecamatan.replace('kecamatan_ktp','kecamatan')).select2();
+            }
+        }else{
+            text += '<option value="">Select Kecamatan</option>';
+        }
+        document.getElementById(id_kecamatan.replace('_id','')).value = '';
     }
     document.getElementById(id_kecamatan).innerHTML = text;
     $('#'+id_kecamatan).select2();
     text = '';
-    if(id_kecamatan.includes('ktp'))
+    if(id_kecamatan.includes('ktp')){
         text = `<option value="">Select Kelurahan KTP</option>`;
-    else{
+        if(document.getElementById('adult_copy_yes' + id_kabupaten.replace(/[^0-9]/g,'')).checked == true){
+            text_ktp = `<option value="">Select Kelurahan</option>`;
+            document.getElementById(id_kecamatan.replace('kecamatan_ktp','kelurahan')).innerHTML = text;
+            document.getElementById(id_kecamatan.replace('kecamatan_ktp','kelurahan')).val = '';
+            $('#'+id_kecamatan.replace('kecamatan_ktp','kelurahan')).select2();
+        }
+    }else{
         text = `<option value="">Select Kelurahan</option>`;
+        document.getElementById(id_kecamatan.replace('_id','').replace('kecamatan','kelurahan')).value = '';
     }
+    document.getElementById(id_kecamatan.replace('_id','').replace('kecamatan','kelurahan')).value = '';
     document.getElementById(id_kecamatan.replace('kecamatan','kelurahan')).innerHTML = text;
     $('#'+id_kecamatan.replace('kecamatan','kelurahan')).select2();
 
@@ -304,10 +320,17 @@ function get_kelurahan(id_kecamatan,id_kelurahan){
             }
         }
     }else{
-        if(id_kecamatan.includes('ktp'))
+        if(id_kecamatan.includes('ktp')){
             text += '<option value="">Choose Kelurahan KTP</option>';
-        else
+            if(document.getElementById('adult_copy_yes' + id_kecamatan.replace(/[^0-9]/g,'')).checked == true){
+                text_ktp = `<option value="">Select Kelurahan</option>`;
+                document.getElementById(id_kelurahan.replace('kecamatan_ktp','kelurahan')).innerHTML = text;
+                document.getElementById(id_kelurahan.replace('kecamatan_ktp','kelurahan')).val = '';
+                $('#'+id_kelurahan.replace('_ktp','')).select2();
+            }
+        }else
             text += '<option value="">Choose Kelurahan</option>';
+        document.getElementById(id_kelurahan.replace('_id','')).value = '';
     }
     document.getElementById(id_kelurahan).innerHTML = text;
     $('#'+id_kelurahan).select2();
