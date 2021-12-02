@@ -68,8 +68,6 @@ def api_models(request):
             res = update_options(request)
         elif req_data['action'] == 'activity_review_booking':
             res = get_review_booking_data(request)
-        elif req_data['action'] == 'prepare_booking':
-            res = prepare_booking(request)
         elif req_data['action'] == 'commit_booking':
             res = commit_booking(request)
         elif req_data['action'] == 'issued_booking':
@@ -290,6 +288,7 @@ def get_pricing(request):
             'product_type_uuid': request.POST['product_type_uuid'],
             'date_start': to_date_now(datetime.strptime(startingDate, '%d %b %Y').strftime('%Y-%m-%d %H:%M:%S'))[:10],
             'date_end': to_date_now((datetime.strptime(startingDate, '%d %b %Y')+timedelta(days=pricing_days)).strftime('%Y-%m-%d %H:%M:%S'))[:10],
+            'sku_data': json.loads(request.POST['sku_data']),
             "provider": request.session['activity_pick']['provider_code']
         }
         headers = {
@@ -599,20 +598,6 @@ def update_options(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     return res
 
-def prepare_booking(request):
-    data = {}
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "prepare_booking",
-        "signature": request.POST['signature']
-    }
-
-    url_request = url + 'booking/activity'
-    res = send_request_api(request, url_request, headers, data, 'POST', 300)
-
-    return res
-
 def commit_booking(request):
     force_issued = request.POST.get('value') and request.POST['value'] or 0
     data = {
@@ -822,7 +807,7 @@ def passenger_page(request):
         res['activity_pax_data'] = request.session['activity_pax_data']
         res['pax_count'] = request.session['activity_pax_data']['pax_count']
         res['detail'] = request.session['activity_request']['activity_types_data'][request.session['activity_type_pick']]['options']
-        res['price'] = request.session['activity_request']['activity_date_data'][request.session['activity_event_pick']][request.session['activity_date_pick']]
+        res['price'] = request.session['activity_request']['activity_date_data']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -833,7 +818,7 @@ def review_page(request):
         res['pax_count'] = request.session['activity_pax_data']['pax_count']
         res['printout_paxs'] = request.session['printout_paxs' + request.POST['signature']]
         res['printout_prices'] = request.session['printout_prices' + request.POST['signature']]
-        res['price'] = request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])]
+        res['price'] = request.session['activity_price']['result']['response']
         res['options'] = request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['options']
         res['booker'] = request.session['activity_review_booking']['booker']
         res['contact_person'] = request.session['activity_review_booking']['contacts']
