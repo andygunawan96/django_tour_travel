@@ -215,43 +215,45 @@ function insurance_get_availability(){
        try{
            console.log(msg);
            if(msg.result.error_code == 0){
-                insurance_data = msg.result.response
-                if (insurance_data.length == 0){
+                insurance_data = msg.result.response;
+                var sequence = 0;
+                var text = '';
+                var length = 0;
+                for(i in insurance_data)
+                    length += insurance_data[i].length;
+                if (length == 0){
                     text += `
                     <div class="col-lg-12">
                         <div style="text-align:center">
-                            <img src="/static/tt_website_rodextrip/images/nofound/no-activity.png" alt="Not Found Activity" style="width:70px; height:70px;" title="" />
+                            <img src="/static/tt_website_rodextrip/images/nofound/no-activity.png" alt="Product not Found" style="width:70px; height:70px;" title="" />
                             <br/>
                         </div>
-                        <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try again or search another activity. </h6></div></center>
+                        <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Product not found. Please try again or search another product. </h6></div></center>
                     </div>`;
+                    document.getElementById('insurance_ticket').innerHTML += text;
                 }else{
-                    var sequence = 0;
-                    var text = '';
                     for(i in insurance_data){
                         for(j in insurance_data[i]){
                             text+=`
                                <div class="col-lg-4 col-md-4 activity_box" style="min-height:unset;">
                                     <div class="single-recent-blog-post item" style="border:1px solid #cdcdcd;">
                                         <div class="single-destination relative">`;
-
                                             text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website_rodextrip/images/insurance/`+insurance_data[i][j].MasterBenefitName.toLowerCase()+`-`+insurance_data[i][j].type_trip_name.toLowerCase()+`.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+i+`','`+sequence+`')">`;
                                             text+=`
-                                                <div class="overlay overlay-bg"></div>
                                             </div>
                                             <div class="card card-effect-promotion" style="border:unset;">
                                                 <div class="card-body">
                                                     <div class="row details">
                                                         <div class="col-lg-12">
                                                             <span style="float:left; font-size:16px;font-weight:bold;">`+insurance_data[i][j].carrier_name+` </span><br/>
-                                                            <span style="float:left; font-size:12px;">Destination Area: `+insurance_data[i][j].data_name+`  </span> <span id="`+i+sequence+`" ><i class="fas fa-info-circle"></i></span>
+                                                            <span style="float:left; font-size:12px;">Destination Area: `+insurance_data[i][j].data_name+`  </span> <span style="padding-left:3px; cursor:pointer; color:`+color+`;" id="`+i+sequence+`" ><i class="fas fa-info-circle" style="font-size:16px;"></i></span>
                                                         </div>
-                                                        <div class="col-lg-12">
+                                                        <div class="col-lg-12 mt-2">
                                                             <span style="float:left; font-size:16px;font-weight:bold;">IDR `+getrupiah(insurance_data[i][j].total_price)+`  </span>
                                                             <button style="float:right; line-height:32px;" type="button" class="primary-btn" onclick="go_to_detail('`+i+`','`+sequence+`')">BUY</button>
                                                         </div>
                                                         <div class="col-lg-12">
-                                                            <span style="float:left; font-size:14px;color:blue;" onclick="window.open('`+insurance_data[i][j].pdf+`');">Benefit  </span>
+                                                            <span style="float:left; font-size:14px;color:blue;font-weight:bold; cursor:pointer;" onclick="window.open('`+insurance_data[i][j].pdf+`');"><u style="color:`+color+` !important">Benefit</u>  </span>
                                                             <span style="float:right;font-size:10px;">`+i+`</button>
                                                         </div>
                                                     </div>
@@ -277,6 +279,7 @@ function insurance_get_availability(){
                                 closeOnClick: 'body',
                                 closeButton: 'box',
                                 animation: 'move',
+                                width:280,
                                 position: {
                                   x: 'left',
                                   y: 'top'

@@ -118,6 +118,425 @@
         </div>
     </div>
 </section>
+{% elif template == 2 %}
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+    <div id="hotel_search_params" class="container">
+        <div class="row">
+            <div class="col-lg-8" style="text-align:left;">
+                <span style="text-transform: capitalize;">{% trans 'Insurance Search' %}</span><br/>
+                <span style="text-transform: capitalize;">{{insurance_request.origin}} → {{insurance_request.destination}}</span>
+                <br/>
+            </div>
+            <div class="col-lg-4" style="text-align:right;">
+                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
+                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{background}}); padding-top:50px; padding-bottom:50px; z-index:5; position:relative; display:none;">
+    <div class="overlay overlay-bg"></div>
+    <div class="container" id="div-search-overlay">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="hotel-search-form-area" style="bottom:0px; padding-left:0px; padding-right:0px;">
+                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:{{text_color}};">
+                        <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
+                            {% csrf_token %}
+                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6" id="insurance_date_search">
+                                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Date' %}</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control" style="background:white;" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
+                                    <div class="input-container-search-ticket btn-group">
+                                        <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <div class="row" style="padding:10px;">
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                    <div style="float:left;">
+                                                        <label>
+                                                            <span style="color:black; font-size:13px;">{% trans 'Passenger' %}<br/></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                        <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
+                                                        <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+                                                            <i class="fas fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12" style="text-align:right;">
+                                                    <hr/>
+                                                    <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
+                                                </div>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+
+                            <input type="hidden" id="insurance_response" name="response"/>
+                            <center>
+                                <button class="primary-btn ld-ext-right" id="btn-search-insurance" type="button" onclick="get_captcha('recaptcha_insurance','insurance');" value="Submit">
+                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                    {% trans 'Search' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </center>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{%elif template == 3%}
+<section class="change_search_area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
+    <div id="hotel_search_params" class="container">
+        <div class="row">
+            <div class="col-lg-8" style="text-align:left;">
+                <span style="text-transform: capitalize;">{% trans 'Insurance Search' %}</span><br/>
+                <span style="text-transform: capitalize;">{{insurance_request.origin}} → {{insurance_request.destination}}</span>
+                <br/>
+            </div>
+            <div class="col-lg-4" style="text-align:right;">
+                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
+                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="banner-area relative" id="change_search_box" style="padding-top:50px; padding-bottom:40px; background-color: black; z-index:98; position:relative; display:none;">
+    <div class="overlay overlay-bg"></div>
+    <div class="container" id="div-search-overlay">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="header-right" style="background:unset; border:unset;">
+                    <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
+                        {% csrf_token %}
+                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6" id="insurance_date_search">
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Date' %}</span>
+                                <div class="input-container-search-ticket">
+                                    <input type="text" class="form-control" style="background:white;" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
+                                <div class="input-container-search-ticket btn-group">
+                                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <div class="row" style="padding:10px;">
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                <div style="float:left;">
+                                                    <label>
+                                                        <span style="color:black; font-size:13px;">{% trans 'Passenger' %}<br/></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                    <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
+                                                    <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12" style="text-align:right;">
+                                                <hr/>
+                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+
+                        <input type="hidden" id="insurance_response" name="response"/>
+                        <center>
+                            <button class="primary-btn ld-ext-right" id="btn-search-insurance" type="button" onclick="get_captcha('recaptcha_insurance','insurance');" value="Submit">
+                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                {% trans 'Search' %}
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </center>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{%elif template == 4%}
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+    <div id="hotel_search_params" class="container">
+        <div class="row">
+            <div class="col-lg-8" style="text-align:left;">
+                <span style="text-transform: capitalize;">{% trans 'Insurance Search' %}</span><br/>
+                <span style="text-transform: capitalize;">{{insurance_request.origin}} → {{insurance_request.destination}}</span>
+                <br/>
+            </div>
+            <div class="col-lg-4" style="text-align:right;">
+                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
+                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:3; position:relative; display:none">
+    <div class="overlay overlay-bg"></div>
+    <div class="container" id="div-search-overlay">
+        <div class="row">
+            <div class="col-lg-12">
+                <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
+                    {% csrf_token %}
+                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6" id="insurance_date_search">
+                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Date' %}</span>
+                            <div class="input-container-search-ticket">
+                                <input type="text" class="form-control" style="background:white;" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
+                            <div class="input-container-search-ticket btn-group">
+                                <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <div class="row" style="padding:10px;">
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                            <div style="float:left;">
+                                                <label>
+                                                    <span style="color:black; font-size:13px;">{% trans 'Passenger' %}<br/></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
+                                                <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12" style="text-align:right;">
+                                            <hr/>
+                                            <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
+                                        </div>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <input type="hidden" id="insurance_response" name="response"/>
+                    <center>
+                        <button class="primary-btn ld-ext-right" id="btn-search-insurance" type="button" onclick="get_captcha('recaptcha_insurance','insurance');" value="Submit">
+                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                            {% trans 'Search' %}
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </center>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{%elif template == 5%}
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+    <div id="hotel_search_params" class="container">
+        <div class="row">
+            <div class="col-lg-8" style="text-align:left;">
+                <span style="text-transform: capitalize;">{% trans 'Insurance Search' %}</span><br/>
+                <span style="text-transform: capitalize;">{{insurance_request.origin}} → {{insurance_request.destination}}</span>
+                <br/>
+            </div>
+            <div class="col-lg-4" style="text-align:right;">
+                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
+                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:3; position:relative; display:none">
+    <div class="overlay overlay-bg"></div>
+    <div class="container" id="div-search-overlay">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="banner-right">
+                    <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
+                        {% csrf_token %}
+                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6" id="insurance_date_search">
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Date' %}</span>
+                                <div class="input-container-search-ticket">
+                                    <input type="text" class="form-control" style="background:white;" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
+                                <div class="input-container-search-ticket btn-group">
+                                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <div class="row" style="padding:10px;">
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                <div style="float:left;">
+                                                    <label>
+                                                        <span style="color:black; font-size:13px;">{% trans 'Passenger' %}<br/></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                    <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
+                                                    <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12" style="text-align:right;">
+                                                <hr/>
+                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+
+                        <input type="hidden" id="insurance_response" name="response"/>
+                        <center>
+                            <button class="primary-btn ld-ext-right" id="btn-search-insurance" type="button" onclick="get_captcha('recaptcha_insurance','insurance');" value="Submit">
+                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                {% trans 'Search' %}
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </center>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{%elif template == 6%}
+<section class="destinations-area change_search_area" style="padding:15px 0px 7px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:98;">
+    <div id="hotel_search_params" class="container">
+        <div class="row">
+            <div class="col-lg-8" style="text-align:left;">
+                <span style="text-transform: capitalize;">{% trans 'Insurance Search' %}</span><br/>
+                <span style="text-transform: capitalize;">{{insurance_request.origin}} → {{insurance_request.destination}}</span>
+                <br/>
+            </div>
+            <div class="col-lg-4" style="text-align:right;">
+                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
+                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="price-area" id="change_search_box" style="min-height:150px;padding-top:15px; padding-bottom:15px; background-image: url('{{background}}'); z-index:97; position:relative; display:none;">
+    <div class="container" id="div-search-overlay">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="banner-right">
+                    <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
+                        {% csrf_token %}
+                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6" id="insurance_date_search">
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Date' %}</span>
+                                <div class="input-container-search-ticket">
+                                    <input type="text" class="form-control" style="background:white !important;" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
+                                <div class="input-container-search-ticket btn-group">
+                                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <div class="row" style="padding:10px;">
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                <div style="float:left;">
+                                                    <label>
+                                                        <span style="color:black; font-size:13px;">{% trans 'Passenger' %}<br/></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                    <button type="button" class="left-minus-adult-bus btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
+                                                    <button type="button" class="right-plus-adult-bus btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12" style="text-align:right;">
+                                                <hr/>
+                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+
+                        <input type="hidden" id="insurance_response" name="response"/>
+                        <center>
+                            <button class="primary-btn ld-ext-right" id="btn-search-insurance" type="button" onclick="get_captcha('recaptcha_insurance','insurance');" value="Submit">
+                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                {% trans 'Search' %}
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </center>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {%endif%}
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
