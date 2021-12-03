@@ -8939,9 +8939,14 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
 
         $text += '\n';
     }
+    var print_hr = true;
     for(i in msg){
         for(j in msg[i].passengers){
-            if(msg[i].passengers[j].fees.length > 0)
+            if(msg[i].passengers[j].fees.length > 0){
+                if(print_hr){
+                    text += `<hr/>`;
+                    print_hr = false;
+                }
                 text+=`
                 <div class="col-lg-12">
                     <div class="row">
