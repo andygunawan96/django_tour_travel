@@ -577,7 +577,8 @@ def ssr(request):
                 for rec in airline_get_booking_resp['result']['response']['provider_bookings']:
                     for ticket in rec['tickets']:
                         for fee in ticket['fees']:
-                            fee.pop('description_text')
+                            if fee.get('description_text'):
+                                fee.pop('description_text')
                     if rec.get('rules'):
                         rec.pop('rules')
                     for journey in rec['journeys']:
@@ -586,7 +587,8 @@ def ssr(request):
                                 segment.pop('fare_details')
                 for rec in airline_get_booking_resp['result']['response']['passengers']:
                     for fee in rec['fees']:
-                        fee.pop('description_text')
+                        if fee.get('description_text'):
+                            fee.pop('description_text')
                 for rec in airline_get_booking_resp['result']['response']['reschedule_list']:
                     for provider_booking in rec['provider_bookings']:
                         if(provider_booking.get('rules')):
@@ -649,7 +651,7 @@ def ssr(request):
                                                         child[len(child) - 1]['ssr_list'].append({
                                                             "name": fee['fee_name'],
                                                             "journey_code": ssr['journey_code'],
-                                                            "availability_type": ssr['fee_category']
+                                                            "availability_type": fee['fee_category']
                                                         })
                         else:
                             adult.append({
@@ -677,7 +679,7 @@ def ssr(request):
                                                             adult[len(adult) - 1]['ssr_list'].append({
                                                                 "name": fee['fee_name'],
                                                                 "journey_code": ssr['journey_code'],
-                                                                "availability_type": ssr['fee_category'],
+                                                                "availability_type": fee['fee_category'],
                                                                 "price": fee['amount']
                                                             })
                                                     elif ssr.get('ssr_code'):
@@ -685,7 +687,7 @@ def ssr(request):
                                                             adult[len(adult) - 1]['ssr_list'].append({
                                                                 "name": fee['fee_name'],
                                                                 "journey_code": ssr['journey_code'],
-                                                                "availability_type": ssr['availability_type'],
+                                                                "availability_type": fee['availability_type'],
                                                                 "price": fee['amount']
                                                             })
                     else:
@@ -713,13 +715,13 @@ def ssr(request):
                                                     adult[len(adult) - 1]['ssr_list'].append({
                                                         "name": fee['fee_name'],
                                                         "journey_code": ssr['journey_code'],
-                                                        "availability_type": ssr['fee_category']
+                                                        "availability_type": fee['fee_category']
                                                     })
                                                 elif ssr.get('ssr_code') == fee['fee_code']:
                                                     adult[len(adult) - 1]['ssr_list'].append({
                                                         "name": fee['fee_name'],
                                                         "journey_code": ssr['journey_code'],
-                                                        "availability_type": ssr['fee_category']
+                                                        "availability_type": fee['fee_category']
                                                     })
                 title_booker = 'MR'
                 title_contact = 'MR'
