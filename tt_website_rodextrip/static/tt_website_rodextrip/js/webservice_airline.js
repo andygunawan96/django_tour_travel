@@ -8939,6 +8939,33 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
 
         $text += '\n';
     }
+    for(i in msg){
+        for(j in msg[i].passengers){
+            if(msg[i].passengers[j].fees.length > 0)
+                text+=`
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
+                            <span style="font-size:13px; font-weight:500;"> `+msg[i].passengers[j].title+` `+msg[i].passengers[j].first_name+` `+msg[i].passengers[j].last_name+`</span><br/>
+                        </div>
+                    </div>
+                </div>`;
+            for(k in msg[i].passengers[j].fees){
+                text +=`
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                            <span style="font-size:13px; font-weight:500;">- `+msg[i].passengers[j].fees[k].fee_type+` </span><br/>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                            <span style="font-size:13px; font-weight:500;">`+currency +' '+getrupiah(Math.ceil(msg[i].passengers[j].fees[k].base_price))+`</span><br/>
+                        </div>
+                    </div>
+                </div>`;
+                total_price += msg[i].passengers[j].fees[k].base_price;
+            }
+        }
+    }
 
     text+=`
         </div>
@@ -10871,7 +10898,7 @@ function sell_reschedule_v2(){
                                            }
                                         }
                                     }
-                                }
+                               }
 
                                document.getElementById('airline_booking').innerHTML+= `
 
