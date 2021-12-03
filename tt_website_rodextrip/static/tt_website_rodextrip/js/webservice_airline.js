@@ -8955,6 +8955,7 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
                         </div>
                     </div>
                 </div>`;
+            }
             for(k in msg[i].passengers[j].fees){
                 text +=`
                 <div class="col-lg-12">
