@@ -1368,6 +1368,8 @@ def update_contacts(request):
             set_session(request, 'airline_update_contact'+request.POST['signature'], res)
             set_session(request, 'airline_update_contact_data'+request.POST['signature'], data)
             _logger.info("SUCCESS update_contacts AIRLINE SIGNATURE " + request.POST['signature'])
+        elif res['result']['error_code'] == 4014:
+            res['result']['error_code'] = 0 #SUDAH BERHASIL DOUBLE JADI DI PASS
         else:
             _logger.error("ERROR update_contacts_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
@@ -1444,6 +1446,8 @@ def update_passengers(request):
             set_session(request, 'airline_update_passengers' + request.POST['signature'], res)
             set_session(request, 'airline_update_passengers_data' + request.POST['signature'], data)
             _logger.info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
+        elif res['result']['error_code'] == 4014:
+            res['result']['error_code'] = 0 #SUDAH BERHASIL DOUBLE JADI DI PASS
         else:
             _logger.error("ERROR update_passengers_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
