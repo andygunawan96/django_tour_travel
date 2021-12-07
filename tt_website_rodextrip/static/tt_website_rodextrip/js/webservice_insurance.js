@@ -1033,9 +1033,15 @@ function check_passenger(){
        }
        if(document.getElementById('adult_nationality'+i).value == ''){
            error_log+= 'Please fill nationality for passenger adult '+i+'!</br>\n';
-           document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
+           //document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
+           $("#adult_nationality"+i).each(function() {
+             $(this).siblings(".select2-container").css('border', '1px solid red');
+           });
        }else{
-           document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
+           //document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
+           $("#adult_nationality"+i).each(function() {
+             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+           });
        }
         //KTP
         if(document.getElementById('adult_identity_type'+i).style.display == 'block'){
@@ -1047,9 +1053,13 @@ function check_passenger(){
                    document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
                 }if(document.getElementById('adult_country_of_issued'+i).value == '' || document.getElementById('adult_country_of_issued'+i).value == 'Country of Issued'){
                    error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                   document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
+                   $("#adult_country_of_issued"+i+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid red');
+                   });
                 }else{
-                   document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+                   $("#adult_country_of_issued"+i+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                   });
                 }
 
            }
@@ -1076,9 +1086,13 @@ function check_passenger(){
                         document.getElementById('adult_passport_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
                }if(document.getElementById('adult_passport_passport_country_of_issued'+i).value == '' || document.getElementById('adult_passport_passport_country_of_issued'+i).value == 'Country of Issued'){
                    error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                   document.getElementById('adult_passport_passport_country_of_issued'+i).style['border-color'] = 'red';
+                   $("#adult_passport_passport_country_of_issued"+i+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid red');
+                   });
                }else{
-                   document.getElementById('adult_passport_passport_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+                   $("#adult_passport_passport_country_of_issued"+i+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                   });
                }
            }
         }
@@ -1099,9 +1113,13 @@ function check_passenger(){
 
         if(document.getElementById('adult_city'+i).value == '' || document.getElementById('adult_city'+i).value == 'City'){
            error_log+= 'Please fill city for passenger adult '+i+'!</br>\n';
-           document.getElementById('adult_city'+i).style['border-color'] = 'red';
+           $("#adult_city"+i+"_id").each(function() {
+             $(this).siblings(".select2-container").css('border', '1px solid red');
+           });
         }else{
-           document.getElementById('adult_city'+i).style['border-color'] = '#EFEFEF';
+           $("#adult_city"+i+"_id").each(function() {
+             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+           });
         }
 
         //PAKET FAMILY
@@ -1128,9 +1146,13 @@ function check_passenger(){
 
             if(document.getElementById('adult_relation1_relation'+i).value == '' && document.getElementById('adult_relation1_first_name'+i).value != ''){
                 error_log+= 'Please fill first relation for passenger adult '+i+'!</br>\n';
-                document.getElementById('adult_relation1_relation'+i).style['border-color'] = 'red';
+                $("#adult_relation1_relation"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                });
             }else{
-                document.getElementById('adult_relation1_relation'+i).style['border-color'] = '#EFEFEF';
+                $("#adult_relation1_relation"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+                });
             }
 
             //PASSPORT
@@ -1155,9 +1177,13 @@ function check_passenger(){
                             document.getElementById('adult_relation1_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
                    }if(document.getElementById('adult_relation1_passport_country_of_issued'+i).value == '' || document.getElementById('adult_relation1_passport_country_of_issued'+i).value == 'Country of Issued'){
                        error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                       document.getElementById('adult_relation1_passport_country_of_issued'+i).style['border-color'] = 'red';
+                       $("#adult_relation1_passport_country_of_issued"+i+"_id").each(function() {
+                         $(this).siblings(".select2-container").css('border', '1px solid red');
+                       });
                    }else{
-                       document.getElementById('adult_relation1_passport_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+                       $("#adult_relation1_passport_country_of_issued"+i+"_id").each(function() {
+                         $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                       });
                    }
                }
             }
@@ -1187,9 +1213,13 @@ function check_passenger(){
 
                 if(document.getElementById('adult_relation2_relation'+i).value == ''){
                     error_log+= 'Please fill second relation for passenger adult '+i+'!</br>\n';
-                    document.getElementById('adult_relation2_relation'+i).style['border-color'] = 'red';
+                    $("#adult_relation2_relation"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
                 }else{
-                    document.getElementById('adult_relation2_relation'+i).style['border-color'] = '#EFEFEF';
+                    $("#adult_relation2_relation"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+                    });
                 }
 
                 //PASSPORT
@@ -1214,9 +1244,13 @@ function check_passenger(){
                                 document.getElementById('adult_relation2_expired_date'+i).style['border-color'] = '#EFEFEF';
                        }if(document.getElementById('adult_relation2_passport_country_of_issued'+i).value == '' || document.getElementById('adult_relation2_passport_country_of_issued'+i).value == 'Country of Issued'){
                            error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                           document.getElementById('adult_relation2_passport_country_of_issued'+i).style['border-color'] = 'red';
+                           $("#adult_relation5_passport_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid red');
+                           });
                        }else{
-                           document.getElementById('adult_relation2_passport_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+                           $("#adult_relation2_passport_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                           });
                        }
                    }
                 }
@@ -1246,9 +1280,13 @@ function check_passenger(){
 
                 if(document.getElementById('adult_relation3_relation'+i).value == ''){
                     error_log+= 'Please fill third relation for passenger adult '+i+'!</br>\n';
-                    document.getElementById('adult_relation3_relation'+i).style['border-color'] = 'red';
+                    $("#adult_relation3_relation"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
                 }else{
-                    document.getElementById('adult_relation3_relation'+i).style['border-color'] = '#EFEFEF';
+                    $("#adult_relation3_relation"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+                    });
                 }
                 //PASSPORT
                 if(insurance_pick.sector_type == 'International'){
@@ -1272,9 +1310,13 @@ function check_passenger(){
                                 document.getElementById('adult_relation3_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
                        }if(document.getElementById('adult_relation3_passport_country_of_issued'+i).value == '' || document.getElementById('adult_relation3_passport_country_of_issued'+i).value == 'Country of Issued'){
                            error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                           document.getElementById('adult_relation3_passport_country_of_issued'+i).style['border-color'] = 'red';
+                           $("#adult_relation5_passport_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid red');
+                           });
                        }else{
-                           document.getElementById('adult_relation3_passport_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+                           $("#adult_relation5_passport_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                           });
                        }
                    }
                 }
@@ -1304,9 +1346,13 @@ function check_passenger(){
 
                 if(document.getElementById('adult_relation4_relation'+i).value == ''){
                     error_log+= 'Please fill fourth relation for passenger adult '+i+'!</br>\n';
-                    document.getElementById('adult_relation4_relation'+i).style['border-color'] = 'red';
+                    $("#adult_relation4_relation"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
                 }else{
-                    document.getElementById('adult_relation4_relation'+i).style['border-color'] = '#EFEFEF';
+                    $("#adult_relation1_relation"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+                    });
                 }
                 //PASSPORT
                 if(insurance_pick.sector_type == 'International'){
@@ -1330,9 +1376,13 @@ function check_passenger(){
                                 document.getElementById('adult_relation4_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
                        }if(document.getElementById('adult_relation4_passport_country_of_issued'+i).value == '' || document.getElementById('adult_relation4_passport_country_of_issued'+i).value == 'Country of Issued'){
                            error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                           document.getElementById('adult_relation4_passport_country_of_issued'+i).style['border-color'] = 'red';
+                           $("#adult_relation5_passport_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid red');
+                           });
                        }else{
-                           document.getElementById('adult_relation4_passport_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+                           $("#adult_relation5_passport_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                           });
                        }
                    }
                 }
@@ -1364,9 +1414,13 @@ function check_passenger(){
 
         if(document.getElementById('adult_relation5_relation'+i).value == ''){
             error_log+= 'Please fill beneficiary relation for passenger adult '+i+'!</br>\n';
-            document.getElementById('adult_relation5_relation'+i).style['border-color'] = 'red';
+            $("#adult_relation5_relation"+i).each(function() {
+                $(this).parent().find('.nice-select').css('border', '1px solid red');
+            });
         }else{
-            document.getElementById('adult_relation5_relation'+i).style['border-color'] = '#EFEFEF';
+            $("#adult_relation5_relation"+i).each(function() {
+                $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+            });
         }
 
         //CHECK KTP
@@ -1376,11 +1430,15 @@ function check_passenger(){
                document.getElementById('adult_relation5_passport_number'+i).style['border-color'] = 'red';
             }else{
                document.getElementById('adult_relation5_passport_number'+i).style['border-color'] = '#EFEFEF';
-            }if(document.getElementById('adult_relation5_passport_country_of_issued_required'+i).value == '' || document.getElementById('adult_relation5_passport_country_of_issued_required'+i).value == 'Country of Issued'){
+            }if(document.getElementById('adult_relation5_passport_country_of_issued'+i+'_id').value == '' || document.getElementById('adult_relation5_passport_country_of_issued'+i+'_id').value == 'Country of Issued'){
                error_log+= 'Please fill country of issued for beneficiary customer '+i+'!</br>\n';
-               document.getElementById('adult_relation5_passport_country_of_issued_required'+i).style['border-color'] = 'red';
+               $("#adult_relation5_passport_country_of_issued"+i+"_id").each(function() {
+                 $(this).siblings(".select2-container").css('border', '1px solid red');
+               });
             }else{
-               document.getElementById('adult_relation5_passport_country_of_issued_required'+i).style['border-color'] = '#EFEFEF';
+               $("#adult_relation5_passport_country_of_issued"+i+"_id").each(function() {
+                 $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+               });
             }
         }
 

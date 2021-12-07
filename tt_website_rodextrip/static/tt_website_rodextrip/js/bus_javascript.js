@@ -1442,9 +1442,13 @@ function check_passenger(adult, infant){
                        document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
                    }if(document.getElementById('adult_country_of_issued'+i).value == ''){
                        error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                       document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
+                       $("#adult_country_of_issued"+i+"_id").each(function() {
+                         $(this).siblings(".select2-container").css('border', '1px solid red');
+                       });
                    }else{
-                       document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+                       $("#adult_country_of_issued"+i+"_id").each(function() {
+                         $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                       });
                    }
                }
                if(document.getElementById('adult_id_type'+i).value == 'other' && document.getElementById('adult_passport_number'+i).value.length < 6){

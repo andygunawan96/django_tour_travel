@@ -1290,6 +1290,13 @@ $(document).ready(function(){
                     $("#show_total_pax_flight").click();
                 }, 200);
             });
+
+            quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
+            quantity_child_flight = parseInt(document.getElementById('child_flight').value);
+            quantity_infant_flight = parseInt(document.getElementById('infant_flight').value);
+
+            $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
+            $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
         }
         else if(selected_value == "roundtrip"){
             if(template == 1 || template == 2 || template == 3 || template == 6){
@@ -1401,6 +1408,13 @@ $(document).ready(function(){
                     $("#show_total_pax_flight").click();
                 }, 200);
             });
+
+            quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
+            quantity_child_flight = parseInt(document.getElementById('child_flight').value);
+            quantity_infant_flight = parseInt(document.getElementById('infant_flight').value);
+
+            $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
+            $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
         }
         else if (selected_value == "multicity"){
             airline_counter_config = 0;
@@ -1433,7 +1447,6 @@ $(document).ready(function(){
                     </div>
                 </div>`;
             }
-
             else if(template == 3){
                 text_mc += `
                 <div class="row">
@@ -1447,7 +1460,6 @@ $(document).ready(function(){
                     </div>
                 </div>`;
             }
-
             else if(template == 4){
                 text_mc += `
                 <div class="row">
@@ -1461,7 +1473,6 @@ $(document).ready(function(){
                     </div>
                 </div>`;
             }
-
             else if(template == 5){
                 text_mc += `
                 <div class="row">
@@ -1475,7 +1486,6 @@ $(document).ready(function(){
                     </div>
                 </div>`;
             }
-
             else if(template == 6){
                 text_mc += `
                 <div class="row">
@@ -1499,9 +1509,13 @@ $(document).ready(function(){
 
             add_multi_city('home');
             add_multi_city('home');
+
+            quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
+            quantity_child_flight = parseInt(document.getElementById('child_flight').value);
+            quantity_infant_flight = parseInt(document.getElementById('infant_flight').value);
+
             $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
             $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
-
         }
     });
 
@@ -1748,6 +1762,14 @@ $(document).ready(function(){
                     $("#show_total_pax_flight").click();
                 }, 200);
             });
+
+            quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
+            quantity_child_flight = parseInt(document.getElementById('child_flight').value);
+            quantity_infant_flight = parseInt(document.getElementById('infant_flight').value);
+
+            $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
+            $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
+
         }
         else if(selected_value == "roundtrip"){
             document.getElementById("airline_date_search").innerHTML = '';
@@ -1900,7 +1922,12 @@ $(document).ready(function(){
                 });
             }
 
+            quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
+            quantity_child_flight = parseInt(document.getElementById('child_flight').value);
+            quantity_infant_flight = parseInt(document.getElementById('infant_flight').value);
 
+            $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
+            $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
         }
         else if (selected_value == "multicity"){
             airline_counter_config = 0;
@@ -2015,6 +2042,12 @@ $(document).ready(function(){
             for(var airline_counter=0;airline_counter<parseInt(airline_request_counter);airline_counter++){
                 add_multi_city('search');
             }
+
+            quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
+            quantity_child_flight = parseInt(document.getElementById('child_flight').value);
+            quantity_infant_flight = parseInt(document.getElementById('infant_flight').value);
+
+            $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
             $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
             //func_check_provider()
         }

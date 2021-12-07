@@ -6091,10 +6091,14 @@ function check_passenger(){
                                 }
                                 if(document.getElementById('adult_country_of_issued'+ nomor_pax).value == ''){
                                     error_log+= 'Please fill country of issued for customer '+ nomor_pax +'!</br>\n';
-                                    document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = 'red';
+                                    $("#adult_country_of_issued"+nomor_pax+"_id").each(function() {
+                                      $(this).siblings(".select2-container").css('border', '1px solid red');
+                                    });
                                     check_form_personal = 1;
                                 }else{
-                                    document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = '#EFEFEF';
+                                    $("#adult_country_of_issued"+nomor_pax+"_id").each(function() {
+                                      $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                                    });
                                 }
                                 console.log('expired')
                                 if(document.getElementById('adult_identity_expired_date'+nomor_pax).value == ''){
@@ -6481,10 +6485,14 @@ function check_passenger(){
                                 }
                                 if(document.getElementById('adult_country_of_issued'+ nomor_pax).value == ''){
                                     error_log+= 'Please fill country of issued for customer '+ nomor_pax +'!</br>\n';
-                                    document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = 'red';
+                                    $("#adult_country_of_issued"+nomor_pax+"_id").each(function() {
+                                      $(this).siblings(".select2-container").css('border', '1px solid red');
+                                    });
                                     check_form_personal = 1;
                                 }else{
-                                    document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = '#EFEFEF';
+                                    $("#adult_country_of_issued"+nomor_pax+"_id").each(function() {
+                                      $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                                    });
                                 }
                                 console.log('expired')
                                 if(document.getElementById('adult_identity_expired_date'+nomor_pax).value == ''){
@@ -7603,9 +7611,13 @@ function check_passenger_data(){
                             }
                             if(document.getElementById('adult_country_of_issued'+ nomor_pax).value == ''){
                                 error_log+= 'Please fill country of issued for customer '+ nomor_pax +'!</br>\n';
-                                document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = 'red';
+                                $("#adult_country_of_issued"+nomor_pax+"_id").each(function() {
+                                  $(this).siblings(".select2-container").css('border', '1px solid red');
+                                });
                             }else{
-                                document.getElementById('adult_country_of_issued'+ nomor_pax).style['border-color'] = '#EFEFEF';
+                                $("#adult_country_of_issued"+nomor_pax+"_id").each(function() {
+                                  $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                                });
                             }
                             console.log('expired')
                             if(document.getElementById('adult_identity_expired_date'+nomor_pax).value == ''){
