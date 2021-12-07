@@ -1515,7 +1515,6 @@ function insurance_get_booking(data, sync=false){
                     document.getElementById('show_loading_booking_insurance').hidden = true;
 //                    document.getElementById('button-home').hidden = false;
                     document.getElementById('button-new-reservation').hidden = false;
-                    document.getElementById('button-re-order').hidden = false;
 //                    document.getElementById('new-reservation').hidden = false;
                     hide_modal_waiting_transaction();
                     gmt = '';
@@ -2361,7 +2360,12 @@ function insurance_issued_booking(data){
                if(google_analytics != '')
                    gtag('event', 'insurance_issued', {});
                if(msg.result.error_code == 0){
-                   print_success_issued();
+                   try{
+                       if(msg.result.response.state == 'issued')
+                            print_success_issued();
+                       else
+                            print_fail_issued();
+                   }catch(err){}
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                         window.location.href = '/insurance/booking/' + btoa(data);
                    }else{
