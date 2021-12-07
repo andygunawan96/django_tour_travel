@@ -5738,6 +5738,36 @@ function print_success_issued(){
    })
 }
 
+function print_fail_issued(){
+    Swal.fire({
+      title: 'Issued',
+      html: 'Payment Fail',
+      type: 'error',
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading()
+        timerInterval = setInterval(() => {
+          const content = Swal.getHtmlContainer()
+          if (content) {
+            const b = content.querySelector('b')
+            if (b) {
+              b.textContent = Swal.getTimerLeft()
+            }
+          }
+        }, 100)
+      },
+      willClose: () => {
+        clearInterval(timerInterval)
+      }
+   }).then((result) => {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+        console.log('I was closed by the timer')
+      }
+   })
+}
+
 function change_identity_type(id){
     try{
         if(document.getElementById(id).value == 'ktp'){

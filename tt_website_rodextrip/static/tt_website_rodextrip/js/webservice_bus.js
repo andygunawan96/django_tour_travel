@@ -1765,7 +1765,12 @@ function bus_issued(data){
                if(google_analytics != '')
                    gtag('event', 'bus_issued', {});
                if(msg.result.error_code == 0){
-                   print_success_issued();
+                   try{
+                       if(msg.result.response.state == 'issued')
+                            print_success_issued();
+                       else
+                            print_fail_issued();
+                   }catch(err){}
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                         window.location.href = '/bus/booking/' + btoa(data);
                    }else{
