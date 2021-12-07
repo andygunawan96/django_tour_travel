@@ -1277,7 +1277,12 @@ function bills_issued(data){
                    if(data.hasOwnProperty('member') == true)
                         gtag('event', 'bill_issued', {});
                if(msg.result.error_code == 0){
-                   print_success_issued();
+                   try{
+                       if(msg.result.response.state == 'issued')
+                            print_success_issued();
+                       else
+                            print_fail_issued();
+                   }catch(err){}
                    //update ticket
                    price_arr_repricing = {};
                    pax_type_repricing = [];

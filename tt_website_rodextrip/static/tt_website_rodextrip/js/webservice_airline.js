@@ -3548,7 +3548,7 @@ function set_passenger_seat_map_airline(val){
     for(i in passengers[val].seat_list){
         text+=`
         <div class="col-lg-12">
-            <h6 style="padding-top:10px;"><i class="fas fa-plane"></i> `+passengers[val].seat_list[i].segment_code+`: `+passengers[val].seat_list[i].seat_name+` `+passengers[val].seat_list[i].seat_pick+`</h6>
+            <h6 style="padding-top:10px;"><i class="fas fa-plane"></i> `+passengers[val].seat_list[i].segment_code+`: `+passengers[val].seat_list[i].seat_pick+`</h6>
             <div style="border:1px solid #cdcdcd; padding:15px; background:white; margin-bottom:10px;">
             <h6>Description: </h6>`;
         for(j in passengers[val].seat_list[i].description){
@@ -3591,7 +3591,7 @@ function set_first_passenger_seat_map_airline(val){
     for(i in passengers[val].seat_list){
         text+=`
         <div class="col-lg-12">
-            <h6 style="padding-top:10px;"><i class="fas fa-plane"></i> `+passengers[val].seat_list[i].segment_code+`: `+passengers[val].seat_list[i].seat_name+` `+passengers[val].seat_list[i].seat_pick+`</h6>
+            <h6 style="padding-top:10px;"><i class="fas fa-plane"></i> `+passengers[val].seat_list[i].segment_code+`: `+passengers[val].seat_list[i].seat_pick+`</h6>
             <div style="border:1px solid #cdcdcd; padding:15px; background:white; margin-bottom:10px;">
             <h6>Description: </h6>`;
         for(j in passengers[val].seat_list[i].description){
@@ -6684,7 +6684,18 @@ function airline_issued(data){
                if(google_analytics != '')
                    gtag('event', 'airline_issued', {});
                if(msg.result.error_code == 0){
-                   print_success_issued();
+                   try{
+                       if(msg.result.response.state == 'issued')
+                            try{
+                               if(msg.result.response.state == 'issued')
+                                    print_success_issued();
+                               else
+                                    print_fail_issued();
+                            }catch(err){}
+                       else
+                            print_fail_issued();
+                   }catch(err){}
+
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                         window.location.href = '/airline/booking/' + btoa(data);
                    }else{

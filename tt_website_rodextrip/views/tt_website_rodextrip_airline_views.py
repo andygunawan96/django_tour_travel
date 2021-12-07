@@ -687,7 +687,7 @@ def ssr(request):
                                                             adult[len(adult) - 1]['ssr_list'].append({
                                                                 "name": fee['fee_name'],
                                                                 "journey_code": ssr['journey_code'],
-                                                                "availability_type": fee['availability_type'],
+                                                                "availability_type": fee['fee_category'],
                                                                 "price": fee['amount']
                                                             })
                     else:

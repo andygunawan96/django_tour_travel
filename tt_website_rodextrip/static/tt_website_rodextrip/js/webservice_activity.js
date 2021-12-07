@@ -2578,7 +2578,12 @@ function activity_issued_booking(order_number)
                if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                     window.location.href = '/activity/booking/' + btoa(order_number);
                }else{
-                   print_success_issued();
+                   try{
+                       if(msg.result.response.state == 'issued')
+                            print_success_issued();
+                       else
+                            print_fail_issued();
+                   }catch(err){}
                    var booking_num = msg.result.response.order_number;
                    if (booking_num)
                    {
