@@ -1254,11 +1254,6 @@ function check_passenger(adult, child, infant){
            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('adult_last_name'+i).value == ''){
-           error_log+= 'Please input last name of adult passenger '+i+'!</br>\n';
-           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
        }
 
        if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
@@ -1286,9 +1281,13 @@ function check_passenger(adult, child, infant){
                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('adult_country_of_issued'+i).value == ''){
                error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-               document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
+               $("#adult_country_of_issued"+i+"_id").each(function() {
+                 $(this).siblings(".select2-container").css('border', '1px solid red');
+               });
            }else{
-               document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+               $("#adult_country_of_issued"+i+"_id").each(function() {
+                 $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+               });
            }
        }if(document.getElementById('adult_cp'+i).checked == true){
             if(check_email(document.getElementById('adult_email'+i).value)==false){
@@ -1321,11 +1320,6 @@ function check_passenger(adult, child, infant){
            document.getElementById('child_first_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('child_last_name'+i).value == ''){
-           error_log+= 'Please input last name of child passenger '+i+'!</br>\n';
-           document.getElementById('child_last_name'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(check_date(document.getElementById('child_birth_date'+i).value)==false){
            error_log+= 'Birth date wrong for passenger child '+i+'!</br>\n';
            document.getElementById('child_birth_date'+i).style['border-color'] = 'red';
@@ -1351,9 +1345,13 @@ function check_passenger(adult, child, infant){
                document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('child_country_of_issued'+i).value == ''){
                error_log+= 'Please fill country of issued for passenger child '+i+'!</br>\n';
-               document.getElementById('child_country_of_issued'+i).style['border-color'] = 'red';
+               $("#child_country_of_issued"+i+"_id").each(function() {
+                 $(this).siblings(".select2-container").css('border', '1px solid red');
+               });
            }else{
-               document.getElementById('child_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+               $("#child_country_of_issued"+i+"_id").each(function() {
+                 $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+               });
            }
        }
    }
@@ -1375,11 +1373,6 @@ function check_passenger(adult, child, infant){
            document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('infant_last_name'+i).value == ''){
-           error_log+= 'Please input last name of infant passenger '+i+'!</br>\n';
-           document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(check_date(document.getElementById('infant_birth_date'+i).value)==false){
            error_log+= 'Birth date wrong for passenger infant '+i+'!</br>\n';
            document.getElementById('infant_birth_date'+i).style['border-color'] = 'red';
@@ -1405,9 +1398,13 @@ function check_passenger(adult, child, infant){
                document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('infant_country_of_issued'+i).value == ''){
                error_log+= 'Please fill country of issued for passenger infant '+i+'!</br>\n';
-               document.getElementById('infant_country_of_issued'+i).style['border-color'] = 'red';
+               $("#infant_country_of_issued"+i+"_id").each(function() {
+                 $(this).siblings(".select2-container").css('border', '1px solid red');
+               });
            }else{
-               document.getElementById('infant_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+               $("#infant_country_of_issued"+i+"_id").each(function() {
+                 $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+               });
            }
        }
 
