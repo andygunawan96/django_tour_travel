@@ -174,8 +174,17 @@ def get_config(request):
             try:
                 if res['result']['error_code'] == 0:
                     headers['action'] = 'get_provider_list'
+                    response = copy.deepcopy(res)
+                    response['result']['response'] = {}
+                    #HOMECARE DULUAN
+                    for rec in res['result']['response']:
+                        if 'HC' in rec:
+                            response['result']['response'][rec] = res['result']['response'][rec]
+                    for rec in res['result']['response']:
+                        if rec not in response['result']['response']:
+                            response['result']['response'][rec] = res['result']['response'][rec]
                     # res_provider = send_request_api(request, url_request, headers, data, 'POST')
-                    write_cache_with_folder(res, "mitra_keluarga_cache_data")
+                    write_cache_with_folder(response, "mitra_keluarga_cache_data")
             except Exception as e:
                 _logger.info("ERROR GET CACHE mitra_keluarga " + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
                 file = read_cache_with_folder_path("mitra_keluarga_cache_data", 86400)

@@ -11,6 +11,7 @@ from .tt_webservice import *
 from ..views import tt_webservice_airline_views as airline
 import logging
 import traceback
+import copy
 _logger = logging.getLogger("rodextrip_logger")
 
 month = {
@@ -844,7 +845,16 @@ def get_new_cache(signature, type='all'):
 
             try:
                 if res['result']['error_code'] == 0:
-                    write_cache_with_folder(res, "mitra_keluarga_cache_data")
+                    response = copy.deepcopy(res)
+                    response['result']['response'] = {}
+                    # HOMECARE DULUAN
+                    for rec in res['result']['response']:
+                        if 'HC' in rec:
+                            response['result']['response'][rec] = res['result']['response'][rec]
+                    for rec in res['result']['response']:
+                        if rec not in response['result']['response']:
+                            response['result']['response'][rec] = res['result']['response'][rec]
+                    write_cache_with_folder(response, "mitra_keluarga_cache_data")
             except Exception as e:
                 _logger.info("ERROR UPDATE CACHE mitra keluarga " + provider + ' ' + json.dumps(res) + '\n' + str(
                     e) + '\n' + traceback.format_exc())
