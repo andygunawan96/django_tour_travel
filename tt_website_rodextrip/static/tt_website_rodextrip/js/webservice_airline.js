@@ -5172,12 +5172,15 @@ function airline_get_booking(data, sync=false){
                                 }
                                 $text += '\n';
                             }
-                            if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_reschedule)
-                                text+=`
-                                    <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
-                            if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_cancel)
-                                text+=`
-                                    <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Refund</span>`;
+                            try{
+                                //prevent error kalau provider tidak ada
+                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_reschedule)
+                                    text+=`
+                                        <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Reschedule</span>`;
+                                if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_cancel)
+                                    text+=`
+                                        <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Refund</span>`;
+                            }catch(err){}
                             for(j in msg.result.response.provider_bookings[i].rules){
                                 text += `
                                     <span id="span-tac-up`+rules+`" class="carrier_code_template" style="display: block; cursor: pointer;" onclick="show_hide_tac(`+rules+`);"> `+msg.result.response.provider_bookings[i].rules[j].name+` <i class="fas fa-chevron-down"></i></span>
