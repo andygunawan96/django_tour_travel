@@ -2118,7 +2118,7 @@ function activity_get_price_date(){
         for(i in activity_type[activity_type_pick].skus)
         {
             low_sku_id = activity_type[activity_type_pick].skus[i].sku_id.toLowerCase();
-            check_price_sku_data[low_sku_id] = document.getElementById(low_sku_id+'_passenger').value;
+            check_price_sku_data[activity_type[activity_type_pick].skus[i].sku_id] = parseInt(document.getElementById(low_sku_id+'_passenger').value);
         }
         getToken();
         $.ajax({
