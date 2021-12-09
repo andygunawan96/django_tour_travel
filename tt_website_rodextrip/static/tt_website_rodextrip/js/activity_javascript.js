@@ -273,8 +273,8 @@ function share_data(){
 }
 
 function activity_table_detail(){
-   var grand_total = activity_date.sale_price;
-   var grand_commission = activity_date.commission_price;
+   var grand_total = 0;
+   var grand_commission = 0;
    text = '';
    name = activity_data.name.replace(/&#39;/g,"'");
    name = name.replace(/&amp;/g, '&');
@@ -298,18 +298,20 @@ function activity_table_detail(){
    document.getElementById('product_visit_date').innerHTML = visit_date_txt;
    $test += '‣ Price \n';
    try{
-       for (price in activity_date.prices)
+       for (price in activity_date.service_charge_summary)
        {
             text+= `<div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                    <span style="font-size:13px; font-weight:500;">`+activity_date.prices[price].pax_count+`x `+price+` @IDR `;
-            text+= getrupiah(activity_date.prices[price].amount)+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">IDR `;
-            text+= getrupiah(activity_date.prices[price].total)+`</span></div>`;
+                                    <span style="font-size:13px; font-weight:500;">`+activity_date.service_charge_summary[price].pax_count+`x `+activity_date.service_charge_summary[price].pax_type+` @`+activity_date.service_charge_summary[price].service_charges[0].currency+` `;
+            text+= getrupiah(activity_date.service_charge_summary[price].base_price)+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">`+activity_date.service_charge_summary[price].service_charges[0].currency+` `;
+            text+= getrupiah(activity_date.service_charge_summary[price].total_price)+`</span></div>`;
             text+= `<div class="col-lg-12">
                            <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                     </div>
                    </div>`;
-            $test += activity_date.prices[price].pax_count + ' ' + price + ' Price @IDR ' + getrupiah(activity_date.prices[price].amount)+'\n';
+            $test += activity_date.service_charge_summary[price].pax_count + ' ' + price + ' Price @IDR ' + getrupiah(activity_date.service_charge_summary[price].base_price)+'\n';
+            grand_total += activity_date.service_charge_summary[price].total_price;
+            grand_commission += activity_date.service_charge_summary[price].total_commission;
        }
        if(document.getElementById('infant_passenger'))
        {
@@ -481,8 +483,8 @@ function activity_table_detail2(pagetype){
         document.getElementById('repricing_div').innerHTML = text_repricing;
         //repricing
    }
-   grand_total = price.sale_price;
-   var grand_commission = price.commission_price;
+   var grand_total = 0;
+   var grand_commission = 0;
    text = '';
    $test = '';
    if (document.getElementById('product_title'))
@@ -526,20 +528,21 @@ function activity_table_detail2(pagetype){
    }catch(err){}
 
    $test += '‣ Price:\n';
-   console.log(price.prices);
    try{
-       for (pri in price.prices)
+       for (pri in price.service_charge_summary)
        {
             text+= `<div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px; font-weight:500;">`+price.prices[pri].pax_count+`x `+pri+` @IDR `;
-            text+= getrupiah(price.prices[pri].amount)+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">IDR `;
-            text+= getrupiah(price.prices[pri].total)+`</span></div>`;
-            $test += price.prices[pri].pax_count + ' ' + pri + ' Price @IDR ' + getrupiah(price.prices[pri].amount)+'\n';
+                                <span style="font-size:13px; font-weight:500;">`+price.service_charge_summary[pri].pax_count+`x `+price.service_charge_summary[pri].pax_type+` @`+price.service_charge_summary[pri].service_charges[0].currency+` `;
+            text+= getrupiah(price.service_charge_summary[pri].base_price)+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">`+price.service_charge_summary[pri].service_charges[0].currency+` `;
+            text+= getrupiah(price.service_charge_summary[pri].total_price)+`</span></div>`;
+            $test += price.service_charge_summary[pri].pax_count + ' ' + price.service_charge_summary[pri].pax_type + ' Price @'+price.service_charge_summary[pri].service_charges[0].currency+' ' + getrupiah(price.service_charge_summary[pri].base_price)+'\n';
             text+= `<div class="col-lg-12">
                        <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                    </div>
                </div>`;
+            grand_total += price.service_charge_summary[pri].total_price;
+            grand_commission += price.service_charge_summary[pri].total_commission;
        }
        if (passenger['infant'] && passenger['infant'] != 0)
        {
