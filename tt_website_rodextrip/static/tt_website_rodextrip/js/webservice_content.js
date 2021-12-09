@@ -1463,7 +1463,7 @@ function get_dynamic_page(type){
                     //buat owlcaoursel
                     text = `<div class="owl-carousel-login owl-theme" style="z-index:0;">`;
                     for(i in msg.result.response){
-                        console.log(msg.result.response);
+                        console.log(msg.result.response[i]);
                         if(msg.result.response[i].state == true){
                             check_dynamic = true;
                             text += `<div class="item">`;

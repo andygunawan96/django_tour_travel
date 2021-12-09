@@ -1907,7 +1907,11 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                         document.getElementById('booker_phone').value = phone.split(' - ')[1];
                     }
                 }catch(err){
-
+                    try{ //ambil paling pertama untuk cor por
+                        document.getElementById('booker_phone_code').value = passenger_data[sequence].phones[0].calling_code;
+                        document.getElementById('select2-booker_phone_code_id-container').innerHTML = passenger_data[sequence].phones[0].calling_code;
+                        document.getElementById('booker_phone').value = passenger_data[sequence].phones[0].calling_number;
+                    }catch(err){}
                 }
                 document.getElementById('booker_birth_date').value = passenger_data[sequence].birth_date;
                 document.getElementById('booker_birth_date').readOnly = true;
