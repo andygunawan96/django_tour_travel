@@ -343,9 +343,12 @@ function get_airline_data_search_page(){
                 count++;
            }
            $('#show_total_pax_flight1').text(airline_request.adult + " Adult, " + airline_request.child + " Child, " + airline_request.infant + " Infant");
-           document.getElementById('adult_flight1').value = airline_request.adult;
-           document.getElementById('child_flight1').value = airline_request.child;
-           document.getElementById('infant_flight1').value = airline_request.infant;
+           try{
+               //MC
+               document.getElementById('adult_flight1').value = airline_request.adult;
+               document.getElementById('child_flight1').value = airline_request.child;
+               document.getElementById('infant_flight1').value = airline_request.infant;
+           }catch(err){}
            if (quantity_adult_flight+quantity_child_flight == 9){
                 document.getElementById("right-plus-adult-flight1").disabled = true;
                 document.getElementById("right-plus-child-flight1").disabled = true;
