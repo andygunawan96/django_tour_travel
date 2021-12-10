@@ -311,7 +311,7 @@ function activity_table_detail(){
                    </div>`;
             $test += activity_date.service_charge_summary[price].pax_count + ' ' + price + ' Price @IDR ' + getrupiah(activity_date.service_charge_summary[price].base_price)+'\n';
             grand_total += activity_date.service_charge_summary[price].total_price;
-            grand_commission += activity_date.service_charge_summary[price].total_commission;
+            grand_commission -= activity_date.service_charge_summary[price].total_commission;
        }
        if(document.getElementById('infant_passenger'))
        {
@@ -542,7 +542,7 @@ function activity_table_detail2(pagetype){
                    </div>
                </div>`;
             grand_total += price.service_charge_summary[pri].total_price;
-            grand_commission += price.service_charge_summary[pri].total_commission;
+            grand_commission -= price.service_charge_summary[pri].total_commission;
        }
        if (passenger['infant'] && passenger['infant'] != 0)
        {
