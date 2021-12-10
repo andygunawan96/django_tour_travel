@@ -216,7 +216,7 @@ function bus_passenger_page(){
             bus_request = msg.bus_request;
             bus_detail();
             for (var i = 1; i <= adult; i++){
-              document.getElementById("bus_adult"+i+"_search").addEventListener("keyup", function(event) {
+              document.getElementById("train_adult"+i+"_search").addEventListener("keyup", function(event) {
                 if (event.keyCode === 13) {
                  event.preventDefault();
                  var adult_enter = "search_adult_"+event.target.id.toString().replace(/[^\d.]/g, '');
