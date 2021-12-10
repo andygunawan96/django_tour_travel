@@ -2023,7 +2023,7 @@ function get_airline_recommendations_list(){
 }
 
 function sort(){
-    airline = data;
+    airline = JSON.parse(JSON.stringify(data));
     ticket_count = 0;
     var contain = 0;
     scroll_add_airline = false;
