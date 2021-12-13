@@ -1924,7 +1924,10 @@ function change_fare(journey, segment, fares){
             }
         }
     }
-    document.getElementById('fare'+journey).innerHTML = 'IDR ' + getrupiah(price.toString());
+
+    if(isNaN(parseInt(price)) == false){
+        document.getElementById('fare'+journey).innerHTML = 'IDR ' + getrupiah(price.toString());
+    }
 //    airline_data[journey].total_price = price;
 
 }

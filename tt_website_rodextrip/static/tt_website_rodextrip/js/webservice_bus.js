@@ -168,7 +168,7 @@ function bus_search_page(){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
-            $('#loading-search-hotel').hide();
+            $('#loading-search-bus').hide();
        },timeout: 180000
    });
 }
@@ -191,7 +191,7 @@ function bus_search_page(){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
-            $('#loading-search-hotel').hide();
+            $('#loading-search-bus').hide();
        },timeout: 180000
    });
 }
@@ -254,7 +254,7 @@ function bus_passenger_page(){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
-            $('#loading-search-hotel').hide();
+            $('#loading-search-bus').hide();
        },timeout: 180000
    });
 }
@@ -323,7 +323,7 @@ function bus_review_page(){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
-            $('#loading-search-hotel').hide();
+            $('#loading-search-bus').hide();
        },timeout: 180000
    });
 }
@@ -473,13 +473,14 @@ function bus_search(provider, signature){
                         response +=`
                             <div style="padding:5px; margin:10px;">
                                 <div style="text-align:center">
-                                    <img src="/static/tt_website_rodextrip/img/icon/no-bus.png" style="width:80px; height:80px;" alt="Not Found Bus" title="" />
+                                    <img src="/static/tt_website_rodextrip/images/nofound/no-bus.png" style="width:80px; height:80px;" alt="Not Found Bus" title="" />
                                     <br/><br/>
                                     <h6>NO BUS AVAILABLE</h6>
                                 </div>
                             </div>
                         `;
                         document.getElementById('bus_ticket').innerHTML = response;
+                        $('#loading-search-bus').hide();
                         Swal.fire({
                           type: 'error',
                           title: 'Oops!',
