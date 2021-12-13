@@ -183,7 +183,10 @@ def detail(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
             if request.POST:
-                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+                time_limit = get_timelimit_product(request, 'event')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
 
             try:
                 if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -229,7 +232,10 @@ def vendor(request):
             phone_code = sorted(phone_code)
 
             if request.POST:
-                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+                time_limit = get_timelimit_product(request, 'event')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
 
             try:
                 if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -267,7 +273,10 @@ def contact_passengers(request):
             values = get_data_template(request)
 
             if request.POST:
-                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+                time_limit = get_timelimit_product(request, 'event')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -353,7 +362,10 @@ def review(request):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
-            set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+            time_limit = get_timelimit_product(request, 'event')
+            if time_limit == 0:
+                time_limit = int(request.POST['time_limit_input'])
+            set_session(request, 'time_limit', time_limit)
             set_session(request, 'special_req_event', request.POST['special_req_event'])
 
             adult = []

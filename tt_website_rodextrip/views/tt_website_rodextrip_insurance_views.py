@@ -178,7 +178,10 @@ def passenger(request):
 
 
             try:
-                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+                time_limit = get_timelimit_product(request, 'insurance')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
                 set_session(request, 'insurance_pick', json.loads(request.POST['data_insurance']))
                 set_session(request, 'insurance_signature', request.POST['signature_data'])
             except:
@@ -418,7 +421,10 @@ def review(request):
             schedules = []
             journeys = []
             try:
-                set_session(request, 'time_limit', request.POST['time_limit_input'])
+                time_limit = get_timelimit_product(request, 'insurance')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
                 set_session(request, 'insurance_signature', request.POST['signature'])
             except:
                 pass
@@ -428,7 +434,10 @@ def review(request):
         except Exception as e:
             # coba pakai cache
             try:
-                set_session(request, 'time_limit', request.POST['time_limit_input'])
+                time_limit = get_timelimit_product(request, 'insurance')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
                 set_session(request, 'insurance_signature', request.POST['signature'])
             except:
                 pass

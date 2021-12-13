@@ -219,7 +219,10 @@ def review(request, vendor):
             set_session(request, 'medical_passenger_cache', medical_passenger)
             set_session(request, 'medical_data_cache', data)
             try:
-                set_session(request, 'time_limit', request.POST['time_limit_input'])
+                time_limit = get_timelimit_product(request, 'medical')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
                 set_session(request, 'medical_signature', request.POST['signature'])
                 set_session(request, 'vendor_%s' % request.POST['signature'], request.POST['vendor'])
                 set_session(request, 'test_type_%s' % request.POST['signature'], request.POST['test_type'])
