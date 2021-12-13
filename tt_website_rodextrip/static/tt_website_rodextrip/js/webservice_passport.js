@@ -1035,6 +1035,18 @@ function passport_get_data(data){
                                             </div>
                                         </div>`;
                                     }
+                                    //booker
+                                    booker_insentif = '-';
+                                    if(msg.result.response.hasOwnProperty('booker_insentif'))
+                                        booker_insentif = msg.result.response.booker_insentif
+                                    text_repricing += `
+                                        <div class="col-lg-12">
+                                            <div style="padding:5px;" class="row" id="booker_repricing" hidden>
+                                            <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
+                                            <div class="col-lg-3" id="repriring_booker_repricing"></div>
+                                            <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
+                                            </div>
+                                        </div>`;
                                     text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
                                     document.getElementById('repricing_div').innerHTML = text_repricing;
                                     //repricing
