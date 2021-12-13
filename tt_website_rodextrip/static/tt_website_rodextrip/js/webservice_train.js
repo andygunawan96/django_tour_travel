@@ -2188,3 +2188,58 @@ function update_service_charge(type){
     });
 
 }
+
+function update_insentif_booker(type){
+    repricing_order_number = '';
+    if(type == 'booking'){
+        booker_insentif = {}
+        total_price = 0
+        for(j in list){
+            total_price += list[j];
+        }
+        booker_insentif = {
+            'amount': total_price
+        };
+        repricing_order_number = order_number;
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/train",
+       headers:{
+            'action': 'booker_insentif_booking',
+       },
+       data: {
+           'order_number': JSON.stringify(repricing_order_number),
+           'booker': JSON.stringify(booker_insentif),
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                try{
+                    if(type == 'booking'){
+                        please_wait_transaction();
+                        train_get_booking(repricing_order_number);
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
+                    }
+                }catch(err){}
+                $('#myModalRepricing').modal('hide');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error train update booker insentif </span>' + msg.result.error_msg,
+                })
+                $('.loader-rodextrip').fadeOut();
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error train update booker insentif');
+            $('.loader-rodextrip').fadeOut();
+       },timeout: 60000
+    });
+
+}

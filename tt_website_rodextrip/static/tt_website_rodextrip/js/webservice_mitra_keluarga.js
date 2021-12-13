@@ -2760,7 +2760,7 @@ function update_service_charge(type){
     }
     $.ajax({
        type: "POST",
-       url: "/webservice/medical",
+       url: "/webservice/mitra_keluarga",
        headers:{
             'action': 'update_service_charge',
        },
@@ -2776,7 +2776,7 @@ function update_service_charge(type){
                     price_arr_repricing = {};
                     pax_type_repricing = [];
                     please_wait_transaction();
-                    medical_global_get_booking(repricing_order_number);
+                    mitra_keluarga_get_booking(repricing_order_number);
                 }else{
                     price_arr_repricing = {};
                     pax_type_repricing = [];
@@ -2787,24 +2787,71 @@ function update_service_charge(type){
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
            }else{
-                if(order_number.includes('PH'))
-                    vendor = 'PHC';
-                else
-                    vendor = 'Periksain';
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error '+vendor+' service charge </span>' + msg.result.error_msg,
+                  html: '<span style="color: #ff9900;">Error mitra keluarga service charge </span>' + msg.result.error_msg,
                 })
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(order_number.includes('PH'))
-                vendor = 'PHC';
-            else
-                vendor = 'Periksain';
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error '+vendor+' service charge');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error mitra keluarga service charge');
        },timeout: 480000
+    });
+
+}
+
+function update_insentif_booker(type){
+    repricing_order_number = '';
+    if(type == 'booking'){
+        booker_insentif = {}
+        total_price = 0
+        for(j in list){
+            total_price += list[j];
+        }
+        booker_insentif = {
+            'amount': total_price
+        };
+        repricing_order_number = order_number;
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/mitra_keluarga",
+       headers:{
+            'action': 'booker_insentif_booking',
+       },
+       data: {
+           'order_number': JSON.stringify(repricing_order_number),
+           'booker': JSON.stringify(booker_insentif),
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                try{
+                    if(type == 'booking'){
+                        please_wait_transaction();
+                        mitra_keluarga_get_booking(repricing_order_number);
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
+                    }
+                }catch(err){}
+                $('#myModalRepricing').modal('hide');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error mitra keluarga update booker insentif </span>' + msg.result.error_msg,
+                })
+                $('.loader-rodextrip').fadeOut();
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error mitra keluarga update booker insentif');
+            $('.loader-rodextrip').fadeOut();
+       },timeout: 60000
     });
 
 }
