@@ -2704,7 +2704,7 @@ function sort(){
                                                                                 temp_seat_name += ' (First Class)';
                                                                             }
                                                                        }
-                                                                       temp_seat_name += ' - '+airline[i].currency + ' ' + getrupiah(total_price);
+                                                                       temp_seat_name += ' - SOLD OUT';
                                                                        text+=`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`
                                                                            <input onclick="change_fare(`+i+`,`+j+`,`+k+`); change_seat_span(`+i+`, `+j+`, '`+temp_seat_name+`')" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" disabled>
                                                                            <span class="checkmark-radio"></span>`;
@@ -2737,7 +2737,11 @@ function sort(){
                                                                                             temp_seat_name += ' (First Class)';
                                                                                         }
                                                                                     }
-                                                                                   temp_seat_name += ' - '+airline[i].currency + ' ' + getrupiah(total_price);
+                                                                                   if(total_price == 0){
+                                                                                        temp_seat_name += ' - Choose to view price';
+                                                                                   }else{
+                                                                                        temp_seat_name += ' - '+airline[i].currency + ' ' + getrupiah(total_price);
+                                                                                   }
                                                                                    text+=`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`
                                                                                    <input onclick="change_fare(`+i+`,`+j+`,`+k+`); change_seat_span(`+i+`, `+j+`, '`+temp_seat_name+`');" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked">
                                                                                    <span class="checkmark-radio"></span>`;
@@ -2766,14 +2770,27 @@ function sort(){
                                                                                         temp_seat_name += ' (First Class)';
                                                                                     }
                                                                                }
-                                                                               temp_seat_name += ' - '+airline[i].currency + ' ' + getrupiah(total_price);
+
+                                                                               if(total_price == 0){
+                                                                                    temp_seat_name += ' - Choose to view price';
+                                                                               }else{
+                                                                                    temp_seat_name += ' - '+airline[i].currency + ' ' + getrupiah(total_price);
+                                                                               }
                                                                                text+=`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`
                                                                                <input onclick="change_fare(`+i+`,`+j+`,`+k+`); change_seat_span(`+i+`, `+j+`, '`+temp_seat_name+`');" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`">
                                                                                <span class="checkmark-radio"></span>`;
                                                                        }
                                                                    }
                                                                    id_price_segment = `journey`+i+`segment`+j+`fare`+k;
-                                                                   text+=`</br><span>Price:</span><span id="`+id_price_segment+`" class="price_template">`+airline[i].currency+` `+getrupiah(total_price)+`</span><br/>`;
+                                                                   if(total_price == 0){
+                                                                       if(airline_request.adult + airline_request.child > airline[i].segments[j].fares[k].available_count){
+                                                                           text+=`</br><span>Price:</span><span id="`+id_price_segment+`" class="price_template" style="color:#cdcdcd;">SOLD OUT</span><br/>`;
+                                                                       }else{
+                                                                           text+=`</br><span>Price:</span><span id="`+id_price_segment+`" class="price_template">Choose to view price</span><br/>`;
+                                                                       }
+                                                                   }else{
+                                                                       text+=`</br><span>Price:</span><span id="`+id_price_segment+`" class="price_template">`+airline[i].currency+` `+getrupiah(total_price)+`</span><br/>`;
+                                                                   }
                                                                    if(airline[i].segments[j].fares[k].fare_name)
                                                                        text+=`<span>`+airline[i].segments[j].fares[k].fare_name+`</span>`;
                                                                    if(airline[i].segments[j].fares[k].description.length != 0){
@@ -2876,7 +2893,12 @@ function sort(){
                                                     choose_span.innerHTML += ' (First Class)';
                                                 }
                                             }
-                                            choose_span.innerHTML += ' - '+airline[i].currency + ' ' + getrupiah(temp_total_price);
+
+                                           if(temp_total_price == 0){
+                                                choose_span.innerHTML += ' - Choose to view price';
+                                           }else{
+                                                choose_span.innerHTML += ' - '+airline[i].currency + ' ' + getrupiah(temp_total_price);
+                                           }
 
                                            fare_check = 1;
                                        }
@@ -3396,7 +3418,11 @@ function airline_pick_mc(type){
 //                        }
 //                    }
                     console.log('price print ' + getrupiah(price));
-                    text+= currency+' '+getrupiah(price) + '</span>';
+                    if(price == 0){
+                         text+= 'Choose All Flight Schedule to view price</span>';
+                    }else{
+                         text+= currency+' '+getrupiah(price) + '</span>';
+                    }
                     if(provider_list_data.hasOwnProperty(airline_pick_list[i].provider) == true && provider_list_data[airline_pick_list[i].provider].description != '')
                         text += `<br/><span>`+provider_list_data[airline_pick_list[i].provider].description+`</span><br/>`;
                     if(type == 'all'){
@@ -3655,7 +3681,25 @@ function airline_pick_mc(type){
             //                                                break;
             //                                            }
             //                                        }
-                                            text+=`<br/><span id="journeypick`+airline_pick_list[i].airline_pick_sequence+`segment`+j+`fare`+k+`" class="price_template" style="font-weight:bold;">`+airline_pick_list[i].currency+` `+getrupiah(total_price)+`</span>`;
+                                           if(total_price == 0){
+                                               if(airline_request.adult + airline_request.child > airline_pick_list[i].segments[j].fares[k].available_count){
+                                                    text+=`<br/><span id="journeypick`+airline_pick_list[i].airline_pick_sequence+`segment`+j+`fare`+k+`" class="price_template" style="font-weight:bold; color:#cdcdcd;">SOLD OUT</span>`;
+                                               }else{
+                                                    if(k==airline_pick_list[i].segments[j].fare_pick){
+                                                        text+=`<br/><span id="journeypick`+airline_pick_list[i].airline_pick_sequence+`segment`+j+`fare`+k+`" class="price_template" style="font-weight:bold;">Price: `+airline_pick_list[i].currency+` `+getrupiah(total_price)+`</span>`;
+                                                    }else{
+                                                        text+=`<br/><span id="journeypick`+airline_pick_list[i].airline_pick_sequence+`segment`+j+`fare`+k+`" class="price_template" style="font-weight:bold; color:#cdcdcd;">Change and choose to view Price</span>`;
+                                                    }
+                                               }
+                                           }else{
+                                               if(k==airline_pick_list[i].segments[j].fare_pick){
+                                                    text+=`<br/><span id="journeypick`+airline_pick_list[i].airline_pick_sequence+`segment`+j+`fare`+k+`" class="price_template" style="font-weight:bold;">Price: `+airline_pick_list[i].currency+` `+getrupiah(total_price)+`</span>`;
+                                               }else{
+                                                    text+=`<br/><span id="journeypick`+airline_pick_list[i].airline_pick_sequence+`segment`+j+`fare`+k+`" class="price_template" style="font-weight:bold; color:#cdcdcd;">Change and choose to view Price</span>`;
+                                               }
+                                           }
+
+
                                             if(airline_pick_list[i].segments[j].fares[k].fare_name)
                                                text+=`<br/><span>`+airline_pick_list[i].segments[j].fares[k].fare_name+`</span>`;
 
@@ -3748,7 +3792,13 @@ function airline_pick_mc(type){
                             choose_span_pick.innerHTML += ' (First Class)';
                         }
                     }
-                    choose_span_pick.innerHTML += ' - '+airline_pick_list[i].currency + ' ' + getrupiah(temp_total_price_pick);
+
+                   if(temp_total_price_pick == 0){
+                        choose_span_pick.innerHTML += ' - Choose All Flight Schedule';
+                   }else{
+                        choose_span_pick.innerHTML += ' - '+airline_pick_list[i].currency + ' ' + getrupiah(temp_total_price_pick);
+                   }
+
                 }
             }
         }

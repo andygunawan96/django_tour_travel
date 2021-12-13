@@ -594,6 +594,11 @@
                         <div class="col-lg-12" style="padding:15px; background:white; border:1px solid #cdcdcd;" id="medical_pax_div" hidden>
                             <h4>Form Customer</h4><hr/>
                             <div class="row ">
+                                {% if test_type != 'PHCHCKATG' and test_type != 'PHCHCKPCR' %}
+                                <div id="map"></div>
+                                <div id="googleMap" style=""></div>
+                                {% endif %}
+
                                 <div class="col-lg-12 mt-2">
                                     <label style="color:red !important;">*</label>
                                     <label>{% trans 'Test Address' %}</label>
@@ -602,10 +607,6 @@
                                     </div>
                                     <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                                 </div>
-                                {% if test_type != 'PHCHCKATG' and test_type != 'PHCHCKPCR' %}
-                                <div id="map"></div>
-                                <div id="googleMap" style=""></div>
-                                {% endif %}
 
                                 <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
                                     <div class="row" id="loading-booker-train" style="display:none;">
@@ -1136,6 +1137,11 @@
                             <div class="col-lg-12" style="padding:15px; background:white; border:1px solid #cdcdcd;" id="medical_pax_div" hidden>
                                 <h4>Form Customer</h4><hr/>
                                 <div class="row ">
+                                    {% if test_type != 'PHCHCKATG' and test_type != 'PHCHCKPCR' %}
+                                    <div id="map"></div>
+                                    <div id="googleMap" style=""></div>
+                                    {% endif %}
+
                                     <div class="col-lg-12 mt-2">
                                         <label style="color:red !important;">*</label>
                                         <label>{% trans 'Test Address' %}</label>
@@ -1144,10 +1150,6 @@
                                         </div>
                                         <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                                     </div>
-                                    {% if test_type != 'PHCHCKATG' and test_type != 'PHCHCKPCR' %}
-                                    <div id="map"></div>
-                                    <div id="googleMap" style=""></div>
-                                    {% endif %}
 
                                     <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
                                         <div class="row" id="loading-booker-train" style="display:none;">
@@ -1676,7 +1678,12 @@
                         </div>
                         <div class="col-lg-12" style="padding:15px; background:white; border:1px solid #cdcdcd;" id="medical_pax_div" hidden>
                             <h4>Form Customer</h4><hr/>
-                            <div class="row ">
+                            <div class="row">
+                                {% if test_type != 'PHCHCKATG' and test_type != 'PHCHCKPCR' %}
+                                <div id="map"></div>
+                                <div id="googleMap" style=""></div>
+                                {% endif %}
+
                                 <div class="col-lg-12 mt-2">
                                     <label style="color:red !important;">*</label>
                                     <label>{% trans 'Test Address' %}</label>
@@ -1685,10 +1692,6 @@
                                     </div>
                                     <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                                 </div>
-                                {% if test_type != 'PHCHCKATG' and test_type != 'PHCHCKPCR' %}
-                                <div id="map"></div>
-                                <div id="googleMap" style=""></div>
-                                {% endif %}
 
                                 <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
                                     <div class="row" id="loading-booker-train" style="display:none;">
@@ -2216,6 +2219,11 @@
                     <div class="col-lg-12" style="padding:15px; background:white; border:1px solid #cdcdcd;" id="medical_pax_div" hidden>
                         <h4>Form Customer</h4><hr/>
                         <div class="row ">
+                            {% if test_type != 'PHCHCKATG' and test_type != 'PHCHCKPCR' %}
+                            <div id="map"></div>
+                            <div id="googleMap" style=""></div>
+                            {% endif %}
+
                             <div class="col-lg-12 mt-2">
                                 <label style="color:red !important;">*</label>
                                 <label>{% trans 'Test Address' %}</label>
@@ -2224,10 +2232,6 @@
                                 </div>
                                 <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                             </div>
-                            {% if test_type != 'PHCHCKATG' and test_type != 'PHCHCKPCR' %}
-                            <div id="map"></div>
-                            <div id="googleMap" style=""></div>
-                            {% endif %}
 
                             <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
                                 <div class="row" id="loading-booker-train" style="display:none;">
@@ -2755,6 +2759,11 @@
                         <div class="col-lg-12" style="padding:15px; background:white; border:1px solid #cdcdcd;" id="medical_pax_div" hidden>
                             <h4>Form Customer</h4><hr/>
                             <div class="row ">
+                                {% if test_type != 'PHCHCKATG' and test_type != 'PHCHCKPCR' %}
+                                <div id="map"></div>
+                                <div id="googleMap" style=""></div>
+                                {% endif %}
+
                                 <div class="col-lg-12 mt-2">
                                     <label style="color:red !important;">*</label>
                                     <label>{% trans 'Test Address' %}</label>
@@ -2763,10 +2772,6 @@
                                     </div>
                                     <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                                 </div>
-                                {% if test_type != 'PHCHCKATG' and test_type != 'PHCHCKPCR' %}
-                                <div id="map"></div>
-                                <div id="googleMap" style=""></div>
-                                {% endif %}
 
                                 <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
                                     <div class="row" id="loading-booker-train" style="display:none;">
@@ -3295,6 +3300,11 @@
                         <div class="col-lg-12" style="padding:15px; background:white; border:1px solid #cdcdcd;" id="medical_pax_div" hidden>
                             <h4>Form Customer</h4><hr/>
                             <div class="row ">
+                                {% if test_type != 'PHCHCKATG' and test_type != 'PHCHCKPCR' %}
+                                <div id="map"></div>
+                                <div id="googleMap" style=""></div>
+                                {% endif %}
+
                                 <div class="col-lg-12 mt-2">
                                     <label style="color:red !important;">*</label>
                                     <label>{% trans 'Test Address' %}</label>
@@ -3303,10 +3313,6 @@
                                     </div>
                                     <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Jl. Raya Darmo 177b</label>
                                 </div>
-                                {% if test_type != 'PHCHCKATG' and test_type != 'PHCHCKPCR' %}
-                                <div id="map"></div>
-                                <div id="googleMap" style=""></div>
-                                {% endif %}
 
                                 <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;display:none;" id="table_passenger_list">
                                     <div class="row" id="loading-booker-train" style="display:none;">
