@@ -198,7 +198,10 @@ def passenger(request):
 
 
             try:
-                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+                time_limit = get_timelimit_product(request, 'train')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
                 set_session(request, 'train_pick', json.loads(request.POST['response']))
                 set_session(request, 'train_signature', request.POST['signature'])
             except:
@@ -388,7 +391,10 @@ def review(request):
                 journeys = []
             set_session(request, 'train_booking', schedules)
             try:
-                set_session(request, 'time_limit', request.POST['time_limit_input'])
+                time_limit = get_timelimit_product(request, 'activity')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
                 set_session(request, 'train_signature', request.POST['signature'])
             except:
                 pass

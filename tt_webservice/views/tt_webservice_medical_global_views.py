@@ -130,6 +130,7 @@ def login(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
+            create_session_product(request, 'medical_global', 180)
             set_session(request, 'medical_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):

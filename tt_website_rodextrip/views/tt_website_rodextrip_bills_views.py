@@ -69,6 +69,11 @@ def review(request):
             phone_code = sorted(phone_code)
             values = get_data_template(request)
 
+            time_limit = get_timelimit_product(request, 'bills')
+            if time_limit == 0:
+                time_limit = 600
+            set_session(request, 'time_limit', time_limit)
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -81,7 +86,7 @@ def review(request):
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
                 'signature': request.session['bills_signature'],
-                'time_limit': 600,
+                'time_limit': request.session['time_limit'],
                 # 'co_uid': request.session['co_uid'],
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             })
