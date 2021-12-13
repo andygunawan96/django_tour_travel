@@ -590,39 +590,6 @@ def booker_insentif_booking(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            set_session(request, 'ppob_upsell_booker_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['ppob_upsell_booker_' + request.POST['signature']]))
-            _logger.info("SUCCESS update_service_charge_booker PPOB SIGNATURE " + request.POST['signature'])
-        else:
-            _logger.error("ERROR update_service_charge_ppob_booker PPOB SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
-    except Exception as e:
-        _logger.error(str(e) + '\n' + traceback.format_exc())
-    return res
-
-def booker_insentif_booking(request):
-    # nanti ganti ke get_ssr_availability
-    try:
-        data = {
-            'order_number': json.loads(request.POST['order_number']),
-            'booker': json.loads(request.POST['booker'])
-        }
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "booker_insentif_booking",
-            "signature": request.POST['signature'],
-        }
-    except Exception as e:
-        _logger.error(str(e) + '\n' + traceback.format_exc())
-
-    url_request = url + 'booking/train'
-    res = send_request_api(request, url_request, headers, data, 'POST', 300)
-    try:
-        if res['result']['error_code'] == 0:
-            total_upsell = 0
-            for upsell in data['passengers']:
-                for pricing in upsell['pricing']:
-                    total_upsell += pricing['amount']
             set_session(request, 'train_upsell_booker_'+request.POST['signature'], total_upsell)
             _logger.info(json.dumps(request.session['train_upsell_booker_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge_booker TRAIN SIGNATURE " + request.POST['signature'])
