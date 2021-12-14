@@ -130,6 +130,8 @@ def api_models(request):
             res = commit_booking(request)
         elif req_data['action'] == 'update_service_charge':
             res = update_service_charge(request)
+        elif req_data['action'] == 'booker_insentif_booking':
+            res = booker_insentif_booking(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
         elif req_data['action'] == 'issued':
@@ -221,6 +223,7 @@ def login(request):
     res = send_request_api({}, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
+            create_session_product(request, 'airline', 20)
             set_session(request, 'airline_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
@@ -1888,6 +1891,39 @@ def update_service_charge(request):
             _logger.info("SUCCESS update_service_charge AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def booker_insentif_booking(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        data = {
+            'order_number': json.loads(request.POST['order_number']),
+            'booker': json.loads(request.POST['booker'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "booker_insentif_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/airline'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            total_upsell = 0
+            for upsell in data['passengers']:
+                for pricing in upsell['pricing']:
+                    total_upsell += pricing['amount']
+            set_session(request, 'airline_upsell_booker_'+request.POST['signature'], total_upsell)
+            _logger.info(json.dumps(request.session['airline_upsell_booker_' + request.POST['signature']]))
+            _logger.info("SUCCESS update_service_charge_booker AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR update_service_charge_airline_booker AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

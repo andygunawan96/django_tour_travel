@@ -169,13 +169,24 @@ def detail(request, activity_uuid):
 
             values = get_data_template(request, 'search')
 
-            try:
-                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
-            except:
-                if request.session.get('time_limit'):
-                    set_session(request, 'time_limit', request.session['time_limit'])
-                else:
-                    set_session(request, 'time_limit', 1200)
+            # try:
+            #     set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+            # except:
+            #     if request.session.get('time_limit'):
+            #         set_session(request, 'time_limit', request.session['time_limit'])
+            #     else:
+            #         set_session(request, 'time_limit', 1200)
+
+            time_limit = get_timelimit_product(request, 'activity')
+            if time_limit == 0:
+                try:
+                    time_limit = int(request.POST['time_limit_input'])
+                except:
+                    if request.session.get('time_limit'):
+                        time_limit = request.session['time_limit']
+                    else:
+                        time_limit = 1200
+            set_session(request, 'time_limit', time_limit)
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -244,7 +255,10 @@ def passenger(request):
             # get_balance(request)
 
             try:
-                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+                time_limit = get_timelimit_product(request, 'activity')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
                 set_session(request, 'activity_request', {
                     'activity_uuid': request.POST['activity_uuid'],
                     'activity_type_pick': request.POST['activity_type_pick'],
@@ -528,7 +542,10 @@ def review(request):
                         phone_code.append(i['phone_code'])
                 phone_code = sorted(phone_code)
                 values = get_data_template(request)
-                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+                time_limit = get_timelimit_product(request, 'activity')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
 
                 booker = {
                     'title': request.POST['booker_title'],

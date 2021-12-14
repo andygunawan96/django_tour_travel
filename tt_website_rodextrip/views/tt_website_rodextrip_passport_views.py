@@ -131,8 +131,11 @@ def passenger(request):
             response = get_cache_data(cache_version)
             values = get_data_template(request)
 
-            set_session(request, 'time_limit', int(request.POST['time_limit_input']))
-            request.session['time_limit'] = int(request.POST['time_limit_input'])
+            time_limit = get_timelimit_product(request, 'passport')
+            if time_limit == 0:
+                time_limit = int(request.POST['time_limit_input'])
+            set_session(request, 'time_limit', time_limit)
+
             request.session['passport_search']['result']['response']['list_of_passport'] = json.loads(request.POST['passport_list'])
             list_passport = request.session['passport_search']
             count = 1
@@ -249,7 +252,10 @@ def review(request):
             phone_code = sorted(phone_code)
             values = get_data_template(request)
 
-            set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+            time_limit = get_timelimit_product(request, 'passport')
+            if time_limit == 0:
+                time_limit = int(request.POST['time_limit_input'])
+            set_session(request, 'time_limit', time_limit)
 
             # get_balance(request)
             adult = []

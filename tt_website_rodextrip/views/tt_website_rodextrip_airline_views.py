@@ -395,11 +395,15 @@ def passenger(request):
                 set_session(request, 'airline_sell_journey', json.loads(request.POST['airline_sell_journey_response']))
             except:
                 _logger.info('no sell journey input')
-            set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+            time_limit = get_timelimit_product(request,'airline')
+            if time_limit == 0:
+                time_limit = int(request.POST['time_limit_input'])
+            set_session(request, 'time_limit', time_limit)
             set_session(request, 'signature', request.POST['signature'])
             set_session(request, 'airline_signature', request.POST['signature'])
             signature = request.POST['signature']
-        except:
+        except Exception as e:
+            _logger.info(str(e) + traceback.format_exc())
             signature = request.session['airline_signature']
         carrier_code = read_cache_with_folder_path("get_airline_carriers", 90911)
         is_lionair = False
@@ -522,6 +526,12 @@ def ssr(request):
                     })
                     airline_list = []
                 passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+
+                time_limit = get_timelimit_product(request, 'airline')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
+
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'airline_request': request.session['airline_request'],
@@ -541,7 +551,7 @@ def ssr(request):
                     'username': request.session['user_account'],
                     'javascript_version': javascript_version,
                     'static_path_url_server': get_url_static_path(),
-                    'time_limit': int(request.POST['time_limit_input']),
+                    'time_limit': int(request.session['time_limit']),
                     'airline_getbooking': ''
                 })
             except:
@@ -1001,6 +1011,12 @@ def seat_map(request):
                 additional_price = request.POST['additional_price_input'].split(',')
                 for i in additional_price:
                     additional_price_input += i
+
+                time_limit = get_timelimit_product(request, 'airline')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
+
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'airline_carriers': carrier,
@@ -1016,7 +1032,7 @@ def seat_map(request):
                     'username': request.session['user_account'],
                     'static_path_url_server': get_url_static_path(),
                     'javascript_version': javascript_version,
-                    'time_limit': int(request.POST['time_limit_input']),
+                    'time_limit': int(request.session['time_limit']),
                     'airline_getbooking': ''
                 })
             except:
@@ -1424,6 +1440,12 @@ def review(request):
                 # cache reset
                 _logger.info('cache reset here ' + str(e) + '\n' + traceback.format_exc())
                 set_session(request, 'airline_sell_journey', json.loads(request.POST['airline_sell_journey']))
+
+            time_limit = get_timelimit_product(request, 'airline')
+            if time_limit == 0:
+                time_limit = int(request.POST['time_limit_input'])
+            set_session(request, 'time_limit', time_limit)
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -1446,7 +1468,7 @@ def review(request):
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
                 'signature': request.session['airline_signature'],
-                'time_limit': int(request.POST['time_limit_input']),
+                'time_limit': int(request.session['time_limit']),
                 'airline_get_price_request': request.session['airline_sell_journey'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary'],
                 # 'co_uid': request.session['co_uid'],
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
