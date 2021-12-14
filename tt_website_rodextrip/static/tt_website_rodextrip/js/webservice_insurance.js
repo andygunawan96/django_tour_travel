@@ -908,7 +908,7 @@ function price_detail(){
                 <span style="font-size:13px; font-weight:500;">`+price.pax_count+`x Customer Fare @`+price.currency +' '+getrupiah(Math.ceil(price.fare))+`</span><br/>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
-                <span style="font-size:13px; font-weight:500;">    Tax @`+price.currency+` `+getrupiah(Math.ceil(price.tax + price.roc))+`</span>
+                <span style="font-size:13px; font-weight:500;">`+price.pax_count+`x Tax @`+price.currency+` `+getrupiah(Math.ceil(price.tax + price.roc))+`</span>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
                 <span style="font-size:13px; font-weight:500;">`+price.currency+` `+getrupiah(Math.ceil((price.fare+price.roc + price.tax) * price.pax_count))+`</span>
