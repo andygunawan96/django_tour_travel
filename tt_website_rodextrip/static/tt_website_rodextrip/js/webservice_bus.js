@@ -295,19 +295,16 @@ function bus_review_page(){
             }
 
             for(i in bus_booking){
-                index = 1
                 pax_type = 'adult'
                 for(j in bus_booking[i].journeys){
                     for(k in bus_booking[i].journeys[j].seat){
                         if(bus_booking[i].journeys[j].seat[k].seat_code != ''){
-                            console.log(pax_type+index.toString());
-                            console.log(bus_booking[i].journeys[j].seat[k].seat + bus_booking[i].journeys[j].seat[k].column);
                             try{
-                                document.getElementById('seat_'+pax_type+index.toString()).innerHTML += bus_booking[i].journeys[j].seat[k].seat + bus_booking[i].journeys[j].seat[k].column;
+                                document.getElementById('seat_'+pax_type+bus_booking[i].journeys[j].seat[k].sequence.toString()).innerHTML += bus_booking[i].journeys[j].seat[k].seat + bus_booking[i].journeys[j].seat[k].column;
                             }catch(err){
                                 pax_type = 'infant';
                                 try{
-                                    document.getElementById('seat_'+pax_type+index.toString()).innerHTML += bus_booking[i].journeys[j].seat[k].seat + bus_booking[i].journeys[j].seat[k].column;
+                                    document.getElementById('seat_'+pax_type+bus_booking[i].journeys[j].seat[k].sequence.toString()).innerHTML += bus_booking[i].journeys[j].seat[k].seat + bus_booking[i].journeys[j].seat[k].column;
                                 }catch(err){}
                             }
                         }
@@ -940,9 +937,13 @@ function bus_get_booking(data, sync=false){
                                 else
                                     $text += msg.result.response.provider_bookings[i].journeys[j].arrival_date + '\n';
                                 $text += msg.result.response.provider_bookings[i].journeys[j].origin_name +' ('+msg.result.response.provider_bookings[i].journeys[j].origin+') - '+msg.result.response.provider_bookings[i].journeys[j].destination_name +' ('+msg.result.response.provider_bookings[i].journeys[j].destination+')\n';
-                                $text += 'Seats:\n'
+
                                 for(k in msg.result.response.provider_bookings[i].journeys[j].seats){
-                                    $text += msg.result.response.provider_bookings[i].journeys[j].seats[k].passenger + ', ' + msg.result.response.provider_bookings[i].journeys[j].seats[k].seat.split(',')[0] + ' ' + msg.result.response.provider_bookings[i].journeys[j].seats[k].seat.split(',')[1]+'\n';
+                                    if(msg.result.response.provider_bookings[i].journeys[j].seats[k].seat){
+                                        if(k == 0)
+                                            $text += 'Seats:\n';
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].seats[k].passenger + ', ' + msg.result.response.provider_bookings[i].journeys[j].seats[k].seat.split(',')[0] + ' ' + msg.result.response.provider_bookings[i].journeys[j].seats[k].seat.split(',')[1]+'\n';
+                                    }
                                 }
                                 $text += '\n';
                                 text+= `
@@ -1087,8 +1088,10 @@ function bus_get_booking(data, sync=false){
                                 <td>`+msg.result.response.passengers[pax].identity_number+`</td>
                                 <td>`;
                                 for(i in ticket)
-                                    if(ticket[i].seat.split(',').length == 2)
-                                    text += ticket[i].journey+`<br/>`+ticket[i].seat.split(',')[0] + ' ' + ticket[i].seat.split(',')[1] +`<br/>`;
+                                    if(ticket[i].seat){
+                                        if(ticket[i].seat.split(',').length == 2)
+                                           text += ticket[i].journey+`<br/>`+ticket[i].seat.split(',')[0] + ' ' + ticket[i].seat.split(',')[1] +`<br/>`;
+                                    }
                                 text+=`
                                 </td>
                             </tr>`;
