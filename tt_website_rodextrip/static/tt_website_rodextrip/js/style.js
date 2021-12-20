@@ -2079,6 +2079,7 @@ $(document).ready(function(){
             $('input[name="insurance_date"]').daterangepicker({
                 singleDatePicker: false,
                 autoUpdateInput: true,
+                autoApply: true,
                 startDate: moment(),
                 endDate: moment().subtract(-2, 'days'),
                 minDate: moment().subtract(-1, 'days'),

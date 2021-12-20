@@ -583,9 +583,11 @@ function get_report_overall(){
             if(result.raw_data.result.response.dependencies.is_ho == 1){
                 $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
                 $('#profit_ho').html(number_format(result.raw_data.result.response.profit_ho, 2));
+                $('#profit_agent_parent').html(number_format(result.raw_data.result.response.profit_agent_parent, 2));
                 $('#profit_agent').html(number_format(result.raw_data.result.response.profit_agent, 2));
                 $('#profit_agent_card').show();
                 $('#profit_ho_card').show();
+                $('#profit_agent_parent_card').show();
             } else {
                 $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
             }
@@ -1296,9 +1298,11 @@ $('#report_form').submit(function(evt){
             if(result.raw_data.result.response.dependencies.is_ho == 1){
                 $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
                 $('#profit_ho').html(number_format(result.raw_data.result.response.profit_ho, 2));
+                $('#profit_agent_parent').html(number_format(result.raw_data.result.response.profit_agent_parent, 2));
                 $('#profit_agent').html(number_format(result.raw_data.result.response.profit_agent, 2));
                 $('#profit_agent_card').show();
                 $('#profit_ho_card').show();
+                $('#profit_agent_parent_card').show();
             } else {
                 $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
             }
