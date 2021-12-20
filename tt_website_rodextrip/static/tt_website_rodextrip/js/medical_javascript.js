@@ -230,8 +230,10 @@ function medical_use_booker(value){
     console.log(value);
     if(value == true){
         document.getElementById('booker_div').style.display = 'block';
+        document.getElementById('copy_booker_div').style.display = 'block';
     }else{
         document.getElementById('booker_div').style.display = 'none';
+        document.getElementById('copy_booker_div').style.display = 'none';
     }
 }
 
@@ -7768,7 +7770,10 @@ function add_table(change_rebooking=false){
     }
     document.getElementById('medical_detail').style.display = 'none';
     document.getElementById('next_medical').style.display = 'none';
-
+    document.getElementById('use_booker').style.display = 'none';
+    document.getElementsByName('useBooker')[1].checked = true;
+    document.getElementsByName('copy')[1].checked = true;
+    document.getElementById('copy_booker_div').style.display = 'none';
     try{
     document.getElementById('medical_pax_div').hidden = true;
     }catch(err){}

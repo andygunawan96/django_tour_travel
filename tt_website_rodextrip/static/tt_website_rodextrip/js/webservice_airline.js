@@ -10918,7 +10918,7 @@ function sell_reschedule_v2(){
                        if(msg.result.error_code == 0){
                            for(i in journey){
                                try{
-                                   document.getElementById('changejourney_pick'+parseInt(1+parseInt(i))).disabled = true;
+                                   document.getElementById('changejourney_pick'+parseInt(1+parseInt(i))).disabled = true; //sudah sell tidak bisa
                                    document.getElementById('changejourney_pick'+parseInt(1+parseInt(i))).onclick = '';
                                }catch(err){}
                            }
@@ -11037,7 +11037,7 @@ function sell_reschedule_v2(){
                                            }
                                         }
                                     }
-                                }
+                               }
 
                                document.getElementById('airline_booking').innerHTML+= `
 
