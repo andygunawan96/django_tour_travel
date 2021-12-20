@@ -905,7 +905,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="row">
-                                            <span class="span-search-ticket"><i class="fas fa-suitcase"></i>{% trans 'Plan Trip' %}</span>
+                                            <span class="span-search-ticket"><i class="fas fa-suitcase"></i> {% trans 'Plan Trip' %}</span>
                                             <div class="input-container-search-ticket btn-group">
                                                 <div class="form-select" id="default-select">
                                                     <select id="insurance_trip" name="insurance_trip" class="nice-select-default">
@@ -3355,7 +3355,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="row">
-                                        <span class="span-search-ticket"><i class="fas fa-suitcase"></i>{% trans 'Plan Trip' %}</span>
+                                        <span class="span-search-ticket"><i class="fas fa-suitcase"></i> {% trans 'Plan Trip' %}</span>
                                         <div class="input-container-search-ticket btn-group">
                                             <select id="insurance_trip" name="insurance_trip" class="nice-select-default">
 
@@ -4966,7 +4966,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-12 mb-3">
-                                        <span class="span-search-ticket"><i class="fas fa-suitcase"></i>{% trans 'Plan Trip' %}</span>
+                                        <span class="span-search-ticket"><i class="fas fa-suitcase"></i> {% trans 'Plan Trip' %}</span>
                                         <div class="input-container-search-ticket btn-group">
                                             <select id="insurance_trip" name="insurance_trip" class="nice-select-default">
 
@@ -6620,7 +6620,7 @@
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="row">
-                                                    <span class="span-search-ticket">{% trans 'Plan Trip' %}</span>
+                                                    <span class="span-search-ticket"> {% trans 'Plan Trip' %}</span>
                                                     <div class="input-container-search-ticket btn-group">
                                                         <i class="fas fa-suitcase" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                                         <select id="insurance_trip" name="insurance_trip" class="nice-select-default">
@@ -8268,7 +8268,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="row">
-                                                    <span class="span-search-ticket"><i class="fas fa-suitcase"></i>{% trans 'Plan Trip' %}</span>
+                                                    <span class="span-search-ticket"><i class="fas fa-suitcase"></i> {% trans 'Plan Trip' %}</span>
                                                     <div class="input-container-search-ticket btn-group">
                                                         <select id="insurance_trip" name="insurance_trip" class="nice-select-default">
 
@@ -10192,7 +10192,7 @@
                             </div>
                         </div>
                         <div class="col-lg-12">
-                            <span class="span-search-ticket"><i class="fas fa-suitcase"></i>{% trans 'Plan Trip' %}</span>
+                            <span class="span-search-ticket"><i class="fas fa-suitcase"></i> {% trans 'Plan Trip' %}</span>
                             <div class="input-container-search-ticket btn-group">
                                 <select id="insurance_trip" name="insurance_trip" class="nice-select-default">
 
@@ -11207,6 +11207,7 @@
                         singleDatePicker: false,
                         autoUpdateInput: true,
                         startDate: moment(),
+                        autoApply: true,
                         endDate: moment().subtract(-2, 'days'),
                         minDate: moment().subtract(-1, 'days'),
                         maxDate: moment().subtract(-1, 'years'),
