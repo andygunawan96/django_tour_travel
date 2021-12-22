@@ -2315,3 +2315,37 @@ function reset_filter(){
     }
     filtering('filter');
 }
+
+function change_date_shortcut(val){
+    text = '';
+    if(bus_request_pick == 0)
+        text = 'departure';
+    else
+        text = 'return';
+    Swal.fire({
+      title: 'Are you sure want change date for '+text+'?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        bus_request.departure[bus_request_pick] = moment(bus_request.departure[bus_request_pick]).subtract(val,'days').format('DD MMM YYYY');
+        bus_data = [];
+        time_limit = 1200;
+        journeys = [];
+        bus_request_pick = 0;
+        document.getElementById('loading-search-bus').style.display = 'block';
+        document.getElementById('loading-search-bus').hidden = false;
+        document.getElementById('bus_ticket').innerHTML = '';
+        document.getElementById('bus_result').innerHTML = '';
+
+        bus_signin('');
+        bus_ticket_pick();
+        //send_request_search();
+      }
+    })
+
+//    change_date_next_prev(counter_search-1);
+}
