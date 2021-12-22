@@ -6321,6 +6321,8 @@ function change_date_shortcut(val){
         airline_pick_mc('no_button');
         document.getElementById("badge-flight-notif").innerHTML = "";
         document.getElementById("badge-flight-notif2").innerHTML = "";
+        document.getElementById('waitFlightSearch').style.display = 'block';
+        document.getElementById('airlines_result_ticket').innerHTML = '';
         $("#badge-flight-notif").removeClass("infinite");
         $("#badge-flight-notif2").removeClass("infinite");
         $("#myModalTicketFlight").modal('hide');

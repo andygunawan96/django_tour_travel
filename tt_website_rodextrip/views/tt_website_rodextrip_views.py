@@ -1364,7 +1364,14 @@ def get_data_template(request, type='home', provider_type = []):
                 'name': rec,
                 'sequence': sequence.get(rec) or idx
             })
+        #kalau tidak ada provider health_care buat frontend
+        if not any(temporary['name'] == 'health_care' for temporary in temp_provider_types_sequence):
+            temp_provider_types_sequence.append({
+                'name': 'health_care',
+                'sequence': ''
+            })
         provider_types_sequence = temp_provider_types_sequence
+
         file = read_cache_with_folder_path("provider_types_sequence", 90911)
         if file:
             provider_types_sequence_file = file
@@ -1373,11 +1380,7 @@ def get_data_template(request, type='home', provider_type = []):
                     rec['sequence'] = provider_types_sequence_file.get(rec['name'], '')
                 except:
                     pass
-        if not any(temporary['name'] == 'health_care' for temporary in provider_types_sequence):
-            provider_types_sequence.append({
-                'name': 'health_care',
-                'sequence': ''
-            })
+
         #check sequence
         last_sequence = 0
         empty_sequence = False

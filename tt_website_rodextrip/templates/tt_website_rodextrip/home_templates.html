@@ -412,7 +412,7 @@
                         <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'medical1');" id="nav_scroll_menu_medical1">
                             <a class="nav-link" id="medical1-tab" data-toggle="tab" href="#medical1" role="tab" aria-controls="medical1" aria-selected="false">
                                 <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Periksain Icon"/></i>
-                                <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Health Care' %} </span>
+                                <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'Test Covid 19' %} </span>
                             </a>
                         </li>
                         {% endif %}
@@ -2512,7 +2512,7 @@
                         {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
                         <li class="tab-link" data-tab="tab-phc" onclick="scroll_menu_horizontal('tab-link', 'phc');" id="nav_scroll_menu_phc"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="PHC Icon"/></i><label class="btn-txt-color">PHC</label></li>
                         {% elif rec.name == "health_care" and "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or rec.name == "health_care" and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security or rec.name == "health_care" and "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security or rec.name == "health_care" and "mitrakeluarga" in provider and "ticketing_mitrakeluarga" in username.co_agent_frontend_security or rec.name == "health_care" and "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security %}
-                        <li class="tab-link" data-tab="tab-medical1" onclick="scroll_menu_horizontal('tab-link', 'medical1');" id="nav_scroll_menu_medical1"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Health Care Icon"/></i><label class="btn-txt-color">Health Care</label></li>
+                        <li class="tab-link" data-tab="tab-medical1" onclick="scroll_menu_horizontal('tab-link', 'medical1');" id="nav_scroll_menu_medical1"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Health Care Icon"/></i><label class="btn-txt-color">Test Covid 19</label></li>
                         {% elif "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security and rec.name == "insurance" %}
                         <li class="tab-link" data-tab="tab-insurance" onclick="scroll_menu_horizontal('tab-link', 'insurance');" id="nav_scroll_menu_insurance"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-insurance.png" alt="Insurance Icon"/></i><label class="btn-txt-color">Insurance</label></li>
                         {% endif %}
@@ -4112,7 +4112,7 @@
                                 {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
                                 <li class="tab-link" data-tab="tab-phc" onclick="scroll_menu_horizontal('tab-link', 'phc');" id="nav_scroll_menu_phc"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/swab.png" alt="PHC Icon"/></i><label class="btn-txt-color">PHC</label></li>
                                 {% elif rec.name == "health_care" and "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or rec.name == "health_care" and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security or rec.name == "health_care" and "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security or rec.name == "health_care" and "mitrakeluarga" in provider and "ticketing_mitrakeluarga" in username.co_agent_frontend_security or rec.name == "health_care" and "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security %}
-                                <li class="tab-link" data-tab="tab-medical1" onclick="scroll_menu_horizontal('tab-link', 'medical1');" id="nav_scroll_menu_medical1"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/swab.png" alt="Health Care Icon"/></i><label class="btn-txt-color">Health Care</label></li>
+                                <li class="tab-link" data-tab="tab-medical1" onclick="scroll_menu_horizontal('tab-link', 'medical1');" id="nav_scroll_menu_medical1"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/swab.png" alt="Health Care Icon"/></i><label class="btn-txt-color">Test Covid 19</label></li>
                                 {% elif "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security and rec.name == "insurance" %}
                                 <li class="tab-link" data-tab="tab-insurance" onclick="scroll_menu_horizontal('tab-link', 'insurance');" id="nav_scroll_menu_insurance"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/home-insurance.png" alt="Insurance Icon"/></i><label class="btn-txt-color">Insurance</label></li>
                                 {% endif %}
@@ -5744,7 +5744,7 @@
                                         {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
                                         <li class="tab-link" data-tab="tab-phc" onclick="scroll_menu_horizontal('tab-link', 'phc');" id="nav_scroll_menu_phc"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="PHC Icon"/></i><label class="btn-txt-color">PHC</label></li>
                                         {% elif rec.name == "health_care" and "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or rec.name == "health_care" and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security or rec.name == "health_care" and "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security or rec.name == "health_care" and "mitrakeluarga" in provider and "ticketing_mitrakeluarga" in username.co_agent_frontend_security or rec.name == "health_care" and "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security %}
-                                        <li class="tab-link" data-tab="tab-medical1" onclick="scroll_menu_horizontal('tab-link', 'medical1');" id="nav_scroll_menu_medical1"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Health Care Icon"/></i><label class="btn-txt-color">Health Care</label></li>
+                                        <li class="tab-link" data-tab="tab-medical1" onclick="scroll_menu_horizontal('tab-link', 'medical1');" id="nav_scroll_menu_medical1"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Health Care Icon"/></i><label class="btn-txt-color">Test Covid 19</label></li>
                                         {% elif "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security and rec.name == "insurance" %}
                                         <li class="tab-link" data-tab="tab-insurance" onclick="scroll_menu_horizontal('tab-link', 'insurance');" id="nav_scroll_menu_insurance"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-insurance.png" alt="Insurance Icon"/></i><label class="btn-txt-color">Insurance</label></li>
                                         {% endif %}
@@ -7400,7 +7400,7 @@
                                         {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
                                         <li class="tab-link" data-tab="tab-phc" onclick="scroll_menu_horizontal('tab-link', 'phc');" id="nav_scroll_menu_phc"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Bus Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">PHC</label></li>
                                         {% elif rec.name == "health_care" and "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or rec.name == "health_care" and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security or rec.name == "health_care" and "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security or rec.name == "health_care" and "mitrakeluarga" in provider and "ticketing_mitrakeluarga" in username.co_agent_frontend_security or rec.name == "health_care" and "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security %}
-                                        <li class="tab-link" data-tab="tab-medical1" onclick="scroll_menu_horizontal('tab-link', 'medical1');" id="nav_scroll_menu_medical1"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Health Care Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">Health Care</label></li>
+                                        <li class="tab-link" data-tab="tab-medical1" onclick="scroll_menu_horizontal('tab-link', 'medical1');" id="nav_scroll_menu_medical1"><img style="width:20px; height:20px" src="{{static_path}}images/icon/swab.png" alt="Health Care Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">Test Covid 19</label></li>
                                         {% elif "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security and rec.name == "insurance" %}
                                         <li class="tab-link" data-tab="tab-insurance" onclick="scroll_menu_horizontal('tab-link', 'insurance');" id="nav_scroll_menu_insurance"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-insurance.png" alt="Insurance Icon"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">Insurance</label></li>
                                         {% endif%}
@@ -8966,7 +8966,7 @@
                     <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
                         <div class="div_cst" onclick="product_change_box('medical1')">
                             <img style="width:auto; height:40px" src="{{static_path}}images/icon/swab_black.png" alt="Health Care Icon"/>
-                            <h6 class="hover_cst">{% trans 'HEALTH CARE' %}</h6>
+                            <h6 class="hover_cst">{% trans 'Test Covid 19' %}</h6>
                         </div>
                     </div>
 
@@ -11030,137 +11030,139 @@
         {% endif %}
         var product = '';
         var tab = '';
-        {% for rec in provider_types_sequence %}
-            {% if template == 1 %}
-            if('{{rec.name}}' == "health_care"){
-                tab = 'medical1-tab';
-                product = 'medical1';
-            }else if('{{rec.name}}' == "phc"){
-                tab = 'medical2-tab';
-                product = 'medical2';
-            }else if('{{rec.name}}' == "ppob"){
-                tab = 'bills-tab';
-                product = 'bills';
-            }else{
-                tab = '{{rec.name}}-tab';
-                product = '{{rec.name}}';
-            }
+        {% if template != 6 %}
+            {% for rec in provider_types_sequence %}
+                {% if template == 1 %}
+                if('{{rec.name}}' == "health_care"){
+                    tab = 'medical1-tab';
+                    product = 'medical1';
+                }else if('{{rec.name}}' == "phc"){
+                    tab = 'medical2-tab';
+                    product = 'medical2';
+                }else if('{{rec.name}}' == "ppob"){
+                    tab = 'bills-tab';
+                    product = 'bills';
+                }else{
+                    tab = '{{rec.name}}-tab';
+                    product = '{{rec.name}}';
+                }
 
-            {% elif template == 2 or template == 3 or template == 4 or template == 5 %}
-            if('{{rec.name}}' == "health_care"){
-                tab = 'nav_scroll_menu_medical1';
-                product = 'tab-medical1';
-            }else if('{{rec.name}}' == "phc"){
-                tab = 'nav_scroll_menu_phc';
-                product = 'tab-phc';
-            }else if('{{rec.name}}' == "ppob"){
-                tab = 'nav_scroll_menu_bills';
-                product = 'tab-bills';
-            }else{
-                tab = 'nav_scroll_menu_{{rec.name}}';
-                product = 'tab-{{rec.name}}';
-            }
-            {% elif template == 6 %}
-            {% endif %}
+                {% elif template == 2 or template == 3 or template == 4 or template == 5 %}
+                if('{{rec.name}}' == "health_care"){
+                    tab = 'nav_scroll_menu_medical1';
+                    product = 'tab-medical1';
+                }else if('{{rec.name}}' == "phc"){
+                    tab = 'nav_scroll_menu_phc';
+                    product = 'tab-phc';
+                }else if('{{rec.name}}' == "ppob"){
+                    tab = 'nav_scroll_menu_bills';
+                    product = 'tab-bills';
+                }else{
+                    tab = 'nav_scroll_menu_{{rec.name}}';
+                    product = 'tab-{{rec.name}}';
+                }
+                {% elif template == 6 %}
+                {% endif %}
 
-            {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.name == "airline" %}
-            if(set_active == true){
-                $('#'+tab).addClass(class_tab);
-                $('#'+product).addClass(class_product);
-                set_active = false;
-            }
-            {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.name == "hotel" %}
-            if(set_active == true){
-                $('#'+tab).addClass(class_tab);
-                $('#'+product).addClass(class_product);
-                set_active = false;
-            }
-            {% elif "train" in provider and "ticketing_train" in username.co_agent_frontend_security and rec.name == "train" %}
-            if(set_active == true){
-                $('#'+tab).addClass(class_tab);
-                $('#'+product).addClass(class_product);
-                set_active = false;
-            }
-            {% elif "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security and rec.name == "ppob" %}
-            if(set_active == true){
-                $('#'+tab).addClass(class_tab);
-                $('#'+product).addClass(class_product);
-                set_active = false;
-            }
-
-
-            {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.name == "tour" %}
-            if(set_active == true){
-                $('#'+tab).addClass(class_tab);
-                $('#'+product).addClass(class_product);
-                set_active = false;
-            }
+                {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.name == "airline" %}
+                if(set_active == true){
+                    $('#'+tab).addClass(class_tab);
+                    $('#'+product).addClass(class_product);
+                    set_active = false;
+                }
+                {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.name == "hotel" %}
+                if(set_active == true){
+                    $('#'+tab).addClass(class_tab);
+                    $('#'+product).addClass(class_product);
+                    set_active = false;
+                }
+                {% elif "train" in provider and "ticketing_train" in username.co_agent_frontend_security and rec.name == "train" %}
+                if(set_active == true){
+                    $('#'+tab).addClass(class_tab);
+                    $('#'+product).addClass(class_product);
+                    set_active = false;
+                }
+                {% elif "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security and rec.name == "ppob" %}
+                if(set_active == true){
+                    $('#'+tab).addClass(class_tab);
+                    $('#'+product).addClass(class_product);
+                    set_active = false;
+                }
 
 
-            {% elif "event" in provider and "ticketing_event" in username.co_agent_frontend_security and rec.name == "event" %}
-            if(set_active == true){
-                $('#'+tab).addClass(class_tab);
-                $('#'+product).addClass(class_product);
-                set_active = false;
-            }
+                {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.name == "tour" %}
+                if(set_active == true){
+                    $('#'+tab).addClass(class_tab);
+                    $('#'+product).addClass(class_product);
+                    set_active = false;
+                }
 
 
-            {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.name == "activity" %}
-            if(set_active == true){
-                $('#'+tab).addClass(class_tab);
-                $('#'+product).addClass(class_product);
-                set_active = false;
-            }
+                {% elif "event" in provider and "ticketing_event" in username.co_agent_frontend_security and rec.name == "event" %}
+                if(set_active == true){
+                    $('#'+tab).addClass(class_tab);
+                    $('#'+product).addClass(class_product);
+                    set_active = false;
+                }
 
 
-            {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.name == "visa" %}
-            if(set_active == true){
-                $('#'+tab).addClass(class_tab);
-                $('#'+product).addClass(class_product);
-                set_active = false;
-            }
+                {% elif "activity" in provider and "ticketing_activity" in username.co_agent_frontend_security and rec.name == "activity" %}
+                if(set_active == true){
+                    $('#'+tab).addClass(class_tab);
+                    $('#'+product).addClass(class_product);
+                    set_active = false;
+                }
 
 
-            {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == "passport" %}
-            if(set_active == true){
-                $('#'+tab).addClass(class_tab);
-                $('#'+product).addClass(class_product);
-                set_active = false;
-            }
+                {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.name == "visa" %}
+                if(set_active == true){
+                    $('#'+tab).addClass(class_tab);
+                    $('#'+product).addClass(class_product);
+                    set_active = false;
+                }
 
 
-            {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
-            if(set_active == true){
-                $('#'+tab).addClass(class_tab);
-                $('#'+product).addClass(class_product);
-                set_active = false;
-            }
+                {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == "passport" %}
+                if(set_active == true){
+                    $('#'+tab).addClass(class_tab);
+                    $('#'+product).addClass(class_product);
+                    set_active = false;
+                }
 
 
-            {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
-            if(set_active == true){
-                $('#'+tab).addClass(class_tab);
-                $('#'+product).addClass(class_product);
-                set_active = false;
-            }
+                {% elif "phc" in provider and "ticketing_phc" in username.co_agent_frontend_security and rec.name == "phc" %}
+                if(set_active == true){
+                    $('#'+tab).addClass(class_tab);
+                    $('#'+product).addClass(class_product);
+                    set_active = false;
+                }
 
 
-            {% elif "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security and rec.name == "insurance" %}
-            if(set_active == true){
-                $('#'+tab).addClass(class_tab);
-                $('#'+product).addClass(class_product);
-                set_active = false;
-            }
+                {% elif "bus" in provider and "ticketing_bus" in username.co_agent_frontend_security and rec.name == "bus" %}
+                if(set_active == true){
+                    $('#'+tab).addClass(class_tab);
+                    $('#'+product).addClass(class_product);
+                    set_active = false;
+                }
 
 
-            {% elif rec.name == "health_care" and "mitrakeluarga" in provider and "ticketing_mitrakeluarga" in username.co_agent_frontend_security or rec.name == "health_care" and "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or rec.name == "health_care" and "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or rec.name == "health_care" and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security or rec.name == "health_care" and "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
-            if(set_active == true){
-                $('#'+tab).addClass(class_tab);
-                $('#'+product).addClass(class_product);
-                set_active = false;
-            }
-            {% endif %}
-        {% endfor %}
+                {% elif "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security and rec.name == "insurance" %}
+                if(set_active == true){
+                    $('#'+tab).addClass(class_tab);
+                    $('#'+product).addClass(class_product);
+                    set_active = false;
+                }
+
+
+                {% elif rec.name == "health_care" and "mitrakeluarga" in provider and "ticketing_mitrakeluarga" in username.co_agent_frontend_security or rec.name == "health_care" and "periksain" in provider and "ticketing_periksain" in username.co_agent_frontend_security or rec.name == "health_care" and "medical" in provider and "ticketing_medical" in username.co_agent_frontend_security or rec.name == "health_care" and "labpintar" in provider and "ticketing_labpintar" in username.co_agent_frontend_security or rec.name == "health_care" and "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
+                if(set_active == true){
+                    $('#'+tab).addClass(class_tab);
+                    $('#'+product).addClass(class_product);
+                    set_active = false;
+                }
+                {% endif %}
+            {% endfor %}
+        {% endif %}
           $('.js-example-basic-single').select2();
           {% if "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security %}
           $("#hotel_checkin").val(moment().subtract(-1, 'days').format('DD MMM YYYY'));
