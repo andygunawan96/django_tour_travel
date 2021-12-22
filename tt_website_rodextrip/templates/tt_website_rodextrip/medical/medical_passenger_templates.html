@@ -3658,7 +3658,7 @@
     function placeMarker(location) {
         web_url = 'http://www.google.com/maps/place/';
         web_url += location.lat() + ',' + location.lng();
-        if(test_type.includes('PHCHC'))
+        if(test_type.includes('PHCHC') || vendor == 'periksain')
             callZipAPI(location);
         if(marker){
             marker.visible = true;
@@ -3677,19 +3677,24 @@
         geocoder = new google.maps.Geocoder();
         geocoder.geocode({'latLng': latlng}, function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
-                if (results[0]) {
-                    for (j = 0; j < results[0].address_components.length; j++) {
-                        if (results[0].address_components[j].types[0] == 'postal_code'){
-                            console.log("Zip Code: " + results[0].address_components[j].short_name);
-                            global_zip_code = results[0].address_components[j].short_name;
-                        }else if(results[0].address_components[j].types[0] == 'administrative_area_level_3'){
-                            global_kecamatan = results[0].address_components[j].long_name;
-                            if(global_kecamatan.includes("Kecamatan"))
-                                global_kecamatan = global_kecamatan.replace('Kecamatan ','')
+                if(vendor != 'phc' || test_type.includes('HC'))
+                    document.getElementById('booker_address').value = results[0].formatted_address;
+                if(vendor == 'phc' && test_type.includes('HC')){
+                    if (results[0]) {
+                        for (j = 0; j < results[0].address_components.length; j++) {
+                            if (results[0].address_components[j].types[0] == 'postal_code'){
+                                console.log("Zip Code: " + results[0].address_components[j].short_name);
+                                global_zip_code = results[0].address_components[j].short_name;
+                            }else if(results[0].address_components[j].types[0] == 'administrative_area_level_3'){
+                                global_kecamatan = results[0].address_components[j].long_name;
+                                if(global_kecamatan.includes("Kecamatan"))
+                                    global_kecamatan = global_kecamatan.replace('Kecamatan ','')
+                            }
                         }
                     }
+                    get_area_global();
                 }
-                get_area_global();
+
             } else {
                 //alert("Geocoder failed due to: " + status);
             }

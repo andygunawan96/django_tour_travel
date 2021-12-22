@@ -874,9 +874,9 @@ function bus_get_booking(data, sync=false){
                             <h6>Booked</h6>
                             <span>Date: <b>`;
                                 if(msg.result.response.booked_date != ""){
-                                    text+=``+msg.result.response.booked_date+``;
+                                    text += msg.result.response.booked_date;
                                 }else{
-                                    text+=`-`
+                                    text += `-`;
                                 }
                                 text+=`</b>
                             </span>
@@ -889,9 +889,9 @@ function bus_get_booking(data, sync=false){
                                 text+=`<h6>Issued</h6>
                                     <span>Date: <b>`;
                                     if(msg.result.response.issued_date != ""){
-                                        text+=``+msg.result.response.issued_date+``;
+                                        text += msg.result.response.issued_date;
                                     }else{
-                                        text+=`-`
+                                        text += `-`;
                                     }
                                 text+=`</b>
                                 </span>
@@ -1253,84 +1253,83 @@ function bus_get_booking(data, sync=false){
 
                 $text += '\nPrice:\n';
                 for(i in msg.result.response.provider_bookings){
-                    if(msg.result.response.provider_bookings[i].is_provider_group){
-                        try{
-                            csc = 0;
-                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
-                                text_detail+=`
-                                    <div style="text-align:left">
-                                        <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.provider_bookings[i].pnr+` </span>
-                                    </div>`;
-                            for(j in msg.result.response.passengers){
-                                price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
-                                for(k in msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr]){
-                                    price[k] += msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].amount;
-                                    if(price['currency'] == '')
-                                        price['currency'] = msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].currency;
+                    try{
+                        csc = 0;
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                            text_detail+=`
+                                <div style="text-align:left">
+                                    <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.provider_bookings[i].pnr+` </span>
+                                </div>`;
+                        for(j in msg.result.response.passengers){
+                            price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                            for(k in msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr]){
+                                price[k] += msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].amount;
+                                if(price['currency'] == '')
+                                    price['currency'] = msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].currency;
+                            }
+                            disc -= price['DISC'];
+                            try{
+                                price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
+                                csc += msg.result.response.passengers[j].channel_service_charges.amount;
+                            }catch(err){}
+                            //repricing
+                            check = 0;
+                            for(k in pax_type_repricing){
+                                if(pax_type_repricing[k][0] == msg.result.response.passengers[j].name)
+                                    check = 1;
+                            }
+                            if(check == 0){
+                                pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
+                                price_arr_repricing[msg.result.response.passengers[j].name] = {
+                                    'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
+                                    'Tax': price['TAX'] + price['ROC'],
+                                    'Repricing': price['CSC']
                                 }
-                                disc -= price['DISC'];
-                                try{
-                                    price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
-                                    csc += msg.result.response.passengers[j].channel_service_charges.amount;
-                                }catch(err){}
-                                //repricing
-                                check = 0;
-                                for(k in pax_type_repricing){
-                                    if(pax_type_repricing[k][0] == msg.result.response.passengers[j].name)
-                                        check = 1;
+                            }else{
+                                price_arr_repricing[msg.result.response.passengers[j].name] = {
+                                    'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'] + price['SEAT'],
+                                    'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
+                                    'Repricing': price['CSC']
                                 }
-                                if(check == 0){
-                                    pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
-                                    price_arr_repricing[msg.result.response.passengers[j].name] = {
-                                        'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                                        'Tax': price['TAX'] + price['ROC'],
-                                        'Repricing': price['CSC']
-                                    }
-                                }else{
-                                    price_arr_repricing[msg.result.response.passengers[j].name] = {
-                                        'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'] + price['SEAT'],
-                                        'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
-                                        'Repricing': price['CSC']
-                                    }
-                                }
-                                text_repricing = `
-                                <div class="col-lg-12">
-                                    <div style="padding:5px;" class="row">
-                                        <div class="col-lg-3"></div>
-                                        <div class="col-lg-3">Price</div>
-                                        <div class="col-lg-3">Repricing</div>
-                                        <div class="col-lg-3">Total</div>
+                            }
+                            text_repricing = `
+                            <div class="col-lg-12">
+                                <div style="padding:5px;" class="row">
+                                    <div class="col-lg-3"></div>
+                                    <div class="col-lg-3">Price</div>
+                                    <div class="col-lg-3">Repricing</div>
+                                    <div class="col-lg-3">Total</div>
+                                </div>
+                            </div>`;
+                            for(k in price_arr_repricing){
+                               text_repricing += `
+                               <div class="col-lg-12">
+                                    <div style="padding:5px;" class="row" id="adult">
+                                        <div class="col-lg-3" id="`+j+`_`+k+`">`+k+`</div>
+                                        <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
+                                        if(price_arr_repricing[k].Repricing == 0)
+                                        text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
+                                        else
+                                        text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
+                                        text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
                                     </div>
                                 </div>`;
-                                for(k in price_arr_repricing){
-                                   text_repricing += `
-                                   <div class="col-lg-12">
-                                        <div style="padding:5px;" class="row" id="adult">
-                                            <div class="col-lg-3" id="`+j+`_`+k+`">`+k+`</div>
-                                            <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
-                                            if(price_arr_repricing[k].Repricing == 0)
-                                            text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
-                                            else
-                                            text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
-                                            text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
-                                        </div>
-                                    </div>`;
-                                }
-                                //booker
-                                booker_insentif = '-';
-                                if(msg.result.response.hasOwnProperty('booker_insentif'))
-                                    booker_insentif = msg.result.response.booker_insentif
-                                text_repricing += `
-                                <div class="col-lg-12">
-                                    <div style="padding:5px;" class="row" id="booker_repricing" hidden>
-                                    <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
-                                    <div class="col-lg-3" id="repriring_booker_repricing"></div>
-                                    <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
-                                    </div>
-                                </div>`;
-                                text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
-                                document.getElementById('repricing_div').innerHTML = text_repricing;
-                                //repricing
+                            }
+                            //booker
+                            booker_insentif = '-';
+                            if(msg.result.response.hasOwnProperty('booker_insentif'))
+                                booker_insentif = msg.result.response.booker_insentif
+                            text_repricing += `
+                            <div class="col-lg-12">
+                                <div style="padding:5px;" class="row" id="booker_repricing" hidden>
+                                <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
+                                <div class="col-lg-3" id="repriring_booker_repricing"></div>
+                                <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
+                                </div>
+                            </div>`;
+                            text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+                            document.getElementById('repricing_div').innerHTML = text_repricing;
+                            //repricing
 
                                 text_detail+=`
                                 <div class="row" style="margin-bottom:5px;">
