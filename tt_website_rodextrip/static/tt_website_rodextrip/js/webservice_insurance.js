@@ -2793,3 +2793,16 @@ function default_data_select2(id, value){
 function default_data_select2_html(id, value){
     document.getElementById(id).innerHTML = value;
 }
+
+function show_commission(){
+    var sc = document.getElementById("show_commission");
+    var scs = document.getElementById("show_commission_button");
+    if (sc.style.display === "none"){
+        sc.style.display = "block";
+        scs.value = "Hide Commission";
+    }
+    else{
+        sc.style.display = "none";
+        scs.value = "Show Commission";
+    }
+}

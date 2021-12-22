@@ -2547,6 +2547,10 @@ function change_date_shortcut(val){
         time_limit = 1200;
         journeys = [];
         train_request_pick = 0;
+        document.getElementById('loading-search-train').style.display = 'block';
+        document.getElementById('loading-search-train').hidden = false;
+        document.getElementById('train_ticket').innerHTML = '';
+        document.getElementById('train_result').innerHTML = '';
         train_signin('');
         train_ticket_pick();
         //send_request_search();
