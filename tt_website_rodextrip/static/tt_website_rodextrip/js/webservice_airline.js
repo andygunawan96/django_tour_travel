@@ -7550,7 +7550,7 @@ function reissued_btn(){
         cabin_class++;
     }
     text+=`
-        <div class="col-lg-12" style="margin-top:10px;">
+        <div class="col-lg-12 mt-2 mb-3" style="padding:0px;">
             <!--<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="airline_reissued();" value="Request Reissued">--!>
             <button class="primary-btn-ticket" id="reissued_req_btn" style="width:100%;" type="button" onclick="airline_get_reschedule_availability_v2();">
                 Request Reissued

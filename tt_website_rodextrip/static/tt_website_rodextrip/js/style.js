@@ -2073,6 +2073,9 @@ $(document).ready(function(){
             $('input[name="insurance_date"]').on('apply.daterangepicker', function(ev, picker) {
                 $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + moment(picker.startDate).subtract(-1, 'years').format('DD MMM YYYY'));
                 $("#insurance_date").val(picker.startDate.format('DD MMM YYYY') + ' - ' + moment(picker.startDate).subtract(-1, 'years').format('DD MMM YYYY'));
+                setTimeout(function(){
+                    $("#show_total_pax_insurance").click();
+                }, 200);
             });
         }
         else{
@@ -2089,6 +2092,12 @@ $(document).ready(function(){
                 locale: {
                     format: 'DD MMM YYYY',
                 }
+            });
+
+            $('input[name="insurance_date"]').on('apply.daterangepicker', function(ev, picker) {
+                setTimeout(function(){
+                    $("#show_total_pax_insurance").click();
+                }, 200);
             });
         }
     });
@@ -3154,6 +3163,16 @@ function next_focus_element(product, from){
         if(from == 'passenger'){
             setTimeout(function(){
                 $("#show_total_pax_bus").click();
+            }, 200);
+        }
+    }else if(product == 'insurance'){
+        if(from == 'plantrip'){
+            setTimeout(function(){
+                $('#insurance_date').focus();
+            }, 200);
+        }else if(from == 'passenger'){
+            setTimeout(function(){
+                $("#show_total_pax_insurance").click();
             }, 200);
         }
     }
