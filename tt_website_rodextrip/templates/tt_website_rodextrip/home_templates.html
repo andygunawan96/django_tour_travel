@@ -908,7 +908,7 @@
                                             <span class="span-search-ticket"><i class="fas fa-suitcase"></i> {% trans 'Plan Trip' %}</span>
                                             <div class="input-container-search-ticket btn-group">
                                                 <div class="form-select" id="default-select">
-                                                    <select id="insurance_trip" name="insurance_trip" class="nice-select-default">
+                                                    <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
 
                                                     </select>
                                                 </div>
@@ -3357,7 +3357,7 @@
                                     <div class="row">
                                         <span class="span-search-ticket"><i class="fas fa-suitcase"></i> {% trans 'Plan Trip' %}</span>
                                         <div class="input-container-search-ticket btn-group">
-                                            <select id="insurance_trip" name="insurance_trip" class="nice-select-default">
+                                            <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
 
                                             </select>
                                         </div>
@@ -4968,7 +4968,7 @@
                                     <div class="col-lg-12 mb-3">
                                         <span class="span-search-ticket"><i class="fas fa-suitcase"></i> {% trans 'Plan Trip' %}</span>
                                         <div class="input-container-search-ticket btn-group">
-                                            <select id="insurance_trip" name="insurance_trip" class="nice-select-default">
+                                            <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
 
                                             </select>
                                         </div>
@@ -6623,7 +6623,7 @@
                                                     <span class="span-search-ticket"> {% trans 'Plan Trip' %}</span>
                                                     <div class="input-container-search-ticket btn-group">
                                                         <i class="fas fa-suitcase" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                        <select id="insurance_trip" name="insurance_trip" class="nice-select-default">
+                                                        <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
 
                                                         </select>
                                                     </div>
@@ -8270,7 +8270,7 @@
                                                 <div class="row">
                                                     <span class="span-search-ticket"><i class="fas fa-suitcase"></i> {% trans 'Plan Trip' %}</span>
                                                     <div class="input-container-search-ticket btn-group">
-                                                        <select id="insurance_trip" name="insurance_trip" class="nice-select-default">
+                                                        <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
 
                                                         </select>
                                                     </div>
@@ -10194,7 +10194,7 @@
                         <div class="col-lg-12">
                             <span class="span-search-ticket"><i class="fas fa-suitcase"></i> {% trans 'Plan Trip' %}</span>
                             <div class="input-container-search-ticket btn-group">
-                                <select id="insurance_trip" name="insurance_trip" class="nice-select-default">
+                                <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
 
                                 </select>
                             </div>
@@ -10667,7 +10667,7 @@
                 },
                 onSelect: function(e, term, item){
                     setTimeout(function(){
-                        $("#destination_id_flight").focus();
+                        $("#insurance_destination").focus();
                     }, 200);
                     set_insurance_search_value_to_true();
                 }
@@ -10684,6 +10684,9 @@
                         suggest(insurance_search_autocomplete(term,'destination'));
                 },
                 onSelect: function(e, term, item){
+                    setTimeout(function(){
+                        $('.nice-select').addClass("open");
+                    }, 200);
                     set_insurance_search_value_to_true();
                 }
             });
@@ -11219,6 +11222,13 @@
                             format: 'DD MMM YYYY',
                         }
                     });
+
+                    $('input[name="insurance_date"]').on('apply.daterangepicker', function(ev, picker) {
+                        setTimeout(function(){
+                            $("#show_total_pax_insurance").click();
+                        }, 200);
+                    });
+
                 }
             {% endif %}
             {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security %}
