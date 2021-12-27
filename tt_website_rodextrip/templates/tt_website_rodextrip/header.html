@@ -110,7 +110,7 @@
                             {% if "report" in username.co_agent_frontend_security %}
                             <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                             {% endif %}
-                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                            {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
                             <li><a href="" id="backend_btn">Backend</a></li>
                             {% endif %}
                             <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
@@ -142,7 +142,7 @@
                             {% if "report" in username.co_agent_frontend_security %}
                             <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                             {% endif %}
-                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                            {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
                             <li><a href="" id="backend_btn2">Backend</a></li>
                             {% endif %}
                             <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
@@ -386,7 +386,7 @@
                                     {% if "report" in username.co_agent_frontend_security %}
                                     <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                                     {% endif %}
-                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
                                     <li><a href="" id="backend_btn">Backend</a></li>
                                     {% endif %}
                                     <li style="z-index:5;">
@@ -419,7 +419,7 @@
                                     {% if "report" in username.co_agent_frontend_security %}
                                     <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                                     {% endif %}
-                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
                                     <li class="pt5"><a href="" id="backend_btn2">Backend</a></li>
                                     {% endif %}
                                     <li style="z-index:5;">
@@ -613,7 +613,7 @@
                                 {% if "report" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                                 {% endif %}
-                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
                                 <li><a href="" id="backend_btn">Backend</a></li>
                                 {% endif %}
                                 <li>
@@ -646,7 +646,7 @@
                                 {% if "report" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                                 {% endif %}
-                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
                                 <li><a href="" id="backend_btn2">Backend</a></li>
                                 {% endif %}
                                 <li>
@@ -840,7 +840,7 @@
                                 {% if "report" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                                 {% endif %}
-                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
                                 <li><a href="" id="backend_btn">Backend</a></li>
                                 {% endif %}
                                 <li>
@@ -871,7 +871,7 @@
                                 {% if "report" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                                 {% endif %}
-                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
                                 <li><a href="" id="backend_btn2">Backend</a></li>
                                 {% endif %}
                                 <li>
@@ -1069,7 +1069,7 @@
                             {% if "report" in username.co_agent_frontend_security %}
                             <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                             {% endif %}
-                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                            {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
                             <li><a href="" id="backend_btn">Backend</a></li>
                             {% endif %}
                             <li>
@@ -1100,7 +1100,7 @@
                             {% if "report" in username.co_agent_frontend_security %}
                             <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                             {% endif %}
-                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                            {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
                             <li><a href="" id="backend_btn2">Backend</a></li>
                             {% endif %}
                             <li>
@@ -1251,7 +1251,7 @@
                         {% if "report" in username.co_agent_frontend_security %}
                         <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                         {% endif %}
-                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                        {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
                         <li><a href="" id="backend_btn">Backend</a></li>
                         {% endif %}
                         <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
@@ -1271,7 +1271,7 @@
                         {% if "report" in username.co_agent_frontend_security %}
                         <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                         {% endif %}
-                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                        {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
                         <li><a href="" id="backend_btn2">Backend</a></li>
                         {% endif %}
                         <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
@@ -1406,7 +1406,7 @@
     //$('head').append( '<meta property="og:title" content="{{name}}" />' );
     //$('head').append( '<meta property="og:type" content="website" />' );
     //$('head').append( '<meta property="og:url" content="https://rodextrip.com" />' );
-    {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+    {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
     document.getElementById('backend_btn').href = url;
     document.getElementById('backend_btn2').href = url;
     {% endif %}
