@@ -3,7 +3,7 @@ var destination_insurance_destination = [];
 function insurance_signin(data){
     $.ajax({
        type: "POST",
-       url: "/webservice/lab_pintar",
+       url: "/webservice/insurance",
        headers:{
             'action': 'signin',
        },
@@ -16,7 +16,7 @@ function insurance_signin(data){
                insurance_signature = msg.result.response.signature;
                signature = msg.result.response.signature;
                if(data == ''){
-                    insurance_get_config('search');
+                    get_insurance_data_search_page();
                     insurance_get_availability();
                }else
                     insurance_get_booking(data);
@@ -80,7 +80,7 @@ function insurance_get_config(page=false){
                         }
                     break;
                 }
-                if(page == 'home' || page == 'search'){
+                if(page == 'home'){
                     for(i in insurance_config){
                         for(j in insurance_config[i]['Plan Trip']){
                             choice += '<option value="'+insurance_config[i]['Plan Trip'][j]+'">'+insurance_config[i]['Plan Trip'][j]+'</option>';
@@ -120,7 +120,10 @@ function insurance_get_config(page=false){
                 if(page == 'search'){
                     for(i in insurance_config){
                         for(j in insurance_config[i]['Plan Trip']){
-                            choice += '<option value="'+insurance_config[i]['Plan Trip'][j]+'">'+insurance_config[i]['Plan Trip'][j]+'</option>';
+                            if(insurance_request.plan_trip == insurance_config[i]['Plan Trip'][j])
+                                choice += '<option value="'+insurance_config[i]['Plan Trip'][j]+'" selected>'+insurance_config[i]['Plan Trip'][j]+'</option>';
+                            else
+                                choice += '<option value="'+insurance_config[i]['Plan Trip'][j]+'">'+insurance_config[i]['Plan Trip'][j]+'</option>';
                         }
                     }
                     document.getElementById('insurance_trip').innerHTML += choice;
@@ -676,6 +679,27 @@ function insurance_commit_booking(){
           try{
             $("#show_loading_booking_insurance").hide();
           }catch(err){}
+       },timeout: 60000
+    });
+}
+
+function get_insurance_data_search_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/insurance",
+       headers:{
+            'action': 'get_data_search_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           insurance_request = msg.insurance_request;
+           insurance_get_config('search');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
        },timeout: 60000
     });
 }
