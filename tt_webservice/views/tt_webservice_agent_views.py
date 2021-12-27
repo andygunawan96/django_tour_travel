@@ -703,6 +703,7 @@ def get_new_cache(signature, type='all'):
             try:
                 file = open("tt_webservice/static/tt_webservice/phc_city.json", "r")
                 data_kota = json.loads(file.read())
+                file.close()
             except:
                 data_kota = {}
             provider = 'phc'
@@ -731,6 +732,7 @@ def get_new_cache(signature, type='all'):
             try:
                 file = open("tt_webservice/static/tt_webservice/periksain_city.json", "r")
                 data_kota = json.loads(file.read())
+                file.close()
             except:
                 data_kota = {}
             provider = 'periksain'
