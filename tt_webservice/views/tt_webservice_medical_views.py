@@ -203,12 +203,14 @@ def get_config(request):
                     if request.POST['provider'] == 'phc':
                         file = open("tt_webservice/static/tt_webservice/phc_city.json", "r")
                         res['result']['response']['kota'] = json.loads(file.read())
+                        file.close()
                     elif request.POST['provider'] == 'periksain':
                         file = open("tt_webservice/static/tt_webservice/periksain_city.json", "r")
                         res['result']['response'] = {
                             "carriers_code": res['result']['response'],
                             "kota": json.loads(file.read())
                         }
+                        file.close()
                     write_cache_with_folder(res, "medical_cache_data_%s" % provider)
             except Exception as e:
                 _logger.info("ERROR GET CACHE medical " + provider + ' ' + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
@@ -259,6 +261,7 @@ def get_config_mobile(request):
                             "carriers_code": res['result']['response'],
                             "kota": json.loads(file.read())
                         }
+                        file.close()
                     write_cache_with_folder(res, "medical_cache_data_%s" % provider)
                     if request.data['type'] == 'kota':
                         res['result']['response'].pop('carriers_code')
@@ -305,6 +308,7 @@ def get_zip_code(request):
                 "response": json.loads(file.read())
             }
         }
+        file.close()
     except Exception as e:
         res = {
             "result": {

@@ -1040,25 +1040,6 @@
             }
         });
 
-        var insurance_autocomplete = new autoComplete({
-            selector: '#insurance_query',
-            minChars: 1,
-            cache: false,
-            delay:0,
-            source: function(term, suggest){
-                insurance_search_autocomplete(term,suggest);
-
-            },
-            onSelect: function(e, term, item){
-                $("#insurance_query").trigger("blur");
-            }
-        });
-        $("#insurance_search_form").bind("keypress", function(e) {
-            if (e.keyCode == 13) {
-                return false;
-            }
-        });
-
         var insurance_origin = new autoComplete({
             selector: '#insurance_origin',
             minChars: 1,
@@ -1079,7 +1060,7 @@
         });
         var insurance_destination = new autoComplete({
             selector: '#insurance_destination',
-            minChars: 0,
+            minChars: 1,
             cache: false,
             delay:0,
             source: function(term, suggest){

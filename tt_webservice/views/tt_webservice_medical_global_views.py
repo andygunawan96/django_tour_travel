@@ -210,6 +210,7 @@ def get_zip_code(request):
                 "response": json.loads(file.read())
             }
         }
+        file.close()
     except Exception as e:
         res = {
             "result": {

@@ -15,10 +15,10 @@ function insurance_signin(data){
            if(msg.result.error_code == 0){
                insurance_signature = msg.result.response.signature;
                signature = msg.result.response.signature;
-               insurance_get_config();
-               if(data == '')
+               if(data == ''){
+                    insurance_get_config('search');
                     insurance_get_availability();
-               else
+               }else
                     insurance_get_booking(data);
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
@@ -80,7 +80,7 @@ function insurance_get_config(page=false){
                         }
                     break;
                 }
-                if(page == 'home'){
+                if(page == 'home' || page == 'search'){
                     for(i in insurance_config){
                         for(j in insurance_config[i]['Plan Trip']){
                             choice += '<option value="'+insurance_config[i]['Plan Trip'][j]+'">'+insurance_config[i]['Plan Trip'][j]+'</option>';
