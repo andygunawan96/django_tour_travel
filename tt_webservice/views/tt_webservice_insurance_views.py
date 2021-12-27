@@ -70,6 +70,8 @@ def api_models(request):
             res = get_data_passenger_page(request)
         elif req_data['action'] == 'get_data_review_page':
             res = get_data_review_page(request)
+        elif req_data['action'] == 'get_data_search_page':
+            res = get_data_search_page(request)
         elif req_data['action'] == 'get_token':
             res = get_token(request)
         elif req_data['action'] == 'get_kurs':
@@ -284,6 +286,14 @@ def get_config(request):
                 res = file
     else:
         res = file
+    return res
+
+def get_data_search_page(request):
+    try:
+        res = {}
+        res['insurance_request'] = request.session.get('insurance_request')
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_data_passenger_page(request):
