@@ -338,62 +338,112 @@ function get_airline_data_search_page(){
            airline_carriers_data_awal = JSON.parse(JSON.stringify(msg.airline_carriers));
            airline_all_carriers = JSON.parse(JSON.stringify(msg.airline_all_carriers));
            airline_signin('');
+           quantity_adult_flight = airline_request.adult;
+           quantity_child_flight = airline_request.child;
+           quantity_infant_flight = airline_request.infant;
            while(count<counter_mc){
                 add_multi_city('search');
                 count++;
            }
-           $('#show_total_pax_flight1').text(airline_request.adult + " Adult, " + airline_request.child + " Child, " + airline_request.infant + " Infant");
+           $('#show_total_pax_flight').text(airline_request.adult + " Adult, " + airline_request.child + " Child, " + airline_request.infant + " Infant");
            try{
                //MC
                document.getElementById('adult_flight1').value = airline_request.adult;
                document.getElementById('child_flight1').value = airline_request.child;
                document.getElementById('infant_flight1').value = airline_request.infant;
+               $('#show_total_pax_flight1').text(airline_request.adult + " Adult, " + airline_request.child + " Child, " + airline_request.infant + " Infant");
+               if (quantity_adult_flight+quantity_child_flight == 9){
+                    document.getElementById("right-plus-adult-flight1").disabled = true;
+                    document.getElementById("right-plus-child-flight1").disabled = true;
+
+                    if(quantity_adult_flight == 1 ){
+                      document.getElementById("left-minus-adult-flight1").disabled = true;
+                    }
+                    else{
+                      document.getElementById("left-minus-adult-flight1").disabled = false;
+                    }
+
+                    if(quantity_child_flight == 0){
+                      document.getElementById("left-minus-child-flight1").disabled = true;
+                    }
+                    else{
+                      document.getElementById("left-minus-child-flight1").disabled = false;
+                    }
+               }else{
+                    if(quantity_adult_flight == 1 ){
+                      document.getElementById("left-minus-adult-flight1").disabled = true;
+                      document.getElementById("right-plus-adult-flight1").disabled = false;
+                    }
+                    else{
+                      document.getElementById("left-minus-adult-flight1").disabled = false;
+                      document.getElementById("right-plus-adult-flight1").disabled = false;
+                    }
+
+                    if(quantity_child_flight == 0){
+                      document.getElementById("left-minus-child-flight1").disabled = true;
+                      document.getElementById("right-plus-child-flight1").disabled = false;
+                    }
+                    else{
+                      document.getElementById("left-minus-child-flight1").disabled = false;
+                      document.getElementById("right-plus-child-flight1").disabled = false;
+                    }
+               }
+               if (quantity_infant_flight == 0){
+                      document.getElementById("left-minus-infant-flight1").disabled = true;
+                      document.getElementById("right-plus-infant-flight1").disabled = false;
+               }else if (quantity_infant_flight == quantity_adult_flight){
+                      document.getElementById("left-minus-infant-flight1").disabled = false;
+                      document.getElementById("right-plus-infant-flight1").disabled = true;
+               }else{
+                      document.getElementById("right-plus-infant-flight1").disabled = false;
+                      document.getElementById("left-minus-infant-flight1").disabled = false;
+               }
            }catch(err){}
            if (quantity_adult_flight+quantity_child_flight == 9){
-                document.getElementById("right-plus-adult-flight1").disabled = true;
-                document.getElementById("right-plus-child-flight1").disabled = true;
+                document.getElementById("right-plus-adult-flight").disabled = true;
+                document.getElementById("right-plus-child-flight").disabled = true;
 
                 if(quantity_adult_flight == 1 ){
-                  document.getElementById("left-minus-adult-flight1").disabled = true;
+                  document.getElementById("left-minus-adult-flight").disabled = true;
                 }
                 else{
-                  document.getElementById("left-minus-adult-flight1").disabled = false;
+                  document.getElementById("left-minus-adult-flight").disabled = false;
                 }
 
                 if(quantity_child_flight == 0){
-                  document.getElementById("left-minus-child-flight1").disabled = true;
+                  document.getElementById("left-minus-child-flight").disabled = true;
                 }
                 else{
-                  document.getElementById("left-minus-child-flight1").disabled = false;
+                  document.getElementById("left-minus-child-flight").disabled = false;
                 }
            }else{
                 if(quantity_adult_flight == 1 ){
-                  document.getElementById("left-minus-adult-flight1").disabled = true;
-                  document.getElementById("right-plus-adult-flight1").disabled = false;
+                  document.getElementById("left-minus-adult-flight").disabled = true;
+                  document.getElementById("right-plus-adult-flight").disabled = false;
                 }
                 else{
-                  document.getElementById("left-minus-adult-flight1").disabled = false;
-                  document.getElementById("right-plus-adult-flight1").disabled = false;
+                  document.getElementById("left-minus-adult-flight").disabled = false;
+                  document.getElementById("right-plus-adult-flight").disabled = false;
                 }
 
                 if(quantity_child_flight == 0){
-                  document.getElementById("left-minus-child-flight1").disabled = true;
-                  document.getElementById("right-plus-child-flight1").disabled = false;
+                  document.getElementById("left-minus-child-flight").disabled = true;
+                  document.getElementById("right-plus-child-flight").disabled = false;
                 }
                 else{
-                  document.getElementById("left-minus-child-flight1").disabled = false;
-                  document.getElementById("right-plus-child-flight1").disabled = false;
+                  document.getElementById("left-minus-child-flight").disabled = false;
+                  document.getElementById("right-plus-child-flight").disabled = false;
                 }
            }
            if (quantity_infant_flight == 0){
-                  document.getElementById("left-minus-infant-flight1").disabled = true;
-                  document.getElementById("right-plus-infant-flight1").disabled = false;
+                  document.getElementById("left-minus-infant-flight").disabled = true;
+                  document.getElementById("right-plus-infant-flight").disabled = false;
            }else if (quantity_infant_flight == quantity_adult_flight){
-                  document.getElementById("left-minus-infant-flight1").disabled = false;
-                  document.getElementById("right-plus-infant-flight1").disabled = true;
+                  document.getElementById("left-minus-infant-flight").disabled = false;
+                  document.getElementById("right-plus-infant-flight").disabled = true;
            }else{
-                  document.getElementById("right-plus-infant-flight1").disabled = false;
-                  document.getElementById("left-minus-infant-flight1").disabled = false;
+                  document.getElementById("right-plus-infant-flight").disabled = false;
+                  document.getElementById("left-minus-infant-flight").disabled = false;
            }
 
        },
@@ -8445,7 +8495,8 @@ function get_price_itinerary_reissue(val){
         render_ticket_reissue();
         //get_price_reissue_construct();
 //        sell_journey_reissue_construct();
-        sell_reschedule_v2();
+//        sell_reschedule_v2();
+        airline_get_reschedule_itinerary_v2();
         //tampil getprice
     }else{
         flight_select++;
@@ -8491,7 +8542,8 @@ function get_price_itinerary_reissue(val){
         if(airline_pick_list.length == journey_booking_length){
             //get_price_reissue_construct();
 //            sell_journey_reissue_construct()
-            sell_reschedule_v2();
+//            sell_reschedule_v2();
+            airline_get_reschedule_itinerary_v2();
             //tampil getprice
         }
     }
@@ -11085,6 +11137,91 @@ function airline_get_reschedule_availability_v2(){
     });
 }
 
+function airline_get_reschedule_itinerary_v2(){
+    show_loading();
+    please_wait_transaction();
+//                document.getElementById('next_reissue').disabled = true;
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_reschedule_itinerary_v2',
+       },
+//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
+       data: {
+            "journeys_booking": JSON.stringify(journey),
+            "passengers":JSON.stringify({
+                "adult": airline_get_detail.result.response.ADT,
+                "child": airline_get_detail.result.response.CHD,
+                "infant": airline_get_detail.result.response.INF
+            }),
+            'signature': signature,
+            "pnr": JSON.stringify(pnr_list),
+            'booking': JSON.stringify(airline_get_detail)
+       },
+       success: function(msg) {
+           console.log(msg);
+           hide_modal_waiting_transaction();
+           document.getElementById('show_loading_booking_airline').hidden = false;
+           if(msg.result.error_code == 0){
+               for(i in journey){
+                   try{
+                       document.getElementById('changejourney_pick'+parseInt(1+parseInt(i))).disabled = false; //sudah sell tidak bisa
+                       document.getElementById('changejourney_pick'+parseInt(1+parseInt(i))).onclick = '';
+                   }catch(err){}
+               }
+               airline_response = [];
+               airline_route = [];
+               check_seat = 0;
+               for(i in msg.result.response.reschedule_itinerary_provider){
+                   for(j in msg.result.response.reschedule_itinerary_provider[i].journeys){
+                       airline_response.push(msg.result.response.reschedule_itinerary_provider[i].journeys[j]);
+                       for(k in msg.result.response.reschedule_itinerary_provider[i].journeys[j].segments){
+                           if(msg.result.response.reschedule_itinerary_provider[i].journeys[j].segments[k].hasOwnProperty('seat_cabins') && msg.result.response.reschedule_itinerary_provider[i].journeys[j].segments[k].seat_cabins.length > 0){
+                               check_seat = 1;
+                               airline_route.push(msg.result.response.reschedule_itinerary_provider[i].journeys[j].segments[k].origin+' - '+msg.result.response.reschedule_itinerary_provider[i].journeys[j].segments[k].destination)
+                           }
+                       }
+                   }
+               }
+               for(i=0;i<airline_response.length;i++){
+                    for(j=i;j<airline_response.length;j++){
+                        if(airline_response[i].departure_date > airline_response[j].departure_date){
+                            temp = airline_response[i];
+                            airline_response[i] = airline_response[j];
+                            airline_response[j] = temp;
+                        }
+                    }
+               }
+               //change date moment
+               for(i=0;i<airline_response.length;i++){
+
+               }
+               get_price_itinerary_reissue_request(airline_response, msg.result.response.total_admin_fee, msg.result.response.sell_reschedule_provider);
+               document.getElementById('airline_detail').innerHTML += `
+                <div class="col-lg-12" style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;" id="sell_reschedule_div">
+                    <input type="button" class="primary-btn" style="width:100%;" onclick="sell_reschedule_v2();" value="Proceed">
+                </div>`;
+
+
+           }else if(msg.result.error_code == 500 && msg.result.error_msg == 'Internal server error'){
+               sell_reschedule_v2();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops...',
+                  text: msg.result.error_msg,
+                })
+                $('.loader-rodextrip').fadeOut();
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline get price itinerary reissue');
+            $('.loader-rodextrip').fadeOut();
+       },timeout: 300000
+    });
+}
+
 function sell_reschedule_v2(){
     title = '';
     if(airline_get_detail.result.response.state == 'booked')
@@ -11128,6 +11265,9 @@ function sell_reschedule_v2(){
                        hide_modal_waiting_transaction();
                        document.getElementById('show_loading_booking_airline').hidden = false;
                        if(msg.result.error_code == 0){
+                           if(document.getElementById('sell_reschedule_div')){
+                                document.getElementById('sell_reschedule_div').hidden = true;
+                           }
                            for(i in journey){
                                try{
                                    document.getElementById('changejourney_pick'+parseInt(1+parseInt(i))).disabled = true; //sudah sell tidak bisa
