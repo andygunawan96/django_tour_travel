@@ -110,7 +110,6 @@ function bus_search_autocomplete(term,type){
         }
     var suggestions = [];
     var priority = [];
-    console.log(new_bus_destination);
     if(term.split(' - ').length == 4)
         term = '';
     for (i=0;i<choices.length;i++){
