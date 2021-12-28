@@ -206,6 +206,7 @@ def get_zip_code(request):
                 "response": json.loads(file.read())
             }
         }
+        file.close()
     except Exception as e:
         res = {
             "result": {
@@ -860,7 +861,7 @@ def page_review(request):
         res = {}
         data = request.session['lab_pintar_data_%s' % request.POST['signature']]
         res['passenger'] = {
-            "booker_seq_id": data['booker']['booker_seq_id']
+            "booker": data['booker']
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())

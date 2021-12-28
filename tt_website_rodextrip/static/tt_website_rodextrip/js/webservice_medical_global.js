@@ -83,7 +83,7 @@ function medical_global_page_passenger(){
 function medical_global_page_review(){
     $.ajax({
        type: "POST",
-       url: "/webservice/lab_pintar",
+       url: "/webservice/medical_global",
        headers:{
             'action': 'page_review',
        },

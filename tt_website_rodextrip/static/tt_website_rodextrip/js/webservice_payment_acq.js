@@ -881,6 +881,15 @@ function set_price(val, type, product_type){
                     <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.fee)+`</span>
                 </div>`;
         //unique amount
+        if(payment_acq2[payment_method][selected].price_component.unique_amount){
+            text += `
+                <div class='col-sm-6' style='text-align:left;'>
+                    <span>Unique Amount:</span>
+                </div>
+                <div class='col-sm-6' style='text-align:right;'>
+                    <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.unique_amount)+`</span>
+                </div>`;
+        }
 //        text += `
 //                <div class='col-sm-6' style='text-align:left;'>
 //                    <span>Unique Amount:</span>
