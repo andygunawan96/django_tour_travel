@@ -1637,22 +1637,24 @@ function lab_pintar_get_booking(order_number, sync=false){
                         if(window.location.pathname.includes('confirm_order') == false){
                             print_text += '<div class="col-lg-4" style="padding-bottom:10px;">';
                             // === Button 1 ===
+                            /*
                             if (msg.result.response.state  == 'issued') {
                                 print_text+=`
                                 <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket','labpintar');" style="width:100%;">
                                     Print Ticket
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
-                            }
+                            }*/
                             print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
                             // === Button 2 ===
+                            /*
                             if (msg.result.response.state  == 'issued'){
                                 print_text+=`
                                 <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','labpintar');" style="width:100%;">
                                     Print Ticket (With Price)
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
-                            }
+                            }*/
                             print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
                             // === Button 3 ===
                             if (msg.result.response.state  == 'issued') {

@@ -514,6 +514,16 @@ def get_booking(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
+            for pax in res['result']['response']['passengers']:
+                try:
+                    if len(pax['birth_date'].split(' ')[0].split('-')) == 3:
+                        pax.update({
+                            'birth_date': '%s %s %s' % (
+                                pax['birth_date'].split(' ')[0].split('-')[2], month[pax['birth_date'].split(' ')[0].split('-')[1]],
+                                pax['birth_date'].split(' ')[0].split('-')[0])
+                        })
+                except:
+                    pass
             for line in res['result']['response']['lines']:
                 if res['result']['response']['offline_provider_type'] == 'airline' or res['result']['response']['offline_provider_type'] == 'train':
                     if line['departure_date']:
