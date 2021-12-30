@@ -842,7 +842,7 @@ function event_get_booking(data){
                     Print Itinerary Form
                     <div class="ld ld-ring ld-cycle"></div>
                 </button>`;
-            }else{
+            }else if (msg.result.response.state  == 'issued'){
                 print_text+=`
                 <button class="primary-btn hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.name + `','ticket_price','event');" style="width:100%;">
                     Print Ticket (With Price)
