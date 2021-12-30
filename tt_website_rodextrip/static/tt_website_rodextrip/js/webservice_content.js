@@ -221,7 +221,6 @@ function set_inactive_delete_banner(){
 }
 
 function banner_click(type, seq_id){
-    console.log(seq_id);
     for(i in banner_list){
         for(j in banner_list[i]){
             if(seq_id == banner_list[i][j].seq_id){
@@ -229,7 +228,8 @@ function banner_click(type, seq_id){
                     $('#myModalWizardHotel').modal('show');
                     document.getElementById('hotel_searchForm_wizard').action = banner_list[i][j].url_page;
                 }else if(banner_list[i][j].provider_type == 'tour' || banner_list[i][j].provider_type == 'activity' || banner_list[i][j].provider_type == false){ //false provider type external di backend tidak ada
-                    window.location = banner_list[i][j].url_page;
+                    if(banner_list[i][j].url_page)
+                        window.location = banner_list[i][j].url_page;
                 }
             }
 
