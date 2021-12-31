@@ -797,28 +797,30 @@ function confirm_order(){
                 //document.getElementById('voucher_div').style.display = 'none';
                 document.getElementById('payment_acq').hidden = true;
                 document.getElementById('div_sync_status').hidden = true;
-//                document.getElementById('button-print-print').hidden = true;
+                document.getElementById('button-print-print').hidden = true;
 
                 document.getElementById("overlay-div-box").style.display = "none";
                 $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan
-                medical_get_booking(data);
+                medical_global_get_booking(order_number);
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
            }else{
                 //update ticket
                 document.getElementById('show_loading_booking_medical').hidden = false;
                 hide_modal_waiting_transaction();
-                document.getElementById('medical_booking').innerHTML = '';
-                document.getElementById('medical_detail').innerHTML = '';
-                document.getElementById('payment_acq').innerHTML = '';
-                //document.getElementById('voucher_div').style.display = 'none';
-                document.getElementById('payment_acq').hidden = true;
-                document.getElementById('div_sync_status').hidden = true;
-//                document.getElementById('button-print-print').hidden = true;
+                try{
+                    document.getElementById('medical_booking').innerHTML = '';
+                    document.getElementById('medical_detail').innerHTML = '';
+                    document.getElementById('payment_acq').innerHTML = '';
+                    //document.getElementById('voucher_div').style.display = 'none';
+                    document.getElementById('payment_acq').hidden = true;
+                    document.getElementById('div_sync_status').hidden = true;
+                    document.getElementById('button-print-print').hidden = true;
+                }catch(err){};
 
                 document.getElementById("overlay-div-box").style.display = "none";
                 $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan
-                medical_get_booking(data);
+                medical_global_get_booking(order_number);
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
