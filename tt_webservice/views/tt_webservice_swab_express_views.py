@@ -87,7 +87,12 @@ def api_models(request):
             res = confirm_order(request)
         elif req_data['action'] == 'update_service_charge':
             res = update_service_charge(request)
-
+        elif req_data['action'] == 'booker_insentif_booking':
+            res = booker_insentif_booking(request)
+        elif req_data['action'] == 'page_passenger':
+            res = page_passenger(request)
+        elif req_data['action'] == 'page_review':
+            res = page_review(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -121,6 +126,7 @@ def login(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
+            create_session_product(request, 'swab_express', 180)
             set_session(request, 'swab_express_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
@@ -200,6 +206,7 @@ def get_zip_code(request):
                 "response": json.loads(file.read())
             }
         }
+        file.close()
     except Exception as e:
         res = {
             "result": {
@@ -800,6 +807,62 @@ def update_service_charge(request):
             _logger.info("SUCCESS update_service_charge TRAIN SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def booker_insentif_booking(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        data = {
+            'order_number': json.loads(request.POST['order_number']),
+            'booker': json.loads(request.POST['booker'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "booker_insentif_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/swab_express'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            total_upsell = 0
+            for upsell in data['passengers']:
+                for pricing in upsell['pricing']:
+                    total_upsell += pricing['amount']
+            set_session(request, 'swab_express_upsell_booker_'+request.POST['signature'], total_upsell)
+            _logger.info(json.dumps(request.session['swab_express_upsell_booker_' + request.POST['signature']]))
+            _logger.info("SUCCESS update_service_charge_booker SWAB EXPRESS SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR update_service_charge_swab_express_booker SWAB EXPRESS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def page_passenger(request):
+    try:
+        cache_version = get_cache_version()
+        res = {
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+        }
+        response = get_cache_data(cache_version)
+        res['countries'] = response['result']['response']['airline']['country']
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def page_review(request):
+    try:
+        res = {}
+        data = request.session['lab_pintar_data_%s' % request.POST['signature']]
+        res['passenger'] = {
+            "booker": data['booker']
+        }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

@@ -91,7 +91,18 @@
     }
 </style>
 {%if template == 1%}
-<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+<header id="header" class="header_breadcrumb">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -140,6 +151,7 @@
                                         <div class="col-lg-12">
                                             <h4>{% trans 'Booker Information' %}</h4>
                                             <hr/>
+                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
@@ -194,7 +206,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result">
+                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -221,7 +233,6 @@
                                         <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                             <div class="row" style="margin:0">
                                                 <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                                <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                                 <div class="modal fade" id="myModalHelp" role="dialog">
                                                     <div class="modal-dialog">
 
@@ -415,7 +426,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result_adult{{forloop.counter}}">
+                                                            <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                             </div>
                                                         </div>
@@ -490,7 +501,7 @@
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}');update_identity('adult',{{forloop.counter}});" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -521,9 +532,7 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
-                                                                {% if is_garuda == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                {% elif is_lionair == True %}
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -698,7 +707,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_child{{forloop.counter}}">
+                                                        <div id="search_result_child{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -772,7 +781,7 @@
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('child_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('child_nationality{{forloop.counter}}');update_identity('child',{{forloop.counter}});" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -801,9 +810,7 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
-                                                                {% if is_garuda == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -943,7 +950,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_infant{{forloop.counter}}">
+                                                        <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -1017,7 +1024,7 @@
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('infant_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('infant_nationality{{forloop.counter}}');update_identity('infant',{{forloop.counter}});" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -1034,7 +1041,7 @@
                                                 <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_international == True %}display:block{% else %}display:none;{% endif %}">
+                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     {% if is_identity_required == True %}
@@ -1045,7 +1052,12 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
+                                                                {% else %}
+                                                                <option value="passport">Passport</option>
+                                                                {% endif %}
                                                             </select>
                                                         </div>
                                                     </div>
@@ -1083,12 +1095,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        {% if is_lionair == True and is_international == True %}
-                                        <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
-                                        {% elif is_identity_required == True%}
-                                        <span><span style="color:red">* </span>{% trans 'Identity Type required for Indonesian People' %}</span>
-                                        {%endif%}
                                     </div>
+                                    {% if is_lionair == True and is_international == True %}
+                                    <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
+                                    {% elif is_lionair == True %}
+                                    <span><span style="color:red">* </span>{% trans 'Identity is required for lion air, wings air, or batik air' %}</span>
+                                    {% elif is_identity_required == True%}
+                                    <span><span style="color:red">* </span>{% trans 'Identity Type required for Indonesian People' %}</span>
+                                    {%endif%}
                                 </div>
                             </div>
                             <div style="padding-top:15px;"></div>
@@ -1172,6 +1186,17 @@
 
 {% elif template == 2 %}
 <header class="header_breadcrumb" style="padding:unset; background:white;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="classy-nav-container breakpoint-off">
             <div class="container">
@@ -1219,6 +1244,7 @@
                                                 <div class="col-lg-12">
                                                     <h4>{% trans 'Booker Information' %}</h4>
                                                     <hr/>
+                                                    <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                                 </div>
                                                 <div class="col-lg-6" style="text-align:left;">
                                                     <!--                                            <label>Booker Type :</label><br/>-->
@@ -1273,7 +1299,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div id="search_result">
+                                                                <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                                 </div>
                                                             </div>
@@ -1296,7 +1322,6 @@
                                                 <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                                     <div class="row" style="margin:0">
                                                         <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                                        <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                                         <div class="modal fade" id="myModalHelp" role="dialog">
                                                             <div class="modal-dialog">
 
@@ -1485,7 +1510,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div id="search_result_adult{{forloop.counter}}">
+                                                                    <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                                     </div>
                                                                 </div>
@@ -1530,7 +1555,7 @@
                                                     <label style="color:red">*</label>
                                                     <label>{% trans 'Nationality' %}</label>
                                                     <div class="input-container-search-ticket">
-                                                        <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                        <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}');update_identity('adult',{{forloop.counter}});" class="nice-select-default">
                                                             {% for country in countries %}
                                                             <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                             {% endfor %}
@@ -1559,11 +1584,9 @@
                                                             <label>{% trans 'ID Type' %}</label>
                                                             <div class="input-container-search-ticket">
                                                                 <div class="form-select" id="default-select">
-                                                                    <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
+                                                                    <select class="form-control" id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                         <option value="">Choose Identity Type</option>
-                                                                        {% if is_garuda == True and is_international == False %}
-                                                                        <option value="ktp">NIK</option>
-                                                                        {% elif  is_lionair == True %}
+                                                                        {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                         <option value="ktp">NIK</option>
                                                                         <option value="passport">Passport</option>
                                                                         {% else %}
@@ -1723,7 +1746,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div id="search_result_child{{forloop.counter}}">
+                                                                <div id="search_result_child{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                                 </div>
                                                             </div>
@@ -1767,7 +1790,7 @@
                                                     <label style="color:red">*</label>
                                                     <label>{% trans 'Nationality' %}</label>
                                                     <div class="input-container-search-ticket">
-                                                        <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('child_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                        <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('child_nationality{{forloop.counter}}');update_identity('child',{{forloop.counter}});" class="nice-select-default">
                                                             {% for country in countries %}
                                                             <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                             {% endfor %}
@@ -1792,19 +1815,15 @@
                                                             {% endif %}
                                                             <label>{% trans 'ID Type' %}</label>
                                                             <div class="input-container-search-ticket">
-                                                                <div class="form-select" id="default-select">
-                                                                    <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
-                                                                        <option value="">Choose Identity Type</option>
-                                                                        {% if is_garuda == True and is_international == False %}
-                                                                        <option value="ktp">NIK</option>
-                                                                        {% elif  is_lionair == True %}
-                                                                        <option value="ktp">NIK</option>
-                                                                        <option value="passport">Passport</option>
-                                                                        {% else %}
-                                                                        <option value="passport">Passport</option>
-                                                                        {% endif %}
-                                                                    </select>
-                                                                </div>
+                                                                <select class="form-control" id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
+                                                                    <option value="">Choose Identity Type</option>
+                                                                    {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                    <option value="ktp">NIK</option>
+                                                                    <option value="passport">Passport</option>
+                                                                    {% else %}
+                                                                    <option value="passport">Passport</option>
+                                                                    {% endif %}
+                                                                </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -1926,7 +1945,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div id="search_result_infant{{forloop.counter}}">
+                                                                <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                                 </div>
                                                             </div>
@@ -1970,7 +1989,7 @@
                                                     <label style="color:red">*</label>
                                                     <label>{% trans 'Nationality' %}</label>
                                                     <div class="input-container-search-ticket">
-                                                        <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('infant_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                        <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('infant_nationality{{forloop.counter}}');update_identity('infant',{{forloop.counter}});" class="nice-select-default">
                                                             {% for country in countries %}
                                                             <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                             {% endfor %}
@@ -1987,7 +2006,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_international == True %}display:block{% else %}display:none;{% endif %}">
+                                                <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                                             {% if is_identity_required == True %}
@@ -1998,7 +2017,12 @@
                                                                 <div class="form-select" id="default-select">
                                                                     <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
                                                                         <option value="">Choose Identity Type</option>
+                                                                        {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                        <option value="ktp">NIK</option>
                                                                         <option value="passport">Passport</option>
+                                                                        {% else %}
+                                                                        <option value="passport">Passport</option>
+                                                                        {% endif %}
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -2112,7 +2136,18 @@
 
 {% elif template == 3 %}
 <header class="header_breadcrumb" style="padding:unset; background:white;">
-    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:5px 0px;">
         <div class="container" style="padding-top:10px;">
             <div class="row align-items-center justify-content-between d-flex mobile-menu"  >
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -2151,6 +2186,7 @@
                                         <div class="col-lg-12">
                                             <h4>{% trans 'Booker Information' %}</h4>
                                             <hr/>
+                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
@@ -2205,7 +2241,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result">
+                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -2233,7 +2269,6 @@
                                             <div class="form-group">
                                                 <div class="row" style="margin:0">
                                                     <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                                    <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                                 </div>
                                             </div>
                                             <div class="modal fade" id="myModalHelp" role="dialog">
@@ -2428,7 +2463,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result_adult{{forloop.counter}}">
+                                                            <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                             </div>
                                                         </div>
@@ -2505,7 +2540,7 @@
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="form-group">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}');update_identity('adult',{{forloop.counter}});" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -2533,13 +2568,11 @@
                                                     <label style="color:red">*</label>
                                                     {% endif %}
                                                     <label>{% trans 'ID Type' %}</label>
-                                                    <div class="input-container-search-ticket">
-                                                        <div class="form-select" id="default-select">
+                                                    <div class="form-group">
+                                                        <div class="default-select" id="default-select">
                                                             <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
-                                                                {% if is_garuda == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -2714,7 +2747,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_child{{forloop.counter}}">
+                                                        <div id="search_result_child{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -2790,7 +2823,7 @@
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="form-group">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('child_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('child_nationality{{forloop.counter}}');update_identity('child',{{forloop.counter}});" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -2819,9 +2852,7 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
-                                                                {% if is_garuda == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -2962,7 +2993,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_infant{{forloop.counter}}">
+                                                        <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -3038,7 +3069,7 @@
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="form-group">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('infant_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('infant_nationality{{forloop.counter}}');update_identity('infant',{{forloop.counter}});" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -3056,7 +3087,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_international == True %}display:block{% else %}display:none;{% endif %}">
+                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     {% if is_identity_required == True %}
@@ -3067,7 +3098,12 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
+                                                                {% else %}
+                                                                <option value="passport">Passport</option>
+                                                                {% endif %}
                                                             </select>
                                                         </div>
                                                     </div>
@@ -3194,6 +3230,17 @@
 
 {% elif template == 4 %}
 <header class="header_breadcrumb" style="padding:unset; background:white;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -3241,6 +3288,7 @@
                                     <div class="col-lg-12">
                                         <h4>{% trans 'Booker Information' %}</h4>
                                         <hr/>
+                                        <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                     </div>
                                     <div class="col-lg-6" style="text-align:left;">
                                         <!--                                            <label>Booker Type :</label><br/>-->
@@ -3295,7 +3343,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div id="search_result">
+                                                    <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                     </div>
                                                 </div>
@@ -3322,7 +3370,6 @@
                                     <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                         <div class="row" style="margin:0">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                             <div class="modal fade" id="myModalHelp" role="dialog">
                                                 <div class="modal-dialog">
 
@@ -3516,7 +3563,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_adult{{forloop.counter}}">
+                                                        <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -3591,7 +3638,7 @@
                                         <label>{% trans 'Nationality' %}</label>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select">
-                                                <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}');update_identity('adult',{{forloop.counter}});" class="nice-select-default">
                                                     {% for country in countries %}
                                                     <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                     {% endfor %}
@@ -3619,13 +3666,11 @@
                                                 <label style="color:red">*</label>
                                                 {% endif %}
                                                 <label>{% trans 'ID Type' %}</label>
-                                                <div class="input-container-search-ticket">
+                                                <div class="input-container-search-ticket btn-group">
                                                     <div class="form-select" id="default-select">
-                                                        <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
+                                                        <select class="nice-select-default" id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                             <option value="">Choose Identity Type</option>
-                                                            {% if is_garuda == True and is_international == False %}
-                                                            <option value="ktp">NIK</option>
-                                                            {% elif  is_lionair == True %}
+                                                            {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                             <option value="ktp">NIK</option>
                                                             <option value="passport">Passport</option>
                                                             {% else %}
@@ -3799,7 +3844,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div id="search_result_child{{forloop.counter}}">
+                                                    <div id="search_result_child{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                     </div>
                                                 </div>
@@ -3873,7 +3918,7 @@
                                         <label>{% trans 'Nationality' %}</label>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select">
-                                                <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('child_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('child_nationality{{forloop.counter}}');update_identity('child',{{forloop.counter}});" class="nice-select-default">
                                                     {% for country in countries %}
                                                     <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                     {% endfor %}
@@ -3900,11 +3945,9 @@
                                                 <label>{% trans 'ID Type' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select" id="default-select">
-                                                        <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
+                                                        <select class="nice-select-default" id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                             <option value="">Choose Identity Type</option>
-                                                            {% if is_garuda == True and is_international == False %}
-                                                            <option value="ktp">NIK</option>
-                                                            {% elif  is_lionair == True %}
+                                                            {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                             <option value="ktp">NIK</option>
                                                             <option value="passport">Passport</option>
                                                             {% else %}
@@ -4045,7 +4088,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div id="search_result_infant{{forloop.counter}}">
+                                                    <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                     </div>
                                                 </div>
@@ -4119,7 +4162,7 @@
                                         <label>{% trans 'Nationality' %}</label>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select">
-                                                <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('infant_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('infant_nationality{{forloop.counter}}');update_identity('infant',{{forloop.counter}});" class="nice-select-default">
                                                     {% for country in countries %}
                                                     <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                     {% endfor %}
@@ -4137,7 +4180,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_international == True %}display:block{% else %}display:none;{% endif %}">
+                                    <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                 {% if is_identity_required == True %}
@@ -4146,9 +4189,14 @@
                                                 <label>{% trans 'ID Type' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select" id="default-select">
-                                                        <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
+                                                        <select class="nice-select-default" id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
                                                             <option value="">Choose Identity Type</option>
+                                                            {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                            <option value="ktp">NIK</option>
                                                             <option value="passport">Passport</option>
+                                                            {% else %}
+                                                            <option value="passport">Passport</option>
+                                                            {% endif %}
                                                         </select>
                                                     </div>
                                                 </div>
@@ -4274,7 +4322,18 @@
 
 {% elif template == 5 %}
 <header class="header_breadcrumb" style="padding:unset; background:white;">
-    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:5px 0px;">
         <div class="container" style="padding-top:15px; padding-bottom:15px;">
             <div class="row align-items-center justify-content-between d-flex mobile-menu">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -4312,6 +4371,7 @@
                                         <div class="col-lg-12">
                                             <h4>{% trans 'Booker Information' %}</h4>
                                             <hr/>
+                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
@@ -4366,7 +4426,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result">
+                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -4392,7 +4452,6 @@
                                         </div>
                                         <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                             <div class="modal fade" id="myModalHelp" role="dialog">
                                                 <div class="modal-dialog">
 
@@ -4585,7 +4644,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result_adult{{forloop.counter}}">
+                                                            <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                             </div>
                                                         </div>
@@ -4660,7 +4719,7 @@
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}');update_identity('adult',{{forloop.counter}});" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -4692,9 +4751,7 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
-                                                                {% if is_garuda == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -4868,7 +4925,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_child{{forloop.counter}}">
+                                                        <div id="search_result_child{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -4942,7 +4999,7 @@
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('child_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('child_nationality{{forloop.counter}}');update_identity('child',{{forloop.counter}});" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -4971,9 +5028,7 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
-                                                                {% if is_garuda == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -5089,7 +5144,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_infant{{forloop.counter}}">
+                                                        <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -5163,7 +5218,7 @@
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('infant_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('infant_nationality{{forloop.counter}}');update_identity('infant',{{forloop.counter}});" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -5181,7 +5236,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_international == True %}display:block{% else %}display:none;{% endif %}">
+                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <label id="infant_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
@@ -5190,7 +5245,12 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
+                                                                {% else %}
+                                                                <option value="passport">Passport</option>
+                                                                {% endif %}
                                                             </select>
                                                         </div>
                                                     </div>
@@ -5343,6 +5403,17 @@
 
 {% elif template == 6 %}
 <header class="header_breadcrumb" style="padding:unset; background:white;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; height:30px; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd;">
         <div class="container" style="padding-top:15px; padding-bottom:15px;">
             <div class="row align-items-center justify-content-between d-flex mobile-menu">
@@ -5381,6 +5452,7 @@
                                         <div class="col-lg-12">
                                             <h4>{% trans 'Booker Information' %}</h4>
                                             <hr/>
+                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
@@ -5435,7 +5507,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result">
+                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -5461,7 +5533,6 @@
                                         </div>
                                         <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                             <div class="modal fade" id="myModalHelp" role="dialog">
                                                 <div class="modal-dialog">
 
@@ -5654,7 +5725,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result_adult{{forloop.counter}}">
+                                                            <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                             </div>
                                                         </div>
@@ -5729,7 +5800,7 @@
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}');update_identity('adult',{{forloop.counter}});" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -5761,9 +5832,7 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
-                                                                {% if is_garuda == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -5937,7 +6006,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_child{{forloop.counter}}">
+                                                        <div id="search_result_child{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -6011,7 +6080,7 @@
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('child_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('child_nationality{{forloop.counter}}');update_identity('child',{{forloop.counter}});" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -6040,9 +6109,7 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='child_id_type{{forloop.counter}}' name='child_id_type{{forloop.counter}}' onchange="change_identity_type(`child_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
-                                                                {% if is_garuda == True and is_international == False %}
-                                                                <option value="ktp">NIK</option>
-                                                                {% elif  is_lionair == True %}
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
                                                                 <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
                                                                 {% else %}
@@ -6158,7 +6225,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_infant{{forloop.counter}}">
+                                                        <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -6232,7 +6299,7 @@
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('infant_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('infant_nationality{{forloop.counter}}');update_identity('infant',{{forloop.counter}});" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -6250,7 +6317,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_international == True %}display:block{% else %}display:none;{% endif %}">
+                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_garuda == True or is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     {% if is_identity_required == True %}
@@ -6261,7 +6328,12 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="change_identity_type(`infant_id_type{{forloop.counter}}`)">
                                                                 <option value="">Choose Identity Type</option>
+                                                                {% if is_identity_required == True %} <!--KALAU REQUIRED DARI BACKEND-->
+                                                                <option value="ktp">NIK</option>
                                                                 <option value="passport">Passport</option>
+                                                                {% else %}
+                                                                <option value="passport">Passport</option>
+                                                                {% endif %}
                                                             </select>
                                                         </div>
                                                     </div>

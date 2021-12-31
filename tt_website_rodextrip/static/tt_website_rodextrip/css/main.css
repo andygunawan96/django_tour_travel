@@ -1947,7 +1947,7 @@ h1, h2, h3, h4, h5, h6 {
   border: none;
   border-radius: 0px;
   box-shadow: none;
-  width: 100%;
+  width: 100% !important;
   padding: 10px 0 10px 0px;
 }
 
@@ -2557,7 +2557,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .primary-btn-cancel {
-  background: #f73a16;
+  background: #ff3030;
   line-height: 35px;
   padding-left: 15px;
   padding-right: 15px;
@@ -7342,6 +7342,7 @@ th input {
   font-size: 12px;
   font-weight: 300;
   height: 42px;
+  width: 100% !important;
   line-height: 40px;
   outline: none;
   padding-left: 8px;

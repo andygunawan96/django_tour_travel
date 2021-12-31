@@ -73,7 +73,7 @@ function get_balance(val){
 //                            document.getElementById("balance_search").style.color = "black";
 //                        }catch(err){}
 
-                        text = `Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+``;
+                        text = `Your Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+``;
 
                     }else{
                         text = `Balance Vendor`;
@@ -119,7 +119,7 @@ function get_balance(val){
                         }catch(err){}
                     }
                     if(msg.result.response.is_show_customer_parent_balance){
-                        text = `Parent Agent Balance: `+msg.result.response.currency_code+ ' ' + getrupiah(customer_parent_balance)+``;
+                        text = `Corporate Balance: `+msg.result.response.currency_code+ ' ' + getrupiah(customer_parent_balance)+``;
                         try{//PARENT AGENT BALANCE
                             document.getElementById("customer_parent_balance").innerHTML = text;
                             try{

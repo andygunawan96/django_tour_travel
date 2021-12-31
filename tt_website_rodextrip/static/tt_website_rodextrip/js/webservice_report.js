@@ -583,9 +583,11 @@ function get_report_overall(){
             if(result.raw_data.result.response.dependencies.is_ho == 1){
                 $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
                 $('#profit_ho').html(number_format(result.raw_data.result.response.profit_ho, 2));
+                $('#profit_agent_parent').html(number_format(result.raw_data.result.response.profit_agent_parent, 2));
                 $('#profit_agent').html(number_format(result.raw_data.result.response.profit_agent, 2));
                 $('#profit_agent_card').show();
                 $('#profit_ho_card').show();
+                $('#profit_agent_parent_card').show();
             } else {
                 $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
             }
@@ -1296,9 +1298,11 @@ $('#report_form').submit(function(evt){
             if(result.raw_data.result.response.dependencies.is_ho == 1){
                 $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
                 $('#profit_ho').html(number_format(result.raw_data.result.response.profit_ho, 2));
+                $('#profit_agent_parent').html(number_format(result.raw_data.result.response.profit_agent_parent, 2));
                 $('#profit_agent').html(number_format(result.raw_data.result.response.profit_agent, 2));
                 $('#profit_agent_card').show();
                 $('#profit_ho_card').show();
+                $('#profit_agent_parent_card').show();
             } else {
                 $('#profit_rupiah').html(number_format(result.raw_data.result.response.profit_total, 2));
             }
@@ -1332,11 +1336,15 @@ $('#report_form').submit(function(evt){
                 contents = overview_medical(result.raw_data.result.response.first_overview);
             } else if (provider_type == 'overall_bus'){
                 contents = overview_bus(result.raw_data.result.response.first_overview);
+            } else if (provider_type == 'overall_insurance'){
+                contents = overview_insurance(result.raw_data.result.response.first_overview);
             } else if (provider_type == 'overall_swabexpress'){
                 contents = overview_swabexpress(result.raw_data.result.response.first_overview);
             } else if (provider_type == 'overall_labpintar'){
                 contents = overview_labpintar(result.raw_data.result.response.first_overview);
-            } else {
+            } else if (provider_type == 'overall_mitrakeluarga'){
+                contents = overview_mitrakeluarga(result.raw_data.result.response.first_overview);
+            }else {
                 contents = ``;
             }
 
@@ -2661,6 +2669,47 @@ function overview_bus(data){
     return content;
 }
 
+// handler for overview data for insurance
+// input is object that has been trim to the exact object needed to print
+// in overall case means
+// return.raw_data.result.response.first_overview
+// why first, this will be the default page (hence first section)
+// will also  be use to name the section(s)
+function overview_insurance(data){
+    var content = ``;
+    // table
+    content += `
+        <div class="mb-3" style="overflow:auto;">
+        <table class="table list-of-reservation">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th># of Transaction</th>
+                    <th># of Passengers</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    // content
+    for(i in data){
+        content += `
+            <tr>
+                <td>`+ data[i]['product'] +`</td>
+                <td>`+ data[i]['counter'] +`</td>
+                <td>`+ data[i]['passenger_count'] +`</td>
+            </tr>
+        `;
+    }
+
+    // close table
+    content += `
+            </tbody>
+        </table>
+        </div>
+    `;
+    return content;
+}
+
 // handler for overview data for swab express
 // input is object that has been trim to the exact object needed to print
 // in overall case means
@@ -2709,6 +2758,47 @@ function overview_swabexpress(data){
 // why first, this will be the default page (hence first section)
 // will also  be use to name the section(s)
 function overview_labpintar(data){
+    var content = ``;
+    // table
+    content += `
+        <div class="mb-3" style="overflow:auto;">
+        <table class="table list-of-reservation">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th># of Transaction</th>
+                    <th># of Passengers</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    // content
+    for(i in data){
+        content += `
+            <tr>
+                <td>`+ data[i]['product'] +`</td>
+                <td>`+ data[i]['counter'] +`</td>
+                <td>`+ data[i]['passenger_count'] +`</td>
+            </tr>
+        `;
+    }
+
+    // close table
+    content += `
+            </tbody>
+        </table>
+        </div>
+    `;
+    return content;
+}
+
+// handler for overview data for mitra keluarga
+// input is object that has been trim to the exact object needed to print
+// in overall case means
+// return.raw_data.result.response.first_overview
+// why first, this will be the default page (hence first section)
+// will also  be use to name the section(s)
+function overview_mitrakeluarga(data){
     var content = ``;
     // table
     content += `

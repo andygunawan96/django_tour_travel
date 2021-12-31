@@ -76,6 +76,14 @@ def api_models(request):
             res = cancel(request)
         elif req_data['action'] == 'update_service_charge':
             res = update_service_charge(request)
+        elif req_data['action'] == 'booker_insentif_booking':
+            res = booker_insentif_booking(request)
+        elif req_data['action'] == 'search_page':
+            res = search_page(request)
+        elif req_data['action'] == 'passenger_page':
+            res = passenger_page(request)
+        elif req_data['action'] == 'review_page':
+            res = review_page(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -106,6 +114,7 @@ def login(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
+            create_session_product(request, 'bus', 20)
             set_session(request, 'bus_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
@@ -383,9 +392,7 @@ def commit_booking(request):
                     pax['nationality_code'] = country['code']
                     break
         passenger = []
-        pax_request_seat = request.POST.get('paxs')
-        if pax_request_seat:
-            pax_request_seat = json.loads(pax_request_seat)
+
         for pax_type in request.session['bus_create_passengers']:
             if pax_type != 'booker' and pax_type != 'contact':
                 for pax in request.session['bus_create_passengers'][pax_type]:
@@ -434,18 +441,6 @@ def commit_booking(request):
                     passenger.append(pax)
 
         schedules = request.session['bus_booking']
-        for schedule_count, schedule in enumerate(schedules):
-            for journey_count, journey in enumerate(schedule['journeys']):
-                if not journey.get('seat'):
-                    journey['seat'] = []
-                if pax_request_seat:
-                    for idx, request_seat in enumerate(pax_request_seat):
-                        if len(request_seat['seat_pick']) >= schedule_count:
-                            if request_seat['seat_pick'][schedule_count]['seat_code'] != '':
-                                journey['seat'].append(request_seat['seat_pick'][schedule_count])
-                                journey['seat'][len(journey['seat'])-1].update({
-                                    "sequence": idx+1
-                                })
         data = {
             "contacts": contacts,
             "passengers": passenger,
@@ -589,6 +584,39 @@ def update_service_charge(request):
             _logger.info("SUCCESS update_service_charge BUS SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_bus BUS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def booker_insentif_booking(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        data = {
+            'order_number': json.loads(request.POST['order_number']),
+            'booker': json.loads(request.POST['booker'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "booker_insentif_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/bus'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            total_upsell = 0
+            for upsell in data['passengers']:
+                for pricing in upsell['pricing']:
+                    total_upsell += pricing['amount']
+            set_session(request, 'bus_upsell_booker_'+request.POST['signature'], total_upsell)
+            _logger.info(json.dumps(request.session['bus_upsell_booker_' + request.POST['signature']]))
+            _logger.info("SUCCESS update_service_charge_booker BUS SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR update_service_charge_bus_booker BUS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -764,4 +792,38 @@ def assign_seats(request):
                 }]
             }
         }
+    return res
+
+def search_page(request):
+    try:
+        res = {}
+        res['bus_request'] = request.session['bus_request']
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def passenger_page(request):
+    try:
+        res = {}
+        res['response'] = request.session['bus_pick']
+        carrier = {}
+        file = read_cache_with_folder_path("get_bus_config", 90911)
+        if file:
+            carrier = file
+        res['bus_carriers'] = carrier
+        res['response'] = request.session['bus_pick']
+        res['bus_request'] = request.session['bus_request']
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def review_page(request):
+    try:
+        res = {}
+        res['response'] = request.session['bus_pick']
+        res['passenger'] = request.session['bus_create_passengers']
+        res['bus_request'] = request.session['bus_request']
+        res['bus_booking'] = request.session['bus_booking']
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

@@ -93,7 +93,12 @@ def api_models(request):
             res = update_medical_information(request)
         elif req_data['action'] == 'update_service_charge':
             res = update_service_charge(request)
-
+        elif req_data['action'] == 'booker_insentif_booking':
+            res = booker_insentif_booking(request)
+        elif req_data['action'] == 'page_passenger':
+            res = page_passenger(request)
+        elif req_data['action'] == 'page_review':
+            res = page_review(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -127,6 +132,7 @@ def login(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
+            create_session_product(request, 'medical', 180)
             set_session(request, 'medical_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
@@ -197,12 +203,14 @@ def get_config(request):
                     if request.POST['provider'] == 'phc':
                         file = open("tt_webservice/static/tt_webservice/phc_city.json", "r")
                         res['result']['response']['kota'] = json.loads(file.read())
+                        file.close()
                     elif request.POST['provider'] == 'periksain':
                         file = open("tt_webservice/static/tt_webservice/periksain_city.json", "r")
                         res['result']['response'] = {
                             "carriers_code": res['result']['response'],
                             "kota": json.loads(file.read())
                         }
+                        file.close()
                     write_cache_with_folder(res, "medical_cache_data_%s" % provider)
             except Exception as e:
                 _logger.info("ERROR GET CACHE medical " + provider + ' ' + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
@@ -253,6 +261,7 @@ def get_config_mobile(request):
                             "carriers_code": res['result']['response'],
                             "kota": json.loads(file.read())
                         }
+                        file.close()
                     write_cache_with_folder(res, "medical_cache_data_%s" % provider)
                     if request.data['type'] == 'kota':
                         res['result']['response'].pop('carriers_code')
@@ -299,6 +308,7 @@ def get_zip_code(request):
                 "response": json.loads(file.read())
             }
         }
+        file.close()
     except Exception as e:
         res = {
             "result": {
@@ -944,6 +954,67 @@ def update_service_charge(request):
             _logger.info("SUCCESS update_service_charge TRAIN SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def booker_insentif_booking(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        additional_url = 'booking/'
+        if 'PK' in request.POST['order_number']:
+            additional_url += 'periksain'
+        else:
+            additional_url += 'phc'
+        data = {
+            'order_number': json.loads(request.POST['order_number']),
+            'booker': json.loads(request.POST['booker'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "booker_insentif_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + additional_url
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            total_upsell = 0
+            for upsell in data['passengers']:
+                for pricing in upsell['pricing']:
+                    total_upsell += pricing['amount']
+            set_session(request, 'medical_upsell_booker_'+request.POST['signature'], total_upsell)
+            _logger.info(json.dumps(request.session['medical_upsell_booker_' + request.POST['signature']]))
+            _logger.info("SUCCESS update_service_charge_booker MEDICAL SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR update_service_charge_medical_booker MEDICAL SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def page_passenger(request):
+    try:
+        cache_version = get_cache_version()
+        res = {
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+        }
+        response = get_cache_data(cache_version)
+        res['countries'] = response['result']['response']['airline']['country']
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def page_review(request):
+    try:
+        res = {}
+        data = request.session['medical_data_%s' % request.POST['signature']]
+        res['passenger'] = {
+            "booker": data['booker']
+        }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

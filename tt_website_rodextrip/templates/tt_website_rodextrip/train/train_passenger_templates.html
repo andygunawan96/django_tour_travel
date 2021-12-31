@@ -20,6 +20,7 @@
     static_path_url_server = '{{static_path_url_server}}'
     adult = {{train_request.adult}};
     infant = {{train_request.infant}};
+    is_identity_required = 'true';
     child = 0;
     time_limit = {{time_limit}};
     session_time_limit();
@@ -58,7 +59,18 @@
 {% include 'tt_website_rodextrip/notification.html' %}
 <title id="title_search">{{name}} {% trans 'Train' %} - {% trans 'Passenger' %}</title>
 {%if template == 1%}
-<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+<header id="header" class="header_breadcrumb">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -98,6 +110,7 @@
                                         <div class="col-lg-12">
                                             <h4>{% trans 'Booker Information' %}</h4>
                                             <hr/>
+                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
@@ -152,7 +165,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result">
+                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -179,7 +192,6 @@
                                         <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                             <div class="row" style="margin:0">
                                                 <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                                <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans "Corporate Booker" %}</button>
                                                 <div class="modal fade" id="myModalHelp" role="dialog">
                                                     <div class="modal-dialog">
 
@@ -372,7 +384,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result_adult{{forloop.counter}}">
+                                                            <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                             </div>
                                                         </div>
@@ -610,7 +622,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_infant{{forloop.counter}}">
+                                                        <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -811,6 +823,17 @@
 </section>
 {% elif template == 2 %}
 <header class="header_breadcrumb" style="padding:unset; background:white;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -851,6 +874,7 @@
                                             <div class="col-lg-12">
                                                 <h4>{% trans 'Booker Information' %}</h4>
                                                 <hr/>
+                                                <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                             </div>
                                             <div class="col-lg-6" style="text-align:left;">
                                                 <!--                                            <label>Booker Type :</label><br/>-->
@@ -905,7 +929,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result">
+                                                            <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                             </div>
                                                         </div>
@@ -932,7 +956,6 @@
                                             <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                                 <div class="row" style="margin:0">
                                                     <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                                    <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans "Corporate Booker" %}</button>
                                                     <div class="modal fade" id="myModalHelp" role="dialog">
                                                         <div class="modal-dialog">
 
@@ -1124,7 +1147,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div id="search_result_adult{{forloop.counter}}">
+                                                                <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                                 </div>
                                                             </div>
@@ -1356,7 +1379,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result_infant{{forloop.counter}}">
+                                                            <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                             </div>
                                                         </div>
@@ -1445,6 +1468,53 @@
                                                     <input type="text" class="form-control date-picker-birth" style="background:white;" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 </div>
                                             </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <label style="color:red">*</label>
+                                                <label>{% trans 'ID Type' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select" id="default-select">
+                                                        <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="id_type_change('infant',{{forloop.counter}})">
+                                                            {% for id_type in id_types%}
+                                                            {% if id_type.0 != 'sim' and id_type.0 != 'other' %}
+                                                            <option value="{{id_type.0}}">{{id_type.1}}</option>
+                                                            {% endif %}
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <label style="color:red">*</label>
+                                                <label>{% trans 'ID Number' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'ID Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Number '">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <label id="infant_passport_number_required{{forloop.counter}}" style="color:{{text_color}}">*</label>
+                                                <label>{% trans 'ID Expired Date' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'ID Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Expired Date '" autocomplete="off" readonly>
+                                                    <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <label id="infant_country_of_issued_required{{forloop.counter}}_id" style="color:red">*</label>
+                                                <label>{% trans 'Country of Issued' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                            <option value="">{% trans 'Country of Issued' %}</option>
+                                                            {% for country in countries %}
+                                                            <option value="{{country.name}}">{{country.name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1507,7 +1577,7 @@
     </div>
 </section>
 {% elif template == 3 %}
-<header class="header_breadcrumb" style="position:sticky; top:0px; padding:unset; z-index:100; background:white;">
+<header class="header_breadcrumb" style="padding:unset; z-index:100; background:white;">
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -1547,6 +1617,7 @@
                                         <div class="col-lg-12">
                                             <h4>{% trans 'Booker Information' %}</h4>
                                             <hr/>
+                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
@@ -1601,7 +1672,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result">
+                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -1626,7 +1697,6 @@
                                         <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                             <div class="row" style="margin:0">
                                                 <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                                <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans "Corporate Booker" %}</button>
                                                 <div class="modal fade" id="myModalHelp" role="dialog">
                                                     <div class="modal-dialog">
 
@@ -1818,7 +1888,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result_adult{{forloop.counter}}">
+                                                            <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                             </div>
                                                         </div>
@@ -2044,7 +2114,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_infant{{forloop.counter}}">
+                                                        <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -2130,6 +2200,53 @@
                                                 <input type="text" style="background-color:white;" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                             </div>
                                         </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'ID Type' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select" id="default-select">
+                                                    <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="id_type_change('infant',{{forloop.counter}})">
+                                                        {% for id_type in id_types%}
+                                                        {% if id_type.0 != 'sim' and id_type.0 != 'other' %}
+                                                        <option value="{{id_type.0}}">{{id_type.1}}</option>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'ID Number' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'ID Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Number '">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label id="infant_passport_number_required{{forloop.counter}}" style="color:{{text_color}}">*</label>
+                                            <label>{% trans 'ID Expired Date' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'ID Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Expired Date '" autocomplete="off" readonly>
+                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label id="infant_country_of_issued_required{{forloop.counter}}_id" style="color:red">*</label>
+                                            <label>{% trans 'Country of Issued' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                        <option value="">{% trans 'Country of Issued' %}</option>
+                                                        {% for country in countries %}
+                                                        <option value="{{country.name}}">{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -2191,7 +2308,7 @@
     </div>
 </section>
 {% elif template == 4 %}
-<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; padding:unset; background:white;">
+<header class="header_breadcrumb" style="z-index:100; padding:unset; background:white;">
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -2230,6 +2347,7 @@
                                     <div class="col-lg-12">
                                         <h4>{% trans 'Booker Information' %}</h4>
                                         <hr/>
+                                        <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                     </div>
                                     <div class="col-lg-6" style="text-align:left;">
                                         <!--                                            <label>Booker Type :</label><br/>-->
@@ -2283,7 +2401,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div id="search_result">
+                                                    <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                     </div>
                                                 </div>
@@ -2310,7 +2428,6 @@
                                     <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                         <div class="row" style="margin:0">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans "Corporate Booker" %}</button>
                                             <div class="modal fade" id="myModalHelp" role="dialog">
                                                 <div class="modal-dialog">
 
@@ -2504,7 +2621,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_adult{{forloop.counter}}">
+                                                        <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -2741,7 +2858,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div id="search_result_infant{{forloop.counter}}">
+                                                    <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                     </div>
                                                 </div>
@@ -2831,6 +2948,53 @@
                                             <input type="text" style="background:white;" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                         </div>
                                     </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'ID Type' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select" id="default-select">
+                                                <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="id_type_change('infant',{{forloop.counter}})">
+                                                    {% for id_type in id_types%}
+                                                    {% if id_type.0 != 'sim' and id_type.0 != 'other' %}
+                                                    <option value="{{id_type.0}}">{{id_type.1}}</option>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'ID Number' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'ID Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Number '">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label id="infant_passport_number_required{{forloop.counter}}" style="color:{{text_color}}">*</label>
+                                        <label>{% trans 'ID Expired Date' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'ID Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Expired Date '" autocomplete="off" readonly>
+                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label id="infant_country_of_issued_required{{forloop.counter}}_id" style="color:red">*</label>
+                                        <label>{% trans 'Country of Issued' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select">
+                                                <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                    <option value="">{% trans 'Country of Issued' %}</option>
+                                                    {% for country in countries %}
+                                                    <option value="{{country.name}}">{{country.name}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                            <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -2891,7 +3055,7 @@
     </div>
 </section>
 {% elif template == 5 %}
-<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; padding:unset; background:white;">
+<header class="header_breadcrumb" style="z-index:100; padding:unset; background:white;">
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -2931,6 +3095,7 @@
                                         <div class="col-lg-12">
                                             <h4>{% trans 'Booker Information' %}</h4>
                                             <hr/>
+                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
@@ -3011,7 +3176,6 @@
                                         </div>
                                         <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans "Corporate Booker" %}</button>
                                             <div class="modal fade" id="myModalHelp" role="dialog">
                                                 <div class="modal-dialog">
 
@@ -3204,7 +3368,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result_adult{{forloop.counter}}">
+                                                            <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                             </div>
                                                         </div>
@@ -3442,7 +3606,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_infant{{forloop.counter}}">
+                                                        <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -3531,6 +3695,53 @@
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'ID Type' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select" id="default-select">
+                                                    <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="id_type_change('infant',{{forloop.counter}})">
+                                                        {% for id_type in id_types%}
+                                                        {% if id_type.0 != 'sim' and id_type.0 != 'other' %}
+                                                        <option value="{{id_type.0}}">{{id_type.1}}</option>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'ID Number' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'ID Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Number '">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label id="infant_passport_number_required{{forloop.counter}}" style="color:{{text_color}}">*</label>
+                                            <label>{% trans 'ID Expired Date' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'ID Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Expired Date '" autocomplete="off" readonly>
+                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label id="infant_country_of_issued_required{{forloop.counter}}_id" style="color:red">*</label>
+                                            <label>{% trans 'Country of Issued' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                        <option value="">{% trans 'Country of Issued' %}</option>
+                                                        {% for country in countries %}
+                                                        <option value="{{country.name}}">{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
                                             </div>
                                         </div>
                                     </div>
@@ -3594,7 +3805,7 @@
     </div>
 </section>
 {% elif template == 6 %}
-<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; padding:unset; background:white;">
+<header class="header_breadcrumb" style="z-index:100; padding:unset; background:white;">
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -3634,6 +3845,7 @@
                                         <div class="col-lg-12">
                                             <h4>{% trans 'Booker Information' %}</h4>
                                             <hr/>
+                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
@@ -3714,7 +3926,6 @@
                                         </div>
                                         <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans "Corporate Booker" %}</button>
                                             <div class="modal fade" id="myModalHelp" role="dialog">
                                                 <div class="modal-dialog">
 
@@ -3907,7 +4118,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result_adult{{forloop.counter}}">
+                                                            <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                             </div>
                                                         </div>
@@ -4145,7 +4356,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_infant{{forloop.counter}}">
+                                                        <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -4234,6 +4445,53 @@
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'ID Type' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select" id="default-select">
+                                                    <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="id_type_change('infant',{{forloop.counter}})">
+                                                        {% for id_type in id_types%}
+                                                        {% if id_type.0 != 'sim' and id_type.0 != 'other' %}
+                                                        <option value="{{id_type.0}}">{{id_type.1}}</option>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'ID Number' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="{% trans 'ID Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Number '">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label id="infant_passport_number_required{{forloop.counter}}" style="color:{{text_color}}">*</label>
+                                            <label>{% trans 'ID Expired Date' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'ID Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Expired Date '" autocomplete="off" readonly>
+                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label id="infant_country_of_issued_required{{forloop.counter}}_id" style="color:red">*</label>
+                                            <label>{% trans 'Country of Issued' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                        <option value="">{% trans 'Country of Issued' %}</option>
+                                                        {% for country in countries %}
+                                                        <option value="{{country.name}}">{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
                                             </div>
                                         </div>
                                     </div>

@@ -63,6 +63,50 @@ function medical_signin(data){
 
 }
 
+function medical_page_passenger(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical",
+       headers:{
+            'action': 'page_passenger',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            titles = msg.titles;
+            countries = msg.countries;
+            get_list_report_footer();
+            medical_signin('passenger');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data medical');
+       },timeout: 300000
+    });
+}
+
+function medical_page_review(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical",
+       headers:{
+            'action': 'page_review',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            passengers = msg.passenger;
+            medical_get_cache_price();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data medical');
+       },timeout: 300000
+    });
+}
+
 function get_config_medical(type='', vendor=''){
     $.ajax({
        type: "POST",
@@ -226,19 +270,35 @@ function get_kecamatan(id_kabupaten,id_kecamatan){
             }
         }
     }else{
-        if(id_kecamatan.includes('ktp'))
-            text += '<option value="">Choose Kecamatan KTP</option>';
-        else
-            text += '<option value="">Choose Kecamatan</option>';
+        if(id_kecamatan.includes('ktp')){
+            text += '<option value="">Select Kecamatan KTP</option>';
+            if(document.getElementById('adult_copy_yes' + id_kabupaten.replace(/[^0-9]/g,'')).checked == true){
+                text_ktp = '<option value="">Choose Kecamatan</option>';
+                document.getElementById(id_kecamatan.replace('kecamatan_ktp','kecamatan')).innerHTML = text_ktp;
+                document.getElementById(id_kecamatan.replace('kecamatan_ktp','kecamatan')).val = '';
+                $('#'+id_kecamatan.replace('kecamatan_ktp','kecamatan')).select2();
+            }
+        }else{
+            text += '<option value="">Select Kecamatan</option>';
+        }
+        document.getElementById(id_kecamatan.replace('_id','')).value = '';
     }
     document.getElementById(id_kecamatan).innerHTML = text;
     $('#'+id_kecamatan).select2();
     text = '';
-    if(id_kecamatan.includes('ktp'))
+    if(id_kecamatan.includes('ktp')){
         text = `<option value="">Select Kelurahan KTP</option>`;
-    else{
+        if(document.getElementById('adult_copy_yes' + id_kabupaten.replace(/[^0-9]/g,'')).checked == true){
+            text_ktp = `<option value="">Select Kelurahan</option>`;
+            document.getElementById(id_kecamatan.replace('kecamatan_ktp','kelurahan')).innerHTML = text;
+            document.getElementById(id_kecamatan.replace('kecamatan_ktp','kelurahan')).val = '';
+            $('#'+id_kecamatan.replace('kecamatan_ktp','kelurahan')).select2();
+        }
+    }else{
         text = `<option value="">Select Kelurahan</option>`;
+        document.getElementById(id_kecamatan.replace('_id','').replace('kecamatan','kelurahan')).value = '';
     }
+    document.getElementById(id_kecamatan.replace('_id','').replace('kecamatan','kelurahan')).value = '';
     document.getElementById(id_kecamatan.replace('kecamatan','kelurahan')).innerHTML = text;
     $('#'+id_kecamatan.replace('kecamatan','kelurahan')).select2();
 
@@ -260,10 +320,17 @@ function get_kelurahan(id_kecamatan,id_kelurahan){
             }
         }
     }else{
-        if(id_kecamatan.includes('ktp'))
+        if(id_kecamatan.includes('ktp')){
             text += '<option value="">Choose Kelurahan KTP</option>';
-        else
+            if(document.getElementById('adult_copy_yes' + id_kecamatan.replace(/[^0-9]/g,'')).checked == true){
+                text_ktp = `<option value="">Select Kelurahan</option>`;
+                document.getElementById(id_kelurahan.replace('kecamatan_ktp','kelurahan')).innerHTML = text;
+                document.getElementById(id_kelurahan.replace('kecamatan_ktp','kelurahan')).val = '';
+                $('#'+id_kelurahan.replace('_ktp','')).select2();
+            }
+        }else
             text += '<option value="">Choose Kelurahan</option>';
+        document.getElementById(id_kelurahan.replace('_id','')).value = '';
     }
     document.getElementById(id_kelurahan).innerHTML = text;
     $('#'+id_kelurahan).select2();
@@ -419,25 +486,70 @@ function medical_check_price(){
                 console.log(msg);
                 try{
                 if(msg.result.error_code == 0){
+                    document.getElementById('use_booker').style.display = 'block';
                     var text = `
                     <div style="background-color:white; margin-bottom:15px;">
                         <h4 style="color:`+color+`;"> Price Detail</h4>`;
+//                    for(i in msg.result.response.service_charges){
+//                        if(msg.result.response.service_charges[i].charge_code != 'rac'){
+//                            if(msg.result.response.service_charges[i].charge_code == 'fare')
+//                                charge_code = 'FARE';
+//                            else if(msg.result.response.service_charges[i].charge_code == 'adm')
+//                                charge_code = 'Admin Fee Drive Thru';
+//                            text+=`
+//                            <div class="row" style="margin-bottom:5px;">
+//                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+//                                    <span style="font-size:12px;">`+msg.result.response.service_charges[i].pax_count+`x `+charge_code+` @IDR `+getrupiah(msg.result.response.service_charges[i].amount)+`</span>`;
+//                        text+=`</div>
+//                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+//                                    <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.service_charges[i].total)+`</span></b>
+//                                </div>
+//                            </div>`;
+//                        }
+//                    }
+
+                    price_list = {
+                        "fare": {
+                            "amount":0,
+                            "currency":'',
+                            "pax_count":0,
+                        }, "adm": {
+                            "amount":0,
+                            "currency":'',
+                            "pax_count":0,
+                        }
+                    };
                     for(i in msg.result.response.service_charges){
-                        if(msg.result.response.service_charges[i].charge_code != 'rac'){
-                            if(msg.result.response.service_charges[i].charge_code == 'fare')
-                                charge_code = 'FARE';
-                            else if(msg.result.response.service_charges[i].charge_code == 'adm')
-                                charge_code = 'Admin Fee Drive Thru';
-                            text+=`
+                        if(msg.result.response.service_charges[i].charge_type == 'ADMIN_FEE_MEDICAL'){
+                            price_list['adm']['amount'] += msg.result.response.service_charges[i].amount;
+                            price_list['adm']['pax_count'] = msg.result.response.service_charges[i].pax_count;
+                            price_list['adm']['currency'] = msg.result.response.service_charges[i].currency;
+                        }else if(msg.result.response.service_charges[i].charge_type != 'RAC'){
+                            price_list['fare']['amount'] += msg.result.response.service_charges[i].amount;
+                            price_list['fare']['pax_count'] = msg.result.response.service_charges[i].pax_count;
+                            price_list['fare']['currency'] = msg.result.response.service_charges[i].currency;
+                        }
+                    }
+
+                    text+=`
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+msg.result.response.service_charges[i].pax_count+`x `+charge_code+` @IDR `+getrupiah(msg.result.response.service_charges[i].amount)+`</span>`;
+                                    <span style="font-size:12px;">`+price_list['fare']['pax_count']+`x Fare @IDR `+getrupiah(price_list['fare']['amount'])+`</span>`;
                         text+=`</div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.service_charges[i].total_amount)+`</span></b>
+                                    <b><span style="font-size:13px;">IDR `+getrupiah(price_list['fare']['amount']*price_list['fare']['pax_count'])+`</span></b>
                                 </div>
                             </div>`;
-                        }
+                    if(price_list['adm']['amount'] != 0){
+                        text+=`
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                    <span style="font-size:12px;">`+price_list['adm']['pax_count']+`x Admin Fee Drive Thru @IDR `+getrupiah(price_list['adm']['amount'])+`</span>`;
+                        text+=`</div>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                    <b><span style="font-size:13px;">IDR `+getrupiah(price_list['adm']['amount']*price_list['adm']['pax_count'])+`</span></b>
+                                </div>
+                            </div>`;
                     }
                     text+=`
                             <div class="row" style="margin-bottom:5px;">
@@ -545,23 +657,67 @@ function medical_get_cache_price(){
                 <div style="background-color:white; padding:10px; margin-bottom:15px;">
                     <h5> Price Detail</h5>
                 <hr/>`;
+//                for(i in msg.result.response.service_charges){
+//                    if(msg.result.response.service_charges[i].charge_code != 'rac'){
+//                        if(msg.result.response.service_charges[i].charge_code == 'fare')
+//                            charge_code = 'FARE';
+//                        else if(msg.result.response.service_charges[i].charge_code == 'adm')
+//                            charge_code = 'Admin Fee Drive Thru';
+//                        text+=`
+//                        <div class="row" style="margin-bottom:5px;">
+//                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+//                                <span style="font-size:12px;">`+msg.result.response.service_charges[i].pax_count+`x `+charge_code+` @IDR `+getrupiah(msg.result.response.service_charges[i].amount)+`</span>`;
+//                    text+=`</div>
+//                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+//                                <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.service_charges[i].total)+`</span></b>
+//                            </div>
+//                        </div>`;
+//                    }
+//                }
+                price_list = {
+                    "fare": {
+                        "amount":0,
+                        "currency":'',
+                        "pax_count":0,
+                    }, "adm": {
+                        "amount":0,
+                        "currency":'',
+                        "pax_count":0,
+                    }
+                };
                 for(i in msg.result.response.service_charges){
-                    if(msg.result.response.service_charges[i].charge_code != 'rac'){
-                        if(msg.result.response.service_charges[i].charge_code == 'fare')
-                            charge_code = 'FARE';
-                        else if(msg.result.response.service_charges[i].charge_code == 'adm')
-                            charge_code = 'Admin Fee Drive Thru';
-                        text+=`
-                        <div class="row" style="margin-bottom:5px;">
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                <span style="font-size:12px;">`+msg.result.response.service_charges[i].pax_count+`x `+charge_code+` @IDR `+getrupiah(msg.result.response.service_charges[i].amount)+`</span>`;
-                    text+=`</div>
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.service_charges[i].total_amount)+`</span></b>
-                            </div>
-                        </div>`;
+                    if(msg.result.response.service_charges[i].charge_type == 'ADMIN_FEE_MEDICAL'){
+                        price_list['adm']['amount'] += msg.result.response.service_charges[i].amount;
+                        price_list['adm']['pax_count'] = msg.result.response.service_charges[i].pax_count;
+                        price_list['adm']['currency'] = msg.result.response.service_charges[i].currency;
+                    }else if(msg.result.response.service_charges[i].charge_type != 'RAC'){
+                        price_list['fare']['amount'] += msg.result.response.service_charges[i].amount;
+                        price_list['fare']['pax_count'] = msg.result.response.service_charges[i].pax_count;
+                        price_list['fare']['currency'] = msg.result.response.service_charges[i].currency;
                     }
                 }
+                text+=`
+                    <div class="row" style="margin-bottom:5px;">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                            <span style="font-size:12px;">`+price_list['fare']['pax_count']+`x Fare @IDR `+getrupiah(price_list['fare']['amount'])+`</span>`;
+                text+=`</div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                            <b><span style="font-size:13px;">IDR `+getrupiah(price_list['fare']['pax_count'] * price_list['fare']['amount'])+`</span></b>
+                        </div>
+                    </div>`;
+
+                if(price_list['adm']['amount'] != 0){
+                    text+=`
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">`+price_list['adm']['pax_count']+`x Admin Fee Drive Thru @IDR `+getrupiah(price_list['adm']['amount'])+`</span>`;
+                    text+=`</div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                <b><span style="font-size:13px;">IDR `+getrupiah(price_list['adm']['pax_count'] * price_list['adm']['amount'])+`</span></b>
+                            </div>
+                        </div>`;
+                }
+
                 text+=`
                     <div class="row" style="margin-bottom:5px;">
                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -1420,6 +1576,18 @@ function medical_get_booking(order_number, sync=false){
                                     </div>
                                 </div>`;
                             }
+                            //booker
+                            booker_insentif = '-';
+                            if(msg.result.response.hasOwnProperty('booker_insentif'))
+                                booker_insentif = msg.result.response.booker_insentif
+                            text_repricing += `
+                                <div class="col-lg-12">
+                                    <div style="padding:5px;" class="row" id="booker_repricing" hidden>
+                                    <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
+                                    <div class="col-lg-3" id="repriring_booker_repricing"></div>
+                                    <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
+                                    </div>
+                                </div>`;
                             text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
                             document.getElementById('repricing_div').innerHTML = text_repricing;
                             //repricing
@@ -1529,6 +1697,12 @@ function medical_get_booking(order_number, sync=false){
                     </div>`;
                     if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                         text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                    else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                        document.getElementById('repricing_type').innerHTML = '<option value="booker">Booker</option>';
+                        $('#repricing_type').niceSelect('update');
+                        reset_repricing();
+                    }
                     text_detail+=`<div class="row">
                     <div class="col-lg-12" style="padding-bottom:10px;">
                         <hr/>`;
@@ -1586,6 +1760,18 @@ function medical_get_booking(order_number, sync=false){
                                         </div>
                                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                             <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
+                                        </div>
+                                    </div>`;
+                                    }
+                                    if(msg.result.response.hasOwnProperty('booker_insentif') == true){
+                                        booker_insentif = 0;
+                                        booker_insentif = msg.result.response.booker_insentif;
+                                        text_detail+=`<div class="row">
+                                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                            <span style="font-size:13px; font-weight:bold;">Booker Insentif</span>
+                                        </div>
+                                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                            <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(booker_insentif)+`</span>
                                         </div>
                                     </div>`;
                                     }
@@ -1705,11 +1891,12 @@ function medical_get_booking(order_number, sync=false){
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
                     }else{
-                        print_text+=`
-                        <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','medical');" style="width:100%;">
-                            Print Ticket (With Price)
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>`;
+                        if(order_number.includes('PK'))
+                            print_text+=`
+                            <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','medical');" style="width:100%;">
+                                Print Ticket (With Price)
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>`;
                     }
                     print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
                     // === Button 3 ===
@@ -1857,7 +2044,7 @@ function medical_get_booking(order_number, sync=false){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get booking medical');
        },timeout: 300000
     });
 }
@@ -1996,7 +2183,12 @@ function medical_issued_booking(data){
                if(google_analytics != '')
                    gtag('event', 'medical_issued', {});
                if(msg.result.error_code == 0){
-                   print_success_issued();
+                   try{
+                       if(msg.result.response.state == 'issued')
+                            print_success_issued();
+                       else
+                            print_fail_issued();
+                   }catch(err){}
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                         window.location.href = '/medical/booking/' + btoa(data);
                    }else{
@@ -3056,6 +3248,69 @@ function update_service_charge(type){
                 vendor = 'Periksain';
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error '+vendor+' service charge');
        },timeout: 480000
+    });
+
+}
+
+function update_insentif_booker(type){
+    repricing_order_number = '';
+    if(type == 'booking'){
+        booker_insentif = {}
+        total_price = 0
+        for(j in list){
+            total_price += list[j];
+        }
+        booker_insentif = {
+            'amount': total_price
+        };
+        repricing_order_number = order_number;
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical",
+       headers:{
+            'action': 'booker_insentif_booking',
+       },
+       data: {
+           'order_number': JSON.stringify(repricing_order_number),
+           'booker': JSON.stringify(booker_insentif),
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                try{
+                    if(type == 'booking'){
+                        please_wait_transaction();
+                        medical_get_booking(repricing_order_number);
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
+                    }
+                }catch(err){}
+                $('#myModalRepricing').modal('hide');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                if(order_number.includes('PH'))
+                    vendor = 'PHC';
+                else
+                    vendor = 'Periksain';
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error '+vendor+' update insentif booker </span>' + msg.result.error_msg,
+                })
+                $('.loader-rodextrip').fadeOut();
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            if(order_number.includes('PH'))
+                    vendor = 'PHC';
+                else
+                    vendor = 'Periksain';
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error '+vendor+' update booker insentif');
+            $('.loader-rodextrip').fadeOut();
+       },timeout: 60000
     });
 
 }

@@ -57,6 +57,50 @@ function medical_global_signin(data){
 
 }
 
+function medical_global_page_passenger(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical",
+       headers:{
+            'action': 'page_passenger',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            titles = msg.titles;
+            countries = msg.countries;
+            get_list_report_footer();
+            medical_global_signin('passenger');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data medical');
+       },timeout: 300000
+    });
+}
+
+function medical_global_page_review(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical_global",
+       headers:{
+            'action': 'page_review',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            passengers = msg.passenger;
+            medical_global_get_cache_price();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data medical');
+       },timeout: 300000
+    });
+}
+
 function get_config_medical_global(type){
     $.ajax({
        type: "POST",
@@ -76,8 +120,8 @@ function get_config_medical_global(type){
                     for(i in msg.result.response){
                         text += '<option value="'+msg.result.response[i].code+'">' + msg.result.response[i].name + '</option>';
                     }
-                    document.getElementById('medical_global_type').innerHTML += text;
-                    $('#medical_global_type').niceSelect('update');
+                    document.getElementById('medical_type_medical').innerHTML += text;
+                    $('#medical_type_medical').niceSelect('update');
                 }else if(type == 'passenger'){
                     print_check_price++;
                     if(print_check_price == 2){
@@ -390,23 +434,51 @@ function medical_global_check_price(){
                     var text = `
                     <div style="background-color:white; margin-bottom:15px;">
                         <h4 style="color:`+color+`;"> Price Detail</h4>`;
+//                    for(i in msg.result.response.service_charges){
+//                        if(msg.result.response.service_charges[i].charge_code != 'rac'){
+//                            if(msg.result.response.service_charges[i].charge_code == 'fare')
+//                                charge_code = 'FARE';
+//                            else if(msg.result.response.service_charges[i].charge_code == 'adm')
+//                                charge_code = 'Admin Fee Drive Thru';
+//                            text+=`
+//                            <div class="row" style="margin-bottom:5px;">
+//                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+//                                    <span style="font-size:12px;">`+msg.result.response.service_charges[i].pax_count+`x `+charge_code+` @IDR `+getrupiah(msg.result.response.service_charges[i].amount)+`</span>`;
+//                        text+=`</div>
+//                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+//                                    <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.service_charges[i].total)+`</span></b>
+//                                </div>
+//                            </div>`;
+//                        }
+//                    }
+                    price_list = {
+                        "fare": {
+                            "amount":0,
+                            "currency":'',
+                            "pax_count":0,
+                        }, "adm": {
+                            "amount":0,
+                            "currency":'',
+                            "pax_count":0,
+                        }
+                    };
                     for(i in msg.result.response.service_charges){
-                        if(msg.result.response.service_charges[i].charge_code != 'rac'){
-                            if(msg.result.response.service_charges[i].charge_code == 'fare')
-                                charge_code = 'FARE';
-                            else if(msg.result.response.service_charges[i].charge_code == 'adm')
-                                charge_code = 'Admin Fee Drive Thru';
-                            text+=`
-                            <div class="row" style="margin-bottom:5px;">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+msg.result.response.service_charges[i].pax_count+`x `+charge_code+` @IDR `+getrupiah(msg.result.response.service_charges[i].amount)+`</span>`;
-                        text+=`</div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.service_charges[i].total_amount)+`</span></b>
-                                </div>
-                            </div>`;
+                        if(msg.result.response.service_charges[i].charge_type != 'RAC'){
+                            price_list['fare']['amount'] += msg.result.response.service_charges[i].amount;
+                            price_list['fare']['pax_count'] = msg.result.response.service_charges[i].pax_count;
+                            price_list['fare']['currency'] = msg.result.response.service_charges[i].currency;
                         }
                     }
+
+                    text+=`
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                    <span style="font-size:12px;">`+price_list['fare']['pax_count']+`x Fare @IDR `+getrupiah(price_list['fare']['amount'])+`</span>`;
+                        text+=`</div>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                    <b><span style="font-size:13px;">IDR `+getrupiah(price_list['fare']['amount']*price_list['fare']['pax_count'])+`</span></b>
+                                </div>
+                            </div>`;
                     text+=`
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -513,23 +585,53 @@ function medical_global_get_cache_price(){
                 <div style="background-color:white; padding:10px; margin-bottom:15px;">
                     <h5> Price Detail</h5>
                 <hr/>`;
+//                for(i in msg.result.response.service_charges){
+//                    if(msg.result.response.service_charges[i].charge_code != 'rac'){
+//                        if(msg.result.response.service_charges[i].charge_code == 'fare')
+//                            charge_code = 'FARE';
+//                        else if(msg.result.response.service_charges[i].charge_code == 'adm')
+//                            charge_code = 'Admin Fee Drive Thru';
+//                        text+=`
+//                        <div class="row" style="margin-bottom:5px;">
+//                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+//                                <span style="font-size:12px;">`+msg.result.response.service_charges[i].pax_count+`x `+charge_code+` @IDR `+getrupiah(msg.result.response.service_charges[i].amount)+`</span>`;
+//                    text+=`</div>
+//                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+//                                <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.service_charges[i].total)+`</span></b>
+//                            </div>
+//                        </div>`;
+//                    }
+//                }
+
+                price_list = {
+                    "fare": {
+                        "amount":0,
+                        "currency":'',
+                        "pax_count":0,
+                    }, "adm": {
+                        "amount":0,
+                        "currency":'',
+                        "pax_count":0,
+                    }
+                };
                 for(i in msg.result.response.service_charges){
-                    if(msg.result.response.service_charges[i].charge_code != 'rac'){
-                        if(msg.result.response.service_charges[i].charge_code == 'fare')
-                            charge_code = 'FARE';
-                        else if(msg.result.response.service_charges[i].charge_code == 'adm')
-                            charge_code = 'Admin Fee Drive Thru';
-                        text+=`
-                        <div class="row" style="margin-bottom:5px;">
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                <span style="font-size:12px;">`+msg.result.response.service_charges[i].pax_count+`x `+charge_code+` @IDR `+getrupiah(msg.result.response.service_charges[i].amount)+`</span>`;
-                    text+=`</div>
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.service_charges[i].total_amount)+`</span></b>
-                            </div>
-                        </div>`;
+                    if(msg.result.response.service_charges[i].charge_type != 'RAC'){
+                        price_list['fare']['amount'] += msg.result.response.service_charges[i].amount;
+                        price_list['fare']['pax_count'] = msg.result.response.service_charges[i].pax_count;
+                        price_list['fare']['currency'] = msg.result.response.service_charges[i].currency;
                     }
                 }
+
+                text+=`
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">`+price_list['fare']['pax_count']+`x Fare @`+price_list['fare']['currency']+` `+getrupiah(price_list['fare']['amount'])+`</span>`;
+                    text+=`</div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                <b><span style="font-size:13px;">IDR `+getrupiah(price_list['fare']['pax_count'] * price_list['fare']['amount'])+`</span></b>
+                            </div>
+                        </div>`;
+
                 text+=`
                     <div class="row" style="margin-bottom:5px;">
                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -1458,6 +1560,18 @@ function medical_global_get_booking(order_number, sync=false){
                                         </div>
                                     </div>`;
                                 }
+                                //booker
+                                booker_insentif = '-';
+                                if(msg.result.response.hasOwnProperty('booker_insentif'))
+                                    booker_insentif = msg.result.response.booker_insentif
+                                text_repricing += `
+                                <div class="col-lg-12">
+                                    <div style="padding:5px;" class="row" id="booker_repricing" hidden>
+                                    <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
+                                    <div class="col-lg-3" id="repriring_booker_repricing"></div>
+                                    <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
+                                    </div>
+                                </div>`;
                                 text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
                                 document.getElementById('repricing_div').innerHTML = text_repricing;
                                 //repricing
@@ -1572,6 +1686,12 @@ function medical_global_get_booking(order_number, sync=false){
                         </div>`;
                         if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                             text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                        else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                            text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                            document.getElementById('repricing_type').innerHTML = '<option value="booker">Booker</option>';
+                            $('#repricing_type').niceSelect('update');
+                            reset_repricing();
+                        }
                         text_detail+=`<div class="row">
                         <div class="col-lg-12" style="padding-bottom:10px;">
                             <hr/>`;
@@ -1629,6 +1749,18 @@ function medical_global_get_booking(order_number, sync=false){
                                             </div>
                                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                                 <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
+                                            </div>
+                                        </div>`;
+                                        }
+                                        if(msg.result.response.hasOwnProperty('booker_insentif') == true){
+                                            booker_insentif = 0;
+                                            booker_insentif = msg.result.response.booker_insentif;
+                                            text_detail+=`<div class="row">
+                                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                                <span style="font-size:13px; font-weight:bold;">Booker Insentif</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(booker_insentif)+`</span>
                                             </div>
                                         </div>`;
                                         }
@@ -2018,7 +2150,12 @@ function medical_global_issued_booking(data){
                if(google_analytics != '')
                    gtag('event', 'medical_issued', {});
                if(msg.result.error_code == 0){
-                   print_success_issued();
+                   try{
+                       if(msg.result.response.state == 'issued')
+                            print_success_issued();
+                       else
+                            print_fail_issued();
+                   }catch(err){}
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                         window.location.href = '/medical_global/booking/' + btoa(data);
                    }else{
@@ -2046,7 +2183,6 @@ function medical_global_issued_booking(data){
                    document.getElementById('medical_detail').innerHTML = '';
                    document.getElementById('payment_acq').innerHTML = '';
                    //document.getElementById('voucher_div').style.display = 'none';
-                   document.getElementById('ssr_request_after_sales').hidden = true;
                    document.getElementById('show_loading_booking_medical').style.display = 'block';
                    document.getElementById('show_loading_booking_medical').hidden = false;
                    document.getElementById('reissued').hidden = true;
@@ -2774,7 +2910,7 @@ function medical_reorder(){
         }
     }
     if(checked){
-        var path = '/medical_global/passenger/';
+        var path = '/medical_global/passenger/' + document.getElementById('test_type').value;
         document.getElementById('data').value = JSON.stringify(passenger_list_copy);
         var data_temp = {
             "address": medical_get_detail.result.response.test_address,
@@ -2782,7 +2918,6 @@ function medical_reorder(){
             "place_url_by_google": medical_get_detail.result.response.test_address_map_link,
             "test_list": []
         }
-        document.getElementById('medical_global_type').value = document.getElementById('test_type').value;
         document.getElementById('booking_data').value = JSON.stringify(data_temp);
         document.getElementById('medical_edit_passenger').action = path;
         document.getElementById('medical_edit_passenger').submit();
@@ -3069,6 +3204,61 @@ function update_service_charge(type){
                 vendor = 'Periksain';
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error '+vendor+' service charge');
        },timeout: 480000
+    });
+
+}
+
+function update_insentif_booker(type){
+    repricing_order_number = '';
+    if(type == 'booking'){
+        booker_insentif = {}
+        total_price = 0
+        for(j in list){
+            total_price += list[j];
+        }
+        booker_insentif = {
+            'amount': total_price
+        };
+        repricing_order_number = order_number;
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/medical_global",
+       headers:{
+            'action': 'booker_insentif_booking',
+       },
+       data: {
+           'order_number': JSON.stringify(repricing_order_number),
+           'booker': JSON.stringify(booker_insentif),
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                try{
+                    if(type == 'booking'){
+                        please_wait_transaction();
+                        medical_global_get_booking(repricing_order_number);
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
+                    }
+                }catch(err){}
+                $('#myModalRepricing').modal('hide');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error medical update booker insentif </span>' + msg.result.error_msg,
+                })
+                $('.loader-rodextrip').fadeOut();
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error medical update booker insentif');
+            $('.loader-rodextrip').fadeOut();
+       },timeout: 60000
     });
 
 }

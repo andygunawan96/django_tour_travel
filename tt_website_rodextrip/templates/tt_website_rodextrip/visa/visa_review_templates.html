@@ -15,23 +15,8 @@
 
 <script>
     static_path_url_server = '{{static_path_url_server}}'
-    passenger = `{{passengers}}`;
-    passenger = passenger.replace(/&#39;/g, '"');
-    passenger = passenger.replace(/True/g, true);
-    passenger = passenger.replace(/False/g, false);
-    passenger = JSON.parse(passenger);
-    visa_request = `{{visa_request}}`;
     signature = `{{signature}}`;
-    visa_request = JSON.parse(visa_request.replace(/&#39;/g, '"'));
     upsell_price = {{upsell}};
-    adult = passenger.adult;
-    infant = passenger.infant;
-    elder = passenger.elder;
-    child = passenger.child;
-    visa = `{{visa}}`;
-    visa = visa.replace(/True/g, 'true');
-    visa = visa.replace(/False/g, 'false');
-    visa = JSON.parse(visa.replace(/&#39;/g, '"'));
     time_limit = {{time_limit}};
     session_time_limit();
 </script>
@@ -44,7 +29,18 @@
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
 
 {%if template == 1%}
-<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+<header id="header" class="header_breadcrumb">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -70,9 +66,58 @@
     {% include 'tt_website_rodextrip/header_signin_signup.html' %}
     {% endif %}
 </header>
+{% elif template == 6 %}
+<header class="header_breadcrumb" style="padding:unset; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; height:30px; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="main-menu" style="padding:10px 0px;">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
+                </div>
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
+</header>
 {% else %}
-<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
-    <div class="main-menu">
+<header class="header_breadcrumb" style="padding:unset; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="buhttps://www.youtube.com/watch?v=OP2UZuUcVv4tton" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="main-menu" style="padding:10px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -198,7 +243,7 @@
                                                         {% for visa_type in type.visa_type.adult %}
                                                         <label class="radio-button-custom">
                                                             <span>{{visa_type.1}}</span>
-                                                            <input type="radio" checked="checked" name="adult_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'visa')">
+                                                            <input type="radio" name="adult_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'visa')">
                                                             <span class="checkmark-radio"></span>
                                                         </label><br/>
                                                         {% endfor %}
@@ -208,7 +253,7 @@
                                                         {% for entry_type in type.entry_type.adult %}
                                                         <label class="radio-button-custom">
                                                             <span>{{entry_type.1}}</span>
-                                                            <input type="radio" checked="checked" name="adult_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'entry')" disabled>
+                                                            <input type="radio" name="adult_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'entry')" disabled>
                                                             <span class="checkmark-radio"></span>
                                                         </label><br/>
                                                         {% endfor %}
@@ -218,18 +263,18 @@
                                                         {% for process_type in type.process_type.adult %}
                                                         <label class="radio-button-custom">
                                                             <span>{{process_type.1}}</span>
-                                                            <input type="radio" checked="checked" name="adult_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'process')" disabled>
+                                                            <input type="radio" name="adult_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'process')" disabled>
                                                             <span class="checkmark-radio"></span>
                                                         </label><br/>
                                                         {% endfor %}
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12">
+                                            <div class="col-lg-12 mt-2">
                                                 <h6 style="margin-bottom:5px;">{% trans 'Notes' %}</h6>
                                                 <textarea rows="2" cols="50" class="form-control" style="height:75px; font-size:13px; border-radius:unset; resize: none;" type="text" id="notes_adult{{counter}}" name="notes_adult{{counter}}"></textarea>
                                             </div>
-                                            <div class="col-lg-12" style="margin-bottom:15px;">
+                                            <div class="col-lg-12 mt-3" style="margin-bottom:15px;">
                                                 <h6 id="adult_required_up{{counter}}" class="filter_general" style="margin-bottom:5px; display:block;" onclick="show_hide_required('adult',{{counter}});">{% trans 'Required' %} <i class="fas fa-chevron-up"></i></h6>
                                                 <h6 id="adult_required_down{{counter}}" class="filter_general" style="margin-bottom:5px; display:none;" onclick="show_hide_required('adult',{{counter}});">{% trans 'Required' %} <i class="fas fa-chevron-down"></i></h6>
                                                 <div id="adult_required{{counter}}" style="max-height:200px; overflow-y:auto; border:1px solid #cdcdcd; padding:10px; display:block;">
@@ -262,7 +307,7 @@
                                                         {% for visa_type in type.visa_type.child %}
                                                         <label class="radio-button-custom">
                                                             <span>{{visa_type.1}}</span>
-                                                            <input type="radio" checked="checked" name="child_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('child',{{counter}},'visa')">
+                                                            <input type="radio" name="child_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('child',{{counter}},'visa')">
                                                             <span class="checkmark-radio"></span>
                                                         </label><br/>
                                                         {% endfor %}
@@ -272,7 +317,7 @@
                                                         {% for entry_type in type.entry_type.child %}
                                                         <label class="radio-button-custom">
                                                             <span>{{entry_type.1}}</span>
-                                                            <input type="radio" checked="checked" name="child_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('child',{{counter}},'entry')" disabled>
+                                                            <input type="radio" name="child_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('child',{{counter}},'entry')" disabled>
                                                             <span class="checkmark-radio"></span>
                                                         </label><br/>
                                                         {% endfor %}
@@ -282,7 +327,7 @@
                                                         {% for process_type in type.process_type.child %}
                                                         <label class="radio-button-custom">
                                                             <span>{{process_type.1}}</span>
-                                                            <input type="radio" checked="checked" name="child_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('child',{{counter}},'process')" disabled>
+                                                            <input type="radio" name="child_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('child',{{counter}},'process')" disabled>
                                                             <span class="checkmark-radio"></span>
                                                         </label><br/>
                                                         {% endfor %}
@@ -326,7 +371,7 @@
                                                         {% for visa_type in type.visa_type.infant %}
                                                         <label class="radio-button-custom">
                                                             <span>{{visa_type.1}}</span>
-                                                            <input type="radio" checked="checked" name="infant_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('infant',{{counter}},'visa')">
+                                                            <input type="radio" name="infant_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('infant',{{counter}},'visa')">
                                                             <span class="checkmark-radio"></span>
                                                         </label><br/>
                                                         {% endfor %}
@@ -336,7 +381,7 @@
                                                         {% for entry_type in type.entry_type.infant %}
                                                         <label class="radio-button-custom">
                                                             <span>{{entry_type.1}}</span>
-                                                            <input type="radio" checked="checked" name="infant_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('infant',{{counter}},'entry')" disabled>
+                                                            <input type="radio" name="infant_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('infant',{{counter}},'entry')" disabled>
                                                             <span class="checkmark-radio"></span>
                                                         </label><br/>
                                                         {% endfor %}
@@ -346,7 +391,7 @@
                                                         {% for process_type in type.process_type.infant %}
                                                         <label class="radio-button-custom">
                                                             <span>{{process_type.1}}</span>
-                                                            <input type="radio" checked="checked" name="infant_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('infant',{{counter}},'process')" disabled>
+                                                            <input type="radio" name="infant_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('infant',{{counter}},'process')" disabled>
                                                             <span class="checkmark-radio"></span>
                                                         </label><br/>
                                                         {% endfor %}
@@ -515,16 +560,9 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
+    visa_page_review();
     $( document ).ready(function() {
         breadcrumb_create("visa", 4, 0);
-        for(i in passenger.adult)
-            set_value_radio_first('adult',parseInt(i)+1);
-        for(i in passenger.child)
-            set_value_radio_first('child',parseInt(i)+1);
-        for(i in passenger.infant)
-            set_value_radio_first('infant',parseInt(i)+1);
-        for(i in passenger.elder)
-            set_value_radio_first('elder',parseInt(i)+1);
         get_payment_acq('Issued','{{passengers.booker.booker_seq_id}}', '', 'billing',signature,'visa');
     });
 

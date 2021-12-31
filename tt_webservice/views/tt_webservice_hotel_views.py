@@ -77,6 +77,12 @@ def api_models(request):
             res = get_facility_img(request)
         elif req_data['action'] == 'update_service_charge':
             res = update_service_charge(request)
+        elif req_data['action'] == 'booker_insentif_booking':
+            res = booker_insentif_booking(request)
+        elif req_data['action'] == 'review_page':
+            res = review_page(request)
+        elif req_data['action'] == 'detail_page':
+            res = detail_page(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -109,6 +115,7 @@ def login(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
+            create_session_product(request, 'hotel', 20)
             set_session(request, 'hotel_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
@@ -400,7 +407,7 @@ def detail(request):
         else:
             logging.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = url + 'booking/hotel'
-    res = send_request_api(request, url_request, headers, data, 'POST')
+    res = send_request_api(request, url_request, headers, data, 'POST', timeout=180)
     try:
         signature = copy.deepcopy(request.session['hotel_signature'])
         set_session(request, 'hotel_error', {
@@ -589,7 +596,7 @@ def create_booking(request):
         data = {
             "passengers": passenger,
             'user_id': request.session.get('co_uid') or '',
-            'search_data': request.session['hotel_request'],
+            'search_data': request.session['hotel_detail_request'],
             # 'cancellation_policy': request.session['hotel_cancellation_policy']['result']['response'],
             'cancellation_policy': [],
             'promotion_codes_booking': [],
@@ -764,6 +771,67 @@ def update_service_charge(request):
             _logger.info("SUCCESS update_service_charge HOTEL SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_airline HOTEL SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def booker_insentif_booking(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        data = {
+            'order_number': json.loads(request.POST['order_number']),
+            'booker': json.loads(request.POST['booker'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "booker_insentif_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/hotel'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            total_upsell = 0
+            for upsell in data['passengers']:
+                for pricing in upsell['pricing']:
+                    total_upsell += pricing['amount']
+            set_session(request, 'hotel_upsell_booker_'+request.POST['signature'], total_upsell)
+            _logger.info(json.dumps(request.session['hotel_upsell_booker_' + request.POST['signature']]))
+            _logger.info("SUCCESS update_service_charge_booker HOTEL SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR update_service_charge_hotel_booker HOTEL SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def review_page(request):
+    try:
+        res = {}
+        res['facilities'] = request.session['hotel_detail']['facilities']
+        res['adult'] = request.session['hotel_review_pax']['adult']
+        res['booker'] = request.session['hotel_review_pax']['booker']
+        res['contact'] = request.session['hotel_review_pax']['contact']
+        res['child'] = request.session['hotel_review_pax']['child']
+        res['hotel'] = request.session['hotel_detail']
+        res['hotel_price'] = request.session['hotel_room_pick']
+        res['cancellation_policy'] = request.session['hotel_cancellation_policy']['result']['response']['policies']
+
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def detail_page(request):
+    try:
+        res = {}
+        data = request.session.get('hotel_request')
+        res['facilities'] = request.session['hotel_detail']['facilities']
+        res['hotel_search'] = data
+        res['check_in'] = data['checkin_date']
+        res['check_out'] = data['checkout_date']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

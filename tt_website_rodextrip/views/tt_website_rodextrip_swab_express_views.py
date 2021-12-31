@@ -102,7 +102,7 @@ def swab_express(request):
     else:
         return no_session_logout(request)
 
-def passenger(request):
+def passenger(request, test_type=''):
     try:
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
@@ -162,7 +162,7 @@ def passenger(request):
             'javascript_version': javascript_version,
             'static_path_url_server': get_url_static_path(),
             'vendor': 'swabexpress',
-            'test_type': request.POST['swab_express_type'],
+            'test_type': test_type,
             'total_passengers_rebooking': len(passengers)
         })
     except Exception as e:
@@ -209,7 +209,10 @@ def review(request):
             set_session(request, 'swab_express_passenger_cache', swab_express_passenger)
             set_session(request, 'swab_express_data_cache', data)
             try:
-                set_session(request, 'time_limit', request.POST['time_limit_input'])
+                time_limit = get_timelimit_product(request, 'swab_express')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
                 set_session(request, 'swab_express_signature', request.POST['signature'])
                 set_session(request, 'vendor_%s' % request.POST['signature'], request.POST['vendor'])
                 set_session(request, 'test_type_%s' % request.POST['signature'], request.POST['test_type'])

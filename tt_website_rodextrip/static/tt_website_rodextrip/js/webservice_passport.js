@@ -96,6 +96,94 @@ function passport_signin(data){
     });
 }
 
+function passport_page_passenger(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/passport",
+       headers:{
+            'action': 'page_passenger',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            passenger = msg.passenger;
+            passport = msg.passport;
+            passport_request = msg.passport_request;
+            adult = passenger.adult;
+            child = 0;
+            infant = 0;
+            update_table('passenger');
+            for (var i = 1; i <= adult; i++){
+                  document.getElementById("train_adult"+i+"_search").addEventListener("keyup", function(event) {
+                    if (event.keyCode === 13) {
+                     event.preventDefault();
+                     var adult_enter = "search_adult_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                     document.getElementById(adult_enter).click();
+                    }
+                  });
+
+                  $('input[name="adult_birth_date'+i+'"]').daterangepicker({
+                      singleDatePicker: true,
+                      autoUpdateInput: true,
+                      startDate: moment().subtract(18, 'years'),
+                      showDropdowns: true,
+                      opens: 'center',
+                      locale: {
+                          format: 'DD MMM YYYY',
+                      }
+                  });
+                  //$('input[name="adult_birth_date'+i+'"]').val("");
+
+                  $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
+                      singleDatePicker: true,
+                      autoUpdateInput: true,
+                      startDate: moment(),
+                      minDate: moment(),
+                      showDropdowns: true,
+                      opens: 'center',
+                      locale: {
+                          format: 'DD MMM YYYY',
+                      }
+                  });
+                  $('input[name="adult_passport_expired_date'+i+'"]').val("");
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
+       },timeout: 300000
+    });
+}
+
+function passport_page_review(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/passport",
+       headers:{
+            'action': 'page_review',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            passenger = msg.passengers;
+
+            passport_request = msg.passport_request;
+
+            adult = passenger.adult;
+            passport = msg.passport;
+
+            for(i in passenger.adult)
+                set_value_radio_first('adult',parseInt(i)+1);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data lab_pintar');
+       },timeout: 300000
+    });
+}
+
 function get_carriers_passport(){
     $.ajax({
        type: "POST",
@@ -947,6 +1035,18 @@ function passport_get_data(data){
                                             </div>
                                         </div>`;
                                     }
+                                    //booker
+                                    booker_insentif = '-';
+                                    if(msg.result.response.hasOwnProperty('booker_insentif'))
+                                        booker_insentif = msg.result.response.booker_insentif
+                                    text_repricing += `
+                                        <div class="col-lg-12">
+                                            <div style="padding:5px;" class="row" id="booker_repricing" hidden>
+                                            <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
+                                            <div class="col-lg-3" id="repriring_booker_repricing"></div>
+                                            <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
+                                            </div>
+                                        </div>`;
                                     text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
                                     document.getElementById('repricing_div').innerHTML = text_repricing;
                                     //repricing
@@ -1311,6 +1411,61 @@ function update_service_charge(type){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error passport service charge');
+            $('.loader-rodextrip').fadeOut();
+       },timeout: 60000
+    });
+
+}
+
+function update_insentif_booker(type){
+    repricing_order_number = '';
+    if(type == 'booking'){
+        booker_insentif = {}
+        total_price = 0
+        for(j in list){
+            total_price += list[j];
+        }
+        booker_insentif = {
+            'amount': total_price
+        };
+        repricing_order_number = order_number;
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/passport",
+       headers:{
+            'action': 'booker_insentif_booking',
+       },
+       data: {
+           'order_number': JSON.stringify(repricing_order_number),
+           'booker': JSON.stringify(booker_insentif),
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                try{
+                    if(type == 'booking'){
+                        please_wait_transaction();
+                        passport_get_booking(repricing_order_number);
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
+                    }
+                }catch(err){}
+                $('#myModalRepricing').modal('hide');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error passport update booker insentif </span>' + msg.result.error_msg,
+                })
+                $('.loader-rodextrip').fadeOut();
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error passport update booker insentif');
             $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });

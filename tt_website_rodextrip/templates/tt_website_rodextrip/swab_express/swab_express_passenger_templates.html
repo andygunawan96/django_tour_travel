@@ -18,15 +18,6 @@
     //session_time_limit();
     test_time = 1;
     counter_passenger = 0;
-    titles = `{{titles}}`;
-    titles = JSON.parse(titles.replace(/&#39;/g, '"'));
-    countries = `{{countries}}`;
-    countries = countries.replace(/&quot;Côte d&#39;Ivoire&quot;/g, `"Cote D'Ivoire"`); //case khusus
-    countries = countries.replace(/&#39;/g, '"');
-    countries = countries.replace(/&quot;/g, '"');
-    countries = countries.replace(/False/g, 'false');
-    countries = countries.replace(/True/g, 'true');
-    countries = JSON.parse(countries);
     google_api_key = '{{google_api_key}}';
     total_passengers_rebooking = {{total_passengers_rebooking}};
     global_zip_code = '';
@@ -120,7 +111,18 @@
     }
 </style>
 {%if template == 1%}
-<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+<header id="header" class="header_breadcrumb">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -428,7 +430,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result">
+                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -649,8 +651,19 @@
     </div>
 </section>
 {% elif template == 2 %}
-<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:99;">
-    <div class="main-menu">
+<header class="header_breadcrumb" style="padding:unset; z-index:99;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="main-menu" style="padding:10px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -958,7 +971,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result">
+                                                            <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                             </div>
                                                         </div>
@@ -1181,6 +1194,17 @@
 </section>
 {% elif template == 3 %}
 <header class="header_breadcrumb" style="padding:unset; z-index:100; background:white;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -1487,7 +1511,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result">
+                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -1708,7 +1732,18 @@
     </div>
 </section>
 {% elif template == 4 %}
-<header class="header_breadcrumb" style="z-index:100; padding:unset; background:white;">
+<header class="header_breadcrumb" style="padding:unset; z-index:100; padding:unset; background:white;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -2015,7 +2050,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div id="search_result">
+                                                    <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                     </div>
                                                 </div>
@@ -2236,7 +2271,18 @@
     </div>
 </section>
 {% elif template == 5 %}
-<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; padding:unset; background:white;">
+<header class="header_breadcrumb" style="padding:unset; z-index:100; padding:unset; background:white;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -2544,7 +2590,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result">
+                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -2766,8 +2812,19 @@
     </div>
 </section>
 {%elif template == 6%}
-<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
-    <div class="main-menu">
+<header id="header" class="header_breadcrumb" style="padding:unset;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; height:30px; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="main-menu" style="padding:10px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -3074,7 +3131,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result">
+                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -3344,7 +3401,6 @@
     use_google_map = false;
     last_counter = 0;
     vendor = `{{vendor}}`;
-    get_list_report_footer();
     alamat_ss = 'Jl. Boulevard Famili Sel. No.Kav. 1, Babatan, Kec. Wiyung, Kota SBY, Jawa Timur 60227';
     test_type = `{{test_type}}`;
 
@@ -3358,7 +3414,7 @@
       $('.js-example-basic-single').select2();
       auto_complete('booker_nationality');
       auto_complete('booker_phone_code');
-      swab_express_signin('passenger');
+      swab_express_page_passenger();
     });
     $(function() {
       breadcrumb_create("medical", 2, 0);

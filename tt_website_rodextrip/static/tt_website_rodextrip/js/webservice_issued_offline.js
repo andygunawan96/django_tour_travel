@@ -48,47 +48,68 @@ function get_data_issued_offline(){
     });
 }
 
+function issued_offline_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/issued_offline",
+       headers:{
+            'action': 'page_issued_offline',
+       },
+       data: {
+       },
+       success: function(msg) {
+            console.log(msg);
+            titles = msg.titles;
+            countries = msg.countries;
+            signin_rodextrip('');
+            get_data_issued_offline();
+            try{
+                get_public_holiday(moment().format('YYYY-MM-DD'), moment().subtract(-1, 'years').format('YYYY-MM-DD'), 100 );
+            }catch(err){
+                console.log(err);
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
+            $('#loading-search-hotel').hide();
+       },timeout: 180000
+   });
+}
+
 function check_issued_offline(){
     error_log = '';
     request = {};
     var check_passenger = false;
     if(counter_passenger == 0)
-        error_log += 'Please fill passengers\n';
+        error_log += 'Please fill passengers\n<br/>';
     else{
         request['passenger'] = []
         for(i=0; i < counter_passenger; i++){
             try{
                 //kasi if kosong
                 if(document.getElementById('adult_first_name' + (i + 1)).value == '' || check_word(document.getElementById('adult_first_name' + (i + 1)).value) == false){
-                    error_log += 'Please fill or use alpha characters for first name for passenger '+ (i + 1) + ' !\n';
+                    error_log += 'Please fill or use alpha characters for first name for passenger '+ (i + 1) + ' !\n<br/>';
                     document.getElementById('adult_first_name' + (i + 1)).style['border-color'] = 'red';
                 }else{
                     request['passenger_first_name'+i] = document.getElementById('adult_first_name' + (i + 1)).value;
                     document.getElementById('adult_first_name' + (i + 1)).style['border-color'] = '#EFEFEF';
                 }
-                if(document.getElementById('adult_last_name' + (i + 1)).value == '' || check_word(document.getElementById('adult_last_name' + (i + 1)).value) == false){
-                    error_log += 'Please fill or use alpha characters for last name for passenger '+ (i + 1) + ' !\n';
-                    document.getElementById('adult_last_name' + (i + 1)).style['border-color'] = 'red';
-                }else{
-                    request['passenger_last_name'+i] = document.getElementById('adult_last_name' + (i + 1)).value;
-                    document.getElementById('adult_last_name' + (i + 1)).style['border-color'] = '#EFEFEF';
-                }
                 if(document.getElementById('adult_title' + (i + 1)).value == ''){
-                    error_log += 'Please fill title name for passenger '+ (i + 1) + ' !\n';
+                    error_log += 'Please fill title name for passenger '+ (i + 1) + ' !\n<br/>';
                     document.getElementById('adult_title' + (i + 1)).style['border-color'] = 'red';
                 }else{
                     request['passenger_title'+i] = document.getElementById('adult_title' + (i + 1)).value;
                     document.getElementById('adult_title' + (i + 1)).style['border-color'] = '#EFEFEF';
                 }
                 if(document.getElementById('adult_nationality' + (i + 1)).value == ''){
-                    error_log += 'Please fill title name for passenger '+ (i + 1) + ' !\n';
+                    error_log += 'Please fill title name for passenger '+ (i + 1) + ' !\n<br/>';
                     document.getElementById('adult_nationality' + (i + 1)).style['border-color'] = 'red';
                 }else{
                     request['passenger_nationality_code'+i] = document.getElementById('adult_nationality' + (i + 1)).value;
                     document.getElementById('adult_nationality' + (i + 1)).style['border-color'] = '#EFEFEF';
                 }
                 if(check_date(document.getElementById('adult_birth_date'+ (i + 1)).value)==false){
-                    error_log+= 'Birth date wrong for passenger passenger '+i+'!\n';
+                    error_log+= 'Birth date wrong for passenger passenger '+i+'!\n<br/>';
                     document.getElementById('adult_birth_date'+ (i + 1)).style['border-color'] = 'red';
                 }else{
                     request['passenger_birth_date'+i] = document.getElementById('adult_birth_date' + (i + 1)).value;
@@ -96,14 +117,14 @@ function check_issued_offline(){
                 }
                 if(document.getElementById('adult_cp' + (i + 1)).checked == true){
                     if(check_phone_number(document.getElementById('adult_phone' + (i + 1)).value)==false){
-                        error_log+= 'Phone number only contain number 8 - 12 digits for passenger '+i+'!\n';
+                        error_log+= 'Phone number only contain number 8 - 12 digits for passenger '+i+'!\n<br/>';
                         document.getElementById('adult_phone' + (i + 1)).style['border-color'] = 'red';
                     }else{
                         request['passenger_phone'+i] = document.getElementById('adult_phone' + (i + 1)).value;
                         document.getElementById('adult_phone' + (i + 1)).style['border-color'] = '#EFEFEF';
                     }
                     if(check_email(document.getElementById('adult_email' + (i + 1)).value)==false){
-                        error_log+= 'Invalid Passenger '+i+' email!\n';
+                        error_log+= 'Invalid Passenger '+i+' email!\n<br/>';
                         document.getElementById('adult_email' + (i + 1)).style['border-color'] = 'red';
                     }else{
                         request['passenger_email'+i] = document.getElementById('adult_email' + (i + 1)).value;
@@ -113,7 +134,7 @@ function check_issued_offline(){
                 if(document.getElementById('adult_identity_type' + (i + 1)).value != ''){
                     if(document.getElementById('adult_identity_type' + (i + 1)).value == 'ktp'){
                         if(document.getElementById('adult_identity_number'+ (i + 1)).value == ''){
-                            error_log+= 'Please fill identity number for passenger '+(i + 1)+'!\n';
+                            error_log+= 'Please fill identity number for passenger '+(i + 1)+'!\n<br/>';
                             document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = 'red';
                         }else if(check_ktp(document.getElementById('adult_identity_number'+ (i + 1)).value) == false){
                             error_log+= 'Please fill identity number, ktp only contain 16 digits for passenger adult '+i+'!</br>\n';
@@ -123,7 +144,7 @@ function check_issued_offline(){
                             document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_country_of_issued'+ (i + 1)).value == ''){
-                            error_log+= 'Please fill country of issued for passenger '+i+'!\n';
+                            error_log+= 'Please fill country of issued for passenger '+i+'!\n<br/>';
                             document.getElementById('adult_country_of_issued'+ (i + 1)).style['border-color'] = 'red';
                         }else{
                             request['passenger_country_of_issued'+i] = document.getElementById('adult_country_of_issued' + (i + 1)).value;
@@ -131,14 +152,14 @@ function check_issued_offline(){
                         }
                     }else if(document.getElementById('adult_identity_type' + (i + 1)).value == 'other'){
                         if(document.getElementById('adult_identity_number'+ (i + 1)).value == ''){
-                            error_log+= 'Please fill identity number for passenger '+i+'!\n';
+                            error_log+= 'Please fill identity number for passenger '+i+'!\n<br/>';
                             document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = 'red';
                         }else{
                             request['passenger_identity_number'+i] = document.getElementById('adult_identity_number' + (i + 1)).value;
                             document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_country_of_issued'+ (i + 1)).value == ''){
-                            error_log+= 'Please fill country of issued for passenger '+i+'!\n';
+                            error_log+= 'Please fill country of issued for passenger '+i+'!\n<br/>';
                             document.getElementById('adult_country_of_issued'+ (i + 1)).style['border-color'] = 'red';
                         }else{
                             request['passenger_country_of_issued'+i] = document.getElementById('adult_country_of_issued' + (i + 1)).value;
@@ -146,24 +167,24 @@ function check_issued_offline(){
                         }
                     }else if(document.getElementById('adult_identity_type' + (i + 1)).value == 'sim'){
                         if(document.getElementById('adult_identity_number'+ (i + 1)).value == ''){
-                            error_log+= 'Please fill identity number for passenger '+(i + 1)+'!\n';
+                            error_log+= 'Please fill identity number for passenger '+(i + 1)+'!\n<br/>';
                             document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = 'red';
                         }else if(check_sim(document.getElementById('adult_identity_number'+(i + 1)).value) == false){
-                            error_log+= 'Please fill identity number, sim only contain 12 - 13 digits!</br>\n';
+                            error_log+= 'Please fill identity number, sim only contain 12 - 13 digits!</br>\n<br/>';
                             document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = 'red';
                         }else{
                             request['passenger_identity_number'+i] = document.getElementById('adult_identity_number' + (i + 1)).value;
                             document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_identity_expired_date'+ (i + 1)).value == ''){
-                            error_log+= 'Please fill identity expired date for passenger '+i+'!\n';
+                            error_log+= 'Please fill identity expired date for passenger '+i+'!\n<br/>';
                             document.getElementById('adult_identity_expired_date'+ (i + 1)).style['border-color'] = 'red';
                         }else{
                             request['passenger_identity_expired_date'+i] = document.getElementById('adult_identity_expired_date' + (i + 1)).value;
                             document.getElementById('adult_identity_expired_date'+ (i + 1)).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_country_of_issued'+ (i + 1)).value == ''){
-                            error_log+= 'Please fill country of issued for passenger '+i+'!\n';
+                            error_log+= 'Please fill country of issued for passenger '+i+'!\n<br/>';
                             document.getElementById('adult_country_of_issued'+ (i + 1)).style['border-color'] = 'red';
                         }else{
                             request['passenger_country_of_issued'+i] = document.getElementById('adult_country_of_issued' + (i + 1)).value;
@@ -171,24 +192,24 @@ function check_issued_offline(){
                         }
                     }else if(document.getElementById('adult_identity_type' + (i + 1)).value == 'passport'){
                         if(document.getElementById('adult_identity_number'+ (i + 1)).value == ''){
-                            error_log+= 'Please fill identity number for passenger '+(i + 1)+'!\n';
+                            error_log+= 'Please fill identity number for passenger '+(i + 1)+'!\n<br/>';
                             document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = 'red';
                         }else if(check_passport(document.getElementById('adult_identity_number'+(i + 1)).value) == false){
-                            error_log+= 'Please fill identity number, passport only contain more than 6 digits!</br>\n';
+                            error_log+= 'Please fill identity number, passport only contain more than 6 digits!</br>\n<br/>';
                             document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = 'red';
                         }else{
                             request['passenger_identity_number'+i] = document.getElementById('adult_identity_number' + (i + 1)).value;
                             document.getElementById('adult_identity_number'+ (i + 1)).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_identity_expired_date'+ (i + 1)).value == ''){
-                            error_log+= 'Please fill identity expired date for passenger '+i+'!\n';
+                            error_log+= 'Please fill identity expired date for passenger '+i+'!\n<br/>';
                             document.getElementById('adult_identity_expired_date'+ (i + 1)).style['border-color'] = 'red';
                         }else{
                             request['passenger_identity_expired_date'+i] = document.getElementById('adult_identity_expired_date' + (i + 1)).value;
                             document.getElementById('adult_identity_expired_date'+ (i + 1)).style['border-color'] = '#EFEFEF';
                         }
                         if(document.getElementById('adult_country_of_issued'+ (i + 1)).value == ''){
-                            error_log+= 'Please fill country of issued for passenger '+i+'!\n';
+                            error_log+= 'Please fill country of issued for passenger '+i+'!\n<br/>';
                             document.getElementById('adult_country_of_issued'+ (i + 1)).style['border-color'] = 'red';
                         }else{
                             request['passenger_country_of_issued'+i] = document.getElementById('adult_country_of_issued' + (i + 1)).value;
@@ -207,44 +228,37 @@ function check_issued_offline(){
         }
     }
     if(document.getElementById('booker_title').value == ''){
-        error_log += 'Please fill title name for booker !\n';
+        error_log += 'Please fill title name for booker !\n<br/>';
         document.getElementById('booker_title').style['border-color'] = 'red';
     }else{
         request["booker_title"] = document.getElementById('booker_title').value;
         document.getElementById('booker_title').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('booker_first_name').value == '' || check_word(document.getElementById('booker_first_name').value) == false){
-        error_log += 'Please fill or use alpha characters for first name for booker !\n';
+        error_log += 'Please fill or use alpha characters for first name for booker !\n<br/>';
         document.getElementById('booker_first_name').style['border-color'] = 'red';
     }else{
         request["booker_first_name"] = document.getElementById('booker_first_name').value;
         document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
-    }
-    if(document.getElementById('booker_last_name').value == '' || check_word(document.getElementById('booker_last_name').value) == false){
-        error_log += 'Please fill or use alpha characters for last name for booker !\n';
-        document.getElementById('booker_last_name').style['border-color'] = 'red';
-    }else{
-        request["booker_last_name"] = document.getElementById('booker_last_name').value;
-        document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('booker_email').value == '' || check_email(document.getElementById('booker_email').value) == false){
-        error_log += 'Please fill email for booker !\n';
+        error_log += 'Please fill email for booker !\n<br/>';
         document.getElementById('booker_email').style['border-color'] = 'red';
     }else{
         request["booker_email"] = document.getElementById('booker_email').value;
         document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('booker_phone_code').value == ''){
-        error_log += 'Please fill phone code for booker !\n';
+        error_log += 'Please fill phone code for booker !\n<br/>';
         document.getElementById('booker_phone_code').style['border-color'] = 'red';
     }else{
         request["booker_calling_code"] = document.getElementById('booker_phone_code').value;
         document.getElementById('booker_phone_code').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('booker_phone').value == ''){
-        error_log += 'Please fill phone for booker !\n';
+        error_log += 'Please fill phone for booker !\n<br/>';
         document.getElementById('booker_phone').style['border-color'] = 'red';
     }else{
         request["booker_mobile"] = document.getElementById('booker_phone').value;
         document.getElementById('booker_phone').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('booker_nationality').value == ''){
-        error_log += 'Please fill nationality for booker !\n';
+        error_log += 'Please fill nationality for booker !\n<br/>';
         document.getElementById('booker_nationality').style['border-color'] = 'red';
     }else{
         request["booker_nationality_code"] = document.getElementById('booker_nationality').value;
@@ -252,11 +266,11 @@ function check_issued_offline(){
     }
     request["booker_id"] = document.getElementById('booker_id').value;
     if(counter_line == 0)
-        error_log += 'Please fill line\n';
+        error_log += 'Please fill line\n<br/>';
     else{
         for(i=0; i < counter_line; i++){
             if(document.getElementById('pnr'+i).value == ''){
-                error_log += 'Please fill pnr for line '+ (i+1) + '\n';
+                error_log += 'Please fill pnr for line '+ (i+1) + '\n<br/>';
                 document.getElementById('pnr'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('pnr'+i).style['border-color'] = '#EFEFEF';
@@ -264,56 +278,56 @@ function check_issued_offline(){
             }
             if(document.getElementById('transaction_type').value == 'airline' || document.getElementById('transaction_type').value == 'train'){
                 if(document.getElementById('origin'+i).value == '' && document.getElementById('origin'+i).value.split(' - ') == 4){
-                    error_log += 'Please use autocomplete origin for line '+ (i+1) + '\n';
+                    error_log += 'Please use autocomplete origin for line '+ (i+1) + '\n<br/>';
                     document.getElementById('origin'+i).style['border-color'] = 'red';
                 }else{
                     document.getElementById('origin'+i).style['border-color'] = '#EFEFEF';
                     request["line_origin"+i] = document.getElementById('origin'+i).value;
                 }if(document.getElementById('destination'+i).value == '' && document.getElementById('destination'+i).value.split(' - ') == 4){
-                    error_log += 'Please use autocomplete destination for line '+ (i+1) + '\n';
+                    error_log += 'Please use autocomplete destination for line '+ (i+1) + '\n<br/>';
                     document.getElementById('destination'+i).style['border-color'] = 'red';
                 }else{
                     document.getElementById('destination'+i).style['border-color'] = '#EFEFEF';
                     request["line_destination"+i] = document.getElementById('destination'+i).value;
                 }if(document.getElementById('departure'+i).value == ''){
-                    error_log += 'Please fill departure for line '+ (i+1) + '\n';
+                    error_log += 'Please fill departure for line '+ (i+1) + '\n<br/>';
                     document.getElementById('departure'+i).style['border-color'] = 'red';
                 }else{
                     document.getElementById('departure'+i).style['border-color'] = '#EFEFEF';
                     request["line_departure"+i] =  document.getElementById('departure'+i).value;
                 }if(document.getElementById('arrival'+i).value == ''){
-                    error_log += 'Please fill arrival for line '+ (i+1) + '\n';
+                    error_log += 'Please fill arrival for line '+ (i+1) + '\n<br/>';
                     document.getElementById('arrival'+i).style['border-color'] = 'red';
                 }else{
                     document.getElementById('arrival'+i).style['border-color'] = '#EFEFEF';
                     request["line_arrival"+i] = document.getElementById('arrival'+i).value;
                 }if(document.getElementById('carrier_code'+i).value == ''){
-                    error_log += 'Please fill carrier code for line '+ (i+1) + '\n';
+                    error_log += 'Please fill carrier code for line '+ (i+1) + '\n<br/>';
                     document.getElementById('carrier_code'+i).style['border-color'] = 'red';
                 }else{
                     document.getElementById('carrier_code'+i).style['border-color'] = '#EFEFEF';
                     request["line_carrier_code"+i] = document.getElementById('carrier_code'+i).value;
                 }if(document.getElementById('carrier_number'+i).value == ''){
-                    error_log += 'Please fill carrier number for line '+ (i+1) + '\n';
+                    error_log += 'Please fill carrier number for line '+ (i+1) + '\n<br/>';
                     document.getElementById('carrier_number'+i).style['border-color'] = 'red';
                 }else{
                     document.getElementById('carrier_number'+i).style['border-color'] = '#EFEFEF';
                     request["line_carrier_number"+i] = document.getElementById('carrier_number'+i).value;
                 }if(document.getElementById('provider'+i).value == ''){
-                    error_log += 'Please fill provider for line '+ (i+1) + '\n';
+                    error_log += 'Please fill provider for line '+ (i+1) + '\n<br/>';
                     document.getElementById('provider'+i).style['border-color'] = 'red';
                 }else{
                     document.getElementById('provider'+i).style['border-color'] = '#EFEFEF';
                     request["line_provider"+i] = document.getElementById('provider'+i).value;
                 }
                 if(document.getElementById('sub_class'+i).value == ''){
-                    error_log += 'Please fill sub class for line '+ (i+1) + '\n';
+                    error_log += 'Please fill sub class for line '+ (i+1) + '\n<br/>';
                     document.getElementById('sub_class'+i).style['border-color'] = 'red';
                 }else{
                     document.getElementById('sub_class'+i).style['border-color'] = '#EFEFEF';
                     request["line_sub_class"+i] = document.getElementById('sub_class'+i).value;
                 }if(document.getElementById('class'+i).value == ''){
-                    error_log += 'Please fill class for line '+ (i+1) + '\n';
+                    error_log += 'Please fill class for line '+ (i+1) + '\n<br/>';
                     document.getElementById('class'+i).style['border-color'] = 'red';
                 }else{
                     document.getElementById('class'+i).style['border-color'] = '#EFEFEF';
@@ -322,37 +336,37 @@ function check_issued_offline(){
             }else if(document.getElementById('transaction_type').value == 'hotel'){
                 //kasi check hotel
                 if(document.getElementById('hotel_name'+i).value == ''){
-                    error_log += 'Please fill name for line '+ (i+1) + '\n';
+                    error_log += 'Please fill name for line '+ (i+1) + '\n<br/>';
                     document.getElementById('hotel_name'+i).style['border-color'] = 'red';
                 }else{
                     document.getElementById('hotel_name'+i).style['border-color'] = '#EFEFEF';
                     request["line_hotel_name"+i] = document.getElementById('hotel_name'+i).value;
                 }if(document.getElementById('hotel_room'+i).value == ''){
-                    error_log += 'Please fill room for line '+ (i+1) + '\n';
+                    error_log += 'Please fill room for line '+ (i+1) + '\n<br/>';
                     document.getElementById('hotel_room'+i).style['border-color'] = 'red';
                 }else{
                     document.getElementById('hotel_room'+i).style['border-color'] = '#EFEFEF';
                     request["line_hotel_room"+i] = document.getElementById('hotel_room'+i).value;
                 }if(document.getElementById('hotel_qty'+i).value == '' || check_number(document.getElementById('hotel_qty'+i).value) == false){
-                    error_log += 'Please fill quantity for line '+ (i+1) + '\n';
+                    error_log += 'Please fill quantity for line '+ (i+1) + '\n<br/>';
                     document.getElementById('hotel_qty'+i).style['border-color'] = 'red';
                 }else{
                     document.getElementById('hotel_qty'+i).style['border-color'] = '#EFEFEF';
                     request["line_hotel_qty"+i] = document.getElementById('hotel_qty'+i).value;
                 }if(document.getElementById('hotel_check_in'+i).value == ''){
-                    error_log += 'Please fill check-in for line '+ (i+1) + '\n';
+                    error_log += 'Please fill check-in for line '+ (i+1) + '\n<br/>';
                     document.getElementById('hotel_check_in'+i).style['border-color'] = 'red';
                 }else{
                     document.getElementById('hotel_check_in'+i).style['border-color'] = '#EFEFEF';
                     request["line_hotel_check_in"+i] = document.getElementById('hotel_check_in'+i).value;
                 }if(document.getElementById('hotel_check_out'+i).value == ''){
-                    error_log += 'Please fill check-out for line '+ (i+1) + '\n';
+                    error_log += 'Please fill check-out for line '+ (i+1) + '\n<br/>';
                     document.getElementById('hotel_check_out'+i).style['border-color'] = 'red';
                 }else{
                     document.getElementById('hotel_check_out'+i).style['border-color'] = '#EFEFEF';
                     request["line_hotel_check_out"+i] = document.getElementById('hotel_check_out'+i).value;
                 }if(document.getElementById('hotel_description'+i).value == ''){
-                    error_log += 'Please fill description for line '+ (i+1) + '\n';
+                    error_log += 'Please fill description for line '+ (i+1) + '\n<br/>';
                     document.getElementById('hotel_description'+i).style['border-color'] = 'red';
                 }else{
                     document.getElementById('hotel_description'+i).style['border-color'] = '#EFEFEF';
@@ -361,31 +375,31 @@ function check_issued_offline(){
             }else if(document.getElementById('transaction_type').value == 'activity'){
                 //kasi check hotel
                 if(document.getElementById('activity_name'+i).value == ''){
-                    error_log += 'Please fill name for line '+ (i+1) + '\n';
+                    error_log += 'Please fill name for line '+ (i+1) + '\n<br/>';
                     document.getElementById('activity_name'+i).style['border-color'] = 'red';
                 }else{
                     document.getElementById('activity_name'+i).style['border-color'] = '#EFEFEF';
                     request["line_activity_name"+i] = document.getElementById('activity_name'+i).value;
                 }if(document.getElementById('activity_package'+i).value == ''){
-                    error_log += 'Please fill package for line '+ (i+1) + '\n';
+                    error_log += 'Please fill package for line '+ (i+1) + '\n<br/>';
                     document.getElementById('activity_package'+i).style['border-color'] = 'red';
                 }else{
                     document.getElementById('activity_package'+i).style['border-color'] = '#EFEFEF';
                     request["line_activity_package"+i] = document.getElementById('activity_package'+i).value;
                 }if(document.getElementById('activity_qty'+i).value == ''){
-                    error_log += 'Please fill quantity for line '+ (i+1) + '\n';
+                    error_log += 'Please fill quantity for line '+ (i+1) + '\n<br/>';
                     document.getElementById('activity_qty'+i).style['border-color'] = 'red';
                 }else{
                     document.getElementById('activity_qty'+i).style['border-color'] = '#EFEFEF';
                     request["line_activity_qty"+i] = document.getElementById('activity_qty'+i).value;
                 }if(document.getElementById('activity_datetime'+i).value == ''){
-                    error_log += 'Please fill visit date for line '+ (i+1) + '\n';
+                    error_log += 'Please fill visit date for line '+ (i+1) + '\n<br/>';
                     document.getElementById('activity_datetime'+i).style['border-color'] = 'red';
                 }else{
                     document.getElementById('activity_datetime'+i).style['border-color'] = '#EFEFEF';
                     request["line_activity_datetime"+i] = document.getElementById('activity_datetime'+i).value;
                 }if(document.getElementById('activity_description'+i).value == ''){
-                    error_log += 'Please fill description for line '+ (i+1) + '\n';
+                    error_log += 'Please fill description for line '+ (i+1) + '\n<br/>';
                     document.getElementById('activity_description'+i).style['border-color'] = 'red';
                 }else{
                     document.getElementById('activity_description'+i).style['border-color'] = '#EFEFEF';
@@ -399,38 +413,38 @@ function check_issued_offline(){
 //    if(document.getElementById('contact_id').value == ''){}
     request['quick_validate'] = document.getElementById('quick_validate').checked;
     if(document.getElementById('transaction_type').value == ''){
-        error_log += 'Please fill transaction type\n';
+        error_log += 'Please fill transaction type\n<br/>';
         document.getElementById('transaction_type').style['border-color'] = 'red';
     }else{
         document.getElementById('transaction_type').style['border-color'] = '#EFEFEF';
         request["type"] = document.getElementById('transaction_type').value;
     }if(document.getElementById('sector').value == '' && document.getElementById('transaction_type').value == 'airline'){
-        error_log += 'Please fill sector\n';
+        error_log += 'Please fill sector\n<br/>';
         document.getElementById('sector').style['border-color'] = 'red';
     }else{
         request["sector_type"] = document.getElementById('sector').value;
         document.getElementById('sector').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('total_sale_price').value == ''){
-        error_log += 'Please fill total sale price\n';
+        error_log += 'Please fill total sale price\n<br/>';
         document.getElementById('total_sale_price').style['border-color'] = 'red';
     }else{
         request["total_sale_price"] = document.getElementById('total_sale_price').value;
         document.getElementById('total_sale_price').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('social_media').value == ''){
-        error_log += 'Please fill social media\n';
+        error_log += 'Please fill social media\n<br/>';
         document.getElementById('social_media').style['border-color'] = 'red';
     }else{
         document.getElementById('social_media').style['border-color'] = '#EFEFEF';
         request["social_media"] = document.getElementById('social_media').value;
     }if(document.getElementById('timelimit').value == ''){
-        error_log += 'Please fill time limit\n';
+        error_log += 'Please fill time limit\n<br/>';
         document.getElementById('timelimit').style['border-color'] = 'red';
     }else{
         document.getElementById('timelimit').style['border-color'] = '#EFEFEF';
         request["expired_date"] = document.getElementById('timelimit').value;
     }
     if(check_passenger == false){
-        error_log += 'Please fill passengers\n';
+        error_log += 'Please fill passengers\n<br/>';
     }
     if(error_log == ''){
         request["desc"] = document.getElementById('description').value;
@@ -444,7 +458,7 @@ function check_issued_offline(){
          Swal.fire({
           type: 'error',
           title: 'Oops!',
-          html: '<span style="color: #ff9900;">Error </span>' + error_log,
+          html: '<span style="color: #ff9900;">Error </span><br/>' + error_log,
         })
 
     }
@@ -483,7 +497,7 @@ function issued_offline_signin(data){
 function set_data_issued_offline(){
     for(i=0; i < counter_line; i++){
         if(document.getElementById('pnr'+i).value == ''){
-            error_log += 'Please fill pnr for line '+ (i+1) + '\n';
+            error_log += 'Please fill pnr for line '+ (i+1) + '\n<br/>';
             document.getElementById('pnr'+i).style['border-color'] = 'red';
         }else{
             document.getElementById('pnr'+i).style['border-color'] = '#EFEFEF';
@@ -491,56 +505,56 @@ function set_data_issued_offline(){
         }
         if(document.getElementById('transaction_type').value == 'airline' || document.getElementById('transaction_type').value == 'train'){
             if(document.getElementById('origin'+i).value == '' && document.getElementById('origin'+i).value.split(' - ') == 4){
-                error_log += 'Please fill origin using autocomplete for line '+ (i+1) + '\n';
+                error_log += 'Please fill origin using autocomplete for line '+ (i+1) + '\n<br/>';
                 document.getElementById('origin'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('origin'+i).style['border-color'] = '#EFEFEF';
                 request["line_origin"+i] = document.getElementById('origin'+i).value;
             }if(document.getElementById('destination'+i).value == '' && document.getElementById('destination'+i).value.split(' - ') == 4){
-                error_log += 'Please fill destination using autocomplete for line '+ (i+1) + '\n';
+                error_log += 'Please fill destination using autocomplete for line '+ (i+1) + '\n<br/>';
                 document.getElementById('destination'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('destination'+i).style['border-color'] = '#EFEFEF';
                 request["line_destination"+i] = document.getElementById('destination'+i).value;
             }if(document.getElementById('departure'+i).value == ''){
-                error_log += 'Please fill departure for line '+ (i+1) + '\n';
+                error_log += 'Please fill departure for line '+ (i+1) + '\n<br/>';
                 document.getElementById('departure'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('departure'+i).style['border-color'] = '#EFEFEF';
                 request["line_departure"+i] =  document.getElementById('departure'+i).value;
             }if(document.getElementById('arrival'+i).value == ''){
-                error_log += 'Please fill arrival for line '+ (i+1) + '\n';
+                error_log += 'Please fill arrival for line '+ (i+1) + '\n<br/>';
                 document.getElementById('arrival'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('arrival'+i).style['border-color'] = '#EFEFEF';
                 request["line_arrival"+i] = document.getElementById('arrival'+i).value;
             }if(document.getElementById('carrier_code'+i).value == ''){
-                error_log += 'Please fill carrier code for line '+ (i+1) + '\n';
+                error_log += 'Please fill carrier code for line '+ (i+1) + '\n<br/>';
                 document.getElementById('carrier_code'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('carrier_code'+i).style['border-color'] = '#EFEFEF';
                 request["line_carrier_code"+i] = document.getElementById('carrier_code'+i).value;
             }if(document.getElementById('carrier_number'+i).value == ''){
-                error_log += 'Please fill carrier number for line '+ (i+1) + '\n';
+                error_log += 'Please fill carrier number for line '+ (i+1) + '\n<br/>';
                 document.getElementById('carrier_number'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('carrier_number'+i).style['border-color'] = '#EFEFEF';
                 request["line_carrier_number"+i] = document.getElementById('carrier_number'+i).value;
             }if(document.getElementById('provider'+i).value == ''){
-                error_log += 'Please fill provider for line '+ (i+1) + '\n';
+                error_log += 'Please fill provider for line '+ (i+1) + '\n<br/>';
                 document.getElementById('provider'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('provider'+i).style['border-color'] = '#EFEFEF';
                 request["line_provider"+i] = document.getElementById('provider'+i).value;
             }
             if(document.getElementById('sub_class'+i).value == ''){
-                error_log += 'Please fill sub class for line '+ (i+1) + '\n';
+                error_log += 'Please fill sub class for line '+ (i+1) + '\n<br/>';
                 document.getElementById('sub_class'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('sub_class'+i).style['border-color'] = '#EFEFEF';
                 request["line_sub_class"+i] = document.getElementById('sub_class'+i).value;
             }if(document.getElementById('class'+i).value == ''){
-                error_log += 'Please fill class for line '+ (i+1) + '\n';
+                error_log += 'Please fill class for line '+ (i+1) + '\n<br/>';
                 document.getElementById('class'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('class'+i).style['border-color'] = '#EFEFEF';
@@ -549,37 +563,37 @@ function set_data_issued_offline(){
         }else if(document.getElementById('transaction_type').value == 'hotel'){
             //kasi check hotel
             if(document.getElementById('hotel_name'+i).value == ''){
-                error_log += 'Please fill name for line '+ (i+1) + '\n';
+                error_log += 'Please fill name for line '+ (i+1) + '\n<br/>';
                 document.getElementById('hotel_name'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('hotel_name'+i).style['border-color'] = '#EFEFEF';
                 request["line_hotel_name"+i] = document.getElementById('hotel_name'+i).value;
             }if(document.getElementById('hotel_room'+i).value == ''){
-                error_log += 'Please fill room for line '+ (i+1) + '\n';
+                error_log += 'Please fill room for line '+ (i+1) + '\n<br/>';
                 document.getElementById('hotel_room'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('hotel_room'+i).style['border-color'] = '#EFEFEF';
                 request["line_hotel_room"+i] = document.getElementById('hotel_room'+i).value;
             }if(document.getElementById('hotel_qty'+i).value == ''){
-                error_log += 'Please fill quantity for line '+ (i+1) + '\n';
+                error_log += 'Please fill quantity for line '+ (i+1) + '\n<br/>';
                 document.getElementById('hotel_qty'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('hotel_qty'+i).style['border-color'] = '#EFEFEF';
                 request["line_hotel_qty"+i] = document.getElementById('hotel_qty'+i).value;
             }if(document.getElementById('hotel_check_in'+i).value == ''){
-                error_log += 'Please fill check-in for line '+ (i+1) + '\n';
+                error_log += 'Please fill check-in for line '+ (i+1) + '\n<br/>';
                 document.getElementById('hotel_check_in'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('hotel_check_in'+i).style['border-color'] = '#EFEFEF';
                 request["line_hotel_check_in"+i] = document.getElementById('hotel_check_in'+i).value;
             }if(document.getElementById('hotel_check_out'+i).value == ''){
-                error_log += 'Please fill check-out for line '+ (i+1) + '\n';
+                error_log += 'Please fill check-out for line '+ (i+1) + '\n<br/>';
                 document.getElementById('hotel_check_out'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('hotel_check_out'+i).style['border-color'] = '#EFEFEF';
                 request["line_hotel_check_out"+i] = document.getElementById('hotel_check_out'+i).value;
             }if(document.getElementById('hotel_description'+i).value == ''){
-                error_log += 'Please fill description for line '+ (i+1) + '\n';
+                error_log += 'Please fill description for line '+ (i+1) + '\n<br/>';
                 document.getElementById('hotel_description'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('hotel_description'+i).style['border-color'] = '#EFEFEF';
@@ -588,31 +602,31 @@ function set_data_issued_offline(){
         }else if(document.getElementById('transaction_type').value == 'activity'){
             //kasi check hotel
             if(document.getElementById('activity_name'+i).value == ''){
-                error_log += 'Please fill name for line '+ (i+1) + '\n';
+                error_log += 'Please fill name for line '+ (i+1) + '\n<br/>';
                 document.getElementById('activity_name'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('activity_name'+i).style['border-color'] = '#EFEFEF';
                 request["line_activity_name"+i] = document.getElementById('activity_name'+i).value;
             }if(document.getElementById('activity_package'+i).value == ''){
-                error_log += 'Please fill package for line '+ (i+1) + '\n';
+                error_log += 'Please fill package for line '+ (i+1) + '\n<br/>';
                 document.getElementById('activity_package'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('activity_package'+i).style['border-color'] = '#EFEFEF';
                 request["line_activity_package"+i] = document.getElementById('activity_package'+i).value;
             }if(document.getElementById('activity_qty'+i).value == ''){
-                error_log += 'Please fill quantity for line '+ (i+1) + '\n';
+                error_log += 'Please fill quantity for line '+ (i+1) + '\n<br/>';
                 document.getElementById('activity_qty'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('activity_qty'+i).style['border-color'] = '#EFEFEF';
                 request["line_activity_qty"+i] = document.getElementById('activity_qty'+i).value;
             }if(document.getElementById('activity_datetime'+i).value == ''){
-                error_log += 'Please fill visit date for line '+ (i+1) + '\n';
+                error_log += 'Please fill visit date for line '+ (i+1) + '\n<br/>';
                 document.getElementById('activity_datetime'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('activity_datetime'+i).style['border-color'] = '#EFEFEF';
                 request["line_activity_datetime"+i] = document.getElementById('activity_datetime'+i).value;
             }if(document.getElementById('activity_description'+i).value == ''){
-                error_log += 'Please fill description for line '+ (i+1) + '\n';
+                error_log += 'Please fill description for line '+ (i+1) + '\n<br/>';
                 document.getElementById('activity_description'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('activity_description'+i).style['border-color'] = '#EFEFEF';
@@ -621,31 +635,31 @@ function set_data_issued_offline(){
         }
     }
     if(document.getElementById('transaction_type').value == ''){
-        error_log += 'Please fill transaction type\n';
+        error_log += 'Please fill transaction type\n<br/>';
         document.getElementById('transaction_type').style['border-color'] = 'red';
     }else{
         document.getElementById('transaction_type').style['border-color'] = '#EFEFEF';
         request["type"] = document.getElementById('transaction_type').value;
     }if(document.getElementById('sector').value == '' && document.getElementById('transaction_type').value == 'airline'){
-        error_log += 'Please fill sector\n';
+        error_log += 'Please fill sector\n<br/>';
         document.getElementById('sector').style['border-color'] = 'red';
     }else{
         request["sector_type"] = document.getElementById('sector').value;
         document.getElementById('sector').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('total_sale_price').value == ''){
-        error_log += 'Please fill total sale price\n';
+        error_log += 'Please fill total sale price\n<br/>';
         document.getElementById('total_sale_price').style['border-color'] = 'red';
     }else{
         request["total_sale_price"] = document.getElementById('total_sale_price').value.split(',').join('');
         document.getElementById('total_sale_price').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('social_media').value == ''){
-        error_log += 'Please fill social media\n';
+        error_log += 'Please fill social media\n<br/>';
         document.getElementById('social_media').style['border-color'] = 'red';
     }else{
         document.getElementById('social_media').style['border-color'] = '#EFEFEF';
         request["social_media"] = document.getElementById('social_media').value;
     }if(document.getElementById('timelimit').value == ''){
-        error_log += 'Please fill time limit\n';
+        error_log += 'Please fill time limit\n<br/>';
         document.getElementById('timelimit').style['border-color'] = 'red';
     }else{
         document.getElementById('timelimit').style['border-color'] = '#EFEFEF';
@@ -678,44 +692,44 @@ function set_data_issued_offline(){
 
 function update_booker(){
     if(document.getElementById('booker_title').value == ''){
-        error_log += 'Please fill title name for booker !\n';
+        error_log += 'Please fill title name for booker !\n<br/>';
         document.getElementById('booker_title').style['border-color'] = 'red';
     }else{
         request["booker_title"] = document.getElementById('booker_title').value;
         document.getElementById('booker_title').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('booker_first_name').value == ''){
-        error_log += 'Please fill first name for booker !\n';
+        error_log += 'Please fill first name for booker !\n<br/>';
         document.getElementById('booker_first_name').style['border-color'] = 'red';
     }else{
         request["booker_first_name"] = document.getElementById('booker_first_name').value;
         document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
     }
     if(document.getElementById('booker_last_name').value == ''){
-        error_log += 'Please fill last name for booker !\n';
+        error_log += 'Please fill last name for booker !\n<br/>';
         document.getElementById('booker_last_name').style['border-color'] = 'red';
     }else{
         request["booker_last_name"] = document.getElementById('booker_last_name').value;
         document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('booker_email').value == ''){
-        error_log += 'Please fill email for booker !\n';
+        error_log += 'Please fill email for booker !\n<br/>';
         document.getElementById('booker_email').style['border-color'] = 'red';
     }else{
         request["booker_email"] = document.getElementById('booker_email').value;
         document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('booker_phone_code').value == ''){
-        error_log += 'Please fill phone code for booker !\n';
+        error_log += 'Please fill phone code for booker !\n<br/>';
         document.getElementById('booker_phone_code').style['border-color'] = 'red';
     }else{
         request["booker_calling_code"] = document.getElementById('booker_phone_code').value;
         document.getElementById('booker_phone_code').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('booker_phone').value == ''){
-        error_log += 'Please fill phone for booker !\n';
+        error_log += 'Please fill phone for booker !\n<br/>';
         document.getElementById('booker_phone').style['border-color'] = 'red';
     }else{
         request["booker_mobile"] = document.getElementById('booker_phone').value;
         document.getElementById('booker_phone').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('booker_nationality').value == ''){
-        error_log += 'Please fill nationality for booker !\n';
+        error_log += 'Please fill nationality for booker !\n<br/>';
         document.getElementById('booker_nationality').style['border-color'] = 'red';
     }else{
         request["booker_nationality_code"] = document.getElementById('booker_nationality').value;
@@ -727,28 +741,28 @@ function update_booker(){
         //kasi if kosong
         try{
             if(document.getElementById('adult_first_name' + (i + 1)).value == ''){
-                error_log += 'Please fill first name for passenger '+ (i + 1) + ' !\n';
+                error_log += 'Please fill first name for passenger '+ (i + 1) + ' !\n<br/>';
                 document.getElementById('adult_first_name' + (i + 1)).style['border-color'] = 'red';
             }else{
                 request['passenger_first_name'+i] = document.getElementById('adult_first_name' + (i + 1)).value;
                 document.getElementById('adult_first_name' + (i + 1)).style['border-color'] = '#EFEFEF';
             }
             if(document.getElementById('adult_last_name' + (i + 1)).value == ''){
-                error_log += 'Please fill last name for passenger '+ (i + 1) + ' !\n';
+                error_log += 'Please fill last name for passenger '+ (i + 1) + ' !\n<br/>';
                 document.getElementById('adult_last_name' + (i + 1)).style['border-color'] = 'red';
             }else{
                 request['passenger_last_name'+i] = document.getElementById('adult_last_name' + (i + 1)).value;
                 document.getElementById('adult_last_name' + (i + 1)).style['border-color'] = '#EFEFEF';
             }
             if(document.getElementById('adult_title' + (i + 1)).value == ''){
-                error_log += 'Please fill title name for passenger '+ (i + 1) + ' !\n';
+                error_log += 'Please fill title name for passenger '+ (i + 1) + ' !\n<br/>';
                 document.getElementById('adult_title' + (i + 1)).style['border-color'] = 'red';
             }else{
                 request['passenger_title'+i] = document.getElementById('adult_title' + (i + 1)).value;
                 document.getElementById('adult_title' + (i + 1)).style['border-color'] = '#EFEFEF';
             }
             if(document.getElementById('adult_nationality' + (i + 1)).value == ''){
-                error_log += 'Please fill nationality for passenger '+ (i + 1) + ' !\n';
+                error_log += 'Please fill nationality for passenger '+ (i + 1) + ' !\n<br/>';
                 document.getElementById('adult_nationality' + (i + 1)).style['border-color'] = 'red';
             }else{
                 request['passenger_nationality_code'+i] = document.getElementById('adult_nationality' + (i + 1)).value;
@@ -803,28 +817,28 @@ function update_passenger(){
         try{
             //kasi if kosong
             if(document.getElementById('adult_first_name' + (i + 1)).value == ''){
-                error_log += 'Please fill first name for passenger '+ (i + 1) + ' !\n';
+                error_log += 'Please fill first name for passenger '+ (i + 1) + ' !\n<br/>';
                 document.getElementById('adult_first_name' + (i + 1)).style['border-color'] = 'red';
             }else{
                 request['passenger_first_name'+i] = document.getElementById('adult_first_name' + (i + 1)).value;
                 document.getElementById('adult_first_name' + (i + 1)).style['border-color'] = '#EFEFEF';
             }
             if(document.getElementById('adult_last_name' + (i + 1)).value == ''){
-                error_log += 'Please fill last name for passenger '+ (i + 1) + ' !\n';
+                error_log += 'Please fill last name for passenger '+ (i + 1) + ' !\n<br/>';
                 document.getElementById('adult_last_name' + (i + 1)).style['border-color'] = 'red';
             }else{
                 request['passenger_last_name'+i] = document.getElementById('adult_last_name' + (i + 1)).value;
                 document.getElementById('adult_last_name' + (i + 1)).style['border-color'] = '#EFEFEF';
             }
             if(document.getElementById('adult_title' + (i + 1)).value == ''){
-                error_log += 'Please fill title name for passenger '+ (i + 1) + ' !\n';
+                error_log += 'Please fill title name for passenger '+ (i + 1) + ' !\n<br/>';
                 document.getElementById('adult_title' + (i + 1)).style['border-color'] = 'red';
             }else{
                 request['passenger_title'+i] = document.getElementById('adult_title' + (i + 1)).value;
                 document.getElementById('adult_title' + (i + 1)).style['border-color'] = '#EFEFEF';
             }
             if(document.getElementById('adult_nationality' + (i + 1)).value == ''){
-                error_log += 'Please fill title name for passenger '+ (i + 1) + ' !\n';
+                error_log += 'Please fill title name for passenger '+ (i + 1) + ' !\n<br/>';
                 document.getElementById('adult_nationality' + (i + 1)).style['border-color'] = 'red';
             }else{
                 request['passenger_nationality_code'+i] = document.getElementById('adult_nationality' + (i + 1)).value;
@@ -1680,6 +1694,18 @@ function get_booking_offline(data){
                                         </div>
                                     </div>`;
                                 }
+                                //booker
+                                booker_insentif = '-';
+                                if(msg.result.response.hasOwnProperty('booker_insentif'))
+                                    booker_insentif = msg.result.response.booker_insentif
+                                text_repricing += `
+                                <div class="col-lg-12">
+                                    <div style="padding:5px;" class="row" id="booker_repricing" hidden>
+                                    <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
+                                    <div class="col-lg-3" id="repriring_booker_repricing"></div>
+                                    <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
+                                    </div>
+                                </div>`;
                                 text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
                                 document.getElementById('repricing_div').innerHTML = text_repricing;
                                 //repricing
@@ -1748,6 +1774,12 @@ function get_booking_offline(data){
                         </div>`;
                         if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                             text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                        else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                            text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                            document.getElementById('repricing_type').innerHTML = '<option value="booker">Booker</option>';
+                            $('#repricing_type').niceSelect('update');
+                            reset_repricing();
+                        }
                         text_detail+=`<div class="row">
                         <div class="col-lg-12" style="padding-bottom:10px;">
                             <hr/>
@@ -1806,6 +1838,18 @@ function get_booking_offline(data){
                                             </div>
                                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                                 <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
+                                            </div>
+                                        </div>`;
+                                        }
+                                        if(msg.result.response.hasOwnProperty('booker_insentif') == true){
+                                            booker_insentif = 0;
+                                            booker_insentif = msg.result.response.booker_insentif;
+                                            text_detail+=`<div class="row">
+                                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                                <span style="font-size:13px; font-weight:bold;">Booker Insentif</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(booker_insentif)+`</span>
                                             </div>
                                         </div>`;
                                         }

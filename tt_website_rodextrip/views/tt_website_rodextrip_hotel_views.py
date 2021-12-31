@@ -161,7 +161,10 @@ def detail_with_path(request, id):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
             try:
-                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+                time_limit = get_timelimit_product(request, 'hotel')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
             except:
                 set_session(request, 'time_limit', int(1200))
             try:
@@ -234,7 +237,10 @@ def detail(request):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
-            set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+            time_limit = get_timelimit_product(request, 'hotel')
+            if time_limit == 0:
+                time_limit = int(request.POST['time_limit_input'])
+            set_session(request, 'time_limit', time_limit)
             try:
                 if translation.LANGUAGE_SESSION_KEY in request.session:
                     del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -301,7 +307,10 @@ def passengers(request):
             cache_version = get_cache_version()
             response = get_cache_data(cache_version)
             values = get_data_template(request)
-            set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+            time_limit = get_timelimit_product(request, 'hotel')
+            if time_limit == 0:
+                time_limit = int(request.POST['time_limit_input'])
+            set_session(request, 'time_limit', time_limit)
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -340,7 +349,7 @@ def passengers(request):
                 'adults': adult,
                 'rooms': [rec + 1 for rec in range(request.session['hotel_request']['room'])],
                 # 'room_qty': int(request.session['hotel_request']['room']) + 1, #Unremark jika ingin minim 1 kamar 1 nama pax
-                'room_qty': 2, #Unremark jika ingin 1 nama pax saja yg required
+                'room_qty': len(request.session['hotel_room_pick']['rooms']), #Unremark jika ingin 1 nama pax saja yg required
                 'adult_count': int(request.session['hotel_request']['adult']),
                 'child_count': int(request.session['hotel_request']['child']),
                 'adult_title': adult_title,
@@ -382,7 +391,10 @@ def review(request):
                 spc_req += request.POST.get('late_co') and 'Late CheckOut: ' + request.POST['late_co'] + '; ' or ''
 
                 request.session['hotel_request'].update({'special_request': spc_req})
-                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+                time_limit = get_timelimit_product(request, 'hotel')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
 
                 adult = []
                 child = []

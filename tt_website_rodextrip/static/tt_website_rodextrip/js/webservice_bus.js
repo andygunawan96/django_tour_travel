@@ -150,6 +150,181 @@ function bus_signin(data){
     });
 }
 
+function bus_search_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/bus",
+       headers:{
+            'action': 'search_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            bus_request = msg.bus_request;
+            get_bus_config();
+            bus_signin('');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
+            $('#loading-search-bus').hide();
+       },timeout: 180000
+   });
+}
+
+function bus_search_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/bus",
+       headers:{
+            'action': 'search_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            bus_request = msg.bus_request;
+            get_bus_config();
+            bus_signin('');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
+            $('#loading-search-bus').hide();
+       },timeout: 180000
+   });
+}
+
+function bus_passenger_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/bus",
+       headers:{
+            'action': 'passenger_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            bus_data = msg.response;
+            bus_carriers = msg.bus_carriers;
+
+            bus_response = msg.response;
+
+            bus_request = msg.bus_request;
+            bus_detail();
+            for (var i = 1; i <= adult; i++){
+              document.getElementById("train_adult"+i+"_search").addEventListener("keyup", function(event) {
+                if (event.keyCode === 13) {
+                 event.preventDefault();
+                 var adult_enter = "search_adult_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                 document.getElementById(adult_enter).click();
+                }
+              });
+              $('input[name="adult_birth_date'+i+'"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  startDate: moment().subtract(18, 'years'),
+                  minDate: moment(bus_request.departure[bus_request.departure.length-1],'DD MMM YYYY').subtract(100, 'years'),
+                  maxDate: moment(bus_request.departure[bus_request.departure.length-1],'DD MMM YYYY').subtract(3, 'years'),
+                  showDropdowns: true,
+                  opens: 'center',
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+              });
+              if(birth_date_required == false)
+                  $('input[name="adult_birth_date'+i+'"]').val("");
+
+              $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  startDate: moment(),
+                  minDate: moment(),
+                  showDropdowns: true,
+                  opens: 'center',
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+              });
+              $('input[name="adult_passport_expired_date'+i+'"]').val("");
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
+            $('#loading-search-bus').hide();
+       },timeout: 180000
+   });
+}
+
+function bus_review_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/bus",
+       headers:{
+            'action': 'review_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            bus_data = msg.response;
+
+            passengers = msg.passenger;
+            passenger_with_booker = JSON.parse(JSON.stringify(passengers));
+
+            adult = passengers.adult
+
+            infant = passengers.infant;
+            passengers = {
+                'adult': adult,
+                'infant': infant
+            }
+            bus_request = msg.bus_request;
+            bus_booking = msg.bus_booking;
+            adult = bus_request.adult;
+            infant = 0;
+            child = 0;
+            var print_seat = false;
+            for(i in bus_data){
+                if(bus_data[i].available_seat_map)
+                    print_seat = true;
+            }
+
+            for(i in bus_booking){
+                pax_type = 'adult'
+                for(j in bus_booking[i].journeys){
+                    for(k in bus_booking[i].journeys[j].seat){
+                        if(bus_booking[i].journeys[j].seat[k].seat_code != ''){
+                            try{
+                                document.getElementById('seat_'+pax_type+bus_booking[i].journeys[j].seat[k].sequence.toString()).innerHTML += bus_booking[i].journeys[j].seat[k].seat + bus_booking[i].journeys[j].seat[k].column;
+                            }catch(err){
+                                pax_type = 'infant';
+                                try{
+                                    document.getElementById('seat_'+pax_type+bus_booking[i].journeys[j].seat[k].sequence.toString()).innerHTML += bus_booking[i].journeys[j].seat[k].seat + bus_booking[i].journeys[j].seat[k].column;
+                                }catch(err){}
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(print_seat){
+                document.getElementById('seat_map_div_mb').hidden = false;
+                document.getElementById('seat_map_div_wb').hidden = false;
+            }
+            bus_detail();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
+            $('#loading-search-bus').hide();
+       },timeout: 180000
+   });
+}
+
 function get_bus_config(){
     getToken();
     $.ajax({
@@ -295,13 +470,14 @@ function bus_search(provider, signature){
                         response +=`
                             <div style="padding:5px; margin:10px;">
                                 <div style="text-align:center">
-                                    <img src="/static/tt_website_rodextrip/img/icon/no-bus.png" style="width:80px; height:80px;" alt="Not Found Bus" title="" />
+                                    <img src="/static/tt_website_rodextrip/images/nofound/no-bus.png" style="width:80px; height:80px;" alt="Not Found Bus" title="" />
                                     <br/><br/>
                                     <h6>NO BUS AVAILABLE</h6>
                                 </div>
                             </div>
                         `;
                         document.getElementById('bus_ticket').innerHTML = response;
+                        $('#loading-search-bus').hide();
                         Swal.fire({
                           type: 'error',
                           title: 'Oops!',
@@ -698,9 +874,9 @@ function bus_get_booking(data, sync=false){
                             <h6>Booked</h6>
                             <span>Date: <b>`;
                                 if(msg.result.response.booked_date != ""){
-                                    text+=``+msg.result.response.booked_date+``;
+                                    text += msg.result.response.booked_date;
                                 }else{
-                                    text+=`-`
+                                    text += `-`;
                                 }
                                 text+=`</b>
                             </span>
@@ -713,9 +889,9 @@ function bus_get_booking(data, sync=false){
                                 text+=`<h6>Issued</h6>
                                     <span>Date: <b>`;
                                     if(msg.result.response.issued_date != ""){
-                                        text+=``+msg.result.response.issued_date+``;
+                                        text += msg.result.response.issued_date;
                                     }else{
-                                        text+=`-`
+                                        text += `-`;
                                     }
                                 text+=`</b>
                                 </span>
@@ -761,9 +937,13 @@ function bus_get_booking(data, sync=false){
                                 else
                                     $text += msg.result.response.provider_bookings[i].journeys[j].arrival_date + '\n';
                                 $text += msg.result.response.provider_bookings[i].journeys[j].origin_name +' ('+msg.result.response.provider_bookings[i].journeys[j].origin+') - '+msg.result.response.provider_bookings[i].journeys[j].destination_name +' ('+msg.result.response.provider_bookings[i].journeys[j].destination+')\n';
-                                $text += 'Seats:\n'
+
                                 for(k in msg.result.response.provider_bookings[i].journeys[j].seats){
-                                    $text += msg.result.response.provider_bookings[i].journeys[j].seats[k].passenger + ', ' + msg.result.response.provider_bookings[i].journeys[j].seats[k].seat.split(',')[0] + ' ' + msg.result.response.provider_bookings[i].journeys[j].seats[k].seat.split(',')[1]+'\n';
+                                    if(msg.result.response.provider_bookings[i].journeys[j].seats[k].seat){
+                                        if(k == 0)
+                                            $text += 'Seats:\n';
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].seats[k].passenger + ', ' + msg.result.response.provider_bookings[i].journeys[j].seats[k].seat.split(',')[0] + ' ' + msg.result.response.provider_bookings[i].journeys[j].seats[k].seat.split(',')[1]+'\n';
+                                    }
                                 }
                                 $text += '\n';
                                 text+= `
@@ -908,8 +1088,10 @@ function bus_get_booking(data, sync=false){
                                 <td>`+msg.result.response.passengers[pax].identity_number+`</td>
                                 <td>`;
                                 for(i in ticket)
-                                    if(ticket[i].seat.split(',').length == 2)
-                                    text += ticket[i].journey+`<br/>`+ticket[i].seat.split(',')[0] + ' ' + ticket[i].seat.split(',')[1] +`<br/>`;
+                                    if(ticket[i].seat){
+                                        if(ticket[i].seat.split(',').length == 2)
+                                           text += ticket[i].journey+`<br/>`+ticket[i].seat.split(',')[0] + ' ' + ticket[i].seat.split(',')[1] +`<br/>`;
+                                    }
                                 text+=`
                                 </td>
                             </tr>`;
@@ -1133,6 +1315,18 @@ function bus_get_booking(data, sync=false){
                                     </div>
                                 </div>`;
                             }
+                            //booker
+                            booker_insentif = '-';
+                            if(msg.result.response.hasOwnProperty('booker_insentif'))
+                                booker_insentif = msg.result.response.booker_insentif
+                            text_repricing += `
+                            <div class="col-lg-12">
+                                <div style="padding:5px;" class="row" id="booker_repricing" hidden>
+                                <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
+                                <div class="col-lg-3" id="repriring_booker_repricing"></div>
+                                <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
+                                </div>
+                            </div>`;
                             text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
                             document.getElementById('repricing_div').innerHTML = text_repricing;
                             //repricing
@@ -1232,7 +1426,12 @@ function bus_get_booking(data, sync=false){
                     </div>`;
 
                     if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-//                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                    }else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                        document.getElementById('repricing_type').innerHTML = '<option value="booker">Booker</option>';
+                        $('#repricing_type').niceSelect('update');
+                        reset_repricing();
                     }
                     text_detail+=`<div class="row">
                     <div class="col-lg-12" style="padding-bottom:10px;">
@@ -1291,6 +1490,18 @@ function bus_get_booking(data, sync=false){
                                         </div>
                                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                             <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
+                                        </div>
+                                    </div>`;
+                                    }
+                                    if(msg.result.response.hasOwnProperty('booker_insentif') == true){
+                                        booker_insentif = 0;
+                                        booker_insentif = msg.result.response.booker_insentif;
+                                        text_detail+=`<div class="row">
+                                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                            <span style="font-size:13px; font-weight:bold;">Booker Insentif</span>
+                                        </div>
+                                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                            <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(booker_insentif)+`</span>
                                         </div>
                                     </div>`;
                                     }
@@ -1585,7 +1796,12 @@ function bus_issued(data){
                if(google_analytics != '')
                    gtag('event', 'bus_issued', {});
                if(msg.result.error_code == 0){
-                   print_success_issued();
+                   try{
+                       if(msg.result.response.state == 'issued')
+                            print_success_issued();
+                       else
+                            print_fail_issued();
+                   }catch(err){}
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                         window.location.href = '/bus/booking/' + btoa(data);
                    }else{
@@ -1961,6 +2177,61 @@ function update_service_charge(type){
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bus service charge');
        },timeout: 480000
+    });
+
+}
+
+function update_insentif_booker(type){
+    repricing_order_number = '';
+    if(type == 'booking'){
+        booker_insentif = {}
+        total_price = 0
+        for(j in list){
+            total_price += list[j];
+        }
+        booker_insentif = {
+            'amount': total_price
+        };
+        repricing_order_number = order_number;
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/bus",
+       headers:{
+            'action': 'booker_insentif_booking',
+       },
+       data: {
+           'order_number': JSON.stringify(repricing_order_number),
+           'booker': JSON.stringify(booker_insentif),
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                try{
+                    if(type == 'booking'){
+                        please_wait_transaction();
+                        bus_get_booking(repricing_order_number);
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
+                    }
+                }catch(err){}
+                $('#myModalRepricing').modal('hide');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error bus update booker insentif </span>' + msg.result.error_msg,
+                })
+                $('.loader-rodextrip').fadeOut();
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bus update booker insentif');
+            $('.loader-rodextrip').fadeOut();
+       },timeout: 60000
     });
 
 }

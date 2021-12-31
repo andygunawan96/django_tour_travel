@@ -91,7 +91,12 @@ def api_models(request):
             res = update_medical_information(request)
         elif req_data['action'] == 'update_service_charge':
             res = update_service_charge(request)
-
+        elif req_data['action'] == 'booker_insentif_booking':
+            res = booker_insentif_booking(request)
+        elif req_data['action'] == 'page_passenger':
+            res = page_passenger(request)
+        elif req_data['action'] == 'page_review':
+            res = page_review(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -125,6 +130,7 @@ def login(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
+            create_session_product(request, 'medical_global', 180)
             set_session(request, 'medical_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
@@ -179,7 +185,7 @@ def get_config(request):
                     write_cache_with_folder(res, "medical_global_cache_data")
             except Exception as e:
                 _logger.info("ERROR GET CACHE medical global " + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
-                file = read_cache_with_folder_path("medical_global_cache_data", 86400)
+                file = read_cache_with_folder_path("medical_global_cache_data", 90911)
                 if file:
                     res = file
 
@@ -204,6 +210,7 @@ def get_zip_code(request):
                 "response": json.loads(file.read())
             }
         }
+        file.close()
     except Exception as e:
         res = {
             "result": {
@@ -805,11 +812,7 @@ def update_service_charge(request):
     # nanti ganti ke get_ssr_availability
     try:
 
-        additional_url = 'booking/'
-        if 'PK' in request.POST['order_number']:
-            additional_url += 'periksain'
-        else:
-            additional_url += 'phc'
+        additional_url = 'booking/medical'
 
         data = {
             'order_number': json.loads(request.POST['order_number']),
@@ -837,6 +840,63 @@ def update_service_charge(request):
             _logger.info("SUCCESS update_service_charge TRAIN SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def booker_insentif_booking(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        additional_url = 'booking/medical'
+        data = {
+            'order_number': json.loads(request.POST['order_number']),
+            'booker': json.loads(request.POST['booker'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "booker_insentif_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + additional_url
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            total_upsell = 0
+            for upsell in data['passengers']:
+                for pricing in upsell['pricing']:
+                    total_upsell += pricing['amount']
+            set_session(request, 'medical_upsell_booker_'+request.POST['signature'], total_upsell)
+            _logger.info(json.dumps(request.session['medical_upsell_booker_' + request.POST['signature']]))
+            _logger.info("SUCCESS update_service_charge_booker Medical SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR update_service_charge_medical_booker Medical SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def page_passenger(request):
+    try:
+        cache_version = get_cache_version()
+        res = {
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+        }
+        response = get_cache_data(cache_version)
+        res['countries'] = response['result']['response']['airline']['country']
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def page_review(request):
+    try:
+        res = {}
+        data = request.session['medical_global_data_%s' % request.POST['signature']]
+        res['passenger'] = {
+            "booker": data['booker']
+        }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

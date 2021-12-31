@@ -108,6 +108,9 @@ function add_table_of_passenger(type){
     var node = document.createElement("tr");
     text += `
         <td>
+            <span>`+(counter_passenger+1)+`</span>
+        </td>
+        <td>
             <span id='name_pax`+counter_passenger+`' name='name_pax`+counter_passenger+`'></span>
             <input id="id_passenger`+counter_passenger+`" name="id_passenger`+counter_passenger+`" type="hidden"/>
         </td>
@@ -155,7 +158,7 @@ function add_table_of_passenger(type){
                                     </div>
                                     <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
 
-                                    <div id="search_result_`+(counter_passenger+1)+`">
+                                    <div id="search_result_`+(counter_passenger+1)+`" style="max-height:600px; overflow:auto; padding:15px;">
 
                                     </div>
                                 </div>
@@ -186,6 +189,7 @@ function add_table_of_passenger(type){
 
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                                    <label style="color:red">*</label>
                                                     <label>Title</label>`;
                                                     if(template == 1){
                                                         text+=`<div class="input-container-search-ticket">`;
@@ -216,6 +220,7 @@ function add_table_of_passenger(type){
                                                 <div class="col-lg-6 col-md-6 col-sm-6" style="float:left;"></div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <br/>
+                                                    <label style="color:red">*</label>
                                                     <label>First name and middle name (if any)</label>
                                                     <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                                         <input type="text" class="form-control" name="adult_first_name`+parseInt(counter_passenger+1)+`" id="adult_first_name`+parseInt(counter_passenger+1)+`" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -232,6 +237,7 @@ function add_table_of_passenger(type){
                                                     <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                                 </div>
                                                 <div class="col-lg-6">
+                                                    <label style="color:red">*</label>
                                                     <label>Nationality</label>`;
                                                     if(template == 1 || template == 5 || template == 6){
                                                         text+=`<div class="input-container-search-ticket">`;
@@ -255,6 +261,7 @@ function add_table_of_passenger(type){
                                                 text+=`
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label style="color:red">*</label>
                                                     <label>Birth Date</label>
                                                     <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                                         <input type="text" class="form-control date-picker-birth" name="adult_birth_date`+parseInt(counter_passenger+1)+`" id="adult_birth_date`+parseInt(counter_passenger+1)+`" onchange="check_years_old(`+parseInt(counter_passenger+1)+`)" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
@@ -507,6 +514,7 @@ function add_table_of_line(type){
         <div class="col-lg-12">
             <div class="row">
                 <div class="col-lg-12">
+
                     <span style="font-size:14px; font-weight:bold;">No. `+parseInt(counter_line+1)+`</span>
                 </div>
                 <div class="col-lg-4 col-md-4">
@@ -517,7 +525,7 @@ function add_table_of_line(type){
                     else{
                         text+=`<img src="static/tt_website_rodextrip/img/icon/train-01.png" alt="Issued Offline" style="height:15px; width:auto;"/>`;
                     }
-                    text+=` Origin</span>
+                    text+=`<label style="color:red">*</label> Origin</span>
                     <div class="input-container-search-ticket">
                         <input id="origin`+counter_line+`" name="origin`+counter_line+`" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="">
                     </div>
@@ -530,20 +538,20 @@ function add_table_of_line(type){
                     else{
                         text+=`<img src="static/tt_website_rodextrip/img/icon/train-02.png" alt="Issued Offline" style="height:15px; width:auto;"/>`;
                     }
-                    text+=` Destination
+                    text+=`<label style="color:red">*</label> Destination
                     </span>
                     <div class="input-container-search-ticket">
                         <input id="destination`+counter_line+`" name="destination`+counter_line+`" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="">
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <span>PNR</span><br/>
+                    <span><label style="color:red">*</label>PNR</span><br/>
                     <div class="input-container-search-ticket">
                         <input type="text" id="pnr`+counter_line+`" name="pnr`+counter_line+`" class="form-control"/>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <span>Provider</span><br/>`;
+                    <span><label style="color:red">*</label>Provider</span><br/>`;
                     if(template == 1){
                         text+=`<div class="input-container-search-ticket">`;
                     }
@@ -560,27 +568,27 @@ function add_table_of_line(type){
                 text+=`
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <span><i class="fas fa-calendar-alt"></i> Departure Date</span><br/>
+                    <span><i class="fas fa-calendar-alt"></i><label style="color:red">*</label> Departure Date</span><br/>
                     <div class="input-container-search-ticket">
                         <input type="text" id='departure`+counter_line+`' class="form-control departure_date" name='departure`+counter_line+`' placeholder="datetime" onchange="date_issued_offline_onchange(`+counter_line+`, 'departure');"/>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <span><i class="fas fa-calendar-alt"></i> Arrival Date</span><br/>
+                    <span><i class="fas fa-calendar-alt"></i><label style="color:red">*</label> Arrival Date</span><br/>
                     <div class="input-container-search-ticket">
                         <input type="text" id='arrival`+counter_line+`' class="form-control arrival_date" name='arrival`+counter_line+`' placeholder="datetime" onchange="date_issued_offline_onchange(`+counter_line+`, 'arrival');"/>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3">
-                    <span>Carrier Code</span><br/>
+                    <span><label style="color:red">*</label> Carrier Code</span><br/>
                     <input type="text" class="form-control" id='carrier_code`+counter_line+`' name='carrier_code`+counter_line+`' placeholder="Carrier Code">
                 </div>
                 <div class="col-lg-3 col-md-3">
-                    <span>Carrier Number</span><br/>
+                    <span><label style="color:red">*</label> Carrier Number</span><br/>
                     <input type="text" class="form-control" id='carrier_number`+counter_line+`' name='carrier_number`+counter_line+`' placeholder="Carrier Number">
                 </div>
                 <div class="col-lg-3 col-md-3">
-                    <span>Class</span><br/>`;
+                    <span><label style="color:red">*</label> Class</span><br/>`;
                     if(template == 1){
                         text+=`<div class="input-container-search-ticket btn-group">`;
                     }
@@ -606,7 +614,7 @@ function add_table_of_line(type){
                 text+=`
                 </div>
                 <div class="col-lg-3 col-md-3">
-                    <span>Sub Class</span><br/>
+                    <span><label style="color:red">*</label> Sub Class</span><br/>
                     <input type="text" class="form-control" id='sub_class`+counter_line+`' name='sub_class`+counter_line+`' placeholder="Sub Class">
                 </div>
             </div>
@@ -711,35 +719,35 @@ function add_table_of_line(type){
                     <span style="font-size:14px; font-weight:bold;">No. `+parseInt(counter_line+1)+`</span>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <span><i class="fas fa-hotel"></i> Name</span><br/>
+                    <span><i class="fas fa-hotel"></i><label style="color:red">*</label> Name</span><br/>
                     <div class="input-container-search-ticket">
                         <input type="input" id='hotel_name`+counter_line+`' class="form-control" name='hotel_name`+counter_line+`' placeholder="Name"/>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <span><i class="fas fa-bed"></i> Room</span><br/>
+                    <span><i class="fas fa-bed"></i><label style="color:red">*</label> Room</span><br/>
                     <div class="input-container-search-ticket">
                         <input type="input" id='hotel_room`+counter_line+`' class="form-control" name='hotel_room`+counter_line+`' placeholder="Room Type"/>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <span>Room Qty</span><br/>
+                    <span><label style="color:red">*</label> Room Qty</span><br/>
                     <input type="number" id='hotel_qty`+counter_line+`' class="form-control" name='hotel_qty`+counter_line+`' placeholder="Quantity"/>
                 </div>
                 <div class="col-lg-4 col-xs-4">
-                    <span><i class="fas fa-calendar-alt"></i> Check-in Date</span><br/>
+                    <span><i class="fas fa-calendar-alt"></i><label style="color:red">*</label> Check-in Date</span><br/>
                     <div class="input-container-search-ticket">
                         <input type="text" id='hotel_check_in`+counter_line+`' class="form-control check-in-date" name='hotel_check_in`+counter_line+`' placeholder="Check in" onclick="date_issued_offline_onchange(`+counter_line+`, 'checkin');"/>
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs-4">
-                    <span><i class="fas fa-calendar-alt"></i> Check-out Date</span><br/>
+                    <span><i class="fas fa-calendar-alt"></i><label style="color:red">*</label> Check-out Date</span><br/>
                     <div class="input-container-search-ticket">
                         <input type="text" id='hotel_check_out`+counter_line+`' class="form-control check-out-date" name='hotel_check_out`+counter_line+`' placeholder="Check out" onclick="date_issued_offline_onchange(`+counter_line+`, 'checkout');" />
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs-4">
-                    <span>PNR</span><br/>
+                    <span><label style="color:red">*</label> PNR</span><br/>
                     <div class="input-container-search-ticket">
                         <input type="text" id="pnr`+counter_line+`" name="pnr`+counter_line+`" class="form-control"/>
                     </div>
@@ -797,25 +805,25 @@ function add_table_of_line(type){
                     <span style="font-size:14px; font-weight:bold;">No. `+parseInt(counter_line+1)+`</span>
                 </div>
                 <div class="col-lg-3 col-md-3">
-                    <span>Name</span><br/>
+                    <span><label style="color:red">*</label> Name</span><br/>
                     <input type="input" id='activity_name`+counter_line+`' class="form-control" name='activity_name`+counter_line+`' placeholder="Name"/>
                 </div>
                 <div class="col-lg-3 col-md-3">
-                    <span>Package</span><br/>
+                    <span><label style="color:red">*</label> Package</span><br/>
                     <input type="input" id='activity_package`+counter_line+`' class="form-control" name='activity_package`+counter_line+`' placeholder="Package Type"/>
                 </div>
                 <div class="col-lg-2 col-md-2">
-                    <span>Qty</span><br/>
+                    <span><label style="color:red">*</label> Qty</span><br/>
                     <input type="input" id='activity_qty`+counter_line+`' class="form-control" name='activity_qty`+counter_line+`' placeholder="Quantity"/>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <span><i class="fas fa-calendar-alt"></i> Visit Date Time</span><br/>
+                    <span><i class="fas fa-calendar-alt"></i><label style="color:red">*</label> Visit Date Time</span><br/>
                     <div class="input-container-search-ticket">
                         <input type="text" id='activity_datetime`+counter_line+`' class="form-control visit_date" name='activity_datetime`+counter_line+`' placeholder="Datetime"/>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <span>PNR</span><br/>
+                    <span><label style="color:red">*</label> PNR</span><br/>
                     <div class="input-container-search-ticket">
                         <input type="text" id="pnr`+counter_line+`" name="pnr`+counter_line+`" class="form-control"/>
                     </div>
@@ -855,7 +863,7 @@ function add_table_of_line(type){
                     <span style="font-size:14px; font-weight:bold;">No. `+parseInt(counter_line+1)+`</span>
                 </div>
                 <div class="col-lg-12 col-md-12">
-                    <span>PNR</span><br/>
+                    <span><label style="color:red">*</label> PNR</span><br/>
                     <div class="input-container-search-ticket">
                         <input type="text" id="pnr`+counter_line+`" name="pnr`+counter_line+`" class="form-control"/>
                     </div>

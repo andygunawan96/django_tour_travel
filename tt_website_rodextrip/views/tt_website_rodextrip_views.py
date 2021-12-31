@@ -726,6 +726,7 @@ def admin(request):
                     text += request.POST['wa_chat'] + '\n'
                     text += request.POST['wa_number'] + '\n'
                     text += request.POST['google_api_key'] + '\n'
+                    text += request.POST['setting_login_page'] + '\n'
                     write_cache_with_folder(text, "data_cache_template")
                     temp = text.split('\n')
                     for idx, rec in enumerate(temp):
@@ -1248,6 +1249,7 @@ def get_data_template(request, type='home', provider_type = []):
     app_id_one_signal = ''
     url_one_signal = ''
     authorization_one_signal = ''
+    setting_login_page = 'website_name'
     font = {
         "name": '',
         "font": ''
@@ -1362,7 +1364,14 @@ def get_data_template(request, type='home', provider_type = []):
                 'name': rec,
                 'sequence': sequence.get(rec) or idx
             })
+        #kalau tidak ada provider health_care buat frontend
+        if not any(temporary['name'] == 'health_care' for temporary in temp_provider_types_sequence):
+            temp_provider_types_sequence.append({
+                'name': 'health_care',
+                'sequence': ''
+            })
         provider_types_sequence = temp_provider_types_sequence
+
         file = read_cache_with_folder_path("provider_types_sequence", 90911)
         if file:
             provider_types_sequence_file = file
@@ -1371,11 +1380,7 @@ def get_data_template(request, type='home', provider_type = []):
                     rec['sequence'] = provider_types_sequence_file.get(rec['name'], '')
                 except:
                     pass
-        if not any(temporary['name'] == 'health_care' for temporary in provider_types_sequence):
-            provider_types_sequence.append({
-                'name': 'health_care',
-                'sequence': ''
-            })
+
         #check sequence
         last_sequence = 0
         empty_sequence = False
@@ -1504,6 +1509,9 @@ def get_data_template(request, type='home', provider_type = []):
                 elif idx == 24:
                     if line != '':
                         google_api_key = line.split('\n')[0]
+                elif idx == 25:
+                    if line != '':
+                        setting_login_page = line.split('\n')[0]
             if color == '':
                 color = '#f15a22'
             if len(background.split('\n')) > 1:
@@ -1558,7 +1566,9 @@ def get_data_template(request, type='home', provider_type = []):
         'google_api_key': google_api_key,
         'app_id_one_signal': app_id_one_signal,
         'url_one_signal': url_one_signal,
-        'authorization_one_signal': authorization_one_signal
+        'authorization_one_signal': authorization_one_signal,
+        'type_page': type,
+        'setting_login_page': setting_login_page
 
     }
 

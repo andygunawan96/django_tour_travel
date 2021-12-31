@@ -110,7 +110,6 @@ function bus_search_autocomplete(term,type){
         }
     var suggestions = [];
     var priority = [];
-    console.log(new_bus_destination);
     if(term.split(' - ').length == 4)
         term = '';
     for (i=0;i<choices.length;i++){
@@ -628,7 +627,7 @@ function sort(value){
         response +=`
                     <div style="padding:5px; margin:10px;">
                         <div style="text-align:center">
-                            <img src="/static/tt_website_rodextrip/img/icon/no-bus.png" style="width:80px; height:80px;" alt="Not Found Bus" title="" />
+                            <img src="/static/tt_website_rodextrip/images/nofound/no-bus.png" style="width:80px; height:80px;" alt="Not Found Bus" title="" />
                             <br/><br/>
                             <h6>NO BUS AVAILABLE</h6>
                         </div>
@@ -637,6 +636,7 @@ function sort(value){
     }
     bus_data_filter = data_filter;
     document.getElementById('bus_ticket').innerHTML = response;
+    $('#loading-search-bus').hide();
     document.getElementById('loading-search-bus').hidden = true;
 }
 
@@ -1442,9 +1442,13 @@ function check_passenger(adult, infant){
                        document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
                    }if(document.getElementById('adult_country_of_issued'+i).value == ''){
                        error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                       document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
+                       $("#adult_country_of_issued"+i+"_id").each(function() {
+                         $(this).siblings(".select2-container").css('border', '1px solid red');
+                       });
                    }else{
-                       document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+                       $("#adult_country_of_issued"+i+"_id").each(function() {
+                         $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                       });
                    }
                }
                if(document.getElementById('adult_id_type'+i).value == 'other' && document.getElementById('adult_passport_number'+i).value.length < 6){
@@ -2010,4 +2014,337 @@ function show_commission(){
         sc.style.display = "none";
         scs.value = "Show Commission";
     }
+}
+
+function bus_switch(){
+    var temp = document.getElementById("bus_origin").value;
+    document.getElementById("bus_origin").value = document.getElementById("bus_destination").value;
+    document.getElementById("bus_destination").value = temp;
+}
+
+function reset_seat(){
+    for(i in pax){
+        for(j in pax[i].seat_pick){
+            pax[i].seat_pick[j]['column'] = '';
+            pax[i].seat_pick[j]['seat'] = '';
+            pax[i].seat_pick[j]['seat_code'] = '';
+            pax[i].seat_pick[j]['wagon'] = '';
+        }
+    }
+    for(i in seat_map_response)
+        document.getElementById('seat_journey' + parseInt(parseInt(i)+1)).innerHTML = '';
+    print_seat_map();
+}
+
+function from_seat_goto_review_booking(){
+    text += `<input type="hidden" name="paxs" value='`+JSON.stringify(pax)+`'/>
+             <input type="hidden" name="time_limit_input" value="`+time+`"/>
+             <input type="hidden" name="signature" value="`+signature+`"/>
+    `;
+    document.getElementById('bus_review').innerHTML += text;
+    document.getElementById('bus_review').submit();
+}
+
+function bus_filter_render(){
+    text = '';
+    text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
+            <hr/>
+            <h6 class="filter_general" onclick="show_hide_general('trainDeparture');">Departure Time <i class="fas fa-chevron-down" id="trainDeparture_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="trainDeparture_generalUp" style="float:right; display:block;"></i></h6>
+    <div id="trainDeparture_generalShow" style="display:inline-block;">`;
+    for(i in departure_list){
+        if(i == 0)
+            text += `
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;">`+departure_list[i].value+`</span>
+                <input type="checkbox" id="checkbox_departure_time`+i+`" onclick="change_filter('departure',`+i+`);" checked/>
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+        else
+            text += `
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;">`+departure_list[i].value+`</span>
+                <input type="checkbox" id="checkbox_departure_time`+i+`" onclick="change_filter('departure',`+i+`);"/>
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+    }
+    var node = document.createElement("div");
+    node.innerHTML = text;
+    document.getElementById("filter").appendChild(node);
+    node = document.createElement("div");
+
+    text=`<hr/>
+    <h6 class="filter_general" onclick="show_hide_general('trainArrival');">Arrival Time <i class="fas fa-chevron-down" id="trainArrival_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="trainArrival_generalUp" style="float:right; display:block;"></i></h6>
+    <div id="trainArrival_generalShow" style="display:inline-block;">`;
+    for(i in arrival_list){
+        if(i == 0)
+            text+=`
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;">`+arrival_list[i].value+`</span>
+                <input type="checkbox" id="checkbox_arrival_time`+i+`" onclick="change_filter('arrival',`+i+`);" checked/>
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+        else
+            text+=`
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;">`+arrival_list[i].value+`</span>
+                <input type="checkbox" id="checkbox_arrival_time`+i+`" onclick="change_filter('arrival',`+i+`);"/>
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+    }
+
+    var node = document.createElement("div");
+    node.innerHTML = text;
+    document.getElementById("filter").appendChild(node);
+    node = document.createElement("div");
+
+    text='';
+    text+=`<span style="font-weight: bold; margin-right:10px;">Sort by: </span>`;
+
+    for(i in sorting_list2){
+        text+=`
+        <button class="primary-btn-sorting" id="radio_sorting2`+i+`" name="radio_sorting2" onclick="sorting_button('`+sorting_list2[i].value.toLowerCase()+`')" value="`+sorting_list2[i].value+`">
+            <span id="img-sort-down-`+sorting_list2[i].value.toLowerCase()+`" style="display:block;"> `+sorting_list2[i].value+` <i class="fas fa-caret-down"></i></span>
+            <span id="img-sort-up-`+sorting_list2[i].value.toLowerCase()+`" style="display:none;"> `+sorting_list2[i].value+` <i class="fas fa-caret-up"></i></span>
+        </button>`;
+    }
+    node = document.createElement("div");
+    node.className = 'sorting-box';
+    node.innerHTML = text;
+    document.getElementById("sorting-bus").appendChild(node);
+
+
+
+    text = '';
+    text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
+            <hr/>
+            <h6 style="padding-bottom:10px;">Departure Time</h6>`;
+    for(i in departure_list){
+        if(i == 0)
+            text += `
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;">`+departure_list[i].value+`</span>
+                <input type="checkbox" id="checkbox_departure_time2`+i+`" onclick="change_filter('departure',`+i+`);" checked/>
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+        else
+            text += `
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;">`+departure_list[i].value+`</span>
+                <input type="checkbox" id="checkbox_departure_time2`+i+`" onclick="change_filter('departure',`+i+`);"/>
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+    }
+    var node2 = document.createElement("div");
+    node2.innerHTML = text;
+    document.getElementById("filter2").appendChild(node2);
+    node2 = document.createElement("div");
+
+    text=`<hr/>
+    <h6 style="padding-bottom:10px;">Arrival Time</h6>`;
+    for(i in arrival_list){
+        if(i == 0)
+            text+=`
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;">`+arrival_list[i].value+`</span>
+                <input type="checkbox" id="checkbox_arrival_time2`+i+`" onclick="change_filter('arrival',`+i+`);" checked/>
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+        else
+            text+=`
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;">`+arrival_list[i].value+`</span>
+                <input type="checkbox" id="checkbox_arrival_time2`+i+`" onclick="change_filter('arrival',`+i+`);"/>
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+    }
+
+    var node2 = document.createElement("div");
+    node2.innerHTML = text;
+    document.getElementById("filter2").appendChild(node2);
+    node2 = document.createElement("div");
+
+    text = `<hr/>
+    <h6 style="padding-bottom:10px;">Class</h6>`;
+    for(i in cabin_list){
+        text+=`
+        <label class="check_box_custom">
+            <span class="span-search-ticket" style="color:black;">`+cabin_list[i].value+`</span>
+            <input type="checkbox" id="checkbox_cabin2`+i+`" onclick="change_filter('cabin',`+i+`)"/>
+            <span class="check_box_span_custom"></span>
+        </label><br/>`;
+    }
+
+    var node2 = document.createElement("div");
+    node2.innerHTML = text;
+    document.getElementById("filter2").appendChild(node2);
+    node2 = document.createElement("div");
+
+    text = `<h6 style="padding-bottom:10px;">Sorting</h6><hr/>`;
+    for(i in sorting_list){
+        if(i == 0){
+            text+=`
+            <label class="radio-button-custom">
+                <span class="span-search-ticket" style="color:black;">`+sorting_list[i].value+`</span>
+                <input type="radio" checked="checked" id="radio_sorting`+i+`" name="radio_sorting" onclick="sorting_button('`+sorting_list[i].value+`')" value="`+sorting_list[i].value+`">
+                <span class="checkmark-radio"></span>
+            </label></br>`;
+        }
+        else{
+            text+=`
+            <label class="radio-button-custom">
+                <span class="span-search-ticket" style="color:black;">`+sorting_list[i].value+`</span>
+                <input type="radio" id="radio_sorting`+i+`" name="radio_sorting" onclick="sorting_button('`+sorting_list[i].value+`')" value="`+sorting_list[i].value+`">
+                <span class="checkmark-radio"></span>
+            </label></br>`;
+        }
+    }
+
+    var node = document.createElement("div");
+    node.innerHTML = text;
+    document.getElementById("sorting-bus2").appendChild(node);
+    node = document.createElement("div");
+}
+
+function change_filter(type, value){
+    var check = 0;
+    if(type == 'departure'){
+        if(value == 0)
+            for(i in departure_list){
+                departure_list[i].status = false
+                document.getElementById("checkbox_departure_time"+i).checked = departure_list[i].status;
+                document.getElementById("checkbox_departure_time2"+i).checked = departure_list[i].status;
+            }
+        else{
+            departure_list[0].status = false;
+            document.getElementById("checkbox_departure_time0").checked = false;
+            document.getElementById("checkbox_departure_time20").checked = false;
+        }
+        departure_list[value].status = !departure_list[value].status;
+        for(i in departure_list){
+            if(departure_list[i].status == true)
+                check = 1;
+        }
+        if(check == 0)
+            departure_list[value].status = !departure_list[value].status;
+        document.getElementById("checkbox_departure_time"+value).checked = departure_list[value].status;
+        document.getElementById("checkbox_departure_time2"+value).checked = departure_list[value].status;
+    }else if(type == 'arrival'){
+        if(value == 0)
+        {
+            for(i in arrival_list){
+                arrival_list[i].status = false
+                document.getElementById("checkbox_arrival_time"+i).checked = arrival_list[i].status;
+                document.getElementById("checkbox_arrival_time2"+i).checked = arrival_list[i].status;
+            }
+        }
+        else{
+            arrival_list[0].status = false;
+            document.getElementById("checkbox_arrival_time0").checked = false;
+            document.getElementById("checkbox_arrival_time20").checked = false;
+        }
+        arrival_list[value].status = !arrival_list[value].status;
+        for(i in arrival_list){
+            if(arrival_list[i].status == true)
+                check = 1;
+        }
+        if(check == 0)
+            arrival_list[value].status = !arrival_list[value].status;
+        document.getElementById("checkbox_arrival_time"+value).checked = arrival_list[value].status;
+        document.getElementById("checkbox_arrival_time2"+value).checked = arrival_list[value].status;
+    }else if(type == 'cabin'){
+        cabin_list[value].status = !cabin_list[value].status;
+        document.getElementById("checkbox_cabin"+value).checked = cabin_list[value].status;
+        document.getElementById("checkbox_cabin2"+value).checked = cabin_list[value].status;
+    }else if(type == 'price'){
+        //still no
+    }else if(type == 'transit'){
+//        transit_list
+        transit_list[value].status = !transit_list[value].status;
+    }else if(type == 'transit_duration'){
+//        transit_duration
+        transit_duration_list[value].status = !transit_duration_list[value].status;
+    }
+    filtering('filter');
+}
+
+function sorting_button(value){
+    if(value == 'price'){
+        if(sorting_value == '' || sorting_value == 'Lowest Price'){
+            sorting_value = 'Highest Price';
+            document.getElementById("img-sort-down-price").style.display = "none";
+            document.getElementById("img-sort-up-price").style.display = "block";
+        }else{
+            sorting_value = 'Lowest Price';
+            document.getElementById("img-sort-down-price").style.display = "block";
+            document.getElementById("img-sort-up-price").style.display = "none";
+        }
+    }else if(value == 'departure'){
+        if(sorting_value == '' || sorting_value == 'Earliest Departure'){
+            sorting_value = 'Latest Departure';
+            document.getElementById("img-sort-down-departure").style.display = "none";
+            document.getElementById("img-sort-up-departure").style.display = "block";
+        }else{
+            sorting_value = 'Earliest Departure';
+            document.getElementById("img-sort-down-departure").style.display = "block";
+            document.getElementById("img-sort-up-departure").style.display = "none";
+        }
+    }else if(value == 'arrival'){
+        if(sorting_value == '' || sorting_value == 'Earliest Arrival'){
+            sorting_value = 'Latest Arrival';
+            document.getElementById("img-sort-down-arrival").style.display = "none";
+            document.getElementById("img-sort-up-arrival").style.display = "block";
+        }else{
+            sorting_value = 'Earliest Arrival';
+            document.getElementById("img-sort-down-arrival").style.display = "block";
+            document.getElementById("img-sort-up-arrival").style.display = "none";
+        }
+    }else{
+        sorting_value = value;
+    }
+    filtering('filter');
+}
+
+function reset_filter(){
+    change_filter('departure', 0);
+    change_filter('arrival', 0);
+    for(i in cabin_list){
+        cabin_list[i].status = false;
+        document.getElementById("checkbox_cabin"+i).checked = cabin_list[i].status;
+        document.getElementById("checkbox_cabin2"+i).checked = cabin_list[i].status;
+    }
+    filtering('filter');
+}
+
+function change_date_shortcut(val){
+    text = '';
+    if(bus_request_pick == 0)
+        text = 'departure';
+    else
+        text = 'return';
+    Swal.fire({
+      title: 'Are you sure want change date for '+text+'?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        bus_request.departure[bus_request_pick] = moment(bus_request.departure[bus_request_pick]).subtract(val,'days').format('DD MMM YYYY');
+        bus_data = [];
+        time_limit = 1200;
+        journeys = [];
+        bus_request_pick = 0;
+        document.getElementById('loading-search-bus').style.display = 'block';
+        document.getElementById('loading-search-bus').hidden = false;
+        document.getElementById('bus_ticket').innerHTML = '';
+        document.getElementById('bus_result').innerHTML = '';
+
+        bus_signin('');
+        bus_ticket_pick();
+        //send_request_search();
+      }
+    })
+
+//    change_date_next_prev(counter_search-1);
 }

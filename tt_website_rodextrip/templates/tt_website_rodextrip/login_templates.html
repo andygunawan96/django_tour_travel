@@ -85,6 +85,9 @@
 									<input type="text" class="form-login-control" id="username2" name="username" placeholder="{% trans 'Username' %}"/>
 									<i class="fas fa-lock icon-login" style="color:{{text_color_login}};"></i>
 									<input type="password" class="form-login-control" id="password2" name="password" placeholder="{% trans 'Password' %}"/>
+									<div style="margin-top:10px;width:50px; margin-left:10px;" onclick="change_password_type();">
+										<i id="password_style" class="fas fa-eye" style="font-size:18px;color:white;"></i>
+									</div>
 								</div>
 								<div class="input-container-login" style="margin-top:10px;">
 									<label class="check_box_custom" style="margin-bottom:0px; margin-right:15px;">
@@ -117,7 +120,11 @@
 	<div class="container-login100">
 		<div class="wrap-login100 rodextrip-login">
 			<span class="login100-form-title">
+				{% if setting_login_page == 'website_name' %}
 				<span class="lamp" style="font-size:50px;">{{name}}</span>
+				{% elif setting_login_page == 'website_logo' %}
+				<img src="{{logo}}" class="logo-login" alt="Logo {{name}}" title="{{name}}" style="max-width:20% !imporatant;max-height:20% !important;" />
+				{% endif %}
 				<!--<br/>-->
 				<!--<span class="footer-promote" style="color:{{text_color_login}}; font-weight:500;">-->
 				<!--Sorry for the inconvenience<br/>-->

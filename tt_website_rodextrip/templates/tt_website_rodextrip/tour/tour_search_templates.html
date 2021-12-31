@@ -12,8 +12,7 @@
 <script>
     static_path_url_server = '{{static_path_url_server}}'
     signature = '{{signature}}';
-    tour_request = `{{tour_request}}`;
-    tour_request = JSON.parse(tour_request.replace(/&#39;/g, '"'));
+
     dest_country = {{dest_country}};
     dest_city = {{dest_city}};
     filter = {
@@ -996,10 +995,6 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
-    tour_login('');
-    get_dept_year();
-    tour_filter_render();
-
     function go_to_detail(tour_code){
         for (i in tour_data)
         {
@@ -1021,7 +1016,7 @@
     $(document).ready(function () {
         breadcrumb_create("tour", 2, 0);
         $('.js-example-basic-single').select2();
-        get_tour_auto_complete('search');
+        tour_page_search();
 
         try{
             document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;

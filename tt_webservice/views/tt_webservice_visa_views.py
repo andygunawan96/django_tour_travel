@@ -85,6 +85,12 @@ def api_models(request):
             res = get_booking(request)
         elif req_data['action'] == 'update_service_charge':
             res = update_service_charge(request)
+        elif req_data['action'] == 'booker_insentif_booking':
+            res = booker_insentif_booking(request)
+        elif req_data['action'] == 'page_passenger':
+            res = page_passenger(request)
+        elif req_data['action'] == 'page_review':
+            res = page_review(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -116,6 +122,7 @@ def login(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
+            create_session_product(request, 'visa', 20)
             set_session(request, 'visa_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
@@ -234,7 +241,6 @@ def search(request):
             "destination": destination,
             "consulate": consulate,
             "departure_date": departure_date,
-            "provider": request.POST['provider']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -245,7 +251,7 @@ def search(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = url + 'booking/visa'
-    res = send_request_api(request, url_request, headers, data, 'POST')
+    res = send_request_api(request, url_request, headers, data, 'POST', timeout=180)
     try:
         if res['result']['error_code'] == 0:
 
@@ -588,6 +594,92 @@ def update_service_charge(request):
             _logger.info("SUCCESS update_service_charge VISA SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge VISA SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def booker_insentif_booking(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        data = {
+            'order_number': json.loads(request.POST['order_number']),
+            'booker': json.loads(request.POST['booker'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "booker_insentif_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/visa'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            total_upsell = 0
+            for upsell in data['passengers']:
+                for pricing in upsell['pricing']:
+                    total_upsell += pricing['amount']
+            set_session(request, 'visa_upsell_booker_'+request.POST['signature'], total_upsell)
+            _logger.info(json.dumps(request.session['visa_upsell_booker_' + request.POST['signature']]))
+            _logger.info("SUCCESS update_service_charge_booker VISA SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR update_service_charge_visa_booker VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def page_passenger(request):
+    try:
+        res = {}
+        pax = {
+            'adult': 0,
+            'child': 0,
+            'infant': 0,
+            'elder': 0
+        }
+        for visa in request.session['visa_search']['result']['response']['list_of_visa']:
+            pax_count = visa['total_pax']
+            if visa['pax_type'][0] == 'ADT':
+                pax.update({
+                    'adult': pax['adult'] + pax_count
+                })
+            elif visa['pax_type'][0] == 'CHD':
+                pax.update({
+                    'child': pax['child'] + pax_count
+                })
+            elif visa['pax_type'][0] == 'INF':
+                pax.update({
+                    'infant': pax['infant'] + pax_count
+                })
+            elif visa['pax_type'][0] == 'YCD':
+                pax.update({
+                    'senior': pax['elder'] + pax_count
+                })
+        res['visa'] = request.session['visa_search']['result']['response']
+        res['passengers'] = pax
+        res['visa_request'] = request.session['visa_request']
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def page_review(request):
+    try:
+        res = {}
+        pax = request.session['visa_create_passengers']
+        count = 1
+        for i in pax:
+            if i != 'booker' and i != 'contact':
+                for passenger in pax[i]:
+                    passenger.update({
+                        'number': count
+                    })
+                    count = count + 1
+        res['visa'] = request.session['visa_search']['result']['response']
+        res['passengers'] = pax
+        res['visa_request'] = request.session['visa_request']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

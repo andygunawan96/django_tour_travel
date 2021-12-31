@@ -1,13 +1,15 @@
-<script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 
 <div class="col-lg-6" style="text-align:left; padding-top:10px;" {% if 'b2c_limitation' in username.co_agent_frontend_security %} hidden {% endif %}>
     <i class="fas fa-user" style="padding-right:5px; color:{{color}}; font-size:16px;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:10px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{username.co_user_login}}</span>
 
+    <a id="balance" style="font-size:13px; font-weight:500;"></a>
     {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" or 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "POR" %}
-    <span id="credit_limit" style="font-size:13px; font-weight:500;"></span>
-    <span id="customer_parent_balance" style="font-size:13px; font-weight:500;"></span>
+    <button type="button" id="more_balance" class="dropdown-toggle" data-toggle="dropdown" style="border:unset; background:unset; cursor:pointer; color:{{color}}; font-size:13px; padding-left:5px; padding-right:5px; font-weight:500; border-bottom:2px solid {{color}};">More</button>
+    <ul class="dropdown-menu" style="padding:10px 25px 10px 10px; z-index:9999; overflow-y:unset; overflow-x:unset;">
+        <span id="credit_limit" style="font-size:13px; font-weight:500;"></span><br/>
+        <span id="customer_parent_balance" style="font-size:13px; font-weight:500;"></span>
+    </ul>
     {% endif %}
-    <a id="balance" style="font-size:13px; font-weight:500; border-bottom:2px solid {{color}};"></a>
 
 </div>
 

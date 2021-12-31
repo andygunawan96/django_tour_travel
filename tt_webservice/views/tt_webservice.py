@@ -1,6 +1,7 @@
 from django.contrib.sessions.models import Session
 import time
 from tools import util, ERR
+from datetime import datetime, timedelta
 
 def set_session(request, session_key, data, depth = 1):
     if session_key in request.session:
@@ -38,3 +39,19 @@ def _check_expired(request, res):
                 if key != '_language':
                     del request.session[key]
 
+def create_session_product(request, product, timelimit=20): #timelimit product in minutes
+    now = datetime.now()
+    if request.session.get('session_%s' % product):
+        del request.session['session_%s' % product]
+    session_product = {
+        "start": now.strftime('%Y-%m-%d %H:%M:%S'),
+        "end": (datetime.now() + timedelta(minutes=timelimit)).strftime('%Y-%m-%d %H:%M:%S')
+    }
+    set_session(request, 'session_%s' % product, session_product)
+
+def get_timelimit_product(request, product):
+    now = datetime.now()
+    session_product = request.session.get('session_%s' % product)
+    if session_product:
+        return (datetime.strptime(session_product['end'], '%Y-%m-%d %H:%M:%S') - now).seconds #return seconds
+    return 0 #second

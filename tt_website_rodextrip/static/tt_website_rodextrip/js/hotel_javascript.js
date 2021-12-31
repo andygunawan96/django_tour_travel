@@ -1673,74 +1673,77 @@ function check_passenger(adult, child, room){
                     error_log += 'Copy booker to passenger true, value title, first name, and last name has to be same!</br>\n';
        //adult
        for(i=1;i<=adult;i++){
-           if(pax_list.includes(document.getElementById('adult_first_name'+i).value+document.getElementById('adult_last_name'+i).value) == true && document.getElementById('adult_first_name'+i).value != '')
-                error_log+= 'please use different name for adult passenger '+i+'!</br>\n';
-           else
-                pax_list.push(document.getElementById('adult_first_name'+i).value+document.getElementById('adult_last_name'+i).value)
-           if(check_name(document.getElementById('adult_title'+i).value,
-            document.getElementById('adult_first_name'+i).value,
-            document.getElementById('adult_last_name'+i).value,
-            length_name) == false){
-               error_log+= 'Total of adult '+i+' name maximum '+length_name+' characters!</br>\n';
-               document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
-               document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
-               document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
-           }if((document.getElementById('adult_first_name'+i).value == '' || check_word(document.getElementById('adult_first_name'+i).value) == false) && i < room){
-               if(document.getElementById('adult_first_name'+i).value == '')
-                   error_log+= 'Please input first name of adult passenger '+i+'!</br>\n';
-               else if(check_word(document.getElementById('adult_first_name'+i).value) == false)
-                   error_log+= 'Please use alpha characters first name of adult passenger '+i+'!</br>\n';
-               document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
+           pax_required = false;
+           if(i <= hotel_price.rooms.length){
+                pax_required = true;
            }
-           //check lastname
-           if(check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value) != ''){
-               error_log += 'Please '+check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value)+' adult passenger '+i+'!</br>\n';
-               document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
-           }
-           if(check_date(document.getElementById('adult_birth_date'+i).value)==false && document.getElementById('adult_first_name'+i).value != ''){
-               error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
-               document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
-           }if(document.getElementById('adult_nationality'+i).value == ''  && document.getElementById('adult_first_name'+i).value != ''){
-               error_log+= 'Please fill nationality for passenger adult '+i+'!</br>\n';
-               document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
-           }
-           if(document.getElementById('adult_cp'+i).checked == true){
-                if(check_email(document.getElementById('adult_email'+i).value)==false){
-                    error_log+= 'Invalid Contact person email!</br>\n';
-                    document.getElementById('adult_email'+i).style['border-color'] = 'red';
-                }else{
-                    document.getElementById('adult_email'+i).style['border-color'] = '#EFEFEF';
-                }
-                if(check_phone_number(document.getElementById('adult_phone'+i).value)==false){
-                    error_log+= 'Phone number Contact person only contain number 8 - 12 digits!</br>\n';
-                    document.getElementById('adult_phone'+i).style['border-color'] = 'red';
-                }else
-                    document.getElementById('adult_phone'+i).style['border-color'] = '#EFEFEF';
+           if(pax_required){
+               if(pax_list.includes(document.getElementById('adult_first_name'+i).value+document.getElementById('adult_last_name'+i).value) == true && document.getElementById('adult_first_name'+i).value != '')
+                    error_log+= 'please use different name for adult passenger '+i+'!</br>\n';
+               else
+                    pax_list.push(document.getElementById('adult_first_name'+i).value+document.getElementById('adult_last_name'+i).value)
+               if(check_name(document.getElementById('adult_title'+i).value,
+                document.getElementById('adult_first_name'+i).value,
+                document.getElementById('adult_last_name'+i).value,
+                length_name) == false){
+                   error_log+= 'Total of adult '+i+' name maximum '+length_name+' characters!</br>\n';
+                   document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
+                   document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
+                   document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+               }if(document.getElementById('adult_first_name'+i).value == '' || check_word(document.getElementById('adult_first_name'+i).value) == false){
+                   if(document.getElementById('adult_first_name'+i).value == '')
+                       error_log+= 'Please input first name of adult passenger '+i+'!</br>\n';
+                   else if(check_word(document.getElementById('adult_first_name'+i).value) == false)
+                       error_log+= 'Please use alpha characters first name of adult passenger '+i+'!</br>\n';
+                   document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
+               }
+               //check lastname
+               if(check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value) != ''){
+                   error_log += 'Please '+check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value)+' adult passenger '+i+'!</br>\n';
+                   document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+               }
+               if(check_date(document.getElementById('adult_birth_date'+i).value)==false && document.getElementById('adult_first_name'+i).value != ''){
+                   error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
+                   document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
+               }if(document.getElementById('adult_nationality'+i).value == ''  && document.getElementById('adult_first_name'+i).value != ''){
+                   error_log+= 'Please fill nationality for passenger adult '+i+'!</br>\n';
+                   document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
+               }
+               if(document.getElementById('adult_cp'+i).checked == true){
+                    if(check_email(document.getElementById('adult_email'+i).value)==false){
+                        error_log+= 'Invalid Contact person email!</br>\n';
+                        document.getElementById('adult_email'+i).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('adult_email'+i).style['border-color'] = '#EFEFEF';
+                    }
+                    if(check_phone_number(document.getElementById('adult_phone'+i).value)==false){
+                        error_log+= 'Phone number Contact person only contain number 8 - 12 digits!</br>\n';
+                        document.getElementById('adult_phone'+i).style['border-color'] = 'red';
+                    }else
+                        document.getElementById('adult_phone'+i).style['border-color'] = '#EFEFEF';
+               }
            }
        }
        //child
        for(i=1;i<=child;i++){
-//           if(pax_list.includes(document.getElementById('child_first_name'+i).value+document.getElementById('child_last_name'+i).value) == true)
-//                error_log+= 'please use different name for child passenger '+i+'!</br>\n';
-//           else
-//                pax_list.push(document.getElementById('child_first_name'+i).value+document.getElementById('child_last_name'+i).value)
-           if(check_name(document.getElementById('child_title'+i).value,
-               document.getElementById('child_first_name'+i).value,
-               document.getElementById('child_last_name'+i).value,
-               length_name) == false){
-                   error_log+= 'Total of child '+i+' name maximum '+length_name+' characters!</br>\n';
-                   document.getElementById('child_first_name'+i).style['border-color'] = 'red';
-                   document.getElementById('child_last_name'+i).style['border-color'] = 'red';
+           if(document.getElementById('child_first_name'+i).value != ''){
+               if(check_name(document.getElementById('child_title'+i).value,
+                   document.getElementById('child_first_name'+i).value,
+                   document.getElementById('child_last_name'+i).value,
+                   length_name) == false){
+                       error_log+= 'Total of child '+i+' name maximum '+length_name+' characters!</br>\n';
+                       document.getElementById('child_first_name'+i).style['border-color'] = 'red';
+                       document.getElementById('child_last_name'+i).style['border-color'] = 'red';
                }else{
                    document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
                    document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
@@ -1772,6 +1775,7 @@ function check_passenger(adult, child, room){
                }else{
                    document.getElementById('child_nationality'+i).style['border-color'] = '#EFEFEF';
                }
+           }
        }
        if(error_log==''){
            for(i=1;i<=adult;i++){

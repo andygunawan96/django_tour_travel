@@ -17,15 +17,13 @@
         'arrival_time': 'all',
         'cabin_class': 'all'
     };
-    bus_request = `{{bus_request}}`;
-    bus_request = JSON.parse(bus_request.replace(/&#39;/g, '"'));
+
     bus_request_pick = 0;
-    console.log(bus_request);
     time_limit = {{time_limit}};
     session_time_limit();
     signature = `{{signature}}`;
     sorting_value = '';
-    get_bus_config();
+
     passengers = {
         'adult': {{bus_request.adult}},
     }
@@ -1821,7 +1819,7 @@
             if(term.split(' - ').length == 3)
                     term = ''
             if(term.length > 1)
-                suggest(bus_search_autocomplete(term));
+                suggest(bus_search_autocomplete(term, 'origin'));
         },
         onSelect: function(e, term, item){
             setTimeout(function(){
@@ -1832,14 +1830,14 @@
     });
     var bus_destination = new autoComplete({
         selector: '#bus_destination',
-        minChars: 0,
+        minChars: 1,
         cache: false,
         delay:0,
         source: function(term, suggest){
             if(term.split(' - ').length == 4)
                 term = ''
             if(term.length > 1)
-                suggest(bus_search_autocomplete(term));
+                suggest(bus_search_autocomplete(term,'destination'));
         },
         onSelect: function(e, term, item){
             setTimeout(function(){
@@ -1850,8 +1848,8 @@
         }
     });
 
-    //bus_filter_render();
-    bus_signin('');
+    bus_filter_render();
+    bus_search_page();
     try{
         get_public_holiday(moment().format('YYYY-MM-DD'), moment().subtract(-1, 'years').format('YYYY-MM-DD'), 100 );
     }catch(err){

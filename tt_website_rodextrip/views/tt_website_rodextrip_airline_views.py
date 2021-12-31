@@ -395,11 +395,15 @@ def passenger(request):
                 set_session(request, 'airline_sell_journey', json.loads(request.POST['airline_sell_journey_response']))
             except:
                 _logger.info('no sell journey input')
-            set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+            time_limit = get_timelimit_product(request,'airline')
+            if time_limit == 0:
+                time_limit = int(request.POST['time_limit_input'])
+            set_session(request, 'time_limit', time_limit)
             set_session(request, 'signature', request.POST['signature'])
             set_session(request, 'airline_signature', request.POST['signature'])
             signature = request.POST['signature']
-        except:
+        except Exception as e:
+            _logger.info(str(e) + traceback.format_exc())
             signature = request.session['airline_signature']
         carrier_code = read_cache_with_folder_path("get_airline_carriers", 90911)
         is_lionair = False
@@ -522,6 +526,12 @@ def ssr(request):
                     })
                     airline_list = []
                 passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+
+                time_limit = get_timelimit_product(request, 'airline')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
+
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'airline_request': request.session['airline_request'],
@@ -541,7 +551,7 @@ def ssr(request):
                     'username': request.session['user_account'],
                     'javascript_version': javascript_version,
                     'static_path_url_server': get_url_static_path(),
-                    'time_limit': int(request.POST['time_limit_input']),
+                    'time_limit': int(request.session['time_limit']),
                     'airline_getbooking': ''
                 })
             except:
@@ -577,7 +587,8 @@ def ssr(request):
                 for rec in airline_get_booking_resp['result']['response']['provider_bookings']:
                     for ticket in rec['tickets']:
                         for fee in ticket['fees']:
-                            fee.pop('description_text')
+                            if fee.get('description_text'):
+                                fee.pop('description_text')
                     if rec.get('rules'):
                         rec.pop('rules')
                     for journey in rec['journeys']:
@@ -586,7 +597,8 @@ def ssr(request):
                                 segment.pop('fare_details')
                 for rec in airline_get_booking_resp['result']['response']['passengers']:
                     for fee in rec['fees']:
-                        fee.pop('description_text')
+                        if fee.get('description_text'):
+                            fee.pop('description_text')
                 for rec in airline_get_booking_resp['result']['response']['reschedule_list']:
                     for provider_booking in rec['provider_bookings']:
                         if(provider_booking.get('rules')):
@@ -649,7 +661,7 @@ def ssr(request):
                                                         child[len(child) - 1]['ssr_list'].append({
                                                             "name": fee['fee_name'],
                                                             "journey_code": ssr['journey_code'],
-                                                            "availability_type": ssr['fee_category']
+                                                            "availability_type": fee['fee_category']
                                                         })
                         else:
                             adult.append({
@@ -677,7 +689,7 @@ def ssr(request):
                                                             adult[len(adult) - 1]['ssr_list'].append({
                                                                 "name": fee['fee_name'],
                                                                 "journey_code": ssr['journey_code'],
-                                                                "availability_type": ssr['fee_category'],
+                                                                "availability_type": fee['fee_category'],
                                                                 "price": fee['amount']
                                                             })
                                                     elif ssr.get('ssr_code'):
@@ -685,7 +697,7 @@ def ssr(request):
                                                             adult[len(adult) - 1]['ssr_list'].append({
                                                                 "name": fee['fee_name'],
                                                                 "journey_code": ssr['journey_code'],
-                                                                "availability_type": ssr['availability_type'],
+                                                                "availability_type": fee['fee_category'],
                                                                 "price": fee['amount']
                                                             })
                     else:
@@ -713,13 +725,13 @@ def ssr(request):
                                                     adult[len(adult) - 1]['ssr_list'].append({
                                                         "name": fee['fee_name'],
                                                         "journey_code": ssr['journey_code'],
-                                                        "availability_type": ssr['fee_category']
+                                                        "availability_type": fee['fee_category']
                                                     })
                                                 elif ssr.get('ssr_code') == fee['fee_code']:
                                                     adult[len(adult) - 1]['ssr_list'].append({
                                                         "name": fee['fee_name'],
                                                         "journey_code": ssr['journey_code'],
-                                                        "availability_type": ssr['fee_category']
+                                                        "availability_type": fee['fee_category']
                                                     })
                 title_booker = 'MR'
                 title_contact = 'MR'
@@ -999,6 +1011,12 @@ def seat_map(request):
                 additional_price = request.POST['additional_price_input'].split(',')
                 for i in additional_price:
                     additional_price_input += i
+
+                time_limit = get_timelimit_product(request, 'airline')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
+
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'airline_carriers': carrier,
@@ -1014,7 +1032,7 @@ def seat_map(request):
                     'username': request.session['user_account'],
                     'static_path_url_server': get_url_static_path(),
                     'javascript_version': javascript_version,
-                    'time_limit': int(request.POST['time_limit_input']),
+                    'time_limit': int(request.session['time_limit']),
                     'airline_getbooking': ''
                 })
             except:
@@ -1339,7 +1357,7 @@ def review(request):
                     passport_number = ''
                     passport_ed = ''
                     passport_country_of_issued = ''
-                    if request.POST['child_passport_number' + str(i + 1)] and request.POST['child_passport_expired_date' + str(i + 1)] and request.POST['child_country_of_issued' + str(i + 1)]:
+                    if request.POST['child_id_type' + str(i + 1)]:
                         passport_number = request.POST['child_passport_number' + str(i + 1)]
                         passport_ed = request.POST['child_passport_expired_date' + str(i + 1)]
                         passport_country_of_issued = request.POST['child_country_of_issued' + str(i + 1)]
@@ -1362,7 +1380,7 @@ def review(request):
                     passport_number = ''
                     passport_ed = ''
                     passport_country_of_issued = ''
-                    if request.POST['infant_passport_number' + str(i + 1)] and request.POST['infant_passport_expired_date' + str(i + 1)] and request.POST['infant_country_of_issued' + str(i + 1)]:
+                    if request.POST['infant_id_type' + str(i + 1)]:
                         passport_number = request.POST['infant_passport_number' + str(i + 1)]
                         passport_ed = request.POST['infant_passport_expired_date' + str(i + 1)]
                         passport_country_of_issued = request.POST['infant_country_of_issued' + str(i + 1)]
@@ -1422,6 +1440,12 @@ def review(request):
                 # cache reset
                 _logger.info('cache reset here ' + str(e) + '\n' + traceback.format_exc())
                 set_session(request, 'airline_sell_journey', json.loads(request.POST['airline_sell_journey']))
+
+            time_limit = get_timelimit_product(request, 'airline')
+            if time_limit == 0:
+                time_limit = int(request.POST['time_limit_input'])
+            set_session(request, 'time_limit', time_limit)
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -1444,7 +1468,7 @@ def review(request):
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
                 'signature': request.session['airline_signature'],
-                'time_limit': int(request.POST['time_limit_input']),
+                'time_limit': int(request.session['time_limit']),
                 'airline_get_price_request': request.session['airline_sell_journey'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary'],
                 # 'co_uid': request.session['co_uid'],
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],

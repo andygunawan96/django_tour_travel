@@ -61,7 +61,17 @@
 </div>
 
 {%if template == 1%}
-<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+<header id="header" class="header_breadcrumb">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -78,8 +88,19 @@
     </div>
 </header>
 {% elif template == 2 %}
-<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd;">
-    <div class="main-header-area">
+<header class="header_breadcrumb" style="padding-top:0px; z-index:100; border-bottom:1px solid #cdcdcd;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="main-header-area" style="padding-top:15px;">
         <div class="classy-nav-container breakpoint-off">
             <div class="container">
                 <nav class="classy-navbar justify-content-between" id="robertoNav">
@@ -98,7 +119,18 @@
     </div>
 </header>
 {% elif template == 3 %}
-<header>
+<header class="header_breadcrumb" style="padding-top:0px; padding-bottom:0px; z-index:100; border-bottom:1px solid #cdcdcd;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="container" style="padding-top:15px; padding-bottom:15px;">
         <div class="row align-items-center justify-content-between d-flex mobile-menu">
             <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -112,7 +144,18 @@
     </div>
 </header>
 {% elif template == 4 %}
-<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd;">
+<header class="header_breadcrumb" style="z-index:100; border-bottom:1px solid #cdcdcd;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -129,7 +172,18 @@
     </div>
 </header>
 {% elif template == 5 %}
-<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd;">
+<header class="header_breadcrumb" style="z-index:100; border-bottom:1px solid #cdcdcd;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; height:30px; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -146,7 +200,17 @@
     </div>
 </header>
 {% elif template == 6 %}
-<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd;">
+<header class="header_breadcrumb" style="z-index:100; border-bottom:1px solid #cdcdcd;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; height:30px; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -163,6 +227,7 @@
     </div>
 </header>
 {% endif %}
+
 {% include 'tt_website_rodextrip/header_signin.html' %}
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
 {%if template == 1%}
@@ -180,6 +245,7 @@
 {% endif %}
     <div class="container">
         <div class="row">
+
             <div class="col-lg-12" style="margin-top:20px; display:none;" id="success-issued">
                 <div class="alert alert-success">
                     <h4>{% trans 'Your Booking has been Issued' %}</h4>
@@ -226,6 +292,31 @@
                     <div class="row">
                         <div class="col-lg-12" id="alert-state">
 
+                        </div>
+
+                        <div class="col-lg-12" id="button_copy_reschedule" style="display:none; position:sticky; top:0px; z-index:99;">
+                            <div class="row">
+                                <div class="col-lg-12" style="display:none; margin-bottom:15px;" id="mybuttonsticky">
+                                    <div class="row">
+                                        <div class="col-lg-12" style="padding-right:10px; text-align:center;">
+                                            <button class="primary-btn-all-sticky" type="button" style="width:100%;" data-toggle="modal" data-target="#myModalCopyAirline" onclick="get_checked_copy_resultReschedule();">
+                                                <span style="color:{{text_color}}; font-size:12px;"> {% trans 'List Copy' %} </span>
+                                                <span class="badge-notif2 animated bounceIn" id="badge-copy-notif2">0</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 mt-2 mb-2" id="select_all_copy" style="display:none;">
+                            <div style="padding:15px 15px 25px 15px; background:white; border:1px solid #cdcdcd;">
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Select all to Copy</span>
+                                    <input type="checkbox" id="check_all_copy" onchange="check_all_resultReschedule();"/>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>
                         </div>
 
                         <div class="col-lg-12">
@@ -295,10 +386,16 @@
                                         <div class="row" id="pricing" style="padding:15px;">
                                             <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
                                                 <div class="row">
-                                                    <div class="col-lg-12">
+                                                    <div class="col-lg-6">
                                                         <h4 style="padding-top:10px;">{% trans 'Pricing' %}</h4>
-                                                        <hr/>
                                                     </div>
+                                                    <div class="col-lg-6">
+                                                        <select id="repricing_type" name="repricing_type" class="nice-select-default" onchange="reset_repricing();">
+                                                            <option value="passenger">Passenger</option>
+                                                            <option value="booker">Booker</option>
+                                                        </select>
+                                                    </div>
+                                                    <hr/>
                                                     <div class="col-lg-12" style="text-align:right;">
                                                         <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation();"><i class="fas fa-plus-circle"></i></button>
                                                         <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
@@ -347,6 +444,34 @@
         </form>
     </div>
 </section>
+
+<div class="modal fade" id="myModalCopyAirline" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:{{text_color}};"> {% trans 'List Copy Airline' %} <i class="fas fa-copy"></i></i></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="choose-airline-copy">
+                    <div class="col-lg-12">
+                        <h6>{% trans 'Please choose your airlines want to copy!' %}</h6>
+                    </div>
+                </div>
+                <div id="show-list-copy-airline">
+
+                </div>
+                <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="mystickycopybot" style="display:none;" id="button_copy_airline" data-toggle="modal" data-target="#myModalCopyAirline" onclick="get_checked_copy_resultReschedule();">
+    <span style="color:{{text_color}}; font-size:18px;"><i class="fas fa-copy"></i></span>
+    <span class="badge-notif animated bounceIn" id="badge-copy-notif">0</span>
+</button>
 
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>

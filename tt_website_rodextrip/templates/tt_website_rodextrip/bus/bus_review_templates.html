@@ -12,37 +12,11 @@
 <script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}'
-    bus_data = `{{response}}`;
-    bus_data = bus_data.replace(/&#39;/g, '"');
-    bus_data = bus_data.replace(/True/g, 'true');
-    bus_data = bus_data.replace(/False/g, 'false');
-    bus_data = bus_data.replace(/None/g, '""');
-    bus_data = JSON.parse(bus_data);
-    console.log(bus_data);
+
     adult = `{{adults}}`;
     infant = `{{infants}}`;
     upsell_price = {{upsell}};
-    passengers = `{{passenger}}`;
-    passengers = passengers.replace(/&#39;/g, '"');
-    passengers = passengers.replace(/False/g, 'false');
-    passengers = passengers.replace(/True/g, 'true');
-    passengers = JSON.parse(passengers);
-    passenger_with_booker = JSON.parse(JSON.stringify(passengers));
-    console.log(passengers);
 
-    adult = passengers.adult
-
-    infant = passengers.infant;
-    passengers = {
-        'adult': adult,
-        'infant': infant
-    }
-    bus_request = `{{bus_request}}`;
-    bus_request = JSON.parse(bus_request.replace(/&#39;/g, '"'));
-    console.log(bus_request);
-    adult = {{bus_request.adult}};
-    infant = 0;
-    child = 0;
     time_limit = {{time_limit}};
     session_time_limit();
     signature = `{{signature}}`;
@@ -53,7 +27,18 @@
 {% include 'tt_website_rodextrip/modal_balance_vendor.html' %}
 <title id="title_search">{{name}} {% trans 'Bus' %} - {% trans 'Review' %}</title>
 {%if template == 1%}
-<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+<header id="header" class="header_breadcrumb">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -200,6 +185,7 @@
                                         <th>{% trans 'Pax Type' %}</th>
                                         <th>{% trans 'ID Type' %}</th>
                                         <th>{% trans 'ID Number' %}</th>
+                                        <th>{% trans 'Seat' %}</th>
                                     </tr>
                                     {% for adult in passenger.adult%}
                                     <tr>
@@ -214,6 +200,7 @@
                                             {% endfor%}
                                         </td>
                                         <td>{{adult.identity_number}}</td>
+                                        <td id="seat_adult{{forloop.counter}}"></td>
                                     </tr>
                                     {% endfor %}
 
@@ -224,6 +211,7 @@
                                         <td>{% trans 'Infant' %}</td>
                                         <td></td>
                                         <td>{{infant.identity_number}}</td>
+                                        <td id="seat_infant{{forloop.counter}}"></td>
                                     </tr>
                                     {% endfor %}
                                 </table>
@@ -360,7 +348,7 @@
 {% include 'tt_website_rodextrip/modal_signin_signup.html' %}
 {% endif %}
 <script>
-    bus_detail();
+    bus_review_page();
     function goto_seat_map(){
         document.getElementById('bus_seat_map').innerHTML += `{% csrf_token %}`;
         document.getElementById('bus_seat_map').submit();
@@ -372,15 +360,6 @@
     function bus_seat_map(){
         document.getElementById('seat_map_request').innerHTML += `{% csrf_token %}`;
         document.getElementById('seat_map_request').submit();
-    }
-    var print_seat = false;
-    for(i in bus_data){
-        if(bus_data[i].available_seat_map)
-            print_seat = true;
-    }
-    if(print_seat){
-        document.getElementById('seat_map_div_mb').hidden = false;
-        document.getElementById('seat_map_div_wb').hidden = false;
     }
 </script>
 

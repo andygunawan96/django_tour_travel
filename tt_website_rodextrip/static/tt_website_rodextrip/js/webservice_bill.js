@@ -837,6 +837,18 @@ function bills_get_booking(data){
                                         </div>
                                     </div>`;
                                 }
+                                //booker
+                                booker_insentif = '-';
+                                if(msg.result.response.hasOwnProperty('booker_insentif'))
+                                    booker_insentif = msg.result.response.booker_insentif
+                                text_repricing += `
+                                <div class="col-lg-12">
+                                    <div style="padding:5px;" class="row" id="booker_repricing" hidden>
+                                    <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
+                                    <div class="col-lg-3" id="repriring_booker_repricing"></div>
+                                    <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
+                                    </div>
+                                </div>`;
                                 text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
                                 document.getElementById('repricing_div').innerHTML = text_repricing;
                                 //repricing
@@ -979,6 +991,12 @@ function bills_get_booking(data){
                     </div>`;
                     if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                         text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                    else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                        document.getElementById('repricing_type').innerHTML = '<option value="booker">Booker</option>';
+                        $('#repricing_type').niceSelect('update');
+                        reset_repricing();
+                    }
                     text_detail+=`<div class="row">
                     <div class="col-lg-12" style="padding-bottom:10px;">
                         <hr/>
@@ -1039,6 +1057,18 @@ function bills_get_booking(data){
                                         </div>
                                     </div>`;
                                     }
+                                    if(msg.result.response.hasOwnProperty('booker_insentif') == true){
+                                        booker_insentif = 0;
+                                        booker_insentif = msg.result.response.booker_insentif;
+                                        text_detail+=`<div class="row">
+                                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                            <span style="font-size:13px; font-weight:bold;">Booker Insentif</span>
+                                        </div>
+                                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                            <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(booker_insentif)+`</span>
+                                        </div>
+                                    </div>`;
+                                    }
                                     text_detail+=`
                                 </div>
                             </div>
@@ -1079,7 +1109,7 @@ function bills_get_booking(data){
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
-                                <div id="search_result" style="overflow:auto;height:300px;margin-top:20px;">
+                                <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
                                     <div class="col-sm-12">
                                         <div class="row">
                                             <div class="col-sm-6">
@@ -1277,7 +1307,12 @@ function bills_issued(data){
                    if(data.hasOwnProperty('member') == true)
                         gtag('event', 'bill_issued', {});
                if(msg.result.error_code == 0){
-                   print_success_issued();
+                   try{
+                       if(msg.result.response.state == 'issued')
+                            print_success_issued();
+                       else
+                            print_fail_issued();
+                   }catch(err){}
                    //update ticket
                    price_arr_repricing = {};
                    pax_type_repricing = [];

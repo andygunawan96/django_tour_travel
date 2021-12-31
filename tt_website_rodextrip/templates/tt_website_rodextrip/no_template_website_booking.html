@@ -206,11 +206,19 @@ Licence URI: http://www.os-templates.com/template-terms
                 document.getElementById('medical_searchForm2').action = '/phc/passenger/' + document.getElementById('medical_type').value;
                 document.getElementById('medical_searchForm2').submit();
             }else if(type == 'medical_global'){
+                document.getElementById('medical_global_searchForm').action = '/medical_global/passenger/' + document.getElementById('medical_type_medical').value;
                 document.getElementById('medical_global_searchForm').submit();
             }else if(type == 'swab_express'){
+                document.getElementById('swab_express_searchForm').action = '/swab_express/passenger/' + document.getElementById('medical_type_swab_express').value;
                 document.getElementById('swab_express_searchForm').submit();
             }else if(type == 'lab_pintar'){
+                document.getElementById('lab_pintar_searchForm').action = '/lab_pintar/passenger/' + document.getElementById('medical_type_lab_pintar').value;
                 document.getElementById('lab_pintar_searchForm').submit();
+            }else if(type == 'mitra_keluarga'){
+                document.getElementById('mitra_keluarga_searchForm').action = '/mitra_keluarga/passenger/' + document.getElementById('medical_type_mitra_keluarga').value;
+                document.getElementById('mitra_keluarga_searchForm').submit();
+            }else if(type == 'insurance'){
+                document.getElementById('insurance_searchForm').submit();
             }
         }
     </script>

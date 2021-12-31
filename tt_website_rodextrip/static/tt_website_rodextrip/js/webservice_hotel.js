@@ -463,6 +463,62 @@ function hotel_search(){
    });
 }
 
+function hotel_detail_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/hotel",
+       headers:{
+            'action': 'detail_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            facilities = msg.facilities;
+            hotel_search_data = JSON.stringify(msg.hotel_search);
+            hotel_facility_request(facilities);
+            var firstDate = msg.check_in;
+            var secondDate = msg.check_out;
+            hotel_detail_request(moment(firstDate).format('DD MMM YYYY'), moment(secondDate).format('DD MMM YYYY'));
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
+            $('#loading-search-hotel').hide();
+       },timeout: 180000
+   });
+}
+
+function hotel_review_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/hotel",
+       headers:{
+            'action': 'review_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            facilities = msg.facilities;
+            adult = msg.adult;
+            booker = msg.booker;
+            contact = msg.contact;
+            child = msg.child;
+            hotel = msg.hotel;
+            //upsell_price = {{upsell}};
+            hotel_price = msg.hotel_price;
+            cancellation_policy = msg.cancellation_policy
+            hotel_detail(cancellation_policy);
+            hotel_facility_request(facilities);
+            hotel_provision(hotel_price.price_code, hotel_price.provider);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
+            $('#loading-search-hotel').hide();
+       },timeout: 180000
+   });
+}
+
 function get_top_facility(){
     getToken();
     $.ajax({
@@ -665,6 +721,7 @@ function hotel_detail_request(checkin_date, checkout_date){
             document.getElementById('hotel_detail_table').innerHTML = '';
             document.getElementById("select_copy_all").innerHTML = '';
             $('#loading-detail-hotel').hide();
+            off_overlay();
             console.log(msg);
             //show package
             if(msg.result.error_code == 0){
@@ -938,7 +995,7 @@ function hotel_detail_request(checkin_date, checkout_date){
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel detail request');
-           },timeout: 60000
+           },timeout: 180000
         });
     },500);
 }
@@ -1350,7 +1407,7 @@ function hotel_issued_alert(val){
                     text+=`
                     <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel_old">
                         <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+hotel_price.rooms[i].nightly_prices[j].currency+` `+ getrupiah(hotel_price.rooms[i].commission) +`</span><br>
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+hotel_price.rooms[i].nightly_prices[j].currency+` `+ getrupiah(hotel_price.commission) +`</span><br>
                         </div>
                     </div>`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
@@ -1411,7 +1468,7 @@ function hotel_issued_alert(val){
                     text+=`
                     <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel_new">
                         <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+temporary.rooms[i].currency+` `+ getrupiah(parseInt(temporary.rooms[i].commission)) +`</span><br>
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+temporary.rooms[i].currency+` `+ getrupiah(parseInt(temporary.commission)) +`</span><br>
                         </div>
                     </div>`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
@@ -1515,7 +1572,12 @@ function hotel_issued(data){
                if(google_analytics != '')
                    gtag('event', 'airline_issued', {});
                if(msg.result.error_code == 0){
-                   print_success_issued();
+                   try{
+                       if(msg.result.response.state == 'issued')
+                            print_success_issued();
+                       else
+                            print_fail_issued();
+                   }catch(err){}
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                         window.location.href = '/hotel/booking/' + btoa(data);
                    }else{
@@ -1559,7 +1621,7 @@ function hotel_issued(data){
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
-                    airline_get_booking(data);
+                    hotel_get_booking(data);
                }else if(msg.result.error_code == 4006){
                     Swal.fire({
                       type: 'error',
@@ -1805,7 +1867,7 @@ function hotel_issued(data){
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
-                    airline_get_booking(data);
+                    hotel_get_booking(data);
                     $(".issued_booking_btn").hide();
                }
            },
@@ -1829,7 +1891,7 @@ function hotel_issued(data){
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
                 $(".issued_booking_btn").hide();
-                airline_get_booking(data);
+                hotel_get_booking(data);
            },timeout: 300000
         });
       }
@@ -1941,7 +2003,6 @@ function hotel_get_booking(data){
        },
        success: function(msg) {
             console.log(msg);
-
             try{
                 list_pnr = [];
                 if(msg.result.error_code == 0){
@@ -2457,6 +2518,7 @@ function hotel_get_booking(data){
                     text_detail += `<div id="price_detail_hotel_div" style="display:none;">`;
                     for(i in msg.result.response.hotel_rooms){
                         try{
+                            //HARGA PER ROOM MAU DI BIKIN PER PAX
                             // Update Vin Harga Pax yg diterima di FE adalah Total per pax tidak  perlu dikali total per night lagi
                             // Todo: Pertimbangkan better mechanism
                             total_price = 0
@@ -2493,67 +2555,82 @@ function hotel_get_booking(data){
                             }
 
                             text_repricing = `
+                            <div class="col-lg-12">
+                                <div style="padding:5px;" class="row">
+                                    <div class="col-lg-3"></div>
+                                    <div class="col-lg-3">Price</div>
+                                    <div class="col-lg-3">Repricing</div>
+                                    <div class="col-lg-3">Total</div>
+                                </div>
+                            </div>`;
+                            for(j in price_arr_repricing){
+                               text_repricing += `
+                               <div class="col-lg-12">
+                                    <div style="padding:5px;" class="row" id="adult">
+                                        <div class="col-lg-3" id="`+i+`_`+j+`">`+j+`</div>
+                                        <div class="col-lg-3" id="`+j+`_price">`+getrupiah(price_arr_repricing[j].Fare + price_arr_repricing[j].Tax)+`</div>`;
+                                        if(price_arr_repricing[j].Repricing == 0)
+                                        text_repricing+=`<div class="col-lg-3" id="`+j+`_repricing">-</div>`;
+                                        else
+                                        text_repricing+=`<div class="col-lg-3" id="`+j+`_repricing">`+getrupiah(price_arr_repricing[j].Repricing)+`</div>`;
+                                        text_repricing+=`<div class="col-lg-3" id="`+j+`_total">`+getrupiah(price_arr_repricing[j].Fare + price_arr_repricing[j].Tax + price_arr_repricing[j].Repricing)+`</div>
+                                    </div>
+                                </div>`;
+                            }
+                            //booker
+                            booker_insentif = '-';
+                            if(msg.result.response.hasOwnProperty('booker_insentif'))
+                                booker_insentif = msg.result.response.booker_insentif
+                            text_repricing += `
                                 <div class="col-lg-12">
-                                    <div style="padding:5px;" class="row">
-                                        <div class="col-lg-3"></div>
-                                        <div class="col-lg-3">Price</div>
-                                        <div class="col-lg-3">Repricing</div>
-                                        <div class="col-lg-3">Total</div>
+                                    <div style="padding:5px;" class="row" id="booker_repricing" hidden>
+                                    <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
+                                    <div class="col-lg-3" id="repriring_booker_repricing"></div>
+                                    <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
                                     </div>
                                 </div>`;
-                                for(j in price_arr_repricing){
-                                   text_repricing += `
-                                   <div class="col-lg-12">
-                                        <div style="padding:5px;" class="row" id="adult">
-                                            <div class="col-lg-3" id="`+i+`_`+j+`">`+j+`</div>
-                                            <div class="col-lg-3" id="`+j+`_price">`+getrupiah(price_arr_repricing[j].Fare + price_arr_repricing[j].Tax)+`</div>`;
-                                            if(price_arr_repricing[j].Repricing == 0)
-                                            text_repricing+=`<div class="col-lg-3" id="`+j+`_repricing">-</div>`;
-                                            else
-                                            text_repricing+=`<div class="col-lg-3" id="`+j+`_repricing">`+getrupiah(price_arr_repricing[j].Repricing)+`</div>`;
-                                            text_repricing+=`<div class="col-lg-3" id="`+j+`_total">`+getrupiah(price_arr_repricing[j].Fare + price_arr_repricing[j].Tax + price_arr_repricing[j].Repricing)+`</div>
-                                        </div>
-                                    </div>`;
-                                }
-                                text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
-                                document.getElementById('repricing_div').innerHTML = text_repricing;
-                                //repricing
-
-                                var idx_room = parseInt(i)+1;
-                                text_detail+=`
-                                <div class="row" style="margin-bottom:5px;">
-                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <h6><span style="color:`+color+`;">Room #`+idx_room+` </span>`+msg.result.response.hotel_rooms[i].room_name+`</h6>
-                                        <span style="font-size:12px;">`+msg.result.response.hotel_rooms[i].room_type+`</span><br/>`;
-                                        for(j in msg.result.response.hotel_rooms[i].dates){
-                                            text_detail+=`<span style="font-size:12px;">`+msg.result.response.hotel_rooms[i].dates[j].date+`</span><br/>`;
-                                        }
-                                    text_detail+=`</div>
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <br/>`;
-                                        for(j in msg.result.response.hotel_rooms[i].dates){
-                                            text_detail+=`<br/>`;
-                                        }
-                                        try{
-                                        var total_per_room = parseInt(0);
-                                        for(j in msg.result.response.hotel_rooms[i].dates){
-                                            total_per_room = total_per_room + parseInt(msg.result.response.hotel_rooms[i].dates[j].sale_price);
-                                        }
-                                        text_detail+=`
-                                        <span style="font-size:13px; font-weight:700;">`+msg.result.response.hotel_rooms[i].dates[j].currency+` `+ getrupiah(total_per_room) +`</span>`;
-                                        }catch(err){}
-                                        text_detail+=`
-                                    </div>
-                                </div>`;
-                                text_detail += `<div class="row"><div class="col-lg-12"><hr/></div></div>`;
-                                try{
+                            text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+                            document.getElementById('repricing_div').innerHTML = text_repricing;
+                            //repricing
+                            break;
+                        }catch(err){console.log(err);}
+                    }
+                    //DETAIL PER ROOM
+                    for(i in msg.result.response.hotel_rooms){
+                        try{
+                            var idx_room = parseInt(i)+1;
+                            text_detail+=`
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                    <h6><span style="color:`+color+`;">Room #`+idx_room+` </span>`+msg.result.response.hotel_rooms[i].room_name+`</h6>
+                                    <span style="font-size:12px;">`+msg.result.response.hotel_rooms[i].room_type+`</span><br/>`;
                                     for(j in msg.result.response.hotel_rooms[i].dates){
-                                        $text += msg.result.response.hotel_rooms[i].dates[j].date + ' ';
+                                        text_detail+=`<span style="font-size:12px;">`+msg.result.response.hotel_rooms[i].dates[j].date+`</span><br/>`;
                                     }
-                                    $text += currency+` `+getrupiah(parseInt(total_price_provider[i].price.FARE + total_price_provider[i].price.TAX + total_price_provider[i].price.ROC))+'\n';
-                                }catch(err){}
-                                commission += parseInt(price.RAC);
-                            counter_service_charge++;
+                                text_detail+=`</div>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                    <br/>`;
+                                    for(j in msg.result.response.hotel_rooms[i].dates){
+                                        text_detail+=`<br/>`;
+                                    }
+                                    try{
+                                    var total_per_room = parseInt(0);
+                                    for(j in msg.result.response.hotel_rooms[i].dates){
+                                        total_per_room = total_per_room + parseInt(msg.result.response.hotel_rooms[i].dates[j].sale_price);
+                                    }
+                                    text_detail+=`
+                                    <span style="font-size:13px; font-weight:700;">`+msg.result.response.hotel_rooms[i].dates[j].currency+` `+ getrupiah(total_per_room) +`</span>`;
+                                    }catch(err){}
+                                    text_detail+=`
+                                </div>
+                            </div>`;
+                            text_detail += `<div class="row"><div class="col-lg-12"><hr/></div></div>`;
+                            try{
+                                for(j in msg.result.response.hotel_rooms[i].dates){
+                                    $text += msg.result.response.hotel_rooms[i].dates[j].date + ' ';
+                                }
+                                $text += currency+` `+getrupiah(parseInt(total_price_provider[i].price.FARE + total_price_provider[i].price.TAX + total_price_provider[i].price.ROC))+'\n';
+                            }catch(err){}
                         }catch(err){console.log(err);}
                     }
                     text_detail += `</div>`;
@@ -2664,6 +2741,18 @@ function hotel_get_booking(data){
                                             </div>
                                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                                 <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(total_nta)+`</span>
+                                            </div>
+                                        </div>`;
+                                        }
+                                        if(msg.result.response.hasOwnProperty('booker_insentif') == true){
+                                            booker_insentif = 0;
+                                            booker_insentif = msg.result.response.booker_insentif;
+                                            text_detail+=`<div class="row">
+                                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                                <span style="font-size:13px; font-weight:bold;">Booker Insentif</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(booker_insentif)+`</span>
                                             </div>
                                         </div>`;
                                         }
@@ -3034,6 +3123,61 @@ function update_service_charge(type){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel service charge');
+            $('.loader-rodextrip').fadeOut();
+       },timeout: 60000
+    });
+
+}
+
+function update_insentif_booker(type){
+    repricing_order_number = '';
+    if(type == 'booking'){
+        booker_insentif = {}
+        total_price = 0
+        for(j in list){
+            total_price += list[j];
+        }
+        booker_insentif = {
+            'amount': total_price
+        };
+        repricing_order_number = order_number;
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/hotel",
+       headers:{
+            'action': 'booker_insentif_booking',
+       },
+       data: {
+           'order_number': JSON.stringify(repricing_order_number),
+           'booker': JSON.stringify(booker_insentif),
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                try{
+                    if(type == 'booking'){
+                        please_wait_transaction();
+                        hotel_get_booking(repricing_order_number);
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
+                    }
+                }catch(err){}
+                $('#myModalRepricing').modal('hide');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error hotel update booker insentif </span>' + msg.result.error_msg,
+                })
+                $('.loader-rodextrip').fadeOut();
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel update booker insentif');
             $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });

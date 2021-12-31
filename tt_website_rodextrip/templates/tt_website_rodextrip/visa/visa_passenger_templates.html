@@ -15,21 +15,14 @@
 <script>
     static_path_url_server = '{{static_path_url_server}}';
     signature = `{{signature}}`;
-    passenger = `{{passengers}}`;
-    passenger = JSON.parse(passenger.replace(/&#39;/g, '"'));
-    adult = passenger.adult;
-    infant = passenger.infant;
-    elder = passenger.elder;
-    child = passenger.child;
-    visa = `{{visa}}`;
-    visa = visa.replace(/True/g, 'true');
-    visa = visa.replace(/False/g, 'false');
-    visa = JSON.parse(visa.replace(/&#39;/g, '"'));
-    visa_request = `{{visa_request}}`;
-    visa_request = JSON.parse(visa_request.replace(/&#39;/g, '"'));
+
+    adult = {{passengers.adult}};
+    infant = {{passengers.infant}};
+    elder = {{passengers.elder}};
+    child = {{passengers.child}};
+
     time_limit = {{time_limit}};
     session_time_limit();
-    sell_visa();
 </script>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
@@ -37,7 +30,18 @@
 {% include 'tt_website_rodextrip/modal_balance_vendor.html' %}
 <title id="title_search">{{name}} Visa - {% trans 'Passenger' %}</title>
 {%if template == 1%}
-<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+<header id="header" class="header_breadcrumb">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -77,6 +81,7 @@
                                         <div class="col-lg-12">
                                             <h4>{% trans 'Booker Information' %}</h4>
                                             <hr/>
+                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
@@ -131,7 +136,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result">
+                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -159,7 +164,6 @@
 
                                             <div class="row" style="margin:0">
                                                 <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                                <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                                 <div class="modal fade" id="myModalHelp" role="dialog">
                                                     <div class="modal-dialog">
 
@@ -355,7 +359,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_adult{{forloop.counter}}">
+                                                        <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -563,7 +567,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_child{{forloop.counter}}">
+                                                        <div id="search_result_child{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -737,7 +741,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_infant{{forloop.counter}}">
+                                                        <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -921,8 +925,19 @@
     </div>
 </section>
 {% elif template == 2 %}
-<header class="header_breadcrumb" style="border-bottom:1px solid #cdcdcd; background:white;">
-    <div class="main-menu">
+<header class="header_breadcrumb" style="padding:unset; border-bottom:1px solid #cdcdcd; background:white;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -962,6 +977,7 @@
                                             <div class="col-lg-12">
                                                 <h4>{% trans 'Booker Information' %}</h4>
                                                 <hr/>
+                                                <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                             </div>
                                             <div class="col-lg-6" style="text-align:left;">
                                                 <!--                                            <label>Booker Type :</label><br/>-->
@@ -1016,7 +1032,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result">
+                                                            <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                             </div>
                                                         </div>
@@ -1041,7 +1057,6 @@
                                             <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                                 <div class="row" style="margin:0">
                                                     <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                                    <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
 
                                                     <div class="modal fade" id="myModalHelp" role="dialog">
                                                         <div class="modal-dialog">
@@ -1236,7 +1251,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result_adult{{forloop.counter}}">
+                                                            <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                             </div>
                                                         </div>
@@ -1438,7 +1453,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result_child{{forloop.counter}}">
+                                                            <div id="search_result_child{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                             </div>
                                                         </div>
@@ -1606,7 +1621,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result_infant{{forloop.counter}}">
+                                                            <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                             </div>
                                                         </div>
@@ -1784,8 +1799,19 @@
     </div>
 </section>
 {% elif template == 3 %}
-<header class="header_breadcrumb" style="position:sticky; z-index:100; top:0px;">
-    <div class="main-menu">
+<header class="header_breadcrumb" style="padding:unset; z-index:100;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -1824,6 +1850,7 @@
                                         <div class="col-lg-12">
                                             <h4>{% trans 'Booker Information' %}</h4>
                                             <hr/>
+                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
@@ -1878,7 +1905,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result">
+                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -1905,7 +1932,6 @@
                                         <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                             <div class="row" style="margin:0">
                                                 <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                                <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                                 <div class="modal fade" id="myModalHelp" role="dialog">
                                                     <div class="modal-dialog">
 
@@ -2101,7 +2127,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_adult{{forloop.counter}}">
+                                                        <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -2309,7 +2335,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_child{{forloop.counter}}">
+                                                        <div id="search_result_child{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -2483,7 +2509,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_infant{{forloop.counter}}">
+                                                        <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -2667,8 +2693,19 @@
     </div>
 </section>
 {% elif template == 4 %}
-<header class="header_breadcrumb" style="position:sticky; z-index:100; top:0px;">
-    <div class="main-menu">
+<header class="header_breadcrumb" style="padding:unset; z-index:100;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -2706,6 +2743,7 @@
                                     <div class="col-lg-12">
                                         <h4>{% trans 'Booker Information' %}</h4>
                                         <hr/>
+                                        <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                     </div>
                                     <div class="col-lg-6" style="text-align:left;">
                                         <!--                                            <label>Booker Type :</label><br/>-->
@@ -2760,7 +2798,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div id="search_result">
+                                                    <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                     </div>
                                                 </div>
@@ -2787,7 +2825,6 @@
                                     <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                         <div class="row" style="margin:0">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                             <div class="modal fade" id="myModalHelp" role="dialog">
                                                 <div class="modal-dialog">
 
@@ -2983,7 +3020,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div id="search_result_adult{{forloop.counter}}">
+                                                    <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                     </div>
                                                 </div>
@@ -3191,7 +3228,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div id="search_result_child{{forloop.counter}}">
+                                                    <div id="search_result_child{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                     </div>
                                                 </div>
@@ -3365,7 +3402,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div id="search_result_infant{{forloop.counter}}">
+                                                    <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                     </div>
                                                 </div>
@@ -3548,8 +3585,19 @@
     </div>
 </section>
 {% elif template == 5 %}
-<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
-    <div class="main-menu">
+<header class="header_breadcrumb" style="padding:unset; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -3588,6 +3636,7 @@
                                         <div class="col-lg-12">
                                             <h4>{% trans 'Booker Information' %}</h4>
                                             <hr/>
+                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
@@ -3642,7 +3691,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result">
+                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -3668,7 +3717,6 @@
                                         </div>
                                         <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                             <div class="modal fade" id="myModalHelp" role="dialog">
                                                 <div class="modal-dialog">
 
@@ -3863,7 +3911,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_adult{{forloop.counter}}">
+                                                        <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -4071,7 +4119,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_child{{forloop.counter}}">
+                                                        <div id="search_result_child{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -4245,7 +4293,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_infant{{forloop.counter}}">
+                                                        <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -4429,8 +4477,19 @@
     </div>
 </section>
 {% elif template == 6 %}
-<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
-    <div class="main-menu">
+<header id="header" class="header_breadcrumb" style="padding:unset;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; height:30px; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -4469,6 +4528,7 @@
                                         <div class="col-lg-12">
                                             <h4>{% trans 'Booker Information' %}</h4>
                                             <hr/>
+                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
@@ -4523,7 +4583,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result">
+                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -4551,7 +4611,6 @@
 
                                             <div class="row" style="margin:0">
                                                 <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                                <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                                 <div class="modal fade" id="myModalHelp" role="dialog">
                                                     <div class="modal-dialog">
 
@@ -4747,7 +4806,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_adult{{forloop.counter}}">
+                                                        <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -4955,7 +5014,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_child{{forloop.counter}}">
+                                                        <div id="search_result_child{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -5129,7 +5188,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_infant{{forloop.counter}}">
+                                                        <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
 
                                                         </div>
                                                     </div>
@@ -5318,7 +5377,7 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
-    update_table('passenger');
+    visa_page_passenger();
     $( document ).ready(function() {
         breadcrumb_create("visa", 3, 0);
         $('.js-example-basic-single').select2();

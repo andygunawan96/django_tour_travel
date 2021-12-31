@@ -57,6 +57,50 @@ function swab_express_signin(data){
 
 }
 
+function swab_express_page_passenger(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/swab_express",
+       headers:{
+            'action': 'page_passenger',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            titles = msg.titles;
+            countries = msg.countries;
+            get_list_report_footer();
+            swab_express_signin('passenger');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data swab express');
+       },timeout: 300000
+    });
+}
+
+function swab_express_page_review(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/swab_express",
+       headers:{
+            'action': 'page_review',
+       },
+       data: {
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            passengers = msg.passenger;
+            swab_express_get_cache_price();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get data swab express');
+       },timeout: 300000
+    });
+}
+
 function get_config_swab_express(type){
     $.ajax({
        type: "POST",
@@ -76,8 +120,8 @@ function get_config_swab_express(type){
                     for(i in msg.result.response){
                         text += '<option value="'+msg.result.response[i].code+'">' + msg.result.response[i].name + '</option>';
                     }
-                    document.getElementById('swab_express_type').innerHTML += text;
-                    $('#swab_express_type').niceSelect('update');
+                    document.getElementById('medical_type_swab_express').innerHTML += text;
+                    $('#medical_type_swab_express').niceSelect('update');
                 }else if(type == 'passenger'){
                     print_check_price++;
                     if(print_check_price == 2){
@@ -304,15 +348,17 @@ function swab_express_check_price(){
                                     <b><span style="font-size:13px;">IDR `+getrupiah(price_list['fare']['amount']*price_list['fare']['pax_count'])+`</span></b>
                                 </div>
                             </div>`;
-                    text+=`
-                            <div class="row" style="margin-bottom:5px;">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">Address Surcharge IDR `+getrupiah(msg.result.response.address_surcharge)+`</span>`;
-                        text+=`</div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.address_surcharge)+`</span></b>
-                                </div>
-                            </div>`;
+                    if(msg.result.response.address_surcharge){
+                        text+=`
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                        <span style="font-size:12px;">Address Surcharge IDR `+getrupiah(msg.result.response.address_surcharge)+`</span>`;
+                            text+=`</div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                        <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.address_surcharge)+`</span></b>
+                                    </div>
+                                </div>`;
+                    }
                     text+=`
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -334,15 +380,18 @@ function swab_express_check_price(){
                             <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>`;
                     text += `</div>`;
 
-                    text += `
+                    if(msg.result.response.extra_cost == true){
+                        text += `
                             <label style="color:red !important;">* </label>
                             <label>Extra Cost</label>
-                            <br/>
-                            <label style="margin-left:5px;">- Address Surcharge</label><br/>`;
-                    if(msg.result.response.extra_cost == true){
-                        if(peduli_lindungi == 'true')
+                            <br/>`;
+                        if(msg.result.response.address_surcharge)
                             text+=`
-                                <label style="margin-left:5px;">- Peduli Lindungi</label>`;
+                                <label style="margin-left:5px;">- Address Surcharge</label><br/>`;
+
+                            if(peduli_lindungi == 'true')
+                                text+=`
+                                    <label style="margin-left:5px;">- Peduli Lindungi</label>`;
                     }
 
                     document.getElementById('swab_express_detail').innerHTML = text;
@@ -436,7 +485,8 @@ function swab_express_get_cache_price(){
                                 <b><span style="font-size:13px;">IDR `+getrupiah(price_list['fare']['amount']*price_list['fare']['pax_count'])+`</span></b>
                             </div>
                         </div>`;
-                text+=`
+                if(msg.result.response.address_surcharge == true){
+                    text+=`
                         <div class="row" style="margin-bottom:5px;">
                             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
                                 <span style="font-size:12px;">Address Surcharge IDR `+getrupiah(msg.result.response.address_surcharge)+`</span>`;
@@ -445,6 +495,7 @@ function swab_express_get_cache_price(){
                                 <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.address_surcharge)+`</span></b>
                             </div>
                         </div>`;
+                }
                 text+=`
                         <div class="row" style="margin-bottom:5px;">
                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -1351,6 +1402,18 @@ function swab_express_get_booking(order_number, sync=false){
                                         </div>
                                     </div>`;
                                 }
+                                //booker
+                                booker_insentif = '-';
+                                if(msg.result.response.hasOwnProperty('booker_insentif'))
+                                    booker_insentif = msg.result.response.booker_insentif
+                                text_repricing += `
+                                <div class="col-lg-12">
+                                    <div style="padding:5px;" class="row" id="booker_repricing" hidden>
+                                    <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
+                                    <div class="col-lg-3" id="repriring_booker_repricing"></div>
+                                    <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
+                                    </div>
+                                </div>`;
                                 text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
                                 document.getElementById('repricing_div').innerHTML = text_repricing;
                                 //repricing
@@ -1460,6 +1523,12 @@ function swab_express_get_booking(order_number, sync=false){
                         </div>`;
                         if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                             text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                        else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                            text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                            document.getElementById('repricing_type').innerHTML = '<option value="booker">Booker</option>';
+                            $('#repricing_type').niceSelect('update');
+                            reset_repricing();
+                        }
                         text_detail+=`<div class="row">
                         <div class="col-lg-12" style="padding-bottom:10px;">
                             <hr/>`;
@@ -1517,6 +1586,18 @@ function swab_express_get_booking(order_number, sync=false){
                                             </div>
                                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                                 <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
+                                            </div>
+                                        </div>`;
+                                        }
+                                        if(msg.result.response.hasOwnProperty('booker_insentif') == true){
+                                            booker_insentif = 0;
+                                            booker_insentif = msg.result.response.booker_insentif;
+                                            text_detail+=`<div class="row">
+                                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                                <span style="font-size:13px; font-weight:bold;">Booker Insentif</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(booker_insentif)+`</span>
                                             </div>
                                         </div>`;
                                         }
@@ -1602,22 +1683,24 @@ function swab_express_get_booking(order_number, sync=false){
                         if(window.location.pathname.includes('confirm_order') == false){
                             print_text += '<div class="col-lg-4" style="padding-bottom:10px;">';
                             // === Button 1 ===
+                            /*
                             if (msg.result.response.state  == 'issued') {
                                 print_text+=`
-                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket','swab_express');" style="width:100%;">
+                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket','swabexpress');" style="width:100%;">
                                     Print Ticket
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
-                            }
+                            }*/
                             print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
                             // === Button 2 ===
+                            /*
                             if (msg.result.response.state  == 'issued'){
                                 print_text+=`
-                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','swab_express');" style="width:100%;">
+                                <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','swabexpress');" style="width:100%;">
                                     Print Ticket (With Price)
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
-                            }
+                            }*/
                             print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
                             // === Button 3 ===
                             if (msg.result.response.state  == 'issued') {
@@ -1665,7 +1748,7 @@ function swab_express_get_booking(order_number, sync=false){
                                                         <div style="text-align:right;">
                                                             <span>Don't want to edit? just submit</span>
                                                             <br/>
-                                                            <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','swab_express');">
+                                                            <button type="button" id="button-issued-print" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','swabexpress');">
                                                                 Submit
                                                                 <div class="ld ld-ring ld-cycle"></div>
                                                             </button>
@@ -1906,7 +1989,12 @@ function swab_express_issued_booking(data){
                if(google_analytics != '')
                    gtag('event', 'swab_express_issued', {});
                if(msg.result.error_code == 0){
-                   print_success_issued();
+                   try{
+                       if(msg.result.response.state == 'issued')
+                            print_success_issued();
+                       else
+                            print_fail_issued();
+                   }catch(err){}
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                         window.location.href = '/swab_express/booking/' + btoa(data);
                    }else{
@@ -1934,7 +2022,6 @@ function swab_express_issued_booking(data){
                    document.getElementById('swab_express_detail').innerHTML = '';
                    document.getElementById('payment_acq').innerHTML = '';
                    //document.getElementById('voucher_div').style.display = 'none';
-                   document.getElementById('ssr_request_after_sales').hidden = true;
                    document.getElementById('show_loading_booking_swab_express').style.display = 'block';
                    document.getElementById('show_loading_booking_swab_express').hidden = false;
                    document.getElementById('reissued').hidden = true;
@@ -2463,7 +2550,7 @@ function swab_express_reorder(){
         }
     }
     if(checked){
-        var path = '/swab_express/passenger/';
+        var path = '/swab_express/passenger/' + document.getElementById('test_type').value;
         document.getElementById('data').value = JSON.stringify(passenger_list_copy);
         var data_temp = {
             "address": medical_get_detail.result.response.test_address,
@@ -2471,7 +2558,6 @@ function swab_express_reorder(){
             "place_url_by_google": medical_get_detail.result.response.test_address_map_link,
             "test_list": []
         }
-        document.getElementById('swab_express_type').value = document.getElementById('test_type').value;
         document.getElementById('booking_data').value = JSON.stringify(data_temp);
         document.getElementById('swab_express_edit_passenger').action = path;
         document.getElementById('swab_express_edit_passenger').submit();
@@ -2713,7 +2799,7 @@ function update_service_charge(type){
     }
     $.ajax({
        type: "POST",
-       url: "/webservice/medical",
+       url: "/webservice/swab_express",
        headers:{
             'action': 'update_service_charge',
        },
@@ -2729,7 +2815,7 @@ function update_service_charge(type){
                     price_arr_repricing = {};
                     pax_type_repricing = [];
                     please_wait_transaction();
-                    medical_global_get_booking(repricing_order_number);
+                    swab_express_get_booking(repricing_order_number);
                 }else{
                     price_arr_repricing = {};
                     pax_type_repricing = [];
@@ -2740,24 +2826,71 @@ function update_service_charge(type){
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
            }else{
-                if(order_number.includes('PH'))
-                    vendor = 'PHC';
-                else
-                    vendor = 'Periksain';
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error '+vendor+' service charge </span>' + msg.result.error_msg,
+                  html: '<span style="color: #ff9900;">Error swab express service charge </span>' + msg.result.error_msg,
                 })
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(order_number.includes('PH'))
-                vendor = 'PHC';
-            else
-                vendor = 'Periksain';
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error '+vendor+' service charge');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error swab express service charge');
        },timeout: 480000
+    });
+
+}
+
+function update_insentif_booker(type){
+    repricing_order_number = '';
+    if(type == 'booking'){
+        booker_insentif = {}
+        total_price = 0
+        for(j in list){
+            total_price += list[j];
+        }
+        booker_insentif = {
+            'amount': total_price
+        };
+        repricing_order_number = order_number;
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/swab_express",
+       headers:{
+            'action': 'booker_insentif_booking',
+       },
+       data: {
+           'order_number': JSON.stringify(repricing_order_number),
+           'booker': JSON.stringify(booker_insentif),
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                try{
+                    if(type == 'booking'){
+                        please_wait_transaction();
+                        swab_express_get_booking(repricing_order_number);
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
+                    }
+                }catch(err){}
+                $('#myModalRepricing').modal('hide');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error swab express update booker insentif </span>' + msg.result.error_msg,
+                })
+                $('.loader-rodextrip').fadeOut();
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error swab express update booker insentif');
+            $('.loader-rodextrip').fadeOut();
+       },timeout: 60000
     });
 
 }

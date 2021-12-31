@@ -429,7 +429,7 @@ function select_tour_date(key_change_date){
             }
             room_amount = 0;
             document.getElementById("tour_room_input").innerHTML = "";
-            tour_table_detail();
+            reset_tour_table_detail();
         });
     }
     else
@@ -440,7 +440,7 @@ function select_tour_date(key_change_date){
     $('#ChangeDateModal').modal('hide');
     room_amount = 0;
     document.getElementById("tour_room_input").innerHTML = "";
-    tour_table_detail();
+    reset_tour_table_detail();
 }
 
 function set_tour_arrival_date(){
@@ -459,7 +459,7 @@ function add_tour_room(key_accomodation){
     document.getElementById("total-price-container").classList.remove("hide");
     $('select').niceSelect();
     console.log(room_data);
-    tour_table_detail();
+    reset_tour_table_detail();
 }
 
 function render_room_tour_field(idx, room_data, key_accomodation) {
@@ -545,11 +545,11 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
             template_txt += '<div class="input-container-search-ticket btn-group">';
         }
         if(template == 3){
-            template_txt += '<div class="default-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail(); room_chose_render(this,'+idx+',2)">';
+            template_txt += '<div class="default-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="reset_tour_table_detail(); room_chose_render(this,'+idx+',2)">';
         }else if(template == 4){
-            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="nice-select-default rounded child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail(); room_chose_render(this,'+idx+',2)">';
+            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="nice-select-default rounded child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="reset_tour_table_detail(); room_chose_render(this,'+idx+',2)">';
         }else{
-            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail(); room_chose_render(this,'+idx+',2)">';
+            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="reset_tour_table_detail(); room_chose_render(this,'+idx+',2)">';
         }
 
         for (var i=0; i<=parseInt(room_data.pax_limit)-1; i++)
@@ -569,11 +569,11 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
             template_txt += '<div class="input-container-search-ticket btn-group">';
         }
         if(template == 3){
-            template_txt += '<div class="default-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail(); room_chose_render(this,'+idx+',3)">';
+            template_txt += '<div class="default-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="reset_tour_table_detail(); room_chose_render(this,'+idx+',3)">';
         }else if(template == 4){
-            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="nice-select-default rounded infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail(); room_chose_render(this,'+idx+',3)">';
+            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="nice-select-default rounded infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="reset_tour_table_detail(); room_chose_render(this,'+idx+',3)">';
         }else{
-            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail(); room_chose_render(this,'+idx+',3)">';
+            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="reset_tour_table_detail(); room_chose_render(this,'+idx+',3)">';
         }
 
         template_txt += '<option selected value="0">0</option>';
@@ -654,7 +654,7 @@ function delete_tour_room(){
     var temp = '#room_field_' + String(room_amount);
     $(temp).remove();
     room_amount -= 1;
-    tour_table_detail();
+    reset_tour_table_detail();
 }
 
 function render_child_infant_selection(adult_select) {
@@ -692,7 +692,7 @@ function render_child_infant_selection(adult_select) {
     $('#'+temp2).niceSelect('update');
     document.getElementById("room_choose_child"+id).innerText = "";
     document.getElementById("room_choose_infant"+id).innerText = "";
-    tour_table_detail();
+    reset_tour_table_detail();
 }
 
 function check_detail(){
@@ -800,12 +800,8 @@ function check_passenger(adult, child, infant){
            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('adult_last_name'+i).value == ''){
-           error_log+= 'Please input last name of adult passenger '+i+'!</br>\n';
-           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
        }
+
        console.log(check_date(document.getElementById('adult_birth_date'+i).value));
        console.log(document.getElementById('adult_birth_date'+i).value);
        if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
@@ -833,9 +829,13 @@ function check_passenger(adult, child, infant){
                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('adult_country_of_issued'+i).value == ''){
                error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-               document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
+               $("#adult_country_of_issued"+i+"_id").each(function() {
+                 $(this).siblings(".select2-container").css('border', '1px solid red');
+               });
            }else{
-               document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+               $("#adult_country_of_issued"+i+"_id").each(function() {
+                 $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+               });
            }
        }if(document.getElementById('adult_cp'+i).checked == true){
             if(check_email(document.getElementById('adult_email'+i).value)==false){
@@ -868,11 +868,6 @@ function check_passenger(adult, child, infant){
            document.getElementById('child_first_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('child_last_name'+i).value == ''){
-           error_log+= 'Please input last name of child passenger '+i+'!</br>\n';
-           document.getElementById('child_last_name'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(check_date(document.getElementById('child_birth_date'+i).value)==false){
            error_log+= 'Birth date wrong for passenger child '+i+'!</br>\n';
            document.getElementById('child_birth_date'+i).style['border-color'] = 'red';
@@ -898,9 +893,13 @@ function check_passenger(adult, child, infant){
                document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('child_country_of_issued'+i).value == ''){
                error_log+= 'Please fill country of issued for passenger child '+i+'!</br>\n';
-               document.getElementById('child_country_of_issued'+i).style['border-color'] = 'red';
+               $("#child_country_of_issued"+i+"_id").each(function() {
+                 $(this).siblings(".select2-container").css('border', '1px solid red');
+               });
            }else{
-               document.getElementById('child_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+               $("#child_country_of_issued"+i+"_id").each(function() {
+                 $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+               });
            }
        }
    }
@@ -922,11 +921,6 @@ function check_passenger(adult, child, infant){
            document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('infant_last_name'+i).value == ''){
-           error_log+= 'Please input last name of infant passenger '+i+'!</br>\n';
-           document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(check_date(document.getElementById('infant_birth_date'+i).value)==false){
            error_log+= 'Birth date wrong for passenger infant '+i+'!</br>\n';
            document.getElementById('infant_birth_date'+i).style['border-color'] = 'red';
@@ -952,9 +946,13 @@ function check_passenger(adult, child, infant){
                document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('infant_country_of_issued'+i).value == ''){
                error_log+= 'Please fill country of issued for passenger infant '+i+'!</br>\n';
-               document.getElementById('infant_country_of_issued'+i).style['border-color'] = 'red';
+               $("#infant_country_of_issued"+i+"_id").each(function() {
+                 $(this).siblings(".select2-container").css('border', '1px solid red');
+               });
            }else{
-               document.getElementById('infant_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+               $("#infant_country_of_issued"+i+"_id").each(function() {
+                 $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+               });
            }
        }
 
@@ -2161,15 +2159,11 @@ function tour_table_detail()
     $('#loading-price-tour').show();
     if (room_amount <= 0)
     {
-        $('#btnDeleteRooms').hide();
-        $('#add_room_first').show();
         $('#loading-price-tour').hide();
     }
     else
     {
         room_ids_list = [];
-        $('#btnDeleteRooms').show();
-        $('#add_room_first').hide();
         $('#total-price-container').removeClass("hide");
         for (i=0; i < room_amount; i++)
         {
@@ -2191,6 +2185,29 @@ function tour_table_detail()
             request['departure_date'] = document.getElementById('open_tour_departure_date').value;
         }
         get_price_itinerary(JSON.stringify(request),'detail');
+    }
+}
+
+function reset_tour_table_detail()
+{
+    document.getElementById('tour_detail_table').innerHTML = '';
+    if (room_amount <= 0)
+    {
+        $('#btnDeleteRooms').hide();
+        $('#add_room_first').show();
+        document.getElementById('tour_detail_next_btn').innerHTML = '';
+    }
+    else
+    {
+        $('#btnDeleteRooms').show();
+        $('#add_room_first').hide();
+        document.getElementById('tour_detail_next_btn').innerHTML = `
+        <center>
+            <button type="button" class="primary-btn-ticket" value="Next" onclick="tour_table_detail();" style="width:100%;">
+                Check Price
+            </button>
+        </center>
+        `;
     }
 }
 

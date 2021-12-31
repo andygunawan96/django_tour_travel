@@ -116,6 +116,65 @@ function get_printout(order_number,type,provider_type, timeout=60){
     }
 }
 
+data_vendor = {
+    "phc": {
+        'PHCDTKATG': 'phc_antigen_information',
+        'PHCDTKPCR': 'phc_pcr_information',
+        'PHCDTEPCR': 'phc_pcr_express_information',
+        'PHCDTOPCR': 'phc_pcr_priority_information',
+        'PHCHCKATG': 'phc_antigen_homecare_information',
+        'PHCHCKPCR': 'phc_pcr_homecare_information',
+        'PHCDTKSRBD': 'phc_srbd_drive_thru_information'
+    },
+    "national_hospital": {
+        'NHDTKPCRR': 'nathos_pcr_rs_nathos_information',
+        'NHDTKPCRP': 'nathos_pcr_poc_information',
+        'NHDTKPCRB': 'nathos_pcr_bali_information',
+        'NHDTMPCR': 'nathos_pcr_mutasi_information',
+        'NHDTSPCRR': 'nathos_pcr_saliva_rs_nathos_information',
+        'NHDTSPCRP': 'nathos_pcr_saliva_poc_information',
+        'NHDTSPCRB': 'nathos_pcr_saliva_bali_information',
+        'NHDTKATGR': 'nathos_antigen_rs_nathos_information',
+        'NHDTKATGP': 'nathos_antigen_poc_information',
+        'NHDTKKARBD': 'nathos_tes_antibodi_rbd_information',
+        'NHDTNATG': 'nathos_antigen_nassal_information',
+        'NHDTKMCU1': 'nathos_checkup1_information',
+        'NHDTKMCU2': 'nathos_checkup2_information',
+        'NHDTKMCU3': 'nathos_checkup3_information',
+        'NHDTKMCU4M': 'nathos_checkup4M_information',
+        'NHDTKMCU4F': 'nathos_checkup4F_information',
+        'NHDTKMCU5M': 'nathos_checkup5M_information',
+        'NHDTKMCU5F': 'nathos_checkup5F_information',
+        'NHDTKPSC': 'nathos_paket_screening_cvd19_information',
+        'NHDTKPSCWPCR': 'nathos_paket_screening_cvd19_with_pcr_information',
+        'NHDTKPSCUL': 'nathos_paket_screening_cvd19_urban_lifestyle_information'
+    },
+    "swabexpress": {
+        'SEKATG': 'swabexpress_antigen_information',
+        'SEKPCR': 'swabexpress_pcr_information',
+        'SEPPCR': 'swabexpress_pcr_priority_information'
+    },
+    "labpintar": {
+        'LPKATG': 'labpintar_antigen_information',
+        'LPKPCR': 'labpintar_pcr_information',
+        'LPEPCR': 'labpintar_pcr_express_information',
+        'LPPPCR': 'labpintar_pcr_priority_information'
+
+    },
+    "periksain": {
+        'PCR': 'periksain_pcr_information',
+        'ATG': 'periksain_antigen_information'
+    },
+    "mitrakeluarga":{
+        'MKDTKATG': 'mitrakeluarga_drivethru_antigen_information',
+        'MKHCKATG': 'mitrakeluarga_homecare_antigen_information',
+        'MKDTKPCR': 'mitrakeluarga_drivethru_pcr_information',
+        'MKHCKPCR': 'mitrakeluarga_homecare_pcr_information',
+        'MKDTPSRBD': 'mitrakeluarga_drivethru_srbd_information',
+        'MKHCPSRBD': 'mitrakeluarga_homecare_srbd_information'
+    }
+}
+
 function get_list_report_footer(){
     $.ajax({
        type: "POST",
@@ -131,7 +190,8 @@ function get_list_report_footer(){
             if(msg.result.error_code == 0){
                 text = '';
                 printout = msg.result.response;
-                if(document.URL.split('/')[document.URL.split('/').length-1] == 'page_admin'){
+                //KALAU PAGE ADMIN / DI SETTING FOOTER
+                if(document.URL.split('/')[document.URL.split('/').length-1] == 'page_admin' || document.URL.split('/')[document.URL.split('/').length-1] == 'setting_footer_printout'){
                     for(i in printout){
                         text += `<option value='`+printout[i].code+`'>`+printout[i].name+`</option>`;
                     }
@@ -142,158 +202,21 @@ function get_list_report_footer(){
                     //MEDICAL
                     var check_header = true;
                     for(i in printout){
-                        if(vendor == 'phc' && test_type == 'PHCDTKATG' && printout[i].code == "phc_antigen_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'phc' && test_type == 'PHCDTKPCR' && printout[i].code == "phc_pcr_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'phc' && test_type == 'PHCDTEPCR' && printout[i].code == "phc_pcr_express_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'phc' && test_type == 'PHCDTOPCR' && printout[i].code == "phc_pcr_priority_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'phc' && test_type == 'PHCHCKATG' && printout[i].code == "phc_antigen_homecare_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'phc' && test_type == 'PHCHCKPCR' && printout[i].code == "phc_pcr_homecare_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'phc' && test_type == 'PHCDTKSRBD' && printout[i].code == "phc_srbd_drive_thru_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKPCRR' && printout[i].code == "nathos_pcr_rs_nathos_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKPCRP' && printout[i].code == "nathos_pcr_poc_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKPCRB' && printout[i].code == "nathos_pcr_bali_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTMPCR' && printout[i].code == "nathos_pcr_mutasi_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTSPCRR' && printout[i].code == "nathos_pcr_saliva_rs_nathos_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTSPCRP' && printout[i].code == "nathos_pcr_saliva_poc_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTSPCRB' && printout[i].code == "nathos_pcr_saliva_bali_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKATGR' && printout[i].code == "nathos_antigen_rs_nathos_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKATGP' && printout[i].code == "nathos_antigen_poc_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKKARBD' && printout[i].code == "nathos_tes_antibodi_rbd_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTNATG' && printout[i].code == "nathos_antigen_nassal_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKMCU1' && printout[i].code == "nathos_checkup1_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKMCU2' && printout[i].code == "nathos_checkup2_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKMCU3' && printout[i].code == "nathos_checkup3_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKMCU4M' && printout[i].code == "nathos_checkup4M_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKMCU4F' && printout[i].code == "nathos_checkup4F_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKMCU5M' && printout[i].code == "nathos_checkup5M_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKMCU5F' && printout[i].code == "nathos_checkup5F_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKPSC' && printout[i].code == "nathos_paket_screening_cvd19_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKPSCWPCR' && printout[i].code == "nathos_paket_screening_cvd19_with_pcr_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'national_hospital' && test_type == 'NHDTKPSCUL' && printout[i].code == "nathos_paket_screening_cvd19_urban_lifestyle_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'swabexpress' && test_type == 'SEKATG' && printout[i].code == "swabexpress_antigen_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'swabexpress' && test_type == 'SEKPCR' && printout[i].code == "swabexpress_pcr_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'swabexpress' && test_type == 'SEPPCR' && printout[i].code == "swabexpress_pcr_priority_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'labpintar' && test_type == 'LPKATG' && printout[i].code == "labpintar_antigen_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'labpintar' && test_type == 'LPKPCR' && printout[i].code == "labpintar_pcr_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'labpintar' && test_type == 'LPEPCR' && printout[i].code == "labpintar_pcr_express_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'labpintar' && test_type == 'LPPPCR' && printout[i].code == "labpintar_pcr_priority_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'labpintar' && test_type == 'LPKSRBD' && printout[i].code == "labpintar_srbd_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'periksain' && test_type.includes('PCR') && printout[i].code == "periksain_pcr_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
-                        }else if(vendor == 'periksain' && test_type.includes('ATG') && printout[i].code == "periksain_antigen_information"){
-                            show_header_medical(printout[i].html);
-                            check_header = false;
-                            break;
+                        if(vendor == 'periksain'){
+                            if(test_type.includes('PCR') && printout[i].code == "periksain_pcr_information"){
+                                show_header_medical(printout[i].html);
+                                check_header = false;
+                                break;
+                            }else if(test_type.includes('ATG') && printout[i].code == "periksain_antigen_information"){
+                                show_header_medical(printout[i].html);
+                                check_header = false;
+                                break;
+                            }
+                        }else{
+                            if(data_vendor[vendor][test_type] == printout[i].code){
+                                show_header_medical(printout[i].html);
+                                check_header = false;
+                            }
                         }
                     }
                     if(check_header){

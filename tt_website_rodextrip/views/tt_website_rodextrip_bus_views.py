@@ -197,7 +197,10 @@ def passenger(request):
 
 
             try:
-                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+                time_limit = get_timelimit_product(request, 'bus')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
                 set_session(request, 'bus_pick', json.loads(request.POST['response']))
                 set_session(request, 'bus_signature', request.POST['signature'])
             except:
@@ -253,99 +256,40 @@ def review(request):
             response = get_cache_data(cache_version)
 
             values = get_data_template(request)
-            seat_list = []
-            for rec in request.session['bus_pick']:
-                seat_list.append({
-                    "origin": rec['origin_name'],
-                    "destination": rec['destination_name'],
-                    "seat": '',
-                    "seat_code": ''
-                })
-            adult = []
-            infant = []
-            contact = []
-            booker = {
-                'title': request.POST['booker_title'],
-                'first_name': request.POST['booker_first_name'],
-                'last_name': request.POST['booker_last_name'],
-                'email': request.POST['booker_email'],
-                'calling_code': request.POST['booker_phone_code'],
-                'mobile': request.POST['booker_phone'],
-                'nationality_name': request.POST['booker_nationality'],
-                'booker_seq_id': request.POST['booker_id']
-            }
-            for i in range(int(request.session['bus_request']['adult'])):
-                adult.append({
-                    "pax_type": "ADT",
-                    "first_name": request.POST['adult_first_name' + str(i + 1)],
-                    "last_name": request.POST['adult_last_name' + str(i + 1)],
-                    "title": request.POST['adult_title' + str(i + 1)],
-                    "birth_date": request.POST.get('adult_birth_date' + str(i + 1)),
-                    "nationality_name": request.POST['adult_nationality' + str(i + 1)],
-                    "identity_country_of_issued_name": request.POST['adult_country_of_issued' + str(i + 1)],
-                    "identity_expdate": request.POST['adult_passport_expired_date' + str(i + 1)],
-                    "identity_number": request.POST['adult_passport_number' + str(i + 1)],
-                    "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
-                    "identity_type": request.POST['adult_id_type' + str(i + 1)],
-                    "seat_list": seat_list
-                })
-
-                if i == 0:
-                    if request.POST['myRadios'] == 'yes':
-                        adult[len(adult) - 1].update({
-                            'is_also_booker': True,
-                            'is_also_contact': True
-                        })
-                    else:
-                        adult[len(adult) - 1].update({
-                            'is_also_booker': False
-                        })
-                else:
-                    adult[len(adult) - 1].update({
-                        'is_also_booker': False
+            if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/')) - 1] == 'seat_map':
+                pax_request_seat = request.POST.get('paxs')
+                if pax_request_seat:
+                    pax_request_seat = json.loads(pax_request_seat)
+                schedules = request.session['bus_booking']
+                for schedule_count, schedule in enumerate(schedules):
+                    for journey_count, journey in enumerate(schedule['journeys']):
+                        journey['seat'] = [] # RESET SEAT
+                for schedule_count, schedule in enumerate(schedules):
+                    for journey_count, journey in enumerate(schedule['journeys']):
+                        if not journey.get('seat'):
+                            journey['seat'] = []
+                        if pax_request_seat:
+                            for idx, request_seat in enumerate(pax_request_seat):
+                                if len(request_seat['seat_pick']) >= schedule_count:
+                                    if request_seat['seat_pick'][schedule_count]['seat_code'] != '':
+                                        journey['seat'].append(request_seat['seat_pick'][schedule_count])
+                                        journey['seat'][len(journey['seat']) - 1].update({
+                                            "sequence": idx + 1
+                                        })
+                set_session(request, 'bus_booking', schedules)
+            else:
+                seat_list = []
+                for rec in request.session['bus_pick']:
+                    seat_list.append({
+                        "origin": rec['origin_name'],
+                        "destination": rec['destination_name'],
+                        "seat": '',
+                        "seat_code": ''
                     })
-                try:
-                    if request.POST['adult_cp' + str(i + 1)] == 'on':
-                        adult[len(adult) - 1].update({
-                            'is_also_contact': True
-                        })
-                    else:
-                        adult[len(adult) - 1].update({
-                            'is_also_contact': False
-                        })
-                except:
-                    if i == 0 and request.POST['myRadios'] == 'yes':
-                        continue
-                    else:
-                        adult[len(adult) - 1].update({
-                            'is_also_contact': False
-                        })
-                try:
-                    if request.POST['adult_cp' + str(i + 1)] == 'on':
-                        contact.append({
-                            "first_name": request.POST['adult_first_name' + str(i + 1)],
-                            "last_name": request.POST['adult_last_name' + str(i + 1)],
-                            "title": request.POST['adult_title' + str(i + 1)],
-                            "email": request.POST['adult_email' + str(i + 1)],
-                            "calling_code": request.POST['adult_phone_code' + str(i + 1)],
-                            "mobile": request.POST['adult_phone' + str(i + 1)],
-                            "nationality_name": request.POST['adult_nationality' + str(i + 1)],
-                            "contact_seq_id": request.POST['adult_id' + str(i + 1)]
-                        })
-                    if i == 0:
-                        if request.POST['myRadios'] == 'yes':
-                            contact[len(contact)].update({
-                                'is_also_booker': True
-                            })
-                        else:
-                            contact[len(contact)].update({
-                                'is_also_booker': False
-                            })
-                except:
-                    pass
-
-            if len(contact) == 0:
-                contact.append({
+                adult = []
+                infant = []
+                contact = []
+                booker = {
                     'title': request.POST['booker_title'],
                     'first_name': request.POST['booker_first_name'],
                     'last_name': request.POST['booker_last_name'],
@@ -353,31 +297,115 @@ def review(request):
                     'calling_code': request.POST['booker_phone_code'],
                     'mobile': request.POST['booker_phone'],
                     'nationality_name': request.POST['booker_nationality'],
-                    'contact_seq_id': request.POST['booker_id'],
-                    'is_also_booker': True
-                })
+                    'booker_seq_id': request.POST['booker_id']
+                }
+                for i in range(int(request.session['bus_request']['adult'])):
+                    adult.append({
+                        "pax_type": "ADT",
+                        "first_name": request.POST['adult_first_name' + str(i + 1)],
+                        "last_name": request.POST['adult_last_name' + str(i + 1)],
+                        "title": request.POST['adult_title' + str(i + 1)],
+                        "birth_date": request.POST.get('adult_birth_date' + str(i + 1)),
+                        "nationality_name": request.POST['adult_nationality' + str(i + 1)],
+                        "identity_country_of_issued_name": request.POST['adult_country_of_issued' + str(i + 1)],
+                        "identity_expdate": request.POST['adult_passport_expired_date' + str(i + 1)],
+                        "identity_number": request.POST['adult_passport_number' + str(i + 1)],
+                        "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
+                        "identity_type": request.POST['adult_id_type' + str(i + 1)],
+                        "seat_list": seat_list
+                    })
 
-            set_session(request, 'bus_create_passengers', {
-                'booker': booker,
-                'adult': adult,
-                'infant': infant,
-                'contact': contact
-            })
-            schedules = []
-            journeys = []
-            for journey in request.session['bus_pick']:
-                journeys.append({
-                    'journey_code': journey['journey_code'],
-                    'fare_code': journey['fares'][0]['fare_code']
+                    if i == 0:
+                        if request.POST['myRadios'] == 'yes':
+                            adult[len(adult) - 1].update({
+                                'is_also_booker': True,
+                                'is_also_contact': True
+                            })
+                        else:
+                            adult[len(adult) - 1].update({
+                                'is_also_booker': False
+                            })
+                    else:
+                        adult[len(adult) - 1].update({
+                            'is_also_booker': False
+                        })
+                    try:
+                        if request.POST['adult_cp' + str(i + 1)] == 'on':
+                            adult[len(adult) - 1].update({
+                                'is_also_contact': True
+                            })
+                        else:
+                            adult[len(adult) - 1].update({
+                                'is_also_contact': False
+                            })
+                    except:
+                        if i == 0 and request.POST['myRadios'] == 'yes':
+                            continue
+                        else:
+                            adult[len(adult) - 1].update({
+                                'is_also_contact': False
+                            })
+                    try:
+                        if request.POST['adult_cp' + str(i + 1)] == 'on':
+                            contact.append({
+                                "first_name": request.POST['adult_first_name' + str(i + 1)],
+                                "last_name": request.POST['adult_last_name' + str(i + 1)],
+                                "title": request.POST['adult_title' + str(i + 1)],
+                                "email": request.POST['adult_email' + str(i + 1)],
+                                "calling_code": request.POST['adult_phone_code' + str(i + 1)],
+                                "mobile": request.POST['adult_phone' + str(i + 1)],
+                                "nationality_name": request.POST['adult_nationality' + str(i + 1)],
+                                "contact_seq_id": request.POST['adult_id' + str(i + 1)]
+                            })
+                        if i == 0:
+                            if request.POST['myRadios'] == 'yes':
+                                contact[len(contact)].update({
+                                    'is_also_booker': True
+                                })
+                            else:
+                                contact[len(contact)].update({
+                                    'is_also_booker': False
+                                })
+                    except:
+                        pass
+
+                if len(contact) == 0:
+                    contact.append({
+                        'title': request.POST['booker_title'],
+                        'first_name': request.POST['booker_first_name'],
+                        'last_name': request.POST['booker_last_name'],
+                        'email': request.POST['booker_email'],
+                        'calling_code': request.POST['booker_phone_code'],
+                        'mobile': request.POST['booker_phone'],
+                        'nationality_name': request.POST['booker_nationality'],
+                        'contact_seq_id': request.POST['booker_id'],
+                        'is_also_booker': True
+                    })
+
+                set_session(request, 'bus_create_passengers', {
+                    'booker': booker,
+                    'adult': adult,
+                    'infant': infant,
+                    'contact': contact
                 })
-                schedules.append({
-                    'journeys': journeys,
-                    'provider': journey['provider'],
-                })
+                schedules = []
                 journeys = []
-            set_session(request, 'bus_booking', schedules)
+                for journey in request.session['bus_pick']:
+                    journeys.append({
+                        'journey_code': journey['journey_code'],
+                        'fare_code': journey['fares'][0]['fare_code']
+                    })
+                    schedules.append({
+                        'journeys': journeys,
+                        'provider': journey['provider'],
+                    })
+                    journeys = []
+                set_session(request, 'bus_booking', schedules)
             try:
-                set_session(request, 'time_limit', request.POST['time_limit_input'])
+                time_limit = get_timelimit_product(request, 'bus')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
                 set_session(request, 'bus_signature', request.POST['signature'])
             except:
                 pass

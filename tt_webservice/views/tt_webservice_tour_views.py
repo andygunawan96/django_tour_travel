@@ -51,6 +51,10 @@ def api_models(request):
             res = get_auto_complete_gateway(request)
         elif req_data['action'] == 'get_carriers':
             res = get_carriers(request)
+        elif req_data['action'] == 'page_search':
+            res = page_search(request)
+        elif req_data['action'] == 'page_review':
+            res = page_review(request)
         elif req_data['action'] == 'get_data':
             res = get_data(request)
         elif req_data['action'] == 'search':
@@ -75,6 +79,8 @@ def api_models(request):
             res = issued_booking(request)
         elif req_data['action'] == 'update_service_charge':
             res = update_service_charge(request)
+        elif req_data['action'] == 'booker_insentif_booking':
+            res = booker_insentif_booking(request)
         elif req_data['action'] == 'get_payment_rules':
             res = get_payment_rules(request)
         elif req_data['action'] == 'get_auto_complete':
@@ -106,6 +112,7 @@ def login(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
+            create_session_product(request, 'tour', 20)
             set_session(request, 'tour_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
@@ -814,6 +821,39 @@ def update_service_charge(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
+def booker_insentif_booking(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        data = {
+            'order_number': json.loads(request.POST['order_number']),
+            'booker': json.loads(request.POST['booker'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "booker_insentif_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/tour'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            total_upsell = 0
+            for upsell in data['passengers']:
+                for pricing in upsell['pricing']:
+                    total_upsell += pricing['amount']
+            set_session(request, 'tour_upsell_booker_'+request.POST['signature'], total_upsell)
+            _logger.info(json.dumps(request.session['tour_upsell_booker_' + request.POST['signature']]))
+            _logger.info("SUCCESS update_service_charge_booker TOUR SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR update_service_charge_tour_booker TOUR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
 def get_auto_complete(request):
     def find_tour_ilike(search_str, record_cache, limit=10):
         tour_list = []
@@ -852,5 +892,23 @@ def get_auto_complete(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
     return record_json
+
+def page_search(request):
+    try:
+        res = {}
+        res['tour_request'] = request.session['tour_request']
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def page_review(request):
+    try:
+        res = {}
+        res['all_pax'] = request.session['all_pax']
+        res['booker'] = request.session['tour_booking_data']['booker']
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
 
 

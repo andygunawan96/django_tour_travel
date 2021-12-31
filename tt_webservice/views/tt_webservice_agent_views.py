@@ -11,6 +11,7 @@ from .tt_webservice import *
 from ..views import tt_webservice_airline_views as airline
 import logging
 import traceback
+import copy
 _logger = logging.getLogger("rodextrip_logger")
 
 month = {
@@ -702,6 +703,7 @@ def get_new_cache(signature, type='all'):
             try:
                 file = open("tt_webservice/static/tt_webservice/phc_city.json", "r")
                 data_kota = json.loads(file.read())
+                file.close()
             except:
                 data_kota = {}
             provider = 'phc'
@@ -730,6 +732,7 @@ def get_new_cache(signature, type='all'):
             try:
                 file = open("tt_webservice/static/tt_webservice/periksain_city.json", "r")
                 data_kota = json.loads(file.read())
+                file.close()
             except:
                 data_kota = {}
             provider = 'periksain'
@@ -826,6 +829,38 @@ def get_new_cache(signature, type='all'):
                 _logger.info("ERROR UPDATE CACHE lab pintar " + provider + ' ' + json.dumps(res) + '\n' + str(
                     e) + '\n' + traceback.format_exc())
 
+            provider = 'mitrakeluarga'
+            additional_url = 'content'
+            data = {
+                'provider_type': provider
+            }
+            action = "get_carriers"
+
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": action,
+                "signature": signature
+            }
+            url_request = url + additional_url
+            res = send_request_api({}, url_request, headers, data, 'POST', 120)
+
+            try:
+                if res['result']['error_code'] == 0:
+                    response = copy.deepcopy(res)
+                    response['result']['response'] = {}
+                    # HOMECARE DULUAN
+                    for rec in res['result']['response']:
+                        if 'HC' in rec:
+                            response['result']['response'][rec] = res['result']['response'][rec]
+                    for rec in res['result']['response']:
+                        if rec not in response['result']['response']:
+                            response['result']['response'][rec] = res['result']['response'][rec]
+                    write_cache_with_folder(response, "mitra_keluarga_cache_data")
+            except Exception as e:
+                _logger.info("ERROR UPDATE CACHE mitra keluarga " + provider + ' ' + json.dumps(res) + '\n' + str(
+                    e) + '\n' + traceback.format_exc())
+
             #bus
             data = {}
             action = "get_config"
@@ -844,13 +879,28 @@ def get_new_cache(signature, type='all'):
                     write_cache_with_folder(res, "get_bus_config")
                     _logger.info("get_bus_config BUS RENEW SUCCESS SIGNATURE " + headers['signature'])
                 else:
-                    try:
-                        file = read_cache_with_folder_path("get_bus_config")
-                        if file:
-                            res = file
-                        _logger.info("get_bus_config BUS RENEW SUCCESS SIGNATURE " + headers['signature'])
-                    except Exception as e:
-                        _logger.error('ERROR get_bus_config file\n' + str(e) + '\n' + traceback.format_exc())
+                    _logger.error('ERROR get_bus_config file\n' + str(e) + '\n' + traceback.format_exc())
+            except Exception as e:
+                _logger.error(str(e) + '\n' + traceback.format_exc())
+
+            #insurance
+            data = {}
+
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": 'get_config',
+                "signature": signature
+            }
+            url_request = url + 'booking/insurance'
+            res = send_request_api({}, url_request, headers, data, 'POST', 120)
+            try:
+                if res['result']['error_code'] == 0:
+                    res = res
+                    write_cache_with_folder(res, "insurance_cache_data")
+                    _logger.info("get_bus_config INSURANCE RENEW SUCCESS SIGNATURE " + headers['signature'])
+                else:
+                    _logger.error('ERROR get_insurance_config file\n' + str(e) + '\n' + traceback.format_exc())
             except Exception as e:
                 _logger.error(str(e) + '\n' + traceback.format_exc())
 

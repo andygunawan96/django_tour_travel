@@ -466,6 +466,10 @@
                     text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/swab_black.png" alt="Lab Pintar Icon"/>`;
                 }else if(provider_types_sequence[i].name == 'swabexpress'){
                     text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/swab_black.png" alt="Swab Express Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'insurance'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/insurance_black.png" alt="Insurance Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'mitrakeluarga'){
+                    text+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/swab_black.png" alt="Swab Express Icon"/>`;
                 }
                 text +=`
                     <span>`+provider_types_sequence[i].name.charAt(0).toUpperCase()+provider_types_sequence[i].name.slice(1).toLowerCase()+`</span>
@@ -506,6 +510,10 @@
                     text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/swab_black.png" alt="Lab Pintar Icon"/>`;
                 }else if(provider_types_sequence[i].name == 'swabexpress'){
                     text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/swab_black.png" alt="Swab Express Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'insurance'){
+                    text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/insurance_black.png" alt="Insurance Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'mitrakeluarga'){
+                    text+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/swab_black.png" alt="Swab Express Icon"/>`;
                 }
                 text+=`
                     <span>`+provider_types_sequence[i].name.charAt(0).toUpperCase()+provider_types_sequence[i].name.slice(1).toLowerCase()+`</span>
@@ -561,6 +569,10 @@
             document.getElementById('gotobooking'+key).action = '/swab_express/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'labpintar'){
             document.getElementById('gotobooking'+key).action = '/lab_pintar/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'insurance'){
+            document.getElementById('gotobooking'+key).action = '/insurance/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'mitrakeluarga'){
+            document.getElementById('gotobooking'+key).action = '/mitra_keluarga/booking/' + btoa(data_search[key].order_number);
         }
         document.getElementById('gotobooking'+key).submit();
     }

@@ -1,0 +1,390 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_insurance.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
+<script>
+    static_path_url_server = '{{static_path_url_server}}';
+    time_limit = {{time_limit}};
+    signature = '{{signature}}';
+    last_session = 'review';
+    session_time_limit();
+</script>
+<div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
+{% include 'tt_website_rodextrip/logout.html' %}
+{% include 'tt_website_rodextrip/loading_screen.html' %}
+{% include 'tt_website_rodextrip/check_connection.html' %}
+{% include 'tt_website_rodextrip/modal_balance_vendor.html' %}
+<title id="title_search">{{name}} {% trans 'Insurance' %} - {% trans 'Review' %}</title>
+{%if template == 1%}
+<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
+                </div>
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
+</header>
+{% elif template == 2 %}
+<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
+                </div>
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+</header>
+{% elif template == 3%}
+<header style="position:sticky; top:0px; background:white; z-index:100;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
+                </div>
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+</header>
+{% elif template == 4 %}
+<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
+                </div>
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+</header>
+{% elif template == 5 %}
+<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
+                </div>
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+</header>
+{% elif template == 6 %}
+<header class="header_breadcrumb" style="position:sticky; top:0px;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
+                </div>
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
+</header>
+{% endif %}
+
+<div class="modal fade" id="waitingTransaction" role="dialog" style="background:rgba(20,20,20,0.8);">
+    <div class="modal-dialog" style="margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <!-- Modal content-->
+        <div class="modal-content" style="background-color:transparent; border:unset;">
+            <div class="modal-body">
+                <div class="col-lg-12" id="viewWaitingTransaction">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
+    <div class="container">
+        <form method="POST" id="insurance_booking">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>{% trans 'Please Review Your Order' %}</h3>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="margin-top:10px; margin-bottom:15px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="insurance_review_detail" style="padding:10px; background-color:white; border:1px solid #cdcdcd;">
+                                <h4> {% trans 'Insurance Information' %} </h4>
+                                <hr/>
+                                <h4>{{response.carrier_name}}</h4>
+                                <span>{{response.data_name}}</span>
+                                <br/>
+                                <span>
+                                    {% autoescape off %}
+                                        {{response.info}}
+                                    {% endautoescape %}
+                                </span>
+                                <br/>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-lg-12">
+                            <div id="insurance_review_booker" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
+                                <div style="padding:10px;">
+                                    <h4> {% trans 'Contact Information' %} </h4>
+                                    <hr/>
+                                    <div style="overflow:auto;">
+                                        <table style="width:100%; margin-top:10px; " id="list-of-passenger">
+                                            <tbody><tr>
+                                                <th style="width:40%;">Name</th>
+                                                <th style="width:30%;">Email</th>
+                                                <th style="width:30%;">Phone Number</th>
+                                            </tr>
+                                            <tr>
+                                                <td>{{passenger.booker.title}} {{passenger.booker.first_name}} {{passenger.booker.last_name}}</td>
+                                                <td>{{passenger.booker.email}}</td>
+                                                <td>{{passenger.booker.calling_code}} - {{passenger.booker.mobile}}</td>
+                                            </tr>
+                                            </tbody></table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-lg-12">
+                            <div id="insurance_review_passenger" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
+                                <div style="padding:10px;">
+                                    <h4> {% trans 'List of Guest(s)' %} </h4>
+                                    <hr/>
+                                    <table style="width:100%;" id="list-of-passengers" class="list-of-passenger-class">
+                                        <tr>
+                                            <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                            <th style="width:45%;">{% trans 'Full Name' %}</th>
+                                            <th style="width:25%;">{% trans 'Birth Date' %}</th>
+                                        </tr>
+                                        {% for pax in passenger.adult %}
+                                        <tr>
+                                            <td>{{forloop.counter}}</td>
+                                            <td>{{pax.title}}. {{pax.first_name}} {{pax.last_name}}</td>
+                                            <td>{{pax.birth_date}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-lg-4" style="margin-bottom:10px;">
+
+                        </div>
+                        <div align="center" class="col-lg-4" style="margin-bottom:10px;">
+
+                        </div>
+                        <div class="col-lg-4" style="margin-bottom:10px;">
+                            <button class="next-loading primary-btn hold-seat-booking-train ld-ext-right issued_booking_btn" type="button" style="width:100%;" onclick="insurance_commit_booking();">
+                                {% trans 'Hold Booking' %}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4" style="margin-top:10px;">
+                    <div class="row">
+                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="insurance_detail">
+                            <h4> {% trans 'Price Detail' %} </h4>
+                            <hr/>
+                            <div class="row">
+                                <div class="col-lg-12" id="insurance_detail_table">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% if 'issued_reservation' in username.co_agent_frontend_security %}
+                        {% include 'tt_website_rodextrip/voucher_code.html'  %}
+                        {% endif %}
+                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:15px; position:relative;" id="payment_acq" hidden>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="myModalRepricing" role="dialog">
+                    <div class="modal-dialog" style="width:100% !important; height:100% !important; max-width:1200px;padding: 0;">
+
+                        <!-- Modal content-->
+                        <div class="modal-content" style="border-radius: 0;">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Reprice Change' %} <i class="fas fa-money"></i></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="row" id="pricing" style="padding:15px;">
+                                            <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <h4 style="padding-top:10px;">{% trans 'Pricing' %}</h4>
+                                                        <hr/>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:right;">
+                                                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation(false);"><i class="fas fa-plus-circle"></i></button>
+                                                        <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
+                                                        <br/>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div style="padding:10px;" id="table_of_equation">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
+                                                        <hr/>
+                                                        <center>
+                                                            <input class="primary-btn-ticket" type="button" onclick="calculate('airline_review');" value="Calculate">
+                                                        </center>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="row" style="padding:15px;">
+                                            <div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd; margin-top:15px;">
+                                                <h4>{% trans 'Result Pricing' %}</h4>
+                                                <hr/>
+                                                <div class="row" id="repricing_div">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="time_limit_input" value="{{time_limit}}" name="time_limit_input" />
+        </form>
+        <form method="POST" id="insurance_issued" action="{% url 'tt_website_rodextrip:payment'%}">
+            {% csrf_token %}
+            <input type="hidden" id="passengers" name="passengers"/>
+            <input type="hidden" id="signature" name="signature"/>
+            <input type="hidden" id="order_number" name="order_number"/>
+            <input type="hidden" id="provider" name="provider"/>
+            <input type="hidden" id="discount" name="discount"/>
+            <input type="hidden" id="voucher_code" name="voucher_code"/>
+            <input type="hidden" id="type" name="type"/>
+            <input type="hidden" id="session_time_input" name="session_time_input"/>
+        </form>
+    </div>
+</div>
+{% if username.co_user_login == 'agent_b2c' %}
+{% include 'tt_website_rodextrip/modal_signin_signup.html' %}
+{% endif %}
+{% include 'tt_website_rodextrip/footer.html' %}
+
+<script>
+    get_insurance_data_review_page();
+    $(document).ready(function () {
+        breadcrumb_create("insurance", 5, 0);
+    });
+</script>
+{% endblock %}

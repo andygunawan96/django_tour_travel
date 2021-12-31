@@ -10,10 +10,28 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    {% if website_mode == 'btc' or website_mode == 'btc_btb' or website_mode == 'btb_with_signup_b2c' %}
+
+                    {% if type_page == 'login' and website_mode == 'btb_with_signup_b2c' %}
+                    <div class="col-lg-4">
+                        <div id="b2c_signup" style="background-color:white; padding:20px; border:2px solid #cdcdcd;">
+                            <h3 style="font-weight:bold; margin-bottom:15px;">{% trans 'Want to join us as an agent?' %}</h3>
+                            <button onclick="location.href='/registration'" type="button" class="primary-btn-ticket" style="color:{{text_color}}; font-size:15px; font-weight:700;"><i class="fas fa-user-plus"></i> Sign Up Agent Here</button>
+                        </div>
+                        <!--href="{% url 'tt_website_rodextrip:registration' %}-->
+                    </div>
+                    {% elif type_page == 'login' and website_mode == 'btb' %}
                     <div class="col-lg-12">
+                        <div id="b2c_signup" style="background-color:white; padding:20px; border:2px solid #cdcdcd;">
+                            <h3 style="font-weight:bold; margin-bottom:15px;">{% trans 'Want to join us as an agent?' %}</h3>
+                            <button onclick="location.href='/registration'" type="button" class="primary-btn-ticket" style="color:{{text_color}}; font-size:15px; font-weight:700;"><i class="fas fa-user-plus"></i> Sign Up Agent Here</button>
+                        </div>
+                        <!--href="{% url 'tt_website_rodextrip:registration' %}-->
+                    </div>
+                    {% endif %}
+                    {% if website_mode == 'btc' or website_mode == 'btc_btb' or website_mode == 'btb_with_signup_b2c' %}
+                    <div class="col-lg-{% if type_page == 'login' and website_mode == 'btb_with_signup_b2c' or type_page == 'login' and website_mode == 'btb' %}8{% else %}12{% endif %}">
                         <div style="background-color:white; padding:10px; border:2px solid #cdcdcd;">
-                            <h6 style="font-weight:bold; color:{{color}};">{% trans 'Register User Form' %}</h6><hr/>
+                            <h6 style="font-weight:bold; color:{{color}};">{% trans 'Register User Form as B2C' %}</h6><hr/>
                             <div class="row">
                                 <div class="col-lg-6 col-xs-6">
                                     <span style="font-weight:600;"><span style="color:red">*</span> {% trans 'Title' %}</span>
@@ -91,6 +109,11 @@
                                     <hr/>
                                     <button type="button" class="primary-btn-ticket" data-dismiss="modal" onclick="signup_b2c();">{% trans 'Sign Up Now' %}</button>
                                 </div>
+                                {%if template == 6%}
+                                <div class="col-lg-12 mt-3" style="text-align:center;">
+                                    <a style="margin-top:5px; font-size:13px; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c" onclick="open_signin_close_signup_modal();"><i class="fas fa-sign-in-alt"></i> {% trans 'Sign In' %}</a>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

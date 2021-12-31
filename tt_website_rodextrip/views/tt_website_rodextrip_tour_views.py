@@ -190,13 +190,17 @@ def detail(request, tour_code):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
-        try:
-            set_session(request, 'time_limit', int(request.POST['time_limit_input']))
-        except:
-            if request.session.get('time_limit'):
-                set_session(request, 'time_limit', request.session['time_limit'])
-            else:
-                set_session(request, 'time_limit', 1200)
+        time_limit = get_timelimit_product(request, 'tour')
+        if time_limit == 0:
+            try:
+                time_limit = int(request.POST['time_limit_input'])
+            except:
+                if request.session.get('time_limit'):
+                    time_limit = request.session['time_limit']
+                else:
+                    time_limit = 1200
+        set_session(request, 'time_limit', time_limit)
+
 
         dest_month_data = [
             {'value': '00', 'string': 'All Months'},
@@ -265,7 +269,10 @@ def passenger(request):
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
             try:
-                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+                time_limit = get_timelimit_product(request, 'tour')
+                if time_limit == 0:
+                    time_limit = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', time_limit)
             except:
                 set_session(request, 'time_limit', request.session['time_limit'])
 
@@ -455,7 +462,10 @@ def review(request):
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
-            set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+            time_limit = get_timelimit_product(request, 'tour')
+            if time_limit == 0:
+                time_limit = int(request.POST['time_limit_input'])
+            set_session(request, 'time_limit', time_limit)
             adult = []
             child = []
             infant = []
@@ -649,6 +659,7 @@ def review(request):
             })
 
             set_session(request, 'tour_booking_data', temp_booking_data)
+            set_session(request, 'all_pax', all_pax)
 
             printout_prices = []
             for temp_prices in request.session['tour_price']['result']['response']['service_charges']:

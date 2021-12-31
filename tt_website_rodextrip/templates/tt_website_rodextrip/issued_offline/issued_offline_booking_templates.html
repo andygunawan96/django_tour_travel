@@ -36,7 +36,18 @@
 </div>
 
 {%if template == 1%}
-<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+<header id="header" class="header_breadcrumb">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -53,7 +64,7 @@
     </div>
 </header>
 {% elif template == 2 %}
-<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd;">
+<header class="header_breadcrumb" style="z-index:100; border-bottom:1px solid #cdcdcd;">
     <div class="main-header-area">
         <div class="classy-nav-container breakpoint-off">
             <div class="container">
@@ -313,9 +324,14 @@
                                         <div class="row" id="pricing" style="padding:15px;">
                                             <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
                                                 <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <h4 style="padding-top:10px;">Pricing</h4>
-                                                        <hr/>
+                                                    <div class="col-lg-6">
+                                                        <h4 style="padding-top:10px;">{% trans 'Pricing' %}</h4>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <select id="repricing_type" name="repricing_type" class="nice-select-default" onchange="reset_repricing();">
+                                                            <option value="passenger">Passenger</option>
+                                                            <option value="booker">Booker</option>
+                                                        </select>
                                                     </div>
                                                     <div class="col-lg-12" style="text-align:right;">
                                                         <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation();"><i class="fas fa-plus-circle"></i></button>

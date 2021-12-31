@@ -25,17 +25,9 @@
     //});
     time_limit = {{time_limit}};
     session_time_limit();
-    facilities = `{{response.facilities}}`;
-    facilities = facilities.replace(/&#39;/g, '"');
-    facilities = facilities.replace(/&quot;/g, '"');
-    facilities = facilities.replace(/False/g, 'false');
-    facilities = facilities.replace(/True/g, 'true');
+
     last_session = 'sell_journeys';
-    hotel_search_data = `{{hotel_search}}`;
-    hotel_search_data = hotel_search_data.replace(/&#39;/g, '"');
-    hotel_search_data = hotel_search_data.replace(/&quot;/g, '"');
-    hotel_search_data = hotel_search_data.replace(/False/g, 'false');
-    hotel_search_data = hotel_search_data.replace(/True/g, 'true');
+
 </script>
 <style>
     ul li{
@@ -1165,7 +1157,7 @@
 {%endif%}
 
 {% if username.co_user_login != 'agent_b2c' %}
-<section id="info_user_search" style="position: fixed; z-index:1050; width: 300px; top:0px; right:15px;" hidden>
+<section id="info_user_search" style="position: fixed; z-index:1050; width: 320px; top:0px; right:15px;" hidden>
     <div style="padding:12px; background:white; border:1px solid {{color}};">
         <i class="fas fa-user" style="padding-right:5px; color:{{color}}; font-size:16px;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:10px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{username.co_user_login}}</span>
         <a id="balance_search" style="font-size:13px; font-weight:500; border-bottom:2px solid {{color}};"></a>
@@ -1697,7 +1689,7 @@
     }
 </script>
 <script>
-    hotel_facility_request(facilities);
+    hotel_detail_page();
     var myIndex = 0;
     address = '';
     {% if response.location.address != false %}
@@ -1882,7 +1874,6 @@
               format: 'DD MMM YYYY',
           }
       });
-      hotel_detail_request(moment(firstDate).format('DD MMM YYYY'), moment(secondDate).format('DD MMM YYYY'));
       $('input[name="hotel_checkin_checkout"]').on('apply.daterangepicker', function(ev, picker) {
           $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
             var oneDay = 24*60*60*1000;

@@ -68,8 +68,6 @@ def api_models(request):
             res = update_options(request)
         elif req_data['action'] == 'activity_review_booking':
             res = get_review_booking_data(request)
-        elif req_data['action'] == 'prepare_booking':
-            res = prepare_booking(request)
         elif req_data['action'] == 'commit_booking':
             res = commit_booking(request)
         elif req_data['action'] == 'issued_booking':
@@ -78,10 +76,16 @@ def api_models(request):
             res = get_booking(request)
         elif req_data['action'] == 'update_service_charge':
             res = update_service_charge(request)
+        elif req_data['action'] == 'booker_insentif_booking':
+            res = booker_insentif_booking(request)
         elif req_data['action'] == 'get_voucher':
             res = get_voucher(request)
         elif req_data['action'] == 'get_auto_complete':
             res = get_auto_complete(request)
+        elif req_data['action'] == 'passenger_page':
+            res = passenger_page(request)
+        elif req_data['action'] == 'review_page':
+            res = review_page(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -109,6 +113,7 @@ def login(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
+            create_session_product(request, 'activity', 20)
             set_session(request, 'activity_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
@@ -286,6 +291,7 @@ def get_pricing(request):
             'product_type_uuid': request.POST['product_type_uuid'],
             'date_start': to_date_now(datetime.strptime(startingDate, '%d %b %Y').strftime('%Y-%m-%d %H:%M:%S'))[:10],
             'date_end': to_date_now((datetime.strptime(startingDate, '%d %b %Y')+timedelta(days=pricing_days)).strftime('%Y-%m-%d %H:%M:%S'))[:10],
+            'sku_data': json.loads(request.POST['sku_data']),
             "provider": request.session['activity_pick']['provider_code']
         }
         headers = {
@@ -595,20 +601,6 @@ def update_options(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     return res
 
-def prepare_booking(request):
-    data = {}
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "prepare_booking",
-        "signature": request.POST['signature']
-    }
-
-    url_request = url + 'booking/activity'
-    res = send_request_api(request, url_request, headers, data, 'POST', 300)
-
-    return res
-
 def commit_booking(request):
     force_issued = request.POST.get('value') and request.POST['value'] or 0
     data = {
@@ -755,6 +747,38 @@ def update_service_charge(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
+def booker_insentif_booking(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        data = {
+            'order_number': json.loads(request.POST['order_number']),
+            'booker': json.loads(request.POST['booker'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "booker_insentif_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/activity'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            total_upsell = 0
+            for upsell in data['passengers']:
+                for pricing in upsell['pricing']:
+                    total_upsell += pricing['amount']
+            set_session(request, 'activity_upsell_booker_'+request.POST['signature'], total_upsell)
+            _logger.info(json.dumps(request.session['activity_upsell_booker_' + request.POST['signature']]))
+            _logger.info("SUCCESS update_service_charge_booker Activity SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR update_service_charge_activity_booker Activity SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
 
 def get_voucher(request):
     data = {
@@ -809,3 +833,34 @@ def get_auto_complete(request):
     except Exception as e:
         _logger.error('ERROR get activity_cache_data file\n' + str(e) + '\n' + traceback.format_exc())
     return record_json
+
+def passenger_page(request):
+    try:
+        res = {}
+        res['response'] = request.session['activity_pick']
+        res['highlights'] = request.session['activity_pick']['highlights']
+        res['activity_pax_data'] = request.session['activity_pax_data']
+        res['pax_count'] = request.session['activity_pax_data']['pax_count']
+        res['detail'] = request.session['activity_request']['activity_types_data'][request.session['activity_type_pick']]['options']
+        res['price'] = request.session['activity_request']['activity_date_data']
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def review_page(request):
+    try:
+        res = {}
+        res['pax_count'] = request.session['activity_pax_data']['pax_count']
+        res['printout_paxs'] = request.session['printout_paxs' + request.POST['signature']]
+        res['printout_prices'] = request.session['printout_prices' + request.POST['signature']]
+        res['price'] = request.session['activity_price']['result']['response']
+        res['options'] = request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['options']
+        res['booker'] = request.session['activity_review_booking']['booker']
+        res['contact_person'] = request.session['activity_review_booking']['contacts']
+        res['all_pax'] = request.session['activity_review_booking']['all_pax']
+
+        res['response'] = request.session['activity_pick']
+        res['highlights'] = request.session['activity_pick']['highlights']
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res

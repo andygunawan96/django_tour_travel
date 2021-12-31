@@ -17,34 +17,7 @@
     signature = '{{signature}}';
     time_limit = {{time_limit}};
     session_time_limit();
-    adult = `{{adults}}`;
-    adult = adult.replace(/True/g, 'true');
-    adult = adult.replace(/False/g, 'false');
-    adult = adult.replace(/&#39;/g, '"');
-    adult = JSON.parse(adult);
-    booker = `{{booker}}`;
-    booker = booker.replace(/True/g, 'true');
-    booker = booker.replace(/False/g, 'false');
-    booker = booker.replace(/&#39;/g, '"');
-    booker = JSON.parse(booker);
 
-    contact = `{{contact}}`;
-    contact = contact.replace(/True/g, 'true');
-    contact = contact.replace(/False/g, 'false');
-    contact = contact.replace(/&#39;/g, '"');
-    contact = JSON.parse(contact);
-
-    json_event_option_code = `{{event_option_code}}`;
-    json_event_option_code = json_event_option_code.replace(/True/g, 'true');
-    json_event_option_code = json_event_option_code.replace(/False/g, 'false');
-    json_event_option_code = json_event_option_code.replace(/&#39;/g, '"');
-    json_event_option_code = JSON.parse(json_event_option_code);
-
-    json_event_answer = `{{event_extra_question}}`;
-    json_event_answer = json_event_answer.replace(/True/g, 'true');
-    json_event_answer = json_event_answer.replace(/False/g, 'false');
-    json_event_answer = json_event_answer.replace(/&#39;/g, '"');
-    json_event_answer = JSON.parse(json_event_answer);
     upsell_price = {{upsell}};
 </script>
 
@@ -56,7 +29,18 @@
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
 
 {%if template == 1%}
-<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+<header id="header" class="header_breadcrumb">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -82,9 +66,58 @@
     {% include 'tt_website_rodextrip/header_signin_signup.html' %}
     {% endif %}
 </header>
+{% elif template == 6 %}
+<header class="header_breadcrumb" style="padding:unset; z-index:100; border-bottom:1px solid #cdcdcd;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; height:30px; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="main-menu" style="padding:10px 0px;">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
+                </div>
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
+</header>
 {% else %}
-<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
-    <div class="main-menu">
+<header class="header_breadcrumb" style="padding:unset; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
+        <div class="container">
+            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
+                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
+                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="main-menu" style="padding:10px 0px;">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
@@ -412,7 +445,7 @@
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
-                                <div id="search_result" style="overflow:auto;height:300px;margin-top:20px;">
+                                <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
                                     <div class="col-sm-12">
                                         <div class="row">
                                             <div class="col-sm-6">
@@ -461,9 +494,7 @@
 <script>
     //document.getElementById('voucher_discount').style.display = 'none';
     //get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'hotel_review');
-    document.getElementById('json_event_code').value = json_event_option_code;
-    render_extra_question(json_event_answer);
-    render_object_from_value(json_event_option_code);
+    event_page_review();
     $( document ).ready(function() {
       breadcrumb_create("event", 5, 0);
     });

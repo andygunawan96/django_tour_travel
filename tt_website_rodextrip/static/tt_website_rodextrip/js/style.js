@@ -419,6 +419,9 @@ $(document).ready(function(){
     var quantity_adult_bus = parseInt($('#bus_adult').val());
     $('#show_total_pax_bus').text(quantity_adult_bus + " Adult");
 
+    var quantity_adult_insurance = parseInt($('#insurance_adult').val());
+    $('#show_total_pax_insurance').text(quantity_adult_insurance + " Customer");
+
     $('.right-plus-adult-bus').click(function(e){
         // Stop acting like a button
         e.preventDefault();
@@ -462,6 +465,52 @@ $(document).ready(function(){
         }
         else{
             document.getElementById("right-plus-adult-bus").disabled = false;
+        }
+    });
+
+    $('.right-plus-adult-insurance').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#insurance_adult').val());
+
+        // If is not undefined
+        if(quantity < 4){
+            $('#insurance_adult').val(quantity + 1);
+            quantity_adult_insurance = quantity + 1;
+
+            $('#show_total_pax_insurance').text(quantity_adult_insurance + " Customer");
+        }
+
+        if (quantity_adult_insurance == 4){
+            document.getElementById("left-minus-adult-insurance").disabled = false;
+            document.getElementById("right-plus-adult-insurance").disabled = true;
+        }
+        else{
+            document.getElementById("left-minus-adult-insurance").disabled = false;
+        }
+    });
+    $('.left-minus-adult-insurance').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#insurance_adult').val());
+
+        // If is not undefined
+        // Increment
+        if(quantity > 1){
+            $('#insurance_adult').val(quantity - 1);
+            quantity_adult_insurance = quantity - 1;
+
+            $('#show_total_pax_insurance').text(quantity_adult_insurance + " Customer");
+        }
+
+        if (quantity_adult_insurance == 1){
+            document.getElementById("left-minus-adult-insurance").disabled = true;
+            document.getElementById("right-plus-adult-insurance").disabled = false;
+        }
+        else{
+            document.getElementById("right-plus-adult-insurance").disabled = false;
         }
     });
 
@@ -1241,6 +1290,13 @@ $(document).ready(function(){
                     $("#show_total_pax_flight").click();
                 }, 200);
             });
+
+            quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
+            quantity_child_flight = parseInt(document.getElementById('child_flight').value);
+            quantity_infant_flight = parseInt(document.getElementById('infant_flight').value);
+
+            $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
+            $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
         }
         else if(selected_value == "roundtrip"){
             if(template == 1 || template == 2 || template == 3 || template == 6){
@@ -1352,6 +1408,13 @@ $(document).ready(function(){
                     $("#show_total_pax_flight").click();
                 }, 200);
             });
+
+            quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
+            quantity_child_flight = parseInt(document.getElementById('child_flight').value);
+            quantity_infant_flight = parseInt(document.getElementById('infant_flight').value);
+
+            $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
+            $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
         }
         else if (selected_value == "multicity"){
             airline_counter_config = 0;
@@ -1384,7 +1447,6 @@ $(document).ready(function(){
                     </div>
                 </div>`;
             }
-
             else if(template == 3){
                 text_mc += `
                 <div class="row">
@@ -1398,7 +1460,6 @@ $(document).ready(function(){
                     </div>
                 </div>`;
             }
-
             else if(template == 4){
                 text_mc += `
                 <div class="row">
@@ -1412,7 +1473,6 @@ $(document).ready(function(){
                     </div>
                 </div>`;
             }
-
             else if(template == 5){
                 text_mc += `
                 <div class="row">
@@ -1426,7 +1486,6 @@ $(document).ready(function(){
                     </div>
                 </div>`;
             }
-
             else if(template == 6){
                 text_mc += `
                 <div class="row">
@@ -1450,9 +1509,13 @@ $(document).ready(function(){
 
             add_multi_city('home');
             add_multi_city('home');
+
+            quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
+            quantity_child_flight = parseInt(document.getElementById('child_flight').value);
+            quantity_infant_flight = parseInt(document.getElementById('infant_flight').value);
+
             $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
             $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
-
         }
     });
 
@@ -1699,6 +1762,14 @@ $(document).ready(function(){
                     $("#show_total_pax_flight").click();
                 }, 200);
             });
+
+            quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
+            quantity_child_flight = parseInt(document.getElementById('child_flight').value);
+            quantity_infant_flight = parseInt(document.getElementById('infant_flight').value);
+
+            $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
+            $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
+
         }
         else if(selected_value == "roundtrip"){
             document.getElementById("airline_date_search").innerHTML = '';
@@ -1851,7 +1922,12 @@ $(document).ready(function(){
                 });
             }
 
+            quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
+            quantity_child_flight = parseInt(document.getElementById('child_flight').value);
+            quantity_infant_flight = parseInt(document.getElementById('infant_flight').value);
 
+            $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
+            $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
         }
         else if (selected_value == "multicity"){
             airline_counter_config = 0;
@@ -1966,10 +2042,67 @@ $(document).ready(function(){
             for(var airline_counter=0;airline_counter<parseInt(airline_request_counter);airline_counter++){
                 add_multi_city('search');
             }
+
+            quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
+            quantity_child_flight = parseInt(document.getElementById('child_flight').value);
+            quantity_infant_flight = parseInt(document.getElementById('infant_flight').value);
+
+            $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
             $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
             //func_check_provider()
         }
     });
+
+    $('#radio_insurance_search').click(function(){
+        selected_value = $("input[name='radio_insurance_type']:checked").val();
+        if (selected_value == "Annual"){
+            $("#insurance_date").val(moment().subtract(-1, 'days').format('DD MMM YYYY') + ' - ' + moment().subtract(-1, 'days').subtract(-1, 'years').format('DD MMM YYYY'));
+
+            $('input[name="insurance_date"]').daterangepicker({
+                singleDatePicker: true,
+                autoUpdateInput: false,
+                minDate: moment().subtract(-1, 'days'),
+                maxDate: moment().subtract(-1, 'years'),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+
+            $('input[name="insurance_date"]').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + moment(picker.startDate).subtract(-1, 'years').format('DD MMM YYYY'));
+                $("#insurance_date").val(picker.startDate.format('DD MMM YYYY') + ' - ' + moment(picker.startDate).subtract(-1, 'years').format('DD MMM YYYY'));
+                setTimeout(function(){
+                    $("#show_total_pax_insurance").click();
+                }, 200);
+            });
+        }
+        else{
+            $('input[name="insurance_date"]').daterangepicker({
+                singleDatePicker: false,
+                autoUpdateInput: true,
+                autoApply: true,
+                startDate: moment(),
+                endDate: moment().subtract(-2, 'days'),
+                minDate: moment().subtract(-1, 'days'),
+                maxDate: moment().subtract(-1, 'years'),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+
+            $('input[name="insurance_date"]').on('apply.daterangepicker', function(ev, picker) {
+                setTimeout(function(){
+                    $("#show_total_pax_insurance").click();
+                }, 200);
+            });
+        }
+    });
+
+
 
 });
 
@@ -2097,16 +2230,19 @@ function show_paxs(pax_type, key){
     var paxs = document.getElementById(pax_type+'_paxs'+key);
     var paxs_down = document.getElementById(pax_type+'_down_paxs'+key);
     var paxs_up = document.getElementById(pax_type+'_up_paxs'+key);
-    for (var i=1; i <= parseInt(adult); i++){
-        paxs = document.getElementById('adult_paxs'+i);
-        paxs_up = document.getElementById('adult_up_paxs'+i);
-        paxs_down = document.getElementById('adult_down_paxs'+i);
+    if(typeof(adult) !== 'undefined'){
+        for (var i=1; i <= parseInt(adult); i++){
+            paxs = document.getElementById('adult_paxs'+i);
+            paxs_up = document.getElementById('adult_up_paxs'+i);
+            paxs_down = document.getElementById('adult_down_paxs'+i);
+        }
     }
-
-    for (var i=1; i <= parseInt(infant); i++){
-        paxs = document.getElementById('infant_paxs'+i);
-        paxs_up = document.getElementById('infant_up_paxs'+i);
-        paxs_down = document.getElementById('infant_down_paxs'+i);
+    if(typeof(infant) !== 'undefined'){
+        for (var i=1; i <= parseInt(infant); i++){
+            paxs = document.getElementById('infant_paxs'+i);
+            paxs_up = document.getElementById('infant_up_paxs'+i);
+            paxs_down = document.getElementById('infant_down_paxs'+i);
+        }
     }
 
     paxs = document.getElementById(pax_type+'_paxs'+key);
@@ -2165,22 +2301,28 @@ function show_paxs_airline(pax_type, key){
     var paxs_down = document.getElementById(pax_type+'_down_paxs'+key);
     var paxs_up = document.getElementById(pax_type+'_up_paxs'+key);
 
-    for (var i=1; i <= parseInt(adult); i++){
-        paxs = document.getElementById('adult_paxs'+i);
-        paxs_up = document.getElementById('adult_up_paxs'+i);
-        paxs_down = document.getElementById('adult_down_paxs'+i);
+    if(typeof(adult) !== 'undefined'){
+        for (var i=1; i <= parseInt(adult); i++){
+            paxs = document.getElementById('adult_paxs'+i);
+            paxs_up = document.getElementById('adult_up_paxs'+i);
+            paxs_down = document.getElementById('adult_down_paxs'+i);
+        }
     }
 
-    for (var i=1; i <= parseInt(child); i++){
-        paxs = document.getElementById('child_paxs'+i);
-        paxs_up = document.getElementById('child_up_paxs'+i);
-        paxs_down = document.getElementById('child_down_paxs'+i);
+    if(typeof(child) !== 'undefined'){
+        for (var i=1; i <= parseInt(child); i++){
+            paxs = document.getElementById('child_paxs'+i);
+            paxs_up = document.getElementById('child_up_paxs'+i);
+            paxs_down = document.getElementById('child_down_paxs'+i);
+        }
     }
 
-    for (var i=1; i <= parseInt(infant); i++){
-        paxs = document.getElementById('infant_paxs'+i);
-        paxs_up = document.getElementById('infant_up_paxs'+i);
-        paxs_down = document.getElementById('infant_down_paxs'+i);
+    if(typeof(infant) !== 'undefined'){
+        for (var i=1; i <= parseInt(infant); i++){
+            paxs = document.getElementById('infant_paxs'+i);
+            paxs_up = document.getElementById('infant_up_paxs'+i);
+            paxs_down = document.getElementById('infant_down_paxs'+i);
+        }
     }
 
     paxs = document.getElementById(pax_type+'_paxs'+key);
@@ -2667,9 +2809,15 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
     }else if(breadcrumbs_type == "labpintar"){
         var breadcrumbs = ["Home", "Passenger", "Review", "Issued"];
         var breadcrumbs_url = ["location.href='/dashboard';", "", "", ""];
+    }else if(breadcrumbs_type == "mitrakeluarga"){
+        var breadcrumbs = ["Home", "Passenger", "Review", "Issued"];
+        var breadcrumbs_url = ["location.href='/dashboard';", "", "", ""];
     }else if(breadcrumbs_type == "bus"){
         var breadcrumbs = ["Home", "Search", "Passenger", "Review", "Booking", "Issued"];
         var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/bus';", "location.href='/bus/passenger';", "", "", ""];
+    }else if(breadcrumbs_type == "insurance"){
+        var breadcrumbs = ["Home", "Search", "Passenger", "Review", "Booking", "Issued"];
+        var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/insurance';", "location.href='/insurance/passenger';", "", "", ""];
     }
 
     document.getElementById("breadcrumbs_create").innerHTML = '';
@@ -3017,6 +3165,16 @@ function next_focus_element(product, from){
                 $("#show_total_pax_bus").click();
             }, 200);
         }
+    }else if(product == 'insurance'){
+        if(from == 'plantrip'){
+            setTimeout(function(){
+                $('#insurance_date').focus();
+            }, 200);
+        }else if(from == 'passenger'){
+            setTimeout(function(){
+                $("#show_total_pax_insurance").click();
+            }, 200);
+        }
     }
 }
 
@@ -3092,4 +3250,18 @@ function go_guide(id){
     $('html, body').animate({
         scrollTop: $("#"+id).offset().top
     }, 500);
+}
+
+function open_signin_modal(){
+    $('#mylogintemplate6').modal('show');
+}
+
+function open_signup_modal(){
+    $('#mylogintemplate6').modal('hide');
+    $('#myModalb2c').modal('show');
+}
+
+function open_signin_close_signup_modal(){
+    $('#myModalb2c').modal('hide');
+    $('#mylogintemplate6').modal('show');
 }

@@ -75,7 +75,8 @@ function visa_signin(data){
                 signature = msg.result.response.signature;
                 get_carriers_visa();
                 if(data == ''){
-                    visa_get_config_provider();
+                    search_visa()
+//                    visa_get_config_provider();
                 }else if(data != ''){
                     visa_get_data(data);
                 }
@@ -120,6 +121,65 @@ function get_carriers_visa(){
     });
 }
 
+function visa_page_passenger(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/visa",
+       headers:{
+            'action': 'page_passenger',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg)
+            passenger = msg.passenger;
+            visa = msg.visa;
+            visa_request = msg.visa_request;
+            sell_visa();
+            update_table('passenger');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error visa get config provider');
+       },timeout: 60000
+    });
+}
+
+function visa_page_review(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/visa",
+       headers:{
+            'action': 'page_review',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg)
+            passenger = msg.passengers;
+            visa_request = msg.visa_request;
+            visa = msg.visa;
+            adult = passenger.adult;
+            infant = passenger.infant;
+            elder = passenger.elder;
+            child = passenger.child;
+
+            for(i in passenger.adult)
+                set_value_radio_first('adult',parseInt(i)+1);
+            for(i in passenger.child)
+                set_value_radio_first('child',parseInt(i)+1);
+            for(i in passenger.infant)
+                set_value_radio_first('infant',parseInt(i)+1);
+            for(i in passenger.elder)
+                set_value_radio_first('elder',parseInt(i)+1);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error visa get config provider');
+       },timeout: 60000
+    });
+}
+
 function visa_get_config_provider(){
     $.ajax({
        type: "POST",
@@ -160,7 +220,7 @@ function visa_get_config_provider(){
     });
 }
 
-function search_visa(provider){
+function search_visa(){
     counter_visa = 0;
     $.ajax({
        type: "POST",
@@ -173,7 +233,6 @@ function search_visa(provider){
             'departure_date': document.getElementById('visa_departure').value,
             'consulate': document.getElementById('visa_consulate_id_hidden').value,
             'signature': signature,
-            'provider': provider,
        },
        success: function(msg) {
             console.log(msg);
@@ -243,8 +302,16 @@ function search_visa(provider){
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6" style="text-align:right;">
-                                            <span id="fare`+counter_visa+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050;">`+msg.result.response.list_of_visa[i].sale_price.currency+` `+getrupiah(msg.result.response.list_of_visa[i].sale_price.total_price)+`</span>
+                                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6" style="text-align:right;">`;
+                                        price = 0
+                                        currency = '';
+                                        for(j in msg.result.response.list_of_visa[i].service_charges)
+                                            if(msg.result.response.list_of_visa[i].service_charges[j].charge_type != 'RAC')
+                                                price += msg.result.response.list_of_visa[i].service_charges[j].amount;
+                                            if(currency == '')
+                                                currency = msg.result.response.list_of_visa[i].service_charges[j].currency;
+                                        text+=`
+                                            <span id="fare`+counter_visa+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050;">`+currency+` `+getrupiah(price)+`</span>
                                         </div>
                                     </div>
                                 </div>
@@ -298,7 +365,7 @@ function search_visa(provider){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error visa search');
-       },timeout: 120000
+       },timeout: 180000
     });
 }
 
@@ -1003,6 +1070,18 @@ function visa_get_data(data){
                                             </div>
                                         </div>`;
                                     }
+                                    //booker
+                                    booker_insentif = '-';
+                                    if(msg.result.response.hasOwnProperty('booker_insentif'))
+                                        booker_insentif = msg.result.response.booker_insentif
+                                    text_repricing += `
+                                        <div class="col-lg-12">
+                                            <div style="padding:5px;" class="row" id="booker_repricing" hidden>
+                                            <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
+                                            <div class="col-lg-3" id="repriring_booker_repricing"></div>
+                                            <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
+                                            </div>
+                                        </div>`;
                                     text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
                                     document.getElementById('repricing_div').innerHTML = text_repricing;
                                     //repricing
@@ -1293,6 +1372,7 @@ function visa_get_data(data){
                     hide_modal_waiting_transaction();
                 }
             }catch(err){
+                console.log(err);
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
@@ -1337,7 +1417,10 @@ function update_service_charge(type){
         upsell_price = 0;
         upsell = []
         counter_pax = -1;
-        currency = visa.list_of_visa[0].sale_price.currency;
+        for(j in visa.list_of_visa[0].service_charges){
+            currency = visa.list_of_visa[0].service_charges[j].currency;
+            break
+        }
         for(i in passenger){
             list_price = []
             if(i != 'booker' && i != 'contact'){
@@ -1402,6 +1485,61 @@ function update_service_charge(type){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error visa service charge');
+            $('.loader-rodextrip').fadeOut();
+       },timeout: 60000
+    });
+
+}
+
+function update_insentif_booker(type){
+    repricing_order_number = '';
+    if(type == 'booking'){
+        booker_insentif = {}
+        total_price = 0
+        for(j in list){
+            total_price += list[j];
+        }
+        booker_insentif = {
+            'amount': total_price
+        };
+        repricing_order_number = order_number;
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/visa",
+       headers:{
+            'action': 'booker_insentif_booking',
+       },
+       data: {
+           'order_number': JSON.stringify(repricing_order_number),
+           'booker': JSON.stringify(booker_insentif),
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                try{
+                    if(type == 'booking'){
+                        please_wait_transaction();
+                        visa_get_data(repricing_order_number);
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
+                    }
+                }catch(err){}
+                $('#myModalRepricing').modal('hide');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error visa update booker insentif </span>' + msg.result.error_msg,
+                })
+                $('.loader-rodextrip').fadeOut();
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error visa update booker insentif');
             $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });

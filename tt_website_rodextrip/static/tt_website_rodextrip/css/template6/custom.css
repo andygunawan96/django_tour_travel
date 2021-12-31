@@ -143,7 +143,7 @@
 }
 
 .primary-btn-cancel {
-  background: #f73a16;
+  background: #ff3030;
   line-height: 35px;
   padding-left: 15px;
   padding-right: 15px;
@@ -3744,3 +3744,10 @@ small,
     color: {{color}};
 }
 
+.form-select-2{
+    width:100%;
+}
+
+.single-recent-blog-post{
+    margin-top:15px;
+}

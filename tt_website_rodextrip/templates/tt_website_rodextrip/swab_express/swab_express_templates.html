@@ -117,7 +117,7 @@
                     <div class="tab-content" id="myTabContent">
                         {% if "swabexpress" in provider and "ticketing_swabexpress" in username.co_agent_frontend_security %}
                         <div class="tab-pane fade show active " id="swab_express" role="tabpanel" aria-labelledby="swab_express-tab">
-                            <form action="{% url 'tt_website_rodextrip:swab_express_passenger'%}" class="form-wrap" id="swab_express_searchForm" method="post">
+                            <form action="" class="form-wrap" id="swab_express_searchForm" method="post">
                                 {% csrf_token %}
                                 <h4 style="color:white;">Swab Express</h4>
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_swab_express'>
@@ -126,7 +126,7 @@
                                         <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Medical Type' %}</span>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select">
-                                                <select id="swab_express_type" name="swab_express_type" class="nice-select-default">
+                                                <select id="medical_type_swab_express" name="medical_type_swab_express" class="nice-select-default">
 
                                                 </select>
                                             </div>

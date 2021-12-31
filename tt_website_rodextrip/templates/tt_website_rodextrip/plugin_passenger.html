@@ -98,10 +98,10 @@
                     <div class="banner-right">
                         <div class="form-wrap" style="padding:unset; text-align:unset;">
                             <div class="row">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                <div class="col-lg-7 col-md-7 col-sm-7">
                                     <input class="form-control" type="text" id="train_passenger_search" placeholder="{% trans 'Search' %}"/>
                                 </div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <div class="col-lg-5 col-md-5 col-sm-5">
                                     <button type="button" class="primary-btn" id="passenger_btn_click" onclick="get_customer_list('passenger','','cache')">{% trans 'Search' %}</button>
                                 </div>
                             </div>
@@ -112,10 +112,10 @@
                         <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset;">
                             <div class="form-wrap" style="padding:unset; text-align:unset;">
                                 <div class="row">
-                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                    <div class="col-lg-7 col-md-7 col-sm-7">
                                         <input class="form-control" type="text" id="train_passenger_search" placeholder="{% trans 'Search' %}"/>
                                     </div>
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                    <div class="col-lg-5 col-md-5 col-sm-5">
                                         <button type="button" class="primary-btn" id="passenger_btn_click" onclick="get_customer_list('passenger','','cache')">{% trans 'Search' %}</button>
                                     </div>
                                 </div>
@@ -126,10 +126,10 @@
                     <div class="header-right" style="background-color:unset; border:unset;">
                         <div class="form-wrap" style="padding:unset; text-align:unset;">
                             <div class="row">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                <div class="col-lg-7 col-md-7 col-sm-7">
                                     <input class="form-control" type="text" id="train_passenger_search" placeholder="{% trans 'Search' %}"/>
                                 </div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <div class="col-lg-5 col-md-5 col-sm-5">
                                     <button type="button" class="primary-btn" id="passenger_btn_click" onclick="get_customer_list('passenger','','cache')">{% trans 'Search' %}</button>
                                 </div>
                             </div>
@@ -137,10 +137,10 @@
                     </div>
                     {%elif template == 4%}
                     <div class="row">
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                        <div class="col-lg-7 col-md-7 col-sm-7">
                             <input class="form-control" type="text" id="train_passenger_search" placeholder="{% trans 'Search' %}"/>
                         </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <div class="col-lg-5 col-md-5 col-sm-5">
                             <button type="button" class="primary-btn" id="passenger_btn_click" onclick="get_customer_list('passenger','','cache')">{% trans 'Search' %}</button>
                         </div>
                     </div>
@@ -148,10 +148,10 @@
                     <div class="banner-right">
                         <div class="form-wrap" style="padding:unset; text-align:unset;">
                             <div class="row">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                <div class="col-lg-7 col-md-7 col-sm-7">
                                     <input class="form-control" type="text" id="train_passenger_search" placeholder="{% trans 'Search' %}"/>
                                 </div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <div class="col-lg-5 col-md-5 col-sm-5">
                                     <button type="button" class="primary-btn" id="passenger_btn_click" onclick="get_customer_list('passenger','','cache')">{% trans 'Search' %}</button>
                                 </div>
                             </div>
@@ -161,10 +161,10 @@
                     <div class="banner-right">
                         <div class="form-wrap" style="padding:unset; text-align:unset;">
                             <div class="row">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                <div class="col-lg-7 col-md-7 col-sm-7">
                                     <input class="form-control" type="text" id="train_passenger_search" placeholder="{% trans 'Search' %}"/>
                                 </div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <div class="col-lg-5 col-md-5 col-sm-5">
                                     <button type="button" class="primary-btn" id="passenger_btn_click" onclick="get_customer_list('passenger','','cache')">{% trans 'Search' %}</button>
                                 </div>
                             </div>
@@ -175,7 +175,7 @@
                         <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} </span><img src="{{static_path}}img/search.gif" alt="Search" style="height:50px; width:50px;"/>
                     </div>
                     <span style="font-size:14px;">{% trans 'Max 100 customers in 1 search' %} </span>
-                    <div id="search_result_passenger">
+                    <div id="search_result_passenger" style="max-height:600px; overflow:auto; padding:15px;">
 
                     </div>
                 </div>
@@ -2538,7 +2538,7 @@
                     </form>
                 </div>
                 {% endif %}
-                <div class="col-lg-12" id="passenger_chosen" style="background-color:white; margin-top:10px; padding:10px; border:1px solid #cdcdcd;" hidden>
+                <div class="col-lg-12" id="passenger_chosen" style="background-color:white; max-height:600px; overflow:auto; margin-top:10px;" hidden>
 
                 </div>
                 {%if template == 1%}

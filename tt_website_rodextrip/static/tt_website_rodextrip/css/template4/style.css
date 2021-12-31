@@ -3057,6 +3057,7 @@ ul.tabs li.current{
   font-size: 12px;
   font-weight: 300;
   height: 42px;
+  width: 100% !important;
   line-height: 40px;
   outline: none;
   margin-bottom:15px;
@@ -4715,6 +4716,7 @@ th input {
   font-size: 12px;
   font-weight: 300;
   height: 42px;
+  width: 100% !important;
   line-height: 40px;
   outline: none;
   padding-left: 8px;
@@ -6715,3 +6717,9 @@ ul.progress_tabs li.current .image-rounded-icon{
     display:flex;
     padding-top:5px;
 }
+
+.single-recent-blog-post{
+    margin-bottom:15px;
+    margin-top:15px;
+}
+
