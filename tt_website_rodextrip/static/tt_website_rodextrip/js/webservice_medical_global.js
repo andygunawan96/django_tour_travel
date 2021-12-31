@@ -695,7 +695,7 @@ function confirm_order(){
                 //document.getElementById('voucher_div').style.display = 'none';
                 document.getElementById('payment_acq').hidden = true;
                 document.getElementById('div_sync_status').hidden = true;
-                document.getElementById('button-print-print').hidden = true;
+//                document.getElementById('button-print-print').hidden = true;
 
                 document.getElementById("overlay-div-box").style.display = "none";
                 $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan
@@ -712,7 +712,7 @@ function confirm_order(){
                 //document.getElementById('voucher_div').style.display = 'none';
                 document.getElementById('payment_acq').hidden = true;
                 document.getElementById('div_sync_status').hidden = true;
-                document.getElementById('button-print-print').hidden = true;
+//                document.getElementById('button-print-print').hidden = true;
 
                 document.getElementById("overlay-div-box").style.display = "none";
                 $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan
