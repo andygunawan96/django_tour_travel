@@ -3564,8 +3564,8 @@ function check_number(value){
 }
 
 function check_word(value){
-    var checkword = "^[A-z ]*$";
-    if(value.match(checkword)!=null){
+    var checkword = /^[a-zA-Z ]+$/;
+    if(value.match(checkword)){
         return true;
     }else{
 
