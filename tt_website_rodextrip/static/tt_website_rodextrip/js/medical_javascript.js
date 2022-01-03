@@ -7770,8 +7770,10 @@ function add_table(change_rebooking=false){
     }
     document.getElementById('medical_detail').style.display = 'none';
     document.getElementById('next_medical').style.display = 'none';
-    document.getElementById('use_booker').style.display = 'none';
-    document.getElementsByName('useBooker')[1].checked = true;
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+        document.getElementById('use_booker').style.display = 'none';
+        document.getElementsByName('useBooker')[1].checked = true;
+    }
     document.getElementsByName('copy')[1].checked = true;
     document.getElementById('copy_booker_div').style.display = 'none';
     try{
