@@ -1180,7 +1180,7 @@ def review(request):
                             pax_request = []
                             for idx, pax in enumerate(passengers):
                                 for pax_seat in pax['seat_list']:
-                                    if pax_seat['segment_code'] == seat_segment['segment_code2']:
+                                    if pax_seat['segment_code'] == seat_segment['segment_code2'] and pax_seat['departure_date'] == seat_segment['departure_date']:
                                         if pax_seat['seat_code'] != '':
                                             pax_request.append({
                                                 'passenger_number': idx,
