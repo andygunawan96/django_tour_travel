@@ -88,7 +88,9 @@ function train_redirect_signup(type){
                                     `;
                                     try{
                                         document.getElementById('response').value = train_response;
-                                    }catch(err){}
+                                    }catch(err){
+                                        console.log(err); // error kalau ada element yg tidak ada
+                                    }
                                     document.getElementById('reload_page').submit();
                                     $('#myModalSignin').modal('hide');
                                }
@@ -282,7 +284,9 @@ function train_signin(data){
                })
                try{
                 hide_modal_waiting_transaction();
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -368,7 +372,9 @@ function train_get_config_provider(signature){
                 })
                try{
                 hide_modal_waiting_transaction();
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -611,7 +617,9 @@ function train_create_booking(val){
     }
     try{
         data['voucher_code'] = voucher_code;
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -735,11 +743,15 @@ function train_get_booking(data){
         //                    get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'train');
                             document.getElementById('voucher_discount').style.display = '';
                         }
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                 }else{
                     try{
                         document.getElementById('voucher_discount').style.display = 'none';
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                 }
                 total_price_provider = [];
                 price_provider = 0;
@@ -1136,7 +1148,9 @@ function train_get_booking(data){
                                 try{
                                     if(now.diff(hold_date_time, 'minutes')<0)
                                         $(".issued_booking_btn").show();
-                                }catch(err){}
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
                             }
                             else if(msg.result.response.state == 'issued'){
     //                            text+=`
@@ -1253,7 +1267,9 @@ function train_get_booking(data){
                             try{
                                 price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
                                 csc += msg.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
                             //repricing
                             check = 0;
                             for(k in pax_type_repricing){
@@ -1327,7 +1343,9 @@ function train_get_booking(data){
                             for(k in msg.result.response.provider_bookings[i].journeys){
                                 try{
                                     journey_code.push(msg.result.response.provider_bookings[i].journeys[k].journey_code)
-                                }catch(err){}
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
                                 for(l in msg.result.response.provider_bookings[i].journeys[k].segments){
                                     journey_code.push(msg.result.response.provider_bookings[i].journeys[k].segments[l].segment_code)
                                 }
@@ -1368,7 +1386,9 @@ function train_get_booking(data){
                                 </div>`;
                         }
                         counter_service_charge++;
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                 }
                 try{
                     $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price);
@@ -1809,7 +1829,9 @@ function train_issued(data){
                             print_success_issued();
                        else
                             print_fail_issued();
-                   }catch(err){}
+                   }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                   }
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                         window.location.href = '/train/booking/' + btoa(data);
                    }else{
@@ -1826,7 +1848,9 @@ function train_issued(data){
                        document.getElementById("overlay-div-box").style.display = "none";
                        try{
                             document.getElementById('voucher_discount').style.display = 'none';
-                       }catch(err){}
+                       }catch(err){
+                            console.log(err); // error kalau ada element yg tidak ada
+                       }
                        hide_modal_waiting_transaction();
                        train_get_booking(data);
                    }
@@ -1843,7 +1867,9 @@ function train_issued(data){
                    document.getElementById("overlay-div-box").style.display = "none";
                    try{
                         document.getElementById('voucher_discount').style.display = 'none';
-                   }catch(err){}
+                   }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                   }
                    hide_modal_waiting_transaction();
                    train_get_booking(data);
                    Swal.fire({
@@ -1875,7 +1901,9 @@ function train_issued(data){
                     document.getElementById("overlay-div-box").style.display = "none";
                     try{
                         document.getElementById('voucher_discount').style.display = 'none';
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
                     hide_modal_waiting_transaction();
@@ -1895,7 +1923,9 @@ function train_issued(data){
                 document.getElementById('payment_acq').hidden = true;
                 try{
                     document.getElementById('voucher_discount').style.display = 'none';
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
                 hide_modal_waiting_transaction();
@@ -1976,10 +2006,14 @@ function train_cancel_booking(){
                document.getElementById("overlay-div-box").style.display = "none";
                try{
                     document.getElementById('voucher_discount').style.display = 'none';
-               }catch(err){}
+               }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+               }
                try{
                     document.getElementById("issued_btn_train").style.display = "none";
-               }catch(err){}
+               }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+               }
             }else{
                 Swal.fire({
                   type: 'error',
@@ -2002,7 +2036,9 @@ function train_cancel_booking(){
                 document.getElementById("overlay-div-box").style.display = "none";
                 try{
                     document.getElementById('voucher_discount').style.display = 'none';
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 train_get_booking(order_number);
                 hide_modal_waiting_transaction();
             }
@@ -2223,7 +2259,9 @@ function update_insentif_booker(type){
                         price_arr_repricing = {};
                         pax_type_repricing = [];
                     }
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();

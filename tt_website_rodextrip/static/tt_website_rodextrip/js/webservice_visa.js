@@ -92,7 +92,9 @@ function visa_signin(data){
                 })
                try{
                 hide_modal_waiting_transaction();
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -211,7 +213,9 @@ function visa_get_config_provider(){
                 })
                try{
                 hide_modal_waiting_transaction();
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -239,7 +243,9 @@ function search_visa(){
             var node;
             try{
                 country = msg.result.response.country;
-            }catch(err){}
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
             if(msg.result.error_code == 0 && msg.result.response.list_of_visa.length != 0){
                 for(i in msg.result.response.list_of_visa){
                     //pax type
@@ -675,7 +681,9 @@ function visa_commit_booking(){
         data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
         data['voucher_code'] = voucher_code;
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     getToken();
     $.ajax({
        type: "POST",
@@ -1469,7 +1477,9 @@ function update_service_charge(type){
                         pax_type_repricing = [];
                         update_table('review');
                     }
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
 
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -1525,7 +1535,9 @@ function update_insentif_booker(type){
                         price_arr_repricing = {};
                         pax_type_repricing = [];
                     }
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();

@@ -497,7 +497,9 @@ function delete_table_of_passenger(counter){
         try{
             var element = document.getElementById('table_passenger'+counter);
             element.parentNode.removeChild(element);
-        }catch(err){}
+        }catch(err){
+            console.log(err) //ada element yg tidak ada
+        }
     }
 }
 
@@ -938,7 +940,9 @@ function delete_table_of_line(){
             counter_line--;
             var element = document.getElementById('table_line'+counter_line);
             element.parentNode.removeChild(element);
-        }catch(err){}
+        }catch(err){
+            console.log(err) //ada element yg tidak ada
+        }
     }
 }
 
@@ -1111,7 +1115,9 @@ function set_data(val,type){
                     break;
                 }
             }
-        }catch(err){}
+        }catch(err){
+            console.log(err) //ada element yg tidak ada
+        }
 
     }else if(type == 'origin')
         document.getElementById('origin'+val).value = document.getElementById('select2-origin_data'+val+'-container').title;
@@ -1280,7 +1286,9 @@ function ProcessExcel(data) {
                 last_name = list_test[i].pax[j][1].split(' ');
                 last_name.splice(0, 1)
                 document.getElementById('adult_last_name'+counter_passenger).value = last_name.join(' ');
-            }catch(err){}
+            }catch(err){
+                console.log(err) //ada element yg tidak ada
+            }
             document.getElementById('adult_birth_date'+counter_passenger).value = moment(list_test[i].pax[j][6]).format('DD MMM YYYY').toString();
             document.getElementById('adult_identity_type'+counter_passenger).value = list_test[i].pax[j][3].toLowerCase();
             document.getElementById('adult_identity_number'+counter_passenger).value = list_test[i].pax[j][4];

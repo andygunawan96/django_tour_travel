@@ -561,13 +561,17 @@ function update_table(type){
                     <span style="font-size:13px; font-weight:500;">`+currency+` `+upsell_price+`</span><br/>`;
                 text+=`</div></div>`;
             }
-        }catch(err){}
+        }catch(err){
+            console.log(err) //ada element yg tidak ada
+        }
         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
             text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
         try{
             grand_total_price = price;
             grand_total_price += upsell_price;
-        }catch(err){}
+        }catch(err){
+            console.log(err) //ada element yg tidak ada
+        }
         text+=`
             <div class="row" style="padding-bottom:15px;">
                 <div class="col-lg-12">
@@ -689,7 +693,9 @@ function update_table(type){
                             price['CSC'] = visa.passengers[j].channel_service_charges.amount;
                             csc += visa.passengers[j].channel_service_charges.amount;
                         }
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err) //ada element yg tidak ada
+                    }
                     //repricing
                     check = 0;
                     for(k in pax_type_repricing){

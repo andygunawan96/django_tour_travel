@@ -1924,10 +1924,14 @@
         //show hide balance
         try{
             document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
-        }catch(err){}
+        }catch(err){
+            console.log(err) //ada element yg tidak ada
+        }
         try{
             document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
-        }catch(err){}
+        }catch(err){
+            console.log(err) //ada element yg tidak ada
+        }
 
         $(window).scroll(function() {
             if ($(this).scrollTop() >= 66) {
@@ -1935,12 +1939,11 @@
                    {% if username.co_user_login != 'agent_b2c' %}
                     document.getElementById("info_user_search").style.display = "block";
                    {% endif %}
-                   try{
-                       document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
-                   }catch(err){}
-                   try{
-                       document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
-                   }catch(err){}
+                   if(document.getElementById("balance_search") && document.getElementById("balance"))
+                        document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
+
+                   if(document.getElementById("credit_search") && document.getElementById("credit_limit"))
+                        document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
                 }else{
                    {% if username.co_user_login != 'agent_b2c' %}
                    document.getElementById("info_user_search").style.display = "none";
@@ -1958,16 +1961,33 @@
         counter_search = 0;
         airline_filter_render();
         $(window).scroll(function() {
-            if($(window).scrollTop() >= $(document).height() - ($(window).height() + 600)) {
-                try{
-                    if(scroll_add_airline == true){
-                        sort_key++;
-                        sort();
-                    }
-                }catch(err){}
+            if($(window).width() <= 575){
+                if($(window).scrollTop() >= $(document).height() - ($(window).height() + 850)) {
+                    console.log('aaa');
+                    load_more_data();
+                }
+            }else if ($(window).width() <= 768){
+                if($(window).scrollTop() >= $(document).height() - ($(window).height() + 750)) {
+                    console.log('bbb');
+                    load_more_data();
+                }
+            }else{
+                if($(window).scrollTop() >= $(document).height() - ($(window).height() + 600)) {
+                    console.log('ccc');
+                    load_more_data();
+                }
             }
         });
     });
+
+    function load_more_data(){
+        if (typeof scroll_add_airline !== 'undefined') {
+            if(scroll_add_airline == true){
+                sort_key++;
+                sort();
+            }
+        }
+    }
 
 
     $(function() {

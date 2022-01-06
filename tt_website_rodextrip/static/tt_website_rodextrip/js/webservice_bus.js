@@ -88,7 +88,9 @@ function bus_redirect_signup(type){
                                     `;
                                     try{
                                         document.getElementById('response').value = bus_response;
-                                    }catch(err){}
+                                    }catch(err){
+                                        console.log(err); // error kalau ada element yg tidak ada
+                                    }
                                     document.getElementById('reload_page').submit();
                                     $('#myModalSignin').modal('hide');
                                }
@@ -140,7 +142,9 @@ function bus_signin(data){
                })
                try{
                 hide_modal_waiting_transaction();
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -305,7 +309,9 @@ function bus_review_page(){
                                 pax_type = 'infant';
                                 try{
                                     document.getElementById('seat_'+pax_type+bus_booking[i].journeys[j].seat[k].sequence.toString()).innerHTML += bus_booking[i].journeys[j].seat[k].seat + bus_booking[i].journeys[j].seat[k].column;
-                                }catch(err){}
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
                             }
                         }
                     }
@@ -410,7 +416,9 @@ function bus_get_config_provider(signature){
                 })
                try{
                 hide_modal_waiting_transaction();
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -652,10 +660,14 @@ function bus_create_booking(val){
     try{
 //        data['voucher_code'] = voucher_code;
         data['voucher_code'] = '';
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     try{
         data['paxs'] = JSON.stringify(pax);
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     console.log(data);
     $.ajax({
        type: "POST",
@@ -780,11 +792,15 @@ function bus_get_booking(data, sync=false){
         //                    get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'bus');
                             document.getElementById('voucher_discount').style.display = '';
                         }
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                 }else{
                     try{
                         document.getElementById('voucher_discount').style.display = 'none';
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                 }
                 total_price_provider = [];
                 price_provider = 0;
@@ -1107,7 +1123,9 @@ function bus_get_booking(data, sync=false){
                             if (msg.result.response.state == 'booked'){
                                 try{
                                     document.getElementById('div_sync_status').hidden = false;
-                                }catch(err){}
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
                                 text+=`
                                 <form method="post" id="seat_map_request" action='/bus/seat_map'>
 
@@ -1119,7 +1137,9 @@ function bus_get_booking(data, sync=false){
                             }else if(msg.result.response.state == 'issued'){
                                 try{
                                     document.getElementById('div_sync_status').hidden = true;
-                                }catch(err){}
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
                                 text+=`
                                 <button type="button" id="button-choose-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','bus');">
                                     Print Ticket
@@ -1154,7 +1174,9 @@ function bus_get_booking(data, sync=false){
                                 try{
                                     if(now.diff(hold_date_time, 'minutes')<0)
                                         $(".issued_booking_btn").show();
-                                }catch(err){}
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
                             }
                             else if(msg.result.response.state == 'issued'){
     //                            text+=`
@@ -1271,7 +1293,9 @@ function bus_get_booking(data, sync=false){
                             try{
                                 price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
                                 csc += msg.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
                             //repricing
                             check = 0;
                             for(k in pax_type_repricing){
@@ -1345,7 +1369,9 @@ function bus_get_booking(data, sync=false){
                             for(k in msg.result.response.provider_bookings[i].journeys){
                                 try{
                                     journey_code.push(msg.result.response.provider_bookings[i].journeys[k].journey_code)
-                                }catch(err){}
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
                                 for(l in msg.result.response.provider_bookings[i].journeys[k].segments){
                                     journey_code.push(msg.result.response.provider_bookings[i].journeys[k].segments[l].segment_code)
                                 }
@@ -1386,7 +1412,9 @@ function bus_get_booking(data, sync=false){
                                 </div>`;
                         }
                         counter_service_charge++;
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                 }
                 try{
                     $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price);
@@ -1801,7 +1829,9 @@ function bus_issued(data){
                             print_success_issued();
                        else
                             print_fail_issued();
-                   }catch(err){}
+                   }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                   }
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                         window.location.href = '/bus/booking/' + btoa(data);
                    }else{
@@ -1818,7 +1848,9 @@ function bus_issued(data){
                        document.getElementById("overlay-div-box").style.display = "none";
                        try{
                             document.getElementById('voucher_discount').style.display = 'none';
-                       }catch(err){}
+                       }catch(err){
+                            console.log(err); // error kalau ada element yg tidak ada
+                       }
                        hide_modal_waiting_transaction();
                        bus_get_booking(data);
                    }
@@ -1835,7 +1867,9 @@ function bus_issued(data){
                    document.getElementById("overlay-div-box").style.display = "none";
                    try{
                         document.getElementById('voucher_discount').style.display = 'none';
-                   }catch(err){}
+                   }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                   }
                    hide_modal_waiting_transaction();
                    bus_get_booking(data);
                    Swal.fire({
@@ -1867,7 +1901,9 @@ function bus_issued(data){
                     document.getElementById("overlay-div-box").style.display = "none";
                     try{
                         document.getElementById('voucher_discount').style.display = 'none';
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                     $('.hold-seat-booking-bus').prop('disabled', false);
                     $('.hold-seat-booking-bus').removeClass("running");
                     hide_modal_waiting_transaction();
@@ -1887,7 +1923,9 @@ function bus_issued(data){
                 document.getElementById('payment_acq').hidden = true;
                 try{
                     document.getElementById('voucher_discount').style.display = 'none';
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 $('.hold-seat-booking-bus').prop('disabled', false);
                 $('.hold-seat-booking-bus').removeClass("running");
                 hide_modal_waiting_transaction();
@@ -1968,10 +2006,14 @@ function bus_cancel_booking(){
                document.getElementById("overlay-div-box").style.display = "none";
                try{
                     document.getElementById('voucher_discount').style.display = 'none';
-               }catch(err){}
+               }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+               }
                try{
                     document.getElementById("issued_btn_bus").style.display = "none";
-               }catch(err){}
+               }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+               }
             }else{
                 Swal.fire({
                   type: 'error',
@@ -1994,7 +2036,9 @@ function bus_cancel_booking(){
                 document.getElementById("overlay-div-box").style.display = "none";
                 try{
                     document.getElementById('voucher_discount').style.display = 'none';
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 bus_get_booking(order_number);
                 hide_modal_waiting_transaction();
             }
@@ -2215,7 +2259,9 @@ function update_insentif_booker(type){
                         price_arr_repricing = {};
                         pax_type_repricing = [];
                     }
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();

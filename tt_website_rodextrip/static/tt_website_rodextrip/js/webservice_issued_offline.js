@@ -224,7 +224,9 @@ function check_issued_offline(){
                 request['passenger_email'+i] = document.getElementById('adult_email' + (i + 1)).value;
                 request['passenger_id'+i] = document.getElementById('adult_id' + (i + 1)).value;
                 check_passenger = true;
-            }catch(err){}
+            }catch(err){
+                console.log(err) //ada element yg tidak ada
+            }
         }
     }
     if(document.getElementById('booker_title').value == ''){
@@ -478,7 +480,9 @@ function issued_offline_signin(data){
                 signature = msg.result.response.signature;
                 try{
                     document.getElementById('payment_acq').hidden = false;
-                }catch(err){}
+                }catch(err){
+                    console.log(err) //ada element yg tidak ada
+                }
                 if(data == undefined)
                     set_data_issued_offline();
                 else
@@ -776,7 +780,9 @@ function update_booker(){
             }
             request['passenger_cp'+i] = document.getElementById('adult_cp' + (i + 1)).checked;
             request['passenger_id'+i] = document.getElementById('adult_id' + (i + 1)).value;
-        }catch(err){}
+        }catch(err){
+            console.log(err) //ada element yg tidak ada
+        }
     }
     if(document.getElementsByName('myRadios')[0].checked == true)
         request['myRadios'] = true;
@@ -851,9 +857,13 @@ function update_passenger(){
                 request['passenger_identity_type'+i] = document.getElementById('adult_identity_type' + (i + 1)).value;
                 request['passenger_country_of_issued'+i] = document.getElementById('adult_country_of_issued' + (i + 1)).value;
                 request['passenger_identity_expired_date'+i] = document.getElementById('adult_identity_expired_date' + (i + 1)).value;
-            }catch(err){}
+            }catch(err){
+                console.log(err) //ada element yg tidak ada
+            }
             check_passenger = true;
-        }catch(err){}
+        }catch(err){
+            console.log(err) //ada element yg tidak ada
+        }
     }
     if(check_passenger == true){
         request["counter_passenger"] = counter_passenger;
@@ -1076,7 +1086,9 @@ function get_booking_offline(data){
                            <div class="alert alert-success" role="alert">
                                <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
                            </div>`;
-                       }catch(err){}
+                       }catch(err){
+                            console.log(err) //ada element yg tidak ada
+                       }
                     }else if(msg.result.response.state == 'draft'){
                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -1117,7 +1129,9 @@ function get_booking_offline(data){
                     if(msg.result.response.state == 'issued'){
                         try{
                             document.getElementById('voucher_discount').style.display = 'none';
-                        }catch(err){}
+                        }catch(err){
+                            console.log(err) //ada element yg tidak ada
+                        }
                        //tanya ko sam kalau nyalain
         //                document.getElementById('ssr_request_after_sales').hidden = false;
         //                document.getElementById('ssr_request_after_sales').innerHTML = `
@@ -1645,12 +1659,16 @@ function get_booking_offline(data){
                                     price[msg.result.response.lines[k].pnr] += 0;
                                     try{
                                         price['currency'] = msg.result.response.currency;
-                                    }catch(err){}
+                                    }catch(err){
+                                        console.log(err) //ada element yg tidak ada
+                                    }
                                 }
                                 try{
                                     price['CSC'] = 0;
 
-                                }catch(err){}
+                                }catch(err){
+                                    console.log(err) //ada element yg tidak ada
+                                }
                                 //repricing
                                 check = 0;
                                 for(k in pax_type_repricing){
@@ -1724,7 +1742,9 @@ function get_booking_offline(data){
                             })
                             price_provider = 0;
                             counter_service_charge++;
-                        }catch(err){}
+                        }catch(err){
+                            console.log(err) //ada element yg tidak ada
+                        }
                     }
                     text_detail += `
                         <div>
@@ -1747,7 +1767,9 @@ function get_booking_offline(data){
                                 text_detail+=`</div></div>`;
                                 grand_total_price += other_price;
                             }
-                        }catch(err){}
+                        }catch(err){
+                            console.log(err) //ada element yg tidak ada
+                        }
                     }catch(err){
 
                     }
@@ -1872,7 +1894,9 @@ function get_booking_offline(data){
                             </div>`;
                         text_detail+=`
                     </div>`;
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err) //ada element yg tidak ada
+                    }
                     document.getElementById('offline_detail').innerHTML = text_detail;
                     $("#show_loading_booking_airline").hide();
 

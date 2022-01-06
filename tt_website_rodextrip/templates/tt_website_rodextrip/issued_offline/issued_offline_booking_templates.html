@@ -380,8 +380,10 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
     try{
-    document.getElementById('voucher_div').style.display = 'none';
-    }catch(err){}
+        document.getElementById('voucher_div').style.display = 'none';
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
     issued_offline_signin('{{order_number}}');
     //testing_bca();
 

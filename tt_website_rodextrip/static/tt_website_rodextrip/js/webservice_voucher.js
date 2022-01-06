@@ -52,7 +52,9 @@ function check_voucher(){
                         provider_id.push(visa.list_of_visa[i].provider);
                 }
                 order_number = visa.journey.name;
-            }catch(err){}
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
         }else if(provider_type_id == 'passport'){
             try{
                 for(i in passport.list_of_passport){
@@ -60,14 +62,18 @@ function check_voucher(){
                         provider_id.push(passport.list_of_passport[i].provider);
                 }
                 order_number = passport.journey.name;
-            }catch(err){}
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
         }else if(provider_type_id == 'ppob'){
             try{
                 for(i in bills_get_detail.result.response.provider_booking){
                     provider_id.push(bills_get_detail.result.response.provider_booking[i].provider)
                 }
                 order_number = bills_get_detail.result.response.order_number;
-            }catch(err){}
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
         }else if(provider_type_id == 'airline'){
             try{
                 //booking
@@ -102,7 +108,9 @@ function check_voucher(){
             }
             try{
                 order_number = airline_get_detail.result.response.order_number;
-            }catch(err){}
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
         }else if(provider_type_id == 'train'){
             try{
                 for(i in train_get_detail.result.response.provider_bookings){
@@ -115,7 +123,9 @@ function check_voucher(){
             }
             try{
                 order_number = train_get_detail.result.response.order_number;
-            }catch(err){}
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
         }else if(provider_type_id == 'activity'){
             try{
                 provider_id.push(response.provider)
@@ -125,7 +135,9 @@ function check_voucher(){
             }
             try{
                 order_number = act_get_booking.result.response.order_number;
-            }catch(err){}
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
         }else if(provider_type_id == 'tour'){
             try{
                 provider_id.push(provider);
@@ -134,7 +146,9 @@ function check_voucher(){
             }
             try{
                 order_number = tr_get_booking.result.response.order_number;
-            }catch(err){}
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
             //pending RESPONSE BELOM FIX
 //            console.log(price_data);
 //            console.log(grand_total);
@@ -142,12 +156,16 @@ function check_voucher(){
             provider_id.push(hotel_price.provider);
             try{
                 order_number = hotel_get_detail.result.response.booking_name;
-            }catch(err){}
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
         }else if(provider_type_id == 'event'){
             provider_id.push('event_internal');
             try{
                 order_number = hotel_get_detail.result.response.booking_name;
-            }catch(err){}
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
         }
         voucher_reference = document.getElementById('voucher_code').value; //lalala.testing
 //        voucher_reference = "TEST001";
@@ -210,7 +228,9 @@ function check_voucher(){
                         </div>`;
                         try{
                             set_price('Issued','visa');
-                        }catch(err){}
+                        }catch(err){
+                            console.log(err); // error kalau ada element yg tidak ada
+                        }
                     }
                     else if(provider_type_id == 'passport'){
                         discount_voucher = {
@@ -253,7 +273,9 @@ function check_voucher(){
                         </div>`;
                         try{
                             set_price('Issued','visa');
-                        }catch(err){}
+                        }catch(err){
+                            console.log(err); // error kalau ada element yg tidak ada
+                        }
                     }
                     else if(provider_type_id == 'event'){
                         discount_voucher = {
@@ -305,7 +327,9 @@ function check_voucher(){
                         </div>`;
                         try{
                             set_price('Issued','event');
-                        }catch(err){}
+                        }catch(err){
+                            console.log(err); // error kalau ada element yg tidak ada
+                        }
                     }
                     else{
                         discount_voucher = {
@@ -404,7 +428,9 @@ function check_voucher(){
                                 set_price('Issued','train');
                             else if(provider_type_id == 'hotel')
                                 set_price('Issued','hotel');
-                        }catch(err){}
+                        }catch(err){
+                            console.log(err); // error kalau ada element yg tidak ada
+                        }
                     }
                 }else{
                     discount_voucher = {};

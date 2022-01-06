@@ -525,7 +525,9 @@ function activity_table_detail2(pagetype){
             $test += all_pax[i].title + ' ' + all_pax[i].first_name + ' ' + all_pax[i].last_name + '\n';
         }
         $test +='\n';
-   }catch(err){}
+   }catch(err){
+        console.log(err) //ada element yg tidak ada
+   }
 
    $test += '‣ Price:\n';
    try{
@@ -608,7 +610,9 @@ function activity_table_detail2(pagetype){
                 <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(upsell_price)+`</span><br/>`;
             text+=`</div></div>`;
         }
-    }catch(err){}
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
    text+= `
            <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><span style="font-weight:bold">Grand Total</span></div>

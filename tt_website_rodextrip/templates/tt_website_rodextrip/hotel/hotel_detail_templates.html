@@ -1720,12 +1720,11 @@
         {% for child_age in hotel_search.child_ages %}
         $('#hotel_child_age{{forloop.counter}}').niceSelect('destroy');
         {% endfor %}
-        try{
+        if(document.getElementById("balance_search") && document.getElementById("balance"))
             document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
-        }catch(err){}
-        try{
+        if(document.getElementById("credit_search") && document.getElementById("credit_limit"))
             document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
-        }catch(err){}
+
         $(window).scroll(function() {
             if ($(this).scrollTop() >= 66) {
                 if ($(window).width() >= 768){
@@ -1734,10 +1733,14 @@
                    {% endif %}
                    try{
                        document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
-                   }catch(err){}
+                   }catch(err){
+                       console.log(err) //ada element yg tidak ada
+                   }
                    try{
                        document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
-                   }catch(err){}
+                   }catch(err){
+                       console.log(err) //ada element yg tidak ada
+                   }
                 }else{
                    {% if username.co_user_login != 'agent_b2c' %}
                    document.getElementById("info_user_search").hidden = true;

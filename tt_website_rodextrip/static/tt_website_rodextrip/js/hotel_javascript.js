@@ -1473,8 +1473,8 @@ function hotel_room_pick(key, key2){
         </div>`;
         text += `<div class="col-lg-12"><hr/></div></div>`;
         total_price_hotel += hotel_room.rooms[i].price_total;
-        $text2 += 'Total: IDR '+getrupiah(hotel_room.rooms[i].price_total) + ' ';
-        $text2 += '(for 1 room, ' +total_night+ ' night) \n\n';
+        $text2 += '\nTotal: IDR '+getrupiah(hotel_room.rooms[i].price_total) + ' ';
+        $text2 += '(for 1 room, ' +total_night+ ' night) \n';
     }
     text += `</div>`;
 
@@ -1817,6 +1817,15 @@ function check_passenger(adult, child, room){
 function hotel_detail(old_cancellation_policy){
     total_price_hotel = 0;
     commission = 0;
+
+    var get_name_hotel = document.getElementById("get_name_hotel").value;
+    var get_rating_hotel = document.getElementById("rating_hotel").textContent;
+    var get_address_hotel = document.getElementById("address_hotel").textContent;
+    var get_date_hotel = document.getElementById("date_hotel").textContent;
+    $text2 = get_name_hotel +' *'+ get_rating_hotel +'\n';
+    $text2 += 'Address: '+ get_address_hotel +'\n';
+    $text2 += get_date_hotel +'\n\n';
+
     if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
         tax = 0;
         fare = 0;
@@ -1955,7 +1964,6 @@ function hotel_detail(old_cancellation_policy){
 
     text+=`<h5>`+show_name_room+`</h5>`;
 
-    $text2 = '';
     text += `<div class="mt-3">
         <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_hotel_down" onclick="show_hide_div('price_detail_hotel');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
     </div>`;
@@ -1968,7 +1976,7 @@ function hotel_detail(old_cancellation_policy){
         text += '<span>Meal Type: ' + hotel_price.meal_type + '</span/><br/><br/>';
 
         //$text2 += 'Room Category: '+ hotel_price.rooms[i].category +'\n';
-        $text2 += hotel_price.rooms[i].description +'\n';
+        $text2 += 'Room #' + (parseInt(i)+1) + ' ' + hotel_price.rooms[i].description +'\n';
         //$text2 += hotel_price.rooms[i].qty +' room(s) \n';
         $text2 += 'Meal Type: '+ hotel_price.meal_type +'\n \n';
 
@@ -1987,7 +1995,9 @@ function hotel_detail(old_cancellation_policy){
             grand_total_price = parseFloat(hotel_price.rooms[i].price_total);
             total_price_hotel += grand_total_price;
             commission += parseInt(hotel_price.rooms[i].commission) *-1;
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
 
         text += `<div class="col-lg-6">
             <span style="font-weight:bold;">Total</span>
@@ -1999,7 +2009,7 @@ function hotel_detail(old_cancellation_policy){
 
         if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
 
-            $text2 += 'Contact Person:\n';
+            $text2 += '\nContact Person:\n';
             $text2 += contact[0].title + ' ' + contact[0].first_name + ' ' + contact[0].last_name + '\n';
             $text2 += contact[0].email + '\n';
             $text2 += contact[0].calling_code + ' - ' +contact[0].mobile + '\n';
@@ -2017,7 +2027,9 @@ function hotel_detail(old_cancellation_policy){
                 }
             }
             $text2 += '\n';
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
         $text2 += 'Total: IDR ' + getrupiah(hotel_price.rooms[i].price_total) + '\n';
         text += `</div>`;
     }
@@ -2032,7 +2044,7 @@ function hotel_detail(old_cancellation_policy){
         if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
             text+=`<div class="col-lg-12"><div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div></div>`;
         }
-        try{
+        if (typeof upsell_price !== 'undefined'){
             if(upsell_price != 0){
                 text+=`<div class="col-lg-7" style="text-align:left;">
                     <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
@@ -2043,7 +2055,7 @@ function hotel_detail(old_cancellation_policy){
                 text+=`</div>`;
                 total_price_hotel += upsell_price;
             }
-        }catch(err){console.log(err)}
+        }
     try{
     text += `<div class="col-lg-6">
             <span style="font-weight:bold;font-size:15px;">Grand Total</span>
@@ -2053,7 +2065,9 @@ function hotel_detail(old_cancellation_policy){
         </div>
     </div>`;
     $text2 += 'Grand Total: IDR ' + getrupiah(total_price_hotel) + '\n';
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
         text+=`<br/>
         <div class="col-lg-12 col-xs-12" style="padding:0px; text-align:center; display:none;" id="show_commission_hotel">
@@ -2093,13 +2107,15 @@ function hotel_detail(old_cancellation_policy){
 
     text += `</div>`;
     //console.log(text);
-    try{
+    if(document.getElementById('old_cancellation_policy'))
         document.getElementById('old_cancellation_policy').innerHTML = old_cancellation_text;
+    if(document.getElementById('new_cancellation_policy'))
         document.getElementById('new_cancellation_policy').innerHTML = new_cancellation_text;
-    }catch(err){console.log(err);}
     try{
         document.getElementById('hotel_detail').innerHTML = text;
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
 }
 
 function hotel_review_price_total(prices){
@@ -2358,13 +2374,7 @@ function copy_data2(){
     var obj_hotel_name = document.getElementById('js_hotel_name');
     $text_print = '';
     console.log($text2);
-    if (obj_hotel_name != null){
-        obj_hotel_name = obj_hotel_name.innerHTML;
-        $text_print = obj_hotel_name+'\n' + $text2+'\n===Price may change at any time===';
-    }else{
-        console.log('asdadas');
-        $text_print = $text2+'\n===Price may change at any time===';
-    }
+    $text_print = $text2+'\n===Price may change at any time===';
     document.getElementById('data_copy2').innerHTML = $text_print;
     document.getElementById('data_copy2').hidden = false;
     var el = document.getElementById('data_copy2');

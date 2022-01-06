@@ -3,7 +3,9 @@ function signin_ppob(data){
     try{
         $('.btn-next').addClass("running");
         $('.btn-next').prop('disabled', true);
-    }catch(err){}
+    }catch(err){
+        console.log(err); //error kalau tidak ada button next bisa di tambah class runnning & disabled
+    }
     getToken();
     $.ajax({
        type: "POST",
@@ -272,6 +274,7 @@ function search_ppob(){
                     }
                 }
             }
+            total = document.getElementById('pln_nominal').value
         }else if($pln_type_name == 'PLN Postpaid'){
             if(check_pln_postpaid(customer_number) == true){
                 for(i in ppob_data.product_data){
@@ -409,14 +412,6 @@ function search_ppob(){
                     }
                 }
             }
-        }
-    }
-
-    try{
-        total = document.getElementById('pln_nominal').value
-    }catch(err){}
-    try{
-        if($evoucher_type_name == 'Prepaid Mobile'){
             var radios_nominal = document.getElementsByName('e-voucher_nominal');
             for (var k = 0, length = radios_nominal.length; k < length; k++) {
                 if (radios_nominal[k].checked) {
@@ -428,14 +423,14 @@ function search_ppob(){
                 error_log += 'Please choose voucher!';
             }
         }
-    }catch(err){}
-    try{
+    }
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
         customer_email = document.getElementById('customer_email').value
         if (customer_email == '')
         {
             error_log += 'Please fill your email address!';
         }
-    }catch(err){}
+    }
     if(product_code != '' && customer_number != '' && error_log == ''){
         console.log(carrier_provider_ppob);
         var search_provider_ppob = carrier_provider_ppob[product_code][0];
@@ -584,7 +579,9 @@ function ppob_get_booking(data){
                 for(i in msg.result.response.passengers){
                     try{
                         csc += msg.result.response.passengers[i].channel_service_charges.amount;
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err);
+                    }
                 }
                 check_provider_booking = 0;
                 if(msg.result.response.hold_date != false && msg.result.response.hold_date != ''){
@@ -699,7 +696,9 @@ function ppob_get_booking(data){
                                <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
                            </div>`;
                        }
-                   }catch(err){}
+                   }catch(err){
+                       console.log(err);
+                   }
                 }else if(msg.result.response.state == 'draft'){
                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -740,7 +739,9 @@ function ppob_get_booking(data){
                 if(msg.result.response.state == 'issued'){
                     try{
                         document.getElementById('voucher_discount').style.display = 'none';
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err);
+                    }
                    //tanya ko sam kalau nyalain
     //                document.getElementById('ssr_request_after_sales').hidden = false;
     //                document.getElementById('ssr_request_after_sales').innerHTML = `
@@ -758,7 +759,9 @@ function ppob_get_booking(data){
                     try{
                         if(now.diff(hold_date_time, 'minutes')<0)
                             $(".issued_booking_btn").show();
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); //kalau tidak ada button issued
+                    }
                     check_provider_booking++;
                     try{
                        check_cancel = 0;
@@ -817,7 +820,9 @@ function ppob_get_booking(data){
                                 try{
                                     if(now.diff(hold_date_time, 'minutes')<0)
                                         $(".issued_booking_btn").show();
-                                }catch(err){}
+                                }catch(err){
+                                    console.log(err); //error kalau tidak ada button issued
+                                }
                                 check_provider_booking++;
                                 printed_hold_date = true;
                             }
@@ -1321,7 +1326,9 @@ function ppob_get_booking(data){
                         }
                         price_provider = 0;
                         counter_service_charge++;
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err);
+                    }
                 }
                 try{
                     bills_get_detail.result.response.total_price = total_price;
@@ -1451,7 +1458,9 @@ function ppob_get_booking(data){
                     </div>`;
                     text+=`
                 </div>`;
-                }catch(err){}
+                }catch(err){
+                    console.log(err);
+                }
                 document.getElementById('bills_detail').innerHTML = text_detail;
                 $("#show_loading_booking_bills").hide();
 
@@ -1949,7 +1958,9 @@ function update_insentif_booker(type){
                         price_arr_repricing = {};
                         pax_type_repricing = [];
                     }
-                }catch(err){}
+                }catch(err){
+                    console.log(err);
+                }
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();

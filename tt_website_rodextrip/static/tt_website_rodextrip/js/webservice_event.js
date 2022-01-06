@@ -610,7 +610,9 @@ function event_get_booking(data){
                         try{
                             price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
 
-                        }catch(err){}
+                        }catch(err){
+                            console.log(err) //ada element yg tidak ada
+                        }
                         //repricing
                         check = 0;
                         for(k in pax_type_repricing){
@@ -1946,7 +1948,9 @@ function event_issued(data){
                             print_success_issued();
                        else
                             print_fail_issued();
-                   }catch(err){}
+                   }catch(err){
+                       console.log(err) //ada element yg tidak ada
+                   }
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                         window.location.href = '/event/booking/' + btoa(data);
                    }else{
@@ -2195,7 +2199,9 @@ function update_insentif_booker(type){
                         price_arr_repricing = {};
                         pax_type_repricing = [];
                     }
-                }catch(err){}
+                }catch(err){
+                    console.log(err) //ada element yg tidak ada
+                }
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
@@ -2522,7 +2528,9 @@ function share_data(){
 function copy_data(){
     try{
         get_checked_copy_result();
-    }catch(err){}
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
     document.getElementById('data_copy').innerHTML = $text;
     document.getElementById('data_copy').hidden = false;
     var el = document.getElementById('data_copy');

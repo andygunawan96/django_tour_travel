@@ -661,7 +661,9 @@
                   }
                 });
             });
-        }catch(err){}
+        }catch(err){
+            console.log(err) //ada element yg tidak ada
+        }
         $('input[name="start_date"]').val("");
         $('input[name="end_date"]').val("");
     });

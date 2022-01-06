@@ -58,9 +58,12 @@ function delete_table_of_social(val){
     try{
         document.getElementById(`social`+val+`_id`).remove();
     }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
         try{
             document.getElementById(`social`+val+`_id`).remove();
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
     }
 }
 
@@ -217,7 +220,9 @@ function save_social(){
     for(i=1;i<=counter_social;i++){
         try{
             data.push([document.getElementById('social_title'+i).value, document.getElementById('social_name'+i).value, document.getElementById('social_url'+i).value]);
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada karena bisa delete inline contoh hanya ada 1 3 4 7 10
+        }
     }
     console.log(data);
     $.ajax({

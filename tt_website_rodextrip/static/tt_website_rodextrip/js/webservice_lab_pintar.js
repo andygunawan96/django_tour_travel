@@ -32,7 +32,9 @@ function lab_pintar_signin(data){
                })
                try{
                 $("#show_loading_booking_lab_pintar").hide();
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
            }
        }catch(err){
             console.log(err);
@@ -51,7 +53,9 @@ function lab_pintar_signin(data){
           $('.loader-rodextrip').fadeOut();
           try{
             $("#show_loading_booking_lab_pintar").hide();
-          }catch(err){}
+          }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+          }
        },timeout: 60000
     });
 
@@ -144,7 +148,9 @@ function get_config_lab_pintar(type){
                     add_table(true);
                     try{
                         $("#show_loading_booking_lab_pintar").hide();
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                 }else if(type == 'review'){
                     for(i in medical_config.result.response){
                         if(medical_config.result.response[i].code == test_type){
@@ -164,7 +170,9 @@ function get_config_lab_pintar(type){
                })
                try{
                 $("#show_loading_booking_lab_pintar").hide();
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -244,7 +252,9 @@ function lab_pintar_get_availability(){
                })
                try{
                 $("#show_loading_booking_lab_pintar").hide();
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -266,7 +276,9 @@ function lab_pintar_check_price(){
         try{
             if(document.getElementById('booker_timeslot_id'+i).value != '')
                 timeslot_list.push(document.getElementById('booker_timeslot_id'+i).value.split('~')[0])
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
     }
     for(i=1; i <= test_time; i++){
         try{
@@ -365,8 +377,10 @@ function lab_pintar_check_price(){
                     document.getElementById('next_lab_pintar').style.display = 'block';
 
                     try{
-                    document.getElementById('lab_pintar_pax_div').hidden = false;
-                    }catch(err){}
+                        document.getElementById('lab_pintar_pax_div').hidden = false;
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                     $('html, body').animate({
                         scrollTop: $("#lab_pintar_detail").offset().top - 120
                     }, 500);
@@ -383,7 +397,9 @@ function lab_pintar_check_price(){
                    })
                    try{
                     $("#show_loading_booking_lab_pintar").hide();
-                   }catch(err){}
+                   }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                   }
                 }
                 }catch(err){console.log(err);}
                 document.getElementById('check_price_lab_pintar').disabled = false;
@@ -544,7 +560,9 @@ function lab_pintar_get_cache_price(){
                })
                try{
                 $("#show_loading_booking_lab_pintar").hide();
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
             }
             }catch(err){console.log(err);}
        },
@@ -675,7 +693,9 @@ function lab_pintar_commit_booking(val){
     }
     try{
         data['voucher_code'] = voucher_code;
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/lab_pintar",
@@ -850,10 +870,14 @@ function lab_pintar_get_booking(order_number, sync=false){
     get_vendor_balance('false');
     try{
         show_loading();
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     try{
         close_div('payment_acq');
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/lab_pintar",
@@ -1312,7 +1336,9 @@ function lab_pintar_get_booking(order_number, sync=false){
                                 try{
                                     price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
                                     csc += msg.result.response.passengers[j].channel_service_charges.amount;
-                                }catch(err){}
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
                                 //repricing
                                 check = 0;
                                 for(k in pax_type_repricing){
@@ -1383,26 +1409,7 @@ function lab_pintar_get_booking(order_number, sync=false){
                                 </div>`;
                                 ADMIN_FEE_MEDICAL += price['ADMIN_FEE_MEDICAL'];
                                 $text += msg.result.response.passengers[j].title +' '+ msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_bookings[i].pnr+'] ';
-                                journey_code = [];
-                                for(k in msg.result.response.provider_bookings[i].journeys){
-                                    try{
-                                        journey_code.push(msg.result.response.provider_bookings[i].journeys[k].journey_code)
-                                    }catch(err){}
-                                    for(l in msg.result.response.provider_bookings[i].journeys[k].segments){
-                                        journey_code.push(msg.result.response.provider_bookings[i].journeys[k].segments[l].segment_code)
-                                    }
-                                }
-                                coma = false
-                                for(k in msg.result.response.passengers[j].fees){
-                                    if(journey_code.indexOf(msg.result.response.passengers[j].fees[k].journey_code) == true){
-                                        $text += msg.result.response.passengers[j].fees[k].fee_name;
-                                        if(coma == true)
-                                            $text += ', ';
-                                        else
-                                            $text += ' ';
-                                        coma = true
-                                    }
-                                }
+
                                 $text += `IDR `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC + price['ADMIN_FEE_MEDICAL']))+'\n';
                                 if(counter_service_charge == 0){
                                     total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC + price['ADMIN_FEE_MEDICAL']);
@@ -1948,7 +1955,9 @@ function lab_pintar_issued_booking(data){
                             print_success_issued();
                        else
                             print_fail_issued();
-                   }catch(err){}
+                   }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                   }
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                         window.location.href = '/lab_pintar/booking/' + btoa(data);
                    }else{
@@ -2043,7 +2052,9 @@ function lab_pintar_issued_booking(data){
                             }
                             try{
                                 price['CSC'] = medical_get_detail.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
 
                             text+=`<div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -2144,7 +2155,9 @@ function lab_pintar_issued_booking(data){
 
                             try{
                                 price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
 
                             text+=`<div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -2828,7 +2841,9 @@ function update_insentif_booker(type){
                         price_arr_repricing = {};
                         pax_type_repricing = [];
                     }
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();

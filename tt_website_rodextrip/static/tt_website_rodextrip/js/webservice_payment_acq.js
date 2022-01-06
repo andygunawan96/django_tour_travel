@@ -23,7 +23,9 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             val_render = val;
             try{
                 $("#show_loading_booking_airline").hide();
-            }catch(err){}
+            }catch(err){
+                console.log(err) //ada element yg tidak ada
+            }
             for(i in msg.result.response){
                 for(j in msg.result.response[i]){
                     for(k in msg.result.response[i][j]){
@@ -33,10 +35,9 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
                 }
             }
             if('cash' in payment_acq2 == false){
-                try{
-                    if(window.location.href.includes('confirm_order') == false)
+                if(window.location.href.includes('confirm_order') == false)
+                    if(document.getElementById('id_login_booking'))
                         document.getElementById('id_login_booking').style.display = 'block';
-                }catch(err){}
             }
             render_payment();
        },
@@ -104,7 +105,9 @@ function render_payment(){
             try{
                 if(type_render == 'top_up')
                     text +=  `please use online payment`;
-            }catch(err){}
+            }catch(err){
+                console.log(err) //ada element yg tidak ada
+            }
             Swal.fire({
                   type: 'error',
                   title: 'Oops!',
@@ -923,7 +926,9 @@ function set_price(val, type, product_type){
         }catch(err){
             try{
                 payment_total = payment_acq2[payment_method][selected].total_amount;
-            }catch(err){}
+            }catch(err){
+                console.log(err) //ada element yg tidak ada
+            }
         }
     //    grand total
             text += `
@@ -944,7 +949,9 @@ function set_price(val, type, product_type){
             document.getElementById('full_payment_amt').innerHTML = payment_acq2[payment_method][selected].currency + ' ' +getrupiah(grand_total);
             print_payment_rules(type_payment);
         }
-    }catch(err){}
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
 
     if(type == 'top_up' && payment_method != 'va')
         text += `<button type="button" id="submit_top_up" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="commit_top_up();" style="width:100%;">Submit <div class="ld ld-ring ld-cycle"></div></button>`;
@@ -1084,10 +1091,9 @@ function get_payment_order_number(order_number){
      $('#payment_gtw').prop('disabled', true);
      $('#payment_gtw').addClass("running");
     check_phone_number_fill = false;
-    try{
+    if(document.getElementById('phone_number'))
         if(document.getElementById('phone_number').value == '')
             check_phone_number_fill = true;
-    }catch(err){}
     if(check_phone_number_fill != true){
         $.ajax({
            type: "POST",
@@ -1364,7 +1370,9 @@ function get_va_number(){
                         </label>`;
                         va_number = msg.result.response.va;
                         payment_how_to_obj = msg.result.response;
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err) //ada element yg tidak ada
+                    }
                     text+=`
                 </div>`;
             document.getElementById('top_up_method_div').innerHTML = text + document.getElementById('top_up_method_div').innerHTML;

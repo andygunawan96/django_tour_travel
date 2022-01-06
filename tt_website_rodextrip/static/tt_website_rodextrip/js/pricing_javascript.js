@@ -42,7 +42,9 @@ function add_table_of_equation(percentage=true){
     var repricing_type = '';
     try{
         repricing_type = document.getElementById('repricing_type').value;
-    }catch(err){}
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
     if(repricing_type != 'booker'){
         var node = document.createElement("div");
         text += `
@@ -172,7 +174,9 @@ function calculate(type){
     var repricing_type = '';
     try{
         repricing_type = document.getElementById('repricing_type').value;
-    }catch(err){}
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
     if(repricing_type != 'booker'){
         price_duplication = JSON.parse(JSON.stringify(price_arr_repricing));
         list = [];

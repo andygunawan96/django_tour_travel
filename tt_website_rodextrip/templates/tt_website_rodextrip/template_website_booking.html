@@ -94,7 +94,9 @@ Licence URI: http://www.os-templates.com/template-terms
             if($("#password_style").hasClass("fa-eye-slash") || $("#password_style2").hasClass("fa-eye-slash")){
                 try{
                     document.getElementById('text_show_hide_pw').innerText = "Hide Password";
-                }catch(err){}
+                }catch(err){
+                    console.log(err) //ada element yg tidak ada
+                }
                 try{
                     $("#password_style").addClass('fa-eye');
                     $("#password_style").removeClass("fa-eye-slash");
@@ -103,15 +105,23 @@ Licence URI: http://www.os-templates.com/template-terms
                     try{
                         //PAGE LOGIN
                         document.getElementById('password2').type = 'text';
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err) //ada element yg tidak ada
+                    }
                     try{
                         document.getElementById('password').type = 'text';
-                    }catch(err){}
-                }catch(err){}
+                    }catch(err){
+                        console.log(err) //ada element yg tidak ada
+                    }
+                }catch(err){
+                    console.log(err) //ada element yg tidak ada
+                }
             }else{
                 try{
                     document.getElementById('text_show_hide_pw').innerText = "Show Password";
-                }catch(err){}
+                }catch(err){
+                    console.log(err) //ada element yg tidak ada
+                }
 
                 try{
                     $("#password_style").addClass('fa-eye-slash');
@@ -121,13 +131,19 @@ Licence URI: http://www.os-templates.com/template-terms
                     try{
                         //PAGE LOGIN
                         document.getElementById('password2').type = 'password';
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err) //ada element yg tidak ada
+                    }
                     try{
                         //PAGE HOME
                         document.getElementById('password').type = 'password';
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err) //ada element yg tidak ada
+                    }
 
-                }catch(err){}
+                }catch(err){
+                    console.log(err) //ada element yg tidak ada
+                }
             }
         }
     </script>
@@ -1957,7 +1973,9 @@ Licence URI: http://www.os-templates.com/template-terms
                     alert("One more page already open");
                     page_open = 0;
                 }
-            }catch(err){}
+            }catch(err){
+                console.log(err) //ada element yg tidak ada
+            }
             //self.close();
             //open(location, '_self').close();
         }

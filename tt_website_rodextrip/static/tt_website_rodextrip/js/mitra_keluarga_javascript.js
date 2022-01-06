@@ -243,8 +243,10 @@ function update_timeslot(val){
     change_timeslot(val);
     document.getElementById('next_mitra_keluarga').style.display='none';
     try{
-    document.getElementById('mitra_keluarga_pax_div').hidden = true;
-    }catch(err){}
+        document.getElementById('mitra_keluarga_pax_div').hidden = true;
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
 }
 
 function get_area_global(){
@@ -1776,470 +1778,7 @@ function onchange_berkunjung_ke_pasien_konfirmasi(val){
     }
 }
 
-function add_pcr_table(type, val){
-    var node = document.createElement("tr");
-    var text = '';
-    if(type == 'perjalanan_keluar_negeri'){
-        text = `<tr>
-                    <td style="padding-top:20px; padding-bottom:15px;">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-3">
-                                <div style="margin-bottom:5px;">
-                                    <label>Nama Negara</label><br/>
-                                    <input type="text" class="form-control" name="adult_perjalanan_keluar_negeri_nama_negara`+val+`_`+perjalanan_keluar_negeri+`" id="adult_perjalanan_keluar_negeri_nama_negara`+val+`_`+perjalanan_keluar_negeri+`" placeholder="Nama Negara " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama Negara '" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3">
-                                <div style="margin-bottom:5px;">
-                                    <label>Nama Kota</label><br/>
-                                    <input type="text" class="form-control" name="adult_perjalanan_keluar_negeri_nama_kota`+val+`_`+perjalanan_keluar_negeri+`" id="adult_perjalanan_keluar_negeri_nama_kota`+val+`_`+perjalanan_keluar_negeri+`" placeholder="Nama Kota " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama Kota '" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3">
-                                <div style="margin-bottom:5px;">
-                                    <label>Tanggal Perjalanan</label><br/>
-                                    <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_perjalanan_keluar_negeri_tanggal_perjalanan`+val+`_`+perjalanan_keluar_negeri+`" id="adult_perjalanan_keluar_negeri_tanggal_perjalanan`+val+`_`+perjalanan_keluar_negeri+`" placeholder="Tanggal Perjalanan " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Perjalanan '" autocomplete="off" readonly>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3">
-                                <div style="margin-bottom:5px;">
-                                    <label>Tiba Di Indonesia</label><br/>
-                                    <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_perjalanan_keluar_negeri_tiba_di_indonesia`+val+`_`+perjalanan_keluar_negeri+`" id="adult_perjalanan_keluar_negeri_tiba_di_indonesia`+val+`_`+perjalanan_keluar_negeri+`" placeholder="Tanggal Tiba di Indonesia " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Tiba di Indonesia '" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-lg-12" style="text-align:right;">
-                                <button class="primary-btn-cancel" type="button" onclick="delete_pcr_table('perjalanan_keluar_negeri',`+val+`,`+perjalanan_keluar_negeri+`)"> Delete <i class="fas fa-trash"></i> </button>
-                            </div>
-                        </div>
-                    </td>
-                </tr>`;
-        node.innerHTML = text;
-        node.setAttribute('id', 'perjalanan_keluar_negeri_table'+val+'_'+ perjalanan_keluar_negeri);
-        document.getElementById("perjalanan_keluar_negeri_div"+val).appendChild(node);
 
-        $('input[name="adult_perjalanan_keluar_negeri_tanggal_perjalanan'+val+'_'+perjalanan_keluar_negeri+'"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              maxDate: moment(),
-              showDropdowns: true,
-              opens: 'center',
-              drops: 'down',
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
-        });
-        $('input[name="adult_perjalanan_keluar_negeri_tanggal_perjalanan'+val+'_'+perjalanan_keluar_negeri+'"]').val("");
-
-        $('input[name="adult_perjalanan_keluar_negeri_tiba_di_indonesia'+val+'_'+perjalanan_keluar_negeri+'"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              showDropdowns: true,
-              maxDate: moment(),
-              opens: 'center',
-              drops: 'down',
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
-        });
-        $('input[name="adult_perjalanan_keluar_negeri_tiba_di_indonesia'+val+'_'+perjalanan_keluar_negeri+'"]').val("");
-
-        perjalanan_keluar_negeri++;
-    }else if(type == 'perjalanan_ke_transmisi_lokal'){
-        text = `<tr>
-                    <td style="padding-top:20px; padding-bottom:15px;">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-3">
-                                <div style="margin-bottom:5px;">
-                                    <label>Nama Provinsi</label><br/>
-                                    <input type="text" class="form-control" name="adult_perjalanan_ke_transmisi_lokal_nama_provinsi`+val+`_`+perjalanan_ke_transmisi_lokal+`" id="adult_perjalanan_ke_transmisi_lokal_nama_provinsi`+val+`_`+perjalanan_ke_transmisi_lokal+`" placeholder="Nama Provinsi " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama Provinsi '" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3">
-                                <div style="margin-bottom:5px;">
-                                    <label>Nama Kota</label><br/>
-                                    <input type="text" class="form-control" name="adult_perjalanan_ke_transmisi_lokal_nama_kota`+val+`_`+perjalanan_ke_transmisi_lokal+`" id="adult_perjalanan_ke_transmisi_lokal_nama_kota`+val+`_`+perjalanan_ke_transmisi_lokal+`" placeholder="Nama Kota " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama Kota '" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3">
-                                <div style="margin-bottom:5px;">
-                                    <label>Tanggal Perjalanan</label><br/>
-                                    <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan`+val+`_`+perjalanan_ke_transmisi_lokal+`" id="adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan`+val+`_`+perjalanan_ke_transmisi_lokal+`" placeholder="Tanggal Perjalanan " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Perjalanan '" autocomplete="off" readonly>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3">
-                                <div style="margin-bottom:5px;">
-                                    <label>Tiba Di Sini</label><br/>
-                                    <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_perjalanan_ke_transmisi_lokal_tiba_di_sini`+val+`_`+perjalanan_ke_transmisi_lokal+`" id="adult_perjalanan_ke_transmisi_lokal_tiba_di_sini`+val+`_`+perjalanan_ke_transmisi_lokal+`" placeholder="Tanggal Tiba Di Sini " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Tiba Di Sini '" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-lg-12" style="text-align:right;">
-                                <button class="primary-btn-cancel" type="button" onclick="delete_pcr_table('perjalanan_ke_transmisi_lokal',`+val+`,`+perjalanan_ke_transmisi_lokal+`)"> Delete <i class="fas fa-trash"></i> </button>
-                            </div>
-                        </div>
-                    </td>
-                </tr>`;
-        node.innerHTML = text;
-        node.setAttribute('id', 'perjalanan_ke_transmisi_lokal_table'+val+'_'+ perjalanan_ke_transmisi_lokal);
-        document.getElementById("perjalanan_ke_transmisi_lokal_div"+val).appendChild(node);
-        $('input[name="adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+val+'_'+perjalanan_ke_transmisi_lokal+'"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              showDropdowns: true,
-              maxDate: moment(),
-              opens: 'center',
-              drops: 'down',
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
-        });
-        $('input[name="adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+val+'_'+perjalanan_ke_transmisi_lokal+'"]').val("");
-
-        $('input[name="adult_perjalanan_ke_transmisi_lokal_tiba_di_sini'+val+'_'+perjalanan_ke_transmisi_lokal+'"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              showDropdowns: true,
-              maxDate: moment(),
-              opens: 'center',
-              drops: 'down',
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
-        });
-        $('input[name="adult_perjalanan_ke_transmisi_lokal_tiba_di_sini'+val+'_'+perjalanan_ke_transmisi_lokal+'"]').val("");
-
-        perjalanan_ke_transmisi_lokal++;
-    }else if(type == 'berkunjung_ke_fasilitas_kesehatan'){
-        text = `<tr>
-                    <td style="padding-top:20px; padding-bottom:15px;">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-3">
-                                <div style="margin-bottom:5px;">
-                                    <label>Nama Rumah Sakit</label><br/>
-                                    <input type="text" class="form-control" name="adult_berkunjung_ke_fasilitas_kesehatan_nama_rumah_sakit`+val+`_`+berkunjung_ke_fasilitas_kesehatan+`" id="adult_berkunjung_ke_fasilitas_kesehatan_nama_rumah_sakit`+val+`_`+berkunjung_ke_fasilitas_kesehatan+`" placeholder="Nama Rumah Sakit " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama Rumah Sakit '" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3">
-                                <div style="margin-bottom:5px;">
-                                    <label>Nama Kota</label><br/>
-                                    <input type="text" class="form-control" name="adult_berkunjung_ke_fasilitas_kesehatan_nama_kota`+val+`_`+berkunjung_ke_fasilitas_kesehatan+`" id="adult_berkunjung_ke_fasilitas_kesehatan_nama_kota`+val+`_`+berkunjung_ke_fasilitas_kesehatan+`" placeholder="Nama Kota " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama Kota '" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3">
-                                <div style="margin-bottom:5px;">
-                                    <label>Nama Provinsi</label><br/>
-                                    <input type="text" class="form-control" name="adult_berkunjung_ke_fasilitas_kesehatan_nama_provinsi`+val+`_`+berkunjung_ke_fasilitas_kesehatan+`" id="adult_berkunjung_ke_fasilitas_kesehatan_nama_provinsi`+val+`_`+berkunjung_ke_fasilitas_kesehatan+`" placeholder="Nama Provinsi " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama Provinsi '" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3">
-                                <div style="margin-bottom:5px;">
-                                    <label>Tanggal Kunjungan</label><br/>
-                                    <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan`+val+`_`+berkunjung_ke_fasilitas_kesehatan+`" id="adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan`+val+`_`+berkunjung_ke_fasilitas_kesehatan+`" placeholder="Tanggal Kunjungan " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Kunjungan '" autocomplete="off" readonly>
-                                </div>
-                            </div>
-                            <div class="col-lg-12" style="text-align:right;">
-                                <button class="primary-btn-cancel" type="button" onclick="delete_pcr_table('berkunjung_ke_fasilitas_kesehatan',`+val+`,`+berkunjung_ke_fasilitas_kesehatan+`)"> Delete <i class="fas fa-trash"></i> </button>
-                            </div>
-                        </div>
-                    </td>
-                </tr>`;
-        node.innerHTML = text;
-        node.setAttribute('id', 'berkunjung_ke_fasilitas_kesehatan_table'+val+'_'+ berkunjung_ke_fasilitas_kesehatan);
-        document.getElementById("berkunjung_ke_fasilitas_kesehatan_div"+val).appendChild(node);
-
-        $('input[name="adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan'+val+'_'+berkunjung_ke_fasilitas_kesehatan+'"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              showDropdowns: true,
-              maxDate: moment(),
-              opens: 'center',
-              drops: 'down',
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
-        });
-        $('input[name="adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan'+val+'_'+berkunjung_ke_fasilitas_kesehatan+'"]').val("");
-
-        berkunjung_ke_fasilitas_kesehatan++;
-    }else if(type == 'berkunjung_ke_pasar_hewan'){
-        text = `<tr>
-                    <td style="padding-top:20px; padding-bottom:15px;">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-3">
-                                <div style="margin-bottom:5px;">
-                                    <label>Nama Lokasi Pasar</label><br/>
-                                    <input type="text" class="form-control" name="adult_berkunjung_ke_pasar_hewan_nama_lokasi_pasar`+val+`_`+berkunjung_ke_pasar_hewan+`" id="adult_berkunjung_ke_pasar_hewan_nama_lokasi_pasar`+val+`_`+berkunjung_ke_pasar_hewan+`" placeholder="Nama Lokasi " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama Lokasi '" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3">
-                                <div style="margin-bottom:5px;">
-                                    <label>Nama Kota</label><br/>
-                                    <input type="text" class="form-control" name="adult_berkunjung_ke_pasar_hewan_nama_kota`+val+`_`+berkunjung_ke_pasar_hewan+`" id="adult_berkunjung_ke_pasar_hewan_nama_kota`+val+`_`+berkunjung_ke_pasar_hewan+`" placeholder="Nama Kota " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama Kota '" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3">
-                                <div style="margin-bottom:5px;">
-                                    <label>Nama Provinsi</label><br/>
-                                    <input type="text" class="form-control" name="adult_berkunjung_ke_pasar_hewan_nama_provinsi`+val+`_`+berkunjung_ke_pasar_hewan+`" id="adult_berkunjung_ke_pasar_hewan_nama_provinsi`+val+`_`+berkunjung_ke_pasar_hewan+`" placeholder="Nama Provinsi " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama Provinsi '" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3">
-                                <div style="margin-bottom:5px;">
-                                    <label>Tanggal Kunjungan</label><br/>
-                                    <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan`+val+`_`+berkunjung_ke_pasar_hewan+`" id="adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan`+val+`_`+berkunjung_ke_pasar_hewan+`" placeholder="Tanggal Kunjungan " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Kunjungan '" autocomplete="off" readonly>
-                                </div>
-                            </div>
-                            <div class="col-lg-12" style="text-align:right;">
-                                <button class="primary-btn-cancel" type="button" onclick="delete_pcr_table('berkunjung_ke_pasar_hewan',`+val+`,`+berkunjung_ke_pasar_hewan+`)"> Delete <i class="fas fa-trash"></i> </button>
-                            </div>
-                        </div>
-                    </td>
-                </tr>`;
-        node.innerHTML = text;
-        node.setAttribute('id', 'berkunjung_ke_pasar_hewan_table'+val+'_'+ berkunjung_ke_pasar_hewan);
-        document.getElementById("berkunjung_ke_pasar_hewan_div"+val).appendChild(node);
-
-        $('input[name="adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan'+val+'_'+berkunjung_ke_pasar_hewan+'"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              showDropdowns: true,
-              maxDate: moment(),
-              opens: 'center',
-              drops: 'down',
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
-        });
-        $('input[name="adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan'+val+'_'+berkunjung_ke_pasar_hewan+'"]').val("");
-
-        berkunjung_ke_pasar_hewan++;
-    }else if(type == 'berkunjung_ke_pasien_dalam_pengawasan'){
-        text = `<tr>
-                    <td style="padding-top:20px; padding-bottom:15px;">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4">
-                                <div style="margin-bottom:5px;">
-                                    <label>Nama Pasien</label><br/>
-                                    <input type="text" class="form-control" name="adult_berkunjung_ke_pasien_dalam_pengawasan_nama_pasien`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" id="adult_berkunjung_ke_pasien_dalam_pengawasan_nama_pasien`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" placeholder="Nama Pasien " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama Pasien '" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4">
-                                <div style="margin-bottom:5px;">
-                                    <label>Alamat</label><br/>
-                                    <input type="text" class="form-control" name="adult_berkunjung_ke_pasien_dalam_pengawasan_alamat`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" id="adult_berkunjung_ke_pasien_dalam_pengawasan_alamat`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" placeholder="Alamat " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Alamat '" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4">
-                                <div style="margin-bottom:5px;">
-                                    <label>Hubungan</label><br/>
-                                    <input type="text" class="form-control" name="adult_berkunjung_ke_pasien_dalam_pengawasan_hubungan`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" id="adult_berkunjung_ke_pasien_dalam_pengawasan_hubungan`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" placeholder="Hubungan " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hubungan '" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6">
-                                <div style="margin-bottom:5px;">
-                                    <label>Tanggal Kontak Pertama</label><br/>
-                                    <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" id="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" placeholder="Tanggal Pertama Bertemu " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Pertama Bertemu '" autocomplete="off" readonly>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6">
-                                <div style="margin-bottom:5px;">
-                                    <label>Tanggal Kontak Terakhir</label><br/>
-                                    <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" id="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir`+val+`_`+berkunjung_ke_pasien_dalam_pengawasan+`" placeholder="Tanggal Terakhir Bertemu " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Terakhir Bertemu '" autocomplete="off" readonly>
-                                </div>
-                            </div>
-                            <div class="col-lg-12" style="text-align:right;">
-                                <button class="primary-btn-cancel" type="button" onclick="delete_pcr_table('berkunjung_ke_pasien_dalam_pengawasan',`+val+`,`+berkunjung_ke_pasien_dalam_pengawasan+`)"> Delete <i class="fas fa-trash"></i> </button>
-                            </div>
-                        </div>
-                    </td>
-                </tr>`;
-        node.innerHTML = text;
-        node.setAttribute('id', 'berkunjung_ke_pasien_dalam_pengawasan_table'+val+'_'+ berkunjung_ke_pasien_dalam_pengawasan);
-        document.getElementById("berkunjung_ke_pasien_dalam_pengawasan_div"+val).appendChild(node);
-
-        $('input[name="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama'+val+'_'+berkunjung_ke_pasien_dalam_pengawasan+'"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              showDropdowns: true,
-              maxDate: moment(),
-              opens: 'center',
-              drops: 'down',
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
-        });
-        $('input[name="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama'+val+'_'+berkunjung_ke_pasien_dalam_pengawasan+'"]').val("");
-
-        $('input[name="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir'+val+'_'+berkunjung_ke_pasien_dalam_pengawasan+'"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              showDropdowns: true,
-              maxDate: moment(),
-              opens: 'center',
-              drops: 'down',
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
-        });
-        $('input[name="adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir'+val+'_'+berkunjung_ke_pasien_dalam_pengawasan+'"]').val("");
-        berkunjung_ke_pasien_dalam_pengawasan++;
-    }else if(type == 'berkunjung_ke_pasien_konfirmasi'){
-        text = `<tr>
-                    <td style="padding-top:20px; padding-bottom:15px;">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4">
-                                <div style="margin-bottom:5px;">
-                                    <label>Nama Pasien</label><br/>
-                                    <input type="text" class="form-control" name="adult_berkunjung_ke_pasien_konfirmasi_nama_pasien`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" id="adult_berkunjung_ke_pasien_konfirmasi_nama_pasien`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" placeholder="Nama Pasien " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama Pasien '" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4">
-                                <div style="margin-bottom:5px;">
-                                    <label>Alamat</label><br/>
-                                    <input type="text" class="form-control" name="adult_berkunjung_ke_pasien_konfirmasi_alamat`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" id="adult_berkunjung_ke_pasien_konfirmasi_alamat`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" placeholder="Alamat " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Alamat '" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4">
-                                <div style="margin-bottom:5px;">
-                                    <label>Hubungan</label><br/>
-                                    <input type="text" class="form-control" name="adult_berkunjung_ke_pasien_konfirmasi_hubungan`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" id="adult_berkunjung_ke_pasien_konfirmasi_hubungan`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" placeholder="Hubungan " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hubungan '" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6">
-                                <div style="margin-bottom:5px;">
-                                    <label>Tanggal Kontak Pertama</label><br/>
-                                    <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" id="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" placeholder="Tanggal Pertama Bertemu " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Pertama Bertemu '" autocomplete="off" readonly>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6">
-                                <div style="margin-bottom:5px;">
-                                    <label>Tanggal Kontak Terakhir</label><br/>
-                                    <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" id="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir`+val+`_`+berkunjung_ke_pasien_konfirmasi+`" placeholder="Tanggal Terakhir Bertemu " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tanggal Terakhir Bertemu '" autocomplete="off" readonly>
-                                </div>
-                            </div>
-                            <div class="col-lg-12" style="text-align:right;">
-                                <button class="primary-btn-cancel" type="button" onclick="delete_pcr_table('berkunjung_ke_pasien_konfirmasi',`+val+`,`+berkunjung_ke_pasien_konfirmasi+`)"> Delete <i class="fas fa-trash"></i> </button>
-                            </div>
-                        </div>
-                    </td>
-                </tr>`;
-        node.innerHTML = text;
-        node.setAttribute('id', 'berkunjung_ke_pasien_konfirmasi_table'+val+'_'+ berkunjung_ke_pasien_konfirmasi);
-        document.getElementById("berkunjung_ke_pasien_konfirmasi_div"+val).appendChild(node);
-
-        $('input[name="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama'+val+'_'+berkunjung_ke_pasien_konfirmasi+'"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              showDropdowns: true,
-              maxDate: moment(),
-              opens: 'center',
-              drops: 'down',
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
-        });
-        $('input[name="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama'+val+'_'+berkunjung_ke_pasien_konfirmasi+'"]').val("");
-
-        $('input[name="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+val+'_'+berkunjung_ke_pasien_konfirmasi+'"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              showDropdowns: true,
-              maxDate: moment(),
-              opens: 'center',
-              drops: 'down',
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
-        });
-        $('input[name="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+val+'_'+berkunjung_ke_pasien_konfirmasi+'"]').val("");
-        berkunjung_ke_pasien_konfirmasi++;
-    }
-
-    if ( $('#adult_birth_date'+val).is('[readonly]') ) {
-        for(adt=0;adt<perjalanan_keluar_negeri;adt++){
-            try{
-                document.getElementById('adult_perjalanan_keluar_negeri_tanggal_perjalanan'+val+'_'+adt).readOnly = true;
-                document.getElementById('adult_perjalanan_keluar_negeri_tiba_di_indonesia'+val+'_'+adt).readOnly = true;
-            }catch(err){}
-        }
-        for(adt=0;adt<perjalanan_ke_transmisi_lokal;adt++){
-            try{
-                document.getElementById('adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+val+'_'+adt).readOnly = true;
-                document.getElementById('adult_perjalanan_ke_transmisi_lokal_tiba_di_sini'+val+'_'+adt).readOnly = true;
-            }catch(err){}
-        }
-        for(adt=0;adt<perjalanan_ke_transmisi_lokal;adt++){
-            try{
-                document.getElementById('adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+val+'_'+adt).readOnly = true;
-            }catch(err){}
-        }
-        for(adt=0;adt<berkunjung_ke_fasilitas_kesehatan;adt++){
-            try{
-                document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan'+val+'_'+adt).readOnly = true;
-            }catch(err){}
-        }
-        for(adt=0;adt<berkunjung_ke_pasar_hewan;adt++){
-            try{
-                document.getElementById('adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan'+val+'_'+adt).readOnly = true;
-            }catch(err){}
-        }
-        for(adt=0;adt<berkunjung_ke_pasien_dalam_pengawasan;adt++){
-            try{
-                document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama'+val+'_'+adt).readOnly = true;
-                document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir'+val+'_'+adt).readOnly = true;
-            }catch(err){}
-        }
-        for(adt=0;adt<berkunjung_ke_pasien_konfirmasi;adt++){
-            try{
-                document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama'+val+'_'+adt).readOnly = true;
-                document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+val+'_'+adt).readOnly = true;
-            }catch(err){}
-        }
-    }else{
-        for(adt=0;adt<perjalanan_keluar_negeri;adt++){
-            try{
-                document.getElementById('adult_perjalanan_keluar_negeri_tanggal_perjalanan'+val+'_'+adt).readOnly = false;
-                document.getElementById('adult_perjalanan_keluar_negeri_tiba_di_indonesia'+val+'_'+adt).readOnly = false;
-            }catch(err){}
-        }
-        for(adt=0;adt<perjalanan_ke_transmisi_lokal;adt++){
-            try{
-                document.getElementById('adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+val+'_'+adt).readOnly = false;
-                document.getElementById('adult_perjalanan_ke_transmisi_lokal_tiba_di_sini'+val+'_'+adt).readOnly = false;
-            }catch(err){}
-        }
-        for(adt=0;adt<berkunjung_ke_fasilitas_kesehatan;adt++){
-            try{
-                document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan'+val+'_'+adt).readOnly = false;
-            }catch(err){}
-        }
-        for(adt=0;adt<berkunjung_ke_pasar_hewan;adt++){
-            try{
-                document.getElementById('adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan'+val+'_'+adt).readOnly = false;
-            }catch(err){}
-        }
-        for(adt=0;adt<berkunjung_ke_pasien_dalam_pengawasan;adt++){
-            try{
-                document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama'+val+'_'+adt).readOnly = false;
-                document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir'+val+'_'+adt).readOnly = false;
-            }catch(err){}
-        }
-        for(adt=0;adt<berkunjung_ke_pasien_konfirmasi;adt++){
-            try{
-                document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama'+val+'_'+adt).readOnly = false;
-                document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+val+'_'+adt).readOnly = false;
-            }catch(err){}
-        }
-    }
-
-}
-
-function delete_pcr_table(type, val, nomor_table){
-    try{
-        var element = document.getElementById(type+'_table'+val+'_'+ nomor_table);
-        element.parentNode.removeChild(element);
-    }catch(err){}
-
-}
 
 function onchange_title(val){
     try{
@@ -2248,7 +1787,9 @@ function onchange_title(val){
         }else{
             document.getElementById('adult_hamil_div'+val).hidden = true;
         }
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
 }
 
 function change_kriteria(val){
@@ -2540,13 +2081,6 @@ function add_table_passenger_phc(type){
               format: 'DD MMM YYYY',
           }
     });
-    try{
-        kriteria_pasien_text = '';
-        for(i in medical_config.result.response.kriteria_pasien){
-            kriteria_pasien_text += `<option value="`+medical_config.result.response.kriteria_pasien[i].code+`">`+medical_config.result.response.kriteria_pasien[i].value+`</option>`;
-        }
-        document.getElementById('inp_kriteria_blmpernah_'+ counter_passenger).innerHTML += kriteria_pasien_text;
-    }catch(err){}
 
     if(test_type == 'swab_pcr'){
         $('input[name="klinis_tgl_rs_terakhir_'+parseInt(counter_passenger)+'"]').daterangepicker({
@@ -2658,13 +2192,6 @@ function add_table_passenger_phc(type){
         document.getElementById('inp_kewarganegaraan_blmpernah_'+ counter_passenger).value = "INDONESIA";
     }
 
-    try{
-        daftar_maskapai_text = '';
-        for(i in medical_config.result.response.maskapai){
-            daftar_maskapai_text += `<option value="`+medical_config.result.response.maskapai[i].code+`">`+medical_config.result.response.maskapai[i].value+`</option>`;
-        }
-        document.getElementById('pilih_daftar_maskapai_'+ counter_passenger).innerHTML += daftar_maskapai_text;
-    }catch(err){}
     $('#inp_tgl_pemeriksaan_'+parseInt(counter_passenger)).addClass('date-picker-birth');
 
 
@@ -2776,7 +2303,9 @@ function delete_table_of_passenger(counter){
             var element_modal = document.getElementById('modal_passenger'+counter);
             element.parentNode.removeChild(element);
             element_modal.parentNode.removeChild(element);
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
     }
 }
 
@@ -2799,11 +2328,6 @@ function update_contact(type,val){
                 document.getElementById('birth_date'+parseInt(val-1)).innerHTML = '<i><b>Birth Date: </b>'+document.getElementById('adult_birth_date'+val).value+' ('+adt_age+' years)</i>';
             }
         }
-        try{
-            if(document.getElementById('adult_sample_method'+val).value != ''){
-                document.getElementById('sample_method'+parseInt(val-1)).innerHTML = document.getElementById('adult_sample_method'+val).value;
-            }
-        }catch(err){}
     }
 
 }
@@ -3181,7 +2705,9 @@ function check_passenger(){
                         'is_also_contact': is_also_contact
 
                     })
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
 
                 var error_form = '';
                 var customer_id = nomor_pax - 1;
@@ -3443,8 +2969,10 @@ function reset_pax(){
     document.getElementById('table_passenger_list').style.display = 'none';
     document.getElementById('next_mitra_keluarga').style.display = 'none';
     try{
-    document.getElementById('mitra_keluarga_pax_div').hidden = true;
-    }catch(err){}
+        document.getElementById('mitra_keluarga_pax_div').hidden = true;
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
 }
 
 function show_commission(val){
@@ -3529,8 +3057,10 @@ function add_table(change_rebooking=false){
     document.getElementById('next_mitra_keluarga').style.display = 'none';
 
     try{
-    document.getElementById('mitra_keluarga_pax_div').hidden = true;
-    }catch(err){}
+        document.getElementById('mitra_keluarga_pax_div').hidden = true;
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
 
     if(change_rebooking == true && total_passengers_rebooking != 0){
         //readd change value pax add table
@@ -3568,8 +3098,10 @@ function add_table_verify(change_rebooking=false){
     document.getElementById('mitra_keluarga_detail').style.display = 'none';
     document.getElementById('next_mitra_keluarga').style.display = 'none';
     try{
-    document.getElementById('mitra_keluarga_pax_div').hidden = true;
-    }catch(err){}
+        document.getElementById('mitra_keluarga_pax_div').hidden = true;
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
 
     if(change_rebooking == true && total_passengers_rebooking != 0){
         //readd change value pax add table
@@ -3636,11 +3168,13 @@ function next_prev_form_medical(type, counter, id){
     pax = parseInt(id);
     counter = parseInt(counter);
     try{
-    document.getElementById("progress_med"+counter+pax).style = "background-color:"+text_color+"; color:"+color+";";
-    document.getElementById("progress_tab"+counter+pax).style = "background-color:"+color+"; color: white;";
-    document.getElementById("progress_label"+counter+pax).style = "cursor:pointer; color:"+text_color+" !important;";
-    document.getElementById("progress_div"+counter+pax).style.display = "block";
-    }catch(err){}
+        document.getElementById("progress_med"+counter+pax).style = "background-color:"+text_color+"; color:"+color+";";
+        document.getElementById("progress_tab"+counter+pax).style = "background-color:"+color+"; color: white;";
+        document.getElementById("progress_label"+counter+pax).style = "cursor:pointer; color:"+text_color+" !important;";
+        document.getElementById("progress_div"+counter+pax).style.display = "block";
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     length_progress = $(".progress_mitra_keluarga"+pax).length;
     for (var i = 1; i <= length_progress; i++) {
         if(i != counter){
@@ -4225,12 +3759,6 @@ function auto_fill_periksain(){
             document.getElementById('adult_phone'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
         }
         document.getElementById('adult_email'+counter).value = passenger_data_cache_medical[idx].email;
-        try{
-            if(passenger_data_cache_medical[idx].hasOwnProperty('sample_method_code'))
-                document.getElementById('adult_sample_method').value = passenger_data_cache_medical[idx].sample_method_code;
-            else
-                document.getElementById('adult_sample_method').value = passenger_data_cache_medical[idx].sample_method;
-        }catch(err){}
         document.getElementById('adult_address'+counter).value = passenger_data_cache_medical[idx].address;
 
         document.getElementById('adult_provinsi'+counter).value = passenger_data_cache_medical[idx].provinsi;
@@ -4368,91 +3896,9 @@ function open_date(counter){
     if ( $('#adult_birth_date'+counter).is('[readonly]') ) {
         document.getElementById('icon_fill'+counter).style.color = "black";
         document.getElementById('adult_birth_date'+counter).readOnly = false;
-        if(vendor == 'phc'){
-            if(test_type.includes('PCR')){
-                document.getElementById('adult_tanggal_masuk_rs'+counter).readOnly = false;
-                document.getElementById('adult_tanggal_pertama_kali_gejala'+counter).readOnly = false;
-
-                for(i=0;i<perjalanan_keluar_negeri;i++){
-                    try{
-                        document.getElementById('adult_perjalanan_keluar_negeri_tanggal_perjalanan'+counter+'_'+i).readOnly = false;
-                        document.getElementById('adult_perjalanan_keluar_negeri_tiba_di_indonesia'+counter+'_'+i).readOnly = false;
-                    }catch(err){}
-                }
-                for(i=0;i<perjalanan_ke_transmisi_lokal;i++){
-                    try{
-                        document.getElementById('adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+counter+'_'+i).readOnly = false;
-                        document.getElementById('adult_perjalanan_ke_transmisi_lokal_tiba_di_sini'+counter+'_'+i).readOnly = false;
-                    }catch(err){}
-                }
-                for(i=0;i<berkunjung_ke_fasilitas_kesehatan;i++){
-                    try{
-                        document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan'+counter+'_'+i).readOnly = false;
-                    }catch(err){}
-                }
-                for(i=0;i<berkunjung_ke_pasar_hewan;i++){
-                    try{
-                        document.getElementById('adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan'+counter+'_'+i).readOnly = false;
-                    }catch(err){}
-                }
-                for(i=0;i<berkunjung_ke_pasien_dalam_pengawasan;i++){
-                    try{
-                        document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama'+counter+'_'+i).readOnly = false;
-                        document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir'+counter+'_'+i).readOnly = false;
-                    }catch(err){}
-                }
-                for(i=0;i<berkunjung_ke_pasien_konfirmasi;i++){
-                    try{
-                        document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama'+counter+'_'+i).readOnly = false;
-                        document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+counter+'_'+i).readOnly = false;
-                    }catch(err){}
-                }
-            }
-        }
     }else{
         document.getElementById('icon_fill'+counter).style.color = color;
         document.getElementById('adult_birth_date'+counter).readOnly = true;
-        if(vendor == 'phc'){
-            if(test_type.includes('PCR')){
-                document.getElementById('adult_tanggal_masuk_rs'+counter).readOnly = true;
-                document.getElementById('adult_tanggal_pertama_kali_gejala'+counter).readOnly = true;
-
-                for(i=0;i<perjalanan_keluar_negeri;i++){
-                    try{
-                        document.getElementById('adult_perjalanan_keluar_negeri_tanggal_perjalanan'+counter+'_'+i).readOnly = true;
-                        document.getElementById('adult_perjalanan_keluar_negeri_tiba_di_indonesia'+counter+'_'+i).readOnly = true;
-                    }catch(err){}
-                }
-                for(i=0;i<perjalanan_ke_transmisi_lokal;i++){
-                    try{
-                        document.getElementById('adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+counter+'_'+i).readOnly = true;
-                        document.getElementById('adult_perjalanan_ke_transmisi_lokal_tiba_di_sini'+counter+'_'+i).readOnly = true;
-                    }catch(err){}
-                }
-                for(i=0;i<berkunjung_ke_fasilitas_kesehatan;i++){
-                    try{
-                        document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan'+counter+'_'+i).readOnly = true;
-                    }catch(err){}
-                }
-                for(i=0;i<berkunjung_ke_pasar_hewan;i++){
-                    try{
-                        document.getElementById('adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan'+counter+'_'+i).readOnly = true;
-                    }catch(err){}
-                }
-                for(i=0;i<berkunjung_ke_pasien_dalam_pengawasan;i++){
-                    try{
-                        document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama'+counter+'_'+i).readOnly = true;
-                        document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir'+counter+'_'+i).readOnly = true;
-                    }catch(err){}
-                }
-                for(i=0;i<berkunjung_ke_pasien_konfirmasi;i++){
-                    try{
-                        document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama'+counter+'_'+i).readOnly = true;
-                        document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+counter+'_'+i).readOnly = true;
-                    }catch(err){}
-                }
-            }
-        }
     }
 }
 

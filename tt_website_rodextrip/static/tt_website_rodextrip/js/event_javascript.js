@@ -1039,7 +1039,9 @@ function render_object_from_value(val){
         }
         grand_total_option += upsell_price;
         //$text += 'Grand Total: '+val[i].currency+' '+ getrupiah(grand_total_option);
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
 
     $text += 'Grand Total: '+val[i].currency+' '+ getrupiah(grand_total_option);
     text+=`

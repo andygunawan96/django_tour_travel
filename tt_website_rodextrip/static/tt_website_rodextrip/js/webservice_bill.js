@@ -3,7 +3,9 @@ function signin_bills(data){
     try{
         $('.btn-next').addClass("running");
         $('.btn-next').prop('disabled', true);
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     getToken();
     $.ajax({
        type: "POST",
@@ -275,10 +277,14 @@ function search_ppob(){
 
     try{
         total = document.getElementById('pln_nominal').value
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     try{
         customer_email = document.getElementById('customer_email').value
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     if(product_code != '' && customer_number != '' && error_log == ''){
         console.log(carrier_provider_ppob);
         var search_provider_ppob = carrier_provider_ppob[product_code][0];
@@ -458,7 +464,9 @@ function bills_get_booking(data){
                        //document.getElementById('issued-breadcrumb').classList.add("current");
                        document.getElementById('issued-breadcrumb').classList.add("br-active");
                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
-                   }catch(err){}
+                   }catch(err){
+                       console.log(err); // error kalau ada element yg tidak ada
+                   }
                 }else if(msg.result.response.state == 'draft'){
                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -481,7 +489,9 @@ function bills_get_booking(data){
                 if(msg.result.response.state == 'issued'){
                     try{
                         document.getElementById('voucher_discount').style.display = 'none';
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                    //tanya ko sam kalau nyalain
     //                document.getElementById('ssr_request_after_sales').hidden = false;
     //                document.getElementById('ssr_request_after_sales').innerHTML = `
@@ -499,7 +509,9 @@ function bills_get_booking(data){
                     try{
                         if(now.diff(hold_date_time, 'minutes')<0)
                             $(".issued_booking_btn").show();
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                     check_provider_booking++;
                 }
                 else{
@@ -542,7 +554,9 @@ function bills_get_booking(data){
                                 try{
                                     if(now.diff(hold_date_time, 'minutes')<0)
                                         $(".issued_booking_btn").show();
-                                }catch(err){}
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
                                 check_provider_booking++;
                                 printed_hold_date = true;
                             }
@@ -963,7 +977,9 @@ function bills_get_booking(data){
                         })
                         price_provider = 0;
                         counter_service_charge++;
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                 }
                 try{
                     bills_get_detail.result.response.total_price = total_price;
@@ -1093,7 +1109,9 @@ function bills_get_booking(data){
                     </div>`;
                     text+=`
                 </div>`;
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 document.getElementById('bills_detail').innerHTML = text_detail;
                 $("#show_loading_booking_bills").hide();
 
@@ -1312,7 +1330,9 @@ function bills_issued(data){
                             print_success_issued();
                        else
                             print_fail_issued();
-                   }catch(err){}
+                   }catch(err){
+                       console.log(err); // error kalau ada element yg tidak ada
+                   }
                    //update ticket
                    price_arr_repricing = {};
                    pax_type_repricing = [];
