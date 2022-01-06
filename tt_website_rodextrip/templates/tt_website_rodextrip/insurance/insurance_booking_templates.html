@@ -254,7 +254,9 @@
 <script>
     try{
         document.getElementById('voucher_discount').style.display = 'none';
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     $( document ).ready(function() {
         insurance_signin('{{order_number}}');
         breadcrumb_create("insurance", 6, 1);

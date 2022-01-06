@@ -853,7 +853,7 @@ function get_public_holiday(start_date, end_date, country_id){
                     var tempDateRender = year+'-'+tempMonth+'-'+tempDate;
                     var tempDateRender2 = tempDate;
 
-                    try{
+                    if (typeof date_api !== 'undefined') { // di ganti tidak pakai try except karena bisa loop lebih dari 1 & error jadi check define var kalau tidak skip
                         for (i in date_api.result.response){
                             var stringDateRender="";
                             var stringMonth="";
@@ -866,7 +866,6 @@ function get_public_holiday(start_date, end_date, country_id){
                             }
                         }
                     }
-                    catch(err){}
 
                     //highlight today's date
                     if (calendar[row][col].isSame(new Date(), "day"))

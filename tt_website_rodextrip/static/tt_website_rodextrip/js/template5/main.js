@@ -197,10 +197,14 @@ $(document).ready(function () {
         $('#mobile-nav').find('.menu-has-children').prepend('<i class="lnr lnr-chevron-down"></i>');
         try{
             document.getElementById("balance_mob").innerHTML = document.getElementById("balance").innerHTML;
-        }catch(err){}
+        }catch(err){
+            console.log(err) //ada element yg tidak ada
+        }
         try{
             document.getElementById("credit_mob").innerHTML = document.getElementById("credit_limit").innerHTML;
-        }catch(err){}
+        }catch(err){
+            console.log(err) //ada element yg tidak ada
+        }
 
         $(document).on('click', '.menu-has-children i', function (e) {
             $(this).next().toggleClass('menu-item-active');

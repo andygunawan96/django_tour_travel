@@ -288,7 +288,9 @@
         }
         try{
             $("#show_loading_booking_medical").hide();
-        }catch(err){}
+        }catch(err){
+            console.log(err) //ada element yg tidak ada
+        }
 
         breadcrumb_create("medical", 4, 1);
     });

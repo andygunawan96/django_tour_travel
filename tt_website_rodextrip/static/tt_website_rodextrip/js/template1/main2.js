@@ -518,12 +518,10 @@ $(document).ready(function() {
         $('#mobile-nav').find('.forget_password_mobile').replaceWith('<li style="padding-right:5px;"><div class="input-container-search-ticket"><a style="cursor:pointer; text-transform: unset; padding:0px 5px;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 12px;"></i> Forget Password</a></div></li>');
         $('#mobile-nav').find('.signup_pc_mb').replaceWith('<a style="margin-top:5px; font-size:13px; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> Sign Up</a>');
         $('#mobile-nav').find('.menu-has-children').prepend('<i class="lnr lnr-chevron-down"></i>');
-        try{
+        if(document.getElementById("balance_mob") && document.getElementById("balance"))
             document.getElementById("balance_mob").innerHTML = document.getElementById("balance").innerHTML;
-        }catch(err){}
-        try{
+        if(document.getElementById("credit_mob") && document.getElementById("credit_limit"))
             document.getElementById("credit_mob").innerHTML = document.getElementById("credit_limit").innerHTML;
-        }catch(err){}
         $(document).on('click', '.menu-has-children i', function(e) {
             $(this).next().toggleClass('menu-item-active');
             $(this).nextAll('ul').eq(0).slideToggle();

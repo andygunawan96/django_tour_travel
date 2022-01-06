@@ -32,7 +32,9 @@ function mitra_keluarga_signin(data){
                })
                try{
                 $("#show_loading_booking_mitra_keluarga").hide();
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
            }
        }catch(err){
             console.log(err);
@@ -51,7 +53,9 @@ function mitra_keluarga_signin(data){
           $('.loader-rodextrip').fadeOut();
           try{
             $("#show_loading_booking_mitra_keluarga").hide();
-          }catch(err){}
+          }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+          }
        },timeout: 60000
     });
 
@@ -144,7 +148,9 @@ function get_config_mitra_keluarga(type){
                     add_table(true);
                     try{
                         $("#show_loading_booking_mitra_keluarga").hide();
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                 }else if(type == 'review'){
                     for(i in medical_config.result.response){
                         if(medical_config.result.response[i].code == test_type){
@@ -164,7 +170,9 @@ function get_config_mitra_keluarga(type){
                })
                try{
                 $("#show_loading_booking_mitra_keluarga").hide();
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -249,7 +257,9 @@ function mitra_keluarga_get_availability(){
                })
                try{
                 $("#show_loading_booking_mitra_keluarga").hide();
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -271,7 +281,9 @@ function mitra_keluarga_check_price(){
         try{
             if(document.getElementById('booker_timeslot_id'+i).value != '')
                 timeslot_list.push(document.getElementById('booker_timeslot_id'+i).value.split('~')[0])
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
     }
     for(i=1; i <= test_time; i++){
         try{
@@ -373,8 +385,10 @@ function mitra_keluarga_check_price(){
                     document.getElementById('next_mitra_keluarga').style.display = 'block';
 
                     try{
-                    document.getElementById('mitra_keluarga_pax_div').hidden = false;
-                    }catch(err){}
+                        document.getElementById('mitra_keluarga_pax_div').hidden = false;
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                     $('html, body').animate({
                         scrollTop: $("#mitra_keluarga_detail").offset().top - 120
                     }, 500);
@@ -391,7 +405,9 @@ function mitra_keluarga_check_price(){
                    })
                    try{
                     $("#show_loading_booking_mitra_keluarga").hide();
-                   }catch(err){}
+                   }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                   }
                 }
                 }catch(err){console.log(err);}
                 document.getElementById('check_price_mitra_keluarga').disabled = false;
@@ -552,7 +568,9 @@ function mitra_keluarga_get_cache_price(){
                })
                try{
                 $("#show_loading_booking_mitra_keluarga").hide();
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
             }
             }catch(err){console.log(err);}
        },
@@ -683,7 +701,9 @@ function mitra_keluarga_commit_booking(val){
     }
     try{
         data['voucher_code'] = voucher_code;
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/mitra_keluarga",
@@ -858,10 +878,14 @@ function mitra_keluarga_get_booking(order_number, sync=false){
     get_vendor_balance('false');
     try{
         show_loading();
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     try{
         close_div('payment_acq');
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/mitra_keluarga",
@@ -1321,7 +1345,9 @@ function mitra_keluarga_get_booking(order_number, sync=false){
                                 try{
                                     price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
                                     csc += msg.result.response.passengers[j].channel_service_charges.amount;
-                                }catch(err){}
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
                                 //repricing
                                 check = 0;
                                 for(k in pax_type_repricing){
@@ -1396,7 +1422,9 @@ function mitra_keluarga_get_booking(order_number, sync=false){
                                 for(k in msg.result.response.provider_bookings[i].journeys){
                                     try{
                                         journey_code.push(msg.result.response.provider_bookings[i].journeys[k].journey_code)
-                                    }catch(err){}
+                                    }catch(err){
+                                        console.log(err); // error kalau ada element yg tidak ada
+                                    }
                                     for(l in msg.result.response.provider_bookings[i].journeys[k].segments){
                                         journey_code.push(msg.result.response.provider_bookings[i].journeys[k].segments[l].segment_code)
                                     }
@@ -1955,7 +1983,9 @@ function mitra_keluarga_issued_booking(data){
                             print_success_issued();
                        else
                             print_fail_issued();
-                   }catch(err){}
+                   }catch(err){
+                       console.log(err); // error kalau ada element yg tidak ada
+                   }
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                         window.location.href = '/mitra_keluarga/booking/' + btoa(data);
                    }else{
@@ -2050,7 +2080,9 @@ function mitra_keluarga_issued_booking(data){
                             }
                             try{
                                 price['CSC'] = medical_get_detail.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
 
                             text+=`<div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -2151,7 +2183,9 @@ function mitra_keluarga_issued_booking(data){
 
                             try{
                                 price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
 
                             text+=`<div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -2835,7 +2869,9 @@ function update_insentif_booker(type){
                         price_arr_repricing = {};
                         pax_type_repricing = [];
                     }
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();

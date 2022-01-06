@@ -286,6 +286,17 @@
                     </div>
                 </div>
                 <div class="col-lg-4" style="padding-bottom:20px;">
+                    <input type="hidden" value="{{response.name}}" id="get_name_hotel"/>
+                    <span class="rating_hotel" id="rating_hotel" hidden>{{response.rating}}</span>
+                    <span hidden>
+                        {% for i in rating %}
+                            <i class="fas fa-star" style="color:#FFC44D;"></i>
+                        {% endfor %}
+                    </span>
+                    <br/>
+                    <i class="fas fa-map-marker-alt" style="color:{{color}};" hidden></i>
+                    <span class="address_hotel" id="address_hotel" hidden></span>
+                    <span id="date_hotel" hidden>Date: {{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}</span>
                     <div class="row">
                         <div class="col-lg-12">
                             <!--                            <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="price_total"></div>-->
@@ -473,6 +484,30 @@
 {% endif %}
 
 <script>
+    address = '';
+    {% if response.location.address != false %}
+    address += `{{response.location.address}}`;
+    {% endif %}
+    {% if response.location.city != false %}
+    if(address != '')
+        address += ', ';
+    address += `{{response.location.city}}`;
+    {% endif %}
+    {% if response.location.kelurahan != false %}
+    if(address != '')
+        address += ', ';
+    address += `{{response.location.kelurahan}}`;
+    {% endif %}
+    {% if response.location.state != false %}
+    if(address != '')
+        address += ', ';
+    address += `{{response.location.state}}{% endif %}`;
+    {% if response.location.zipcode != false %}
+    if(address != '')
+        address += ', ';
+    address += `{{response.location.zipcode}}`;
+    {% endif %}
+    document.getElementById('address_hotel').innerHTML = address;
     //document.getElementById('voucher_discount').style.display = 'none';
     hotel_review_page();
     //get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'hotel_review');

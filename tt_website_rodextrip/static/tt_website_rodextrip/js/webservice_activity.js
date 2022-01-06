@@ -174,7 +174,9 @@ function activity_redirect_signup(type){
                                                                                                                         document.getElementById('printout_prices').value = JSON.stringify(printout_prices);
                                                                                                                         document.getElementById('printout_paxs').value = JSON.stringify(printout_paxs);
 
-                                                                                                                    }catch(err){}
+                                                                                                                    }catch(err){
+                                                                                                                        console.log(err); // error kalau ada element yg tidak ada
+                                                                                                                    }
                                                                                                                     document.getElementById('reload_page').submit();
                                                                                                                },error: function(XMLHttpRequest, textStatus, errorThrown) {
                                                                                                                },timeout: 60000
@@ -194,7 +196,9 @@ function activity_redirect_signup(type){
                                                                                                                 document.getElementById('airline_price_itinerary').value = JSON.stringify(price_itinerary);
                                                                                                                 document.getElementById('airline_price_itinerary_request').value = JSON.stringify(airline_get_price_request);
                                                                                                                 document.getElementById('additional_price_input').value = JSON.stringify(additional_price);
-                                                                                                            }catch(err){}
+                                                                                                            }catch(err){
+                                                                                                                console.log(err); // error kalau ada element yg tidak ada
+                                                                                                            }
                                                                                                             document.getElementById('reload_page').submit();
                                                                                                         }
                                                                                                         //location.reload();
@@ -257,7 +261,9 @@ function activity_redirect_signup(type){
               $('.loader-rodextrip').fadeOut();
               try{
                 $("#show_loading_booking_airline").hide();
-              }catch(err){}
+              }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+              }
            },timeout: 60000
         });
     }
@@ -295,7 +301,9 @@ function activity_login(data, type=''){
                })
                try{
                 $('#loading-search-activity').hide();
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -2342,7 +2350,9 @@ function update_options_activity(value){
             try{
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                     get_payment_acq('Issued', act_booker_id, '', 'billing', signature, 'activity_review');
-            }catch(err){}
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
             prepare_booking(value);
         }else{
             Swal.fire({
@@ -2583,7 +2593,9 @@ function activity_issued_booking(order_number)
                             print_success_issued();
                        else
                             print_fail_issued();
-                   }catch(err){}
+                   }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                   }
                    var booking_num = msg.result.response.order_number;
                    if (booking_num)
                    {
@@ -2803,7 +2815,9 @@ function update_insentif_booker(type){
                         price_arr_repricing = {};
                         pax_type_repricing = [];
                     }
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
@@ -2876,7 +2890,9 @@ function activity_get_booking(data){
                     if(msg.result.response.state == 'issued'){
                         try{
                             document.getElementById('voucher_discount').style.display = 'none';
-                        }catch(err){}
+                        }catch(err){
+                            console.log(err); // error kalau ada element yg tidak ada
+                        }
                         conv_status = 'Issued';
                         document.getElementById('issued-breadcrumb').classList.add("br-active");
                         document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
@@ -3732,7 +3748,9 @@ function activity_get_booking(data){
         //                    get_payment_acq('Issued', msg.result.response.booker.seq_id, activity_order_number, 'billing',signature,'activity', signature);
                             document.getElementById("final_issued_btn").style.display = "block";
                         }
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                 }
                 else
                 {

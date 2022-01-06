@@ -2675,7 +2675,9 @@
         try{
             document.getElementsByName('radio_airline_type')[0].checked = true;
             document.getElementsByName('radio_train_type')[0].checked = true;
-        }catch(err){}
+        }catch(err){
+            console.log(err) //ada element yg tidak ada
+        }
     })
 
     $( document ).ready(function() {

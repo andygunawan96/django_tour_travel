@@ -188,7 +188,9 @@ function hotel_redirect_signup(type){
               $('.loader-rodextrip').fadeOut();
               try{
                 $("#show_loading_booking_airline").hide();
-              }catch(err){}
+              }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+              }
            },timeout: 60000
         });
     }
@@ -225,14 +227,18 @@ function hotel_signin(data, need_signin=false){
                })
                try{
                 $('#loading-search-hotel').hide();
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel signin');
             try{
                 $('#loading-search-hotel').hide();
-            }catch(err){}
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
        },timeout: 120000
     });
 }
@@ -1383,7 +1389,9 @@ function hotel_issued_alert(val){
                 }
                 try{
                     grand_total_price = parseFloat(hotel_price.rooms[i].price_total);
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 text += `<div class="col-lg-12"><hr/></div>`;
                 try{
                     if(upsell_price != 0){
@@ -1444,7 +1452,9 @@ function hotel_issued_alert(val){
                 }
                 try{
                     grand_total_price = parseFloat(temporary.rooms[i].price_total);
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 text += `<div class="col-lg-12"><hr/></div>`;
                 try{
                     if(upsell_price != 0){
@@ -1577,7 +1587,9 @@ function hotel_issued(data){
                             print_success_issued();
                        else
                             print_fail_issued();
-                   }catch(err){}
+                   }catch(err){
+                       console.log(err); // error kalau ada element yg tidak ada
+                   }
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                         window.location.href = '/hotel/booking/' + btoa(data);
                    }else{
@@ -1667,7 +1679,9 @@ function hotel_issued(data){
                             }
                             try{
                                 price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
 
                             text+=`<div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -1768,7 +1782,9 @@ function hotel_issued(data){
 
                             try{
                                 price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
 
                             text+=`<div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -1953,7 +1969,9 @@ function hotel_issued_booking(val){
                     //swal
                     try{
                         $('.loader-rodextrip').fadeOut();
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                     hide_modal_waiting_transaction();
                     Swal.fire({
                       type: 'error',
@@ -1968,7 +1986,9 @@ function hotel_issued_booking(val){
             }catch(err){
                 try{
                     $('.loader-rodextrip').fadeOut();
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 hide_modal_waiting_transaction();
                 Swal.fire({
                   type: 'error',
@@ -2133,7 +2153,9 @@ function hotel_get_booking(data){
                            <div class="alert alert-success" role="alert">
                                <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
                            </div>`;
-                       }catch(err){}
+                       }catch(err){
+                            console.log(err); // error kalau ada element yg tidak ada
+                       }
                     }else if(msg.result.response.state == 'draft'){
                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -2535,7 +2557,9 @@ function hotel_get_booking(data){
                                 try{
                                     csc += price['CSC'];
                                     price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
-                                }catch(err){}
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
                                 if(price['FARE'] != 0){
                                     total_price_provider.push({
                                         'provider': msg.result.response.hotel_rooms[i].provider,
@@ -2620,7 +2644,9 @@ function hotel_get_booking(data){
                                     }
                                     text_detail+=`
                                     <span style="font-size:13px; font-weight:700;">`+msg.result.response.hotel_rooms[i].dates[j].currency+` `+ getrupiah(total_per_room) +`</span>`;
-                                    }catch(err){}
+                                    }catch(err){
+                                        console.log(err); // error kalau ada element yg tidak ada
+                                    }
                                     text_detail+=`
                                 </div>
                             </div>`;
@@ -2630,7 +2656,9 @@ function hotel_get_booking(data){
                                     $text += msg.result.response.hotel_rooms[i].dates[j].date + ' ';
                                 }
                                 $text += currency+` `+getrupiah(parseInt(total_price_provider[i].price.FARE + total_price_provider[i].price.TAX + total_price_provider[i].price.ROC))+'\n';
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
                         }catch(err){console.log(err);}
                     }
                     text_detail += `</div>`;
@@ -3163,7 +3191,9 @@ function update_insentif_booker(type){
                         price_arr_repricing = {};
                         pax_type_repricing = [];
                     }
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();

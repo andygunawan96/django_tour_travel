@@ -1455,7 +1455,9 @@ function bills_detail(){
                         <span style="font-size:13px; font-weight:500;">`+airline_price[0].ADT.currency+` `+upsell_price+`</span><br/>`;
                     text+=`</div>`;
                 }
-            }catch(err){}
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
             text+=`
             <div class="col-lg-7" style="text-align:left;">
                 <span style="font-size:14px; font-weight:bold;"><b>Total</b></span><br/>
@@ -1465,7 +1467,9 @@ function bills_detail(){
                 grand_total_price = total_price;
                 grand_total_price += parseFloat(additional_price)
                 grand_total_price += upsell_price;
-            }catch(err){}
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
             if(airline_price[0].ADT.currency == 'IDR')
             text+=`
                 <span style="font-size:14px; font-weight:bold;" id="total_price"><b> `+airline_price[i].ADT.currency+` `+getrupiah(grand_total_price)+`</b></span><br/>`;

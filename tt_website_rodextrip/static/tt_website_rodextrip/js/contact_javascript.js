@@ -58,9 +58,12 @@ function delete_table_of_contact(val){
     try{
         document.getElementById(`contact`+val+`_id`).remove();
     }catch(err){
+        console.log(err);
         try{
             document.getElementById(`contact`+val+`_id`).remove();
-        }catch(err){}
+        }catch(err){
+            console.log(err);
+        }
     }
 }
 
@@ -224,7 +227,9 @@ function save_contact(){
     for(i=1;i<=counter_contact;i++){
         try{
             data.push([document.getElementById('contact_title'+i).value,document.getElementById('contact_url'+i).value, document.getElementById('contact_name'+i).value]);
-        }catch(err){}
+        }catch(err){
+            console.log(err);
+        }
     }
     console.log(data);
     $.ajax({

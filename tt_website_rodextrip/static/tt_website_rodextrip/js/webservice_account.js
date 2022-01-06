@@ -76,61 +76,56 @@ function get_balance(val){
                         text = `Your Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+``;
 
                     }else{
+                        //BALANCE VENDOR
                         text = `Balance Vendor`;
-                        try{
+                        if(document.getElementById("balance")){
                             document.getElementById("balance").style.cursor = "pointer";
                             document.getElementById("balance").onclick = function() {$("#myModalBalanceVendor").modal('show');};
-                        }catch(err){}
-                        try{
+                        }
+                        if(document.getElementById("balance_mob")){
                             document.getElementById("balance_mob").style.cursor = "pointer";
                             document.getElementById("balance_mob").onclick = function() {$("#myModalBalanceVendor").modal('show');};
-                        }catch(err){}
-                        try{
+                        }
+                        if(document.getElementById("balance_search")){
                             document.getElementById("balance_search").style.cursor = "pointer";
                             document.getElementById("balance_search").onclick = function() {$("#myModalBalanceVendor").modal('show');};
-                        }catch(err){}
-                        try{
+                        }
+                        if(document.getElementById("my_balance"))
                             document.getElementById("my_balance").innerHTML = `
                             <img src="/static/tt_website_rodextrip/images/icon/wallet_black.png" alt="Balance Vendor" style="width:15px; height:15px;">
                             <span style="font-size:14px; font-weight:500;"><span style="color:`+color+`;">`+msg.result.response.currency_code+` `+getrupiah(balance)+`</span></span>`;
-                        }catch(err){}
                     }
                     if(msg.result.response.is_show_balance){
-                        try{//BALANCE
+                        //BALANCE
+                        if(document.getElementById("balance"))
                             document.getElementById("balance").innerHTML = text;
-                            try{
-                                document.getElementById("balance_mob").innerHTML = text;
-                            }catch(err){}
-                            try{
-                                document.getElementById("balance_search").innerHTML = text;
-                            }catch(err){}
-                        }catch(err){}
+                        if(document.getElementById("balance_mob"))
+                            document.getElementById("balance_mob").innerHTML = text;
+                        if(document.getElementById("balance_search"))
+                            document.getElementById("balance_search").innerHTML = text;
                     }
                     if(msg.result.response.is_show_credit_limit){
                         text = `Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+``;
-                        try{//CREDIT LIMIT
+                        //CREDIT LIMIT
+                        if(document.getElementById("credit_limit"))
                             document.getElementById("credit_limit").innerHTML = text;
-                            try{
-                                document.getElementById("credit_mob").innerHTML = text;
-                            }catch(err){}
-                            try{
-                                document.getElementById("credit_search").innerHTML = text;
-                            }catch(err){}
-                        }catch(err){}
+                        if(document.getElementById("credit_mob"))
+                            document.getElementById("credit_mob").innerHTML = text;
+                        if(document.getElementById("credit_search"))
+                            document.getElementById("credit_search").innerHTML = text;
                     }
                     if(msg.result.response.is_show_customer_parent_balance){
                         text = `Corporate Balance: `+msg.result.response.currency_code+ ' ' + getrupiah(customer_parent_balance)+``;
-                        try{//PARENT AGENT BALANCE
+                        //PARENT AGENT BALANCE CORPORATE
+                        if(document.getElementById("customer_parent_balance"))
                             document.getElementById("customer_parent_balance").innerHTML = text;
-                            try{
-                                document.getElementById("customer_parent_balance_mob").innerHTML = text;
-                            }catch(err){}
-                            try{
-                                document.getElementById("customer_parent_balance_search").innerHTML = text;
-                            }catch(err){}
-                        }catch(err){}
+                        if(document.getElementById("customer_parent_balance_mob"))
+                            document.getElementById("customer_parent_balance_mob").innerHTML = text;
+                        if(document.getElementById("customer_parent_balance_search"))
+                            document.getElementById("customer_parent_balance_search").innerHTML = text;
                     }
-                    get_transactions_notification(val);
+                    if(window.location.href.split('/').length < 5)
+                        get_transactions_notification(val);
                     //get_vendor_balance(val);
                     //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -138,56 +133,49 @@ function get_balance(val){
                     time = -1;
                     auto_logout();
                 }else{
-                  text = `Balance: Timeout`;
-                  try{
-                    document.getElementById("balance").innerHTML = text;
-                    try{
+                    text = `Balance: Timeout`;
+                    //BALANCE TIMEOUT
+                    if(document.getElementById("balance"))
+                        document.getElementById("balance").innerHTML = text;
+                    if(document.getElementById("balance_mob"))
                         document.getElementById("balance_mob").innerHTML = text;
-                    }catch(err){}
-                    try{
+                    if(document.getElementById("balance_search"))
                         document.getElementById("balance_search").innerHTML = text;
-                    }catch(err){}
-                  }catch(err){}
-                  text = `Credit Limit: Timeout`;
-                  try{
-                    document.getElementById("credit_limit").innerHTML = text;
-                    try{
+
+                    text = `Credit Limit: Timeout`;
+                    //CREDIT LIMIT TIMEOUT
+                    if(document.getElementById("credit_limit"))
+                        document.getElementById("credit_limit").innerHTML = text;
+                    if(document.getElementById("credit_mob"))
                         document.getElementById("credit_mob").innerHTML = text;
-                    }catch(err){}
-                    try{
+                    if(document.getElementById("credit_search"))
                         document.getElementById("credit_search").innerHTML = text;
-                    }catch(err){}
-                  }catch(err){}
-                  Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error get balance </span>' + msg.result.error_msg,
-                  })
+                    Swal.fire({
+                          type: 'error',
+                          title: 'Oops!',
+                          html: '<span style="color: #ff9900;">Error get balance </span>' + msg.result.error_msg,
+                    })
                 }
 
                },
                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                  auto_logout();
-                  text = `Balance: Failed`;
-                  try{
-                    document.getElementById("balance").innerHTML = text;
-                    try{
-                        document.getElementById("balance_mob").innerHTML = text;
-                    }catch(err){}
-                    try{
-                        document.getElementById("balance_search").innerHTML = text;
-                    }catch(err){}
-                  }catch(err){}
-                  text = `Credit Limit: Failed`;
-                  try{
-                    document.getElementById("credit_limit").innerHTML = text;
-                    try{
+                    auto_logout();
+                    text = `Balance: Failed`;
+                        //BALANCE Failed AJAX
+                        if(document.getElementById("balance"))
+                            document.getElementById("balance").innerHTML = text;
+                        if(document.getElementById("balance_mob"))
+                            document.getElementById("balance_mob").innerHTML = text;
+                        if(document.getElementById("balance_search"))
+                            document.getElementById("balance_search").innerHTML = text;
+                    text = `Credit Limit: Failed`;
+                    //CREDIT LIMIT Failed AJAX
+                    if(document.getElementById("credit_limit"))
+                        document.getElementById("credit_limit").innerHTML = text;
+                    if(document.getElementById("credit_mob"))
                         document.getElementById("credit_mob").innerHTML = text;
-                    }catch(err){}
-                    try{
+                    if(document.getElementById("credit_search"))
                         document.getElementById("credit_search").innerHTML = text;
-                    }catch(err){}
-                  }catch(err){}
                },timeout: 60000
             });
         }else{
@@ -289,7 +277,9 @@ function get_transactions_notification(val){
                                 </div>
                                 <hr>
                             </div>`;
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                     $(".bell_notif").removeClass("infinite");
                 }else{
                     for(i in msg.result.response){
@@ -385,8 +375,12 @@ function get_transactions_notification(val){
                                         </div>
                                         <hr>
                                     </div>`;
-                            }catch(err){}
-                        }catch(err){}
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
+                        }catch(err){
+                            console.log(err); // error kalau ada element yg tidak ada
+                        }
                         $(".bell_notif").removeClass("infinite");
                     }
                 }
@@ -413,7 +407,9 @@ function get_transactions_notification(val){
                text+=`</div>`;
                document.getElementById('notification_detail').innerHTML = text;
             }
-            }catch(err){}
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error transactions notification');
@@ -490,19 +486,29 @@ function get_transactions(type){
         state = document.getElementById('state').value;
         start_date = moment(document.getElementById('start_date').value).format('YYYY-MM-DD');
         end_date = moment(document.getElementById('end_date').value).format('YYYY-MM-DD');
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     try{
         passenger_name = document.getElementById('name').value;
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     try{
         booker_name = document.getElementById('booker_name').value;
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     try{
         booker_name = document.getElementById('passenger_name').value;
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     try{
         pnr = document.getElementById('pnr').value;
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     if(filter == 'booker' && booker_name == ''){
         filter = '';
     }else if(filter == 'name' && name == ''){
@@ -545,7 +551,9 @@ function get_transactions(type){
             for (var j = 0, length = radios.length; j < length; j++) {
                 radios[j].disabled = false
             }
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
         if(msg.result.error_code == 0){
             if(type == 'reset' || type == 'filter'){
                 offset_transaction = 0;
@@ -990,10 +998,14 @@ function get_top_up(){
         state = document.getElementById('state').value;
         start_date = moment(document.getElementById('start_date').value).format('YYYY-MM-DD');
         end_date = moment(document.getElementById('end_date').value).format('YYYY-MM-DD');
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     try{
         name = document.getElementById('name').value;
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     $('#loading-search-top-up').show();
     $.ajax({
        type: "POST",
@@ -1057,7 +1069,9 @@ function get_top_up(){
                     break;
                 }
             }
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
         if(type == '')
             document.getElementById('type').innerHTML = text;
         if(msg.result.error_code == 0){

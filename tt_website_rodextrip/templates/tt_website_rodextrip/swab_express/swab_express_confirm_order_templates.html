@@ -288,7 +288,9 @@
         }
         try{
             $("#show_loading_booking_swab_express").hide();
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
 
         breadcrumb_create("swab_express", 4, 1);
     });

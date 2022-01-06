@@ -935,11 +935,14 @@ function add_multi_city(type){
         $("airline_departure"+counter_airline_search).val(moment().format('DD MMM YYYY'));
         if(type == 'search'){
             //check lagi
+            var counter = counter_airline_search-1;
+            if(counter != 0)
+                counter -= 1;
             if(counter_airline_search == 1)
                 min_date = moment().format('DD MMM YYYY');
             else
-                if(airline_request.departure[counter_airline_search-1] != undefined)
-                    min_date = airline_request.departure[counter_airline_search-1]
+                if(airline_request.departure[counter] != undefined)
+                    min_date = airline_request.departure[counter]
                 else
                     min_date = $('input[name="airline_departure'+(counter_airline_search - 1)+'"]').val()
             $('input[name="airline_departure'+counter_airline_search+'"]').daterangepicker({
@@ -2639,7 +2642,9 @@ function sort(){
                                                                                 try{
                                                                                     if(airline[i].segments[l].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length].fare_flight_refs[l].fare_ref_id)
                                                                                         check = 1;
-                                                                                }catch(err){}
+                                                                                }catch(err){
+                                                                                    console.log(err); // error kalau ada element yg tidak ada
+                                                                                }
                                                                             }
                                                                             if(check == 1){
                                                                                 for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary){
@@ -2832,7 +2837,9 @@ function sort(){
                                                 try{
                                                     if(airline[i].segments[l].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length].fare_flight_refs[l].fare_ref_id)
                                                         check = 1;
-                                                }catch(err){}
+                                                }catch(err){
+                                                    console.log(err); // error kalau ada element yg tidak ada
+                                                }
                                             }
                                             if(check == 1){
                                                 for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary){
@@ -3638,7 +3645,9 @@ function airline_pick_mc(type){
                                                     try{
                                                         if(airline_pick_list[i].segments[l].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs[l].fare_ref_id)
                                                             check = 1;
-                                                    }catch(err){}
+                                                    }catch(err){
+                                                        console.log(err); // error kalau ada element yg tidak ada
+                                                    }
                                                 }
                                                 if(check == 1){
                                                     if(j == airline_pick_list[i].segments.length - 1){
@@ -3738,7 +3747,9 @@ function airline_pick_mc(type){
                         try{
                             if(airline_pick_list[i].segments[l].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline_pick_list[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length-1].fare_flight_refs[l].fare_ref_id)
                                 check = 1;
-                        }catch(err){}
+                        }catch(err){
+                            console.log(err); // error kalau ada element yg tidak ada
+                        }
                     }
                     if(check == 1){
                         if(j == airline_pick_list[i].segments.length - 1){
@@ -3855,7 +3866,9 @@ function first_value_provider(){
         try{
             document.getElementById('show_provider_airline').innerHTML = 'All airline chosen';
             document.getElementById('provider_box_All_1').checked = true
-        }catch(err){}
+        }catch(err){
+            console.log(err)
+        }
     }else{
         check = 0;
         for(i in airline_provider_list){
@@ -3866,7 +3879,8 @@ function first_value_provider(){
                 }
             }catch(err){console.log(err)}
         }
-        document.getElementById('show_provider_airline1').innerHTML = check+' Airline chosen';
+        if(document.getElementById('show_provider_airline1')) //buat MC
+            document.getElementById('show_provider_airline1').innerHTML = check+' Airline chosen';
     }
 }
 
@@ -4416,7 +4430,9 @@ function airline_detail(type){
                         <span style="font-size:13px; font-weight:500;">`+airline_price[0].ADT.currency+` `+upsell_price+`</span><br/>`;
                     text+=`</div>`;
                 }
-            }catch(err){}
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
             text+=`
             <div class="col-lg-7" style="text-align:left;">
                 <span style="font-size:14px; font-weight:bold;"><b>Total</b></span><br/>
@@ -4426,7 +4442,9 @@ function airline_detail(type){
                 grand_total_price = total_price;
                 grand_total_price += parseFloat(additional_price)
                 grand_total_price += upsell_price;
-            }catch(err){}
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
             if(airline_price[0].ADT.currency == 'IDR')
             text+=`
                 <span style="font-size:14px; font-weight:bold;" id="total_price"><b> `+airline_price[i].ADT.currency+` `+getrupiah(grand_total_price)+`</b></span><br/>`;
@@ -4694,7 +4712,9 @@ function airline_detail(type){
             `;
             document.getElementById('additional_price_information_rs').hidden = false;
             document.getElementById('total_price_rs').innerHTML = `<b>`+currency+` `+getrupiah(Math.ceil(total_price+additional_price))+`</b>`;
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
     }
 
 
@@ -4728,7 +4748,9 @@ function airline_detail(type){
                    }
                 }
             }
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
     }
 
 
@@ -5594,7 +5616,9 @@ function get_airline_review(){
                                     for(j in passengers_ssr[i].ff_numbers){
                                         text+= `<label>`+passengers_ssr[i].ff_numbers[j].ff_code+`: `+passengers_ssr[i].ff_numbers[j].ff_number+`</label><br/>`;
                                     }
-                                }catch(err){}
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
                                 for(j in passengers_ssr[i].ssr_list){
                                     text+= `<label>`+passengers_ssr[i].ssr_list[j].name+`</label><br/>`;
                                 }
@@ -5602,7 +5626,9 @@ function get_airline_review(){
                                     for(j in passengers_ssr[i].ff_numbers){
                                         text+= `<label> `+passengers_ssr[i].ff_numbers[j].ff_code+`: `+passengers_ssr[i].ff_numbers[j].ff_number+`</label><br/>`;
                                     }
-                                }catch(err){}
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
                                 for(j in passengers_ssr[i].seat_list){
                                     if(passengers_ssr[i].seat_list[j].seat_pick != '')
                                         text+= `<label> `+passengers_ssr[i].seat_list[j].segment_code + ` ` +passengers_ssr[i].seat_list[j].seat_pick + '</label><br>';
@@ -5774,7 +5800,9 @@ function get_airline_review_after_sales(){
                                       for(j in airline_get_detail.passengers[i].fees){
                                         text += `<label>`+airline_get_detail.passengers[i].fees[j].fee_name+ ' ' + airline_get_detail.passengers[i].fees[j].fee_value + `</label><br/>`;
                                       }
-                                  }catch(err){}
+                                  }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                  }
                                   text+=`
                                 </div>
                                 </td>
@@ -5782,14 +5810,18 @@ function get_airline_review_after_sales(){
                                 for(j in passengers_ssr[i].ssr_list){
                                     try{
                                         text += `<label>`+passengers_ssr[i].ssr_list[j].availability_type+ ' ' + passengers_ssr[i].ssr_list[j].name + `</label><br/>`;
-                                  }catch(err){}
+                                  }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                  }
                                 }
                                 for(j in passengers_ssr[i].seat_list){
                                     try{
                                         if(passengers_ssr[i].seat_list[j].seat_pick != ''){
                                             text += `<label>Seat `+passengers_ssr[i].seat_list[j].segment_code+ ' ' + passengers_ssr[i].seat_list[j].seat_pick + `</label><br/>`;
                                         }
-                                  }catch(err){}
+                                  }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                  }
                                 }
                                 text+=`</td>
                                </tr>`;

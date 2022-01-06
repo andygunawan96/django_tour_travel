@@ -111,7 +111,9 @@ function tour_redirect_signup(type){
               $('.loader-rodextrip').fadeOut();
               try{
                 $("#show_loading_booking_airline").hide();
-              }catch(err){}
+              }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+              }
            },timeout: 60000
         });
     }
@@ -148,14 +150,18 @@ function tour_login(data, type=''){
                })
                try{
                 $('#loading-search-tour').hide();
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour login');
             try{
                 $('#loading-search-tour').hide();
-            }catch(err){}
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
        },timeout: 60000
     });
 }
@@ -1335,7 +1341,9 @@ function tour_issued_booking(order_number)
                         print_success_issued();
                    else
                         print_fail_issued();
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
                if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                     window.location.href = '/tour/booking/' + btoa(order_number);
                }else{
@@ -1538,7 +1546,9 @@ function update_insentif_booker(type){
                         price_arr_repricing = {};
                         pax_type_repricing = [];
                     }
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
@@ -2342,7 +2352,9 @@ function tour_get_booking(order_number)
             //                   get_payment_acq('Issued', book_obj.booker.seq_id, order_number, 'billing',signature,'tour');
                                document.getElementById("final_issued_btn").style.display = "block";
                            }
-                       }catch(err){}
+                       }catch(err){
+                           console.log(err); // error kalau ada element yg tidak ada
+                       }
                    }
                    else
                    {
@@ -2498,7 +2510,9 @@ function table_price_update(msg,type){
                 $test += all_pax[i].title + ' ' + all_pax[i].first_name + ' ' + all_pax[i].last_name + '\n';
             }
             $test +='\n';
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
     }
 
     price_data = msg.result.response.service_charges;
@@ -2663,7 +2677,9 @@ function table_price_update(msg,type){
     price_txt2 += `</div></div>`;
     try{
         grand_total += upsell_price;
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     price_txt = price_txt_adt + price_txt_chd + price_txt_inf + price_txt2;
     $test += '‣ Price\n';
     $test += temp_copy_adt + temp_copy_chd + temp_copy_inf + temp_copy2;
@@ -2686,7 +2702,9 @@ function table_price_update(msg,type){
                 <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(upsell_price)+`</span><br/>`;
             price_txt+=`</div></div>`;
         }
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     price_txt += `
                    <div class="row">
                         <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>

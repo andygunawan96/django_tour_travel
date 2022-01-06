@@ -492,13 +492,17 @@ function update_table(type){
                     <span style="font-size:13px; font-weight:500;">`+passport.list_of_passport[0].sale_price.currency+` `+upsell_price+`</span><br/>`;
                 text+=`</div></div>`;
             }
-        }catch(err){}
+        }catch(err){
+            console.log(err); //kalau upsell tidak ketemu
+        }
         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
             text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
         try{
             grand_total_price = price;
             grand_total_price += upsell_price;
-        }catch(err){}
+        }catch(err){
+            console.log(err);
+        }
         text+=`
             <div class="row" style="padding-bottom:15px;">
                 <div class="col-lg-12">
@@ -605,7 +609,9 @@ function update_table(type){
                         $text += passport.passengers[i].passport.interview.interview_list[j].location + ' ' + passport.passengers[i].passport.interview.interview_list[j].datetime + '\n';
                     }
                 }
-            }catch(err){}
+            }catch(err){
+                console.log(err);
+            }
             try{
                 if(passport.passengers[i].passport.biometrics.needs == true){
                     $text += '\nInterview\b'
@@ -613,7 +619,9 @@ function update_table(type){
                         $text += passport.passengers[i].passport.biometrics.biometrics_list[j].location + ' ' + passport.passengers[i].passport.biometrics.biometrics_list[j].datetime + '\n';
                     }
                 }
-            }catch(err){}
+            }catch(err){
+                console.log(err);
+            }
             price_pax = 0;
             for(j in passport.passengers[i].passport.price){
                 if(passport.passengers[i].passport.price[j].charge_code == 'total'){

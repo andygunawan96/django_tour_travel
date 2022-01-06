@@ -239,8 +239,10 @@ function update_timeslot(val){
     change_timeslot(val);
     document.getElementById('next_lab_pintar').style.display='none';
     try{
-    document.getElementById('lab_pintar_pax_div').hidden = true;
-    }catch(err){}
+        document.getElementById('lab_pintar_pax_div').hidden = true;
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
 }
 
 function get_area_global(){
@@ -2149,91 +2151,15 @@ function add_pcr_table(type, val){
         $('input[name="adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+val+'_'+berkunjung_ke_pasien_konfirmasi+'"]').val("");
         berkunjung_ke_pasien_konfirmasi++;
     }
-
-    if ( $('#adult_birth_date'+val).is('[readonly]') ) {
-        for(adt=0;adt<perjalanan_keluar_negeri;adt++){
-            try{
-                document.getElementById('adult_perjalanan_keluar_negeri_tanggal_perjalanan'+val+'_'+adt).readOnly = true;
-                document.getElementById('adult_perjalanan_keluar_negeri_tiba_di_indonesia'+val+'_'+adt).readOnly = true;
-            }catch(err){}
-        }
-        for(adt=0;adt<perjalanan_ke_transmisi_lokal;adt++){
-            try{
-                document.getElementById('adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+val+'_'+adt).readOnly = true;
-                document.getElementById('adult_perjalanan_ke_transmisi_lokal_tiba_di_sini'+val+'_'+adt).readOnly = true;
-            }catch(err){}
-        }
-        for(adt=0;adt<perjalanan_ke_transmisi_lokal;adt++){
-            try{
-                document.getElementById('adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+val+'_'+adt).readOnly = true;
-            }catch(err){}
-        }
-        for(adt=0;adt<berkunjung_ke_fasilitas_kesehatan;adt++){
-            try{
-                document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan'+val+'_'+adt).readOnly = true;
-            }catch(err){}
-        }
-        for(adt=0;adt<berkunjung_ke_pasar_hewan;adt++){
-            try{
-                document.getElementById('adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan'+val+'_'+adt).readOnly = true;
-            }catch(err){}
-        }
-        for(adt=0;adt<berkunjung_ke_pasien_dalam_pengawasan;adt++){
-            try{
-                document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama'+val+'_'+adt).readOnly = true;
-                document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir'+val+'_'+adt).readOnly = true;
-            }catch(err){}
-        }
-        for(adt=0;adt<berkunjung_ke_pasien_konfirmasi;adt++){
-            try{
-                document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama'+val+'_'+adt).readOnly = true;
-                document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+val+'_'+adt).readOnly = true;
-            }catch(err){}
-        }
-    }else{
-        for(adt=0;adt<perjalanan_keluar_negeri;adt++){
-            try{
-                document.getElementById('adult_perjalanan_keluar_negeri_tanggal_perjalanan'+val+'_'+adt).readOnly = false;
-                document.getElementById('adult_perjalanan_keluar_negeri_tiba_di_indonesia'+val+'_'+adt).readOnly = false;
-            }catch(err){}
-        }
-        for(adt=0;adt<perjalanan_ke_transmisi_lokal;adt++){
-            try{
-                document.getElementById('adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+val+'_'+adt).readOnly = false;
-                document.getElementById('adult_perjalanan_ke_transmisi_lokal_tiba_di_sini'+val+'_'+adt).readOnly = false;
-            }catch(err){}
-        }
-        for(adt=0;adt<berkunjung_ke_fasilitas_kesehatan;adt++){
-            try{
-                document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan'+val+'_'+adt).readOnly = false;
-            }catch(err){}
-        }
-        for(adt=0;adt<berkunjung_ke_pasar_hewan;adt++){
-            try{
-                document.getElementById('adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan'+val+'_'+adt).readOnly = false;
-            }catch(err){}
-        }
-        for(adt=0;adt<berkunjung_ke_pasien_dalam_pengawasan;adt++){
-            try{
-                document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama'+val+'_'+adt).readOnly = false;
-                document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir'+val+'_'+adt).readOnly = false;
-            }catch(err){}
-        }
-        for(adt=0;adt<berkunjung_ke_pasien_konfirmasi;adt++){
-            try{
-                document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama'+val+'_'+adt).readOnly = false;
-                document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+val+'_'+adt).readOnly = false;
-            }catch(err){}
-        }
-    }
-
 }
 
 function delete_pcr_table(type, val, nomor_table){
     try{
         var element = document.getElementById(type+'_table'+val+'_'+ nomor_table);
         element.parentNode.removeChild(element);
-    }catch(err){}
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
 
 }
 
@@ -2244,7 +2170,9 @@ function onchange_title(val){
         }else{
             document.getElementById('adult_hamil_div'+val).hidden = true;
         }
-    }catch(err){}
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
 }
 
 function change_kriteria(val){
@@ -2536,13 +2464,6 @@ function add_table_passenger_phc(type){
               format: 'DD MMM YYYY',
           }
     });
-    try{
-        kriteria_pasien_text = '';
-        for(i in medical_config.result.response.kriteria_pasien){
-            kriteria_pasien_text += `<option value="`+medical_config.result.response.kriteria_pasien[i].code+`">`+medical_config.result.response.kriteria_pasien[i].value+`</option>`;
-        }
-        document.getElementById('inp_kriteria_blmpernah_'+ counter_passenger).innerHTML += kriteria_pasien_text;
-    }catch(err){}
 
     if(test_type == 'swab_pcr'){
         $('input[name="klinis_tgl_rs_terakhir_'+parseInt(counter_passenger)+'"]').daterangepicker({
@@ -2654,14 +2575,6 @@ function add_table_passenger_phc(type){
         document.getElementById('inp_kewarganegaraan_blmpernah_'+ counter_passenger).value = "INDONESIA";
     }
 
-    try{
-        daftar_maskapai_text = '';
-        for(i in medical_config.result.response.maskapai){
-            daftar_maskapai_text += `<option value="`+medical_config.result.response.maskapai[i].code+`">`+medical_config.result.response.maskapai[i].value+`</option>`;
-        }
-        document.getElementById('pilih_daftar_maskapai_'+ counter_passenger).innerHTML += daftar_maskapai_text;
-    }catch(err){}
-    $('#inp_tgl_pemeriksaan_'+parseInt(counter_passenger)).addClass('date-picker-birth');
 
 
     $('input[name="inp_tgl_pemeriksaan_'+counter_passenger+'"]').daterangepicker({
@@ -2772,7 +2685,9 @@ function delete_table_of_passenger(counter){
             var element_modal = document.getElementById('modal_passenger'+counter);
             element.parentNode.removeChild(element);
             element_modal.parentNode.removeChild(element);
-        }catch(err){}
+        }catch(err){
+            console.log(err) //ada element yg tidak ada
+        }
     }
 }
 
@@ -2795,11 +2710,6 @@ function update_contact(type,val){
                 document.getElementById('birth_date'+parseInt(val-1)).innerHTML = '<i><b>Birth Date: </b>'+document.getElementById('adult_birth_date'+val).value+' ('+adt_age+' years)</i>';
             }
         }
-        try{
-            if(document.getElementById('adult_sample_method'+val).value != ''){
-                document.getElementById('sample_method'+parseInt(val-1)).innerHTML = document.getElementById('adult_sample_method'+val).value;
-            }
-        }catch(err){}
     }
 
 }
@@ -3173,7 +3083,9 @@ function check_passenger(){
                         'is_also_contact': is_also_contact
 
                     })
-                }catch(err){}
+                }catch(err){
+                    console.log(err) //ada element yg tidak ada
+                }
 
                 var error_form = '';
                 var customer_id = nomor_pax - 1;
@@ -3431,8 +3343,10 @@ function reset_pax(){
     document.getElementById('table_passenger_list').style.display = 'none';
     document.getElementById('next_lab_pintar').style.display = 'none';
     try{
-    document.getElementById('lab_pintar_pax_div').hidden = true;
-    }catch(err){}
+        document.getElementById('lab_pintar_pax_div').hidden = true;
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
 }
 
 function show_commission(val){
@@ -3517,8 +3431,10 @@ function add_table(change_rebooking=false){
     document.getElementById('next_lab_pintar').style.display = 'none';
 
     try{
-    document.getElementById('lab_pintar_pax_div').hidden = true;
-    }catch(err){}
+        document.getElementById('lab_pintar_pax_div').hidden = true;
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
 
     if(change_rebooking == true && total_passengers_rebooking != 0){
         //readd change value pax add table
@@ -3556,8 +3472,10 @@ function add_table_verify(change_rebooking=false){
     document.getElementById('lab_pintar_detail').style.display = 'none';
     document.getElementById('next_lab_pintar').style.display = 'none';
     try{
-    document.getElementById('lab_pintar_pax_div').hidden = true;
-    }catch(err){}
+        document.getElementById('lab_pintar_pax_div').hidden = true;
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
 
     if(change_rebooking == true && total_passengers_rebooking != 0){
         //readd change value pax add table
@@ -3624,11 +3542,13 @@ function next_prev_form_medical(type, counter, id){
     pax = parseInt(id);
     counter = parseInt(counter);
     try{
-    document.getElementById("progress_med"+counter+pax).style = "background-color:"+text_color+"; color:"+color+";";
-    document.getElementById("progress_tab"+counter+pax).style = "background-color:"+color+"; color: white;";
-    document.getElementById("progress_label"+counter+pax).style = "cursor:pointer; color:"+text_color+" !important;";
-    document.getElementById("progress_div"+counter+pax).style.display = "block";
-    }catch(err){}
+        document.getElementById("progress_med"+counter+pax).style = "background-color:"+text_color+"; color:"+color+";";
+        document.getElementById("progress_tab"+counter+pax).style = "background-color:"+color+"; color: white;";
+        document.getElementById("progress_label"+counter+pax).style = "cursor:pointer; color:"+text_color+" !important;";
+        document.getElementById("progress_div"+counter+pax).style.display = "block";
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
     length_progress = $(".progress_lab_pintar"+pax).length;
     for (var i = 1; i <= length_progress; i++) {
         if(i != counter){
@@ -4213,12 +4133,7 @@ function auto_fill_periksain(){
             document.getElementById('adult_phone'+counter).value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
         }
         document.getElementById('adult_email'+counter).value = passenger_data_cache_medical[idx].email;
-        try{
-            if(passenger_data_cache_medical[idx].hasOwnProperty('sample_method_code'))
-                document.getElementById('adult_sample_method').value = passenger_data_cache_medical[idx].sample_method_code;
-            else
-                document.getElementById('adult_sample_method').value = passenger_data_cache_medical[idx].sample_method;
-        }catch(err){}
+
         document.getElementById('adult_address'+counter).value = passenger_data_cache_medical[idx].address;
 
         document.getElementById('adult_provinsi'+counter).value = passenger_data_cache_medical[idx].provinsi;
@@ -4356,91 +4271,10 @@ function open_date(counter){
     if ( $('#adult_birth_date'+counter).is('[readonly]') ) {
         document.getElementById('icon_fill'+counter).style.color = "black";
         document.getElementById('adult_birth_date'+counter).readOnly = false;
-        if(vendor == 'phc'){
-            if(test_type.includes('PCR')){
-                document.getElementById('adult_tanggal_masuk_rs'+counter).readOnly = false;
-                document.getElementById('adult_tanggal_pertama_kali_gejala'+counter).readOnly = false;
 
-                for(i=0;i<perjalanan_keluar_negeri;i++){
-                    try{
-                        document.getElementById('adult_perjalanan_keluar_negeri_tanggal_perjalanan'+counter+'_'+i).readOnly = false;
-                        document.getElementById('adult_perjalanan_keluar_negeri_tiba_di_indonesia'+counter+'_'+i).readOnly = false;
-                    }catch(err){}
-                }
-                for(i=0;i<perjalanan_ke_transmisi_lokal;i++){
-                    try{
-                        document.getElementById('adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+counter+'_'+i).readOnly = false;
-                        document.getElementById('adult_perjalanan_ke_transmisi_lokal_tiba_di_sini'+counter+'_'+i).readOnly = false;
-                    }catch(err){}
-                }
-                for(i=0;i<berkunjung_ke_fasilitas_kesehatan;i++){
-                    try{
-                        document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan'+counter+'_'+i).readOnly = false;
-                    }catch(err){}
-                }
-                for(i=0;i<berkunjung_ke_pasar_hewan;i++){
-                    try{
-                        document.getElementById('adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan'+counter+'_'+i).readOnly = false;
-                    }catch(err){}
-                }
-                for(i=0;i<berkunjung_ke_pasien_dalam_pengawasan;i++){
-                    try{
-                        document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama'+counter+'_'+i).readOnly = false;
-                        document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir'+counter+'_'+i).readOnly = false;
-                    }catch(err){}
-                }
-                for(i=0;i<berkunjung_ke_pasien_konfirmasi;i++){
-                    try{
-                        document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama'+counter+'_'+i).readOnly = false;
-                        document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+counter+'_'+i).readOnly = false;
-                    }catch(err){}
-                }
-            }
-        }
     }else{
         document.getElementById('icon_fill'+counter).style.color = color;
         document.getElementById('adult_birth_date'+counter).readOnly = true;
-        if(vendor == 'phc'){
-            if(test_type.includes('PCR')){
-                document.getElementById('adult_tanggal_masuk_rs'+counter).readOnly = true;
-                document.getElementById('adult_tanggal_pertama_kali_gejala'+counter).readOnly = true;
-
-                for(i=0;i<perjalanan_keluar_negeri;i++){
-                    try{
-                        document.getElementById('adult_perjalanan_keluar_negeri_tanggal_perjalanan'+counter+'_'+i).readOnly = true;
-                        document.getElementById('adult_perjalanan_keluar_negeri_tiba_di_indonesia'+counter+'_'+i).readOnly = true;
-                    }catch(err){}
-                }
-                for(i=0;i<perjalanan_ke_transmisi_lokal;i++){
-                    try{
-                        document.getElementById('adult_perjalanan_ke_transmisi_lokal_tanggal_perjalanan'+counter+'_'+i).readOnly = true;
-                        document.getElementById('adult_perjalanan_ke_transmisi_lokal_tiba_di_sini'+counter+'_'+i).readOnly = true;
-                    }catch(err){}
-                }
-                for(i=0;i<berkunjung_ke_fasilitas_kesehatan;i++){
-                    try{
-                        document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan_tanggal_kunjungan'+counter+'_'+i).readOnly = true;
-                    }catch(err){}
-                }
-                for(i=0;i<berkunjung_ke_pasar_hewan;i++){
-                    try{
-                        document.getElementById('adult_berkunjung_ke_pasar_hewan_tanggal_kunjungan'+counter+'_'+i).readOnly = true;
-                    }catch(err){}
-                }
-                for(i=0;i<berkunjung_ke_pasien_dalam_pengawasan;i++){
-                    try{
-                        document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_pertama'+counter+'_'+i).readOnly = true;
-                        document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan_tanggal_kontak_terakhir'+counter+'_'+i).readOnly = true;
-                    }catch(err){}
-                }
-                for(i=0;i<berkunjung_ke_pasien_konfirmasi;i++){
-                    try{
-                        document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_pertama'+counter+'_'+i).readOnly = true;
-                        document.getElementById('adult_berkunjung_ke_pasien_konfirmasi_tanggal_kontak_terakhir'+counter+'_'+i).readOnly = true;
-                    }catch(err){}
-                }
-            }
-        }
     }
 }
 

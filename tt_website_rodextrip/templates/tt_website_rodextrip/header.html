@@ -1446,6 +1446,8 @@
                 get_captcha('g-recaptcha-response','signin_btc');
           }
         });
-    }catch(err){}
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
     {% endif %}
 </script>
