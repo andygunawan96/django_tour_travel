@@ -32,9 +32,12 @@ function delete_table_of_highlight(val){
     try{
         document.getElementById(`highlight`+val+`_id`).remove();
     }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
         try{
             document.getElementById(`highlight`+val+`_id`).remove();
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
     }
 }
 
@@ -74,7 +77,9 @@ function save_highlight(){
     for(i=1;i<=counter_highlight;i++){
         try{
             data.push([document.getElementById('highlight_title'+i).value,document.getElementById('highlight_url'+i).value]);
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
     }
     console.log(data);
     $.ajax({

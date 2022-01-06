@@ -360,8 +360,10 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
     try{
-    document.getElementById('voucher_div').style.display = 'none';
-    }catch(err){}
+        document.getElementById('voucher_div').style.display = 'none';
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
     airline_signin('{{order_number}}','refund');
     //testing_bca();
 

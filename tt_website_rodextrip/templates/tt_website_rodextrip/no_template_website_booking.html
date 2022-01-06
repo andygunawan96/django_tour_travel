@@ -397,7 +397,9 @@ Licence URI: http://www.os-templates.com/template-terms
                     alert("One more page already open");
                     page_open = 0;
                 }
-            }catch(err){}
+            }catch(err){
+                console.log(err) //ada element yg tidak ada
+            }
             //self.close();
             //open(location, '_self').close();
         }

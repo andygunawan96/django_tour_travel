@@ -1099,7 +1099,9 @@ function train_detail(){
             text+=`</div></div>`;
             grand_total_price += upsell_price;
         }
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     text+=`
     <br/>
     <div class="row" style="margin-bottom:5px;">

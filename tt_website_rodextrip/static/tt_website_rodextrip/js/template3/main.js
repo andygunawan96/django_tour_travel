@@ -658,7 +658,9 @@ $(document).ready(function(){
     try{
         document.getElementById("balance_mob").innerHTML = document.getElementById("balance").innerHTML;
         document.getElementById("credit_mob").innerHTML = document.getElementById("credit_limit").innerHTML;
-    }catch(err){}
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
 
     $(document).on('click', '.menu-has-children i', function(e) {
       $(this).next().toggleClass('menu-item-active');

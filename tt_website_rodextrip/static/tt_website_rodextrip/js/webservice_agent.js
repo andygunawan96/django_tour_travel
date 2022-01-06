@@ -152,7 +152,9 @@ function signin(){
                     else
                         gtag('event', 'b2b', {'agent_type':'b2b'});
                 }
-            }catch(err){}
+            }catch(err){
+                console.log(err); //error google analytics
+            }
             if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('login') == true){
                 gotoForm();
                 let timerInterval
@@ -399,7 +401,9 @@ function signin_btc(){
                             else
                                 gtag('event', 'b2b', {'agent_type':'b2b'});
                         }
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error google analytics
+                    }
                     try{
                         document.getElementById('nav-menu-container_no_login').style.display = 'none';
                         document.getElementById('nav-menu-container_login').style.display = 'block';
@@ -409,7 +413,9 @@ function signin_btc(){
                         signature = msg.result.response.signature;
                         triggered_balance(false);
                         //get_vendor_balance(false); //firefox error
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error menu nav / browser / responsive
+                    }
                     if(window.location.href.includes('booking')){
                         location.reload();
                     }else if(window.location.href.split('/')[3] == ''){
@@ -1073,7 +1079,7 @@ function triggered_balance(val){
 
 function session_time_limit(){
     var timeLimitInterval = setInterval(function() {
-        if(time_limit!=0){
+        if(time_limit>0){
             time_limit--;
             document.getElementById('session_time').innerHTML = ` <i class="fas fa-stopwatch"></i> `+ parseInt(time_limit/60) % 24 +`m:`+ (time_limit%60) +`s`;
             document.getElementById('elapse_time').innerHTML = ` <i class="fas fa-clock"></i> `+ parseInt((1200 - time_limit)/60) % 24 +`m:`+ ((1200 - time_limit)%60) +`s`;
@@ -1296,10 +1302,13 @@ function get_customer_list(passenger, number, product){
             try{
                 document.getElementById('search_result').innerHTML = response;
             }catch(err){
+                console.log(err); // kalau tidak ada element search_result
                 try{
                     document.getElementById('search_result_passenger').innerHTML = response;
                     document.getElementById('search_btn_click').disabled=false;
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau tidak ada element search_result_passenger / search_btn_click bisa diabaikan
+                }
             }
         }
 
@@ -1525,7 +1534,9 @@ function change_booker_value(type){
         if(document.getElementsByName('myRadios')[0].checked == true){
             copy_booker_to_passenger('copy',type)
         }
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau tidak ada button buat copy passenger jadi skip
+    }
 }
 
 function id_type_change(type, sequence){
@@ -1546,10 +1557,14 @@ function pick_passenger(type, sequence, product){
     var need_identity = null;
     try{
         selection = document.getElementById(type+'_id_type'+passenger_number).options;
-    }catch(err){}
+    }catch(err){
+        console.log(err); //error kalau tidak ada identities di backend
+    }
     try{
         need_identity = document.getElementById('adult_identity_div1').style.display;
-    }catch(err){}
+    }catch(err){
+        console.log(err); //error kalau tidak ada required identity di html (jadi tidak required)
+    }
     if(selection != null && Object.keys(passenger_data[sequence].identities).length > 1 && need_identity != 'none'){
         var found_selection = [];
         for(i in selection){
@@ -1684,10 +1699,8 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     }
                 }
                     //document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
-
-                try{
+                if(document.getElementById('adult_email'+passenger_number))
                     document.getElementById('adult_email'+passenger_number).value = passenger_data[sequence].email;
-                }catch(err){}
                 try{
                     var phone = document.getElementById('phone_chosen'+sequence).value;
                     document.getElementById('adult_phone_code'+passenger_number).value = phone.split(' - ')[0];
@@ -1765,13 +1778,11 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                 }
             }
                 //document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
-
-            try{
+            if(document.getElementById('adult_email'+passenger_number))
                 document.getElementById('adult_email'+passenger_number).value = passenger_data[sequence].email;
-            }catch(err){}
-            try{
+            if(document.getElementById('adult_id'+passenger_number))
                 document.getElementById('adult_id'+passenger_number).value = passenger_data[sequence].seq_id;
-            }catch(err){}
+
             try{
                 var phone = document.getElementById('phone_chosen'+sequence).value;
                 document.getElementById(passenger_pick+'_phone_code'+passenger_pick_number).value = phone.split(' - ')[0];
@@ -1791,7 +1802,9 @@ function pick_passenger_copy(type, sequence, product, identity=''){
             var need_identity = null;
             try{
                 need_identity = document.getElementById('adult_identity_div1').style.display;
-            }catch(err){}
+            }catch(err){
+                console.log(err); // kalau required ada di html, kalau tidak default tidak required
+            }
             // IDENTITY GLOBAL FOR adult, child, infant, senior
             try{
                 var radios = document.getElementById(type+'_id_type'+passenger_number).options;
@@ -1842,7 +1855,9 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     }
                     try{
                         change_identity_type(type+`_id_type`+passenger_number);
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); //tidak ada identity type
+                    }
                 }else{
                     //passport
                     try{// kalau ada input identity
@@ -1862,7 +1877,9 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                                 document.getElementById(type+'_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities.passport.identity_expdate;
                             }
                         }
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); //tidak ada selection buat identity di product type
+                    }
                 }
             }
         }
@@ -1876,7 +1893,9 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                         clear_passenger('Adult',1);
                         document.getElementsByName('myRadios')[1].checked = true;
                     }
-                }catch(err){}
+                }catch(err){
+                    console.log(err); //error kalau tidak ada radio copy booker
+                }
 
                 for(i in passenger_data_pick){
                     if(passenger_data_pick[i].sequence == 'booker'){
@@ -1921,7 +1940,9 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                         document.getElementById('booker_phone_code').value = passenger_data[sequence].phones[0].calling_code;
                         document.getElementById('select2-booker_phone_code_id-container').innerHTML = passenger_data[sequence].phones[0].calling_code;
                         document.getElementById('booker_phone').value = passenger_data[sequence].phones[0].calling_number;
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); //tidak ada phone number yg di pilih / belum ada data
+                    }
                 }
                 document.getElementById('booker_birth_date').value = passenger_data[sequence].birth_date;
                 document.getElementById('booker_birth_date').readOnly = true;
@@ -2155,9 +2176,8 @@ function pick_passenger_copy(type, sequence, product, identity=''){
 //                        }
 //                        $('#adult_id_type'+passenger_number).niceSelect('update');
 //                    }
-                    try{
+                    if(document.getElementById('adult_email'+passenger_number))
                         document.getElementById('adult_email'+passenger_number).value = passenger_data[sequence].email;
-                    }catch(err){}
                     try{
                         var phone = document.getElementById('phone_chosen'+sequence).value;
                         document.getElementById(passenger_pick+'_phone_code'+passenger_number).value = phone.split(' - ')[0];
@@ -2461,7 +2481,9 @@ function pick_passenger_copy(type, sequence, product, identity=''){
               })
             }
         }
-    }catch(err){}
+    }catch(err){
+        console.log(err);
+    }
 }
 
 function copy_booker_to_passenger(val, type){
@@ -2471,10 +2493,14 @@ function copy_booker_to_passenger(val, type){
         var need_identity = null;
         try{
             selection = document.getElementById('adult_id_type1').options;
-        }catch(err){}
+        }catch(err){
+            console.log(err); // kalau tidak ada identity type pada passenger 1
+        }
         try{
             need_identity = document.getElementById('adult_identity_div1').style.display;
-        }catch(err){}
+        }catch(err){
+            console.log(err); //kalau tidak ada penanda required identity di html
+        }
         if(selection != null && data.length > 1){
             var found_selection = [];
             for(i in selection){
@@ -2526,7 +2552,9 @@ function copy_booker(val,type,identity){
         var need_identity = null;
         try{
             need_identity = document.getElementById('adult_identity_div1').style.display;
-        }catch(err){}
+        }catch(err){
+            console.log(err); //kalau tidak ada penanda identity required di html
+        }
         if(need_identity != 'none'){
             for(i in data_identity){
                 data = data_identity[i].split(',');
@@ -2573,7 +2601,9 @@ function copy_booker(val,type,identity){
                             document.getElementById('select2-adult_country_of_issued1_id-container').innerHTML = data[2];
                             document.getElementById('adult_country_of_issued1').value = data[2];
                         }
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); //error kalau tidak ada field identity std
+                    }
                 }
 
                 date1 = '';
@@ -2684,7 +2714,9 @@ function copy_booker(val,type,identity){
                try{
                    document.getElementById("button_search0").style.display = "none";
                    document.getElementById("button_clear0").style.display = "none";
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau tidak ada button search / clear di pop up
+               }
                 try{
                     if(counter_passenger == 0){
                         add_table_of_passenger('');
@@ -2815,7 +2847,9 @@ function copy_booker(val,type,identity){
                 try{
                     check_years_old(1,'adult');
                     document.getElementById('adult_birth_date1').readOnly = true;
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error tidak ada fungsi check_years_old / tidak ada field birth_date
+                }
             }
             if(type == 'train'){
                 document.getElementById('adult_phone_code1').value = document.getElementById('booker_phone_code').value;
@@ -2972,7 +3006,9 @@ function copy_booker(val,type,identity){
             document.getElementById('id_passenger0').value = '';
             document.getElementById('birth_date0').innerHTML = '';
             document.getElementById('sample_method0').innerHTML = '';
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error tidak ada table dengan id name_pax, id_passenger, birth_date, sample_method (medical)
+        }
         document.getElementById('adult_id1').value = '';
 
         if(type == "medical"){
@@ -2980,10 +3016,12 @@ function copy_booker(val,type,identity){
             document.getElementById('adult_identity_type1').value = 'ktp';
             $('#adult_identity_type1').niceSelect('update');
             try{
-            document.getElementById("button_search0").style.display = "unset";
-            document.getElementById("button_clear0").style.display = "unset";
-            document.getElementById("name_pax0").textContent = "--Fill Passenger--";
-            }catch(err){}
+                document.getElementById("button_search0").style.display = "unset";
+                document.getElementById("button_clear0").style.display = "unset";
+                document.getElementById("name_pax0").textContent = "--Fill Passenger--";
+            }catch(err){
+                console.log(err); //error kalau id tidak ketemu (medical)
+            }
         }
     }
 }
@@ -3061,7 +3099,9 @@ function clear_passenger(type, sequence){
             document.getElementById('adult_country_of_issued'+sequence).value = '';
             document.getElementById('select2-adult_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
             document.getElementById('adult_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
-        }catch(err){}
+        }catch(err){
+            console.log(err); //error ada field yg tidak ketemu
+        }
 
     }
     else if(type == 'Infant'){
@@ -3094,7 +3134,9 @@ function clear_passenger(type, sequence){
             document.getElementById('infant_country_of_issued'+sequence).value = '';
             document.getElementById('select2-infant_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
             document.getElementById('infant_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
-        }catch(err){}
+        }catch(err){
+            console.log(err); //error ada field yg tidak ketemu
+        }
     }
     else if(type == 'Senior'){
         for(i in passenger_data_pick){
@@ -3216,19 +3258,25 @@ function clear_passenger(type, sequence){
                         $('#adult_profession'+sequence).niceSelect('update');
                         try{
                             document.getElementById('adult_mother_name'+sequence).value = 'NA'; //VALUE IKUTI DEFAULT
-                        }catch(err){}
+                        }catch(err){
+                            console.log(err); //phc default value id for mother tidak ada
+                        }
                         try{
                             document.getElementById('adult_tempat_lahir'+sequence).value = '';
                             document.getElementById('adult_tempat_lahir'+sequence+'_id').value = '';
                             document.getElementById('select2-adult_tempat_lahir'+sequence+'_id-container').innerHTML = 'Select Tempat Lahir';
-                        }catch(err){}
+                        }catch(err){
+                            console.log(err); //phc tidak ada tempat lahir
+                        }
 
                         try{
                             var adult_kabupaten_string = 'adult_kabupaten_ktp'+sequence+'_id';
                             delete_type(adult_kabupaten_string, sequence);
                             var adult_domisili_string = 'adult_kabupaten'+sequence+'_id';
                             delete_type(adult_domisili_string, sequence);
-                        }catch(err){}
+                        }catch(err){
+                            console.log(err); // error kabupaten tidak ketemu
+                        }
 
                         document.getElementById('adult_work_place'+sequence).value = 'Surabaya';
                         document.getElementById('adult_work_place_div'+sequence).style.display = 'block';
@@ -3369,43 +3417,49 @@ function clear_passenger(type, sequence){
                                 document.getElementById('adult_perjalanan_keluar_negeri'+sequence).value = '';
                                 $('#adult_perjalanan_keluar_negeri'+sequence).niceSelect('update');
                                 document.getElementById('perjalanan_keluar_negeri_div'+sequence).hidden = true;
-                            }catch(err){}
-
-                            try{
-                                document.getElementById('adult_perjalanan_keluar_negeri'+sequence).value = '';
-                                $('#adult_perjalanan_keluar_negeri'+sequence).niceSelect('update');
-                                document.getElementById('adult_perjalanan_keluar_negeri'+sequence).hidden = true;
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); //error tidak ada element untuk perjalanan keluar negeri
+                            }
 
                             try{
                                 document.getElementById('adult_perjalanan_ke_transmisi_lokal'+sequence).value = '';
                                 $('#adult_perjalanan_ke_transmisi_lokal'+sequence).niceSelect('update');
                                 document.getElementById('perjalanan_ke_transmisi_lokal_div'+sequence).hidden = true;
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); //error tidak ada element untuk perjalanan transmisi lokal
+                            }
 
                             try{
                                 document.getElementById('adult_berkunjung_ke_fasilitas_kesehatan'+sequence).value = '';
                                 $('#adult_berkunjung_ke_fasilitas_kesehatan'+sequence).niceSelect('update');
                                 document.getElementById('berkunjung_ke_fasilitas_kesehatan_div'+sequence).hidden = true;
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); //error tidak ada element untuk berkunjung ke fasilitas kesehatan
+                            }
 
                             try{
                                 document.getElementById('adult_berkunjung_ke_pasar_hewan'+sequence).value = '';
                                 $('#adult_berkunjung_ke_pasar_hewan'+sequence).niceSelect('update');
                                 document.getElementById('berkunjung_ke_pasar_hewan_div'+sequence).hidden = true;
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); //error tidak ada element untuk berkunjung ke pasar hewan
+                            }
 
                             try{
                                 document.getElementById('adult_berkunjung_ke_pasien_dalam_pengawasan'+sequence).value = '';
                                 $('#adult_berkunjung_ke_pasien_dalam_pengawasan'+sequence).niceSelect('update');
                                 document.getElementById('berkunjung_ke_pasien_dalam_pengawasan_div'+sequence).hidden = true;
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); //error tidak ada element untuk berkunjung ke pasien dalam pengawasan
+                            }
 
                             try{
                                 document.getElementById('adult_berkunjung_ke_pasien_konfirmasi'+sequence).value = '';
                                 $('#adult_berkunjung_ke_pasien_konfirmasi'+sequence).niceSelect('update');
                                 document.getElementById('berkunjung_ke_pasien_konfirmasi_div'+sequence).hidden = true;
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); //error tidak ada element untuk berkunjung ke pasien covid19
+                            }
 
                             document.getElementById('adult_termasuk_cluster_ispa'+sequence).value = 'TIDAK TAHU'; // VALUE IKUTI DEFAULT
                             $('#adult_termasuk_cluster_ispa'+sequence).niceSelect('update');
@@ -3429,7 +3483,9 @@ function clear_passenger(type, sequence){
                             document.getElementById('adult_tempat_lahir'+sequence).value = '';
                             document.getElementById('adult_tempat_lahir'+sequence+'_id').value = '';
                             document.getElementById('select2-adult_tempat_lahir'+sequence+'_id-container').innerHTML = 'Select Tempat Lahir';
-                        }catch(err){}
+                        }catch(err){
+                            console.log(err); //error tidak ada element untuk tempat lahir
+                        }
                         try{
                             document.getElementById('adult_provinsi'+sequence).value = '';
                             document.getElementById('adult_provinsi'+sequence+'_id').value = '';
@@ -3437,7 +3493,9 @@ function clear_passenger(type, sequence){
 
                             var adult_kabupaten_string = 'adult_kabupaten'+sequence+'_id';
                             delete_type(adult_kabupaten_string, sequence);
-                        }catch(err){}
+                        }catch(err){
+                            console.log(err); //error tidak ada element untuk provinsi / kabupaten
+                        }
                     }
 
                     clear_text_medical(parseInt(sequence)-1);
@@ -4756,9 +4814,12 @@ function delete_phone_passenger_cache(val){
     try{
         document.getElementById(`phone`+val+`_id`).remove();
     }catch(err){
+        console.log(err); //error tidak ada element phone passenger
         try{
             document.getElementById(`phone_cache`+val+`_id`).remove();
-        }catch(err){}
+        }catch(err){
+            console.log(err); //error tidak ada element phone cache
+        }
     }
 }
 
@@ -4957,15 +5018,14 @@ function pick_passenger_cache(val){
             document.getElementById('select2-'+passenger_pick+'_nationality'+passenger_pick_number+'_id-container').innerHTML = passenger_data_cache[val].nationality_name;
             document.getElementById(passenger_pick+'_nationality'+passenger_pick_number).value = passenger_data_cache[val].nationality_name;
         }
-        try{
+        if(document.getElementById(passenger_pick+'_email'+passenger_pick_number))
             document.getElementById(passenger_pick+'_email'+passenger_pick_number).value = passenger_data_cache[val].email;
-        }catch(err){}
         try{
             var phone = document.getElementById('phone_chosen'+val).value;
             document.getElementById(passenger_pick+'_phone_code'+passenger_pick_number).value = phone.split(' - ')[0];
             document.getElementById(passenger_pick+'_phone'+passenger_pick_number).value = phone.split(' - ')[1];
         }catch(err){
-
+            console.log(err); // error tidak ada id phone_chosen
         }
         document.getElementById(passenger_pick+'_birth_date'+passenger_pick_number).value = passenger_data_cache[val].birth_date;
         document.getElementById(passenger_pick+'_birth_date'+passenger_pick_number).readOnly = true;
@@ -5435,9 +5495,11 @@ function update_passenger_backend(){
                     for(i in msg.result.response)
                         img_list.push([msg.result.response[i][0], 4, msg.result.response[i][2]])
                     try{
-                    if(document.getElementById('avatar_delete').checked == true)
-                        img_list.push([passenger_data_cache[passenger_cache_pick].face_image[0][1], 2, 'files_attachment']);
-                    }catch(err){}
+                        if(document.getElementById('avatar_delete').checked == true)
+                            img_list.push([passenger_data_cache[passenger_cache_pick].face_image[0][1], 2, 'files_attachment']);
+                    }catch(err){
+                        console.log(err); //error kalau tidak ada file upload
+                    }
                     for(i in passenger_data_cache[passenger_cache_pick].identities){
                         for(j in passenger_data_cache[passenger_cache_pick].identities[i].identity_images){
                             if(document.getElementById(i+j+'_delete').checked == true)
@@ -5606,22 +5668,17 @@ function clear_search_pax(type,sequence){
 
 function auto_logout(msg){
     try{
-        try{
-            login_again = false;
-        }catch(err){}
+        login_again = false;
         error_logger = msg.result.error_msg;
         clearInterval(timeInterval);
     }catch(err){
+        console.log(err);
         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
             error_logger = 'Please login again!';
-            try{
-                login_again = false;
-            }catch(err){}
+            login_again = false;
         }else{
             error_logger = 'Session has been expired!';
-            try{
-                login_again = false;
-            }catch(err){}
+            login_again = false;
         }
     }
 
@@ -5812,5 +5869,7 @@ function change_identity_type(id){
             document.getElementById(id.replace('id_type','identity_number_required')).style.color = 'white';
             document.getElementById(id.replace('id_type','country_of_issued_required')).style.color = 'white';
         }
-    }catch(err){console.log(err)}
+    }catch(err){
+        console.log(err); // di html tidak ada id id_type
+    }
 }

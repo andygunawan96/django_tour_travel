@@ -9,16 +9,24 @@ function get_printout(order_number,type,provider_type, timeout=60){
         kwitansi_name = '';
         try{
             bill_name_to = document.getElementById('bill_name').value;
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
         try{
             bill_address = document.getElementById('bill_address').value;
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
         try{
             additional_information = document.getElementById('additional_information').value;
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
         try{
             kwitansi_name = document.getElementById('kwitansi_name').value;
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
 
         if(type == 'ticket'){
             $('#button-choose-print').prop('disabled', true);

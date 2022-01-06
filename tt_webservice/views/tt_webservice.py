@@ -53,5 +53,9 @@ def get_timelimit_product(request, product):
     now = datetime.now()
     session_product = request.session.get('session_%s' % product)
     if session_product:
-        return (datetime.strptime(session_product['end'], '%Y-%m-%d %H:%M:%S') - now).seconds #return seconds
-    return 0 #second
+        end_time = datetime.strptime(session_product['end'], '%Y-%m-%d %H:%M:%S')
+        if end_time > now:
+            return (end_time - now).seconds #return seconds
+        else:
+            return 1 # agar langsung ke home kalau 0 di product ada pengecheckan kalau dari path 0
+    return 0

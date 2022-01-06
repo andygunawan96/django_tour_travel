@@ -11024,7 +11024,9 @@
         try{
             document.getElementsByName('radio_airline_type')[0].checked = true;
             document.getElementsByName('radio_train_type')[0].checked = true;
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
     })
 
     $( document ).ready(function() {
@@ -11557,21 +11559,16 @@
     {%endif%}
 
     function onchange_health_care(){
-        try{
+        if(user_login.co_agent_frontend_security.includes('ticketing_labpintar'))
             document.getElementById('lab_pintar_searchForm').style.display = 'none';
-        }catch(err){}
-        try{
+        if(user_login.co_agent_frontend_security.includes('ticketing_swabexpress'))
             document.getElementById('swab_express_searchForm').style.display = 'none';
-        }catch(err){}
-        try{
+        if(user_login.co_agent_frontend_security.includes('ticketing_medical'))
             document.getElementById('medical_global_searchForm').style.display = 'none';
-        }catch(err){}
-        try{
+        if(user_login.co_agent_frontend_security.includes('ticketing_periksain'))
             document.getElementById('medical_searchForm1').style.display = 'none';
-        }catch(err){}
-        try{
+        if(user_login.co_agent_frontend_security.includes('ticketing_mitrakeluarga'))
             document.getElementById('mitra_keluarga_searchForm').style.display = 'none';
-        }catch(err){}
         var value = ''
         var radios = document.getElementsByName('health_care_type');
         for (var j = 0, length = radios.length; j < length; j++) {

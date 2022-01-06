@@ -29,8 +29,10 @@ function insurance_signin(data){
                   html: msg.result.error_msg,
                })
                try{
-                $("#show_loading_booking_lab_pintar").hide();
-               }catch(err){}
+                $("#show_loading_booking_insurance").hide();
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
            }
        }catch(err){
            console.log(err);
@@ -48,8 +50,10 @@ function insurance_signin(data){
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
           try{
-            $("#show_loading_booking_lab_pintar").hide();
-          }catch(err){}
+            $("#show_loading_booking_insurance").hide();
+          }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+          }
        },timeout: 60000
     });
 }
@@ -197,8 +201,10 @@ function insurance_get_config(page=false){
                   html: msg.result.error_msg,
                })
                try{
-                $("#show_loading_booking_medical").hide();
-               }catch(err){}
+                $("#show_loading_booking_insurance").hide();
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
            }
        }catch(err){
             console.log(err);
@@ -216,8 +222,10 @@ function insurance_get_config(page=false){
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
           try{
-            $("#show_loading_booking_medical").hide();
-          }catch(err){}
+            $("#show_loading_booking_insurance").hide();
+          }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+          }
        },timeout: 60000
     });
 }
@@ -344,8 +352,10 @@ function insurance_get_availability(){
                   html: msg.result.error_msg,
                })
                try{
-                $("#show_loading_booking_medical").hide();
-               }catch(err){}
+                $("#show_loading_booking_insurance").hide();
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
            }
            $('#loading-search-insurance').hide();
        }catch(err){
@@ -364,8 +374,10 @@ function insurance_get_availability(){
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
           try{
-            $("#show_loading_booking_medical").hide();
-          }catch(err){}
+            $("#show_loading_booking_insurance").hide();
+          }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+          }
        },timeout: 180000
     });
 }
@@ -403,8 +415,10 @@ function insurance_get_token(){
                   html: msg.result.error_msg,
                })
                try{
-                $("#show_loading_booking_medical").hide();
-               }catch(err){}
+                $("#show_loading_booking_insurance").hide();
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
            }
        }catch(err){
             console.log(err);
@@ -422,8 +436,10 @@ function insurance_get_token(){
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
           try{
-            $("#show_loading_booking_medical").hide();
-          }catch(err){}
+            $("#show_loading_booking_insurance").hide();
+          }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+          }
        },timeout: 60000
     });
 }
@@ -454,8 +470,10 @@ function insurance_get_kurs(){
                   html: msg.result.error_msg,
                })
                try{
-                $("#show_loading_booking_medical").hide();
-               }catch(err){}
+                $("#show_loading_booking_insurance").hide();
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
            }
        }catch(err){
             console.log(err);
@@ -473,8 +491,10 @@ function insurance_get_kurs(){
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
           try{
-            $("#show_loading_booking_medical").hide();
-          }catch(err){}
+            $("#show_loading_booking_insurance").hide();
+          }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+          }
        },timeout: 60000
     });
 }
@@ -505,8 +525,10 @@ function insurance_get_premi(){
                   html: msg.result.error_msg,
                })
                try{
-                $("#show_loading_booking_medical").hide();
-               }catch(err){}
+                $("#show_loading_booking_insurance").hide();
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
            }
        }catch(err){
             console.log(err);
@@ -524,8 +546,10 @@ function insurance_get_premi(){
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
           try{
-            $("#show_loading_booking_medical").hide();
-          }catch(err){}
+            $("#show_loading_booking_insurance").hide();
+          }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+          }
        },timeout: 60000
     });
 }
@@ -556,8 +580,10 @@ function insurance_check_benefit_data(){
                   html: msg.result.error_msg,
                })
                try{
-                $("#show_loading_booking_medical").hide();
-               }catch(err){}
+                $("#show_loading_booking_insurance").hide();
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
            }
        }catch(err){
             console.log(err);
@@ -575,8 +601,10 @@ function insurance_check_benefit_data(){
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
           try{
-            $("#show_loading_booking_medical").hide();
-          }catch(err){}
+            $("#show_loading_booking_insurance").hide();
+          }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+          }
        },timeout: 60000
     });
 }
@@ -607,8 +635,10 @@ function insurance_updata(){
                   html: msg.result.error_msg,
                })
                try{
-                $("#show_loading_booking_medical").hide();
-               }catch(err){}
+                $("#show_loading_booking_insurance").hide();
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
            }
        }catch(err){
             console.log(err);
@@ -626,8 +656,10 @@ function insurance_updata(){
           $("#waitFlightSearch").hide();
           $('.loader-rodextrip').fadeOut();
           try{
-            $("#show_loading_booking_medical").hide();
-          }catch(err){}
+            $("#show_loading_booking_insurance").hide();
+          }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+          }
        },timeout: 60000
     });
 }
@@ -659,7 +691,9 @@ function insurance_commit_booking(){
                })
                try{
                 $("#show_loading_booking_insurance").hide();
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
            }
        }catch(err){
             console.log(err);
@@ -678,7 +712,9 @@ function insurance_commit_booking(){
           $('.loader-rodextrip').fadeOut();
           try{
             $("#show_loading_booking_insurance").hide();
-          }catch(err){}
+          }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+          }
        },timeout: 60000
     });
 }
@@ -789,7 +825,9 @@ function insurance_commit_booking(){
             }
             try{
                 data['voucher_code'] = voucher_code;
-            }catch(err){}
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
             $.ajax({
                type: "POST",
                url: "/webservice/insurance",
@@ -1611,7 +1649,9 @@ function insurance_get_booking(data, sync=false){
     get_vendor_balance('false');
     try{
         show_loading();
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/insurance",
@@ -1998,7 +2038,9 @@ function insurance_get_booking(data, sync=false){
                             try{
                                 price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
                                 csc += msg.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
                             //repricing
                             check = 0;
                             for(k in pax_type_repricing){
@@ -2072,7 +2114,9 @@ function insurance_get_booking(data, sync=false){
                             for(k in msg.result.response.provider_bookings[i].journeys){
                                 try{
                                     journey_code.push(msg.result.response.provider_bookings[i].journeys[k].journey_code)
-                                }catch(err){}
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
                                 for(l in msg.result.response.provider_bookings[i].journeys[k].segments){
                                     journey_code.push(msg.result.response.provider_bookings[i].journeys[k].segments[l].segment_code)
                                 }
@@ -2514,7 +2558,9 @@ function insurance_issued_booking(data){
                             print_success_issued();
                        else
                             print_fail_issued();
-                   }catch(err){}
+                   }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                   }
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                         window.location.href = '/insurance/booking/' + btoa(data);
                    }else{
@@ -2528,7 +2574,9 @@ function insurance_issued_booking(data){
                        document.getElementById('payment_acq').innerHTML = '';
                        try{
                             document.getElementById('voucher_div').style.display = 'none';
-                       }catch(err){}
+                       }catch(err){
+                            console.log(err); // error kalau ada element yg tidak ada
+                       }
                        document.getElementById('show_loading_booking_insurance').style.display = 'block';
                        document.getElementById('show_loading_booking_insurance').hidden = false;
                        document.getElementById('cancel').hidden = true;
@@ -2613,7 +2661,9 @@ function insurance_issued_booking(data){
                             }
                             try{
                                 price['CSC'] = insurance_get_detail.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
 
                             text+=`<div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -2714,7 +2764,9 @@ function insurance_issued_booking(data){
 
                             try{
                                 price['CSC'] = insurance_get_detail.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
 
                             text+=`<div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">

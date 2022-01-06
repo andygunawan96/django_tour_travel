@@ -271,8 +271,10 @@
 
 <script>
     try{
-    document.getElementById('voucher_div').style.display = 'none';
-    }catch(err){}
+        document.getElementById('voucher_div').style.display = 'none';
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
     event_signin('{{order_number}}');
     $( document ).ready(function() {
       breadcrumb_create("event", 6, 1);

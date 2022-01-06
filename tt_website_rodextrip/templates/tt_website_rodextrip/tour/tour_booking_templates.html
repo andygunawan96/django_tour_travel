@@ -394,7 +394,9 @@
 <script>
     try{
         document.getElementById('voucher_discount').style.display = 'none';
-    }catch(err){}
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
     $(document).ready(function () {
         breadcrumb_create("tour", 6, 1);
     });

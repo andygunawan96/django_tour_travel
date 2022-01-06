@@ -87,7 +87,9 @@ function passport_signin(data){
                 })
                try{
                 hide_modal_waiting_transaction();
-               }catch(err){}
+               }catch(err){
+                console.log(err) //ada element yg tidak ada
+               }
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -235,7 +237,9 @@ function passport_get_config_provider(){
                 })
                try{
                 hide_modal_waiting_transaction();
-               }catch(err){}
+               }catch(err){
+                console.log(err) //ada element yg tidak ada
+               }
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -264,7 +268,9 @@ function search_passport(provider){
             var node;
             try{
                 country = msg.result.response.country;
-            }catch(err){}
+            }catch(err){
+                console.log(err) //ada element yg tidak ada
+            }
             if(msg.result.error_code == 0 && msg.result.response.list_of_passport.length != 0){
                 for(i in msg.result.response.list_of_passport){
                     //pax type
@@ -643,7 +649,9 @@ function passport_commit_booking(){
         data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
         data['voucher_code'] = voucher_code;
-    }catch(err){}
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
     getToken();
     $.ajax({
        type: "POST",
@@ -1173,7 +1181,9 @@ function passport_get_data(data){
                                                     </div>
                                                 </div>`;
                                             }
-                                        }catch(err){}
+                                        }catch(err){
+                                            console.log(err) //ada element yg tidak ada
+                                        }
 
                                         if(msg.result.response.passengers[i].passport.hasOwnProperty('biometrics') == true && msg.result.response.passengers[i].passport.biometrics.biometrics_list.length > 0 ){
                                             text+=`
@@ -1395,7 +1405,9 @@ function update_service_charge(type){
                         pax_type_repricing = [];
                         update_table('review');
                     }
-                }catch(err){}
+                }catch(err){
+                    console.log(err) //ada element yg tidak ada
+                }
 
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -1451,7 +1463,9 @@ function update_insentif_booker(type){
                         price_arr_repricing = {};
                         pax_type_repricing = [];
                     }
-                }catch(err){}
+                }catch(err){
+                    console.log(err) //ada element yg tidak ada
+                }
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
