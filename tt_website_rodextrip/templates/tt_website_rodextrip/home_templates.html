@@ -10604,8 +10604,10 @@
     get_carriers();
     {% for rec in provider_types_sequence %}
         if('{{rec.name}}' == "health_care"){
-            document.getElementsByName('health_care_type')[0].checked = true;
-            onchange_health_care();
+            if(document.getElementsByName('health_care_type')){
+                document.getElementsByName('health_care_type')[0].checked = true;
+                onchange_health_care();
+            }
         }
     {% endfor %}
     {% if username.co_user_login != '' %}
