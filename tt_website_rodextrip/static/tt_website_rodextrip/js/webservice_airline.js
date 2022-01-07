@@ -233,7 +233,9 @@ function airline_redirect_signup(type){
                                                                                                                     document.getElementById('airline_price_itinerary_request').value = JSON.stringify(airline_get_price_request);
                                                                                                                     document.getElementById('airline_create_passengers').value = JSON.stringify(msg);
                                                                                                                     document.getElementById('additional_price_input').value = JSON.stringify(additional_price);
-                                                                                                                }catch(err){}
+                                                                                                                }catch(err){
+                                                                                                                    console.log(err); // error kalau login di page revie ada yg salah
+                                                                                                                }
                                                                                                                 document.getElementById('reload_page').submit();
                                                                                                            },error: function(XMLHttpRequest, textStatus, errorThrown) {
                                                                                                            },timeout: 60000
@@ -253,7 +255,9 @@ function airline_redirect_signup(type){
                                                                                                             document.getElementById('airline_price_itinerary').value = JSON.stringify(price_itinerary);
                                                                                                             document.getElementById('airline_price_itinerary_request').value = JSON.stringify(airline_get_price_request);
                                                                                                             document.getElementById('additional_price_input').value = JSON.stringify(additional_price);
-                                                                                                        }catch(err){}
+                                                                                                        }catch(err){
+                                                                                                            console.log(err); // error kalau login di page revie ada yg salah
+                                                                                                        }
                                                                                                         document.getElementById('reload_page').submit();
                                                                                                     }
                                                                                                     //location.reload();
@@ -315,7 +319,9 @@ function airline_redirect_signup(type){
               $('.loader-rodextrip').fadeOut();
               try{
                 $("#show_loading_booking_airline").hide();
-              }catch(err){}
+              }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+              }
            },timeout: 60000
         });
     }
@@ -398,7 +404,9 @@ function get_airline_data_search_page(){
                       document.getElementById("right-plus-infant-flight1").disabled = false;
                       document.getElementById("left-minus-infant-flight1").disabled = false;
                }
-           }catch(err){}
+           }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+           }
            if (quantity_adult_flight+quantity_child_flight == 9){
                 document.getElementById("right-plus-adult-flight").disabled = true;
                 document.getElementById("right-plus-child-flight").disabled = true;
@@ -679,7 +687,9 @@ function airline_signin(data,type=''){
                $('.loader-rodextrip').fadeOut();
                try{
                 $("#show_loading_booking_airline").hide();
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
            }
        }catch(err){
            $("#barFlightSearch").hide();
@@ -710,7 +720,9 @@ function airline_signin(data,type=''){
           $('.loader-rodextrip').fadeOut();
           try{
             $("#show_loading_booking_airline").hide();
-          }catch(err){}
+          }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+          }
        },timeout: 60000
     });
 
@@ -848,16 +860,22 @@ function get_carrier_code_list(type, val){
            }
            text+=`</div><div class="col-lg-12" style="text-align:right;"><hr/><button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('airline','airline');">Done</button></div>
            </div>`;
-           if(val == undefined)
-               try{
-                   document.getElementById('provider_flight_content').innerHTML = text;
-               }catch(err){
-
-               }
-           else{
-               try{
-                   document.getElementById('provider_flight_content'+val).innerHTML = text;
-               }catch(err){}
+           if(val == undefined){
+               if(document.getElementById('provider_flight_content'))
+                    document.getElementById('provider_flight_content').innerHTML = text;
+//               try{
+//                   document.getElementById('provider_flight_content').innerHTML = text;
+//               }catch(err){
+//
+//               }
+           }else{
+                if(document.getElementById('provider_flight_content'+val))
+                    document.getElementById('provider_flight_content'+val).innerHTML = text;
+//               try{
+//                   document.getElementById('provider_flight_content'+val).innerHTML = text;
+//               }catch(err){
+//                   console.log(err);
+//               }
            }
            first_value_provider();
        },
@@ -1547,7 +1565,9 @@ function carrier_to_provider(){
                         }if(check == 0){
                             provider_airline.push([airline[0][i][j],[i], airline_carriers_data_awal[0][i].is_favorite])
                         }
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                 }
             }catch(err){console.log(err)}
         }
@@ -2146,7 +2166,9 @@ function get_price_itinerary(val){
                                             airline_pick_list[i].segments[j].fare_pick = parseInt(k);
                                             break;
                                         }
-                                    }catch(err){}
+                                    }catch(err){
+                                        console.log(err); // error kalau ada element yg tidak ada
+                                    }
                                 }
                             }
                         }
@@ -2169,7 +2191,9 @@ function get_price_itinerary(val){
                                     airline_pick_list[i].segments[j].fare_pick = parseInt(k);
                                     break;
                                 }
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
                         }
                     }
                 }
@@ -2370,7 +2394,9 @@ function get_price_itinerary_request(){
             added++;
             try{
                 document.getElementById('changejourney_pick'+parseInt(parseInt(i)+added)).disabled = true;
-            }catch(err){}
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
         }
     }
     separate = false;
@@ -2390,7 +2416,9 @@ function get_price_itinerary_request(){
                     'carrier_code': document.getElementById('carrier_code_line'+i).value,
                     'promo_code': document.getElementById('code_line'+i).value
                 })
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
     }
 
     document.getElementById("airlines_ticket").innerHTML = '';
@@ -2416,7 +2444,9 @@ function get_price_itinerary_request(){
                     added++;
                     try{
                         document.getElementById('changejourney_pick'+parseInt(parseInt(i)+added)).disabled = false;
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                 }
            }
            get_price_airline_response = resJson
@@ -3121,7 +3151,9 @@ function get_price_itinerary_request(){
                     added++;
                     try{
                         document.getElementById('changejourney_pick'+parseInt(parseInt(i)+added)).disabled = false;
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                 }
            }
            //document.getElementById("badge-flight-notif").innerHTML = "0";
@@ -3240,7 +3272,9 @@ function get_fare_rules(){
             try{
                 for(var i=0;i<100;i++)//hardcode
                     document.getElementById('rules'+i).innerHTML = '<b>Oops! Something went wrong, please choose / change again and check your internet connection</b>';
-            }catch(err){}
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
        },timeout: 60000
     });
 }
@@ -3585,7 +3619,9 @@ function show_seat_map(val, checked){
                             text+=`<a class="prev" onclick="plusSlides(-1, 0)" style="font-size:15px; padding:0px;">&#10094; Prev</a>
                                <a class="next" onclick="plusSlides(1, 0)" style="font-size:15px; padding:0px;">Next &#10095;</a>`;
                         break;
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                 }
             }
         }
@@ -3731,7 +3767,9 @@ function update_seat_passenger(segment, departure_date, row, column,seat_code,se
                         try{
                             document.getElementById(segment+'_'+departure_date+'_'+seat_choose_pax.replace(/[^0-9]/g, '')+'_'+seat_choose_pax.replace(/[^A-Za-z]/g, '')).style.background = '#CACACA';
                             document.getElementById(segment+'_'+departure_date+'_'+seat_choose_pax.replace(/[^0-9]/g, '')+'_'+seat_choose_pax.replace(/[^A-Za-z]/g, '')).style.color = 'black';
-                        }catch(err){}
+                        }catch(err){
+                            console.log(err); // error kalau ada element yg tidak ada
+                        }
 
                     }
                     //pasang passenger seat
@@ -3819,7 +3857,9 @@ function get_ff_availability(type){
                     document.getElementById('signature').value = signature;
                     document.getElementById('airline_price_itinerary').value = JSON.stringify(get_price_airline_response.result.response);
                     document.getElementById('airline_price_itinerary_request').value = JSON.stringify(get_price_airline_response.result.request);
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 document.getElementById('go_to_passenger').submit();
             }else if(type == 'request_new_ssr' && msg.result.error_code == 0)
                 window.location.href='/airline/ssr';
@@ -4145,7 +4185,9 @@ function airline_commit_booking(val){
         data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
         data['voucher_code'] =  voucher_code;
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -4345,7 +4387,9 @@ function airline_force_commit_booking(val){
         data['member'] = payment_acq2[payment_method][selected].method;
         data['bypass_psg_validator'] = true;
         data['voucher_code'] =  voucher_code;
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -4537,7 +4581,9 @@ function airline_get_booking(data, sync=false){
     get_vendor_balance('false');
     try{
         show_loading();
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
 
     $.ajax({
        type: "POST",
@@ -4568,7 +4614,9 @@ function airline_get_booking(data, sync=false){
                     document.getElementById('div_sync_status').hidden = false;
                     try{
                         document.getElementById('issued_btn_airline').hidden = false;
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                 }
                 for(i in msg.result.response.passengers[0].sale_service_charges){
                     for(j in msg.result.response.passengers[0].sale_service_charges[i]){
@@ -4706,7 +4754,9 @@ function airline_get_booking(data, sync=false){
                                <h5>Your booking has been successfully Booked. Please proceed to payment or review your booking again.</h5>
                            </div>`;
                        }
-                   }catch(err){}
+                   }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                   }
                 }else if(msg.result.response.state == 'draft'){
                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -4763,7 +4813,9 @@ function airline_get_booking(data, sync=false){
                 if(msg.result.response.state == 'issued' || msg.result.response.state == 'rescheduled' || msg.result.response.state == 'reissue'){
                     try{
                         document.getElementById('voucher_discount').style.display = 'none';
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                    //baru
                    try{
                        check_ssr = 0;
@@ -4859,7 +4911,9 @@ function airline_get_booking(data, sync=false){
                     try{
                         if(now.diff(hold_date_time, 'minutes')<0)
                             $(".issued_booking_btn").show();
-                    }catch(err){}
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
                     check_provider_booking++;
                     try{
                        check_ssr = 0;
@@ -4962,7 +5016,9 @@ function airline_get_booking(data, sync=false){
                                 try{
                                     if(now.diff(hold_date_time, 'minutes')<0)
                                         $(".issued_booking_btn").show();
-                                }catch(err){}
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
                                 check_provider_booking++;
                                 printed_hold_date = true;
                             }
@@ -5236,7 +5292,9 @@ function airline_get_booking(data, sync=false){
                                 if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_cancel)
                                     text+=`
                                         <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Refund</span>`;
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
                             for(j in msg.result.response.provider_bookings[i].rules){
                                 text += `
                                     <span id="span-tac-up`+rules+`" class="carrier_code_template" style="display: block; cursor: pointer;" onclick="show_hide_tac(`+rules+`);"> `+msg.result.response.provider_bookings[i].rules[j].name+` <i class="fas fa-chevron-down"></i></span>
@@ -5462,7 +5520,9 @@ function airline_get_booking(data, sync=false){
                                                 text += msg.result.response.passengers[pax].fees[i].fee_category + ': ';
                                             text += msg.result.response.passengers[pax].fees[i].fee_name + `</label><br/>`;
                                           }
-                                      }catch(err){}
+                                      }catch(err){
+                                          console.log(err); // error kalau ada element yg tidak ada
+                                      }
                                       text+=`
                                     </div>
                                 </td>
@@ -5665,7 +5725,9 @@ function airline_get_booking(data, sync=false){
                                 try{
                                     price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
                                     csc += msg.result.response.passengers[j].channel_service_charges.amount;
-                                }catch(err){}
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
                             }
                             //repricing
                             check = 0;
@@ -5741,7 +5803,9 @@ function airline_get_booking(data, sync=false){
                             for(k in msg.result.response.provider_bookings[i].journeys){
                                 try{
                                     journey_code.push(msg.result.response.provider_bookings[i].journeys[k].journey_code)
-                                }catch(err){}
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
                                 for(l in msg.result.response.provider_bookings[i].journeys[k].segments){
                                     journey_code.push(msg.result.response.provider_bookings[i].journeys[k].segments[l].segment_code)
                                 }
@@ -5919,7 +5983,9 @@ function airline_get_booking(data, sync=false){
                         <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
                     </div>
                 </div>`;
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 document.getElementById('airline_detail').innerHTML = text_detail;
                 //refund
                 if(msg.result.response.state == 'refund'){
@@ -6260,7 +6326,9 @@ function check_refund_btn(){
 function check_refund_partial_btn(){
     try{
         clearInterval(timeLimitInterval);
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     show_loading();
     please_wait_transaction();
     getToken();
@@ -6405,7 +6473,7 @@ function check_refund_partial_btn(){
                            text+=`
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">Receive Amount</span>
+                                    <span style="font-size:12px;">Received Amount `+msg.result.response.provider_bookings[i].pnr+`</span>
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                     <span style="font-size:13px;" id="total_`+msg.result.response.provider_bookings[i].pnr+`">`+currency+` `;
@@ -6431,7 +6499,7 @@ function check_refund_partial_btn(){
                             text+=`
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">Admin Fee</span>
+                                    <span style="font-size:12px;">Admin Fee `+msg.result.response.provider_bookings[i].pnr+`</span>
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                     <span style="font-size:13px;">`+currency+` -`+getrupiah(parseInt(msg.result.response.provider_bookings[i].admin_fee))+`</span>
@@ -6781,10 +6849,14 @@ function airline_issued(data){
                                     print_success_issued();
                                else
                                     print_fail_issued();
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
                        else
                             print_fail_issued();
-                   }catch(err){}
+                   }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                   }
 
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                         window.location.href = '/airline/booking/' + btoa(data);
@@ -6885,7 +6957,9 @@ function airline_issued(data){
                             }
                             try{
                                 price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
 
                             text+=`<div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -6986,7 +7060,9 @@ function airline_issued(data){
 
                             try{
                                 price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
-                            }catch(err){}
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
 
                             text+=`<div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -7194,7 +7270,9 @@ function update_service_charge(type){
                         pax_type_repricing = [];
                         airline_detail('');
                     }
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
@@ -7251,7 +7329,9 @@ function update_insentif_booker(type){
                         price_arr_repricing = {};
                         pax_type_repricing = [];
                     }
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
@@ -7427,10 +7507,14 @@ function update_booking_after_sales(input_pax_seat = false){
     try{
         if(passengers != undefined && input_pax_seat == true)
             data['pax_seat'] = JSON.stringify(passengers);
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     try{
         data['booking'] = JSON.stringify(airline_get_detail)
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     if(error_log == ''){
         getToken();
         show_loading();
@@ -7448,7 +7532,9 @@ function update_booking_after_sales(input_pax_seat = false){
                document.getElementById('show_loading_booking_airline').hidden = false;
                try{
                     document.getElementById('airline_reissue_div').innerHTML = '';
-               }catch(err){}
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
                if(msg.result.error_code == 0){
                     window.location = '/airline/booking/' + btoa(msg.result.response.order_number);
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -7685,7 +7771,9 @@ function airline_reissued(){
                         "destination": airline_get_detail.result.response.provider_bookings[i].journeys[j].destination,
                         "departure_date": document.getElementById('airline_departure'+ flight).value,
                     });
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 flight++;
             }
         }
@@ -7703,12 +7791,16 @@ function airline_reissued(){
     }
     try{
         document.getElementById('voucher_discount').hidden = true;
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     document.getElementById('reissued').hidden = true;
     if(airline_get_detail.result.response.state == 'booked')
         try{
             document.getElementById('issued_btn_airline').hidden = true;
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
 
     getToken();
     show_loading();
@@ -9516,7 +9608,9 @@ function get_price_reissue_construct(){
                                try{
                                    document.getElementById('changejourney_pick'+parseInt(1+parseInt(i))).disabled = true;
                                    document.getElementById('changejourney_pick'+parseInt(1+parseInt(i))).onclick = '';
-                               }catch(err){}
+                               }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                               }
                            }
                            airline_response = [];
                            airline_route = [];
@@ -9760,7 +9854,9 @@ function sell_journey_reissue_construct(){
                                try{
                                    document.getElementById('changejourney_pick'+parseInt(1+parseInt(i))).disabled = true;
                                    document.getElementById('changejourney_pick'+parseInt(1+parseInt(i))).onclick = '';
-                               }catch(err){}
+                               }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                               }
                            }
                            airline_response = [];
                            airline_route = [];
@@ -10294,7 +10390,9 @@ function airline_get_booking_refund(data){
                    //document.getElementById('issued-breadcrumb').classList.add("current");
                    document.getElementById('issued-breadcrumb').classList.add("br-active");
                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
-               }catch(err){}
+               }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+               }
             }else if(msg.result.response.state == 'draft'){
                document.getElementById('issued-breadcrumb').classList.remove("br-active");
                document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -10317,7 +10415,9 @@ function airline_get_booking_refund(data){
             if(msg.result.response.state == 'issued' || msg.result.response.state == 'rescheduled'){
                 try{
                     document.getElementById('voucher_discount').style.display = 'none';
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                //baru
                try{
                    check_ssr = 0;
@@ -10332,7 +10432,9 @@ function airline_get_booking_refund(data){
                             }
 
                        }
-                   }catch(err){}
+                   }catch(err){
+                       console.log(err); // error kalau ada element yg tidak ada
+                   }
 //                   check_cancel = 1; //testing ivan
                    if(check_cancel){
                         //document.getElementById('captcha').hidden = false;
@@ -10366,7 +10468,9 @@ function airline_get_booking_refund(data){
                 try{
                     if(now.diff(hold_date_time, 'minutes')<0)
                         $(".issued_booking_btn").show();
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 check_provider_booking++;
 
             }
@@ -10951,7 +11055,9 @@ function pnr_refund_onclick(val, type){
                     for(j in pnr_list_checkbox[i]['checkbox']){
                         try{
                             document.getElementById(pnr_list_checkbox[i]['checkbox'][j]).checked = 'checked';
-                        }catch(err){} //mungkin checkbox tidak ada karena kalau sudah berangkat element tidak di print
+                        }catch(err){
+                            console.log(err); // error kalau ada element yg tidak ada
+                        } //mungkin checkbox tidak ada karena kalau sudah berangkat element tidak di print
                     }
                     break;
                 }
@@ -10962,7 +11068,9 @@ function pnr_refund_onclick(val, type){
                     for(j in pnr_list_checkbox[i]['checkbox']){
                         try{
                             document.getElementById(pnr_list_checkbox[i]['checkbox'][j]).checked = '';
-                        }catch(err){} //mungkin checkbox tidak ada karena kalau sudah berangkat element tidak di print
+                        }catch(err){
+                            console.log(err); // error kalau ada element yg tidak ada
+                        } //mungkin checkbox tidak ada karena kalau sudah berangkat element tidak di print
                     }
                     break;
                 }
@@ -11023,7 +11131,9 @@ function pnr_refund_onclick(val, type){
         document.getElementById('refund_detail').innerHTML = '';
         document.getElementById('cancel').hidden = true;
         document.getElementById('refund_detail').innerHTML = '';
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
 }
 
 //v2
@@ -11044,7 +11154,9 @@ function airline_get_reschedule_availability_v2(){
                         "destination": airline_get_detail.result.response.provider_bookings[i].journeys[j].destination,
                         "departure_date": document.getElementById('airline_departure'+ flight).value,
                     });
-                }catch(err){}
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
                 flight++;
             }
         }
@@ -11061,12 +11173,16 @@ function airline_get_reschedule_availability_v2(){
     }
     try{
         document.getElementById('voucher_discount').hidden = true;
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     document.getElementById('reissued').hidden = true;
     if(airline_get_detail.result.response.state == 'booked')
         try{
             document.getElementById('issued_btn_airline').hidden = true;
-        }catch(err){}
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
 
     getToken();
     show_loading();
@@ -11168,7 +11284,9 @@ function airline_get_reschedule_itinerary_v2(){
                    try{
                        document.getElementById('changejourney_pick'+parseInt(1+parseInt(i))).disabled = false; //sudah sell tidak bisa
                        document.getElementById('changejourney_pick'+parseInt(1+parseInt(i))).onclick = '';
-                   }catch(err){}
+                   }catch(err){
+                       console.log(err); // error kalau ada element yg tidak ada
+                   }
                }
                airline_response = [];
                airline_route = [];
@@ -11272,7 +11390,9 @@ function sell_reschedule_v2(){
                                try{
                                    document.getElementById('changejourney_pick'+parseInt(1+parseInt(i))).disabled = true; //sudah sell tidak bisa
                                    document.getElementById('changejourney_pick'+parseInt(1+parseInt(i))).onclick = '';
-                               }catch(err){}
+                               }catch(err){
+                                   console.log(err); // error kalau ada element yg tidak ada
+                               }
                            }
                            airline_response = [];
                            airline_route = [];
@@ -11484,10 +11604,14 @@ function update_booking_after_sales_v2(input_pax_seat = false){
     try{
         if(passengers != undefined && input_pax_seat == true)
             data['pax_seat'] = JSON.stringify(passengers);
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     try{
         data['booking'] = JSON.stringify(airline_get_detail);
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     if(error_log == ''){
         getToken();
         show_loading();
@@ -11506,7 +11630,9 @@ function update_booking_after_sales_v2(input_pax_seat = false){
                document.getElementById('show_loading_booking_airline').hidden = false;
                try{
                     document.getElementById('airline_reissue_div').innerHTML = '';
-               }catch(err){}
+               }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+               }
                if(msg.result.error_code == 0){
                     window.location = '/airline/booking/' + btoa(msg.result.response.order_number);
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -11913,7 +12039,9 @@ function pre_refund_login_v2(){
 function check_refund_partial_btn_v2(){
     try{
         clearInterval(timeLimitInterval);
-    }catch(err){}
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
     show_loading();
     please_wait_transaction();
     getToken();
@@ -12041,7 +12169,7 @@ function check_refund_partial_btn_v2(){
                            text+=`
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">Receive Amount `+msg.result.response.cancel_booking_provider[i].pnr+`</span>
+                                    <span style="font-size:12px;">Received Amount `+msg.result.response.cancel_booking_provider[i].pnr+`</span>
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                     <span style="font-size:13px;" id="total_`+msg.result.response.cancel_booking_provider[i].pnr+`">`+currency+` `;
