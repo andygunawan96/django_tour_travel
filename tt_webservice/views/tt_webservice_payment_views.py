@@ -133,8 +133,6 @@ def get_payment_acquirer(request):
             _logger.error("ERROR get_payment_acquirer_payment " + request.POST['type'] + " SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    if res['result']['error_code'] == 0:
-        pass
     return res
 
 def testing_payment_webhook(request):

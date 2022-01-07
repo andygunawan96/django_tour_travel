@@ -547,7 +547,6 @@ def add_banner(request):
                     'error_msg': '',
                 }
             }
-        pass
         # request.session['signature'] = res['result']['response']['signature']
         # if func == 'get_config':
         #     get_config(request)
@@ -676,7 +675,6 @@ def set_inactive_delete_banner(request):
                     'error_msg': '',
                 }
             }
-        pass
         # request.session['signature'] = res['result']['response']['signature']
         # if func == 'get_config':
         #     get_config(request)
@@ -986,8 +984,8 @@ def set_dynamic_page(request):
             if request.FILES['image_carousel'].content_type == 'image/jpeg' or request.FILES['image_carousel'].content_type == 'image/png' or request.FILES['image_carousel'].content_type == 'image/png':
                 file = request.FILES['image_carousel']
                 filename = fs.save(file.name, file)
-        except:
-            pass
+        except Exception as e:
+            _logger.error('no image dynamic page')
 
         data = os.listdir('/var/log/django/page_dynamic')
         #create new

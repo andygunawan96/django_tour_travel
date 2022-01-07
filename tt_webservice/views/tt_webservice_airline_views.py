@@ -1044,14 +1044,14 @@ def get_price_itinerary(request, boolean, counter):
                                             'destination_country': destination['country'],
                                         })
                                         break
-            except:
-                pass
+            except Exception as e:
+                _logger.error(str(e) + traceback.format_exc())
             _logger.info("SUCCESS get_price_itinerary AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
             try:
                 set_session(request, 'airline_price_itinerary', res['result']['response'])
                 _logger.info(json.dumps(request.session['airline_price_itinerary']))
-            except:
-                pass
+            except Exception as e:
+                _logger.error(str(e) + traceback.format_exc())
         elif boolean == True:
             pass
         else:
@@ -1082,7 +1082,7 @@ def get_price_itinerary(request, boolean, counter):
             })
         res['result']['request'] = data
     except Exception as e:
-        pass
+        _logger.error(str(e) + traceback.format_exc())
     return res
 
 def get_fare_rules(request):
@@ -1271,7 +1271,6 @@ def get_ssr_availability(request):
                                 ssr['currency'] = currency
 
             except:
-                pass
                 _logger.error("get_ssr_availability_airline AIRLINE SIGNATURE " + request.POST['signature'] + json.dumps(res))
 
             set_session(request, 'airline_get_ssr', res)
@@ -1575,8 +1574,8 @@ def commit_booking(request):
             # data.update({
             #     'bypass_psg_validator': request.POST['bypass_psg_validator']
             # })
-        except:
-            pass
+        except Exception as e:
+            _logger.error('book, not force issued')
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -1642,8 +1641,8 @@ def get_booking(request):
                                 pax['birth_date'].split(' ')[0].split('-')[2], month[pax['birth_date'].split(' ')[0].split('-')[1]],
                                 pax['birth_date'].split(' ')[0].split('-')[0])
                         })
-                except:
-                    pass
+                except Exception as e:
+                    _logger.error(str(e) + traceback.format_exc())
             for provider in res['result']['response']['provider_bookings']:
                 for journey in provider['journeys']:
                     journey.update({
@@ -1672,8 +1671,8 @@ def get_booking(request):
                         for fare_detail in segment['fare_details']:
                             try:
                                 fare_detail['description'] = json.loads(json.loads(fare_detail['description']))
-                            except:
-                                pass
+                            except Exception as e:
+                                _logger.error(str(e) + traceback.format_exc())
                         for destination in airline_destinations:
                             if destination['code'] == segment['origin']:
                                 segment.update({
@@ -2042,8 +2041,8 @@ def issued(request):
             for provider_type in airline_get_booking['result']['response']['provider_bookings']:
                 if not provider_type['provider'] in provider:
                     provider.append(provider_type['provider'])
-        except:
-            pass
+        except Exception as e:
+            _logger.error(str(e) + traceback.format_exc())
 
         if request.POST['voucher_code'] != '':
             data.update({
@@ -2949,8 +2948,8 @@ def get_post_ssr_availability(request):
                                 ssr['total_price'] = total
                                 ssr['currency'] = currency
 
-            except:
-                pass
+            except Exception as e:
+                _logger.error(str(e) + traceback.format_exc())
                 _logger.error("get_ssr_availability_airline AIRLINE SIGNATURE " + request.POST['signature'] + json.dumps(res))
             set_session(request, 'airline_get_ssr', res)
             _logger.info(json.dumps(request.session['airline_get_ssr']))
@@ -3677,8 +3676,8 @@ def get_post_ssr_availability_v2(request):
                                 ssr['total_price'] = total
                                 ssr['currency'] = currency
 
-            except:
-                pass
+            except Exception as e:
+                _logger.error(str(e) + traceback.format_exc())
                 _logger.error("get_ssr_availability_airline AIRLINE SIGNATURE " + request.POST['signature'] + json.dumps(res))
             set_session(request, 'airline_get_ssr', res)
             _logger.info(json.dumps(request.session['airline_get_ssr']))

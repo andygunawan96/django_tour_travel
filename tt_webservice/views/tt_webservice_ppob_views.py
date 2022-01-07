@@ -295,7 +295,6 @@ def search(request):
         if res['result']['error_code'] == 0:
             set_session(request, 'ppob_search_response', res)
             request.session.modified = True
-            pass
         else:
             _logger.error("ERROR search BILLS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
@@ -424,8 +423,8 @@ def issued(request):
             for provider_type in bill_get_booking['result']['response']['provider_booking']:
                 if not provider_type['provider'] in provider:
                     provider.append(provider_type['provider'])
-        except:
-            pass
+        except Exception as e:
+            _logger.error(str(e) + traceback.format_exc())
         if request.POST['voucher_code'] != '':
             data.update({
                 'voucher': data_voucher(request.POST['voucher_code'], 'ppob', provider),
