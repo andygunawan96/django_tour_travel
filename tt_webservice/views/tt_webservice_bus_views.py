@@ -414,8 +414,8 @@ def commit_booking(request):
                                     pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
                                     pax['identity_expdate'].split(' ')[0])
                             })
-                        except:
-                            pass
+                        except Exception as e:
+                            _logger.error(str(e) + traceback.format_exc())
                         if pax['identity_country_of_issued_name'] != '':
                             for country in response['result']['response']['airline']['country']:
                                 if pax['identity_country_of_issued_name'] == country['name']:
@@ -459,8 +459,8 @@ def commit_booking(request):
                     'member': member,
                     'seq_id': request.POST['seq_id'],
                 })
-        except:
-            pass
+        except Exception as e:
+            _logger.error('book, not force issued')
         if request.POST.get('voucher_code') != '':
             data.update({
                 'voucher': data_voucher(request.POST['voucher_code'], 'bus', []),
@@ -728,8 +728,8 @@ def assign_seats(request):
         provider = ''
         try:
             provider = request.session['bus_booking'][0]['provider']
-        except:
-            pass
+        except Exception as e:
+            _logger.error(str(e) + traceback.format_exc())
         for idx, pax in enumerate(passengers):
             for idy, seat in enumerate(pax['seat_pick']):
                 if pax['seat_pick'][idy]['wagon'] != pax['seat'][idy]['wagon'] or pax['seat_pick'][idy]['seat'] != pax['seat'][idy]['seat'] or pax['seat_pick'][idy]['column'] != pax['seat'][idy]['column']:

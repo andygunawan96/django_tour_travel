@@ -191,10 +191,6 @@ def get_config(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    try:
-        pass
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_zip_code(request):
@@ -388,7 +384,7 @@ def commit_booking(request):
                     'seq_id': request.POST['seq_id'],
                 })
         except:
-            pass
+            _logger.error('normal book, force issued false')
         if request.POST.get('voucher_code') != '':
             data.update({
                 'voucher': data_voucher(request.POST['voucher_code'], request.POST['provider'], []),
@@ -439,8 +435,8 @@ def get_booking(request):
                                 pax['birth_date'].split(' ')[0].split('-')[2], month[pax['birth_date'].split(' ')[0].split('-')[1]],
                                 pax['birth_date'].split(' ')[0].split('-')[0])
                         })
-                except:
-                    pass
+                except Exception as e:
+                    _logger.error(str(e) + traceback.format_exc())
 
             time.sleep(2)
             set_session(request, 'lab_pintar_get_booking_response', response)
@@ -475,8 +471,8 @@ def issued(request):
                 if not provider_type['provider'] in provider:
                     provider.append(provider_type['provider'])
                     provider_char = provider_type['provider']
-        except:
-            pass
+        except Exception as e:
+            _logger.error(str(e) + traceback.format_exc())
 
         if request.POST['voucher_code'] != '':
             data.update({

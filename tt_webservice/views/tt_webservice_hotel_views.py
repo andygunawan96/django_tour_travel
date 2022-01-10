@@ -280,8 +280,8 @@ def search(request):
             set_session(request, 'hotel_request_data', hotel_request_data)
             try:
                 del request.session['hotel_request_data']['pax_country']
-            except:
-                pass
+            except Exception as e:
+                _logger.error(str(e) + traceback.format_exc())
             if data == request.session['hotel_request_data'] and request.session['hotel_error']['error_code'] == 0 and sum([len(rec) for rec in request.session['hotel_response_search']['result']['response'].values()]) != 0:
                 # or sum([len(rec) for rec in request.session['hotel_response_search']['result']['response'].values()]) == 0
                 data = {}
@@ -577,8 +577,8 @@ def create_booking(request):
                                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                                 pax['birth_date'].split(' ')[0]),
                         })
-                    except:
-                        pass
+                    except Exception as e:
+                        _logger.error(str(e) + traceback.format_exc())
                     passenger.append(pax)
         booker = request.session['hotel_review_pax']['booker']
         contacts = request.session['hotel_review_pax']['contact']
@@ -636,7 +636,7 @@ def create_booking(request):
                         'voucher': data_voucher(request.POST['voucher_code'], 'hotel', []),
                     })
             except:
-                pass
+                _logger.error('book, not force issued')
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

@@ -95,17 +95,7 @@ def get_balance(request):
     print("SEND REQUEST BANK")
     url_request = url + 'bank'
     res = send_request_api(request, url_request, headers, data, 'POST')
-    try:
-        pass
-    except Exception as e:
-        res = {
-            'result': {
-                'error_code': -1,
-                'error_msg': str(e),
-                'response': ''
-            }
-        }
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+
     return res
 
 def get_transaction(request):
@@ -126,16 +116,6 @@ def get_transaction(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = url + 'bank'
     res = send_request_api(request, url_request, headers, data, 'POST')
-    try:
-        pass
-    except Exception as e:
-        res = {
-            'result': {
-                'error_code': -1,
-                'error_msg': str(e),
-                'response': ''
-            }
-        }
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+
     return res
 

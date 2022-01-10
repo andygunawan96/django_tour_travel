@@ -369,7 +369,6 @@ def get_new_cache(signature, type='all'):
                     _logger.info("ERROR GET CACHE FROM TRAIN SEARCH AUTOCOMPLETE " + json.dumps(res_destination_train)  + '\n' + traceback.format_exc())
             except Exception as e:
                 _logger.info("ERROR GET CACHE FROM TRAIN SEARCH AUTOCOMPLETE " + json.dumps(res_destination_train) + '\n' + str(e) + '\n' + traceback.format_exc())
-                pass
 
             data = {}
             headers = {
@@ -389,7 +388,6 @@ def get_new_cache(signature, type='all'):
             except Exception as e:
                 res_country_airline = False
                 _logger.info("ERROR GET CACHE FROM COUNTRY AIRLINE AUTOCOMPLETE " + json.dumps(res_country_airline) + '\n' + str(e) + '\n' + traceback.format_exc())
-                pass
             # hotel
             headers = {
                 "Accept": "application/json,text/html,application/xml",
@@ -409,7 +407,6 @@ def get_new_cache(signature, type='all'):
                     write_cache_with_folder(json.loads(res_cache_hotel['result']['response']), "hotel_cache_data")
             except Exception as e:
                 _logger.info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE " + json.dumps(res_cache_hotel) + '\n' + str(e) + '\n' + traceback.format_exc())
-                pass
 
             # visa odoo12
             data = {
@@ -432,7 +429,6 @@ def get_new_cache(signature, type='all'):
             except Exception as e:
                 res_config_visa = False
                 _logger.info("ERROR GET CACHE FROM VISA AUTOCOMPLETE " + json.dumps(res_config_visa) + '\n' + str(e) + '\n' + traceback.format_exc())
-                pass
             #
 
             # passport odoo12
@@ -578,7 +574,6 @@ def get_new_cache(signature, type='all'):
                 _logger.info(
                     "ERROR GET CACHE FROM TOUR SEARCH AUTOCOMPLETE " + json.dumps(res_cache_tour) + '\n' + str(
                         e) + '\n' + traceback.format_exc())
-                pass
 
             #ppob
             headers = {
@@ -681,30 +676,29 @@ def get_new_cache(signature, type='all'):
             # remove cache airline
             try:
                 os.remove("/var/log/django/file_cache/get_list_provider.txt")
-            except:
-                pass
+            except Exception as e:
+                _logger.error(str(e) + traceback.format_exc())
             try:
                 os.remove("/var/log/django/file_cache/get_list_provider_data.txt")
-            except:
-                pass
+            except Exception as e:
+                _logger.error(str(e) + traceback.format_exc())
             try:
                 os.remove("/var/log/django/file_cache/get_airline_carriers.txt")
                 airline.get_carriers('', signature)
             except:
                 airline.get_carriers('', signature)
-                pass
             try:
                 os.remove("/var/log/django/file_cache/get_airline_active_carriers.txt")
                 airline.get_carriers_search('', signature)
             except:
                 airline.get_carriers_search('', signature)
-                pass
 
             try:
                 file = open("tt_webservice/static/tt_webservice/phc_city.json", "r")
                 data_kota = json.loads(file.read())
                 file.close()
-            except:
+            except Exception as e:
+                _logger.error(str(e) + traceback.format_exc())
                 data_kota = {}
             provider = 'phc'
             additional_url = 'booking/'
@@ -1145,8 +1139,8 @@ def get_automatic_booker(request):
                                     pax['identities']['other']['identity_expdate'].split('-')[0]),
                             })
                     counter += 1
-                except:
-                    pass
+                except Exception as e:
+                    _logger.error(str(e) + traceback.format_exc())
             _logger.info("GET CUSTOMER LIST SUCCESS SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("get_customer_booker_agent ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -1270,8 +1264,8 @@ def get_customer_list(request):
                                     pax['identities']['other']['identity_expdate'].split('-')[0]),
                             })
                     counter += 1
-                except:
-                    pass
+                except Exception as e:
+                    _logger.error(str(e) + traceback.format_exc())
             _logger.info("GET CUSTOMER LIST SUCCESS SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("get_customer_list_agent ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -1364,8 +1358,8 @@ def update_customer_list(request):
                                     pax['identities']['other']['identity_expdate'].split('-')[0]),
                             })
                     counter += 1
-                except:
-                    pass
+                except Exception as e:
+                    _logger.error(str(e) + traceback.format_exc())
             #ganti cache
             for pax in request.session.get('cache_passengers'):
                 if pax['seq_id'] == request.POST['cust_code']:
@@ -1421,8 +1415,8 @@ def create_customer(request):
                         pax['identity'][identity]['identity_expdate'].split(' ')[2], month[pax['identity'][identity]['identity_expdate'].split(' ')[1]],
                         pax['identity'][identity]['identity_expdate'].split(' ')[0])
                 })
-            except:
-                pass
+            except Exception as e:
+                _logger.error(str(e) + traceback.format_exc())
             try:
                 for country in response['result']['response']['airline']['country']:
                     if pax['identity'][identity]['identity_country_of_issued_name'] == country['name']:
@@ -1498,11 +1492,12 @@ def update_customer(request):
             passenger['identity'][identity].update({
                 'identity_image': image_list
             })
-            passenger['identity'][identity].update({
-                'identity_expdate': '%s-%s-%s' % (
-                    passenger['identity'][identity]['identity_expdate'].split(' ')[2], month[passenger['identity'][identity]['identity_expdate'].split(' ')[1]],
-                    passenger['identity'][identity]['identity_expdate'].split(' ')[0])
-            })
+            if(passenger['identity'][identity]['identity_expdate']):
+                passenger['identity'][identity].update({
+                    'identity_expdate': '%s-%s-%s' % (
+                        passenger['identity'][identity]['identity_expdate'].split(' ')[2], month[passenger['identity'][identity]['identity_expdate'].split(' ')[1]],
+                        passenger['identity'][identity]['identity_expdate'].split(' ')[0])
+                })
             for country in response['result']['response']['airline']['country']:
                 if passenger['identity'][identity]['identity_country_of_issued_name'] == country['name']:
                     passenger['identity'][identity]['identity_country_of_issued_code'] = country['code']

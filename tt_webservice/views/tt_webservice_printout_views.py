@@ -115,8 +115,6 @@ def get_printout(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    if res['result']['error_code'] == 0:
-        pass
     return res
 
 def get_list_report_footer(request):
@@ -142,8 +140,6 @@ def get_list_report_footer(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    if res['result']['error_code'] == 0:
-        pass
     return res
 
 def set_color_printout(request):
@@ -172,8 +168,6 @@ def set_color_printout(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    if res['result']['error_code'] == 0:
-        pass
     return res
 
 def update_list_report_footer(request):
@@ -193,9 +187,5 @@ def update_list_report_footer(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = url + 'printout'
     res = send_request_api(request, url_request, headers, data, 'POST')
-    try:
-        if res['result']['error_code'] == 0:
-            pass
-    except Exception as e:
-        _logger.error(str(e) + '\n' + traceback.format_exc())
+
     return res

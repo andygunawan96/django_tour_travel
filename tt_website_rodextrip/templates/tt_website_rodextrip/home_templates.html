@@ -10604,7 +10604,7 @@
     get_carriers();
     {% for rec in provider_types_sequence %}
         if('{{rec.name}}' == "health_care"){
-            if(document.getElementsByName('health_care_type').length > 0){
+            if(document.getElementsByName('health_care_type').length > 0){ //KALAU NAME TIDAK BISA UNDEFINED HARUS DI CHECK LENGTH NYA
                 document.getElementsByName('health_care_type')[0].checked = true;
                 onchange_health_care();
             }

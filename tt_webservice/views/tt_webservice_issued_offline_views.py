@@ -283,10 +283,9 @@ def update_contact(request):
                         contact[len(contact)-1].update({
                             'is_also_booker': False
                         })
-                else:
-                    pass
-            except:
-                pass
+
+            except Exception as e:
+                _logger.error(str(e) + traceback.format_exc())
 
         if len(contact) == 0:
             contact.append({
@@ -413,7 +412,7 @@ def update_passenger(request):
                             'identity': identity
                         })
                 except Exception as e:
-                    pass
+                    _logger.error(str(e) + traceback.format_exc())
                 if i == 0:
                     if request.POST['myRadios'] == 'true':
                         passenger[len(passenger)-1].update({
@@ -435,8 +434,8 @@ def update_passenger(request):
                     passenger[len(passenger)-1].update({
                         'is_also_contact': False
                     })
-            except:
-                pass
+            except Exception as e:
+                _logger.error(str(e) + traceback.format_exc())
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -522,8 +521,8 @@ def get_booking(request):
                                 pax['birth_date'].split(' ')[0].split('-')[2], month[pax['birth_date'].split(' ')[0].split('-')[1]],
                                 pax['birth_date'].split(' ')[0].split('-')[0])
                         })
-                except:
-                    pass
+                except Exception as e:
+                    _logger.error(str(e) + traceback.format_exc())
             for line in res['result']['response']['lines']:
                 if res['result']['response']['offline_provider_type'] == 'airline' or res['result']['response']['offline_provider_type'] == 'train':
                     if line['departure_date']:

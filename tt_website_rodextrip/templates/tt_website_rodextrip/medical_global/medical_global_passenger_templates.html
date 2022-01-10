@@ -113,14 +113,7 @@
 {%if template == 1%}
 <header id="header" class="header_breadcrumb">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
-        <div class="container">
-            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
-                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
-                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
-            </div>
-        </div>
-    </div>
+    {% include 'tt_website_rodextrip/header_corporate.html' %}
     {% endif %}
 
     <div class="main-menu">
@@ -627,14 +620,7 @@
 {% elif template == 2 %}
 <header class="header_breadcrumb" style="padding:unset; z-index:99;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
-        <div class="container">
-            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
-                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
-                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
-            </div>
-        </div>
-    </div>
+    {% include 'tt_website_rodextrip/header_corporate.html' %}
     {% endif %}
 
     <div class="main-menu" style="padding:10px 0px;">
@@ -1173,14 +1159,7 @@
 {% elif template == 3 %}
 <header class="header_breadcrumb" style="padding:unset; z-index:100; background:white;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
-        <div class="container">
-            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
-                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
-                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
-            </div>
-        </div>
-    </div>
+    {% include 'tt_website_rodextrip/header_corporate.html' %}
     {% endif %}
 
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
@@ -1713,14 +1692,7 @@
 {% elif template == 4 %}
 <header class="header_breadcrumb" style="padding:unset; z-index:100; padding:unset; background:white;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
-        <div class="container">
-            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
-                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
-                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
-            </div>
-        </div>
-    </div>
+    {% include 'tt_website_rodextrip/header_corporate.html' %}
     {% endif %}
 
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
@@ -2251,14 +2223,7 @@
 {% elif template == 5 %}
 <header class="header_breadcrumb" style="padding:unset; z-index:100; padding:unset; background:white;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
-        <div class="container">
-            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
-                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
-                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
-            </div>
-        </div>
-    </div>
+    {% include 'tt_website_rodextrip/header_corporate.html' %}
     {% endif %}
 
     <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
@@ -2795,14 +2760,7 @@
 {%elif template == 6%}
 <header id="header" class="header_breadcrumb" style="padding:unset;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-    <div style="border-bottom:1px solid #cdcdcd; background: #FFEBCD;">
-        <div class="container">
-            <div class="col-lg-12" style="text-align:center; padding:10px 15px;">
-                <span style="padding-right:5px;">You are in Corporate Mode - <b>{{username.co_customer_parent_name}} ({{username.co_customer_parent_type_name}})</b></span>
-                <button type="button" onclick="deactivate_corporate_mode();" class="primary-btn" style="color:{{text_color}}; height:30px; font-size:13px; padding-left:15px; padding-right:15px; line-height:20px;">{% trans 'Exit Mode' %}</button>
-            </div>
-        </div>
-    </div>
+    {% include 'tt_website_rodextrip/header_corporate.html' %}
     {% endif %}
 
     <div class="main-menu" style="padding:10px 0px;">
