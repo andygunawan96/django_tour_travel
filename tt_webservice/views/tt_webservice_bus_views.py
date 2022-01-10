@@ -58,6 +58,8 @@ def api_models(request):
             res = get_carriers(request)
         elif req_data['action'] == 'search':
             res = search(request)
+        elif req_data['action'] == 'get_rules':
+            res = get_rules(request)
         elif req_data['action'] == 'sell_journeys':
             res = sell_journeys(request)
         elif req_data['action'] == 'commit_booking':
@@ -337,6 +339,58 @@ def search(request):
                             check = check + 1
                         if check == 2:
                             break
+            _logger.info("SUCCESS search_bus SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR search_bus SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+
+    return res
+
+def get_rules(request):
+    #bus
+    try:
+        bus_destinations = []
+        file = read_cache_with_folder_path("get_bus_config", 90911)
+        if file:
+            bus_destinations = file
+
+        data = json.loads(request.POST['data'])
+
+        if 'bus_get_rules' not in request.session._session:
+            set_session(request, 'bus_get_rules', data)
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_rules",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/bus'
+    res = send_request_api(request, url_request, headers, data, 'POST', 480)
+    try:
+        if res['result']['error_code'] == 0:
+            for journey in res['result']['response']:
+                journey.update({
+                    'departure_date': parse_date_time_front_end(string_to_datetime(journey['departure_date']+':00')),
+                    'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date']+':00'))
+                })
+                check = 0
+                for destination in bus_destinations['station']:
+                    if destination['code'] == journey['origin']:
+                        journey.update({
+                            'origin_name': destination['name'],
+                        })
+                        check = check + 1
+                    if destination['code'] == journey['destination']:
+                        journey.update({
+                            'destination_name': destination['name'],
+                        })
+                        check = check + 1
+                    if check == 2:
+                        break
             _logger.info("SUCCESS search_bus SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR search_bus SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
