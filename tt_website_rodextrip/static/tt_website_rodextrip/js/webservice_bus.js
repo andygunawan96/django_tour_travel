@@ -530,6 +530,43 @@ function bus_search(provider, signature){
     });
 }
 
+function bus_get_rules(){
+    data_send = {};
+    journey_code_list = [];
+    provider = '';
+    for(i in journeys){
+        journey_code_list.push(journeys[i].journey_code);
+        provider = journeys[i].provider;
+    }
+    data_send = {
+        'provider': provider,
+        'journey_code_list': journey_code_list
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/bus",
+       headers:{
+            'action': 'get_rules',
+       },
+       data: {
+            'signature': signature,
+            'data': JSON.stringify(data_send),
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+               for(i in msg.result.response)
+                    journeys[i].rules = msg.result.response[i].rules;
+
+           }
+           bus_get_detail();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bus search');
+       },timeout: 300000
+    });
+}
+
 function elapse_time(departure){
   today = new Date();
   dep = new Date(departure);
@@ -929,6 +966,7 @@ function bus_get_booking(data, sync=false){
                             <hr/>`;
                         check = 0;
                         flight_counter = 1;
+                        rules = 0;
                         for(i in msg.result.response.provider_bookings){
                             for(j in msg.result.response.provider_bookings[i].journeys){
                                 if(msg.result.response.provider_bookings[i].journeys[j].cabin_class == 'E')
@@ -1009,6 +1047,26 @@ function bus_get_booking(data, sync=false){
                                         </div>
                                     </div>
                                 </div>`;
+                            }
+                            for(j in msg.result.response.provider_bookings[i].rules){
+                                text += `
+                                    <span id="span-tac-up`+rules+`" class="carrier_code_template" style="display: block; cursor: pointer;" onclick="show_hide_tac(`+rules+`);"> `+msg.result.response.provider_bookings[i].rules[j].name+` <i class="fas fa-chevron-down"></i></span>
+                                    <span id="span-tac-down`+rules+`" class="carrier_code_template" style="display: none; cursor: pointer;" onclick="show_hide_tac(`+rules+`);"> `+msg.result.response.provider_bookings[i].rules[j].name+` <i class="fas fa-chevron-up"></i></span>
+                                    <div id="div-tac`+rules+`" style="display: none; max-height: 175px; overflow-y: auto; padding: 15px;">
+                                `;
+                                for(k in msg.result.response.provider_bookings[i].rules[j].description){
+                                    text += `
+                                        <div class="row">
+                                            <div class="col-lg-1 col-xs-1 col-md-1">
+                                                <i class="fas fa-circle" style="font-size:9px;margin-left:15px;"></i>
+                                            </div>
+                                            <div class="col-lg-11 col-xs-11 col-md-11" style="padding:0">
+                                                `+msg.result.response.provider_bookings[i].rules[j].description[k]+`
+                                            </div>
+                                        </div>`;
+                                }
+                                text += `</div>`;
+                                rules++;
                             }
                         }
                         text+=`

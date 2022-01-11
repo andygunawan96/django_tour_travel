@@ -2,11 +2,17 @@
 {% load i18n %}
 {% load static from staticfiles %}
 {% block content %}
-
+<script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 {% if username.co_user_login != '' %}
 {% include 'tt_website_rodextrip/logout.html' %}
 {% endif %}
 {% include 'tt_website_rodextrip/header.html' %}
+{% include 'tt_website_rodextrip/notification.html' %}
+<script>
+    signature = `{{signature}}`;
+</script>
 <title>Guide Re-Order PHC</title>
 <section class="destinations-area" style="padding-top:40px; padding-bottom:40px;background-image:url('{{background}}');">
     <div class="container">

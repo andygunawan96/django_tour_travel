@@ -1922,16 +1922,11 @@
         });
 
         //show hide balance
-        try{
+        if(document.getElementById("balance_search") && document.getElementById("balance"))
             document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
-        }catch(err){
-            console.log(err) //ada element yg tidak ada
-        }
-        try{
+
+        if(document.getElementById("credit_search") && document.getElementById("credit_limit"))
             document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
-        }catch(err){
-            console.log(err) //ada element yg tidak ada
-        }
 
         $(window).scroll(function() {
             if ($(this).scrollTop() >= 66) {
@@ -1963,17 +1958,14 @@
         $(window).scroll(function() {
             if($(window).width() <= 575){
                 if($(window).scrollTop() >= $(document).height() - ($(window).height() + 850)) {
-                    console.log('aaa');
                     load_more_data();
                 }
             }else if ($(window).width() <= 768){
                 if($(window).scrollTop() >= $(document).height() - ($(window).height() + 750)) {
-                    console.log('bbb');
                     load_more_data();
                 }
             }else{
                 if($(window).scrollTop() >= $(document).height() - ($(window).height() + 600)) {
-                    console.log('ccc');
                     load_more_data();
                 }
             }

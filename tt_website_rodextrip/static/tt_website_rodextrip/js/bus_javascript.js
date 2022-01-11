@@ -662,7 +662,8 @@ function choose_bus(data,key){
         document.getElementById('bus_choose'+data).classList.remove("primary-btn-custom");
         document.getElementById('bus_choose'+data).classList.add("primary-btn-custom-un");
         document.getElementById('bus_choose'+data).disabled = true;
-        bus_get_detail();
+//        bus_get_detail();
+        bus_get_rules();
         document.getElementById('bus_ticket').innerHTML = '';
     }else{
         for(i in bus_data){
@@ -681,7 +682,8 @@ function choose_bus(data,key){
         document.getElementById('bus_choose'+data).classList.remove("primary-btn-custom");
         document.getElementById('bus_choose'+data).classList.add("primary-btn-custom-un");
         document.getElementById('bus_choose'+data).disabled = true;
-        bus_get_detail();
+//        bus_get_detail();
+        bus_get_rules();
         document.getElementById('bus_ticket').innerHTML = '';
     }
     bus_ticket_pick();
@@ -802,6 +804,7 @@ function bus_get_detail(){
             <br/>
         </div>
     </div>`;
+    count_fare = 0;
     for(i in journeys){
         $text +=
             journeys[i].carrier_name+`-`+journeys[i].carrier_number+`(`+journeys[i].cabin_class[1]+`)\n`+
@@ -859,7 +862,29 @@ function bus_get_detail(){
                 <span style="font-weight:500;">`+journeys[i].destination_name+`</span>
             </div>
         </div>
-        <br/>
+        <br/>`;
+        if(journeys[i].hasOwnProperty('rules')){
+            bus_detail_text+=`
+                <span id="span-tac-up`+count_fare+`" class="carrier_code_template" style="display:none; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Show Term and Condition <i class="fas fa-chevron-down"></i></span>
+                <span id="span-tac-down`+count_fare+`" class="carrier_code_template" style="display:block; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Hide Term and Condition <i class="fas fa-chevron-up"></i></span>
+                <div id="div-tac`+count_fare+`" style="display:block; max-height:175px; overflow-y: auto; padding:15px;">`;
+            for(k in journeys[i].rules){
+                bus_detail_text += `<span style="font-weight:bold;">`+journeys[i].rules[k].name+`</span><br/>`;
+
+                bus_detail_text += `<div class="row">
+                                <div class="col-lg-1 col-xs-1 col-md-1">
+                                    <i class="fas fa-circle" style="font-size:9px;margin-left:15px;"></i>
+                                </div>
+                                <div class="col-lg-11 col-xs-11 col-md-11" style="padding:0">
+                                    `+journeys[i].rules[k].description+`
+                                </div>
+                              </div>`;
+            }
+            bus_detail_text+=`</div>`;
+        }else{
+            bus_detail_text += 'No fare rules';
+        }
+        bus_detail_text+=`
         <div class="row">`;
             if(parseInt(passengers.adult) > 0){
                 total_commission += journeys[i].fares[0].service_charge_summary[0].total_commission*-1;
