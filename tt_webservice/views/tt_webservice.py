@@ -2,6 +2,9 @@ from django.contrib.sessions.models import Session
 import time
 from tools import util, ERR
 from datetime import datetime, timedelta
+import traceback
+import logging
+_logger = logging.getLogger("rodextrip_logger")
 
 def set_session(request, session_key, data, depth = 1):
     if session_key in request.session:
@@ -11,7 +14,7 @@ def set_session(request, session_key, data, depth = 1):
     try:
         request.session.save()
     except Exception as e:
-        pass
+        _logger.error(str(e) + traceback.format_exc())
     request.session.modified = True
     if len(Session.objects.filter(session_key=request.session.session_key).all()) > 0:
         if session_key in Session.objects.filter(session_key=request.session.session_key).all()[0].get_decoded():
@@ -29,7 +32,7 @@ def send_request_api(request, url, headers, data, method="POST", timeout=30):
         if type(request) != dict:
             _check_expired(request, res)
     except Exception as e:
-        pass
+        _logger.error(str(e) + traceback.format_exc())
     return res
 
 def _check_expired(request, res):

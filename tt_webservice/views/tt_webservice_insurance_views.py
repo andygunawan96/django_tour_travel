@@ -403,8 +403,8 @@ def commit_booking(request):
                                 pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
                                 pax['identity_expdate'].split(' ')[0])
                         })
-                    except:
-                        pass
+                    except Exception as e:
+                        _logger.error(str(e) + traceback.format_exc())
                     if pax['identity_country_of_issued_name'] != '':
                         for country in response['result']['response']['airline']['country']:
                             if pax['identity_country_of_issued_name'] == country['name']:
@@ -419,8 +419,8 @@ def commit_booking(request):
                                 pax['identity_expdate2'].split(' ')[2], month[pax['identity_expdate2'].split(' ')[1]],
                                 pax['identity_expdate2'].split(' ')[0])
                         })
-                    except:
-                        pass
+                    except Exception as e:
+                        _logger.error(str(e) + traceback.format_exc())
                     if pax['identity_country_of_issued_name2'] != '':
                         for country in response['result']['response']['airline']['country']:
                             if pax['identity_country_of_issued_name2'] == country['name']:
@@ -518,8 +518,8 @@ def issued(request):
             for provider_type in airline_get_booking['result']['response']['provider_bookings']:
                 if not provider_type['provider'] in provider:
                     provider.append(provider_type['provider'])
-        except:
-            pass
+        except Exception as e:
+            _logger.error(str(e) + traceback.format_exc())
 
         if request.POST['voucher_code'] != '':
             data.update({

@@ -698,9 +698,7 @@ def confirm_top_up(request):
 def set_highlight_url(request):
     data = []
     data_list = json.loads(request.POST['data'])
-    if len(data_list) == 0:
-        pass
-    else:
+    if len(data_list) != 0:
         for rec in data_list:
             data.append({
                 "title": rec[0],
@@ -721,17 +719,15 @@ def get_highlight_url(request):
                     "title": line['title'],
                     "url": line['url'],
                 })
-    except:
-        pass
+    except Exception as e:
+        _logger.error(str(e) + traceback.format_exc())
     return data
 
 
 def set_contact_url(request):
     data = ''
     data_list = json.loads(request.POST['data'])
-    if len(data_list) == 0:
-        pass
-    else:
+    if len(data_list) != 0:
         for rec in data_list:
             if rec[0] != '' and rec[1] != '':
                 if data != '':
@@ -748,17 +744,15 @@ def get_contact_url(request):
         file = read_cache_with_folder_path("contact_data", 90911)
         for line in file.split('\n'):
             data.append(line.split(':contact:'))
-    except:
-        pass
+    except Exception as e:
+        _logger.error(str(e) + traceback.format_exc())
     return data
 
 
 def set_social_url(request):
     data = ''
     data_list = json.loads(request.POST['data'])
-    if len(data_list) == 0:
-        pass
-    else:
+    if len(data_list) != 0:
         for rec in data_list:
             if rec[0] != '' and rec[2] != '':
                 if data != '':
@@ -775,8 +769,8 @@ def get_social_url(request):
         file = read_cache_with_folder_path("social_data", 90911)
         for line in file.split('\n'):
             data.append(line.split(':social:'))
-    except:
-        pass
+    except Exception as e:
+        _logger.error(str(e) + traceback.format_exc())
     return data
 
 
@@ -885,7 +879,7 @@ def set_payment_partner(request):
                 file = request.FILES['image_partner']
                 filename = fs.save(file.name, file)
         except:
-            pass
+            _logger.error('no input image partner')
 
         data = os.listdir('/var/log/django/payment_partner')
         #create new
@@ -1081,7 +1075,7 @@ def set_about_us(request):
                     file = request.FILES['image_paragraph']
                     filename = fs.save(file.name, file)
             except:
-                pass
+                _logger.error('no image paragraph')
 
         data = os.listdir('/var/log/django/about_us')
         #create new
@@ -1350,13 +1344,17 @@ def get_va_number(request):
             })
             for rec in res['result']['response']:
                 for data in res['result']['response'][rec]:
-                    file = read_cache_without_folder_path("payment_information/" + data['seq_id'], 90911)
-                    if file:
-                        for idx, data_cache in enumerate(file.split('\n')):
-                            if idx == 0:
-                                data['heading'] = data_cache
-                            elif idx == 1:
-                                data['html'] = data_cache.replace('<br>', '\n')
+                    if type(data['seq_id']) == str:
+                        file = read_cache_without_folder_path("payment_information/" + data['seq_id'], 90911)
+                        if file:
+                            for idx, data_cache in enumerate(file.split('\n')):
+                                if idx == 0:
+                                    data['heading'] = data_cache
+                                elif idx == 1:
+                                    data['html'] = data_cache.replace('<br>', '\n')
+                        else:
+                            data['html'] = ''
+                            data['heading'] = ''
                     else:
                         data['html'] = ''
                         data['heading'] = ''

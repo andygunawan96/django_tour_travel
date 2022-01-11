@@ -647,8 +647,8 @@ def commit_booking(request):
                 data.update({
                     'voucher': data_voucher(request.POST['voucher_code'], 'tour', ['rodextrip_tour']),
                 })
-    except:
-        pass
+    except Exception as e:
+        _logger.error('book, not force issued')
 
     headers = {
         "Accept": "application/json,text/html,application/xml",
@@ -736,8 +736,8 @@ def issued_booking(request):
         provider = []
         try:
             provider = [request.session['tour_get_booking_response']['result']['response']['provider']]
-        except:
-            pass
+        except Exception as e:
+            _logger.error(str(e) + traceback.format_exc())
         if request.POST['voucher_code'] != '':
             data.update({
                 'voucher': data_voucher(request.POST['voucher_code'], 'tour', provider),

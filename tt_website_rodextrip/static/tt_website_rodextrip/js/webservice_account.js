@@ -248,27 +248,17 @@ function get_transactions_notification(val){
            success: function(msg) {
            console.log(msg);
            try{
-            document.getElementById('notification_detail').innerHTML = '';
-//            document.getElementById('notification_detail2').innerHTML = '';
-            if(msg.result.error_code == 0){
-                text = '';
-                var hold_date = '';
-                var date = '';
-                var check_notif = 0;
-                var timeout_notif = 5000;
-                var today = new Date();
-                if(Object.keys(msg.result.response).length == 0){
-                    document.getElementById('notification_detail').innerHTML = `
-                        <div class="col-lg-12 notification-hover" style="cursor:pointer;">
-                            <div class="row">
-                                <div class="col-sm-12" style="text-align:center">
-                                    <span style="font-weight:500"> No Notification</span>
-                                </div>
-                            </div>
-                            <hr>
-                        </div>`;
-                    try{
-                        document.getElementById('notification_detail2').innerHTML = `
+                document.getElementById('notification_detail').innerHTML = '';
+    //            document.getElementById('notification_detail2').innerHTML = '';
+                if(msg.result.error_code == 0){
+                    text = '';
+                    var hold_date = '';
+                    var date = '';
+                    var check_notif = 0;
+                    var timeout_notif = 5000;
+                    var today = new Date();
+                    if(Object.keys(msg.result.response).length == 0){
+                        document.getElementById('notification_detail').innerHTML = `
                             <div class="col-lg-12 notification-hover" style="cursor:pointer;">
                                 <div class="row">
                                     <div class="col-sm-12" style="text-align:center">
@@ -277,86 +267,8 @@ function get_transactions_notification(val){
                                 </div>
                                 <hr>
                             </div>`;
-                    }catch(err){
-                        console.log(err); // error kalau ada element yg tidak ada
-                    }
-                    $(".bell_notif").removeClass("infinite");
-                }else{
-                    for(i in msg.result.response){
-                        for(j in msg.result.response[i]){
-                            hold_date = '';
-                            if(check_notif == 5)
-                                break;
-                            if(msg.result.response[i][j].hold_date != ''){
-                                date = moment.utc(msg.result.response[i][j].hold_date).format('YYYY-MM-DD HH:mm:ss');
-                                var localTime  = moment.utc(date).toDate();
-
-                                hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
-                                if(window.location.href.split('/')[window.location.href.split('/').length-1] == "dashboard" && check_notif < 5){
-                                    document.getElementById('notification_div').innerHTML +=`
-                                        <div id="alert`+check_notif+`">
-                                            <div class="alert alert-warning" role="alert">
-                                              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                              <strong>Hurry pay for this booking!</strong> `+msg.result.response[i][j].order_number + ' - ' + hold_date+`
-                                            </div>
-                                        </div>`;
-                                }
-                                check_notif++;
-                                url_goto = '';
-                                if(msg.result.response[i][j].provider_type == 'airline'){
-                                    url_goto = '/airline/booking/';
-                                }else if(data_search[key].provider_type == 'train'){
-                                    url_goto = '/train/booking/';
-                                }else if(data_search[key].provider_type == 'activity'){
-                                    url_goto = '/activity/booking/';
-                                }else if(data_search[key].provider_type == 'hotel'){
-                                    url_goto = '/hotel/booking/';
-                                }else if(data_search[key].provider_type == 'visa'){
-                                    url_goto = '/visa/booking/';
-                                }else if(data_search[key].provider_type == 'tour'){
-                                    url_goto = '/tour/booking/';
-                                }else if(data_search[key].provider_type == 'offline'){
-                                    url_goto = '/issued_offline/booking/';
-                                }else if(data_search[key].provider_type == 'passport'){
-                                    url_goto = '/passport/booking/';
-                                }else if(data_search[key].provider_type == 'ppob'){
-                                    url_goto = '/ppob/booking/';
-                                }else if(data_search[key].provider_type == 'event'){
-                                    url_goto = '/event/booking/';
-                                }else if(data_search[key].provider_type == 'periksain' || data_search[key].provider_type == 'phc'){
-                                    url_goto = '/medical/booking/';
-                                }else if(data_search[key].provider_type == 'medical'){
-                                    url_goto = '/medical_global/booking/';
-                                }else if(data_search[key].provider_type == 'bus'){
-                                    url_goto = '/bus/booking/';
-                                }
-                                text = '';
-                                text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
-                                text+=`<form action="`+url_goto+btoa(msg.result.response[i][j].order_number)+`" method="post" id="notification_`+check_notif+`" onclick="set_csrf_notification(`+check_notif+`)">`;
-                                text+=`<div class="row">
-                                        <div class="col-sm-6">`;
-                                text+=`<span style="font-weight:500;"> `+check_notif+`. `+msg.result.response[i][j].order_number+` - `+msg.result.response[i][j].pnr+`</span>`;
-                                text+=` </div>
-                                        <div class="col-sm-6" style="text-align:right">
-                                        <span style="font-weight:500;"> `+hold_date+`</span>`;
-                                text+=` </div>
-                                       </div>`;
-                                text+=`<input type="hidden" id="order_number`+check_notif+`" name="order_number`+check_notif+`" value="`+msg.result.response[i][j].order_number+`">`;
-                                text+=`<input type="hidden" id="type_reservation`+check_notif+`" name="order_number`+check_notif+`" value="`+j+`">`;
-                                text+=`<hr/></form>`;
-                                text+=`</div>`;
-                                document.getElementById('notification_detail').innerHTML += text;
-                                $(".bell_notif").addClass("infinite");
-                                $(".bell_notif").css("color", color);
-//                              document.getElementById('notification_detail2').innerHTML += text;
-                            }else{
-                                hold_date = 'Error booked';
-                            }
-                        }
-                    }
-                    if(check_notif == 0){
                         try{
-                            document.getElementById('notification_detail').innerHTML = `
+                            document.getElementById('notification_detail2').innerHTML = `
                                 <div class="col-lg-12 notification-hover" style="cursor:pointer;">
                                     <div class="row">
                                         <div class="col-sm-12" style="text-align:center">
@@ -365,8 +277,94 @@ function get_transactions_notification(val){
                                     </div>
                                     <hr>
                                 </div>`;
+                        }catch(err){
+                            console.log(err); // error kalau ada element yg tidak ada
+                        }
+                        $(".bell_notif").removeClass("infinite");
+                    }else{
+                        for(i in msg.result.response){
+                            for(j in msg.result.response[i]){
+                                hold_date = '';
+                                if(check_notif == 5)
+                                    break;
+                                if(msg.result.response[i][j].hold_date != ''){
+                                    date = moment.utc(msg.result.response[i][j].hold_date).format('YYYY-MM-DD HH:mm:ss');
+                                    var localTime  = moment.utc(date).toDate();
+
+                                    hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                                    if(window.location.href.split('/')[window.location.href.split('/').length-1] == "dashboard" && check_notif < 5){
+                                        document.getElementById('notification_div').innerHTML +=`
+                                            <div id="alert`+check_notif+`">
+                                                <div class="alert alert-warning" role="alert">
+                                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                  <strong>Hurry pay for this booking!</strong> `+msg.result.response[i][j].order_number + ' - ' + hold_date+`
+                                                </div>
+                                            </div>`;
+                                    }
+                                    check_notif++;
+                                    url_goto = '';
+                                    if(msg.result.response[i][j].provider_type == 'airline'){
+                                        url_goto = '/airline/booking/';
+                                    }else if(msg.result.response[i][j].provider_type == 'train'){
+                                        url_goto = '/train/booking/';
+                                    }else if(msg.result.response[i][j].provider_type == 'activity'){
+                                        url_goto = '/activity/booking/';
+                                    }else if(msg.result.response[i][j].provider_type == 'hotel'){
+                                        url_goto = '/hotel/booking/';
+                                    }else if(msg.result.response[i][j].provider_type == 'visa'){
+                                        url_goto = '/visa/booking/';
+                                    }else if(msg.result.response[i][j].provider_type == 'tour'){
+                                        url_goto = '/tour/booking/';
+                                    }else if(msg.result.response[i][j].provider_type == 'offline'){
+                                        url_goto = '/issued_offline/booking/';
+                                    }else if(msg.result.response[i][j].provider_type == 'passport'){
+                                        url_goto = '/passport/booking/';
+                                    }else if(msg.result.response[i][j].provider_type == 'ppob'){
+                                        url_goto = '/ppob/booking/';
+                                    }else if(msg.result.response[i][j].provider_type == 'event'){
+                                        url_goto = '/event/booking/';
+                                    }else if(msg.result.response[i][j].provider_type == 'periksain' || msg.result.response[i][j].provider_type == 'phc'){
+                                        url_goto = '/medical/booking/';
+                                    }else if(msg.result.response[i][j].provider_type == 'medical'){
+                                        url_goto = '/medical_global/booking/';
+                                    }else if(msg.result.response[i][j].provider_type == 'bus'){
+                                        url_goto = '/bus/booking/';
+                                    }else if(msg.result.response[i][j].provider_type == 'swabexpress'){
+                                        url_goto = '/swab_express/booking/';
+                                    }else if(msg.result.response[i][j].provider_type == 'labpintar'){
+                                        url_goto = '/lab_pintar/booking/';
+                                    }else if(msg.result.response[i][j].provider_type == 'mitrakeluarga'){
+                                        url_goto = '/mitra_keluarga/booking/';
+                                    }else if(msg.result.response[i][j].provider_type == 'insurance'){
+                                        url_goto = '/insurance/booking/';
+                                    }
+                                    text = '';
+                                    text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
+                                    text+=`<form action="`+url_goto+btoa(msg.result.response[i][j].order_number)+`" method="post" id="notification_`+check_notif+`" onclick="set_csrf_notification(`+check_notif+`)">`;
+                                    text+=`<div class="row">
+                                            <div class="col-sm-6">`;
+                                    text+=`<span style="font-weight:500;"> `+check_notif+`. `+msg.result.response[i][j].order_number+` - `+msg.result.response[i][j].pnr+`</span>`;
+                                    text+=` </div>
+                                            <div class="col-sm-6" style="text-align:right">
+                                            <span style="font-weight:500;"> `+hold_date+`</span>`;
+                                    text+=` </div>
+                                           </div>`;
+                                    text+=`<input type="hidden" id="order_number`+check_notif+`" name="order_number`+check_notif+`" value="`+msg.result.response[i][j].order_number+`">`;
+                                    text+=`<input type="hidden" id="type_reservation`+check_notif+`" name="order_number`+check_notif+`" value="`+j+`">`;
+                                    text+=`<hr/></form>`;
+                                    text+=`</div>`;
+                                    document.getElementById('notification_detail').innerHTML += text;
+                                    $(".bell_notif").addClass("infinite");
+                                    $(".bell_notif").css("color", color);
+    //                              document.getElementById('notification_detail2').innerHTML += text;
+                                }else{
+                                    hold_date = 'Error booked';
+                                }
+                            }
+                        }
+                        if(check_notif == 0){
                             try{
-                                document.getElementById('notification_detail2').innerHTML = `
+                                document.getElementById('notification_detail').innerHTML = `
                                     <div class="col-lg-12 notification-hover" style="cursor:pointer;">
                                         <div class="row">
                                             <div class="col-sm-12" style="text-align:center">
@@ -375,38 +373,48 @@ function get_transactions_notification(val){
                                         </div>
                                         <hr>
                                     </div>`;
+                                try{
+                                    document.getElementById('notification_detail2').innerHTML = `
+                                        <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                                            <div class="row">
+                                                <div class="col-sm-12" style="text-align:center">
+                                                    <span style="font-weight:500"> No Notification</span>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        </div>`;
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
-                        }catch(err){
-                            console.log(err); // error kalau ada element yg tidak ada
+                            $(".bell_notif").removeClass("infinite");
                         }
-                        $(".bell_notif").removeClass("infinite");
                     }
+                    setTimeout(function() {
+                        $("#notification_div").fadeTo(500, 0).slideUp(500, function(){
+                            $(this).remove();
+                        });
+                    }, timeout_notif);
+
+        //            document.getElementById('notification_detail2').innerHTML = text;
+
+                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    auto_logout();
+                }else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error transactions notification </span>' + msg.result.error_msg,
+                    })
+
+                   text= '';
+                   text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
+                   text+=`<span style="font-weight:500;"> No Notification</span>`;
+                   text+=`</div>`;
+                   document.getElementById('notification_detail').innerHTML = text;
                 }
-                setTimeout(function() {
-                    $("#notification_div").fadeTo(500, 0).slideUp(500, function(){
-                        $(this).remove();
-                    });
-                }, timeout_notif);
-
-    //            document.getElementById('notification_detail2').innerHTML = text;
-
-            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                auto_logout();
-            }else{
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error transactions notification </span>' + msg.result.error_msg,
-                })
-
-               text= '';
-               text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
-               text+=`<span style="font-weight:500;"> No Notification</span>`;
-               text+=`</div>`;
-               document.getElementById('notification_detail').innerHTML = text;
-            }
             }catch(err){
                 console.log(err); // error kalau ada element yg tidak ada
             }
@@ -482,33 +490,20 @@ function get_transactions(type){
     pnr = '';
     booker_name = '';
     passenger_name = '';
-    try{
+    if(document.getElementById('state'))
         state = document.getElementById('state').value;
+    if(document.getElementById('start_date'))
         start_date = moment(document.getElementById('start_date').value).format('YYYY-MM-DD');
+    if(document.getElementById('end_date'))
         end_date = moment(document.getElementById('end_date').value).format('YYYY-MM-DD');
-    }catch(err){
-        console.log(err); // error kalau ada element yg tidak ada
-    }
-    try{
+    if(document.getElementById('name'))
         passenger_name = document.getElementById('name').value;
-    }catch(err){
-        console.log(err); // error kalau ada element yg tidak ada
-    }
-    try{
+    if(document.getElementById('booker_name'))
         booker_name = document.getElementById('booker_name').value;
-    }catch(err){
-        console.log(err); // error kalau ada element yg tidak ada
-    }
-    try{
-        booker_name = document.getElementById('passenger_name').value;
-    }catch(err){
-        console.log(err); // error kalau ada element yg tidak ada
-    }
-    try{
+    if(document.getElementById('passenger_name'))
+        passenger_name = document.getElementById('passenger_name').value;
+    if(document.getElementById('pnr'))
         pnr = document.getElementById('pnr').value;
-    }catch(err){
-        console.log(err); // error kalau ada element yg tidak ada
-    }
     if(filter == 'booker' && booker_name == ''){
         filter = '';
     }else if(filter == 'name' && name == ''){

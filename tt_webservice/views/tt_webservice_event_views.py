@@ -205,10 +205,6 @@ def get_config(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    try:
-        pass
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_auto_complete(request):
@@ -377,8 +373,8 @@ def create_booking(request):
                                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                                 pax['birth_date'].split(' ')[0]),
                         })
-                    except:
-                        pass
+                    except Exception as e:
+                        _logger.error(str(e) + traceback.format_exc())
                     passenger.append(pax)
         booker = request.session['event_review_pax']['booker']
         contacts = request.session['event_review_pax']['contact']

@@ -624,8 +624,8 @@ def commit_booking(request):
                 data.update({
                     'voucher': data_voucher(request.POST['voucher_code'], 'activity', [request.session['activity_pick']['provider']]),
                 })
-    except:
-        pass
+    except Exception as e:
+        _logger.error('book, not force issued')
 
     headers = {
         "Accept": "application/json,text/html,application/xml",
