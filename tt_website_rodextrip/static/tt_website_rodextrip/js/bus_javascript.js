@@ -909,15 +909,15 @@ function bus_get_detail(){
                     if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'ADT' && parseInt(passengers.adult) > 0){
                         bus_detail_text+=`
                             <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px;">`+parseInt(passengers.adult)+` Adult x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
+                                <span style="font-size:13px;">`+parseInt(passengers.adult)+` Adult x `+price['currency']+` `+getrupiah(price['fare'] + price['tax'])+`</span>
                             </div>
                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(passengers.adult))+`</span>
+                                <span style="font-size:13px;">`+price['currency']+` `+getrupiah((price['fare'] + price['tax']) * parseInt(passengers.adult))+`</span>
                             </div>
                             <div class="col-lg-12">
                                 <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                             </div>`;
-                        $text += passengers.adult+`x Adult Fare @`+price['currency']+' '+price['fare']+`\n`;
+                        $text += passengers.adult+`x Adult Fare @`+price['currency']+' '+getrupiah(price['fare'] + price['tax'])+`\n`;
                     }
                     else if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'INF' && parseInt(passengers.infant) > 0){
                         bus_detail_text+=`
