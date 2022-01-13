@@ -1603,18 +1603,18 @@ function event_get_extra_question(option_code, provider){
                             text += '<i>' + msg.result.response[i].question + '</i>';
                             text += '<input id="que_' + j + '_' + k + '_' + i + '" name="que_' + j + '_' + k + '_' + i + '" type="text" value="' + msg.result.response[i].question + '" hidden/>';
                             if(msg.result.response[i].type == 'text'){
-                                text += '<input class="form-control" id="question_event_' + j + '_' + k + '_' + i + '" name="question_event_' + j + '_' + k + '_' + i + '" type="text" placeholder="Enter Your Answer"';
+                                text += '<input autocomplete="off" class="form-control" id="question_event_' + j + '_' + k + '_' + i + '" name="question_event_' + j + '_' + k + '_' + i + '" type="text" placeholder="Enter Your Answer"';
                                 if (msg.result.response[i].required)
                                     text += 'required';
                                 text += '/>';
                             }else if(msg.result.response[i].type == 'password'){
-                                text += '<input class="form-control" id="question_event_' + j + '_' + k + '_' + i + '"name="question_event_' + j + '_' + k + '_' + i + '" type="password" placeholder="Enter Your Password"';
+                                text += '<input autocomplete="off" class="form-control" id="question_event_' + j + '_' + k + '_' + i + '"name="question_event_' + j + '_' + k + '_' + i + '" type="password" placeholder="Enter Your Password"';
                                 if (msg.result.response[i].required)
                                     text += 'required';
                                 text += '/>';
                             }else if(msg.result.response[i].type == 'number'){
                                 temp_id_que = "question_event_"+j+"_"+k+"_"+i;
-                                text += '<input class="form-control" value=""';
+                                text += '<input autocomplete="off" class="form-control" value=""';
                                 text += 'oninput="regex_input_number(`'+temp_id_que+'`);"';
                                 text += 'id="question_event_' + j + '_' + k + '_' + i + '" name="question_event_' + j + '_' + k + '_' + i + '" type="text" placeholder="Input number only, Example: 17"';
                                 if (msg.result.response[i].required)
@@ -1674,7 +1674,7 @@ function event_get_extra_question(option_code, provider){
                                     text+=`</div><br/>`;
                                 }
                             }else if(msg.result.response[i].type == 'date'){
-                                text += '<input class="form-control" id="question_event_' + j + '_' + k + '_' + i + '" name="question_event_' + j + '_' + k + '_' + i + '" type="email" placeholder="Enter Your Date"';
+                                text += '<input autocomplete="off" class="form-control" id="question_event_' + j + '_' + k + '_' + i + '" name="question_event_' + j + '_' + k + '_' + i + '" type="email" placeholder="Enter Your Date"';
                                 if (msg.result.response[i].required)
                                     text += 'required';
                                 text += '/>';

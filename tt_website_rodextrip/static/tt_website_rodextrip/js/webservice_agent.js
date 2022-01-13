@@ -1217,13 +1217,13 @@ function get_customer_list(passenger, number, product){
                                         <div class="row">
                                             <div class="col-lg-5 col-md-5 col-sm-5">`;
                                                 if(msg.result.response[i].title == "MR"){
-                                                    response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" alt="User MR" style="width:100%;">`;
+                                                    response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" alt="User MR" class="picture_passenger_agent">`;
                                                 }
                                                 else if(msg.result.response[i].title == "MRS"){
-                                                    response+=`<img src="/static/tt_website_rodextrip/img/user_mrs.png" alt="User MRS" style="width:100%;">`;
+                                                    response+=`<img src="/static/tt_website_rodextrip/img/user_mrs.png" alt="User MRS" class="picture_passenger_agent">`;
                                                 }
                                                 else if(msg.result.response[i].title == "MS"){
-                                                    response+=`<img src="/static/tt_website_rodextrip/img/user_ms.png" alt="User MS" style="width:100%;">`;
+                                                    response+=`<img src="/static/tt_website_rodextrip/img/user_ms.png" alt="User MS" class="picture_passenger_agent">`;
                                                 }
                                         response+=`
                                             </div>
@@ -1614,7 +1614,7 @@ function pick_passenger(type, sequence, product){
         if(found_selection.length == 1){
             pick_passenger_copy(type, sequence, product, found_selection[0]);
         }else{
-            text = '<br/><select id="found_selection" class="form-select">';
+            text = '<br/><select id="found_selection" class="nice-select-default">';
             for(i in found_selection)
                 text += `<option value=`+found_selection[i]+`>`+found_selection[i]+`</option>`;
             text += '</select>';
@@ -2565,7 +2565,7 @@ function copy_booker_to_passenger(val, type){
             if(found_selection.length == 1 || need_identity == 'none'){
                 copy_booker(val,type, found_selection[0])
             }else{
-                text = '<br/><select id="found_selection" class="form-select">';
+                text = '<br/><select id="found_selection" class="nice-select-default">';
                 for(i in found_selection)
                     text += `<option value=`+found_selection[i]+`>`+found_selection[i]+`</option>`;
                 text += '</select>';

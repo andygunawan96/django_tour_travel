@@ -9278,3 +9278,39 @@ ul.progress_tabs li.current .image-rounded-icon{
 }
 
 
+.for-show-mobile-inb{
+    display:none;
+}
+.for-show-website-inb{
+    display:inline-block;
+}
+
+@media (max-width: 991px) {
+  .for-show-mobile-inb{
+    display:inline-block !important;
+  }
+  .for-show-website-inb{
+    display:none !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .for-show-mobile-inb{
+    display:none !important;
+  }
+  .for-show-website-inb{
+    display:inline-block !important;
+  }
+}
+
+.picture_passenger_agent{
+    width:auto;
+    height:200px;
+}
+
+@media (min-width: 575px) {
+    .picture_passenger_agent{
+        width:auto;
+        height:150px;
+    }
+}

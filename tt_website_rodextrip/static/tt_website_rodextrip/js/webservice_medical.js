@@ -1113,6 +1113,7 @@ function medical_get_booking(order_number, sync=false){
                     document.getElementById('show_loading_booking_medical').hidden = true;
 //                    document.getElementById('button-home').hidden = false;
                     document.getElementById('button-new-reservation').hidden = false;
+                    document.getElementById('button-re-order-div').hidden = false;
                     document.getElementById('button-re-order').hidden = false;
 //                    document.getElementById('new-reservation').hidden = false;
                     hide_modal_waiting_transaction();
@@ -1191,7 +1192,7 @@ function medical_get_booking(order_number, sync=false){
                         if(msg.result.response.test_address_map_link){
                             document.getElementById('div_sync_status').hidden = false;
                             document.getElementById('div_sync_status').innerHTML =`
-                                <button type="button" class="primary-btn-white" id="button-sync-status" style="width:100%;" onclick="window.open('`+msg.result.response.test_address_map_link.test_address_map_link+`','_blank');">
+                                <button type="button" class="primary-btn-white" id="button-sync-status" onclick="window.open('`+msg.result.response.test_address_map_link.test_address_map_link+`','_blank');">
                                     Map <i class="fas fa-map-marker-alt"></i>
                                 </button>`;
                         }
@@ -2672,7 +2673,7 @@ function create_new_reservation(){
             option += `<option value="`+medical_config.result.response.carriers_code[j].code+`">`+medical_config.result.response.carriers_code[j].name+`</option>`;
         }
     }
-    text += `<div style="background:white;margin-top:15px;padding:5px 10px; border:1px solid #cdcdcd;">
+    text += `<div style="background:white;margin-top:15px;padding:15px 15px 5px 15px; border:1px solid #cdcdcd;">
                 <h5>Re Order</h5>`;
     text+=`
         <div style="margin-top:15px;">
@@ -2733,7 +2734,7 @@ function create_new_reservation(){
                 Re Order
             </button>`
 
-    document.getElementById('button-new-reservation').innerHTML = text;
+    document.getElementById('button-re-order-div').innerHTML = text;
     document.getElementById('button-re-order').hidden = true;
     $('#test_type').niceSelect();
 }

@@ -98,21 +98,32 @@
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1; background:#f7f7f7;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-3">
-                <button type="button" class="primary-btn-white" style="width:100%;" onclick="window.location.href='/reservation'"> <i class="fas fa-arrow-left"></i> Back </button>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
+                <button type="button" class="primary-btn-white for-show-website-inb mb-2 mr-1" onclick="window.location.href='/reservation'"> <i class="fas fa-arrow-left"></i> Back to Reservation</button>
+                <button type="button" class="primary-btn-white for-show-website-inb mb-2" id="button-home" onclick="window.location.href='/'" hidden>
+                    <i class="fas fa-home"></i> {% trans 'Back to Home' %}
+                </button>
+                <button type="button" class="primary-btn-white for-show-mobile-inb mb-2 mr-1" onclick="window.location.href='/reservation'"> <i class="fas fa-arrow-left"></i></button>
+                <button type="button" class="primary-btn-white for-show-mobile-inb mb-2" id="button-home-mb" onclick="window.location.href='/'" hidden>
+                    <i class="fas fa-home"></i>
+                </button>
             </div>
-            <div class="col-lg-9"></div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7" style="text-align:right;">
+                <button type="button" class="primary-btn-white mb-2" id="button-new-reservation" style="font-size:13px;" onclick="window.location.href='/'+window.location.href.split('/')[3]" hidden>
+                    <i class="fas fa-plus"></i> {% trans 'New Reservation' %}
+                </button>
+            </div>
             <div class="col-lg-12 mt-3">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-md-8">
                         <div id="show_title_hotel" hidden>
                             <h3>{% trans 'Please Review Your Booking' %}</h3>
                             <h4>{% trans 'Prices may changes at any time' %}</h4>
                             <br/>
                         </div>
                     </div>
-                    <div class="col-lg-2" id="div_sync_status" hidden>
-                        <input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Sync Status" onclick="hotel_get_booking('{{order_number}}')">
+                    <div class="col-md-4 mb-2" id="div_sync_status" style="text-align:right;" hidden>
+                        <input type="button" class="primary-btn" id="button-sync-status" value="Sync Status" onclick="hotel_get_booking('{{order_number}}')">
                     </div>
                 </div>
                 <div class="col-lg-12" id="show_loading_booking_airline">
@@ -154,7 +165,7 @@
                     </div>
                 </div>
 
-                <div class="row review-header" style="padding:15px;">
+                <div class="row review-header" style="padding:0px 15px 15px 15px;">
                     <div class="col-lg-12" style="border:1px solid #cdcdcd; background-color:white; padding-top:15px; padding-bottom:15px;" id="hotel_booking">
 
                     </div>
@@ -174,7 +185,7 @@
 
                 </div>
             </div>
-            <div class="col-lg-4" style="padding-bottom:20px; padding-top:10px;">
+            <div class="col-lg-4" style="padding-bottom:20px;">
                 <div id="div_name_room">
 
                 </div>
@@ -191,15 +202,8 @@
                 {% endif %}
 
                 <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:10px; position:relative;" id="payment_acq" hidden>
-
                     <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                 </div>
-                <button type="button" class="primary-btn" id="button-home" style="width:100%;margin-top:15px;" onclick="window.location.href='/'" hidden>
-                    {% trans 'Home' %}
-                </button>
-                <button type="button" class="primary-btn" id="button-new-reservation" style="width:100%;margin-top:15px;" onclick="window.location.href='/'+window.location.href.split('/')[3]" hidden>
-                    {% trans 'Book New Reservation' %}
-                </button>
             </div>
             <div class="modal fade" id="myModalRepricing" role="dialog">
                 <div class="modal-dialog" style="width:100% !important; height:100% !important; max-width:1200px;padding: 0;">
