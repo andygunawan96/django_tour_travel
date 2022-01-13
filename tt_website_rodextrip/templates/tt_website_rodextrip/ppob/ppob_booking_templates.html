@@ -179,10 +179,21 @@
         <form method="POST" id="airline_form" action="">
             {% csrf_token %}
             <div class="row" style="padding-top:20px;">
-                <div class="col-lg-3">
-                    <button type="button" class="primary-btn-white" style="width:100%;" onclick="window.location.href='/reservation'"> <i class="fas fa-arrow-left"></i> Back </button>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
+                    <button type="button" class="primary-btn-white for-show-website-inb mb-2 mr-1" onclick="window.location.href='/reservation'"> <i class="fas fa-arrow-left"></i> Back to Reservation</button>
+                    <button type="button" class="primary-btn-white for-show-website-inb mb-2" id="button-home" onclick="window.location.href='/'" hidden>
+                        <i class="fas fa-home"></i> {% trans 'Back to Home' %}
+                    </button>
+                    <button type="button" class="primary-btn-white for-show-mobile-inb mb-2 mr-1" onclick="window.location.href='/reservation'"> <i class="fas fa-arrow-left"></i></button>
+                    <button type="button" class="primary-btn-white for-show-mobile-inb mb-2" id="button-home-mb" onclick="window.location.href='/'" hidden>
+                        <i class="fas fa-home"></i>
+                    </button>
                 </div>
-                <div class="col-lg-9"></div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7" style="text-align:right;">
+                    <button type="button" class="primary-btn-white mb-2" id="button-new-reservation" style="font-size:13px;" onclick="window.location.href='/'+window.location.href.split('/')[3]" hidden>
+                        <i class="fas fa-plus"></i> {% trans 'New Reservation' %}
+                    </button>
+                </div>
 
                 <div class="col-lg-12 mt-3">
                     <div id="show_title_bills" hidden>
@@ -247,12 +258,6 @@
                     <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:10px;" id="reissued" hidden>
 
                     </div>
-                    <button type="button" class="primary-btn" id="button-home" style="width:100%;margin-top:15px;" onclick="window.location.href='/'" hidden>
-                        {% trans 'Home' %}
-                    </button>
-                    <button type="button" class="primary-btn" id="button-new-reservation" style="width:100%;margin-top:15px;" onclick="window.location.href='/'+window.location.href.split('/')[3]" hidden>
-                        {% trans 'Book New Reservation' %}
-                    </button>
                 </div>
                 <div class="modal fade" id="myModalRepricing" role="dialog">
                     <div class="modal-dialog" style="width:100% !important; height:100% !important; max-width:1200px;padding: 0;">

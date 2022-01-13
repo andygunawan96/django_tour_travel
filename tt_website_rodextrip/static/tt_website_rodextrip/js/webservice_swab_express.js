@@ -952,6 +952,7 @@ function swab_express_get_booking(order_number, sync=false){
                         document.getElementById('show_loading_booking_swab_express').hidden = true;
     //                    document.getElementById('button-home').hidden = false;
                         document.getElementById('button-new-reservation').hidden = false;
+                        document.getElementById('button-re-order-div').hidden = false;
                         document.getElementById('button-re-order').hidden = false;
     //                    document.getElementById('new-reservation').hidden = false;
                         hide_modal_waiting_transaction();
@@ -2547,7 +2548,7 @@ function create_new_reservation(){
                 Re Order
             </button>`
 
-    document.getElementById('button-new-reservation').innerHTML = text;
+    document.getElementById('button-re-order-div').innerHTML = text;
     document.getElementById('button-re-order').hidden = true;
     $('#test_type').niceSelect();
 }
