@@ -263,12 +263,12 @@ function update_pax(){
 }
 
 function share_data(){
-    const el = document.createElement('textarea');
-    el.value = $test;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
+//    const el = document.createElement('textarea');
+//    el.value = $test;
+//    document.body.appendChild(el);
+//    el.select();
+//    document.execCommand('copy');
+//    document.body.removeChild(el);
     $text_share = window.encodeURIComponent($test);
 }
 
