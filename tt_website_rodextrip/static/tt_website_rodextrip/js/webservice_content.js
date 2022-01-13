@@ -1356,7 +1356,7 @@ function get_page(data){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update banner');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get dynamic page');
        }
     });
 }
@@ -1389,7 +1389,7 @@ function send_notif_message(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update banner');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error send notif');
        }
     });
 }
@@ -1428,7 +1428,7 @@ function testing_espay_close(){
             console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update banner');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error payment');
        }
     });
 }
@@ -1632,7 +1632,7 @@ function get_dynamic_page(type){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update banner');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get banner');
        }
     });
 }

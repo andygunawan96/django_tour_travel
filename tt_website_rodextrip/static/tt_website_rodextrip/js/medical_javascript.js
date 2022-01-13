@@ -1250,7 +1250,7 @@ function add_table_of_passenger(type){
 
                     text_div_paxs+=`
                     <div class="col-lg-6 col-md-6 col-sm-6">
-                        <label style="color:red !important">*</label>
+                        <label id="adult_identity_div1" style="color:red !important">*</label>
                         <label>ID Type</label>`;
                         if(template == 1){
                             text_div_paxs+=`<div class="input-container-search-ticket">`;
