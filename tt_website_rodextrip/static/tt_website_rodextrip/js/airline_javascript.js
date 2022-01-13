@@ -2385,7 +2385,17 @@ function sort(){
                                                     </div>
                                                     <div class="col-lg-4 col-md-4 col-sm-4">
                                                         <div class="row">
-                                                            <div class="col-md-6 col-sm-12 col-xs-6">
+                                                            <div class="col-xs-12">
+                                                                <i class="fas fa-plane"></i> `;
+                                                                if(airline[i].transit_count==0){
+                                                                    text+=`<span class="copy_transit" style="font-weight:500;">Direct</span>`;
+                                                                }
+                                                                else{
+                                                                    text+=`<span class="copy_transit" style="font-weight:500;">Transit: `+airline[i].transit_count+`</span>`;
+                                                                }
+                                                                text+=`
+                                                            </div>
+                                                            <div class="col-xs-12">
                                                                 <i class="fas fa-clock"></i><span class="copy_duration" style="font-weight:500;"> `;
                                                                 if(airline[i].elapsed_time.split(':')[0] != '0'){
                                                                     text+= airline[i].elapsed_time.split(':')[0] + 'd ';
@@ -2397,20 +2407,11 @@ function sort(){
                                                                     text+= airline[i].elapsed_time.split(':')[2] + 'm ';
                                                                 }
                                                                 text+=`</span>
-                                                            </div>
-                                                            <div class="col-md-6 col-sm-12 col-xs-6">`;
-                                                                if(airline[i].transit_count==0){
-                                                                    text+=`<span class="copy_transit" style="font-weight:500;">Direct</span>`;
-                                                                }
-                                                                else{
-                                                                    text+=`<span class="copy_transit" style="font-weight:500;">Transit: `+airline[i].transit_count+`</span>`;
-                                                                }
-                                                                text+=`
                                                             </div>`;
                                                             for(j in airline[i].fare_details){
                                                                text+=`
                                                                <div class="col-xs-12">`;
-                                                               if(airline[i].fare_details[j].detail_type == 'BG'){
+                                                               if(airline[i].fare_details[j].detail_type.includes('BG')){
                                                                     text+=`<i class="fas fa-suitcase"></i><span style="font-weight:500;" class="copy_suitcase_details"> `+airline[i].fare_details[j].amount+` `+airline[i].fare_details[j].unit+`</span><br/>`;
                                                                }
                                                                else if(airline[i].fare_details[j].detail_type == 'ML'){
@@ -2443,7 +2444,7 @@ function sort(){
                                     }
 
                                    text+=`
-                                   <div class="col-lg-6 col-md-6 col-sm-6" style="padding-top:15px; margin: auto;">`;
+                                   <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:10px; margin: auto;">`;
 
                                    if(provider_list_data[airline[i].provider].is_post_issued_reschedule)
                                         text+=`
@@ -2593,7 +2594,7 @@ function sort(){
                                                        text+=`
                                                        <div id="copy_fares_details`+i+``+j+``+k+``+l+`">
                                                        <span class="copy_fares" hidden>`+i+``+j+``+k+``+l+`</span>`;
-                                                       if(airline[i].segments[j].fares[k].fare_details[l].detail_type == 'BG'){
+                                                       if(airline[i].segments[j].fares[k].fare_details[l].detail_type.includes('BG')){
                                                             text+=`<i class="fas fa-suitcase"></i><span style="font-weight:500;" class="copy_suitcase_details"> `+airline[i].segments[j].fares[k].fare_details[l].amount+` `+airline[i].segments[j].fares[k].fare_details[l].unit+`</span><br/>`;
                                                        }
                                                        else if(airline[i].segments[j].fares[k].fare_details[l].detail_type == 'ML'){
@@ -3570,7 +3571,7 @@ function airline_pick_mc(type){
                             for(k in airline_pick_list[i].segments[j].fares){
                                 if(k == 0){
                                     for(l in airline_pick_list[i].segments[j].fares[k].fare_details){
-                                        if(airline_pick_list[i].segments[j].fares[k].fare_details[l].detail_type == 'BG'){
+                                        if(airline_pick_list[i].segments[j].fares[k].fare_details[l].detail_type.includes('BG')){
                             text+=`
                             <span style="font-weight:500;"><i class="fas fa-suitcase"></i> `+airline_pick_list[i].segments[j].fares[k].fare_details[l].amount+` `+airline_pick_list[i].segments[j].fares[k].fare_details[l].unit+`</span><br/>`;
                                         }

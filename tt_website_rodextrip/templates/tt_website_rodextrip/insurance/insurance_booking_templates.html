@@ -78,30 +78,44 @@
             <h4>{% trans 'Prices may changes at any time' %}</h4>
             <br/>
         </div>
-        <div class="col-lg-12" id="show_loading_booking_insurance">
-            <div class="center-div">
-                <div>
-                    <img src="{{static_path}}img/loading-screen-white.gif" style="height:25px; width:25px;"/>
-                </div>
-            </div>
-            <div style="text-align:center">
-                <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} ... </span>
-            </div>
-        </div>
-        <div class="alert alert-warning" id="show_error_booking_airline" style="display:none;">
-            <h5>{% trans 'Oops! Something went wrong, please try again or check your internet connection.' %}</h5>
-        </div>
 
         <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
+                <button type="button" class="primary-btn-white for-show-website-inb mb-2 mr-1" onclick="window.location.href='/reservation'"> <i class="fas fa-arrow-left"></i> Back to Reservation</button>
+                <button type="button" class="primary-btn-white for-show-website-inb mb-2" id="button-home" onclick="window.location.href='/'" hidden>
+                    <i class="fas fa-home"></i> {% trans 'Back to Home' %}
+                </button>
+                <button type="button" class="primary-btn-white for-show-mobile-inb mb-2 mr-1" onclick="window.location.href='/reservation'"> <i class="fas fa-arrow-left"></i></button>
+                <button type="button" class="primary-btn-white for-show-mobile-inb mb-2" id="button-home-mb" onclick="window.location.href='/'" hidden>
+                    <i class="fas fa-home"></i>
+                </button>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7" style="text-align:right;">
+                <button type="button" class="primary-btn-white mb-2" style="font-size:13px;" id="button-new-reservation" onclick="window.location.href='/'+window.location.href.split('/')[3]" hidden>
+                    <i class="fas fa-plus"></i> {% trans 'New Reservation' %}
+                </button>
+            </div>
+
+            <div class="col-lg-12" id="show_loading_booking_insurance">
+                <div class="center-div">
+                    <div>
+                        <img src="{{static_path}}img/loading-screen-white.gif" style="height:25px; width:25px;"/>
+                    </div>
+                </div>
+                <div style="text-align:center">
+                    <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} ... </span>
+                </div>
+            </div>
+            <div class="alert alert-warning" id="show_error_booking_airline" style="display:none;">
+                <h5>{% trans 'Oops! Something went wrong, please try again or check your internet connection.' %}</h5>
+            </div>
+
             <div class="col-lg-8">
                 <div class="row">
                     <input type="text" id="order_number" name="order_number" hidden value="{{order_number}}"/>
 
                     <div class="col-lg-12">
                         <h3 id="display_state" class="mb-2"></h3>
-                    </div>
-                    <div class="col-lg-4 mt-3">
-                        <button type="button" class="primary-btn-white" style="width:100%;" onclick="window.location.href='/reservation'"> <i class="fas fa-arrow-left"></i> Back </button>
                     </div>
                     <div class="col-lg-4 mt-3" id="div_sync_status" hidden>
 

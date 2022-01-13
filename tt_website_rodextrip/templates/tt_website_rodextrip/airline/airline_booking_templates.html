@@ -192,7 +192,6 @@
 {% endif %}
     <div class="container">
         <div class="row">
-
             <div class="col-lg-12" style="margin-top:20px; display:none;" id="success-issued">
                 <div class="alert alert-success">
                     <h4>{% trans 'Your Booking has been Issued' %}</h4>
@@ -203,21 +202,32 @@
         <form method="POST" id="airline_form" action="">
             {% csrf_token %}
             <div class="row" style="padding-top:20px;">
-                <div class="col-lg-3">
-                    <button type="button" class="primary-btn-white" style="width:100%;" onclick="window.location.href='/reservation'"> <i class="fas fa-arrow-left"></i> Back </button>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
+                    <button type="button" class="primary-btn-white for-show-website-inb mb-2 mr-1" onclick="window.location.href='/reservation'"> <i class="fas fa-arrow-left"></i> Back to Reservation</button>
+                    <button type="button" class="primary-btn-white for-show-website-inb mb-2" id="button-home" onclick="window.location.href='/'" hidden>
+                        <i class="fas fa-home"></i> {% trans 'Back to Home' %}
+                    </button>
+                    <button type="button" class="primary-btn-white for-show-mobile-inb mb-2 mr-1" onclick="window.location.href='/reservation'"> <i class="fas fa-arrow-left"></i></button>
+                    <button type="button" class="primary-btn-white for-show-mobile-inb mb-2" id="button-home-mb" onclick="window.location.href='/'" hidden>
+                        <i class="fas fa-home"></i>
+                    </button>
                 </div>
-                <div class="col-lg-9"></div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7" style="text-align:right;">
+                    <button type="button" class="primary-btn-white mb-2" style="font-size:13px;" id="button-new-reservation" onclick="window.location.href='/'+window.location.href.split('/')[3]" hidden>
+                        <i class="fas fa-plus"></i> {% trans 'New Reservation' %}
+                    </button>
+                </div>
                 <div class="col-lg-12 mt-3">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-md-8">
                             <div id="show_title_airline" hidden>
                                 <h3>{% trans 'Please Review Your Booking' %}</h3>
                                 <h4>{% trans 'Prices may changes at any time' %}</h4>
                                 <br/>
                             </div>
                         </div>
-                        <div class="col-lg-2" id="div_sync_status" hidden>
-                            <input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Sync Status" onclick="please_wait_transaction();airline_get_booking('{{order_number}}',true)">
+                        <div class="col-md-4" id="div_sync_status" style="text-align:right;" hidden>
+                            <input type="button" class="primary-btn mb-3" id="button-sync-status" value="Sync Status" onclick="please_wait_transaction();airline_get_booking('{{order_number}}',true)">
                         </div>
                     </div>
                     <div class="col-lg-12" id="show_loading_booking_airline">
@@ -286,12 +296,7 @@
                     </div>
                     {% endif %}
 
-                    {% if 'issued_reservation' in username.co_agent_frontend_security %}
-                    <button class="primary-btn issued_booking_btn" id="issued_btn_airline" type="button" style="width:100%; display:none;" onclick="focus_box('payment_acq');">
-                         {% trans 'Issued Booking' %}
-                    </button>
-                    {% endif %}
-                    <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:15px; position:relative;" id="payment_acq" hidden>
+                    <div style="background-color:white; text-align:center; padding:15px 10px; border:1px solid #cdcdcd;margin-top:15px;" id="ssr_request_after_sales" hidden>
 
                     </div>
 
@@ -302,21 +307,24 @@
                     <div id="total_refund_div" style="display:none;">
 
                     </div>
-                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:15px;" id="ssr_request_after_sales" hidden>
 
-                    </div>
-                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:15px;" id="reissued" hidden>
+                    <div style="background-color:white;" id="reissued" hidden>
 
                     </div>
                     <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:15px;" id="split_booking" hidden>
 
                     </div>
-                    <button type="button" class="primary-btn" id="button-home" style="width:100%;margin-top:15px;" onclick="window.location.href='/'" hidden>
-                        {% trans 'Home' %}
+
+                    {% if 'issued_reservation' in username.co_agent_frontend_security %}
+                    <button class="primary-btn issued_booking_btn mt-3" id="issued_btn_airline" type="button" style="width:100%; display:none;" onclick="focus_box('payment_acq');">
+                         {% trans 'Issued Booking' %}
                     </button>
-                    <button type="button" class="primary-btn" id="button-new-reservation" style="width:100%;margin-top:15px;" onclick="window.location.href='/'+window.location.href.split('/')[3]" hidden>
-                        {% trans 'Book New Reservation' %}
-                    </button>
+                    {% endif %}
+
+                    <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:15px; position:relative;" id="payment_acq" hidden>
+
+                    </div>
+
                 </div>
                 <div class="modal fade" id="myModalRepricing" role="dialog">
                     <div class="modal-dialog" style="width:100% !important; height:100% !important; max-width:1200px;padding: 0;">

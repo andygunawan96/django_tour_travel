@@ -3037,7 +3037,7 @@ function get_price_itinerary_request(){
                         </div>`;
                 text_detail_next+=`
                     <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
-                        <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
+                        <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy Flight Detail">
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
@@ -4600,6 +4600,7 @@ function airline_get_booking(data, sync=false){
            console.log(msg);
            hide_modal_waiting_transaction();
            document.getElementById('button-home').hidden = false;
+           document.getElementById('button-home-mb').hidden = false;
            document.getElementById('button-new-reservation').hidden = false;
            document.getElementById("overlay-div-box").style.display = "none";
 
@@ -4854,7 +4855,7 @@ function airline_get_booking(data, sync=false){
                                     col = 3;
                             }
                        }
-                       document.getElementById('ssr_request_after_sales').innerHTML = '';
+                       document.getElementById('ssr_request_after_sales').innerHTML = '<h4>Reissued</h4><hr>';
                        if(check_reschedule){
                             document.getElementById('reissued').hidden = false;
                             document.getElementById('reissued').innerHTML = `
@@ -4867,7 +4868,7 @@ function airline_get_booking(data, sync=false){
                             document.getElementById('split_booking').hidden = false;
                             document.getElementById('split_booking').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="split_booking_btn();" value="Split Booking">`;
                        }
-                       document.getElementById('ssr_request_after_sales').innerHTML = '';
+                       document.getElementById('ssr_request_after_sales').innerHTML = '<h4>Request</h4><hr>';
                        if(check_ssr){
                             document.getElementById('ssr_request_after_sales').hidden = false;
                             document.getElementById('ssr_request_after_sales').innerHTML += `
@@ -4953,22 +4954,22 @@ function airline_get_booking(data, sync=false){
                        }
                        if(check_reschedule){
                             document.getElementById('reissued').hidden = false;
-                            document.getElementById('reissued').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="reissued_btn();" value="Change Booking">`;
+                            document.getElementById('reissued').innerHTML = `<input class="primary-btn-white" style="width:100%;" type="button" onclick="reissued_btn();" value="Change Booking">`;
                        }
                        if(check_split){
                             document.getElementById('split_booking').hidden = false;
                             document.getElementById('split_booking').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="split_booking_btn();" value="Split Booking">`;
                        }
-                       document.getElementById('ssr_request_after_sales').innerHTML = '';
-                       if(check_ssr){
-                            document.getElementById('ssr_request_after_sales').hidden = false;
-                            document.getElementById('ssr_request_after_sales').innerHTML += `
-                            <input class="primary-btn-ticket" style="width:100%;margin-bottom:10px;" type="button" onclick="set_new_request_ssr()" value="Request New Baggage, Meal, Medical">`;
-                       }
+                       document.getElementById('ssr_request_after_sales').innerHTML = '<h4>Request New</h4><hr>';
                        if(check_seat){
                             document.getElementById('ssr_request_after_sales').hidden = false;
                             document.getElementById('ssr_request_after_sales').innerHTML += `
-                            <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="set_new_request_seat()" value="Request New Seat">`;
+                            <input class="primary-btn-ticket" style="margin-bottom:15px;" type="button" onclick="set_new_request_seat()" value="Seat"><br/>`;
+                       }
+                       if(check_ssr){
+                            document.getElementById('ssr_request_after_sales').hidden = false;
+                            document.getElementById('ssr_request_after_sales').innerHTML += `
+                            <input class="primary-btn-ticket" type="button" onclick="set_new_request_ssr()" value="Baggage, Meal, Medical">`;
                        }
                        if(check_ff){
                        }

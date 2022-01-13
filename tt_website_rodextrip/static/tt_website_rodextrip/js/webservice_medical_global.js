@@ -1103,6 +1103,7 @@ function medical_global_get_booking(order_number, sync=false){
                         document.getElementById('show_loading_booking_medical').hidden = true;
     //                    document.getElementById('button-home').hidden = false;
                         document.getElementById('button-new-reservation').hidden = false;
+                        document.getElementById('button-re-order-div').hidden = false;
                         document.getElementById('button-re-order').hidden = false;
     //                    document.getElementById('new-reservation').hidden = false;
                         hide_modal_waiting_transaction();
@@ -2654,7 +2655,7 @@ function create_new_reservation(){
             option += `<option value="`+medical_config.result.response[j].code+`">`+medical_config.result.response[j].name+`</option>`;
         }
     }
-    text += `<div style="background:white;margin-top:15px;padding:5px 10px; border:1px solid #cdcdcd;">
+    text += `<div style="background:white;margin-top:15px;padding:15px 15px 5px 15px; border:1px solid #cdcdcd;">
                 <h5>Re Order</h5>`;
     text+=`
         <div style="margin-top:15px;">
@@ -2715,7 +2716,7 @@ function create_new_reservation(){
                 Re Order
             </button>`
 
-    document.getElementById('button-new-reservation').innerHTML = text;
+    document.getElementById('button-re-order-div').innerHTML = text;
     document.getElementById('button-re-order').hidden = true;
     $('#test_type').niceSelect();
 }
