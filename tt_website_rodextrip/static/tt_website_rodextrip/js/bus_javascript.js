@@ -1,5 +1,6 @@
 sorting_value = '';
 journeys = [];
+bus_destination_list = {};
 var sorting_list = [
     {
         value:'Lowest Price',
@@ -101,24 +102,17 @@ function bus_search_autocomplete(term,type){
     var choices = [];
     if(type == 'origin')
         choices = new_bus_destination;
-    else
-        for(i in new_bus_destination){
-            if(new_bus_destination[i].name == document.getElementById('bus_origin').value){
-                choices = new_bus_destination[i].destination;
-                break;
-            }
-        }
-    var suggestions = [];
-    var priority = [];
-    if(term.split(' - ').length == 4)
-        term = '';
-    for (i=0;i<choices.length;i++){
-        if(choices[i].name.toLowerCase().split(' - ')[0].search(term) !== -1){
-            priority.push(choices[i].name);
-        }else if(choices[i].name.toLowerCase().search(term) !== -1)
-            suggestions.push(choices[i].name);
+    else{
+        choices = bus_destination_list
     }
-    return priority.concat(suggestions).slice(0,100);
+    var priority = [];
+    if(term.split(' - ').length == 2)
+        term = '';
+    for(i in choices){
+        if(choices[i].name_show.toLowerCase().search(term) !== -1)
+            priority.push(choices[i].name_show)
+    }
+    return priority;
 }
 
 function bus_check_search_values(){

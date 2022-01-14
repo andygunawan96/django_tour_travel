@@ -871,6 +871,10 @@ def get_new_cache(signature, type='all'):
                 if res['result']['error_code'] == 0:
                     res = res['result']['response']
                     write_cache_with_folder(res, "get_bus_config")
+                    name_city_dict = {}
+                    for rec in res['station']:
+                        name_city_dict["%s - %s" % (res['station'][rec]['city'],res['station'][rec]['name'])] = rec
+                    write_cache_with_folder(name_city_dict, "get_bus_config_dict_key_city")
                     _logger.info("get_bus_config BUS RENEW SUCCESS SIGNATURE " + headers['signature'])
                 else:
                     _logger.error('ERROR get_bus_config file\n' + str(e) + '\n' + traceback.format_exc())
