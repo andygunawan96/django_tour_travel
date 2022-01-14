@@ -10891,6 +10891,15 @@
                         suggest(bus_search_autocomplete(term,'origin'));
                 },
                 onSelect: function(e, term, item){
+                    bus_origin_value = document.getElementById('bus_origin').value;
+                    for(i in new_bus_destination){
+                        if(new_bus_destination[i].name_show == bus_origin_value){
+                            for(j in new_bus_destination[i].destination){
+                                bus_destination_list[new_bus_destination[i].destination[j]] = new_bus_destination[new_bus_destination[i].destination[j]];
+                            }
+                            break;
+                        }
+                    }
                     setTimeout(function(){
                         $("#bus_destination").focus();
                     }, 200);

@@ -2396,22 +2396,22 @@ function copy_data2(){
 }
 
 function share_data(){
-    const el = document.createElement('textarea');
-    el.value = $text;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
+//    const el = document.createElement('textarea');
+//    el.value = $text;
+//    document.body.appendChild(el);
+//    el.select();
+//    document.execCommand('copy');
+//    document.body.removeChild(el);
     $text_share = window.encodeURIComponent($text);
 }
 
 function share_data2(){
-    const el = document.createElement('textarea');
-    el.value = $text2;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
+//    const el = document.createElement('textarea');
+//    el.value = $text2;
+//    document.body.appendChild(el);
+//    el.select();
+//    document.execCommand('copy');
+//    document.body.removeChild(el);
     $text_share2 = window.encodeURIComponent($text2);
 }
 

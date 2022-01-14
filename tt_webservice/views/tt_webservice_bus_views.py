@@ -151,6 +151,10 @@ def get_config(request, signature=''):
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
                 write_cache_with_folder(res, "get_bus_config")
+                name_city_dict = {}
+                for rec in res['station']:
+                    name_city_dict["%s - %s" %(res['station'][rec]['city'], res['station'][rec]['name'])] = rec
+                write_cache_with_folder(name_city_dict, "get_bus_config_dict_key_city")
                 _logger.info("get_bus_config BUS RENEW SUCCESS SIGNATURE " + headers['signature'])
             else:
                 try:
@@ -270,9 +274,14 @@ def search(request):
     #bus
     try:
         bus_destinations = []
+        bus_key_name = []
         file = read_cache_with_folder_path("get_bus_config", 90911)
         if file:
             bus_destinations = file
+        file = read_cache_with_folder_path("get_bus_config_dict_key_city", 90911)
+        if file:
+            bus_key_name = file
+
         set_session(request, 'bus_request', json.loads(request.POST['search_request']))
 
 
@@ -284,8 +293,8 @@ def search(request):
                 request.session['bus_request']['departure'][idx].split(' ')[0])
 
             journey_list.append({
-                'origin': list(filter(lambda station: station['name'] == request.session['bus_request']['origin'][idx].split(' - ')[1], bus_destinations['station']))[0]['code'],
-                'destination': list(filter(lambda station: station['name'] == request.session['bus_request']['destination'][idx].split(' - ')[1], bus_destinations['station']))[0]['code'],
+                'origin': bus_key_name[request.session['bus_request']['origin'][idx]],
+                'destination': bus_key_name[request.session['bus_request']['destination'][idx]],
                 'departure_date': departure_date
             })
 
@@ -326,19 +335,10 @@ def search(request):
                         'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date']+':00'))
                     })
                     check = 0
-                    for destination in bus_destinations['station']:
-                        if destination['code'] == journey['origin']:
-                            journey.update({
-                                'origin_name': destination['name'],
-                            })
-                            check = check + 1
-                        if destination['code'] == journey['destination']:
-                            journey.update({
-                                'destination_name': destination['name'],
-                            })
-                            check = check + 1
-                        if check == 2:
-                            break
+                    journey.update({
+                        'origin_name': bus_destinations['station'][journey['origin']]['name'],
+                        'destination_name': bus_destinations['station'][journey['destination']]['name'],
+                    })
             _logger.info("SUCCESS search_bus SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR search_bus SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -378,19 +378,10 @@ def get_rules(request):
                     'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date']+':00'))
                 })
                 check = 0
-                for destination in bus_destinations['station']:
-                    if destination['code'] == journey['origin']:
-                        journey.update({
-                            'origin_name': destination['name'],
-                        })
-                        check = check + 1
-                    if destination['code'] == journey['destination']:
-                        journey.update({
-                            'destination_name': destination['name'],
-                        })
-                        check = check + 1
-                    if check == 2:
-                        break
+                journey.update({
+                    'origin_name': bus_destinations['station'][journey['origin']]['name'],
+                    'destination_name': bus_destinations['station'][journey['destination']]['name'],
+                })
             _logger.info("SUCCESS search_bus SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR search_bus SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -544,15 +535,10 @@ def commit_booking(request):
 
 def get_booking(request):
     try:
-        bus_destinations = []
+        bus_destinations = {}
         file = read_cache_with_folder_path("get_bus_config", 90911)
         if file:
-            response = file
-            for country in response['station']:
-                bus_destinations.append({
-                    'code': country['code'],
-                    'name': country['name'],
-                })
+            bus_destinations = file
         sync = False
         try:
             if request.POST['sync'] == 'true':
@@ -581,20 +567,10 @@ def get_booking(request):
                         'departure_date': parse_date_time_front_end(string_to_datetime(journey['departure_date'])),
                         'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date']))
                     })
-                    check = 0
-                    for destination in bus_destinations:
-                        if destination['code'] == journey['origin']:
-                            journey.update({
-                                'origin_name': destination['name'],
-                            })
-                            check = check + 1
-                        if destination['code'] == journey['destination']:
-                            journey.update({
-                                'destination_name': destination['name'],
-                            })
-                            check = check + 1
-                        if check == 2:
-                            break
+                    journey.update({
+                        'origin_name': bus_destinations['station'][journey['origin']]['name'],
+                        'destination_name': bus_destinations['station'][journey['destination']]['name'],
+                    })
             for pax in res['result']['response']['passengers']:
                 pax.update({
                     'birth_date': '%s %s %s' % (

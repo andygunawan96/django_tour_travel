@@ -1619,12 +1619,12 @@ function check_before_add_repricing(){
 }
 
 function share_data(){
-    const el = document.createElement('textarea');
-    el.value = $text;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
+//    const el = document.createElement('textarea');
+//    el.value = $text;
+//    document.body.appendChild(el);
+//    el.select();
+//    document.execCommand('copy');
+//    document.body.removeChild(el);
     $text_share = window.encodeURIComponent($text);
 }
 

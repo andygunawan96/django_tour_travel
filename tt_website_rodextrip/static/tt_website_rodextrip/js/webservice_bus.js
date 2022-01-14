@@ -344,19 +344,10 @@ function get_bus_config(){
        },
        success: function(msg) {
         console.log(msg);
-        new_bus_destination = [];
         for(i in msg.station){
-            new_bus_destination.push({
-                "name": msg.station[i].city+' - '+ msg.station[i].name,
-                "destination": []
-            });
-            for(j in msg.station[i].destination){
-                new_bus_destination[i].destination.push({
-                    "name": msg.station[i].destination[j].city+' - '+ msg.station[i].destination[j].name,
-                })
-
-            }
+            msg.station[i]['name_show'] = msg.station[i].city+' - '+ msg.station[i].name;
         }
+        new_bus_destination = msg.station;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
         error_ajax(XMLHttpRequest, textStatus, errorThrown, '');
