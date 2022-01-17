@@ -3014,12 +3014,12 @@ function radio_timeslot_type_func(val){
 
 function copy_data(){
     //
-    document.getElementById('data_copy').innerHTML = $text;
-    document.getElementById('data_copy').hidden = false;
-    var el = document.getElementById('data_copy');
+    const el = document.createElement('textarea');
+    el.value = $text;
+    document.body.appendChild(el);
     el.select();
     document.execCommand('copy');
-    document.getElementById('data_copy').hidden = true;
+    document.body.removeChild(el);
 
     const Toast = Swal.mixin({
       toast: true,
