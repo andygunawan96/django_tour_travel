@@ -109,7 +109,7 @@ def update_report(request):
     }
 
     url_request = url + 'account'
-    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    res = send_request_api(request, url_request, headers, data, 'POST', 1000)
     to_return = {
         'raw_data': res,
         'start_date': start_date,
