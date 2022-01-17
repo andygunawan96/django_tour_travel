@@ -1066,7 +1066,7 @@ function get_report_overall(){
         },
         error: function(result){
             console.log("Error");
-        },timeout: 300000
+        },timeout: 1000000
     });
 }
 
@@ -1758,7 +1758,7 @@ $('#report_form').submit(function(evt){
                     );
                 }
             });
-        },timeout: 300000
+        },timeout: 1000000
     });
 });
 
@@ -1802,7 +1802,7 @@ function update_chart(button_class, canvas_id, action, report_title, report_of, 
             setTimeout(function(){
               $('.' + button_class).prop('disabled', false);
             }, 1000);
-        }
+        },timeout: 1000000
     });
 }
 

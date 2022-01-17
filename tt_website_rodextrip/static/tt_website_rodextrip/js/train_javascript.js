@@ -1885,7 +1885,7 @@ function sort(value){
 
     var response = '';
     for(i in data_filter){
-        if(train_request.departure[train_request_pick] == data_filter[i].departure_date[0] && journeys.length != train_request.departure.length){
+        if(train_request.departure[train_request_pick] == data_filter[i].departure_date[0] && journeys.length != train_request.departure.length && train_request.destination[train_request_pick].split(' - ')[0] == data_filter[i].destination && train_request.origin[train_request_pick].split(' - ')[0] == data_filter[i].origin){
             if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book == true)
                 response+=`<div class="sorting-box-b">`;
 //            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book == false)
