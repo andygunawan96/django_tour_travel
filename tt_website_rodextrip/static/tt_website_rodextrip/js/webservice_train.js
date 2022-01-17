@@ -484,7 +484,7 @@ function train_search(provider, signature){
     });
 }
 
-function elapse_time(departure){
+function check_elapse_time_three_hours(departure){
   today = new Date();
   dep = new Date(departure);
   var diff = parseInt(Math.abs(dep - today)/3600000);
@@ -514,7 +514,8 @@ function datasearch2(train){
                 train.schedules[i].journeys[j].cabin_class = ['B', 'Business']
            date = train.schedules[i].journeys[j].departure_date;
            date = date.split(' - ')[0].split(' ')[2] + ' ' + date.split(' - ')[0].split(' ')[1] + ' ' + date.split(' - ')[0].split(' ')[0] + ' ' +date.split(' - ')[1];
-           train.schedules[i].journeys[j].can_book = elapse_time(date);
+           train.schedules[i].journeys[j].can_book_three_hours = check_elapse_time_three_hours(date);
+           train.schedules[i].journeys[j].can_book_check_arrival_on_next_departure = true;
            train.schedules[i].journeys[j].departure_date = train.schedules[i].journeys[j].departure_date.split(' - ');
            train.schedules[i].journeys[j].arrival_date = train.schedules[i].journeys[j].arrival_date.split(' - ');
            for(k in train.schedules[i].journeys[j].fares){
