@@ -3757,7 +3757,7 @@ function check_name_airline(first_name, last_name){
 
 function check_name(title,first,last, length){
     var val = title+first+' '+last;
-    if(val.length < length){
+    if(val.length <= length){
         return true;
     }else
         return false;
