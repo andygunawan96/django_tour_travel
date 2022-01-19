@@ -768,7 +768,7 @@ function get_carrier_code_list(type, val){
                     </li>
                `;
                for(i in msg){
-                    if(msg[i].is_excluded_from_b2c != true || user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                    if(msg[i].hasOwnProperty('is_excluded_from_b2c') && msg[i].is_excluded_from_b2c != true || user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                         text+=`
                             <li>
                                 <a class="small" data-value="option1" tabIndex="-1">
@@ -1943,6 +1943,7 @@ function datasearch2(airline){
                available_count = 0;
            airline.schedules[i].journeys[j].available_count = available_count;
            airline.schedules[i].journeys[j].can_book = can_book_schedule;
+           airline.schedules[i].journeys[j].can_book_check_arrival_on_next_departure = true;
            airline.schedules[i].journeys[j].currency = currency;
            airline.schedules[i].journeys[j].fare_details = fare_details;
            data.push(airline.schedules[i].journeys[j]);

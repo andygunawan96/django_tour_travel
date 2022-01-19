@@ -3647,7 +3647,7 @@ function check_date_time(value){
 function check_ktp(value){
     var checknumber = "^[0-9]*$";//number
     if(value.match(checknumber)!=null){
-        if(value.length==16 || value.length == 17){
+        if(value.length==16){ //hanya boleh 16 digit
             return true;
         }else{
             return false;

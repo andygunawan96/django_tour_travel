@@ -1847,7 +1847,7 @@ function sort(value){
     if(sorting_value == ''){
         for(var i = 0; i < data_filter.length-1; i++) {
             for(var j = i+1; j <data_filter.length; j++) {
-                if (data_filter[i].can_book == false && data_filter[j].can_book == true || data_filter[i].available_count < parseInt(passengers.adult) && data_filter[j].can_book == true){
+                if (data_filter[i].can_book_three_hours == false && journeys.length == 0 || data_filter[i].can_book_check_arrival_on_next_departure == false && journeys.length > 0 || data_filter[i].available_count < parseInt(passengers.adult) && data_filter[j].can_book_three_hours == true && data_filter[j].can_book_check_arrival_on_next_departure == true){
                     temp = data_filter[i];
                     data_filter[i] = data_filter[j];
                     data_filter[j] = temp;
@@ -1856,9 +1856,9 @@ function sort(value){
         }
     }else{
         for(var i = data_filter.length-1; i >= 0; i--) {
-            if(data_filter[i].can_book == false || data_filter[i].available_count < parseInt(passengers.adult)){
+            if(data_filter[i].can_book_three_hours == false && journeys.length == 0 || data_filter[i].can_book_check_arrival_on_next_departure == false && journeys.length > 0 || data_filter[i].available_count < parseInt(passengers.adult)){
                 for(j=i;j<data_filter.length-1;j++){
-                    if(data_filter[j+1].can_book == false || data_filter[j+1].available_count < parseInt(passengers.adult)){
+                    if(data_filter[j+1].can_book_three_hours == false && journeys.length == 0 || data_filter[j+1].can_book_check_arrival_on_next_departure == false && journeys.length > 0 || data_filter[j+1].available_count < parseInt(passengers.adult)){
                         break;
                     }else{
                         temp = data_filter[j];
@@ -1914,7 +1914,7 @@ function sort(value){
                     response+=`
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
-                       if(data_filter[i].available_count > 0 && data_filter[i].can_book == true){
+                       if(data_filter[i].available_count > 0 && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true){
                            response+=`
                            <label class="check_box_custom" style="float:right;">
                                <span class="span-search-ticket"></span>

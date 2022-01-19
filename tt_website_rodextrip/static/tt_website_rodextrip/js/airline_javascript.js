@@ -1933,11 +1933,12 @@ function filtering(type){
                 temp_data = [];
                 for(i in copy_data_json){
                     if(parseInt(airline_pick_list[airline_pick_list.length-1].arrival_date.split(' - ')[1].split(':')[0])*60 + parseInt(airline_pick_list[airline_pick_list.length-1].arrival_date.split(' - ')[1].split(':')[1]) > parseInt(copy_data_json[i].departure_date.split(' - ')[1].split(':')[0])*60 + parseInt(copy_data_json[i].departure_date.split(' - ')[1].split(':')[1])){
-                        copy_data_json[i].can_book = false;
+                        copy_data_json[i].can_book_check_arrival_on_next_departure = false;
+                    }else{
+                        copy_data_json[i].can_book_check_arrival_on_next_departure = true;
                     }
                     temp_data.push(copy_data_json[i]);
                 }
-                console.log(temp_data);
                 data = temp_data;
                 temp_data = [];
             }
@@ -2112,9 +2113,9 @@ function sort(){
         }
         //SORT AVAILABLE
         for(var i = airline.length-1; i >= 0; i--) {
-            if(airline[i].can_book == false || airline[i].available_count < parseInt(airline_request.adult + airline_request.child + airline_request.infant)){
+            if(airline[i].can_book == false && airline_pick_list.length == 0 || airline[i].can_book_check_arrival_on_next_departure == false && airline_pick_list.length > 0 || airline[i].available_count < parseInt(airline_request.adult + airline_request.child + airline_request.infant)){
                 for(j=i;j<airline.length-1;j++){
-                    if(airline[j+1].can_book == false || airline[j+1].available_count < parseInt(airline_request.adult + airline_request.child + airline_request.infant)){
+                    if(airline[j+1].can_book == false && airline_pick_list.length == 0 || airline[j+1].can_book_check_arrival_on_next_departure == false && airline_pick_list.length > 0 || airline[j+1].available_count < parseInt(airline_request.adult + airline_request.child + airline_request.infant)){
                         break;
                     }else{
                         temp = airline[j];
@@ -2465,9 +2466,11 @@ function sort(){
                                             text += `<span>`+provider_list_data[airline[i].provider].description+`</span><br/>`;
                                        text+=`
                                        <span id="fare`+i+`" class="basic_fare_field copy_price price_template" style="margin-right:5px;"></span>`;
-                                       if(airline[i].can_book == true){
+                                       if(airline[i].can_book == true && airline[i].can_book_check_arrival_on_next_departure == true){
                                            text+=`<input type='button' style="margin:5px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Choose" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
-                                       }
+                                       }else if(airline[i].can_book == true && airline[i].can_book_check_arrival_on_next_departure == false)
+                                           text+=`
+                                            <input type='button' style="margin:5px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Choose" onclick="alert_message_swal('Sorry, arrival time you pick does not match with this journey!');" sequence_id="0"/>`;
                                        else{
                                            text+=`<input type='button' style="margin:5px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Sold Out" onclick="" disabled sequence_id="0"/>`;
                                        }

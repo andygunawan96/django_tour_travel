@@ -387,7 +387,9 @@ function filtering(type){
                 temp_data = [];
                 for(i in copy_data){
                     if(parseInt(journeys[journeys.length-1].arrival_date[1].split(':')[0])*60 + parseInt(journeys[journeys.length-1].arrival_date[1].split(':')[1]) > parseInt(copy_data[i].departure_date[1].split(':')[0])*60 + parseInt(copy_data[i].departure_date[1].split(':')[1]))
-                        copy_data[i].can_book = false;
+                        copy_data[i].can_book_check_arrival_on_next_departure = false;
+                    else
+                        copy_data[i].can_book_check_arrival_on_next_departure = true;
                     temp_data.push(copy_data[i]);
                 }
                 data = temp_data;
@@ -466,7 +468,7 @@ function sort(value){
     if(sorting_value == ''){
         for(var i = 0; i < data_filter.length-1; i++) {
             for(var j = i+1; j <data_filter.length; j++) {
-                if (data_filter[i].can_book == false && data_filter[j].can_book == true || data_filter[i].available_count < parseInt(passengers.adult) && data_filter[j].can_book == true){
+                if (data_filter[i].can_book_three_hours == false && journeys.length == 0 || data_filter[i].can_book_check_arrival_on_next_departure == false && journeys.length > 0 || data_filter[i].available_count < parseInt(passengers.adult) && data_filter[j].can_book_three_hours == true && data_filter[j].can_book_check_arrival_on_next_departure == true){
                     temp = data_filter[i];
                     data_filter[i] = data_filter[j];
                     data_filter[j] = temp;
@@ -475,9 +477,9 @@ function sort(value){
         }
     }else{
         for(var i = data_filter.length-1; i >= 0; i--) {
-            if(data_filter[i].can_book == false || data_filter[i].available_count < parseInt(passengers.adult)){
+            if(data_filter[i].can_book_three_hours == false && journeys.length == 0 || data_filter[i].can_book_check_arrival_on_next_departure == false && journeys.length > 0 || data_filter[i].available_count < parseInt(passengers.adult)){
                 for(j=i;j<data_filter.length-1;j++){
-                    if(data_filter[j+1].can_book == false || data_filter[j+1].available_count < parseInt(passengers.adult)){
+                    if(data_filter[j+1].can_book_three_hours == false && journeys.length == 0 || data_filter[j+1].can_book_check_arrival_on_next_departure == false && journeys.length > 0 || data_filter[j+1].available_count < parseInt(passengers.adult)){
                         break;
                     }else{
                         temp = data_filter[j];
@@ -509,12 +511,10 @@ function sort(value){
     for(i in data_filter){
         if(bus_request.departure[bus_request_pick] == data_filter[i].departure_date[0] && journeys.length != bus_request.departure.length){
             ticket_print = true;
-            if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book == true)
+            if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
                 response+=`<div class="sorting-box-b">`;
 //            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book == false)
 //                response+=`<div class="sorting-box-b">`;
-            else if(data_filter[i].can_book == false)
-                response+=`<div style="background-color:#E5E5E5; padding:15px; margin-bottom:15px; border:1px solid #cdcdcd;">`;
             else
                 response+=`<div style="background-color:#E5E5E5; padding:15px; margin-bottom:15px; border:1px solid #cdcdcd;">`;
             response += `
@@ -525,7 +525,7 @@ function sort(value){
                         <h4 class="copy_bus_name">`+data_filter[i].carrier_name+` - (`+data_filter[i].carrier_number+`)  - `+data_filter[i].cabin_class[1]+` (`+data_filter[i].class_of_service+`)</h4>
                     </div>
                     <div class="col-lg-3">`;
-                       if(data_filter[i].available_count > 0 && data_filter[i].can_book == true){
+                       if(data_filter[i].available_count > 0 && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true){
                            response+=`
                            <label class="check_box_custom" style="float:right;">
                                <span class="span-search-ticket"></span>
@@ -586,23 +586,23 @@ function sort(value){
                             }
                         }
                         if(check == 0){
-                            if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book == true)
+                            if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
                                 response+=`
                                 <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
                                 <input class="primary-btn-custom" type="button" onclick="choose_bus(`+i+`,`+data_filter[i].sequence+`)"  id="bus_choose`+i+`" value="Choose">`;
-                            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book == false && data_filter[i].departure_date[0] == moment().format('DD MMM YYYY'))
+                            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_three_hours == false)
                                 response+=`
                                 <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
                                 <input class="primary-btn-custom" type="button" onclick="alert_message_swal('Sorry, you can choose 3 or more hours from now!');"  id="bus_choose`+i+`" value="Choose">`;
-                            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book == false)
+                            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_check_arrival_on_next_departure == false)
                                 response+=`
                                 <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
                                 <input class="primary-btn-custom" type="button" onclick="alert_message_swal('Sorry, arrival time you pick does not match with this journey!');"  id="bus_choose`+i+`" value="Choose">`;
-                            else if(data_filter[i].can_book == false)
+                            else if(data_filter[i].available_count < parseInt(passengers.adult))
                                 response+=`
                                 <span class="copy_price" style="font-size:16px; margin-right:10px;">IDR `+getrupiah(data_filter[i].price)+`</span>
                                 <input class="disabled-btn" type="button" id="bus_choose`+i+`" value="Not Available" disabled>`
-                            else
+                            else if(data_filter[i].available_count <= 0)
                                 response+=`
                                 <span class="copy_price" style="font-size:16px; margin-right:10px;">IDR `+getrupiah(data_filter[i].price)+`</span>
                                 <input class="disabled-btn" type="button" id="bus_choose`+i+`" value="Sold" disabled>`
