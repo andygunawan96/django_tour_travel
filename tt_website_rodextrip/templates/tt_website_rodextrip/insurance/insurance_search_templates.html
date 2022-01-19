@@ -1010,32 +1010,22 @@
             }, 200);
         });
 
-        try{
+        if(document.getElementById("balance_search") && document.getElementById("balance"))
             document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
-        }catch(err){
-            console.log(err); // error kalau ada element yg tidak ada
-        }
-        try{
+
+        if(document.getElementById("credit_search") && document.getElementById("credit_limit"))
             document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
-        }catch(err){
-            console.log(err); // error kalau ada element yg tidak ada
-        }
         $(window).scroll(function() {
             if ($(this).scrollTop() >= 66) {
                 if ($(window).width() >= 992){
                    {% if username.co_user_login != 'agent_b2c' %}
                    document.getElementById("info_user_search").style.display = "block";
                    {% endif %}
-                   try{
+                   if(document.getElementById("balance_search") && document.getElementById("balance"))
                        document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
-                   }catch(err){
-                        console.log(err); // error kalau ada element yg tidak ada
-                   }
-                   try{
+
+                   if(document.getElementById("credit_search") && document.getElementById("credit_limit"))
                        document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
-                   }catch(err){
-                       console.log(err); // error kalau ada element yg tidak ada
-                   }
                 }else{
                    {% if username.co_user_login != 'agent_b2c' %}
                    document.getElementById("info_user_search").style.display = "none";
