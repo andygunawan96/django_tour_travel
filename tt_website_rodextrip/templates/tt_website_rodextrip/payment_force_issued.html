@@ -6,6 +6,7 @@
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_event.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_activity.js?version={{javascript_version}}"></script>
@@ -17,6 +18,7 @@
 <script src="{{ static_path }}js/webservice_lab_pintar.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_swab_express.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_mitra_keluarga.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_sentra_medika.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/tour_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_train.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_passport.js?version={{javascript_version}}"></script>
@@ -150,7 +152,7 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
     try{
-        document.getElementById('back_btn_reservation').action = '/' + '{{provider_payment}}' + '/booking/' + btoa('{{order_number}}');
+        document.getElementById('back_btn_reservation').action = '/' + '{% if provider_payment == 'phc' or provider_payment == 'periksain' %}medical/{% endif %}{% if provider_payment == 'medical' %}medical_global{% elif provider_payment == 'labpintar' %}lab_pintar{% elif provider_payment == 'swabexpress' %}swab_express{% elif provider_payment == 'mitrakeluarga' %}mitra_keluarga{% elif provider_payment == 'sentramedika' %}sentra_medika{% else %}{{provider_payment}}{% endif %}' + '/booking/' + btoa('{{order_number}}');
         get_payment_acq('Issued',passengers.booker.booker_seq_id, '{{order_number}}', 'billing',signature,'{{type}}');
     }catch(err){console.log(err);}
     $( document ).ready(function() {

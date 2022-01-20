@@ -1038,6 +1038,13 @@ function button_payment(type, page){
             temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading-issued ld-ext-right" onclick="mitra_keluarga_issued_booking('`+order_number_id+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
         else if(page == 'payment')
             temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading-issued ld-ext-right" onclick="mitra_keluarga_commit_booking(1);" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
+    }else if(type == 'sentra_medika_review'){
+        temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="sentra_medika_issued_booking('`+order_number_id+`');" style="width:100%;">Pay Now<div class="ld ld-ring ld-cycle"></div></button>`;
+    }else if(type == 'sentramedika'){
+        if(page == 'reservation')
+            temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading-issued ld-ext-right" onclick="sentra_medika_issued_booking('`+order_number_id+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
+        else if(page == 'payment')
+            temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading-issued ld-ext-right" onclick="sentra_medika_commit_booking(1);" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     }else if(type == 'insurance_review'){
         temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="insurance_issued_booking('`+order_number_id+`');" style="width:100%;">Pay Now<div class="ld ld-ring ld-cycle"></div></button>`;
     }else if(type == 'insurance'){

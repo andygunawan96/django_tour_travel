@@ -658,7 +658,7 @@ def seat_map(request):
         for i in seat_map_request_input:
             seat_request.append(i['journey_code'])
         data = {
-            "journey_codes": seat_request,
+            "journey_code_list": seat_request,
             "provider": seat_map_request_input[0]['provider']
         }
         headers = {
