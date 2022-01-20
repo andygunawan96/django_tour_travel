@@ -855,7 +855,7 @@ def page_passenger(request):
 def page_review(request):
     try:
         res = {}
-        data = request.session['lab_pintar_data_%s' % request.POST['signature']]
+        data = request.session['swab_express_data_%s' % request.POST['signature']]
         res['passenger'] = {
             "booker": data['booker']
         }
