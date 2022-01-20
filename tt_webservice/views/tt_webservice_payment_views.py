@@ -122,6 +122,8 @@ def get_payment_acquirer(request):
         url_post = 'booking/lab_pintar'
     elif request.POST['type'] == 'mitrakeluarga' or request.POST['type'] == 'mitra_keluarga_review':
         url_post = 'booking/mitra_keluarga'
+    elif request.POST['type'] == 'sentramedika' or request.POST['type'] == 'sentra_medika_review':
+        url_post = 'booking/sentra_medika'
     elif request.POST['type'] == 'insurance' or request.POST['type'] == 'insurance_review':
         url_post = 'booking/insurance'
     url_request = url + url_post

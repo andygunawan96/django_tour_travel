@@ -75,10 +75,10 @@ def api_models(request):
             res = get_result(request)
         elif req_data['action'] == 'get_transaction_by_analyst':
             res = get_transaction_by_analyst(request)
-        elif req_data['action'] == 'get_data_cache_passenger_mitra_keluarga':
-            res = get_data_cache_passenger_mitra_keluarga(request)
-        elif req_data['action'] == 'get_data_booking_cache_mitra_keluarga':
-            res = get_data_booking_cache_mitra_keluarga(request)
+        elif req_data['action'] == 'get_data_cache_passenger_sentra_medika':
+            res = get_data_cache_passenger_sentra_medika(request)
+        elif req_data['action'] == 'get_data_booking_cache_sentra_medika':
+            res = get_data_booking_cache_sentra_medika(request)
         elif req_data['action'] == 'save_backend':
             res = save_backend(request)
         elif req_data['action'] == 'cancel':
@@ -126,12 +126,12 @@ def login(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            create_session_product(request, 'mitra_keluarga', 180)
-            set_session(request, 'mitra_keluarga_signature', res['result']['response']['signature'])
+            create_session_product(request, 'sentra_medika', 180)
+            set_session(request, 'sentra_medika_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
-            _logger.info(json.dumps(request.session['mitra_keluarga_signature']))
+            _logger.info(json.dumps(request.session['sentra_medika_signature']))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -142,7 +142,7 @@ def get_config(request):
         additional_url = ''
         try:
             # DARI WEB
-            provider = 'mitrakeluarga'
+            provider = 'sentramedika'
             additional_url += 'content'
             data = {
                 'provider_type': provider
@@ -169,7 +169,7 @@ def get_config(request):
                 "signature": request.data['signature']
             }
 
-        file = read_cache_with_folder_path("mitra_keluarga_cache_data", 86400)
+        file = read_cache_with_folder_path("sentra_medika_cache_data", 86400)
         # TODO VIN: Some Update Mekanisme ontime misal ada perubahan data dkk
         if not file:
             url_request = url + additional_url
@@ -187,10 +187,10 @@ def get_config(request):
                         if rec not in response['result']['response']:
                             response['result']['response'][rec] = res['result']['response'][rec]
                     # res_provider = send_request_api(request, url_request, headers, data, 'POST')
-                    write_cache_with_folder(response, "mitra_keluarga_cache_data")
+                    write_cache_with_folder(response, "sentra_medika_cache_data")
             except Exception as e:
-                _logger.info("ERROR GET CACHE mitra_keluarga " + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
-                file = read_cache_with_folder_path("mitra_keluarga_cache_data", 86400)
+                _logger.info("ERROR GET CACHE sentra_medika " + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
+                file = read_cache_with_folder_path("sentra_medika_cache_data", 86400)
                 if file:
                     res = file
 
@@ -269,7 +269,7 @@ def get_desa(request):
 
 def get_availability(request):
     try:
-        additional_url = 'booking/mitra_keluarga'
+        additional_url = 'booking/sentra_medika'
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -278,7 +278,7 @@ def get_availability(request):
         }
 
         data = {
-            'provider': 'mitrakeluarga', #hardcode dulu
+            'provider': 'sentramedika', #hardcode dulu
             'carrier_code': request.POST['carrier_code'],
         }
     except Exception as e:
@@ -287,13 +287,13 @@ def get_availability(request):
     url_request = url + additional_url
     res = send_request_api(request, url_request, headers, data, 'POST')
 
-    set_session(request, "mitra_keluarga_get_availability_%s" % request.POST['signature'], res)
+    set_session(request, "sentra_medika_get_availability_%s" % request.POST['signature'], res)
 
     return res
 
 def get_price(request):
     try:
-        additional_url = 'booking/mitra_keluarga'
+        additional_url = 'booking/sentra_medika'
 
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -305,7 +305,7 @@ def get_price(request):
         data = {
             'timeslot_list': json.loads(request.POST['timeslot_list']),
             'pax_count': int(request.POST['pax_count']),
-            'provider': 'mitrakeluarga',
+            'provider': 'sentramedika',
             'carrier_code': request.POST['carrier_code'],
         }
     except Exception as e:
@@ -313,13 +313,13 @@ def get_price(request):
 
     url_request = url + additional_url
     res = send_request_api(request, url_request, headers, data, 'POST')
-    set_session(request, "mitra_keluarga_global_get_price_%s" % request.POST['signature'], res)
+    set_session(request, "sentra_medika_global_get_price_%s" % request.POST['signature'], res)
 
     return res
 
 def get_price_cache(request):
-    if request.session.get("mitra_keluarga_global_get_price_%s" % request.POST['signature']):
-        return request.session["mitra_keluarga_global_get_price_%s" % request.POST['signature']]
+    if request.session.get("sentra_medika_global_get_price_%s" % request.POST['signature']):
+        return request.session["sentra_medika_global_get_price_%s" % request.POST['signature']]
     return {
         "result": {
             "error_code": 500,
@@ -330,7 +330,7 @@ def get_price_cache(request):
 
 def commit_booking(request):
     try:
-        additional_url = 'booking/mitra_keluarga'
+        additional_url = 'booking/sentra_medika'
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -338,14 +338,14 @@ def commit_booking(request):
             "signature": request.POST['signature']
         }
 
-        data = copy.deepcopy(request.session['mitra_keluarga_data_%s' % request.POST['signature']])
+        data = copy.deepcopy(request.session['sentra_medika_data_%s' % request.POST['signature']])
         _logger.info(json.dumps(data))
         if request.POST.get('test_type'):
             data['data']['carrier_code'] = request.POST['test_type']
         elif request.session.get('test_type_%s' % request.POST['signature']):
             data['data']['carrier_code'] = request.session['test_type_%s' % request.POST['signature']]
         if request.POST.get('provider'):
-            data['provider'] = 'mitrakeluarga'
+            data['provider'] = 'sentramedika'
         elif request.session.get('vendor_%s' % request.POST['signature']):
             data['provider'] = request.session['vendor_%s' % request.POST['signature']]
 
@@ -402,13 +402,13 @@ def commit_booking(request):
 
     url_request = url + additional_url
     res = send_request_api(request, url_request, headers, data, 'POST')
-    set_session(request, "mitra_keluarga_commmit_booking_%s" % request.POST['signature'], res)
+    set_session(request, "sentra_medika_commmit_booking_%s" % request.POST['signature'], res)
 
     return res
 
 def get_booking(request):
     try:
-        additional_url = 'booking/mitra_keluarga'
+        additional_url = 'booking/sentra_medika'
 
         sync = False
         try:
@@ -447,14 +447,14 @@ def get_booking(request):
                     _logger.error(str(e) + traceback.format_exc())
 
             time.sleep(2)
-            set_session(request, 'mitra_keluarga_get_booking_response', response)
+            set_session(request, 'sentra_medika_get_booking_response', response)
 
             _logger.info("SUCCESS get_booking SWAB EXPRESS SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR get_booking_SWAB EXPRESS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         print(str(e))
-        set_session(request, 'mitra_keluarga_get_booking_response', res)
+        set_session(request, 'sentra_medika_get_booking_response', res)
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
@@ -473,7 +473,7 @@ def issued(request):
         provider = []
         provider_char = ''
         try:
-            medical_get_booking = request.session['mitra_keluarga_get_booking_response'] if request.session.get('mitra_keluarga_get_booking_response') else json.loads(request.POST['booking'])
+            medical_get_booking = request.session['sentra_medika_get_booking_response'] if request.session.get('sentra_medika_get_booking_response') else json.loads(request.POST['booking'])
 
             for provider_type in medical_get_booking['result']['response']['provider_bookings']:
                 if not provider_type['provider'] in provider:
@@ -487,7 +487,7 @@ def issued(request):
                 'voucher': data_voucher(request.POST['voucher_code'], provider_char, provider),
             })
 
-        additional_url = 'booking/mitra_keluarga'
+        additional_url = 'booking/sentra_medika'
 
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -504,7 +504,7 @@ def issued(request):
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS issued SWAB EXPRESS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR mitra_keluarga SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR sentra_medika SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -535,7 +535,7 @@ def get_result(request):
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS get result SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR mitra_keluarga get result SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR sentra_medika get result SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -545,7 +545,7 @@ def cancel(request):
         data = {
             'order_number': request.POST['order_number'],
         }
-        additional_url = 'booking/mitra_keluarga'
+        additional_url = 'booking/sentra_medika'
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -559,9 +559,9 @@ def cancel(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("SUCCESS mitra_keluarga_cancel SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS sentra_medika_cancel SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR mitra_keluarga_cancel SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR sentra_medika_cancel SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -572,7 +572,7 @@ def confirm_order(request):
         data = {
             'order_number': request.POST['order_number'],
         }
-        additional_url = 'booking/mitra_keluarga'
+        additional_url = 'booking/sentra_medika'
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -586,9 +586,9 @@ def confirm_order(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("SUCCESS mitra_keluarga_confirm_order SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS sentra_medika_confirm_order SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR mitra_keluarga_confirm_order SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR sentra_medika_confirm_order SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -616,14 +616,14 @@ def get_transaction_by_analyst(request):
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS issued SWAB EXPRESS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR mitra_keluarga get transaction by analyst SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR sentra_medika get transaction by analyst SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
-def get_data_cache_passenger_mitra_keluarga(request):
+def get_data_cache_passenger_sentra_medika(request):
     try:
-        res = request.session['mitra_keluarga_passenger_cache']
+        res = request.session['sentra_medika_passenger_cache']
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
         for rec in res:
@@ -639,17 +639,17 @@ def get_data_cache_passenger_mitra_keluarga(request):
 
     except Exception as e:
         try:
-            res = request.session.get('mitra_keluarga_passenger_cache')
+            res = request.session.get('sentra_medika_passenger_cache')
         except Exception as e:
             res = []
     return res
 
-def get_data_booking_cache_mitra_keluarga(request):
+def get_data_booking_cache_sentra_medika(request):
     try:
-        res = request.session['mitra_keluarga_data_cache']
+        res = request.session['sentra_medika_data_cache']
     except Exception as e:
         try:
-            res = request.session.get('mitra_keluarga_data_cache')
+            res = request.session.get('sentra_medika_data_cache')
         except Exception as e:
             res = {}
     return res
@@ -670,7 +670,7 @@ def save_backend(request):
 
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
-        res = request.session['mitra_keluarga_passenger_cache']
+        res = request.session['sentra_medika_passenger_cache']
         for idx, rec in enumerate(data['passengers']):
             rec['birth_date'] = '%s-%s-%s' % (rec['birth_date'].split(' ')[2], month[rec['birth_date'].split(' ')[1]], rec['birth_date'].split(' ')[0])
             rec['nationality_code'] = res[idx]['nationality_code']
@@ -725,7 +725,7 @@ def verify_data(request):
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
 
-        res = request.session['mitra_keluarga_passenger_cache']
+        res = request.session['sentra_medika_passenger_cache']
         for idx, rec in enumerate(data['passengers']):
             rec['birth_date'] = '%s-%s-%s' % (rec['birth_date'].split(' ')[2], month[rec['birth_date'].split(' ')[1]], rec['birth_date'].split(' ')[0])
             rec['nationality_name'] = res[idx]['nationality_name']
@@ -778,7 +778,7 @@ def update_service_charge(request):
 
         additional_url = 'booking/'
 
-        additional_url += 'mitra_keluarga'
+        additional_url += 'sentra_medika'
 
 
         data = {
@@ -802,8 +802,8 @@ def update_service_charge(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            set_session(request, 'mitra_keluarga_upsell_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['mitra_keluarga_upsell' + request.POST['signature']]))
+            set_session(request, 'sentra_medika_upsell_'+request.POST['signature'], total_upsell)
+            _logger.info(json.dumps(request.session['sentra_medika_upsell' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge TRAIN SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -827,7 +827,7 @@ def booker_insentif_booking(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    url_request = url + 'booking/mitra_keluarga'
+    url_request = url + 'booking/sentra_medika'
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
@@ -835,11 +835,11 @@ def booker_insentif_booking(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            set_session(request, 'mitra_keluarga_upsell_booker_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['mitra_keluarga_upsell_booker_' + request.POST['signature']]))
-            _logger.info("SUCCESS update_service_charge_booker MITRA_KELUARGA SIGNATURE " + request.POST['signature'])
+            set_session(request, 'sentra_medika_upsell_booker_'+request.POST['signature'], total_upsell)
+            _logger.info(json.dumps(request.session['sentra_medika_upsell_booker_' + request.POST['signature']]))
+            _logger.info("SUCCESS update_service_charge_booker sentra_medika SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR update_service_charge_mitra_keluarga_booker MITRA_KELUARGA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR update_service_charge_sentra_medika_booker sentra_medika SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -859,7 +859,7 @@ def page_passenger(request):
 def page_review(request):
     try:
         res = {}
-        data = request.session['mitra_keluarga_data_%s' % request.POST['signature']]
+        data = request.session['sentra_medika_data_%s' % request.POST['signature']]
         res['passenger'] = {
             "booker": data['booker']
         }

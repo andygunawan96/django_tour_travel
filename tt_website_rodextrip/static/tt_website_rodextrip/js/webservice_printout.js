@@ -180,6 +180,10 @@ data_vendor = {
         'MKHCKPCR': 'mitrakeluarga_homecare_pcr_information',
         'MKDTPSRBD': 'mitrakeluarga_drivethru_srbd_information',
         'MKHCPSRBD': 'mitrakeluarga_homecare_srbd_information'
+    },"sentramedika":{
+        'SMHCKATG': 'sentramedika_antigen_information',
+        'SMHCKPCR': 'sentramedika_pcr_information',
+        'SMHCPMCU': 'sentramedika_mcu_information',
     }
 }
 

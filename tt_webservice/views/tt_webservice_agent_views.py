@@ -855,6 +855,38 @@ def get_new_cache(signature, type='all'):
                 _logger.info("ERROR UPDATE CACHE mitra keluarga " + provider + ' ' + json.dumps(res) + '\n' + str(
                     e) + '\n' + traceback.format_exc())
 
+            provider = 'sentramedika'
+            additional_url = 'content'
+            data = {
+                'provider_type': provider
+            }
+            action = "get_carriers"
+
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": action,
+                "signature": signature
+            }
+            url_request = url + additional_url
+            res = send_request_api({}, url_request, headers, data, 'POST', 120)
+
+            try:
+                if res['result']['error_code'] == 0:
+                    response = copy.deepcopy(res)
+                    response['result']['response'] = {}
+                    # HOMECARE DULUAN
+                    for rec in res['result']['response']:
+                        if 'HC' in rec:
+                            response['result']['response'][rec] = res['result']['response'][rec]
+                    for rec in res['result']['response']:
+                        if rec not in response['result']['response']:
+                            response['result']['response'][rec] = res['result']['response'][rec]
+                    write_cache_with_folder(response, "sentra_medika_cache_data")
+            except Exception as e:
+                _logger.info("ERROR UPDATE CACHE sentra medika " + provider + ' ' + json.dumps(res) + '\n' + str(
+                    e) + '\n' + traceback.format_exc())
+
             #bus
             data = {}
             action = "get_config"

@@ -1725,7 +1725,6 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     document.getElementById('adult_identity_type'+passenger_number).value = 'ktp';
                     $('#adult_identity_type'+passenger_number).niceSelect('update');
                     document.getElementById('adult_identity_number'+passenger_number).value = passenger_data[sequence].identities.ktp.identity_number;
-                    document.getElementById('adult_identity_number'+passenger_number).readOnly = true;
                     if(passenger_data[sequence].identities.ktp.identity_country_of_issued_name != '' && passenger_data[sequence].identities.ktp.identity_country_of_issued_name != undefined){
                         document.getElementById('select2-adult_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities.ktp.identity_country_of_issued_name;
                         document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].identities.ktp.identity_country_of_issued_name;
@@ -1801,7 +1800,6 @@ function pick_passenger_copy(type, sequence, product, identity=''){
             document.getElementById('adult_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
             if(passenger_data[sequence].identities.hasOwnProperty('passport') == true){
                 document.getElementById('adult_identity_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
-                document.getElementById('adult_identity_number'+passenger_number).readOnly = true;
                 if(passenger_data[sequence].identities.passport.identity_country_of_issued_name != '' && passenger_data[sequence].identities.passport.identity_country_of_issued_name != undefined){
                     document.getElementById('select2-adult_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
                     document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
@@ -1865,7 +1863,6 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                                     try{ //kalau ada identity number
                                         if(passenger_data[sequence].identities[i].identity_number != ''){
                                             document.getElementById(type+'_passport_number'+passenger_number).value = passenger_data[sequence].identities[i].identity_number;
-                                            document.getElementById(type+'_passport_number'+passenger_number).readOnly = true;
                                         }
                                     }catch(err){console.log(err)}
                                     try{ //kalau ada expire date
@@ -1877,7 +1874,6 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                                             document.getElementById('select2-'+type+'_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities[i].identity_country_of_issued_name;
                                             document.getElementById(type+'_country_of_issued'+passenger_number).value = passenger_data[sequence].identities[i].identity_country_of_issued_name;
                                             auto_complete(type+'_country_of_issued'+passenger_number);
-                                            document.getElementById(type+'_country_of_issued'+passenger_number).readOnly = true;
                                         }
                                     }catch(err){console.log(err)}
                                     //notif passport krng dari 6 bulan
@@ -1910,12 +1906,10 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                         var expired = date2.diff(date1, 'days');
                         if(expired < -180){
                             document.getElementById(type+'_passport_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
-                            document.getElementById(type+'_passport_number'+passenger_number).readOnly = true;
                             if(passenger_data[sequence].identities.passport.identity_country_of_issued_name != '' && passenger_data[sequence].identities.passport.identity_country_of_issued_name != undefined){
                                 document.getElementById('select2-'+type+'_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
                                 document.getElementById(type+'_country_of_issued'+passenger_number).value = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
                                 auto_complete(type+'_country_of_issued'+passenger_number);
-                                document.getElementById(type+'_country_of_issued'+passenger_number).readOnly = true;
                             }
                             if(passenger_data[sequence].identities.passport.identity_expdate != '' && passenger_data[sequence].identities.passport.identity_expdate != undefined){
                                 document.getElementById(type+'_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities.passport.identity_expdate;
@@ -3318,7 +3312,6 @@ function clear_passenger(type, sequence){
                     document.getElementById('adult_birth_date'+sequence).value = "";
                     //document.getElementById('adult_birth_date'+sequence).disabled = false;
                     document.getElementById('adult_identity_number'+sequence).value = '';
-                    document.getElementById('adult_identity_number'+sequence).readOnly = false;
                     document.getElementById('adult_identity_expired_date'+sequence).value = '';
                     document.getElementById('adult_identity_expired_date'+sequence).readOnly = false;
 
