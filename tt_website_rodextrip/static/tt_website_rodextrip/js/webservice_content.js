@@ -1201,6 +1201,22 @@ function get_banner(type,page){
                                         document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_visa.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
                                     }else if(page == "passport"){
                                         document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_passport.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                    }else if(page == "event"){
+                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_event.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                    }else if(page == "bus"){
+                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_mitra_bus.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                    }else if(page == "mitra_keluarga"){
+                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_mitra_keluarga.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                    }else if(page == "periksain"){
+                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_periksain.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                    }else if(page == "phc"){
+                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_phc.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                    }else if(page == "labpintar"){
+                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_lab_pintar.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                    }else if(page == "medical"){
+                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_national_hospital.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                    }else if(page == "swabexpress"){
+                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_swab_express.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
                                     }
                                 }
                             }
@@ -1234,6 +1250,22 @@ function get_banner(type,page){
                                     document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_visa.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
                                 }else if(page == "passport"){
                                     document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_passport.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                }else if(page == "event"){
+                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_event.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                }else if(page == "bus"){
+                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_bus.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                }else if(page == "mitrakeluarga"){
+                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_mitra_keluarga.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                }else if(page == "periksain"){
+                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_periksain.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                }else if(page == "phc"){
+                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_phc.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                }else if(page == "labpintar"){
+                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_lab_pintar.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                }else if(page == "medical"){
+                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_national_hospital.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                }else if(page == "swabexpress"){
+                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_swab_express.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
                                 }
                                 document.getElementById("big_banner").style.display = "block";
                             }
