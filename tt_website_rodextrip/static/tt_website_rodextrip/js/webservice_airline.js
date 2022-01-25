@@ -1220,7 +1220,7 @@ function save_retrieve_booking_from_vendor(){
                       title: 'Update!',
                       html: msg.result.error_msg,
                    })
-                   document.getElementById('pnr').value = '';
+                   document.getElementById('pnr2').value = '';
                    document.getElementById('booker_vendor').value = '';
                    document.getElementById('booker_vendor_id').value = '';
                    document.getElementById('result_get_booking_from_vendor').innerHTML = '';
