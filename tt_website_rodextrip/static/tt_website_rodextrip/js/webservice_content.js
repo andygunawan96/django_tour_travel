@@ -1217,6 +1217,10 @@ function get_banner(type,page){
                                         document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_national_hospital.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
                                     }else if(page == "swabexpress"){
                                         document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_swab_express.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                    }else if(page == "sentramedika"){
+                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_sentra_medika.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                    }else if(page == "insurance"){
+                                        document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_insurance.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
                                     }
                                 }
                             }
@@ -1266,6 +1270,10 @@ function get_banner(type,page){
                                     document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_national_hospital.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
                                 }else if(page == "swabexpress"){
                                     document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_swab_express.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                }else if(page == "sentramedika"){
+                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_sentra_medika.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
+                                }else if(page == "insurance"){
+                                    document.getElementById("banner-top1").style = "background: url('/static/tt_website_rodextrip/images/bg_insurance.jpg'); background-position: center center !important; background-size: cover !important; background-repeat: no-repeat !important;";
                                 }
                                 document.getElementById("big_banner").style.display = "block";
                             }

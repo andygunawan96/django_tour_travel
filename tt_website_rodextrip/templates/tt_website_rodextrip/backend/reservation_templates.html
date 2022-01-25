@@ -470,6 +470,8 @@
                     text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/insurance_black.png" alt="Insurance Icon"/>`;
                 }else if(provider_types_sequence[i].name == 'mitrakeluarga'){
                     text+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/swab_black.png" alt="Swab Express Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'sentramedika'){
+                    text+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/swab_black.png" alt="Sentra Medika Icon"/>`;
                 }
                 text +=`
                     <span>`+provider_types_sequence[i].name.charAt(0).toUpperCase()+provider_types_sequence[i].name.slice(1).toLowerCase()+`</span>
@@ -514,6 +516,8 @@
                     text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/insurance_black.png" alt="Insurance Icon"/>`;
                 }else if(provider_types_sequence[i].name == 'mitrakeluarga'){
                     text+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/swab_black.png" alt="Swab Express Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'sentramedika'){
+                    text+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/swab_black.png" alt="Sentra Medika Icon"/>`;
                 }
                 text+=`
                     <span>`+provider_types_sequence[i].name.charAt(0).toUpperCase()+provider_types_sequence[i].name.slice(1).toLowerCase()+`</span>
@@ -573,6 +577,8 @@
             document.getElementById('gotobooking'+key).action = '/insurance/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'mitrakeluarga'){
             document.getElementById('gotobooking'+key).action = '/mitra_keluarga/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'sentramedika'){
+            document.getElementById('gotobooking'+key).action = '/sentra_medika/booking/' + btoa(data_search[key].order_number);
         }
         document.getElementById('gotobooking'+key).submit();
     }
