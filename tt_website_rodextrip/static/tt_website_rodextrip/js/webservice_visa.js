@@ -1376,7 +1376,6 @@ function visa_get_data(data){
                         hide_modal_waiting_transaction();
                       }
                     })
-                    document.getElementById('show_loading_booking_train').hidden = true;
                     hide_modal_waiting_transaction();
                 }
             }catch(err){
