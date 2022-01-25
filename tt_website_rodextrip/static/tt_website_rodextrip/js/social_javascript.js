@@ -21,7 +21,7 @@ function add_table_of_social(data){
                     }
                     text+=`
                         <select id="social_title`+counter_social+`" name="social_title`+counter_social+`" class="nice-select-default">`;
-                        var social_us = ['Instagram', 'Facebook', 'Twitter', 'Youtube', 'Other'];
+                        var social_us = ['Instagram', 'Facebook', 'Twitter', 'Youtube', 'TikTok', 'Other'];
                         for (i = 0; i < social_us.length; i++) {
                             text+=`<option value="`+social_us[i]+`"`;
                             if(social_us[i] == data[0]){
@@ -115,6 +115,8 @@ function get_social(type){
                             text+=`<img style="margin-bottom:10px; height:25px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/twitter.png" alt="Twitter"/>`;
                         }else if(msg[i][0] == "Youtube"){
                             text+=`<img style="margin-bottom:10px; height:25px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/youtube.png" alt="Youtube"/>`;
+                        }else if(msg[i][0] == "TikTok"){
+                            text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/tiktok.png" alt="TikTok"/>`;
                         }else if(msg[i][0] == "Other"){
                             text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/>`;
                         }
@@ -147,6 +149,8 @@ function get_social(type){
                         text+=`<img style="margin-bottom:10px; height:40px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/twitter.png" alt="Twitter"/>`;
                     }else if(msg[i][0] == "Youtube"){
                         text+=`<img style="margin-bottom:10px; height:40px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/youtube.png" alt="Youtube"/>`;
+                    }else if(msg[i][0] == "TikTok"){
+                        text+=`<img style="margin-bottom:10px; height:40px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/tiktok.png" alt="TikTok"/>`;
                     }else if(msg[i][0] == "Other"){
                         text+=`<img style="margin-bottom:10px; height:40px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/>`;
                     }
@@ -186,6 +190,8 @@ function get_social(type){
                         text+=`<img style="margin:0px 5px; height:25px; width:auto;" src="/static/tt_website_rodextrip/img/twitter.png" alt="Twitter"/>`;
                     }else if(msg[i][0] == "Youtube"){
                         text+=`<img style="margin:0px 5px; height:25px; width:auto;" src="/static/tt_website_rodextrip/img/youtube.png" alt="Youtube"/>`;
+                    }else if(msg[i][0] == "TikTok"){
+                        text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/tiktok.png" alt="TikTok"/>`;
                     }else if(msg[i][0] == "Other"){
                         text+=`<img style="margin:0px 5px; height:30px; width:auto;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/>`;
                     }

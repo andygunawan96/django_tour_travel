@@ -5,17 +5,17 @@
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/webservice_activity.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_insurance.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/activity_javascript.js?version={{javascript_version}}"></script>
 <!--<script src="{{ static_path }}js/webservice_bank.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
-<!--<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.carousel.css?version={{javascript_version}}">-->
-<!--<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.default.min.css?version={{javascript_version}}">-->
-<!--<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.green.min.css?version={{javascript_version}}">-->
-<!--<script src="{{ static_path }}js/vendor/owl.carousel.min.js?version={{javascript_version}}"></script>-->
+
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.carousel.css?version={{javascript_version}}">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.default.min.css?version={{javascript_version}}">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.green.min.css?version={{javascript_version}}">
+<script src="{{ static_path }}js/vendor/owl.carousel.min.js?version={{javascript_version}}"></script>
 <script>
     signature = `{{signature}}`;
     static_path_url_server = '{{static_path_url_server}}'
@@ -52,7 +52,7 @@
         }
     }
 </style>
-<title>{{name}} - {% trans 'Activity' %}</title>
+<title>{{name}} - {% trans 'Insurance' %}</title>
 
 {% if username.co_user_login != '' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
@@ -60,7 +60,7 @@
 {% endif %}
 {% include 'tt_website_rodextrip/header.html' %}
 {%if template == 1%}
-<section class="testimonial-area section-gap overlay-bg" data-aos="fade-up" style="padding-top:60px; padding-bottom:60px; z-index:1; position:relative; background-image:url('{{static_path}}images/bg_activity.jpg') !important">
+<section class="testimonial-area section-gap overlay-bg" data-aos="fade-up" style="padding-top:60px; padding-bottom:60px; z-index:1; position:relative; background-image:url('{{static_path}}images/bg_insurance.jpg') !important">
     <div class="overlay overlay-bg"></div>
     <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
         <div class="container">
@@ -81,11 +81,6 @@
                         {% trans 'Hello, dear customer, book your trip with us' %}
                         {% endif %}
                     </h4>
-
-                    <!--                <h4 style="padding-top:5px; padding-bottom:15px;">-->
-                    <!--                    Get our product-->
-                    <!--                    <div class="animate"></div>-->
-                    <!--                </h4>-->
                 </div>
                 {% else %}
                 <div class="col-lg-12" style="text-align:center; padding-top: 20px;">
@@ -105,149 +100,120 @@
                 <input type="hidden" id="end"/>
 
                 <div class="col-lg-12" id="div-search-overlay">
-                    {% if "ticketing_activity" in username.co_agent_frontend_security %}
                     <div class="banner-right">
-                        <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
                         <div class="tab-content" id="myTabContent" style="border-radius:7px;">
-                            {% if "activity" in provider %}
-                            <div class="tab-pane fade show active" id="activity" role="tabpanel" aria-labelledby="activity-tab">
-                                <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
+                            {% if "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security%}
+                            <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
                                     {% csrf_token %}
-                                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
+                                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
                                     <div class="row">
-                                        <div class="col-lg-10 col-md-9 col-sm-8" style="padding:0px;">
-                                            <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off" style="margin-bottom:0px;"/>
-                                            </div>
+                                        <div class="col-lg-12" id="radio_insurance_search" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                            <label class="radio-button-custom crlabel">
+                                                <span style="font-size:13px; color:{{text_color}};">{% trans 'Single Trip' %}</span>
+                                                <input type="radio" checked="checked" name="radio_insurance_type" value="Single Trip">
+                                                <span class="checkmark-radio crspan"></span>
+                                            </label>
+                                            <label class="radio-button-custom crlabel">
+                                                <span style="font-size:13px; color:{{text_color}};">{% trans 'Annual' %}</span>
+                                                <input type="radio" name="radio_insurance_type" value="Annual">
+                                                <span class="checkmark-radio crspan"></span>
+                                            </label>
+                                            <span id="insurance_info"><i class="fas fa-info-circle" style="font-size:20px; cursor:pointer; color:{{text_color}}"></i></span>
                                         </div>
-                                        <div class="col-lg-2 col-md-3 col-sm-4" style="padding:0px;">
-                                            <span class="span-search-ticket">&nbsp;</span>
-                                            <div class="input-container-search-ticket">
-                                                <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                                <button type="button" class="form-control activity_btn_advance" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row" id="activity_advanced_search" style="display:none;">
                                         <div class="col-lg-6">
                                             <div class="row">
-                                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                                    <div class="form-select">
-                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
-                                                            <option value="" selected="">{% trans 'All Countries' %}</option>
-                                                        </select>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 train-from" style="padding-left:0px;">
+                                                    <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                                    <div class="form-select">
-                                                        <div id="temp_activity_cities">
-                                                            <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                                <option value="" selected="">{% trans 'All Cities' %}</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
+                                                <div class="image-change-route-vertical2">
+                                                    <span><a href="javascript:insurance_switch();" style="z-index:5; color:black;" id="insurance_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
                                                 </div>
-                                            </div>
-                                        </div>
+                                                <div class="image-change-route-horizontal2">
+                                                    <span><a class="horizontal-arrow" href="javascript:insurance_switch();" style="z-index:5; color:{{text_color}} !important;" id="insurance_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                                </div>
 
-                                        <div class="col-lg-6">
-                                            <div class="row">
-                                                <div class="col-lg-12 search_type">
-                                                    <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Category / Type' %} </span>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5; padding-right:0px;">
+                                                    <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
+                                                    </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="col-lg-6">
                                             <div class="row">
-                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 search_type">
-                                                    <div class="form-select">
-                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
-                                                            <option value="0" selected="">{% trans 'All Types' %}</option>
+                                                <span class="span-search-ticket"><i class="fas fa-suitcase"></i> {% trans 'Plan Trip' %}</span>
+                                                <div class="input-container-search-ticket btn-group">
+                                                    <div class="form-select" id="default-select">
+                                                        <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
+
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
-                                                    <div class="form-select">
-                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
-                                                            <option value="0" selected="">{% trans 'All Categories' %}</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
-                                                    <div class="form-select">
-                                                        <div id="temp_activity_sub_category">
-                                                            <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
-                                                                <option value="0" selected="">{% trans 'All Sub Categories' %}</option>
-                                                            </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px;" id="insurance_date_search">
+                                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Date' %}</span>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px;">
+                                            <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
+                                            <div class="input-container-search-ticket btn-group">
+                                                <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <div class="row" style="padding:10px;">
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
+                                                                <label>
+                                                                    <span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
+                                                                <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-12" style="text-align:right;">
+                                                            <hr/>
+                                                            <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </ul>
                                             </div>
                                         </div>
                                     </div>
                                     <br/>
+
+                                    <input type="hidden" id="insurance_response" name="response"/>
                                     <center>
-                                        <button class="button-search primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="submit" value="Submit">
+                                        <button class="primary-btn ld-ext-right" id="btn-search-insurance" type="button" onclick="insurance_check_search_values();" value="Submit">
                                             <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                             {% trans 'Search' %}
                                             <div class="ld ld-ring ld-cycle"></div>
                                         </button>
                                     </center>
                                 </form>
-                            </div>
                             {% endif %}
-                            <!--<div class="tab-pane fade" id="groupbooking" role="tabpanel" aria-labelledby="groupbooking-tab">-->
-                                <!--<center>-->
-                                    <!--<div style="padding:15px;">-->
-                                        <!--<img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>-->
-                                        <!--<h1 style="color:{{text_color}} !important;">Group booking under construction</h1>-->
-                                    <!--</div>-->
-                                <!--</center>-->
-                            <!--</div>-->
-                            <!--<div class="tab-pane fade" id="passport" role="tabpanel" aria-labelledby="passport-tab">-->
-                                <!--<center>-->
-                                    <!--<div style="padding:15px;">-->
-                                        <!--<img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>-->
-                                        <!--<h1 style="color:{{text_color}} !important;">Passport under construction</h1>-->
-                                    <!--</div>-->
-                                <!--</center>-->
-                            <!--</div>-->
                         </div>
-                        <!--<img src="{{static_path}}images/christmas-icon1.png" style="width:auto; height:110px; position:absolute; left:-20px; bottom:-20px;" alt="">-->
                     </div>
-                    {% endif %}
                 </div>
                 {% endif %}
             </div>
         </div>
     </section>
-
-    <!--<section class="destinations-area" style="padding-top:15px; z-index:0; position:relative;">-->
-    <!--    <div class="container">-->
-    <!--        <div class="row">-->
-    <!--            <div class="col-lg-4 col-md-4 col-sm-4">-->
-    <!--                <div class="single-defination">-->
-    <!--                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> Competitive Pricing</h4>-->
-    <!--                    <p>RODEXTRIP can save you more!.</p>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--            <div class="col-lg-4 col-md-4 col-sm-4">-->
-    <!--                <div class="single-defination">-->
-    <!--                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> Trusted</h4>-->
-    <!--                    <p>RODEXTRIP have many customers and agents</p>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--            <div class="col-lg-4 col-md-4 col-sm-4">-->
-    <!--                <div class="single-defination">-->
-    <!--                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> Easy and Safe</h4>-->
-    <!--                    <p>RODEXTRIP is very easy to use and data remains safe.</p>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <!--</section>-->
 
     <div id="small_banner" style="padding: 0px 0px 15px 0px;">
 
@@ -263,620 +229,9 @@
         </div>
     </div>
     {% endif %}
-    {% if username.co_user_login != '' %}
-
-<!--    <section class="destinations-area section-gap">-->
-<!--        <div class="container">-->
-<!--            <div class="row">-->
-<!--                <div class="col-lg-12">-->
-<!--                    <div class="menu-content">-->
-<!--                        <div class="title text-center">-->
-<!--                            <h2>POPULAR TOUR PACKAGE</h2>-->
-<!--                        </div>-->
-<!--                        <br/>-->
-<!--                        <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; text-align:center;">-->
-<!--                            <ul class="popular1_tabs">-->
-<!--                                <li class="popular1_tab-link current" data-tab="popular1_thailand"><label>Thailand</label></li>-->
-<!--                                <li class="popular1_tab-link" data-tab="popular1_japan"><label>Japan</label></li>-->
-<!--                            </ul>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div id="popular1_thailand" class="popular1_tab-content current">-->
-<!--                    <div class="col-lg-12">-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                                <div class="single-recent-blog-post item">-->
-<!--                                    <div class="single-destination relative">-->
-<!--                                        <div class="thumb relative">-->
-<!--                                            <div class="overlay overlay-bg"></div>-->
-<!--                                            <img class="img-fluid" src="{{static_path}}img/bg/tour1.jpg" alt="">-->
-<!--                                        </div>-->
-<!--                                        <div class="card card-effect-promotion">-->
-<!--                                            <div class="card-body">-->
-<!--                                                <div class="row details">-->
-<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
-<!--                                                        <h6>5 Days - Thailand</h6>-->
-<!--                                                        <span style="font-size:12px;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>-->
-<!--                                                        <span style="font-size:12px;">Qty: 13/25</span>-->
-<!--                                                    </div>-->
-<!--                                                    <div class="col-lg-12" style="text-align:right;">-->
-<!--                                                        <span style="font-weight:700; font-size:14px;">IDR 5.750.000 </span><a href="#" class="btn btn-primary"> BOOK </a>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                                <div class="single-recent-blog-post item">-->
-<!--                                    <div class="single-destination relative">-->
-<!--                                        <div class="thumb relative">-->
-<!--                                            <div class="overlay overlay-bg"></div>-->
-<!--                                            <img class="img-fluid" src="{{static_path}}img/bg/tour4.jpg" alt="">-->
-<!--                                        </div>-->
-<!--                                        <div class="card card-effect-promotion">-->
-<!--                                            <div class="card-body">-->
-<!--                                                <div class="row details">-->
-<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
-<!--                                                        <h6>7 Days - Japan</h6>-->
-<!--                                                        <span style="font-size:12px;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>-->
-<!--                                                        <span style="font-size:12px;">Qty: 10/20</span>-->
-<!--                                                    </div>-->
-<!--                                                    <div class="col-lg-12" style="text-align:right;">-->
-<!--                                                        <span style="font-weight:700; font-size:14px;">IDR 20.500.000 </span> <a href="#" class="btn btn-primary"> BOOK</a>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                                <div class="single-recent-blog-post item">-->
-<!--                                    <div class="single-destination relative">-->
-<!--                                        <div class="thumb relative">-->
-<!--                                            <div class="overlay overlay-bg"></div>-->
-<!--                                            <img class="img-fluid" src="{{static_path}}img/bg/tour5.jpg" alt="">-->
-<!--                                        </div>-->
-<!--                                        <div class="card card-effect-promotion">-->
-<!--                                            <div class="card-body">-->
-<!--                                                <div class="row details">-->
-<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
-<!--                                                        <h6>4 Days - Singapore</h6>-->
-<!--                                                        <span style="font-size:12px;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>-->
-<!--                                                        <span style="font-size:12px;">Qty: 10/20</span>-->
-<!--                                                    </div>-->
-<!--                                                    <div class="col-lg-12" style="text-align:right;">-->
-<!--                                                        <span style="font-weight:700; font-size:14px;">IDR 3.950.000 </span><a href="#" class="btn btn-primary">BOOK</a>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                                <div class="single-recent-blog-post item">-->
-<!--                                    <div class="single-destination relative">-->
-<!--                                        <div class="thumb relative">-->
-<!--                                            <div class="overlay overlay-bg"></div>-->
-<!--                                            <img class="img-fluid" src="{{static_path}}img/bg/tour6.jpg" alt="">-->
-<!--                                        </div>-->
-<!--                                        <div class="card card-effect-promotion">-->
-<!--                                            <div class="card-body">-->
-<!--                                                <div class="row details">-->
-<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
-<!--                                                        <h6>6 Days - Korean + Hongkong</h6>-->
-<!--                                                        <span style="font-size:12px;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>-->
-<!--                                                        <span style="font-size:12px;">Qty: 10/20</span>-->
-<!--                                                    </div>-->
-<!--                                                    <div class="col-lg-12" style="text-align:right;">-->
-<!--                                                        <span style="font-weight:700; font-size:14px;">IDR 8.990.000 </span><a href="#" class="btn btn-primary">BOOK</a>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div id="popular1_japan" class="popular1_tab-content">-->
-<!--                    <div class="col-lg-12">-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                                <div class="single-recent-blog-post item">-->
-<!--                                    <div class="single-destination relative">-->
-<!--                                        <div class="thumb relative">-->
-<!--                                            <div class="overlay overlay-bg"></div>-->
-<!--                                            <img class="img-fluid" src="{{static_path}}img/bg/tour1.jpg" alt="">-->
-<!--                                        </div>-->
-<!--                                        <div class="card card-effect-promotion">-->
-<!--                                            <div class="card-body">-->
-<!--                                                <div class="row details">-->
-<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
-<!--                                                        <h6>5 Days - Thailand</h6>-->
-<!--                                                        <span style="font-size:12px;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>-->
-<!--                                                        <span style="font-size:12px;">Qty: 13/25</span>-->
-<!--                                                    </div>-->
-<!--                                                    <div class="col-lg-12" style="text-align:right;">-->
-<!--                                                        <span style="font-weight:700; font-size:14px;">IDR 5.750.000 </span><a href="#" class="btn btn-primary"> BOOK </a>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                                <div class="single-recent-blog-post item">-->
-<!--                                    <div class="single-destination relative">-->
-<!--                                        <div class="thumb relative">-->
-<!--                                            <div class="overlay overlay-bg"></div>-->
-<!--                                            <img class="img-fluid" src="{{static_path}}img/bg/tour4.jpg" alt="">-->
-<!--                                        </div>-->
-<!--                                        <div class="card card-effect-promotion">-->
-<!--                                            <div class="card-body">-->
-<!--                                                <div class="row details">-->
-<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
-<!--                                                        <h6>7 Days - Japan</h6>-->
-<!--                                                        <span style="font-size:12px;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>-->
-<!--                                                        <span style="font-size:12px;">Qty: 10/20</span>-->
-<!--                                                    </div>-->
-<!--                                                    <div class="col-lg-12" style="text-align:right;">-->
-<!--                                                        <span style="font-weight:700; font-size:14px;">IDR 20.500.000 </span> <a href="#" class="btn btn-primary"> BOOK</a>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                                <div class="single-recent-blog-post item">-->
-<!--                                    <div class="single-destination relative">-->
-<!--                                        <div class="thumb relative">-->
-<!--                                            <div class="overlay overlay-bg"></div>-->
-<!--                                            <img class="img-fluid" src="{{static_path}}img/bg/tour5.jpg" alt="">-->
-<!--                                        </div>-->
-<!--                                        <div class="card card-effect-promotion">-->
-<!--                                            <div class="card-body">-->
-<!--                                                <div class="row details">-->
-<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
-<!--                                                        <h6>4 Days - Singapore</h6>-->
-<!--                                                        <span style="font-size:12px;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>-->
-<!--                                                        <span style="font-size:12px;">Qty: 10/20</span>-->
-<!--                                                    </div>-->
-<!--                                                    <div class="col-lg-12" style="text-align:right;">-->
-<!--                                                        <span style="font-weight:700; font-size:14px;">IDR 3.950.000 </span><a href="#" class="btn btn-primary">BOOK</a>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                                <div class="single-recent-blog-post item">-->
-<!--                                    <div class="single-destination relative">-->
-<!--                                        <div class="thumb relative">-->
-<!--                                            <div class="overlay overlay-bg"></div>-->
-<!--                                            <img class="img-fluid" src="{{static_path}}img/bg/tour6.jpg" alt="">-->
-<!--                                        </div>-->
-<!--                                        <div class="card card-effect-promotion">-->
-<!--                                            <div class="card-body">-->
-<!--                                                <div class="row details">-->
-<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
-<!--                                                        <h6>6 Days - Korean + Hongkong</h6>-->
-<!--                                                        <span style="font-size:12px;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>-->
-<!--                                                        <span style="font-size:12px;">Qty: 10/20</span>-->
-<!--                                                    </div>-->
-<!--                                                    <div class="col-lg-12" style="text-align:right;">-->
-<!--                                                        <span style="font-weight:700; font-size:14px;">IDR 8.990.000 </span><a href="#" class="btn btn-primary">BOOK</a>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                <div class="col-lg-12" style="padding-top:25px; text-align:right;">-->
-<!--                    <button class="button-search primary-btn-custom ld-ext-right" type="button" id="airline_button_search" onclick="airline_goto_search();" value="Submit">-->
-<!--                        More <i class="fas fa-angle-right"></i>-->
-<!--                        <div class="ld ld-ring ld-cycle"></div>-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </section>-->
-
-<!--    <section class="popular-destination-area section-gap" style="z-index:0; position:relative;">-->
-<!--        <div class="container">-->
-<!--            <div class="row">-->
-<!--                <div class="col-lg-12">-->
-<!--                    <div class="menu-content">-->
-<!--                        <div class="title text-center">-->
-<!--                            <h2>POPULAR ACTIVITIES</h2>-->
-<!--                        </div>-->
-<!--                        <br/>-->
-<!--                        <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; text-align:center;">-->
-<!--                            <ul class="popular2_tabs">-->
-<!--                                <li class="popular2_tab-link current" data-tab="popular2_thailand"><label>Thailand</label></li>-->
-<!--                                <li class="popular2_tab-link" data-tab="popular2_japan"><label>Japan</label></li>-->
-<!--                            </ul>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div id="popular2_thailand" class="popular2_tab-content current">-->
-<!--                    <div class="col-lg-12">-->
-<!--                    <div class="row">-->
-<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
-<!--                                <div class="single-destination relative">-->
-<!--                                    <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('../images/bg_7.jpg'); background-size: 100%; 100%;">-->
-<!--                                        <div class="overlay overlay-bg"></div>-->
-<!--                                        <img class="img-fluid" src="https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/027e6e75-a368-4c5e-8eb9-2d58d7794c93.jpg" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">-->
-<!--                                    </div>-->
-<!--                                    <div class="card card-effect-promotion">-->
-<!--                                        <div class="card-body">-->
-<!--                                            <div class="row details">-->
-<!--                                                <div class="col-lg-12" style="text-align:left;">-->
-<!--                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Universal Studios Singapore E-Ticket (Senior Category)</h6>-->
-<!--                                                    <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> Sentosa, Singapore </span><br/>-->
-<!--                                                    <span class="span-activity-desc" style="font-size:13px;"> 0.0 <i style="color:#FFC801 !important;" class="fas fa-star"></i> (0 reviews)</span>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                            <div class="single-recent-blog-post item" title="Singapore Zoo with FREE and UNLIMITED Tram Ride">-->
-<!--                                <div class="single-destination relative">-->
-<!--                                    <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('../images/bg_7.jpg'); background-size: 100%; 100%;">-->
-<!--                                        <div class="overlay overlay-bg"></div>-->
-<!--                                        <img class="img-fluid" src="https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/114ba07f-0a32-4bf8-963a-36acfddbf653.jpg" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">-->
-<!--                                    </div>-->
-<!--                                    <div class="card card-effect-promotion">-->
-<!--                                        <div class="card-body">-->
-<!--                                            <div class="row details">-->
-<!--                                                <div class="col-lg-12" style="text-align:left;">-->
-<!--                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Singapore Zoo with FREE and UNLIMITED Tram Ride</h6>-->
-<!--                                                    <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> Sentosa, Singapore </span><br/>-->
-<!--                                                    <span class="span-activity-desc" style="font-size:13px;"> 4.5 <i style="color:#FFC801 !important;" class="fas fa-star"></i> (32 reviews)</span>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore E-ticket">-->
-<!--                                <div class="single-destination relative">-->
-<!--                                    <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('../images/bg_7.jpg'); background-size: 100%; 100%;">-->
-<!--                                        <div class="overlay overlay-bg"></div>-->
-<!--                                        <img class="img-fluid" src="https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/7b15b4a0-c1a6-423f-9447-f6ae7be3bbea.jpg" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">-->
-<!--                                    </div>-->
-<!--                                    <div class="card card-effect-promotion">-->
-<!--                                        <div class="card-body">-->
-<!--                                            <div class="row details">-->
-<!--                                                <div class="col-lg-12" style="text-align:left;">-->
-<!--                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Universal Studios Singapore E-ticket</h6>-->
-<!--                                                    <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> Sentosa, Singapore </span><br/>-->
-<!--                                                    <span class="span-activity-desc" style="font-size:13px;"> 4.3 <i style="color:#FFC801 !important;" class="fas fa-star"></i> (3 reviews)</span>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore Adult One-day Ticket with SGD 5 Meal Voucher and SGD 5 Retail Voucher ">-->
-<!--                                <div class="single-destination relative">-->
-<!--                                    <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('../images/bg_7.jpg'); background-size: 100%; 100%;">-->
-<!--                                        <div class="overlay overlay-bg"></div>-->
-<!--                                        <img class="img-fluid" src="https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/cff642df-7b4c-42ea-b0c0-0f7bc6e22c62.jpg" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">-->
-<!--                                    </div>-->
-<!--                                    <div class="card card-effect-promotion">-->
-<!--                                        <div class="card-body">-->
-<!--                                            <div class="row details">-->
-<!--                                                <div class="col-lg-12" style="text-align:left;">-->
-<!--                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Universal Studios Singapore Adult One-day Ticket with SGD 5 Meal Voucher and SGD 5 Retail Voucher </h6>-->
-<!--                                                    <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> Sentosa, Singapore </span><br/>-->
-<!--                                                    <span class="span-activity-desc" style="font-size:13px;"> 0.0 <i style="color:#FFC801 !important;" class="fas fa-star"></i> (0 reviews)</span>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                </div>-->
-<!--                <div id="popular2_japan" class="popular2_tab-content">-->
-<!--                    <div class="col-lg-12">-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                                <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
-<!--                                    <div class="single-destination relative">-->
-<!--                                        <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('../images/bg_7.jpg'); background-size: 100%; 100%;">-->
-<!--                                            <div class="overlay overlay-bg"></div>-->
-<!--                                            <img class="img-fluid" src="https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/027e6e75-a368-4c5e-8eb9-2d58d7794c93.jpg" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">-->
-<!--                                        </div>-->
-<!--                                        <div class="card card-effect-promotion">-->
-<!--                                            <div class="card-body">-->
-<!--                                                <div class="row details">-->
-<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
-<!--                                                        <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Universal Studios Singapore E-Ticket (Senior Category)</h6>-->
-<!--                                                        <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> Sentosa, Singapore </span><br/>-->
-<!--                                                        <span class="span-activity-desc" style="font-size:13px;"> 0.0 <i style="color:#FFC801 !important;" class="fas fa-star"></i> (0 reviews)</span>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                                <div class="single-recent-blog-post item" title="Singapore Zoo with FREE and UNLIMITED Tram Ride">-->
-<!--                                    <div class="single-destination relative">-->
-<!--                                        <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('../images/bg_7.jpg'); background-size: 100%; 100%;">-->
-<!--                                            <div class="overlay overlay-bg"></div>-->
-<!--                                            <img class="img-fluid" src="https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/114ba07f-0a32-4bf8-963a-36acfddbf653.jpg" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">-->
-<!--                                        </div>-->
-<!--                                        <div class="card card-effect-promotion">-->
-<!--                                            <div class="card-body">-->
-<!--                                                <div class="row details">-->
-<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
-<!--                                                        <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Singapore Zoo with FREE and UNLIMITED Tram Ride</h6>-->
-<!--                                                        <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> Sentosa, Singapore </span><br/>-->
-<!--                                                        <span class="span-activity-desc" style="font-size:13px;"> 4.5 <i style="color:#FFC801 !important;" class="fas fa-star"></i> (32 reviews)</span>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                                <div class="single-recent-blog-post item" title="Universal Studios Singapore E-ticket">-->
-<!--                                    <div class="single-destination relative">-->
-<!--                                        <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('../images/bg_7.jpg'); background-size: 100%; 100%;">-->
-<!--                                            <div class="overlay overlay-bg"></div>-->
-<!--                                            <img class="img-fluid" src="https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/7b15b4a0-c1a6-423f-9447-f6ae7be3bbea.jpg" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">-->
-<!--                                        </div>-->
-<!--                                        <div class="card card-effect-promotion">-->
-<!--                                            <div class="card-body">-->
-<!--                                                <div class="row details">-->
-<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
-<!--                                                        <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Universal Studios Singapore E-ticket</h6>-->
-<!--                                                        <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> Sentosa, Singapore </span><br/>-->
-<!--                                                        <span class="span-activity-desc" style="font-size:13px;"> 4.3 <i style="color:#FFC801 !important;" class="fas fa-star"></i> (3 reviews)</span>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                                <div class="single-recent-blog-post item" title="Universal Studios Singapore Adult One-day Ticket with SGD 5 Meal Voucher and SGD 5 Retail Voucher ">-->
-<!--                                    <div class="single-destination relative">-->
-<!--                                        <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('../images/bg_7.jpg'); background-size: 100%; 100%;">-->
-<!--                                            <div class="overlay overlay-bg"></div>-->
-<!--                                            <img class="img-fluid" src="https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/cff642df-7b4c-42ea-b0c0-0f7bc6e22c62.jpg" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">-->
-<!--                                        </div>-->
-<!--                                        <div class="card card-effect-promotion">-->
-<!--                                            <div class="card-body">-->
-<!--                                                <div class="row details">-->
-<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
-<!--                                                        <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Universal Studios Singapore Adult One-day Ticket with SGD 5 Meal Voucher and SGD 5 Retail Voucher </h6>-->
-<!--                                                        <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> Sentosa, Singapore </span><br/>-->
-<!--                                                        <span class="span-activity-desc" style="font-size:13px;"> 0.0 <i style="color:#FFC801 !important;" class="fas fa-star"></i> (0 reviews)</span>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                <div class="col-lg-12" style="padding-top:25px; text-align:right;">-->
-<!--                    <button class="button-search primary-btn-custom ld-ext-right" type="button" id="airline_button_search" onclick="airline_goto_search();" value="Submit">-->
-<!--                        More <i class="fas fa-angle-right"></i>-->
-<!--                        <div class="ld ld-ring ld-cycle"></div>-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </section>-->
-
-<!--    <section class="popular-destination-area section-gap" style="z-index:0; position:relative;">-->
-<!--        <div class="container">-->
-<!--            <div class="row">-->
-<!--                <div class="col-lg-12">-->
-<!--                    <div class="menu-content">-->
-<!--                        <div class="title text-center">-->
-<!--                            <h2>TOP FLIGHT DEALS</h2>-->
-<!--                        </div>-->
-<!--                        <br/>-->
-<!--                        <div class="text-center" style="padding-bottom:20px;">-->
-<!--                            <a class="link_popular popular_activities active">Surabaya</a>-->
-<!--                            <a class="link_popular popular_activities">Jakarta</a>-->
-<!--                            <a class="link_popular popular_activities">Bali</a>-->
-<!--                            <a class="link_popular popular_activities">Semarang</a>-->
-<!--                            <a class="link_popular popular_activities">Bandung</a>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="col-lg-12">-->
-<!--                    <div class="row">-->
-<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
-<!--                                <div class="single-destination relative">-->
-<!--                                    <div class="card card-effect-promotion">-->
-<!--                                        <div class="card-body">-->
-<!--                                            <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
-<!--                                            <h5>Surabaya <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
-<!--                                            <span style="font-weight:500;">Round Trip</span><br/>-->
-<!--                                            <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
-<!--                                            <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
-<!--                                <div class="single-destination relative">-->
-<!--                                    <div class="card card-effect-promotion">-->
-<!--                                        <div class="card-body">-->
-<!--                                            <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
-<!--                                            <h5>Surabaya <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
-<!--                                            <span style="font-weight:500;">Round Trip</span><br/>-->
-<!--                                            <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
-<!--                                            <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
-<!--                                <div class="single-destination relative">-->
-<!--                                    <div class="card card-effect-promotion">-->
-<!--                                        <div class="card-body">-->
-<!--                                            <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
-<!--                                            <h5>Surabaya <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
-<!--                                            <span style="font-weight:500;">Round Trip</span><br/>-->
-<!--                                            <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
-<!--                                            <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
-<!--                                <div class="single-destination relative">-->
-<!--                                    <div class="card card-effect-promotion">-->
-<!--                                        <div class="card-body">-->
-<!--                                            <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
-<!--                                            <h5>Surabaya <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
-<!--                                            <span style="font-weight:500;">Round Trip</span><br/>-->
-<!--                                            <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
-<!--                                            <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
-<!--                                <div class="single-destination relative">-->
-<!--                                    <div class="card card-effect-promotion">-->
-<!--                                        <div class="card-body">-->
-<!--                                            <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
-<!--                                            <h5>Surabaya <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
-<!--                                            <span style="font-weight:500;">Round Trip</span><br/>-->
-<!--                                            <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
-<!--                                            <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
-<!--                                <div class="single-destination relative">-->
-<!--                                    <div class="card card-effect-promotion">-->
-<!--                                        <div class="card-body">-->
-<!--                                            <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
-<!--                                            <h5>Surabaya <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
-<!--                                            <span style="font-weight:500;">Round Trip</span><br/>-->
-<!--                                            <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
-<!--                                            <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
-<!--                                <div class="single-destination relative">-->
-<!--                                    <div class="card card-effect-promotion">-->
-<!--                                        <div class="card-body">-->
-<!--                                            <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
-<!--                                            <h5>Surabaya <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
-<!--                                            <span style="font-weight:500;">Round Trip</span><br/>-->
-<!--                                            <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
-<!--                                            <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
-<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
-<!--                                <div class="single-destination relative">-->
-<!--                                    <div class="card card-effect-promotion">-->
-<!--                                        <div class="card-body">-->
-<!--                                            <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
-<!--                                            <h5>Surabaya <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
-<!--                                            <span style="font-weight:500;">Round Trip</span><br/>-->
-<!--                                            <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
-<!--                                            <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="col-lg-12" style="padding-top:15px; text-align:right;">-->
-<!--                    <button class="button-search primary-btn-custom ld-ext-right" type="button" id="airline_button_search" onclick="airline_goto_search();" value="Submit">-->
-<!--                        More <i class="fas fa-angle-right"></i>-->
-<!--                        <div class="ld ld-ring ld-cycle"></div>-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </section>-->
-    {% endif %}
-<!--    <section class="destinations-area">-->
-<!--        <div class="container">-->
-<!--            <div class="row">-->
-<!--                <div class="col-lg-6">-->
-<!--                    <center>-->
-<!--                        <img src="{{static_path}}img/rodextrip.png" style="width:300px; height:400px;" alt="" title="" />-->
-<!--                    </center>-->
-<!--                </div>-->
-<!--                <div class="col-lg-6" style="padding-top:50px; padding-bottom:20px;">-->
-<!--                    <h4>Easy to use and easy to access with application RODEXTRIP!</h4>-->
-<!--                    <br/>-->
-<!--                    <a href="https://play.google.com/store/apps/details?id=com.skytors"><img src="{{static_path}}img/playstore.png" style="width:155px; height:50px;" alt="" title="Skytors.ID Android" /></a>-->
-<!--                    <a href="https://apps.apple.com/id/app/skytors/id1449434282?l=id"><img src="{{static_path}}img/appstore.png" style="width:155px; height:50px;" alt="" title="Skytors.ID Apple" /></a>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </section>-->
 
     {% elif template == 2 %}
-    <div class="banner-area-rodex bg-img bg-overlay jarallax" style="background-image: url('{{static_path}}images/bg_activity.jpg') !important;">
+    <div class="banner-area-rodex bg-img bg-overlay jarallax" style="background-image: url('{{static_path}}images/bg_insurance.jpg') !important;">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
             </div>
@@ -903,91 +258,104 @@
                     <input type="hidden" id="country_id"/>
                     <input type="hidden" id="start"/>
                     <input type="hidden" id="end"/>
-                    {% if "ticketing_activity" in username.co_agent_frontend_security %}
                     <div class="tab_body" style="border:2px solid #cdcdcd;">
-                        {% if "activity" in provider %}
-                        <div id="tab-activity" class="tab-content current">
-                            <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" method="post">
+                        {% if "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security%}
+                        <div id="tab-insurance" class="tab-content current">
+                            <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
                                 {% csrf_token %}
-                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
+                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
                                 <div class="row">
-                                    <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
-                                        <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
-                                        </div>
+                                    <div class="col-lg-12" id="radio_insurance_search" style="text-align:left;margin-bottom:10px;">
+                                        <label class="radio-button-custom crlabel">
+                                            <span style="font-size:13px; color:{{text_color}};">{% trans 'Single Trip' %}</span>
+                                            <input type="radio" checked="checked" name="radio_insurance_type" value="Single Trip">
+                                            <span class="checkmark-radio crspan"></span>
+                                        </label>
+                                        <label class="radio-button-custom crlabel">
+                                            <span style="font-size:13px; color:{{text_color}};">{% trans 'Annual' %}</span>
+                                            <input type="radio" name="radio_insurance_type" value="Annual">
+                                            <span class="checkmark-radio crspan"></span>
+                                        </label>
+                                        <span id="insurance_info"><i class="fas fa-info-circle" style="font-size:20px; cursor:pointer; color:{{text_color}}"></i></span>
                                     </div>
-                                    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
-                                        <span class="span-search-ticket">&nbsp;</span>
-                                        <div class="input-container-search-ticket">
-                                            <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                            <button type="button" class="form-control activity_btn_advance" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row" id="activity_advanced_search" style="display:none;">
                                     <div class="col-lg-6">
                                         <div class="row">
-                                            <div class="col-lg-12">
-                                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                <div class="form-select">
-                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
-                                                        <option value="" selected="">{% trans 'All Countries' %}</option>
-                                                    </select>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 train-from">
+                                                <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                <div class="form-select">
-                                                    <div id="temp_activity_cities">
-                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                            <option value="" selected="">{% trans 'All Cities' %}</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
+                                            <div class="image-change-route-vertical2">
+                                                <span><a href="javascript:insurance_switch();" style="z-index:5; color:black;" id="insurance_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
                                             </div>
-                                        </div>
-                                    </div>
+                                            <div class="image-change-route-horizontal2">
+                                                <span><a class="horizontal-arrow" href="javascript:insurance_switch();" style="z-index:5; color:{{text_color}} !important;" id="insurance_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                            </div>
 
-                                    <div class="col-lg-6">
-                                        <div class="row">
-                                            <div class="col-lg-12 search_type">
-                                                <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Category / Type' %} </span>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
+                                                <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                <div class="form-select">
-                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
-                                                        <option value="0" selected="">{% trans 'All Types' %}</option>
-                                                    </select>
-                                                </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <span class="span-search-ticket"><i class="fas fa-suitcase"></i> {% trans 'Plan Trip' %}</span>
+                                        <div class="input-container-search-ticket btn-group">
+                                            <div class="form-select" id="default-select">
+                                                <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
+
+                                                </select>
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                <div class="form-select">
-                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
-                                                        <option value="0" selected="">{% trans 'All Categories' %}</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                <div class="form-select">
-                                                    <div id="temp_activity_sub_category">
-                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
-                                                            <option value="0" selected="">{% trans 'All Sub Categories' %}</option>
-                                                        </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6" id="insurance_date_search">
+                                        <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Date' %}</span>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control" style="background:white !important;" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
+                                        <div class="input-container-search-ticket btn-group">
+                                            <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <div class="row" style="padding:10px;">
+                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                        <div style="float:left;">
+                                                            <label>
+                                                                <span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                            <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
+                                                            <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-12" style="text-align:right;">
+                                                        <hr/>
+                                                        <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
                                 <br/>
+
+                                <input type="hidden" id="insurance_response" name="response"/>
                                 <center>
-                                    <button class="primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="submit" value="Submit">
+                                    <button class="primary-btn ld-ext-right" id="btn-search-insurance" type="button" onclick="insurance_check_search_values();" value="Submit">
                                         <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         {% trans 'Search' %}
                                         <div class="ld ld-ring ld-cycle"></div>
@@ -997,7 +365,6 @@
                         </div>
                         {% endif %}
                     </div>
-                    {% endif %}
                     {% else %}
                     <div>
                         <h4 style="padding-top:15px;">Already a RODEXTRIP member?</h4>
@@ -1046,22 +413,6 @@
     </section>
     {% endif %}
 
-<!--    <div class="roberto&#45;&#45;video&#45;&#45;area bg-img bg-overlay jarallax section-padding-0-100" style="background-image: url({{static_path}}images2/fancy.jpg);">-->
-<!--        <div class="container h-100">-->
-<!--            <div class="row h-100 align-items-center justify-content-center">-->
-<!--                <div class="col-xs-12 col-md-6">-->
-<!--                    &lt;!&ndash; Section Heading &ndash;&gt;-->
-<!--                    <div class="section-heading text-center white wow fadeInUp" data-wow-delay="100ms">-->
-<!--                        <h6>OUR SERVICE</h6>-->
-<!--                        <h2>TWICE - FANCY</h2>-->
-<!--                    </div>-->
-<!--                    <div class="video-content-area mt-100 wow fadeInUp" data-wow-delay="500ms">-->
-<!--                        <a href="https://www.youtube.com/watch?v=kOHB85vDuow" class="video-play-btn"><i class="fa fa-play"></i></a>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
     <div id="small_banner" style="z-index:2; margin-top:-5px; margin-bottom:50px">
 
     </div>
@@ -1076,211 +427,9 @@
         </div>
     </div>
     {% endif %}
-<!--    <section class="roberto-service-area section-padding-100-0">-->
-<!--        <div class="container">-->
-<!--            <div class="row">-->
-<!--                <div class="col-xs-12">-->
-<!--                    &lt;!&ndash; Section Heading &ndash;&gt;-->
-<!--                    <div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms">-->
-<!--                        <h2>TOP DESTINATION</h2>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--            <div class="row">-->
-<!--                &lt;!&ndash; Single Service Area &ndash;&gt;-->
-<!--                <div class="col-xs-12">-->
-
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </section>-->
-
-    <!--<section class="roberto-service-area">-->
-    <!--<div class="container">-->
-    <!--<div class="row">-->
-    <!--<div class="col-xs-12">-->
-    <!--&lt;!&ndash; Section Heading &ndash;&gt;-->
-    <!--<div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms">-->
-    <!--<h2>RECOMMENDED HOTELS</h2>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--<div class="row">-->
-    <!--&lt;!&ndash; Single Service Area &ndash;&gt;-->
-    <!--<div class="col-lg-3 col-md-6 col-xs-6">-->
-    <!--<div class="single-service-area mb-100 wow fadeInUp" data-wow-delay="300ms">-->
-    <!--<img class="img-max-width" src="{{static_path}}images/hotel-1.jpg" alt="">-->
-    <!--<div class="service-title d-flex align-items-center justify-content-center">-->
-    <!--<h5>Park Central Hotel NewYork</h5>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--&lt;!&ndash; Single Service Area &ndash;&gt;-->
-    <!--<div class="col-lg-3 col-md-6 col-xs-6">-->
-    <!--<div class="single-service-area mb-100 wow fadeInUp" data-wow-delay="500ms">-->
-    <!--<img class="img-max-width" src="{{static_path}}images/hotel-6.jpg" alt="">-->
-    <!--<div class="service-title d-flex align-items-center justify-content-center">-->
-    <!--<h5>New York Marriott Downtown</h5>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--&lt;!&ndash; Single Service Area &ndash;&gt;-->
-    <!--<div class="col-lg-3 col-md-6 col-xs-6">-->
-    <!--<div class="single-service-area mb-100 wow fadeInUp" data-wow-delay="700ms">-->
-    <!--<img class="img-max-width" src="{{static_path}}images/hotel-3.jpg" alt="">-->
-    <!--<div class="service-title d-flex align-items-center justify-content-center">-->
-    <!--<h5>Boro Hotel</h5>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="col-lg-3 col-md-6 col-xs-6">-->
-    <!--<div class="single-service-area mb-100 wow fadeInUp" data-wow-delay="700ms">-->
-    <!--<img class="img-max-width" src="{{static_path}}images/hotel-5.jpg" alt="">-->
-    <!--<div class="service-title d-flex align-items-center justify-content-center">-->
-    <!--<h5>New York Hilton Midtown</h5>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</section>-->
-
-    <!--<section class="roberto-blog-area">-->
-    <!--<div class="container">-->
-    <!--<div class="row">-->
-    <!--&lt;!&ndash; Section Heading &ndash;&gt;-->
-    <!--<div class="col-lg-12">-->
-    <!--<div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms" style="text-align:center;">-->
-    <!--<h6>Our Blog</h6>-->
-    <!--<h2>TOUR PACKAGE</h2>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--<div class="row">-->
-    <!--&lt;!&ndash; Single Post Area &ndash;&gt;-->
-    <!--<div class="col-lg-3">-->
-    <!--<div class="single-post-area mb-30 wow fadeInUp" data-wow-delay="300ms">-->
-    <!--<a href="#" class="post-thumbnail"><img class="img-fluid" src="{{static_path}}img/bg/tour1.jpg" alt=""></a>-->
-    <!--<div class="col-lg-12" style="margin-bottom:10px;">-->
-    <!--<a href="#" class="post-title">5 Days - Thailand</a>-->
-    <!--<span style="font-size:12px;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>-->
-    <!--<span style="font-size:12px;">Qty: 13/25</span>-->
-    <!--</div>-->
-    <!--<div class="col-lg-12" style="text-align:right;margin-bottom:10px;">-->
-    <!--<a href="#" class="btn roberto-btn">Book</a>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="col-lg-3">-->
-    <!--<div class="single-post-area mb-30 wow fadeInUp" data-wow-delay="300ms">-->
-    <!--<a href="#" class="post-thumbnail"><img class="img-fluid" src="{{static_path}}img/bg/tour2.jpg" alt=""></a>-->
-    <!--<div class="col-lg-12" style="margin-bottom:10px;">-->
-    <!--<a href="#" class="post-title">5 Days - Thailand</a>-->
-    <!--<span style="font-size:12px;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>-->
-    <!--<span style="font-size:12px;">Qty: 13/25</span>-->
-    <!--</div>-->
-    <!--<div class="col-lg-12" style="text-align:right;margin-bottom:10px;">-->
-    <!--<a href="#" class="btn roberto-btn">Book</a>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="col-lg-3">-->
-    <!--<div class="single-post-area mb-30 wow fadeInUp" data-wow-delay="300ms">-->
-    <!--<a href="#" class="post-thumbnail"><img class="img-fluid" src="{{static_path}}img/bg/tour3.jpg" alt=""></a>-->
-    <!--<div class="col-lg-12" style="margin-bottom:10px;">-->
-    <!--<a href="#" class="post-title">5 Days - Thailand</a>-->
-    <!--<span style="font-size:12px;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>-->
-    <!--<span style="font-size:12px;">Qty: 13/25</span>-->
-    <!--</div>-->
-    <!--<div class="col-lg-12" style="text-align:right;margin-bottom:10px;">-->
-    <!--<a href="#" class="btn roberto-btn">Book</a>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="col-lg-3">-->
-    <!--<div class="single-post-area mb-30 wow fadeInUp" data-wow-delay="300ms">-->
-    <!--<a href="#" class="post-thumbnail"><img class="img-fluid" src="{{static_path}}img/bg/tour4.jpg" alt=""></a>-->
-    <!--<div class="col-lg-12" style="margin-bottom:10px;">-->
-    <!--<a href="#" class="post-title">5 Days - Thailand</a>-->
-    <!--<span style="font-size:12px;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>-->
-    <!--<span style="font-size:12px;">Qty: 13/25</span>-->
-    <!--</div>-->
-    <!--<div class="col-lg-12" style="text-align:right;margin-bottom:10px;">-->
-    <!--<a href="#" class="btn roberto-btn">Book</a>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="col-lg-3">-->
-    <!--<div class="single-post-area mb-30 wow fadeInUp" data-wow-delay="300ms">-->
-    <!--<a href="#" class="post-thumbnail"><img class="img-fluid" src="{{static_path}}img/bg/tour5.jpg" alt=""></a>-->
-    <!--<div class="col-lg-12" style="margin-bottom:10px;">-->
-    <!--<a href="#" class="post-title">5 Days - Thailand</a>-->
-    <!--<span style="font-size:12px;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>-->
-    <!--<span style="font-size:12px;">Qty: 13/25</span>-->
-    <!--</div>-->
-    <!--<div class="col-lg-12" style="text-align:right;margin-bottom:10px;">-->
-    <!--<a href="#" class="btn roberto-btn">Book</a>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</section>-->
-
-    <!--<section class="roberto-cta-area">-->
-    <!--<div class="container">-->
-    <!--<div class="cta-content bg-img bg-overlay jarallax" style="background-image: url({{static_path}}images2/bg-img/1.jpg);">-->
-    <!--<div class="row align-items-center">-->
-    <!--<div class="col-xs-12 col-md-7">-->
-    <!--<div class="cta-text">-->
-    <!--<center>-->
-    <!--<img src="{{static_path}}img/rodextrip.png" style="width:300px; height:400px;" alt="" title="" />-->
-    <!--</center>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="col-xs-12 col-md-5 text-right" style="padding-bottom:100px;">-->
-    <!--<h5 style="color:{{text_color}};">Easy to use and easy to access with application RODEXTRIP!</h5>-->
-    <!--<br/>-->
-    <!--<a href="https://play.google.com/store/apps/details?id=com.skytors"><img src="{{static_path}}img/playstore.png" style="width:155px; height:50px;" alt="" title="Skytors.ID Android" /></a>-->
-    <!--<a href="https://apps.apple.com/id/app/skytors/id1449434282?l=id"><img src="{{static_path}}img/appstore.png" style="width:155px; height:50px;" alt="" title="Skytors.ID Apple" /></a>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</section>-->
-
-    <!--<div class="modal fade" id="myModalPopUp" role="dialog">-->
-    <!--<div class="modal-dialog">-->
-    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
-    <!--<div class="row">-->
-    <!--<div class="col-lg-12">-->
-    <!--<div class="row">-->
-    <!--<div class="col-lg-12">-->
-    <!--<center>-->
-    <!--<h2 class="modal-title animated pulse infinite" style="color:#ffffff;"> HOT DEALS TODAY! </h2>-->
-    <!--</center>-->
-    <!--</div>-->
-    <!--<div class="col-lg-12">-->
-    <!--<center>-->
-    <!--<span data-dismiss="modal" style="color:#ffffff;font-weight:bold;">Click everywhere to close! X</span>-->
-    <!--</center>-->
-    <!--</div>-->
-    <!--<div class="col-lg-12">-->
-    <!--<center>-->
-    <!--<img src="{{static_path}}img/bg/bg1.png" style="width:300px; height:300px;" alt="">-->
-    <!--</center>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
 
     {% elif template == 3 %}
-    <section class="banner-area relative" style="background: url('{{static_path}}images/bg_activity.jpg') center !important; background-repeat: no-repeat !important;background-position: center center !important; background-size: cover !important;">
+    <section class="banner-area relative" style="background: url('{{static_path}}images/bg_insurance.jpg') center !important; background-repeat: no-repeat !important;background-position: center center !important; background-size: cover !important;">
         <div class="overlay overlay-bg"></div>
         <div class="container">
             <div class="row">
@@ -1309,82 +458,96 @@
                             </div>
                         </div>
                         <div class="col-xl-8 col-lg-8 col-md-8 header-right" style="padding-left:0px;">
-                            {% if "activity" in provider %}
-                            <div id="tab-activity" class="tab-content current">
-                                <h4 class="pb-30" style="color:{{text_color}};">{% trans 'Book Your Activity' %}</h4>
-                                <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
+                            {% if "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security%}
+                            <div id="tab-insurance" class="tab-content current">
+                                <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
                                     {% csrf_token %}
-                                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
+                                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
                                     <div class="row">
-                                        <div class="col-lg-9 col-md-7 col-sm-6 col-xs-6">
-                                            <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
-                                            </div>
+                                        <div class="col-lg-12" id="radio_insurance_search" style="text-align:left;margin-bottom:10px;">
+                                            <label class="radio-button-custom crlabel">
+                                                <span style="font-size:13px; color:{{text_color}};">{% trans 'Single Trip' %}</span>
+                                                <input type="radio" checked="checked" name="radio_insurance_type" value="Single Trip">
+                                                <span class="checkmark-radio crspan"></span>
+                                            </label>
+                                            <label class="radio-button-custom crlabel">
+                                                <span style="font-size:13px; color:{{text_color}};">{% trans 'Annual' %}</span>
+                                                <input type="radio" name="radio_insurance_type" value="Annual">
+                                                <span class="checkmark-radio crspan"></span>
+                                            </label>
+                                            <span id="insurance_info"><i class="fas fa-info-circle" style="font-size:20px; cursor:pointer; color:{{text_color}}"></i></span>
                                         </div>
-                                        <div class="col-lg-3 col-md-5 col-sm-6 col-xs-6">
-                                            <span class="span-search-ticket">&nbsp;</span>
-                                            <div class="form-group">
-                                                <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                                <button type="button" class="form-control activity_btn_advance" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row" id="activity_advanced_search" style="display:none;">
                                         <div class="col-lg-12">
-                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                    <div class="form-group">
-                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
-                                                            <option value="" selected="">{% trans 'All Countries' %}</option>
-                                                        </select>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 train-from">
+                                                    <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                <div class="col-lg-6 col-md-6 col-sm-6" style="z-index:4;">
+                                                    <h3 class="image-change-route-vertical"><a class="switch_a" href="javascript:insurance_switch();" style="z-index:5;" id="insurance_switch"><i class="fas fa-exchange-alt icon-change"></i></a></h3>
+                                                    <h3 class="image-change-route-horizontal"><a class="switch_a" href="javascript:insurance_switch();" style="z-index:5;" id="insurance_switch"><i class="fas fa-exchange-alt icon-change"></i></a></h3>
+                                                    <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
                                                     <div class="form-group">
-                                                        <div id="temp_activity_cities">
-                                                            <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                                <option value="" selected="">{% trans 'All Cities' %}</option>
-                                                            </select>
-                                                        </div>
+                                                        <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12 mb-3">
+                                            <span class="span-search-ticket"><i class="fas fa-suitcase"></i> {% trans 'Plan Trip' %}</span>
+                                            <div class="form-group" id="default-select">
+                                                <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
 
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12" id="insurance_date_search">
+                                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Date' %}</span>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" style="background:white !important;" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
+                                            </div>
+                                        </div>
                                         <div class="col-lg-12">
-                                            <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Category / Type' %} </span>
-                                            <div class="row">
-                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                    <div class="form-group">
-                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
-                                                            <option value="0" selected="">{% trans 'All Types' %}</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                    <div class="form-group">
-                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
-                                                            <option value="0" selected="">{% trans 'All Categories' %}</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                    <div class="form-group">
-                                                        <div id="temp_activity_sub_category">
-                                                            <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
-                                                                <option value="0" selected="">{% trans 'All Sub Categories' %}</option>
-                                                            </select>
+                                            <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
+                                            <div class="input-container-search-ticket btn-group">
+                                                <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <div class="row" style="padding:10px;">
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
+                                                                <label>
+                                                                    <span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
+                                                                <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-12" style="text-align:right;">
+                                                            <hr/>
+                                                            <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </ul>
                                             </div>
                                         </div>
                                     </div>
                                     <br/>
+
+                                    <input type="hidden" id="insurance_response" name="response"/>
                                     <center>
-                                        <button class="button-search primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="submit" value="Submit">
+                                        <button class="primary-btn ld-ext-right" id="btn-search-insurance" type="button" onclick="insurance_check_search_values();" value="Submit">
                                             <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                             {% trans 'Search' %}
                                             <div class="ld ld-ring ld-cycle"></div>
@@ -1652,7 +815,7 @@
 <!--    </section>-->
 
     {% elif template == 4 %}
-    <div class="site-blocks-cover overlay" style="background-image: url('{{static_path}}images/bg_activity.jpg');" data-aos="fade">
+    <div class="site-blocks-cover overlay" style="background-image: url('{{static_path}}images/bg_insurance.jpg');" data-aos="fade">
         <div class="container">
             <div class="row align-items-center justify-content-center" style="padding-top:100px;">
                 {% if username.co_user_name != '' %}
@@ -1694,8 +857,8 @@
                                     <input type="hidden" id="start"/>
                                     <input type="hidden" id="end"/>
                                     <ul class="tabs">
-                                        {% if "activity" in provider %}
-                                        <li class="tab-link current" data-tab="tab-activity"><i class="image-rounded-icon"><img style="width:20px; height:20px" alt="Activity Icon" src="{{static_path}}images/icon/home-activity.png"/></i> <label class="btn-txt-color">{% trans 'ACTIVITY' %}</label></li>
+                                        {% if "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security%}
+                                        <li class="tab-link current" data-tab="tab-insurance"><i class="image-rounded-icon"><img style="width:20px; height:20px" alt="Insurance Icon" src="{{static_path}}images/icon/home-insurance.png"/></i> <label class="btn-txt-color">{% trans 'INSURANCE' %}</label></li>
                                         {% endif %}
                                     </ul>
                                 </div>
@@ -1714,89 +877,105 @@
                         <div class="row">
                             {% if username.co_user_name != '' %}
                             <div class="col-xl-12" style="text-align:left;">
-                                {% if "activity" in provider %}
-                                <div class="form-search-wrap tab-content current" id="tab-activity" data-aos="fade-up" data-aos-delay="200">
-                                    <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" method="post">
+                                {% if "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security%}
+                                <div class="form-search-wrap tab-content current" id="tab-insurance" data-aos="fade-up" data-aos-delay="200">
+                                    <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
                                         {% csrf_token %}
-                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
-                                        <div class="row justify-content-between align-items-end">
-                                            <div class="col-lg-9 col-md-9 col-sm-8">
-                                                <span class="span-search-ticket">{% trans 'Activity' %}</span>
-                                                <div class="input-container-search-ticket">
-                                                    <i class="fas fa-umbrella-beach" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                    <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
-                                                </div>
+                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
+                                        <div class="row">
+                                            <div class="col-lg-12" id="radio_insurance_search" style="text-align:left;margin-bottom:10px;">
+                                                <label class="radio-button-custom crlabel">
+                                                    <span style="font-size:13px; color:{{text_color}};">{% trans 'Single Trip' %}</span>
+                                                    <input type="radio" checked="checked" name="radio_insurance_type" value="Single Trip">
+                                                    <span class="checkmark-radio crspan"></span>
+                                                </label>
+                                                <label class="radio-button-custom crlabel">
+                                                    <span style="font-size:13px; color:{{text_color}};">{% trans 'Annual' %}</span>
+                                                    <input type="radio" name="radio_insurance_type" value="Annual">
+                                                    <span class="checkmark-radio crspan"></span>
+                                                </label>
+                                                <span id="insurance_info"><i class="fas fa-info-circle" style="font-size:20px; cursor:pointer; color:{{text_color}}"></i></span>
                                             </div>
-                                            <div class="col-lg-3 col-md-3 col-sm-4">
-                                                <span class="span-search-ticket">&nbsp;</span>
-                                                <div class="input-container-search-ticket">
-                                                    <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                                    <button type="button" class="form-control activity_btn_advance" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-12">
-                                                <div class="row" id="activity_advanced_search" style="display:none;">
-                                                    <div class="col-lg-12">
-                                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
-                                                        <div class="row">
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                                <div class="form-select">
-                                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
-                                                                        <option value="" selected="">{% trans 'All Countries' %}</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                                <div class="form-select">
-                                                                    <div id="temp_activity_cities">
-                                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                                            <option value="" selected="">{% trans 'All Cities' %}</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                            <div class="col-lg-8">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 train-from">
+                                                        <span class="span-search-ticket">{% trans 'From' %}</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <i class="fas fa-train" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-lg-12">
-                                                        <div class="row">
-                                                            <div class="col-lg-12 search_type">
-                                                                <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Category Type' %} </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                                <div class="form-select">
-                                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
-                                                                        <option value="0" selected="">{% trans 'All Types' %}</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                                <div class="form-select">
-                                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
-                                                                        <option value="0" selected="">{% trans 'All Categories' %}</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                                <div class="form-select">
-                                                                    <div id="temp_activity_sub_category">
-                                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
-                                                                            <option value="0" selected="">{% trans 'All Sub Categories' %}</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
+                                                        <h4 class="image-change-route-vertical"><a href="javascript:insurance_switch();" style="z-index:5; color:{{text_color}};" id="insurance_switch"><span style="margin-left: 2px;" class="icon icon-exchange"></span></a></h4>
+                                                        <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:insurance_switch();" style="z-index:5; color:{{text_color}} !important;" id="insurance_switch"><span class="icon icon-exchange"></span></a></h4>
+
+                                                        <span class="span-search-ticket">{% trans 'To' %}</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <i class="fas fa-map-marked-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
                                                         </div>
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 mb-2">
+                                                <span class="span-search-ticket">{% trans 'Plan Trip' %}</span>
+                                                <div class="input-container-search-ticket btn-group">
+                                                    <i class="fas fa-suitcase" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <div class="form-select" id="default-select">
+                                                        <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6" id="insurance_date_search">
+                                                <span class="span-search-ticket">{% trans 'Date' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <input type="text" class="form-control" style="background:white !important;" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <span class="span-search-ticket">{% trans 'Passenger' %}</span>
+                                                <div class="input-container-search-ticket btn-group">
+                                                    <i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <div class="row" style="padding:10px;">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                <div style="float:left;">
+                                                                    <label>
+                                                                        <span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
+                                                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-12" style="text-align:right;">
+                                                                <hr/>
+                                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
+                                                            </div>
+                                                        </div>
+                                                    </ul>
                                                 </div>
                                             </div>
                                         </div>
                                         <br/>
+
+                                        <input type="hidden" id="insurance_response" name="response"/>
                                         <center>
-                                            <button class="button-search primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="submit" value="Submit">
+                                            <button class="primary-btn ld-ext-right" id="btn-search-insurance" type="button" onclick="insurance_check_search_values();" value="Submit">
                                                 <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                 {% trans 'Search' %}
                                                 <div class="ld ld-ring ld-cycle"></div>
@@ -2073,7 +1252,7 @@
 <!--    </div>-->
 
     {% elif template == 5 %}
-    <section class="home-banner-area relative" id="home" style="border-bottom-left-radius: 5%; border-bottom-right-radius: 5%; background-image: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url('{{static_path}}images/bg_activity.jpg') !important; ">
+    <section class="home-banner-area relative" id="home" style="border-bottom-left-radius: 5%; border-bottom-right-radius: 5%; background-image: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url('{{static_path}}images/bg_insurance.jpg') !important; ">
         <!--<div class="overlay overlay-bg" style="border-bottom-left-radius: 5%; border-bottom-right-radius: 5%;"></div>-->
         <div class="container">
             <div class="row fullscreen justify-content-center">
@@ -2111,85 +1290,103 @@
                             <div class="row">
                                 {% if username.co_user_login != '' %}
                                 <div class="col-xl-12" style="text-align:left;">
-                                    {% if "activity" in provider %}
-                                    <div id="tab-activity" class="tab-content current">
-                                        <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
+                                    {% if "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security%}
+                                    <div id="tab-insurance" class="tab-content current">
+                                        <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
                                             {% csrf_token %}
-                                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
+                                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
                                             <div class="row">
-                                                <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
-                                                    <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
-                                                    <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
-                                                    </div>
+                                                <div class="col-lg-12" id="radio_insurance_search" style="text-align:left;margin-bottom:10px;">
+                                                    <label class="radio-button-custom crlabel">
+                                                        <span style="font-size:13px; color:{{text_color}};">{% trans 'Single Trip' %}</span>
+                                                        <input type="radio" checked="checked" name="radio_insurance_type" value="Single Trip">
+                                                        <span class="checkmark-radio crspan"></span>
+                                                    </label>
+                                                    <label class="radio-button-custom crlabel">
+                                                        <span style="font-size:13px; color:{{text_color}};">{% trans 'Annual' %}</span>
+                                                        <input type="radio" name="radio_insurance_type" value="Annual">
+                                                        <span class="checkmark-radio crspan"></span>
+                                                    </label>
+                                                    <span id="insurance_info"><i class="fas fa-info-circle" style="font-size:20px; cursor:pointer; color:{{text_color}}"></i></span>
                                                 </div>
-                                                <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
-                                                    <span class="span-search-ticket">&nbsp;</span>
-                                                    <div class="input-container-search-ticket">
-                                                        <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                                        <button type="button" class="form-control activity_btn_advance" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row" id="activity_advanced_search" style="display:none;">
-                                                <div class="col-lg-12">
-                                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
+                                                <div class="col-lg-6">
                                                     <div class="row">
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                            <div class="form-select">
-                                                                <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
-                                                                    <option value="" selected="">{% trans 'All Countries' %}</option>
-                                                                </select>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 train-from">
+                                                            <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                            <div class="form-select">
-                                                                <div id="temp_activity_cities">
-                                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                                        <option value="" selected="">{% trans 'All Cities' %}</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
+                                                        <div class="image-change-route-vertical2">
+                                                            <span><a href="javascript:insurance_switch();" style="z-index:5; color:black;" id="insurance_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
                                                         </div>
-                                                    </div>
-                                                </div>
+                                                        <div class="image-change-route-horizontal2">
+                                                            <span><a class="horizontal-arrow" href="javascript:insurance_switch();" style="z-index:5; color:{{text_color}} !important;" id="insurance_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                                        </div>
 
-                                                <div class="col-lg-12">
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Category / Type' %} </span>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
+                                                            <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                            <div class="form-select">
-                                                                <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
-                                                                    <option value="0" selected="">{% trans 'All Types' %}</option>
-                                                                </select>
-                                                            </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <span class="span-search-ticket"><i class="fas fa-suitcase"></i> {% trans 'Plan Trip' %}</span>
+                                                    <div class="input-container-search-ticket btn-group">
+                                                        <div class="form-select" id="default-select">
+                                                            <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
+
+                                                            </select>
                                                         </div>
-                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                            <div class="form-select">
-                                                                <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
-                                                                    <option value="0" selected="">{% trans 'All Categories' %}</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                            <div class="form-select">
-                                                                <div id="temp_activity_sub_category">
-                                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
-                                                                        <option value="0" selected="">{% trans 'All Categories' %}</option>
-                                                                    </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6" id="insurance_date_search">
+                                                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Date' %}</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" style="background:white !important;" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
+                                                    <div class="input-container-search-ticket btn-group">
+                                                        <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                                        <ul class="dropdown-menu" role="menu">
+                                                            <div class="row" style="padding:10px;">
+                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                    <div style="float:left;">
+                                                                        <label>
+                                                                            <span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                        <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+                                                                            <i class="fas fa-minus"></i>
+                                                                        </button>
+                                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
+                                                                        <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+                                                                            <i class="fas fa-plus"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-12" style="text-align:right;">
+                                                                    <hr/>
+                                                                    <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </ul>
                                                     </div>
                                                 </div>
                                             </div>
                                             <br/>
+
+                                            <input type="hidden" id="insurance_response" name="response"/>
                                             <center>
-                                                <button class="button-search primary-btn ld-ext-right" onclick="get_captcha('recaptcha_activity','activity');" type="submit" value="Submit">
+                                                <button class="primary-btn ld-ext-right" id="btn-search-insurance" type="button" onclick="insurance_check_search_values();" value="Submit">
                                                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                     {% trans 'Search' %}
                                                     <div class="ld ld-ring ld-cycle"></div>
@@ -2237,88 +1434,6 @@
     </section>
     {% endif %}
 
-<!--    <section class="testomial-area section-gap">-->
-<!--        <div class="container">-->
-<!--            <div class="row d-flex justify-content-center">-->
-<!--                <div class="col-md-10 header-text">-->
-<!--                    <h1>Feedback from our real clients</h1>-->
-<!--                    <p>-->
-<!--                        It won’t be a bigger problem to find one video game lover in your neighbor. Since the introduction of Virtual Game,-->
-<!--                    </p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="row">-->
-<!--                <div class="active-testimonial-carusel">-->
-<!--                    <div class="single-testimonial item">-->
-<!--                        <img class="mx-auto rounded-circle" src="img/t1.png" alt="">-->
-<!--                        <p class="desc">-->
-<!--                            Accessories Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker, projector,-->
-<!--                            hardware and more. laptop-->
-<!--                        </p>-->
-<!--                        <h4>Helena Phillips</h4>-->
-<!--                        <p>-->
-<!--                            CEO at Facebook-->
-<!--                        </p>-->
-<!--                    </div>-->
-<!--                    <div class="single-testimonial item">-->
-<!--                        <img class="mx-auto rounded-circle" src="img/t2.png" alt="">-->
-<!--                        <p class="desc">-->
-<!--                            It won’t be a bigger problem to find one video game lover in your neighbor. Since the introduction of Virtual Game, it has-->
-<!--                            been achieving great heights so far.-->
-<!--                        </p>-->
-<!--                        <h4>Cordelia Barton</h4>-->
-<!--                        <p>-->
-<!--                            CEO at Twitter-->
-<!--                        </p>-->
-<!--                    </div>-->
-<!--                    <div class="single-testimonial item">-->
-<!--                        <img class="mx-auto rounded-circle" src="img/t3.png" alt="">-->
-<!--                        <p class="desc">-->
-<!--                            About 64% of all on-line teens say that do things online that they wouldn’t want their parents to know about. 11% of all-->
-<!--                            adult internet users visit dating websites.-->
-<!--                        </p>-->
-<!--                        <h4>Carrie Reese</h4>-->
-<!--                        <p>-->
-<!--                            CEO at Google-->
-<!--                        </p>-->
-<!--                    </div>-->
-<!--                    <div class="single-testimonial item">-->
-<!--                        <img class="mx-auto rounded-circle" src="img/t1.png" alt="">-->
-<!--                        <p class="desc">-->
-<!--                            Accessories Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker, projector,-->
-<!--                            hardware and more. laptop-->
-<!--                        </p>-->
-<!--                        <h4>Helena Phillips</h4>-->
-<!--                        <p>-->
-<!--                            CEO at Facebook-->
-<!--                        </p>-->
-<!--                    </div>-->
-<!--                    <div class="single-testimonial item">-->
-<!--                        <img class="mx-auto rounded-circle" src="img/t2.png" alt="">-->
-<!--                        <p class="desc">-->
-<!--                            It won’t be a bigger problem to find one video game lover in your neighbor. Since the introduction of Virtual Game, it has-->
-<!--                            been achieving great heights so far.-->
-<!--                        </p>-->
-<!--                        <h4>Cordelia Barton</h4>-->
-<!--                        <p>-->
-<!--                            CEO at Twitter-->
-<!--                        </p>-->
-<!--                    </div>-->
-<!--                    <div class="single-testimonial item">-->
-<!--                        <img class="mx-auto rounded-circle" src="img/t3.png" alt="">-->
-<!--                        <p class="desc">-->
-<!--                            About 64% of all on-line teens say that do things online that they wouldn’t want their parents to know about. 11% of all-->
-<!--                            adult internet users visit dating websites.-->
-<!--                        </p>-->
-<!--                        <h4>Carrie Reese</h4>-->
-<!--                        <p>-->
-<!--                            CEO at Google-->
-<!--                        </p>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </section>-->
     {% elif template == 6%}
     <div id="big_banner">
         <section class="banner_w3lspvt" id="home">
@@ -2333,12 +1448,9 @@
                 <div class="col-lg-4 mb-5">
                     <div class="text-center center_vh" style="width:100%;">
                         <h3 class="heading mb-2" style="border-bottom:5px solid {{color}}; width:content;">
-                            <img style="width:auto; height:40px" src="{{static_path}}images/icon/activity_black.png" alt="Airline Icon"/>
-                            ACTIVITY
+                            <img style="width:auto; height:40px" src="{{static_path}}images/icon/insurance_black.png" alt="Airline Icon"/>
+                            INSURANCE
                         </h3>
-                        <h5 style="color:{{color}}; cursor:pointer;" data-toggle="modal" data-target="#myModalAnotherProduct">
-                            <i class="fas fa-sync"></i> Change Product
-                        </h5>
                     </div>
                 </div>
 
@@ -2348,191 +1460,114 @@
                 <input type="hidden" id="end"/>
 
                 <div class="col-lg-8" id="div-search-overlay" style="background:{{tab_color}}; padding:15px;">
-                    {% if "ticketing_activity" in username.co_agent_frontend_security %}
-                    {% if "activity" in provider %}
-                    <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
+                    {% if "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security%}
+                    <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
                         {% csrf_token %}
-                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_activity'>
+                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
                         <div class="row">
-                            <div class="col-lg-8">
-                                <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
-                                <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off" style="margin-bottom:0px;"/>
-                                </div>
+                            <div class="col-lg-12" id="radio_insurance_search" style="text-align:left;margin-bottom:10px;">
+                                <label class="radio-button-custom crlabel">
+                                    <span style="font-size:13px; color:{{text_color}};">{% trans 'Single Trip' %}</span>
+                                    <input type="radio" checked="checked" name="radio_insurance_type" value="Single Trip">
+                                    <span class="checkmark-radio crspan"></span>
+                                </label>
+                                <label class="radio-button-custom crlabel">
+                                    <span style="font-size:13px; color:{{text_color}};">{% trans 'Annual' %}</span>
+                                    <input type="radio" name="radio_insurance_type" value="Annual">
+                                    <span class="checkmark-radio crspan"></span>
+                                </label>
+                                <span id="insurance_info"><i class="fas fa-info-circle" style="font-size:20px; cursor:pointer; color:{{text_color}}"></i></span>
                             </div>
-                            <div class="col-lg-4">
-                                <span class="span-search-ticket">&nbsp;</span>
-                                <div class="input-container-search-ticket">
-                                    <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
-                                    <button type="button" class="form-control activity_btn_advance" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" id="activity_advanced_search" style="display:none;">
                             <div class="col-lg-12">
                                 <div class="row">
-                                    <div class="col-lg-12">
-                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Location' %} </span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-select">
-                                            <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
-                                                <option value="" selected="">{% trans 'All Countries' %}</option>
-                                            </select>
+                                    <div class="col-lg-6 col-md-6">
+                                        <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
+                                        <div class="input-container-search-ticket">
+                                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-select">
-                                            <div id="temp_activity_cities">
-                                                <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                    <option value="" selected="">{% trans 'All Cities' %}</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                    <div class="image-change-route-vertical2">
+                                        <span><a href="javascript:insurance_switch();" style="z-index:5; color:black;" id="insurance_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
                                     </div>
-                                </div>
-                            </div>
+                                    <div class="image-change-route-horizontal2">
+                                        <span><a class="horizontal-arrow" href="javascript:insurance_switch();" style="z-index:5; color:{{text_color}} !important;" id="insurance_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></span>
+                                    </div>
 
-                            <div class="col-lg-12">
-                                <div class="row">
-                                    <div class="col-lg-12 search_type">
-                                        <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Category / Type' %} </span>
+                                    <div class="col-lg-6 col-md-6" style="z-index:5;">
+                                        <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
+                                        <div class="input-container-search-ticket">
+                                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-4 search_type">
-                                        <div class="form-select">
-                                            <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
-                                                <option value="0" selected="">{% trans 'All Types' %}</option>
-                                            </select>
-                                        </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <span class="span-search-ticket"><i class="fas fa-suitcase"></i> {% trans 'Plan Trip' %}</span>
+                                <div class="input-container-search-ticket btn-group">
+                                    <div class="form-select" id="default-select">
+                                        <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
+
+                                        </select>
                                     </div>
-                                    <div class="col-lg-4">
-                                        <div class="form-select">
-                                            <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
-                                                <option value="0" selected="">{% trans 'All Categories' %}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="form-select">
-                                            <div id="temp_activity_sub_category">
-                                                <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
-                                                    <option value="0" selected="">{% trans 'All Sub Categories' %}</option>
-                                                </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-12" id="insurance_date_search">
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Date' %}</span>
+                                <div class="input-container-search-ticket">
+                                    <input type="text" class="form-control" style="background:white !important;" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
+                                <div class="input-container-search-ticket btn-group">
+                                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <div class="row" style="padding:10px;">
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                <div style="float:left;">
+                                                    <label>
+                                                        <span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
+                                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12" style="text-align:right;">
+                                                <hr/>
+                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
                                             </div>
                                         </div>
-                                    </div>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
                         <br/>
-                        <button class="button-search primary-btn ld-ext-right" style="float:right;" onclick="get_captcha('recaptcha_activity','activity');" type="submit" value="Submit">
-                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                            {% trans 'Search' %}
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
+
+                        <input type="hidden" id="insurance_response" name="response"/>
+                        <center>
+                            <button class="primary-btn ld-ext-right" id="btn-search-insurance" type="button" onclick="insurance_check_search_values();" value="Submit">
+                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                {% trans 'Search' %}
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </center>
                     </form>
-                    {% endif %}
                     {% endif %}
                 </div>
                 {% endif %}
             </div>
         </div>
     </section>
-
-    <div class="modal fade" id="myModalAnotherProduct" role="dialog" data-keyboard="false">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Our Product' %}</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="featured-left text-center row">
-                        {% for rec in provider_types_sequence %}
-                        {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.name == "airline" %}
-                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
-                            <a href="/{{rec.name}}">
-                                <div class="div_cst">
-                                     <img style="width:auto; height:40px" src="{{static_path}}images/icon/airlines_black.png" alt="Airline Icon"/>
-                                     <h6 class="hover_cst">{% trans 'AIRLINE' %}</h6>
-                                </div>
-                            </a>
-                        </div>
-                        {% elif "hotel" in provider and "ticketing_hotel" in username.co_agent_frontend_security and rec.name == "hotel" %}
-                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
-                            <a href="/{{rec.name}}">
-                                <div class="div_cst">
-                                    <img style="width:auto; height:40px" src="{{static_path}}images/icon/hotel_black.png" alt="Hotel Icon"/>
-                                    <h6 class="hover_cst">HOTEL</h6>
-                                </div>
-                            </a>
-                        </div>
-                        {% elif "ppob" in provider and "ticketing_ppob" in username.co_agent_frontend_security and rec.name == "ppob" %}
-                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
-                            <a href="/{{rec.name}}">
-                                <div class="div_cst">
-                                    <img style="width:auto; height:40px" src="{{static_path}}images/icon/ppob_black.png" alt="PPOB Icon"/>
-                                    <h6 class="hover_cst" style="font-size:14px;">{% trans 'BILLS & TOP UP' %}</h6>
-                                </div>
-                            </a>
-                        </div>
-                        {% elif "tour" in provider and "ticketing_tour" in username.co_agent_frontend_security and rec.name == "tour" %}
-                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
-                            <a href="/{{rec.name}}">
-                                <div class="div_cst">
-                                    <img style="width:auto; height:40px" src="{{static_path}}images/icon/tour_black.png" alt="Tour Icon"/>
-                                    <h6 class="hover_cst">{% trans 'TOUR' %}</h6>
-                                </div>
-                            </a>
-                        </div>
-                        {% elif "event" in provider and "ticketing_event" in username.co_agent_frontend_security and rec.name == "event" %}
-                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
-                            <a href="/{{rec.name}}">
-                                <div class="div_cst">
-                                    <img style="width:auto; height:40px" src="{{static_path}}images/icon/event_black.png" alt="Event Icon"/>
-                                    <h6 class="hover_cst">{% trans 'EVENT' %}</h6>
-                                </div>
-                            </a>
-                        </div>
-                        {% elif "train" in provider and "ticketing_train" in username.co_agent_frontend_security and rec.name == "train" %}
-                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
-                            <a href="/{{rec.name}}">
-                                <div class="div_cst">
-                                    <img style="width:auto; height:40px" src="{{static_path}}images/icon/train_black.png" alt="Train Icon"/>
-                                    <h6 class="hover_cst">{% trans 'TRAIN' %}</h6>
-                                </div>
-                            </a>
-                        </div>
-                        {% elif "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_visa" in username.co_agent_frontend_security and rec.name == "visa" %}
-                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
-                            <a href="/{{rec.name}}">
-                                <div class="div_cst">
-                                    <img style="width:auto; height:40px" src="{{static_path}}images/icon/visa_black.png" alt="Event Icon"/>
-                                    <h6 class="hover_cst">VISA</h6>
-                                </div>
-                            </a>
-                        </div>
-                        {% elif "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security and "ticketing_passport" in username.co_agent_frontend_security and rec.name == "passport" %}
-                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 mb-3">
-                            <a href="/{{rec.name}}">
-                                <div class="div_cst">
-                                    <img style="width:auto; height:40px" src="{{static_path}}images/icon/passport_black.png" alt="Event Icon"/>
-                                    <h6 class="hover_cst">{% trans 'PASSPORT' %}</h6>
-                                </div>
-                            </a>
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div id="small_banner" style="padding: 0px 0px 15px 0px;">
 
@@ -2554,44 +1589,42 @@
     </div>
     {% include 'tt_website_rodextrip/footer.html' %}
     <script>
+
     {% if username.co_user_login != '' %}
-        try{
-            {% if "activity" in provider %}
-            var activity_autocomplete = new autoComplete({
-                selector: '#activity_query',
-                minChars: 1,
-                cache: false,
-                delay:0,
-                source: function(term, suggest){
-                    activity_search_autocomplete(term,suggest);
-
-                },
-                onSelect: function(e, term, item){
-                    $("#activity_query").trigger("blur");
-                }
-            });
-
-            {% endif %}
-        }catch(err){
-
-        }
-    {% endif %}
-    {% if username.co_user_login != '' %}
-    //test
-
-    //test
-
 
     $( document ).ready(function() {
-      $('.js-example-basic-single').select2();
-        {% if "activity" in provider %}
-            get_activity_config('home');
-            $("#activity_search_form").bind("keypress", function(e) {
-                if (e.keyCode == 13) {
-                    return false;
-                }
-            });
+        $('.js-example-basic-single').select2();
+        {% if "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security %}
+        insurance_get_config('home');
         {% endif %}
+
+        {% if "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security%}
+            selected_value_start = $("input[name='radio_insurance_type']:checked").val();
+            if (selected_value_start == "Single Trip"){
+                $('input[name="insurance_date"]').daterangepicker({
+                    singleDatePicker: false,
+                    autoUpdateInput: true,
+                    startDate: moment(),
+                    autoApply: true,
+                    endDate: moment().subtract(-2, 'days'),
+                    minDate: moment().subtract(-1, 'days'),
+                    maxDate: moment().subtract(-1, 'years'),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+
+                $('input[name="insurance_date"]').on('apply.daterangepicker', function(ev, picker) {
+                    setTimeout(function(){
+                        $("#show_total_pax_insurance").click();
+                    }, 200);
+                });
+
+            }
+        {% endif %}
+
     });
 
     {%endif%}
