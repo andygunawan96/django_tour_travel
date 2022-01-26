@@ -942,6 +942,15 @@ function add_table_of_passenger(type){
                     </div>
                     <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
 
+                    <div class="row loading-pax-train" style="display:none;">
+                        <div class="col-lg-12">
+                            <br/>
+                            <div style="text-align:center">
+                                <span style="font-size:18px; font-weight:bold;">Please Wait </span><img src="/static/tt_website_rodextrip/img/search.gif" alt="Search Passenger" style="height:50px; width:50px;"/>
+                            </div>
+                        </div>
+                    </div>
+
                     <div id="search_result_`+(counter_passenger+1)+`" style="max-height:600px; overflow:auto; padding:15px;">
 
                     </div>
@@ -5460,6 +5469,19 @@ function add_table_passenger_phc(type){
     node.innerHTML = text;
     node.setAttribute('id', 'table_passenger'+counter_passenger);
     document.getElementById("table_of_passenger").appendChild(node);
+
+    try{ // buat halaman passenger
+        document.getElementById("train_"+(counter_passenger+1)+"_search").addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("passenger_btn_io_click"+(counter_passenger+1)).click();
+              }
+          });
+    }catch(err){
+    }
+
     $('#inp_tgl_lahir_blmpernah_'+parseInt(counter_passenger)).addClass('date-picker-birth');
     $('input[name="inp_tgl_lahir_blmpernah_'+parseInt(counter_passenger)+'"]').daterangepicker({
           singleDatePicker: true,
