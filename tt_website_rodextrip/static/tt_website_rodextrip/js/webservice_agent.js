@@ -1116,8 +1116,8 @@ function session_time_limit(){
     var timeLimitInterval = setInterval(function() {
         if(time_limit>0){
             time_limit--;
-            document.getElementById('session_time').innerHTML = ` <i class="fas fa-stopwatch"></i> `+ parseInt(time_limit/60) % 24 +`m:`+ (time_limit%60) +`s`;
-            document.getElementById('elapse_time').innerHTML = ` <i class="fas fa-clock"></i> `+ parseInt((1200 - time_limit)/60) % 24 +`m:`+ ((1200 - time_limit)%60) +`s`;
+            document.getElementById('session_time').innerHTML = ``+ parseInt(time_limit/60) % 24 +`m:`+ (time_limit%60) +`s`;
+            document.getElementById('elapse_time').innerHTML = ``+ parseInt((1200 - time_limit)/60) % 24 +`m:`+ ((1200 - time_limit)%60) +`s`;
         }else{
             window.location.href = url_home;
             clearInterval(timeLimitInterval);
@@ -1347,7 +1347,8 @@ function get_customer_list(passenger, number, product){
             }
         }
 
-    }else{
+    }
+    else{
         $(".loading-pax-train").show();
         var name = '';
         if(passenger == 'passenger')

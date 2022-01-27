@@ -8079,7 +8079,7 @@ display: block;
 }
 
 .count_time{
-    font-size:16px; font-weight:700; color:#f15a22;
+    font-size:14px; font-weight:700; color:#f15a22;
 }
 .activity_btn_advance{
     background: rgb(241, 90, 34);
@@ -9312,5 +9312,13 @@ ul.progress_tabs li.current .image-rounded-icon{
     .picture_passenger_agent{
         width:auto;
         height:150px;
+    }
+}
+
+@media (max-width: 575px) {
+    .count_time{
+        display:block;
+        width:150px;
+        word-wrap:break-word;
     }
 }
