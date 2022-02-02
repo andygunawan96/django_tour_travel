@@ -1633,7 +1633,7 @@ function sentra_medika_get_booking(order_number, sync=false){
                                 <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
                             </center>
                         </div>`;
-                            if(msg.result.response.state != 'cancel' || msg.result.response.state != 'cancel2'){
+                            if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                                 document.getElementById('cancel_reservation').innerHTML = `
                                 <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="sentra_medika_cancel_booking('` + msg.result.response.order_number + `');" style="width:100%;">
                                     Cancel Booking
