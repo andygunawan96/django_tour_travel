@@ -1347,8 +1347,7 @@ function get_customer_list(passenger, number, product){
             }
         }
 
-    }
-    else{
+    }else{
         $(".loading-pax-train").show();
         var name = '';
         if(passenger == 'passenger')
@@ -1846,6 +1845,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
             var date1 = null;
             var date2 = null;
             var expired = null;
+            var identity_check = true;
             if(need_identity != 'none'){
                 if(typeof radios !== 'undefined'){
                     for(i in passenger_data[sequence].identities){
@@ -1857,6 +1857,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                         for (var j = 0, length = radios.length; j < length; j++) {
                             if(expired == null || expired < -1){
                                 if (radios[j].value == i && identity == '' || radios[j].value == i && identity == i) {
+                                    identity_check = false;
                                     try{//kalau ada identity type
                                         document.getElementById(type+'_id_type'+passenger_number).value = i;
                                         $('#'+type+'_id_type'+passenger_number).niceSelect('update');
@@ -1906,6 +1907,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                         var date2 = moment();
                         var expired = date2.diff(date1, 'days');
                         if(expired < -180){
+                            identity_check = false;
                             document.getElementById(type+'_passport_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
                             if(passenger_data[sequence].identities.passport.identity_country_of_issued_name != '' && passenger_data[sequence].identities.passport.identity_country_of_issued_name != undefined){
                                 document.getElementById('select2-'+type+'_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
@@ -1919,6 +1921,25 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     }catch(err){
                         console.log(err); //tidak ada selection buat identity di product type
                     }
+                }
+                if(identity_check){
+                    //notif error
+                    try{
+                        document.getElementById(type+'_identity_msg_error'+passenger_number).innerHTML = 'Identity already expired';
+                    }catch(err){
+                        console.log(err);
+                    }
+                }else{
+                    try{
+                        document.getElementById(type+'_identity_msg_error'+passenger_number).innerHTML = '';
+                    }catch(err){
+                        console.log(err);
+                    }
+                    //identity copy
+                    if(document.getElementById(type+'_id_type'+passenger_number))
+                        change_identity_type(type+`_id_type`+passenger_number);
+                    else if(document.getElementById(type+'_identity_type'+passenger_number))
+                        change_identity_type(type+`_identity_type`+passenger_number);
                 }
             }
         }
@@ -2595,6 +2616,7 @@ function copy_booker(val,type,identity){
         var date2 = '';
         var expired = null;
         var need_identity = null;
+        var identity_check = true;
         try{
             need_identity = document.getElementById('adult_identity_div1').style.display;
         }catch(err){
@@ -2624,6 +2646,7 @@ function copy_booker(val,type,identity){
                         if(expired == null || expired < -1){
                             if (radios[j].value == data[0] && identity == '' || radios[j].value == data[0] && identity == data[0]) {
                                 if(data[0] != ''){
+                                    identity_check = false;
                                     if(document.getElementById('adult_id_type1'))
                                         document.getElementById('adult_id_type1').value = data[0];
                                     else if(document.getElementById('adult_identity_type1'))
@@ -2657,18 +2680,16 @@ function copy_booker(val,type,identity){
                             }
                         }
                     }
-                    if(document.getElementById('adult_id_type1'))
-                        change_identity_type(`adult_id_type1`);
-                    else if(document.getElementById('adult_identity_type1'))
-                        change_identity_type(`adult_identity_type1`);
                 }else if( typeof expired !== 'undefined' && expired < -180){
                     try{ //KALAU ADA IDENTITY
                         //PASSPORT
-                        if(data[1] != '')
+                        if(data[1] != ''){
+                            identity_check = false;
                             if(document.getElementById('adult_passport_number1'))
                                 document.getElementById('adult_passport_number1').value = data[1];
                             else if(document.getElementById('adult_identity_number1'))
                                 document.getElementById('adult_identity_number1').value = data[1]
+                        }
                         if(data[4] != '')
                             document.getElementById('adult_passport_expired_date1').value = data[3];
                         if(data[2] != ''){
@@ -2683,13 +2704,30 @@ function copy_booker(val,type,identity){
                 date1 = '';
                 date2 = '';
                 expired = null;
-
+            }
+            if(identity_check){
+                //notif error
+                try{
+                    document.getElementById('adult_identity_msg_error1').innerHTML = 'Identity already expired';
+                }catch(err){
+                    console.log(err);
+                }
+            }else{
+                try{
+                    document.getElementById('adult_identity_msg_error1').innerHTML = '';
+                }catch(err){
+                    console.log(err);
+                }
+                //identity copy
+                if(document.getElementById('adult_id_type1'))
+                    change_identity_type(`adult_id_type1`);
+                else if(document.getElementById('adult_identity_type1'))
+                    change_identity_type(`adult_identity_type1`);
             }
         }
         if(type == 'issued_offline'){
             if(document.getElementById('booker_title').value != '' &&
                document.getElementById('booker_first_name').value != '' &&
-               document.getElementById('booker_last_name').value != '' &&
                document.getElementById('booker_nationality').value != '' &&
                document.getElementById('booker_email').value != '' &&
                document.getElementById('booker_phone').value != ''){
@@ -2764,8 +2802,6 @@ function copy_booker(val,type,identity){
                     msg += 'Please fill Booker title<br/>';
                 if(document.getElementById('booker_first_name').value == '')
                     msg += 'Please fill Booker first name<br/>';
-                if(document.getElementById('booker_last_name').value == '' )
-                    msg += 'Please fill Booker last name<br/>';
                 if(document.getElementById('booker_nationality').value == '')
                     msg += 'Please fill Booker nationality<br/>';
                 if(document.getElementById('booker_email').value == '')
@@ -3271,7 +3307,6 @@ function clear_passenger(type, sequence){
         document.getElementById('select2-child_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
         document.getElementById('child_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
     }
-
     else if(type == 'Medical'){
         Swal.fire({
           title: 'Are you sure Clear for Customer #'+sequence,
@@ -3576,6 +3611,14 @@ function clear_passenger(type, sequence){
                 }catch(err){console.log(err);}
             }
         })
+    }
+
+    if(type != 'Booker'){
+        try{
+            document.getElementById(type.toLowerCase()+'_identity_msg_error'+sequence).innerHTML = '';
+        }catch(err){
+            console.log(err);
+        }
     }
 }
 
@@ -5211,6 +5254,7 @@ function pick_passenger_cache_copy(val, identity){
             var date2 = '';
             var expired = null;
             var need_identity = null;
+            var identity_check = true;
             try{
                 need_identity = document.getElementById(passenger_pick+'_identity_div'+passenger_pick_number).style.display;
             }catch(err){
@@ -5240,6 +5284,7 @@ function pick_passenger_cache_copy(val, identity){
                             if(expired == null || expired < -1){
                                 if (radios[j].value == data[0] && identity == '' || radios[j].value == data[0] && identity == data[0]) {
                                     if(data[0] != ''){
+                                        identity_check = false;
                                         if(document.getElementById(passenger_pick+'_id_type'+passenger_pick_number))
                                             document.getElementById(passenger_pick+'_id_type'+passenger_pick_number).value = data[0];
                                         else if(document.getElementById(passenger_pick+'_identity_type'+passenger_pick_number))
@@ -5272,19 +5317,16 @@ function pick_passenger_cache_copy(val, identity){
                                 }
                             }
                         }
-                        if(document.getElementById(passenger_pick+'_id_type'+passenger_pick_number))
-                            change_identity_type(passenger_pick+`_id_type`+passenger_pick_number);
-                        else if(document.getElementById(passenger_pick+'_identity_type'+passenger_pick_number))
-                            change_identity_type(passenger_pick+`_identity_type`+passenger_pick_number);
                     }else if( typeof expired !== 'undefined' && expired < -1){
                         try{ //KALAU ADA IDENTITY
                             //PASSPORT
-                            if(data[1] != '')
+                            if(data[1] != ''){
+                                identity_check = false;
                                 if(document.getElementById(passenger_pick+'_passport_number'+passenger_pick_number))
                                     document.getElementById(passenger_pick+'_passport_number'+passenger_pick_number).value = data[1];
                                 else if(document.getElementById(passenger_pick+'_identity_number'+passenger_pick_number))
                                     document.getElementById(passenger_pick+'_identity_number'+passenger_pick_number).value = data[1]
-                            if(data[4] != '')
+                            }if(data[4] != '')
                                 document.getElementById(passenger_pick+'_passport_expired_date'+passenger_pick_number).value = data[3];
                             if(data[2] != ''){
                                 document.getElementById('select2-'+passenger_pick+'_country_of_issued'+passenger_pick_number+'_id-container').innerHTML = data[2];
@@ -5308,6 +5350,25 @@ function pick_passenger_cache_copy(val, identity){
                     date2 = '';
                     expired = null;
 
+                }
+                if(identity_check){
+                    //notif error
+                    try{
+                        document.getElementById(passenger_pick+'_identity_msg_error'+passenger_pick_number).innerHTML = 'Identity already expired';
+                    }catch(err){
+                        console.log(err);
+                    }
+                }else{
+                    try{
+                        document.getElementById(passenger_pick+'_identity_msg_error'+passenger_pick_number).innerHTML = '';
+                    }catch(err){
+                        console.log(err);
+                    }
+                    //identity copy
+                    if(document.getElementById(passenger_pick+'_id_type'+passenger_pick_number))
+                        change_identity_type(passenger_pick+`_id_type`+passenger_pick_number);
+                    else if(document.getElementById(passenger_pick+'_identity_type'+passenger_pick_number))
+                        change_identity_type(passenger_pick+`_identity_type`+passenger_pick_number);
                 }
             }
         }

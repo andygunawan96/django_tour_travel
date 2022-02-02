@@ -291,7 +291,7 @@ def update_contact(request):
             contact.append({
                 'title': request.POST['booker_title'],
                 'first_name': request.POST['booker_first_name'],
-                'last_name': request.POST['booker_last_name'],
+                'last_name': request.POST.get('booker_last_name'),
                 'email': request.POST['booker_email'],
                 'calling_code': request.POST['booker_calling_code'],
                 'mobile': request.POST['booker_mobile'],
@@ -309,7 +309,7 @@ def update_contact(request):
         booker = {
             'title': request.POST['booker_title'],
             'first_name': request.POST['booker_first_name'],
-            'last_name': request.POST['booker_last_name'],
+            'last_name': request.POST.get('booker_last_name') or '',
             'email': request.POST['booker_email'],
             'calling_code': request.POST['booker_calling_code'],
             'mobile': request.POST['booker_mobile'],
