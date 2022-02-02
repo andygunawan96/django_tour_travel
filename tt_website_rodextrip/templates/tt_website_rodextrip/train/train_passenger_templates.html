@@ -475,6 +475,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'ID Type' %}</label>
+                                            <label id="adult_identity_msg_error{{forloop.counter}}" style="color:red"></label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select" id="default-select">
                                                     <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="id_type_change('adult',{{forloop.counter}})">
@@ -710,6 +711,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'ID Type' %}</label>
+                                            <label id="infant_identity_msg_error{{forloop.counter}}" style="color:red"></label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select" id="default-select">
                                                     <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="id_type_change('infant',{{forloop.counter}})">
@@ -1229,6 +1231,7 @@
                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'ID Type' %}</label>
+                                                <label id="adult_identity_msg_error{{forloop.counter}}" style="color:red"></label>
                                                 <div class="input-container-search-ticket">
                                                     <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="id_type_change('adult',{{forloop.counter}})">
                                                         {% for id_type in id_types%}
@@ -1457,6 +1460,7 @@
                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'ID Type' %}</label>
+                                                <label id="infant_identity_msg_error{{forloop.counter}}" style="color:red"></label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select" id="default-select">
                                                         <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="id_type_change('infant',{{forloop.counter}})">
@@ -1968,6 +1972,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'ID Type' %}</label>
+                                            <label id="adult_identity_msg_error{{forloop.counter}}" style="color:red"></label>
                                             <div class="default-select" id="default-select">
                                                 <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="id_type_change('adult',{{forloop.counter}})">
                                                     {% for id_type in id_types%}
@@ -2189,6 +2194,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'ID Type' %}</label>
+                                            <label id="infant_identity_msg_error{{forloop.counter}}" style="color:red"></label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select" id="default-select">
                                                     <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="id_type_change('infant',{{forloop.counter}})">
@@ -2705,6 +2711,7 @@
                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'ID Type' %}</label>
+                                        <label id="adult_identity_msg_error{{forloop.counter}}" style="color:red"></label>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select">
                                                 <select class="nice-select-default rounded" id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="id_type_change('adult',{{forloop.counter}})">
@@ -2937,6 +2944,7 @@
                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'ID Type' %}</label>
+                                        <label id="infant_identity_msg_error{{forloop.counter}}" style="color:red"></label>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select" id="default-select">
                                                 <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="id_type_change('infant',{{forloop.counter}})">
@@ -3452,6 +3460,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'ID Type' %}</label>
+                                            <label id="adult_identity_msg_error{{forloop.counter}}" style="color:red"></label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select" id="default-select">
                                                     <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="id_type_change('adult',{{forloop.counter}})">
@@ -3686,6 +3695,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'ID Type' %}</label>
+                                            <label id="infant_identity_msg_error{{forloop.counter}}" style="color:red"></label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select" id="default-select">
                                                     <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="id_type_change('infant',{{forloop.counter}})">
@@ -4202,6 +4212,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'ID Type' %}</label>
+                                            <label id="adult_identity_msg_error{{forloop.counter}}" style="color:red"></label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select" id="default-select">
                                                     <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="id_type_change('adult',{{forloop.counter}})">
@@ -4436,6 +4447,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'ID Type' %}</label>
+                                            <label id="infant_identity_msg_error{{forloop.counter}}" style="color:red"></label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select" id="default-select">
                                                     <select id='infant_id_type{{forloop.counter}}' name='infant_id_type{{forloop.counter}}' onchange="id_type_change('infant',{{forloop.counter}})">

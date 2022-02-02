@@ -995,7 +995,7 @@ function table_issued_offline_history(data){
 
 function update_contact(type,val){
     if(type == 'booker'){
-        if(document.getElementById('booker_title').value != '' && document.getElementById('booker_first_name').value != '' && document.getElementById('booker_last_name').value != '')
+        if(document.getElementById('booker_title').value != '' && document.getElementById('booker_first_name').value != '')
             document.getElementById('contact_person').value = document.getElementById('booker_title').value + ' ' + document.getElementById('booker_first_name').value + ' ' + document.getElementById('booker_last_name').value;
     }else if(type == 'passenger'){
         if(document.getElementById('adult_title'+val).value != '')
