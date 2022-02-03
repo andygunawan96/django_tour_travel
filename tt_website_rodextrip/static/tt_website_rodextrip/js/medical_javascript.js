@@ -8021,9 +8021,16 @@ function auto_fill_phc_antigen(){
         document.getElementById('adult_birth_date'+counter).value = passenger_data_cache_medical[idx].birth_date;
         document.getElementById('adult_tempat_lahir'+counter).value = passenger_data_cache_medical[idx].tempat_lahir;
         document.getElementById('select2-adult_tempat_lahir'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].tempat_lahir;
-        if(passenger_data_cache_medical[idx].identity_type != 'passport'){
+        if(passenger_data_cache_medical[idx].identity_type == 'ktp'){
             document.getElementById('adult_identity_type'+counter).value = passenger_data_cache_medical[idx].identity_type;
             document.getElementById('adult_identity_number'+counter).value = passenger_data_cache_medical[idx].identity_number;
+            document.getElementById('adult_country_of_issued'+counter).value = passenger_data_cache_medical[idx].identity_country_of_issued_name;
+            document.getElementById('select2-adult_country_of_issued'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].identity_country_of_issued_name;
+        }else if(passenger_data_cache_medical[idx].identity_type == 'passport'){
+            document.getElementById('adult_identity_type'+counter).value = passenger_data_cache_medical[idx].identity_type;
+            document.getElementById('adult_identity_number'+counter).value = passenger_data_cache_medical[idx].identity_number;
+            if(passenger_data_cache_medical[idx].identity_expdate)
+                document.getElementById('adult_identity_expired_date'+counter).value = moment(passenger_data_cache_medical[idx].identity_expdate,'YYYY-MM-DD').format('DD MMM YYYY');
             document.getElementById('adult_country_of_issued'+counter).value = passenger_data_cache_medical[idx].identity_country_of_issued_name;
             document.getElementById('select2-adult_country_of_issued'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].identity_country_of_issued_name;
         }
