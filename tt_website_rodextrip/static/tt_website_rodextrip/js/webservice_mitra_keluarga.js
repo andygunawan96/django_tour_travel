@@ -1177,8 +1177,13 @@ function mitra_keluarga_get_booking(order_number, sync=false){
 
                                         text+=moment(msg.result.response.picked_timeslot.datetimeslot.split(' ')[0], 'YYYY-MM-DD').format('DD MMM YYYY') + ' ';
                                         $text += `Date: `+ moment(msg.result.response.picked_timeslot.datetimeslot.split(' ')[0], 'YYYY-MM-DD').format('DD MMM YYYY')+'\n';
-                                        text += moment(localTime).format('HH:mm') + ' ' + gmt + timezone;
-                                        $text += `Time: `+moment(localTime).format('HH:mm') + ' ' + gmt + timezone+`\n`;
+                                        if(msg.result.response.provider_bookings[0].carrier_code.includes('HC')){
+                                            text += moment(localTime).format('HH:mm') + ' ' + gmt + timezone;
+                                            $text += `Time: `+moment(localTime).format('HH:mm') + ' ' + gmt + timezone+`\n`;
+                                        }else{
+                                            text += 'MON-SAT 08:00 - 20:00 WIB | SUN 08:00 - 17:00 ' + gmt + timezone;
+                                            $text += 'Time: MON-SAT 08:00 - 20:00 WIB | SUN 08:00 - 17:00 ' + gmt + timezone+`\n`;
+                                        }
 
 
 
