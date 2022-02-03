@@ -1122,7 +1122,8 @@ function add_table_of_passenger(type){
                             text_div_paxs+=`<select id="adult_identity_type`+parseInt(counter_passenger+1)+`" name="adult_identity_type`+parseInt(counter_passenger+1)+`" onchange="change_country_of_issued(`+parseInt(counter_passenger+1)+`);set_exp_identity(`+parseInt(counter_passenger+1)+`);">`;
                         }
                         text_div_paxs+=`
-                            <option value="ktp">NIK(KTP/KSK)</option>`;
+                            <option value="ktp">NIK(KTP/KSK)</option>
+                            <option value="passport">Passport</option>`;
 
                             text_div_paxs+=`</select>
                             </div>
@@ -1483,6 +1484,17 @@ function add_table_of_passenger(type){
     $('#adult_identity_type'+parseInt(counter_passenger+1)).niceSelect();
     auto_complete(`adult_nationality`+parseInt(counter_passenger+1));
     counter_passenger++;
+}
+
+function medical_use_booker(value){
+    console.log(value);
+    if(value == true){
+        document.getElementById('booker_div').style.display = 'block';
+        document.getElementById('copy_booker_div').style.display = 'block';
+    }else{
+        document.getElementById('booker_div').style.display = 'none';
+        document.getElementById('copy_booker_div').style.display = 'none';
+    }
 }
 
 function regex_phone_mitra_keluarga(value){
@@ -2465,60 +2477,75 @@ function check_passenger(){
         }
 
         var max_length = medical_config.result.response[test_type].adult_length_name;
-        /*if(check_name(document.getElementById('booker_title').value,
-                        document.getElementById('booker_first_name').value,
-                        document.getElementById('booker_last_name').value,
-                        max_length) == false){
-            error_log+= 'Total of Booker name maximum '+max_length+' characters!</br>\n';
-            document.getElementById('booker_first_name').style['border-color'] = 'red';
-            //document.getElementById('booker_last_name').style['border-color'] = 'red';
-            check_form_booker = 1;
-        }else{
-            document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
-            //document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
-        }if(document.getElementById('booker_first_name').value == ''){
-            error_log+= 'Please fill booker first name!</br>\n';
-            document.getElementById('booker_first_name').style['border-color'] = 'red';
-            check_form_booker = 1;
-        }else{
-            document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
-        }if(check_phone_number(document.getElementById('booker_phone').value)==false){
-            error_log+= 'Phone number Booker only contain number 8 - 12 digits!</br>\n';
-            document.getElementById('booker_phone').style['border-color'] = 'red';
-            check_form_booker = 1;
-        }else{
-            document.getElementById('booker_phone').style['border-color'] = '#EFEFEF';
-        }if(check_email(document.getElementById('booker_email').value)==false){
-            error_log+= 'Invalid Booker email!</br>\n';
-            document.getElementById('booker_email').style['border-color'] = 'red';
-            check_form_booker = 1;
-        }else{
-            document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
-        }*/
 
-        /*if(error_log == ''){
-            request['booker'] = {
-                "first_name": document.getElementById('booker_first_name').value,
-                "last_name": document.getElementById('booker_last_name').value,
-                "title": document.getElementById('booker_title').value,
-                'email': document.getElementById('booker_email').value,
-                'calling_code': document.getElementById('booker_phone_code').value,
-                'mobile': document.getElementById('booker_phone').value,
-                'nationality_name': document.getElementById('booker_nationality').value,
-                'booker_seq_id': document.getElementById('booker_id').value
+        var check_booker = false;
+        var radios = document.getElementsByName('useBooker');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                // do whatever you want with the checked radio
+                if(radios[j].value == 'yes')
+                    check_booker = true
+                // only one radio can be logically checked, don't check the rest
+                break;
             }
-            request['contact_person'] = [{
-                "first_name": document.getElementById('booker_first_name').value,
-                "last_name": document.getElementById('booker_last_name').value,
-                "title": document.getElementById('booker_title').value,
-                'email': document.getElementById('booker_email').value,
-                'calling_code': document.getElementById('booker_phone_code').value,
-                'mobile': document.getElementById('booker_phone').value,
-                'nationality_name': document.getElementById('booker_nationality').value,
-                'contact_seq_id': document.getElementById('booker_id').value,
-                'is_also_booker': true
-            }]
-        }*/
+        }
+        if(check_booker){
+            if(check_name(document.getElementById('booker_title').value,
+                            document.getElementById('booker_first_name').value,
+                            document.getElementById('booker_last_name').value,
+                            max_length) == false){
+                error_log+= 'Total of Booker name maximum '+max_length+' characters!</br>\n';
+                document.getElementById('booker_first_name').style['border-color'] = 'red';
+                //document.getElementById('booker_last_name').style['border-color'] = 'red';
+                check_form_booker = 1;
+            }else{
+                document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
+                //document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
+            }if(document.getElementById('booker_first_name').value == ''){
+                error_log+= 'Please fill booker first name!</br>\n';
+                document.getElementById('booker_first_name').style['border-color'] = 'red';
+                check_form_booker = 1;
+            }else{
+                document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
+            }if(check_phone_number(document.getElementById('booker_phone').value)==false){
+                error_log+= 'Phone number Booker only contain number 8 - 12 digits!</br>\n';
+                document.getElementById('booker_phone').style['border-color'] = 'red';
+                check_form_booker = 1;
+            }else{
+                document.getElementById('booker_phone').style['border-color'] = '#EFEFEF';
+            }if(check_email(document.getElementById('booker_email').value)==false){
+                error_log+= 'Invalid Booker email!</br>\n';
+                document.getElementById('booker_email').style['border-color'] = 'red';
+                check_form_booker = 1;
+            }else{
+                document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
+            }
+
+            if(error_log == ''){
+                request['booker'] = {
+                    "first_name": document.getElementById('booker_first_name').value,
+                    "last_name": document.getElementById('booker_last_name').value,
+                    "title": document.getElementById('booker_title').value,
+                    'email': document.getElementById('booker_email').value,
+                    'calling_code': document.getElementById('booker_phone_code').value,
+                    'mobile': document.getElementById('booker_phone').value,
+                    'nationality_name': document.getElementById('booker_nationality').value,
+                    'booker_seq_id': document.getElementById('booker_id').value
+                }
+                request['contact_person'] = [{
+                    "first_name": document.getElementById('booker_first_name').value,
+                    "last_name": document.getElementById('booker_last_name').value,
+                    "title": document.getElementById('booker_title').value,
+                    'email': document.getElementById('booker_email').value,
+                    'calling_code': document.getElementById('booker_phone_code').value,
+                    'mobile': document.getElementById('booker_phone').value,
+                    'nationality_name': document.getElementById('booker_nationality').value,
+                    'contact_seq_id': document.getElementById('booker_id').value,
+                    'is_also_booker': true
+                }]
+            }
+        }
+
         var check_passenger_var = false;
         var ktp = [];
         var check_ktp_value = 1;
@@ -2683,7 +2710,7 @@ function check_passenger(){
                         is_also_contact = false;
                     }
                     check_passenger_var = true;
-                    if(i == 0){
+                    if(i == 0 && check_booker == false){
                         request['booker'] = {
                             "first_name": document.getElementById('adult_first_name' + nomor_pax).value,
                             "last_name": document.getElementById('adult_last_name' + nomor_pax).value,
@@ -2706,6 +2733,11 @@ function check_passenger(){
                             'is_also_booker': true
                         }]
                     }
+                    exp_date = document.getElementById('adult_identity_expired_date' + nomor_pax).value;
+                    if(exp_date)
+                        exp_date = moment(exp_date, 'DD MMM YYYY').format('YYYY-MM-DD');
+                    else
+                        exp_date = '';
                     request['passenger'].push({
                         "pax_type": "ADT",
                         "first_name": document.getElementById('adult_first_name' + nomor_pax).value,
@@ -2716,7 +2748,7 @@ function check_passenger(){
                         "address_ktp": document.getElementById('adult_address' + nomor_pax).value,
                         "identity": {
                             "identity_country_of_issued_name": document.getElementById('adult_country_of_issued' + nomor_pax).value,
-                            "identity_expdate": '',
+                            "identity_expdate": exp_date,
                             "identity_type": document.getElementById('adult_identity_type' + nomor_pax).value,
                             "identity_number": document.getElementById('adult_identity_number' + nomor_pax).value,
                         },
@@ -3084,6 +3116,11 @@ function add_table(change_rebooking=false){
         console.log(err); // error kalau ada element yg tidak ada
     }
 
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+        document.getElementById('use_booker').style.display = 'none';
+        document.getElementsByName('useBooker')[1].checked = true;
+    }
+
     if(change_rebooking == true && total_passengers_rebooking != 0){
         //readd change value pax add table
         document.getElementById('passenger').value = total_passengers_rebooking;
@@ -3260,9 +3297,16 @@ function auto_fill_data(){
               }
         });
         document.getElementById('adult_birth_date'+counter).value = passenger_data_cache_medical[idx].birth_date;
-        if(passenger_data_cache_medical[idx].identity_type != 'passport'){
+        if(passenger_data_cache_medical[idx].identity_type == 'ktp'){
             document.getElementById('adult_identity_type'+counter).value = passenger_data_cache_medical[idx].identity_type;
             document.getElementById('adult_identity_number'+counter).value = passenger_data_cache_medical[idx].identity_number;
+            document.getElementById('adult_country_of_issued'+counter).value = passenger_data_cache_medical[idx].identity_country_of_issued_name;
+            document.getElementById('select2-adult_country_of_issued'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].identity_country_of_issued_name;
+        }else if(passenger_data_cache_medical[idx].identity_type == 'passport'){
+            document.getElementById('adult_identity_type'+counter).value = passenger_data_cache_medical[idx].identity_type;
+            document.getElementById('adult_identity_number'+counter).value = passenger_data_cache_medical[idx].identity_number;
+            if(passenger_data_cache_medical[idx].identity_expdate)
+                document.getElementById('adult_identity_expired_date'+counter).value = moment(passenger_data_cache_medical[idx].identity_expdate,'YYYY-MM-DD').format('DD MMM YYYY');
             document.getElementById('adult_country_of_issued'+counter).value = passenger_data_cache_medical[idx].identity_country_of_issued_name;
             document.getElementById('select2-adult_country_of_issued'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].identity_country_of_issued_name;
         }
@@ -3284,6 +3328,7 @@ function auto_fill_data(){
         $('#adult_title'+counter).niceSelect('update');
         $('#adult_identity_type'+counter).niceSelect('update');
         update_contact('passenger',counter);
+        set_exp_identity(counter);
         counter++;
     }
 }

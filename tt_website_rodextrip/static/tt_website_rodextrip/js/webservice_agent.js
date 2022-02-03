@@ -1731,6 +1731,18 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                         auto_complete('adult_country_of_issued'+passenger_number);
                         document.getElementById('adult_country_of_issued'+passenger_number).readOnly = true;
                     }
+                }else if(passenger_data[sequence].identities.hasOwnProperty('passport') == true){
+                    document.getElementById('adult_identity_type'+passenger_number).value = 'passport';
+                    $('#adult_identity_type'+passenger_number).niceSelect('update');
+                    document.getElementById('adult_identity_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
+                    if(passenger_data[sequence].identities.passport.identity_expdate)
+                        document.getElementById('adult_identity_expired_date'+passenger_number).value = passenger_data[sequence].identities.passport.identity_expdate;
+                    if(passenger_data[sequence].identities.passport.identity_country_of_issued_name != '' && passenger_data[sequence].identities.passport.identity_country_of_issued_name != undefined){
+                        document.getElementById('select2-adult_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
+                        document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
+                        auto_complete('adult_country_of_issued'+passenger_number);
+                        document.getElementById('adult_country_of_issued'+passenger_number).readOnly = true;
+                    }
                 }
                     //document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
                 if(document.getElementById('adult_email'+passenger_number))
@@ -1751,6 +1763,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                 radio_button('passenger',passenger_number);
                 document.getElementById('search_result_'+passenger_number).innerHTML = '';
                 update_contact('passenger',passenger_number);
+                set_exp_identity(passenger_number)
                 passenger_number--;
             }else{
                 Swal.fire({
@@ -2883,7 +2896,7 @@ function copy_booker(val,type,identity){
                         document.getElementById('adult_birth_date1').disabled = true;
                     document.getElementById('adult_id1').value = document.getElementById('booker_id').value;
                     document.getElementById('button_clear0').hidden = true;
-
+                    set_exp_identity(1)
                     $('#adult_identity_type1').niceSelect('update');
                 }catch(err){
                     console.log(err);
@@ -2900,8 +2913,6 @@ function copy_booker(val,type,identity){
                     msg += 'Please fill Booker title<br/>';
                 if(document.getElementById('booker_first_name').value == '')
                     msg += 'Please fill Booker first name<br/>';
-                if(document.getElementById('booker_last_name').value == '' )
-                    msg += 'Please fill Booker last name<br/>';
                 if(document.getElementById('booker_nationality').value == '')
                     msg += 'Please fill Booker nationality<br/>';
                 if(document.getElementById('booker_email').value == '')
@@ -3605,7 +3616,7 @@ function clear_passenger(type, sequence){
                             console.log(err); //error tidak ada element untuk provinsi / kabupaten
                         }
                     }
-
+                    set_exp_identity(sequence);
                     clear_text_medical(parseInt(sequence)-1);
 
                 }catch(err){console.log(err);}
@@ -3957,99 +3968,6 @@ function get_top_up_history(){
 //    });
 //}
 
-
-function create_top_up(amount, unique_amount){ //DEPRECATED
-    getToken();
-    $.ajax({
-       type: "POST",
-       url: "/webservice/agent",
-       headers:{
-            'action': 'create_top_up',
-       },
-       data: {
-           "amount_id": amount,
-           "unique_amount": unique_amount
-       },
-       success: function(msg) {
-        console.log(msg);
-        response = {
-            "top_up_name": "TU.12345",
-            "non_member": {
-                "transfer": [
-                  {
-                    "seq_id": "PQR.1055001",
-                    "name": "BCA",
-                    "account_name": "Jepro B BCA",
-                    "account_number": "5151551",
-                    "bank": {
-                      "name": "BANK BCA",
-                      "code": "014"
-                    },
-                    "type": "transfer",
-                    "provider_id": "",
-                    "currency": "IDR",
-                    "price_component": {
-                      "amount": 289289300,
-                      "fee": 0,
-                      "unique_amount": 571
-                    },
-                    "total_amount": 289289871,
-                    "image": "",
-                    "return_url": "/payment/transfer/feedback?acq_id=22"
-                  }
-                ],
-                "cash": [
-                  {
-                    "seq_id": false,
-                    "name": "Cash",
-                    "account_name": "-",
-                    "account_number": "",
-                    "bank": {
-                      "name": "",
-                      "code": ""
-                    },
-                    "type": "cash",
-                    "provider_id": "",
-                    "currency": "IDR",
-                    "price_component": {
-                      "amount": 289289300,
-                      "fee": 0,
-                      "unique_amount": 0
-                    },
-                    "total_amount": 289289300,
-                    "image": "",
-                    "return_url": "/payment/cash/feedback?acq_id=11"
-                  }
-                ]
-              },
-              "member": {
-                "credit_limit": []
-              }
-        };
-        document.getElementById('top_up_name').innerHTML = `<span>`+response.top_up_name+`</span>`;
-        document.getElementById('total_amount').innerHTML = `<span>`+response.non_member.transfer[0].total_amount+`</span>`;
-        text = '';
-//            payment_selection
-        counter = 0;
-        for(i in response.non_member){
-            if(i == 'cash'){
-                text += `<option id="payment`+counter+`" value="`+i+`">Cash</option>`;
-            }else if(i == 'transfer'){
-                text += `<option id="payment`+counter+`" value="`+i+`">Transfer Manual</option>`;
-            }else if(i == 'sgo_va'){
-                text += `<option id="payment`+counter+`" value="`+i+`">Virtual Account</option>`;
-            }
-        }
-        document.getElementById('payment_selection').innerHTML = text;
-        payment_top_up();
-//        $('#payment_selection').niceSelect('update');
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error create top up');
-       },timeout: 60000
-    });
-
-}
 
 function top_up_payment(){
     var radios = document.getElementsByName('acquirer');

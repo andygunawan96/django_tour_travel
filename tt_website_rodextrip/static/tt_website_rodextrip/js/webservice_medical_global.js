@@ -445,6 +445,8 @@ function medical_global_check_price(){
                 console.log(msg);
                 try{
                 if(msg.result.error_code == 0){
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                        document.getElementById('use_booker').style.display = 'block';
                     var text = `
                     <div style="background-color:white; margin-bottom:15px;">
                         <h4 style="color:`+color+`;"> Price Detail</h4>`;
