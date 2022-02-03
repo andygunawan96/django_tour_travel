@@ -371,13 +371,6 @@ def commit_booking(request):
                 if rec['identity']['identity_country_of_issued_name'] == country['name']:
                     rec['identity']['identity_country_of_issued_code'] = country['code']
                     break
-            if rec['identity'].get('identity_expdate'):
-                if rec['identity']['identity_expdate']:
-                    rec['identity']['identity_expdate'] = '%s-%s-%s' % (
-                        rec['identity']['identity_expdate'].split(' ')[2], month[rec['identity']['identity_expdate'].split(' ')[1]],
-                        rec['identity']['identity_expdate'].split(' ')[0])
-            else:
-                rec['identity']['identity_expdate'] = ''
 
         try:
             if bool(int(request.POST['force_issued'])) == True:
