@@ -326,6 +326,8 @@ function mitra_keluarga_check_price(){
                 console.log(msg);
                 try{
                 if(msg.result.error_code == 0){
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                        document.getElementById('use_booker').style.display = 'block';
                     var text = `
                     <div style="background-color:white; margin-bottom:15px;">
                         <h4 style="color:`+color+`;"> Price Detail</h4>`;
@@ -1177,8 +1179,13 @@ function mitra_keluarga_get_booking(order_number, sync=false){
 
                                         text+=moment(msg.result.response.picked_timeslot.datetimeslot.split(' ')[0], 'YYYY-MM-DD').format('DD MMM YYYY') + ' ';
                                         $text += `Date: `+ moment(msg.result.response.picked_timeslot.datetimeslot.split(' ')[0], 'YYYY-MM-DD').format('DD MMM YYYY')+'\n';
-                                        text += moment(localTime).format('HH:mm') + ' ' + gmt + timezone;
-                                        $text += `Time: `+moment(localTime).format('HH:mm') + ' ' + gmt + timezone+`\n`;
+                                        if(msg.result.response.provider_bookings[0].carrier_code.includes('HC')){
+                                            text += moment(localTime).format('HH:mm') + ' ' + gmt + timezone;
+                                            $text += `Time: `+moment(localTime).format('HH:mm') + ' ' + gmt + timezone+`\n`;
+                                        }else{
+                                            text += 'MON-SAT 08:00 - 20:00 WIB | SUN 08:00 - 17:00 ' + gmt + timezone;
+                                            $text += 'Time: MON-SAT 08:00 - 20:00 WIB | SUN 08:00 - 17:00 ' + gmt + timezone+`\n`;
+                                        }
 
 
 
@@ -1617,7 +1624,7 @@ function mitra_keluarga_get_booking(order_number, sync=false){
                                 <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
                             </center>
                         </div>`;
-                            if(msg.result.response.state != 'cancel' || msg.result.response.state != 'cancel2'){
+                            if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                                 document.getElementById('cancel_reservation').innerHTML = `
                                 <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="mitra_keluarga_cancel_booking('` + msg.result.response.order_number + `');" style="width:100%;">
                                     Cancel Booking

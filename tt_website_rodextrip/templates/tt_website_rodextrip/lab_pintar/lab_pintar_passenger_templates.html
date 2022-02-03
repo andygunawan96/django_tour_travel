@@ -328,6 +328,28 @@
                         </div>
                     </div>
                 </div>
+                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                <div class="row" id="use_booker" style="display:none;">
+                    <div class="col-lg-8">
+                        <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
+                            <label>{% trans 'Input Booker?' %}</label>
+                            <label class="radio-button-custom">
+                                {% trans 'Yes' %}
+                                <input type="radio" name="useBooker" onchange="medical_use_booker(true);" value="yes"/>
+                                <span class="checkmark-radio"></span>
+                            </label>
+
+                            <label class="radio-button-custom">
+                                {% trans 'No' %}
+                                <input type="radio" name="useBooker" onchange="medical_use_booker(false);" value="no" checked="checked"/>
+                                <span class="checkmark-radio"></span>
+                            </label>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-4"></div>
+                </div>
+                {% endif %}
                 <div class="row mt-3">
                     <div class="col-lg-12" style="margin-top:10px;">
                         <div class="col-lg-12" id="show_loading_booking_lab_pintar">
@@ -340,7 +362,7 @@
                                 <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} ... </span>
                             </div>
                         </div>
-                        <div class="row" style="display:none;">
+                        <div class="row" id="booker_div" style="display:none;">
                             <div class="col-lg-12">
                                 <div id="booker" style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
                                     <div class="row">
@@ -528,6 +550,32 @@
                                         </div>
 
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" id="copy_booker_div" style="margin-bottom:20px;margin-top:20px;display:none;">
+                            <div class="col-lg-12">
+                                <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
+                                    <label>{% trans 'Do you book this trip for you?' %}</label>
+                                    <label class="radio-button-custom">
+                                        {% trans 'Yes' %}
+                                        <input type="radio" name="copy" onchange="copy_booker_to_passenger('copy','medical');" value="yes"/>
+                                        <span class="checkmark-radio"></span>
+                                    </label>
+
+                                    <label class="radio-button-custom">
+                                        {% trans 'No' %}
+                                        <input type="radio" name="copy" onchange="copy_booker_to_passenger('change','medical');" value="no" checked="checked"/>
+                                        <span class="checkmark-radio"></span>
+                                    </label>
+
+                                    <br/>
+                                    <label>{% trans 'Passenger Data' %}</label><br/>
+                                    <ul>
+                                        <li>{% trans '1. Caution: the name of the passenger must be right and appropriate with international passsport, and domestic route can match with KTP/Passport/SIM' %}</li>
+                                        <li>{% trans "2. Passenger data can't be changed after the passing of this page" %}</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
