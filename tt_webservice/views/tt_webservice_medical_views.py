@@ -506,7 +506,7 @@ def commit_booking(request):
                     'member': member,
                     'seq_id': request.POST['seq_id'],
                 })
-        except E:
+        except Exception as e:
             _logger.error(str(e) + traceback.format_exc())
         if request.POST.get('voucher_code') != '':
             data.update({
