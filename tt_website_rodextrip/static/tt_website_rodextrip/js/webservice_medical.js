@@ -1387,8 +1387,8 @@ function medical_get_booking(order_number, sync=false){
                                         text += moment(localTime).format('HH:mm') + ' ' + gmt + timezone;
                                         $text += `Time: `+moment(localTime).format('HH:mm') + ' ' + gmt + timezone+`\n`;
                                     }else{
-                                        text+= `08.00 - 16.00 ` + gmt + timezone;
-                                        $text += `Time: 08.00 - 16.00 ` + gmt + timezone+`\n`;
+                                        text+= `08.00 - 16.55 ` + gmt + timezone;
+                                        $text += `Time: 08.00 - 16.55 ` + gmt + timezone+`\n`;
                                     }
 
 
