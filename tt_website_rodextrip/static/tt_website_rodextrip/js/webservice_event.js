@@ -1943,14 +1943,6 @@ function event_issued(data){
                if(google_analytics != '')
                    gtag('event', 'event_issued', {});
                if(msg.result.error_code == 0){
-                   try{
-                       if(msg.result.response.state == 'issued')
-                            print_success_issued();
-                       else
-                            print_fail_issued();
-                   }catch(err){
-                       console.log(err) //ada element yg tidak ada
-                   }
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
                         window.location.href = '/event/booking/' + btoa(data);
                    }else{
