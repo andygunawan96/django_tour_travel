@@ -1113,7 +1113,7 @@ function get_payment_order_number(order_number){
            data: {
                 'order_number': order_number,
                 'signature': signature,
-                'seq_id': payment_acq2[payment_method][selected].seq_id,
+                'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
                 'show_device_type': payment_acq2[payment_method][selected].show_device_type,
                 'url_back': window.location.href
            },
@@ -1300,7 +1300,7 @@ function get_va_bank(){
                 text = '';
                 payment_information = msg.result.response;
                 for(i in payment_information){
-                    text += `<option value='`+payment_information[i].seq_id+`'>`+payment_information[i].name+`</option>`;
+                    text += `<option value='`+payment_information[i].acquirer_seq_id+`'>`+payment_information[i].name+`</option>`;
                 }
                 document.getElementById('payment_information_choose').innerHTML = text;
                 $('#payment_information_choose').niceSelect('update');
@@ -1315,7 +1315,7 @@ function get_va_bank(){
 
 function change_payment_information(){
     for(i in payment_information){
-        if(payment_information[i].seq_id == document.getElementById('payment_information_choose').value){
+        if(payment_information[i].acquirer_seq_id == document.getElementById('payment_information_choose').value){
             CKEDITOR.instances['body_payment_information'].setData(payment_information[i].html)
             document.getElementById('payment_information_heading').value = payment_information[i].heading;
 //            document.getElementById('body_printout').innerHTML = printout[i].html;
@@ -1482,12 +1482,12 @@ function change_top_up_method(){
                                 text+=`<div class="panel panel-default">
                                         <div class="panel-heading-sgo" role="tab" id="headingFour">
                                             <h4 class="panel-title">
-                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#`+payment_how_to_obj[i][j].seq_id+`" aria-expanded="false" aria-controls="`+payment_how_to_obj[i][j].seq_id+`">
+                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#`+payment_how_to_obj[i][j].acquirer_seq_id+`" aria-expanded="false" aria-controls="`+payment_how_to_obj[i][j].acquirer_seq_id+`">
                                                     `+payment_how_to_obj[i][j].heading+`
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id="`+payment_how_to_obj[i][j].seq_id+`" class="panel-collapse collapse" role="tabpanel" aria-labelledby="`+payment_how_to_obj[i][j].seq_id+`" style="height: 0px;">
+                                        <div id="`+payment_how_to_obj[i][j].acquirer_seq_id+`" class="panel-collapse collapse" role="tabpanel" aria-labelledby="`+payment_how_to_obj[i][j].acquirer_seq_id+`" style="height: 0px;">
                                             <div class="panel-body">
                                                 `+payment_how_to_obj[i][j].html+`
                                             </div>
@@ -1503,12 +1503,12 @@ function change_top_up_method(){
                                 text+=`<div class="panel panel-default">
                                         <div class="panel-heading-sgo" role="tab" id="headingFour">
                                             <h4 class="panel-title">
-                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#`+payment_how_to_obj[i][j].seq_id+`" aria-expanded="false" aria-controls="`+payment_how_to_obj[i][j].seq_id+`">
+                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#`+payment_how_to_obj[i][j].acquirer_seq_id+`" aria-expanded="false" aria-controls="`+payment_how_to_obj[i][j].acquirer_seq_id+`">
                                                     `+payment_how_to_obj[i][j].heading+`
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id="`+payment_how_to_obj[i][j].seq_id+`" class="panel-collapse collapse" role="tabpanel" aria-labelledby="`+payment_how_to_obj[i][j].seq_id+`" style="height: 0px;">
+                                        <div id="`+payment_how_to_obj[i][j].acquirer_seq_id+`" class="panel-collapse collapse" role="tabpanel" aria-labelledby="`+payment_how_to_obj[i][j].acquirer_seq_id+`" style="height: 0px;">
                                             <div class="panel-body">
                                                 `+payment_how_to_obj[i][j].html+`
                                             </div>

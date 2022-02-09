@@ -480,7 +480,7 @@ def issued_booking(request):
             # 'order_number': 'TB.190329533467'
             'order_number': request.POST['order_number'],
             'member': member,
-            'seq_id': request.POST['seq_id'],
+            'acquirer_seq_id': request.POST['acquirer_seq_id'],
             'voucher': {}
         }
 

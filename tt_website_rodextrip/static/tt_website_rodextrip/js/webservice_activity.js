@@ -2456,7 +2456,7 @@ function activity_commit_booking(val){
         'signature': signature
     }
     try{
-        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
         data['voucher_code'] =  voucher_code;
     }catch(err){
@@ -2574,7 +2574,7 @@ function activity_issued_booking(order_number)
        },
        data: {
            'order_number': order_number,
-           'seq_id': payment_acq2[payment_method][selected].seq_id,
+           'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
            'member': payment_acq2[payment_method][selected].method,
            'signature': signature,
            'voucher_code': voucher_code,

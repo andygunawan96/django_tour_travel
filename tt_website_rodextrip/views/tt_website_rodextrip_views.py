@@ -455,12 +455,12 @@ def payment_method(request, provider, order_number):
         account_name = data['result']['response']['account_name']
         create_date = convert_string_to_date_to_string_front_end_with_time(to_date_now(data['result']['response']['create_date']))
         data_payment = []
-        file = read_cache_without_folder_path("/payment_information/" + data['result']['response']['seq_id'], 90911)
+        file = read_cache_without_folder_path("/payment_information/" + data['result']['response']['acquirer_seq_id'], 90911)
         if file:
             data_payment.append({
                 "heading": '',
                 "html": '',
-                "seq_id": data['result']['response']['seq_id']
+                "acquirer_seq_id": data['result']['response']['acquirer_seq_id']
             })
             for idx, data_cache in enumerate(file.split('\n')):
                 if idx == 0:
@@ -472,7 +472,7 @@ def payment_method(request, provider, order_number):
             data_payment.append({
                 "heading": '',
                 "html": '',
-                "seq_id": 'other_bank'
+                "acquirer_seq_id": 'other_bank'
             })
             for idx, data_cache in enumerate(file.split('\n')):
                 if idx == 0:
