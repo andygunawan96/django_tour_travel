@@ -4183,7 +4183,7 @@ function airline_commit_booking(val){
         'voucher_code': ''
     }
     try{
-        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
         data['voucher_code'] =  voucher_code;
     }catch(err){
@@ -4384,7 +4384,7 @@ function airline_force_commit_booking(val){
         'voucher_code': ''
     }
     try{
-        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
         data['bypass_psg_validator'] = true;
         data['voucher_code'] =  voucher_code;
@@ -6833,7 +6833,7 @@ function airline_issued(data){
            },
            data: {
                'order_number': data,
-               'seq_id': payment_acq2[payment_method][selected].seq_id,
+               'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
                'member': payment_acq2[payment_method][selected].method,
                'voucher_code': voucher_code,
                'signature': signature,
@@ -7502,7 +7502,7 @@ function update_booking_after_sales(input_pax_seat = false){
     data['signature'] = signature;
     error_log = '';
     if($("[name='radio_payment_type']").val() != undefined){
-        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
     }
     pax_seat = {};
@@ -10068,7 +10068,7 @@ function reissue_airline_commit_booking(val){
         'signature': signature
     }
     try{
-        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
     }catch(err){
     }
@@ -11599,7 +11599,7 @@ function update_booking_after_sales_v2(input_pax_seat = false){
     data['signature'] = signature;
     error_log = '';
     if($("[name='radio_payment_type']").val() != undefined){
-        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
     }
     pax_seat = {};

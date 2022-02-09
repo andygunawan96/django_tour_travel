@@ -106,9 +106,14 @@ function add_table_of_passenger(type){
     text= '';
     set_passenger_number(counter_passenger);
     var node = document.createElement("tr");
+    count_pax = 0;
+    for(i=0;i<counter_passenger;i++){
+        if(document.getElementById('passenger_number'+i) != null)
+            count_pax++;
+    }
     text += `
         <td>
-            <span>`+(counter_passenger+1)+`</span>
+            <span id="passenger_number`+counter_passenger+`">`+(count_pax+1)+`</span>
         </td>
         <td>
             <span id='name_pax`+counter_passenger+`' name='name_pax`+counter_passenger+`'></span>
@@ -130,7 +135,7 @@ function add_table_of_passenger(type){
                   <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Passenger `+(counter_passenger+1)+`</h4>
+                            <h4 class="modal-title" id="passenger_number_modal_header`+counter_passenger+`">Passenger `+(count_pax+1)+`</h4>
                             <button type="button" class="close" data-dismiss="modal" onclick="update_contact('passenger',`+parseInt(counter_passenger+1)+`);">&times;</button>
                         </div>
                         <div class="modal-body">
@@ -167,7 +172,7 @@ function add_table_of_passenger(type){
                                         <div style="background-color:`+color+`; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                    <span style="font-size:16px;">Passenger - `+parseInt(counter_passenger+1)+`</span>
+                                                    <span style="font-size:16px;color:`+text_color+`" id="passenger_number_modal_title`+counter_passenger+`">Passenger - `+parseInt(count_pax+1)+`</span>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
 
@@ -499,6 +504,17 @@ function delete_table_of_passenger(counter){
             element.parentNode.removeChild(element);
         }catch(err){
             console.log(err) //ada element yg tidak ada
+        }
+    }
+    count_pax = 1;
+    for(i=0;i<counter_passenger;i++){
+        try{
+            document.getElementById('passenger_number'+i).innerHTML = count_pax;
+            document.getElementById('passenger_number_modal_header'+i).innerHTML = 'Passenger '+count_pax;
+            document.getElementById('passenger_number_modal_title'+i).innerHTML = 'Passenger - '+count_pax;
+            count_pax++;
+        }catch(err){
+
         }
     }
 }

@@ -443,7 +443,7 @@ def commit_booking(request):
                     member = True
                 data.update({
                     'member': member,
-                    'seq_id': request.POST['seq_id'],
+                    'acquirer_seq_id': request.POST['acquirer_seq_id'],
                 })
         except:
             _logger.error('book, not force issued')
@@ -642,7 +642,7 @@ def issued(request):
             # 'order_number': 'TB.190329533467'
             'order_number': request.POST['order_number'],
             'member': member,
-            'seq_id': request.POST['seq_id'],
+            'acquirer_seq_id': request.POST['acquirer_seq_id'],
             'voucher': {}
         }
 

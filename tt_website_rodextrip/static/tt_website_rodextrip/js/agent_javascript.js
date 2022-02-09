@@ -189,7 +189,7 @@ function payment_top_up(){
                     <div>
                         <label class="radio-button-custom">
                             <span title="`+response.non_member[i][j].name+`"> <img class="img img-responsive" src="" alt="`+response.non_member[i][j].name+`" style="max-width: 60px; display: inline-block"> `+response.non_member[i][j].name+`</span>
-                            <input type="radio" checked="checked" name="acquirer" value="`+response.non_member[i][j].seq_id+`" checked="checked" onclick="set_radio_payment('`+i+`');">
+                            <input type="radio" checked="checked" name="acquirer" value="`+response.non_member[i][j].acquirer_seq_id+`" checked="checked" onclick="set_radio_payment('`+i+`');">
                             <span class="checkmark-radio"></span>
                         </label>
                     </div><hr/>`;
@@ -198,7 +198,7 @@ function payment_top_up(){
                     <div>
                         <label class="radio-button-custom">
                             <span title="`+response.non_member[i][j].name+`"> <img class="img img-responsive" src="" alt="`+response.non_member[i][j].name+`" style="max-width: 60px; display: inline-block"> `+response.non_member[i][j].name+`</span>
-                            <input type="radio" name="acquirer" value="`+response.non_member[i][j].seq_id+`" onclick="set_radio_payment('`+i+`');">
+                            <input type="radio" name="acquirer" value="`+response.non_member[i][j].acquirer_seq_id+`" onclick="set_radio_payment('`+i+`');">
                             <span class="checkmark-radio"></span>
                         </label>
                     </div><hr/>`;

@@ -386,7 +386,7 @@ def update_passenger(request):
                 passenger.append({
                     "pax_type": pax_type,
                     "first_name": request.POST['passenger_first_name' + str(i)],
-                    "last_name": request.POST['passenger_last_name' + str(i)],
+                    "last_name": request.POST.get('passenger_last_name' + str(i), ''),
                     "title": request.POST['passenger_title' + str(i)],
                     "birth_date": birth_date,
                     "nationality_code": nationality_code,
@@ -467,7 +467,7 @@ def commit_booking(request):
             member = True
         data = {
             'member': member,
-            'seq_id': request.POST['seq_id'],
+            'acquirer_seq_id': request.POST['acquirer_seq_id'],
             'voucher': {}
         }
         if request.POST['voucher_code'] != '':
@@ -647,6 +647,11 @@ def page_issued_offline(request):
         }
         response = get_cache_data(cache_version)
         res['countries'] = response['result']['response']['airline']['country']
+        try:
+            file = read_cache_with_folder_path("get_airline_active_carriers", 90911)
+            res['airline_carriers'] = file
+        except Exception as e:
+            _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

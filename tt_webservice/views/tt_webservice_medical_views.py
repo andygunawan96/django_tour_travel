@@ -504,7 +504,7 @@ def commit_booking(request):
                     member = True
                 data.update({
                     'member': member,
-                    'seq_id': request.POST['seq_id'],
+                    'acquirer_seq_id': request.POST['acquirer_seq_id'],
                 })
         except Exception as e:
             _logger.error(str(e) + traceback.format_exc())
@@ -586,7 +586,7 @@ def issued(request):
         data = {
             'order_number': request.POST['order_number'],
             'member': member,
-            'seq_id': request.POST['seq_id'],
+            'acquirer_seq_id': request.POST['acquirer_seq_id'],
             'voucher': {}
         }
         provider = []

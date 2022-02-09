@@ -1140,7 +1140,7 @@ function commit_booking_tour(val)
         'signature': signature
     }
     try{
-        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
         data['payment_method'] = payment_method_choice;
         data['voucher_code'] =  voucher_code;
@@ -1325,7 +1325,7 @@ function tour_issued_booking(order_number)
        data: {
            'order_number': order_number,
            'payment_method': payment_method_choice,
-           'seq_id': payment_acq2[payment_method][selected].seq_id,
+           'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
            'member': payment_acq2[payment_method][selected].method,
            'signature': signature,
            'voucher_code': voucher_code,

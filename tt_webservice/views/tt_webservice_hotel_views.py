@@ -628,7 +628,7 @@ def create_booking(request):
                     member = True
                 data.update({
                     'member': member,
-                    'seq_id': request.POST['seq_id'],
+                    'acquirer_seq_id': request.POST['acquirer_seq_id'],
                     'voucher': {}
                 })
                 if request.POST['voucher_code'] != '':
@@ -714,7 +714,7 @@ def issued_b2c(request):
         data = {
             'order_number': request.POST['order_number'],
             'member': member,
-            'seq_id': request.POST['seq_id'],
+            'acquirer_seq_id': request.POST['acquirer_seq_id'],
             'voucher': {}
         }
         provider = []
