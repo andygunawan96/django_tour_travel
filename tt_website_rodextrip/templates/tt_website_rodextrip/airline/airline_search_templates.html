@@ -359,7 +359,7 @@
     </div>
 </section>
 {% elif template == 2 %}
-<section class="destinations-area change_search_area" style="padding:9px 0px 9px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area change_search_area" style="padding:9px 0px 9px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div class="container" id="airline_search_params">
         <div class="row">
             <div class="{%if airline_request.direction  == 'MC'%} col-lg-8 col-md-8 {% else %} col-lg-8 col-md-8 {% endif %}" style="padding-top:5px; padding-bottom:5px;">
@@ -385,7 +385,7 @@
         </div>
     </div>
 </section>
-<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url('{{background}}'); padding-top:40px; padding-bottom:40px; z-index:995; display:none;">
+<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url('{{background}}'); padding-top:40px; padding-bottom:40px; z-index:98; display:none;">
     <div class="container" id="div-search-overlay">
         <div class="row">
             <div class="col-lg-12">
@@ -630,7 +630,7 @@
         </div>
     </div>
 </section>
-<section class="banner-area relative" id="change_search_box" style="padding-top:40px; padding-bottom:20px; background-color: black; z-index:995; position:relative; display:none;">
+<section class="banner-area relative" id="change_search_box" style="padding-top:40px; padding-bottom:20px; background-color: black; z-index:97; position:relative; display:none;">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -934,7 +934,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-6">
+                                <div class="col-lg-4 col-md-6 col-sm-6">
                                     <div id="airline_date_search"></div>
                                     <input type="hidden" class="form-control" name="airline_departure_temp" id="airline_departure_temp" value="{{airline_request.departure.0}}" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                     <input type="hidden" class="form-control" name="airline_return_temp" id="airline_return_temp" {% if airline_request.direction == 'RT'%} value="{{airline_request.return.0}}" {% endif %} placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">
@@ -1013,7 +1013,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-6">
+                                <div class="col-lg-4 col-md-6 col-sm-6">
                                     <span class="span-search-ticket">{% trans 'Airline' %}</span>
                                     <div class="input-container-search-ticket btn-group">
                                         <i class="fas fa-plane" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
@@ -1053,7 +1053,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-6">
+                                <div class="col-lg-4 col-md-6 col-sm-6">
                                     <span class="span-search-ticket">{% trans 'Class' %}</span>
                                     <div class="input-container-search-ticket btn-group">
                                         <div class="form-select" id="default-select">
@@ -1086,7 +1086,7 @@
     </div>
 </section>
 {% elif template == 5 %}
-<section class="destinations-area change_search_area" style="padding:10px 0px 10px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:7;">
+<section class="destinations-area change_search_area" style="padding:10px 0px 10px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div class="container" id="airline_search_params">
         <div class="row">
             <div class="{%if airline_request.direction  == 'MC'%} col-lg-8 col-md-8 {% else %} col-lg-8 col-md-8 {% endif %}" style="padding-top:5px; padding-bottom:5px;">
@@ -1112,7 +1112,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:50px; padding-bottom:35px; background-color: black; z-index:3; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:50px; padding-bottom:35px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -1335,7 +1335,7 @@
     </div>
 </section>
 {% elif template == 6 %}
-<section class="destinations-area change_search_area" style="padding:5px 0px 5px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:98;">
+<section class="destinations-area change_search_area" style="padding:5px 0px 5px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div class="container" id="airline_search_params">
         <div class="row">
             <div class="{%if airline_request.direction  == 'MC'%} col-lg-8 col-md-8 {% else %} col-lg-8 col-md-8 {% endif %}" style="padding-top:5px; padding-bottom:5px;">
@@ -1361,7 +1361,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" style="min-height:150px;padding-top:15px; padding-bottom:15px; background-image: url('{{background}}'); z-index:97; position:relative; display:none;">
+<section class="price-area" id="change_search_box" style="min-height:150px;padding-top:15px; padding-bottom:15px; background-image: url('{{background}}'); z-index:98; position:relative; display:none;">
     <div class="container" id="div-search-overlay">
         <div class="row">
             <div class="col-lg-12">
@@ -1399,7 +1399,7 @@
                                 <div class="row">
                                     <div class="col-lg-8">
                                         <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
+                                            <div class="col-lg-6 col-md-6 airline-from">
                                                 <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> {% trans 'From' %}</span>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
@@ -1417,7 +1417,7 @@
                                             <div class="image-change-route-horizontal">
                                                 <h4><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
+                                            <div class="col-lg-6 col-md-6 airline-to" style="z-index:5;">
                                                 <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> {% trans 'To' %}</span>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
@@ -1431,12 +1431,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-6">
+                                    <div class="col-lg-4 col-md-6">
                                         <div id="airline_date_search"></div>
                                         <input type="hidden" class="form-control" name="airline_departure_temp" id="airline_departure_temp" value="{{airline_request.departure.0}}" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                         <input type="hidden" class="form-control" name="airline_return_temp" id="airline_return_temp" {% if airline_request.direction == 'RT'%} value="{{airline_request.return.0}}" {% endif %} placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">
                                     </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-6">
+                                    <div class="col-lg-4 col-md-6">
                                         <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                                         <div class="input-container-search-ticket btn-group">
                                             <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;"></button>
@@ -1509,7 +1509,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-6">
+                                    <div class="col-lg-4 col-md-6">
                                         <span class="span-search-ticket"><i class="fas fa-plane"></i> {% trans 'Airline' %}</span>
                                         <div class="input-container-search-ticket btn-group">
                                             <button style="text-align:left;" id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">Choose Airline</button>
@@ -1548,7 +1548,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-6">
+                                    <div class="col-lg-4 col-md-6">
                                         <span class="span-search-ticket">{% trans 'Class' %}</span>
                                         <div class="input-container-search-ticket btn-group">
                                             <div class="form-select" id="default-select">
@@ -1601,7 +1601,7 @@
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1; background:#f7f7f7">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12" style="position:sticky; top:67px; z-index:99; display:none; margin-bottom:15px;" id="mybuttonsticky">
+            <div class="col-lg-12" style="position:sticky; top:67px; z-index:97; display:none; margin-bottom:15px;" id="mybuttonsticky">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-right:10px; text-align:center;">
                         <button class="primary-btn-all-sticky" style="width:100%;" data-toggle="modal" data-target="#myModalCopyAirline" onclick="get_checked_copy_result();">

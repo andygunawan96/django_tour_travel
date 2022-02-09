@@ -152,11 +152,11 @@ function change_date_next_prev(counter){
     var today_date = moment().format('DD MMM YYYY'); //hari ini
     flight_date = moment(bus_request.departure[counter]);
     var date_format = 'DD MMM YYYY';
-    document.getElementById('now_date').innerHTML = `<div style="background:white; border:2px solid `+color+`; padding:15px; text-align: center;">`+flight_date.format(date_format)+`</div>`;
-    document.getElementById('prev_date_1').innerHTML = `<div class="button_date_np date_item_p1" id="div_onclick_p1" onclick="change_date_shortcut(1);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
-    document.getElementById('prev_date_2').innerHTML = `<div class="button_date_np date_item_p2" id="div_onclick_p2" onclick="change_date_shortcut(2);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
-    document.getElementById('next_date_1').innerHTML = `<div class="button_date_np date_item_n1" id="div_onclick_n1" onclick="change_date_shortcut(-1);">`+flight_date.subtract(-3, 'days').format(date_format)+`</div>`;
-    document.getElementById('next_date_2').innerHTML = `<div class="button_date_np date_item_n2" id="div_onclick_n2" onclick="change_date_shortcut(-2);">`+flight_date.subtract(-1, 'days').format(date_format)+`</div>`;
+    document.getElementById('now_date').innerHTML = `<div style="background:white; border:2px solid `+color+`; padding:15px 10px; text-align: center;">`+flight_date.format(date_format)+`</div>`;
+    document.getElementById('prev_date_1').innerHTML = `<div class="button_date_np date_item_p1" style="padding:15px 10px;" id="div_onclick_p1" onclick="change_date_shortcut(1);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
+    document.getElementById('prev_date_2').innerHTML = `<div class="button_date_np date_item_p2" style="padding:15px 10px;" id="div_onclick_p2" onclick="change_date_shortcut(2);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
+    document.getElementById('next_date_1').innerHTML = `<div class="button_date_np date_item_n1" style="padding:15px 10px;" id="div_onclick_n1" onclick="change_date_shortcut(-1);">`+flight_date.subtract(-3, 'days').format(date_format)+`</div>`;
+    document.getElementById('next_date_2').innerHTML = `<div class="button_date_np date_item_n2" style="padding:15px 10px;" id="div_onclick_n2" onclick="change_date_shortcut(-2);">`+flight_date.subtract(-1, 'days').format(date_format)+`</div>`;
     flight_date.subtract(+2, 'days') //balikin ke hari ini
 
     if(bus_request.direction == 'OW'){
@@ -550,7 +550,7 @@ function sort(value){
                                     <div style="display:inline-block;position:relative;width:100%">
                                         <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
                                         <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                        <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                        <div style="height:30px;min-width:20px;position:relative;width:0%"/>
                                     </div>
                                 </td>
                             </tr>
@@ -559,7 +559,7 @@ function sort(value){
                         <span class="copy_departure" style="font-weight:500;">`+data_filter[i].origin_name+`</span>
 
                     </div>
-                    <div class="col-lg-4 col-xs-6" style="padding:0;">
+                    <div class="col-lg-4 col-xs-6 mb-1" style="padding:0;">
                         <table style="width:100%; margin-bottom:6px;">
                             <tr>
                                 <td><h5 class="copy_time_arr">`+data_filter[i].arrival_date[1]+`</h5></td>
@@ -572,8 +572,10 @@ function sort(value){
                     </div>
 
                     <div class="col-lg-4">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <i class="fas fa-clock"></i><span class="copy_duration" style="font-weight:500;"> `+data_filter[i].elapsed_time.split(':')[0]+`h `+data_filter[i].elapsed_time.split(':')[1]+`m</span><br><span class="copy_transit" style="font-weight:500;">Duration</span>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <i class="fas fa-clock"></i><span class="copy_duration" style="font-weight:500;"> `+data_filter[i].elapsed_time.split(':')[0]+`h `+data_filter[i].elapsed_time.split(':')[1]+`m</span><br><span class="copy_transit" style="font-weight:500;">Duration</span>
+                            </div>
                         </div>
                         <div style="float:right; margin-top:20px; margin-bottom:10px;">`;
                         check = 0;
@@ -593,11 +595,11 @@ function sort(value){
                             else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_three_hours == false)
                                 response+=`
                                 <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
-                                <input class="primary-btn-custom" type="button" onclick="alert_message_swal('Sorry, you can choose 3 or more hours from now!');"  id="bus_choose`+i+`" value="Choose">`;
+                                <input class="disabled-btn" type="button" onclick="alert_message_swal('Sorry, you can choose 3 or more hours from now!');"  id="bus_choose`+i+`" value="Choose">`;
                             else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_check_arrival_on_next_departure == false)
                                 response+=`
                                 <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
-                                <input class="primary-btn-custom" type="button" onclick="alert_message_swal('Sorry, arrival time you pick does not match with this journey!');"  id="bus_choose`+i+`" value="Choose">`;
+                                <input class="disabled" type="button" onclick="alert_message_swal('Sorry, arrival time you pick does not match with this journey!');"  id="bus_choose`+i+`" value="Choose">`;
                             else if(data_filter[i].available_count < parseInt(passengers.adult))
                                 response+=`
                                 <span class="copy_price" style="font-size:16px; margin-right:10px;">IDR `+getrupiah(data_filter[i].price)+`</span>
@@ -644,6 +646,7 @@ function choose_bus(data,key){
     //ini manual
     change_date_next_prev(1);
     $("#show-cart").addClass("minus");
+    $('#choose-ticket-bus').hide();
     $(".img-plus-ticket").hide();
     $(".img-min-ticket").show();
 //        document.getElementById("show-cart").style.display = "block";
@@ -656,7 +659,7 @@ function choose_bus(data,key){
         document.getElementById('bus_choose'+data).classList.remove("primary-btn-custom");
         document.getElementById('bus_choose'+data).classList.add("primary-btn-custom-un");
         document.getElementById('bus_choose'+data).disabled = true;
-//        bus_get_detail();
+        bus_get_detail();
         bus_get_rules();
         document.getElementById('bus_ticket').innerHTML = '';
     }else{
@@ -676,7 +679,7 @@ function choose_bus(data,key){
         document.getElementById('bus_choose'+data).classList.remove("primary-btn-custom");
         document.getElementById('bus_choose'+data).classList.add("primary-btn-custom-un");
         document.getElementById('bus_choose'+data).disabled = true;
-//        bus_get_detail();
+        bus_get_detail();
         bus_get_rules();
         document.getElementById('bus_ticket').innerHTML = '';
     }
@@ -689,8 +692,10 @@ function change_bus(val){
     journeys.splice(val,1);
     document.getElementById("bus_pick_ticket").innerHTML = '';
     document.getElementById("bus_ticket").innerHTML = '';
+    document.getElementById("bus_detail").innerHTML = '';
     $('#button_chart_bus').hide();
     document.getElementById("badge-bus-notif").innerHTML = "0";
+    document.getElementById("badge-bus-notif2").innerHTML = "0";
     document.getElementById("badge-copy-notif").innerHTML = 0;
     document.getElementById("badge-copy-notif2").innerHTML = 0;
     $('#button_copy_bus').hide();
@@ -702,7 +707,6 @@ function change_bus(val){
 function bus_ticket_pick(){
     response = '';
     for(i in journeys){
-
         response+=`
         <div style="background-color:`+color+`; padding:10px;">
             <h6 style="color:`+text_color+`;">`;
@@ -729,7 +733,7 @@ function bus_ticket_pick(){
                                 <div style="display:inline-block;position:relative;width:100%">
                                     <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
                                     <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                    <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                    <div style="height:30px;min-width:20px;position:relative;width:0%"/>
                                 </div>
                             </td>
                         </tr>
@@ -770,9 +774,12 @@ function bus_ticket_pick(){
 
 function bus_get_detail(){
     document.getElementById("badge-bus-notif").innerHTML = "1";
+    document.getElementById("badge-bus-notif2").innerHTML = "1";
     $('#button_chart_bus').show();
     $("#badge-bus-notif").addClass("infinite");
+    $("#badge-bus-notif2").addClass("infinite");
     $("#myModalTicketBus").modal('show');
+    $('#loading-search-bus-choose').show();
     bus_detail_text = '';
     total_price = 0;
     total_commission = 0;
@@ -835,7 +842,7 @@ function bus_get_detail(){
                             <div style="display:inline-block;position:relative;width:100%">
                                 <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
                                 <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                <div style="height:30px;min-width:40px;position:relative;width:0%"></div>
+                                <div style="height:30px;min-width:20px;position:relative;width:0%"></div>
                             </div>
                         </td>
                     </tr>
@@ -998,6 +1005,9 @@ function bus_get_detail(){
         </div>`;
     console.log($text);
     document.getElementById('bus_detail').innerHTML = bus_detail_text;
+
+    $('#loading-search-bus-choose').hide();
+
 }
 
 function goto_passenger(){
@@ -1135,7 +1145,7 @@ function bus_detail(){
                             <div style="display:inline-block;position:relative;width:100%">
                                 <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
                                 <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                <div style="height:30px;min-width:40px;position:relative;width:0%"></div>
+                                <div style="height:30px;min-width:20px;position:relative;width:0%"></div>
                             </div>
                         </td>
                     </tr>
@@ -2058,7 +2068,7 @@ function reset_seat(){
 }
 
 function from_seat_goto_review_booking(){
-    text += `<input type="hidden" name="paxs" value='`+JSON.stringify(pax)+`'/>
+    text = `<input type="hidden" name="paxs" value='`+JSON.stringify(pax)+`'/>
              <input type="hidden" name="time_limit_input" value="`+time+`"/>
              <input type="hidden" name="signature" value="`+signature+`"/>
     `;
@@ -2360,7 +2370,13 @@ function change_date_shortcut(val){
         document.getElementById('loading-search-bus').hidden = false;
         document.getElementById('bus_ticket').innerHTML = '';
         document.getElementById('bus_result').innerHTML = '';
-
+        document.getElementById("bus_detail").innerHTML = '';
+        $('#button_chart_bus').hide();
+        document.getElementById("badge-bus-notif").innerHTML = "0";
+        document.getElementById("badge-bus-notif2").innerHTML = "0";
+        document.getElementById("badge-copy-notif").innerHTML = 0;
+        document.getElementById("badge-copy-notif2").innerHTML = 0;
+        $('#button_copy_bus').hide();
         bus_signin('');
         bus_ticket_pick();
         //send_request_search();

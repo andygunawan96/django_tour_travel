@@ -1012,11 +1012,11 @@ function bus_get_booking(data, sync=false){
                                                         <td style="padding-left:15px;">
                                                             <img src="/static/tt_website_rodextrip/img/icon/bus-01.png" style="width:30px; height:30px;" alt="Bus"/>
                                                         </td>
-                                                        <td style="height:30px;padding:0 15px;width:100%">
+                                                        <td style="height:25px;padding:0 15px;width:100%">
                                                             <div style="display:inline-block;position:relative;width:100%">
                                                                 <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
                                                                 <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                                                <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                                                <div style="height:30px;min-width:20px;position:relative;width:0%"/>
                                                             </div>
                                                         </td>
                                                     </tr>

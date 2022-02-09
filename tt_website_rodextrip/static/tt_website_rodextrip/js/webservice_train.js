@@ -948,7 +948,7 @@ function train_get_booking(data){
                                                         <td style="padding-left:15px;">
                                                             <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;" alt="Train"/>
                                                         </td>
-                                                        <td style="height:30px;padding:0 15px;width:100%">
+                                                        <td style="height:25px;padding:0 15px;width:100%">
                                                             <div style="display:inline-block;position:relative;width:100%">
                                                                 <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
                                                                 <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
@@ -986,6 +986,7 @@ function train_get_booking(data){
                 <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
                     <h5> Booker</h5>
                     <hr/>
+                    <div style="overflow-x:auto;">
                     <table style="width:100%" id="list-of-passenger">
                         <tr>
                             <th style="width:10%;" class="list-of-passenger-left">No</th>
@@ -1006,12 +1007,13 @@ function train_get_booking(data){
                             <td>`+msg.result.response.booker.email+`</td>
                             <td>`+msg.result.response.booker.phones[0].calling_code+' - '+msg.result.response.booker.phones[0].calling_number+`</td>
                         </tr>
-
                     </table>
+                    </div>
                 </div>
                 <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
                     <h5> Contact Person</h5>
                     <hr/>
+                    <div style="overflow-x:auto;">
                     <table style="width:100%" id="list-of-passenger">
                         <tr>
                             <th style="width:10%;" class="list-of-passenger-left">No</th>
@@ -1026,11 +1028,13 @@ function train_get_booking(data){
                             <td>`+msg.result.response.contact.phone+`</td>
                         </tr>
                     </table>
+                    </div>
                 </div>
 
                 <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
                     <h5> List of Passenger</h5>
                     <hr/>
+                    <div style="overflow-x:auto;">
                     <table style="width:100%" id="list-of-passenger">
                         <tr>
                             <th style="width:5%;" class="list-of-passenger-left">No</th>
@@ -1099,6 +1103,7 @@ function train_get_booking(data){
                         }
 
                     text+=`</table>
+                        </div>
                     </div>
                 </div>
 

@@ -5435,6 +5435,7 @@ function airline_get_booking(data, sync=false){
                 <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
                     <h5> Booker</h5>
                     <hr/>
+                    <div style="overflow-x:auto;">
                     <table style="width:100%" id="list-of-passenger">
                         <tr>
                             <th style="width:10%;" class="list-of-passenger-left">No</th>
@@ -5461,10 +5462,12 @@ function airline_get_booking(data, sync=false){
                         text+=`</tr>
 
                     </table>
+                    </div>
                 </div>
                 <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
                     <h5> Contact Person</h5>
                     <hr/>
+                    <div style="overflow-x:auto;">
                     <table style="width:100%" id="list-of-passenger">
                         <tr>
                             <th style="width:10%;" class="list-of-passenger-left">No</th>
@@ -5479,6 +5482,7 @@ function airline_get_booking(data, sync=false){
                             <td>`+msg.result.response.contact.phone+`</td>
                         </tr>
                     </table>
+                    </div>
                 </div>
 
                 <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
@@ -7585,7 +7589,7 @@ function reissued_btn(){
     text+=`
             <div class="col-lg-12" style="margin-top:10px;">
                 <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="reissued_btn();" value="Reset">
-            </div><br/>`;
+            </div><hr/>`;
     for(i in airline_get_detail.result.response.provider_bookings){
         text += `<div id="reissue_`+i+`">`;
             text += `<input type='hidden' id="pnr`+i+`" value=`+airline_get_detail.result.response.provider_bookings[i].pnr+`>`;
@@ -7603,7 +7607,7 @@ function reissued_btn(){
                            <div class="col-lg-10 col-xs-10">`;
                     text+=`</div>
                            <div class="col-lg-2 col-xs-2">
-                            <label onclick="delete_reissue('reissue_`+i+`_journey`+j+`')">X</label>
+                            <label onclick="delete_reissue('reissue_`+i+`_journey`+j+`')" style="font-size:18px; color:red;"><i class="fas fa-times"></i></label>
                            </div>
                        </div>`;
                 for(k in airline_get_detail.result.response.provider_bookings[i].journeys[j].segments){
