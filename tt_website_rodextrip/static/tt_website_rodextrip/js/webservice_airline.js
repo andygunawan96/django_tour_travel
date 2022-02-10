@@ -4914,7 +4914,7 @@ function airline_get_booking(data, sync=false){
                 }
                 if(msg.result.response.state == 'booked'){
                     try{
-                        if(now.diff(hold_date_time, 'minutes')<0)
+                        if(can_issued)
                             $(".issued_booking_btn").show();
                     }catch(err){
                         console.log(err); // error kalau ada element yg tidak ada
