@@ -83,8 +83,83 @@ img {vertical-align: middle;}
   color: black;
 }
 </style>
-{% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
+
+    {%if template == 1%}
+    <header id="header" class="header_breadcrumb">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    {% include 'tt_website_rodextrip/header_corporate.html' %}
+    {% endif %}
+    <div class="main-menu">
+    {%elif template == 2%}
+    <header style="z-index:100; background:white;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    {% include 'tt_website_rodextrip/header_corporate.html' %}
+    {% endif %}
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
+    {%elif template == 3%}
+    <header style="z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    {% include 'tt_website_rodextrip/header_corporate.html' %}
+    {% endif %}
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
+    {%elif template == 4%}
+    <header style="z-index:100; background:white;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    {% include 'tt_website_rodextrip/header_corporate.html' %}
+    {% endif %}
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
+    {%elif template == 5%}
+    <header>
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    {% include 'tt_website_rodextrip/header_corporate.html' %}
+    {% endif %}
+    <div>
+    {%elif template == 6%}
+    <header style="z-index:100; background:white;">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    {% include 'tt_website_rodextrip/header_corporate.html' %}
+    {% endif %}
+    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:15px 0px 15px 0px;">
+    {%endif%}
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+                <!--                <div class="col-lg-12">-->
+                <!--                    <ul class="progressbar">-->
+                <!--                        <li class="active" onclick="location.href='{% url 'tt_website_rodextrip:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>-->
+                <!--                        <li class="active" onclick="location.href='{% url 'tt_website_rodextrip:airline_search'%}';" style="cursor:pointer;"><span>Search <i class="fas fa-search"></i></span></li>-->
+                <!--                        <li class="current"><span>Passenger <i class="fas fa-users"></i></span></li>-->
+                <!--                        <li><span>Book <i class="fas fa-book-open"></i></span></li>-->
+                <!--                        <li><span>Issued <i class="fas fa-check-circle"></i></span></li>-->
+                <!--                    </ul>-->
+                <!--                </div>-->
+
+                <div class="col-lg-12" id="div_4" hidden>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
+                            <span style="font-size:13px; font-weight:500; padding-right:5px;"><i class="fas fa-stopwatch"></i> {% trans 'Session Time' %}: </span><span class="count_time" id="session_time"></span>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
+                            <span style="font-size:13px; font-weight:500; padding-right:5px;"><i class="fas fa-clock"></i> {% trans 'Elapsed Time' %}: <span class="count_time" id="elapse_time"> </span></span>
+                        </div>
+                        {% include 'tt_website_rodextrip/balance_credit.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
+</header>
+
 {% include 'tt_website_rodextrip/check_connection.html' %}
 <title id="title_search">{{name}} {% trans 'Bus' %} - {% trans 'Seat Map' %}</title>
 <section class="destinations-area" style="background:#f7f7f7;">
@@ -184,7 +259,7 @@ img {vertical-align: middle;}
                                     <button class="primary-btn-cancel change-seat-train-buttons" style="width:100%;padding:5px;text-align:center; margin-bottom:10px; margin-top:10px; border-radius:7px;" type="button" onclick="reset_seat();" value="Submit Seat">
                                         {% trans 'Cancel All Change Seat' %}
                                     </button>
-                                    <button class="primary-btn-ticket submit-seat-train change-seat-train-buttons ld-ext-right" style="width:100%;padding:5px;text-align:center; margin-bottom:30px; margin-top:10px; border-radius:7px;" type="button" onclick="from_seat_goto_review_booking();" value="Submit Seat">
+                                    <button class="primary-btn-ticket  ld-ext-right" style="width:100%;padding:5px;text-align:center; margin-bottom:30px; margin-top:10px; border-radius:7px;" type="button" onclick="from_seat_goto_review_booking();" value="Submit Seat">
                                         {% trans 'Submit Seat' %}
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>
@@ -200,13 +275,17 @@ img {vertical-align: middle;}
         </div>
     </div>
 </section>
-
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
     document.getElementById('bus_booking').action = '/bus/booking/' + btoa(order_number);
     select_passenger(1);
     select_journey(1);
     get_seat_map_cache();
+
+    $( document ).ready(function() {
+        breadcrumb_create("bus", 5, 1);
+    });
+
 </script>
 
 {% endblock %}

@@ -62,7 +62,7 @@
 {% endif %}
 
 {%if template == 1%}
-<section class="destinations-area change_search_area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:7;">
+<section class="destinations-area change_search_area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div class="container" id="train_search_params">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -89,7 +89,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:15px; padding-bottom:5px; background-color: black; z-index:3; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:15px; padding-bottom:5px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -308,7 +308,7 @@
     </div>
 </section>
 {% elif template == 2 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div class="container" id="train_search_params">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -335,7 +335,7 @@
         </div>
     </div>
 </section>
-<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{background}}); padding-top:40px; padding-bottom:40px; z-index:5; position:relative; display:none;">
+<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{background}}); padding-top:40px; padding-bottom:40px; z-index:98; position:relative; display:none;">
     <div class="container" id="div-search-overlay">
         <div class="row">
             <div class="col-lg-12">
@@ -800,7 +800,7 @@
     </div>
 </section>
 {% elif template == 4 %}
-<section class="destinations-area change_search_area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:7;">
+<section class="destinations-area change_search_area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div class="container" id="train_search_params">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -827,7 +827,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:3; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -1053,7 +1053,7 @@
     </div>
 </section>
 {% elif template == 5 %}
-<section class="destinations-area change_search_area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:7;">
+<section class="destinations-area change_search_area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div class="container" id="train_search_params">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -1080,7 +1080,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:3; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -1089,7 +1089,7 @@
                     <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">
                         {% csrf_token %}
                         <div class="row">
-                            <div class="col-lg-12" id="radio_train_search" style="padding:0px; text-align:left;margin-bottom:10px;">
+                            <div class="col-lg-12" id="radio_train_search" style="text-align:left;margin-bottom:10px;">
                                 <label class="radio-button-custom" style="margin-bottom:0px;">
                                     <span style="font-size:13px; color:{{text_color}};">{% trans 'One Way' %}</span>
                                     <input type="radio" {% if train_request.direction == 'OW' %}checked="checked" {% endif %} name="radio_train_type" value="oneway">
@@ -1103,7 +1103,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 train-from" style="padding-left:0px;">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 train-from">
                                         <span class="span-search-ticket"><i class="fas fa-train"></i> From</span>
                                         <div class="input-container-search-ticket">
                                             <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="{{train_request.origin}}">
@@ -1116,7 +1116,7 @@
                                         <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                     </div>
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5; padding-right:0px;">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
                                         <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
                                         <div class="input-container-search-ticket">
                                             <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="{{train_request.destination}}">
@@ -1300,7 +1300,7 @@
     </div>
 </section>
 {% elif template == 6 %}
-<section class="destinations-area change_search_area" style="padding:15px 0px 5px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:98;">
+<section class="destinations-area change_search_area" style="padding:15px 0px 5px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div class="container" id="train_search_params">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -1327,7 +1327,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" style="min-height:150px;padding-top:15px; padding-bottom:15px; background-image: url('{{background}}'); z-index:97; position:relative; display:none;">
+<section class="price-area" id="change_search_box" style="min-height:150px;padding-top:15px; padding-bottom:15px; background-image: url('{{background}}'); z-index:98; position:relative; display:none;">
     <div class="container" id="div-search-overlay">
         <div class="row">
             <div class="col-lg-12">
@@ -1555,7 +1555,7 @@
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12" style="position:sticky; top:67px; margin-bottom:15px; z-index:99; display:none;" id="mybuttonsticky">
+            <div class="col-lg-12" style="position:sticky; top:67px; margin-bottom:15px; z-index:97; display:none;" id="mybuttonsticky">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-right:10px; text-align:center;">
                         <button class="primary-btn-all-sticky" style="width:100%;" data-toggle="modal" data-target="#myModalCopyTrain" onclick="get_checked_copy_result();">
@@ -1654,7 +1654,7 @@
             </div>
 
             <div class="col-lg-9" style="">
-                <div class="row" class="sorting-search-train" id="sorting-search-train">
+                <div class="row" class="sorting-search-train" id="sorting-search-train" style="position:sticky;top: 66px;z-index: 2;">
                     <div class="col-lg-12">
                         <div id="sorting-train">
 
@@ -1729,6 +1729,24 @@
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
+                                <div class="row" id="choose-ticket-train">
+                                    <div class="col-lg-12">
+                                        <h6>{% trans 'Please choose your ticket first!' %}</h6>
+                                    </div>
+                                </div>
+                                <div class="row" id="loading-search-train-choose" style="display:none;">
+                                    <div class="col-lg-12">
+                                        <div class="center-div">
+                                            <div>
+                                                <img src="{{static_path}}img/loading-screen-white.gif" alt="Loading Screen" style="height:25px; width:25px;"/>
+                                            </div>
+                                        </div>
+                                        <div style="text-align:center">
+                                            <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} ... </span>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <form action="{% url 'tt_website_rodextrip:train_passenger'%}" method="POST" id="train_passenger">
                                     {% csrf_token %}
                                     <div id="train_detail">
@@ -1757,7 +1775,7 @@
             <div class="modal-body">
                 <div class="row" id="choose-train-copy">
                     <div class="col-lg-12">
-                        <h6>{% trans 'Please choose your airlines want to copy!' %}</h6>
+                        <h6>{% trans 'Please choose your trains want to copy!' %}</h6>
                     </div>
                 </div>
                 <div id="show-list-copy-train">

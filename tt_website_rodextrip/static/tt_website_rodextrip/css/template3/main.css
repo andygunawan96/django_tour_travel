@@ -4092,8 +4092,8 @@ ul.tabs li.current{
       height: 15px;
       width: 15px;
       position: absolute;
-      left: -6%;
-      top: 30px;
+      left: 47%;
+      top: 25px;
     }
 }
 
@@ -4103,8 +4103,8 @@ ul.tabs li.current{
       height: 15px;
       width: 15px;
       position: absolute;
-      left: -5%;
-      top: 30px;
+      left: 46.5%;
+      top: 25px;
     }
 }
 
@@ -5161,8 +5161,8 @@ display: block;
 .primary-btn {
   background: #f15a22;
   line-height: 42px;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: 25px;
+  padding-right: 25px;
   border: none;
   color: #fff;
   display: inline-block;
@@ -7556,6 +7556,10 @@ display: block;
     display:block !important;
   }
 
+  #sorting-search-bus {
+    display:block !important;
+  }
+
   #mybuttonsticky {
     display:none !important;
   }
@@ -7619,6 +7623,10 @@ display: block;
   }
 
   #sorting-search-train {
+    display:none !important;
+  }
+
+  #sorting-search-bus {
     display:none !important;
   }
 
@@ -8546,4 +8554,90 @@ ul.progress_tabs li.current .image-rounded-icon{
 
 .single-recent-blog-post{
     margin-top:15px;
+}
+
+.picture_passenger_agent{
+    width:auto;
+    height:200px;
+}
+
+@media (min-width: 575px) {
+    .picture_passenger_agent{
+        width:auto;
+        height:150px;
+    }
+}
+
+.for-show-mobile-inb{
+    display:none;
+}
+.for-show-website-inb{
+    display:inline-block;
+}
+
+@media (max-width: 991px) {
+  .for-show-mobile-inb{
+    display:inline-block !important;
+  }
+  .for-show-website-inb{
+    display:none !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .for-show-mobile-inb{
+    display:none !important;
+  }
+  .for-show-website-inb{
+    display:inline-block !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .button-filter-search-train{
+    display: none;
+  }
+
+  .filter-search-train{
+    display: block;
+  }
+
+  .sorting-search-train2{
+    display: block;
+  }
+
+  .button-filter-search-bus{
+    display: none;
+  }
+
+  .filter-search-bus{
+    display: block;
+  }
+
+}
+
+@media (max-width: 991px) {
+  .img-one {
+    margin-bottom: 45px;
+  }
+
+  .button-filter-search-train{
+    display: block;
+  }
+
+  .filter-search-train{
+    display: none;
+  }
+
+  .sorting-search-train2{
+    display: none;
+  }
+
+  .button-filter-search-bus{
+    display: block;
+  }
+
+  .filter-search-bus{
+    display: none;
+  }
 }

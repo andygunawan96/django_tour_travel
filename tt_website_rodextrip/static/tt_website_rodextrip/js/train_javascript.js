@@ -542,6 +542,8 @@ function choose_train(data,key){
     $("#show-cart").addClass("minus");
     $(".img-plus-ticket").hide();
     $(".img-min-ticket").show();
+    $('#choose-ticket-train').hide();
+    $('#loading-search-train-choose').show();
 //        document.getElementById("show-cart").style.display = "block";
     journeys.push(train_data[key]);
     if(journeys.length < train_request.departure.length){
@@ -582,7 +584,10 @@ function change_train(val){
     journeys.splice(val,1);
     document.getElementById("train_pick_ticket").innerHTML = '';
     document.getElementById("train_ticket").innerHTML = '';
+    document.getElementById("train_detail").innerHTML = '';
     $('#button_chart_train').hide();
+    $('#loading-search-train-choose').hide();
+    $('#choose-ticket-train').show();
     document.getElementById("badge-train-notif").innerHTML = "0";
     document.getElementById("badge-copy-notif").innerHTML = 0;
     document.getElementById("badge-copy-notif2").innerHTML = 0;
@@ -675,7 +680,7 @@ function train_get_detail(){
                             <div style="display:inline-block;position:relative;width:100%">
                                 <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
                                 <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                <div style="height:30px;min-width:40px;position:relative;width:0%"></div>
+                                <div style="height:30px;min-width:25px;position:relative;width:0%"></div>
                             </div>
                         </td>
                     </tr>
@@ -996,7 +1001,7 @@ function train_detail(){
                             <div style="display:inline-block;position:relative;width:100%">
                                 <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
                                 <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                <div style="height:30px;min-width:40px;position:relative;width:0%"></div>
+                                <div style="height:30px;min-width:25px;position:relative;width:0%"></div>
                             </div>
                         </td>
                     </tr>
@@ -1913,7 +1918,7 @@ function sort(value){
                     }
                     response+=`
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 mb-3">`;
                        if(data_filter[i].available_count > 0 && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true){
                            response+=`
                            <label class="check_box_custom" style="float:right;">
@@ -1931,7 +1936,7 @@ function sort(value){
                     <div class="col-lg-12">
                         <h4 class="copy_train_name">`+data_filter[i].carrier_name+` - (`+data_filter[i].carrier_number+`)  - `+data_filter[i].cabin_class[1]+` (`+data_filter[i].class_of_service+`)</h4>
                     </div>
-                    <div class="col-lg-4 col-xs-6">
+                    <div class="col-lg-4 col-md-4 col-xs-6 mb-1">
                         <table style="width:100%">
                             <tr>
                                 <td><h5 class="copy_time_depart">`+data_filter[i].departure_date[1]+`</h5></td>
@@ -1942,7 +1947,7 @@ function sort(value){
                                     <div style="display:inline-block;position:relative;width:100%">
                                         <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
                                         <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                        <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                        <div style="height:30px;min-width:25px;position:relative;width:0%"/>
                                     </div>
                                 </td>
                             </tr>
@@ -1951,7 +1956,7 @@ function sort(value){
                         <span class="copy_departure" style="font-weight:500;">`+data_filter[i].origin_name+` (`+data_filter[i].origin+`)</span>
 
                     </div>
-                    <div class="col-lg-4 col-xs-6" style="padding:0;">
+                    <div class="col-lg-4 col-md-4 col-xs-6 mb-1" style="padding:0;">
                         <table style="width:100%; margin-bottom:6px;">
                             <tr>
                                 <td><h5 class="copy_time_arr">`+data_filter[i].arrival_date[1]+`</h5></td>
@@ -1963,9 +1968,11 @@ function sort(value){
                         <span class="copy_arrival" style="font-weight:500;">`+data_filter[i].destination_name+` (`+data_filter[i].destination+`)</span>
                     </div>
 
-                    <div class="col-lg-4">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <i class="fas fa-clock"></i><span class="copy_duration" style="font-weight:500;"> `+data_filter[i].elapsed_time.split(':')[0]+`h `+data_filter[i].elapsed_time.split(':')[1]+`m</span><br><span class="copy_transit" style="font-weight:500;">Duration</span>
+                    <div class="col-lg-4 col-md-4">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <i class="fas fa-clock"></i><span class="copy_duration" style="font-weight:500;"> `+data_filter[i].elapsed_time.split(':')[0]+`h `+data_filter[i].elapsed_time.split(':')[1]+`m</span><br><span class="copy_transit" style="font-weight:500;">Duration</span>
+                            </div>
                         </div>
                         <div style="float:right; margin-top:20px; margin-bottom:10px;">`;
                         check = 0;
@@ -2085,7 +2092,7 @@ function train_ticket_pick(){
                                 <div style="display:inline-block;position:relative;width:100%">
                                     <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
                                     <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                    <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                    <div style="height:30px;min-width:25px;position:relative;width:0%"/>
                                 </div>
                             </td>
                         </tr>
@@ -2149,6 +2156,9 @@ function train_ticket_pick(){
         }
     }
 
+    setTimeout(function(){
+        $('#loading-search-train-choose').hide();
+    }, 600);
 }
 
 function update_contact_cp(val){
@@ -2566,11 +2576,11 @@ function change_date_next_prev(counter){
     var today_date = moment().format('DD MMM YYYY'); //hari ini
     flight_date = moment(train_request.departure[counter]);
     var date_format = 'DD MMM YYYY';
-    document.getElementById('now_date').innerHTML = `<div style="background:white; border:2px solid `+color+`; padding:15px 5px; text-align: center;">`+flight_date.format(date_format)+`</div>`;
-    document.getElementById('prev_date_1').innerHTML = `<div class="button_date_np date_item_p1" id="div_onclick_p1" style="background:white; border:2px solid `+color+`; padding:15px 5px; text-align: center;" onclick="change_date_shortcut(1);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
-    document.getElementById('prev_date_2').innerHTML = `<div class="button_date_np date_item_p2" id="div_onclick_p2" style="background:white; border:2px solid `+color+`; padding:15px 5px; text-align: center;" onclick="change_date_shortcut(2);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
-    document.getElementById('next_date_1').innerHTML = `<div class="button_date_np date_item_n1" id="div_onclick_n1" style="background:white; border:2px solid `+color+`; padding:15px 5px; text-align: center;" onclick="change_date_shortcut(-1);">`+flight_date.subtract(-3, 'days').format(date_format)+`</div>`;
-    document.getElementById('next_date_2').innerHTML = `<div class="button_date_np date_item_n2" id="div_onclick_n2" style="background:white; border:2px solid `+color+`; padding:15px 5px; text-align: center;" onclick="change_date_shortcut(-2);">`+flight_date.subtract(-1, 'days').format(date_format)+`</div>`;
+    document.getElementById('now_date').innerHTML = `<div style="background:white; border:2px solid `+color+`; padding:15px 10px; text-align: center;">`+flight_date.format(date_format)+`</div>`;
+    document.getElementById('prev_date_1').innerHTML = `<div class="button_date_np date_item_p1" id="div_onclick_p1" style="background:white; padding:15px 10px; text-align: center;" onclick="change_date_shortcut(1);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
+    document.getElementById('prev_date_2').innerHTML = `<div class="button_date_np date_item_p2" id="div_onclick_p2" style="background:white; padding:15px 10px; text-align: center;" onclick="change_date_shortcut(2);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
+    document.getElementById('next_date_1').innerHTML = `<div class="button_date_np date_item_n1" id="div_onclick_n1" style="background:white; padding:15px 10px; text-align: center;" onclick="change_date_shortcut(-1);">`+flight_date.subtract(-3, 'days').format(date_format)+`</div>`;
+    document.getElementById('next_date_2').innerHTML = `<div class="button_date_np date_item_n2" id="div_onclick_n2" style="background:white; padding:15px 10px; text-align: center;" onclick="change_date_shortcut(-2);">`+flight_date.subtract(-1, 'days').format(date_format)+`</div>`;
     flight_date.subtract(+2, 'days') //balikin ke hari ini
 
     if(train_request.direction == 'OW'){

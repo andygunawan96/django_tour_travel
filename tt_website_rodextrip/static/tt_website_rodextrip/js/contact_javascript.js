@@ -97,7 +97,7 @@ function get_contact(type){
                         }else if(template == 5){
                             text+=`<hr/><h4 style="color:black;" class="mb-4">Contact Us</h4>`;
                         }else if(template == 6){
-                            text+=`<hr/><h4 style="color:black;" class="mb-4">Contact Us</h4>`;
+                            text+=`<h4 style="color:black; margin-bottom:15px;">Contact Us</h4>`;
                         }
                     }
                     for(i in msg){
