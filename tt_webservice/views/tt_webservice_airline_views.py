@@ -1633,6 +1633,7 @@ def get_booking(request):
                 'city': country['city']
             })
         if res['result']['error_code'] == 0:
+            res['result']['response']['datetime_now'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             for pax in res['result']['response']['passengers']:
                 try:
                     if len(pax['birth_date'].split(' ')[0].split('-')) == 3:
