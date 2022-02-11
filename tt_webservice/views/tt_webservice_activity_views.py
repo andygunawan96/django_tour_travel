@@ -655,6 +655,12 @@ def get_booking(request):
     url_request = url + 'booking/activity'
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
+        try:
+            res['result']['response']['can_issued'] = False
+            if res['result']['response']['hold_date'] > datetime.now().strftime('%Y-%m-%d %H:%M:%S'):
+                res['result']['response']['can_issued'] = True
+        except:
+            _logger.error('no hold date')
         for rec in res['result']['response']['provider_booking']:
             for rec2 in rec['activity_details']:
                 if rec2.get('visit_date'):

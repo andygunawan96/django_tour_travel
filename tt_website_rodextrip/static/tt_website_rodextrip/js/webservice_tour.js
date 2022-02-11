@@ -1588,6 +1588,7 @@ function tour_get_booking(order_number)
            if(msg.result.error_code == 0){
                tour_order_number = order_number;
                tr_get_booking = msg;
+               can_issued = msg.result.response.can_issued;
                $('#loading-search-tour').hide();
                hide_modal_waiting_transaction();
                document.getElementById('button-home').hidden = false;
@@ -2347,7 +2348,7 @@ function tour_get_booking(order_number)
                        }
                        print_payment_rules(payment);
                        try{
-                           if(now.diff(hold_date_time, 'minutes')<0){
+                           if(can_issued){
                                check_payment_payment_method(order_number, 'Issued', book_obj.booker.seq_id, 'billing', 'tour', signature, msg.result.response.payment_acquirer_number);
             //                   get_payment_acq('Issued', book_obj.booker.seq_id, order_number, 'billing',signature,'tour');
                                document.getElementById("final_issued_btn").style.display = "block";

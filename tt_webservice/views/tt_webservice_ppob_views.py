@@ -364,6 +364,12 @@ def get_booking(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
+            try:
+                res['result']['response']['can_issued'] = False
+                if res['result']['response']['hold_date'] > datetime.now().strftime('%Y-%m-%d %H:%M:%S'):
+                    res['result']['response']['can_issued'] = True
+            except:
+                _logger.error('no hold date')
             for rec in res['result']['response']['provider_booking']:
                 if len(rec['bill_data']):
                     for rec1 in rec['bill_data']:

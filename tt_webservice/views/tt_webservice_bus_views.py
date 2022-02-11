@@ -561,6 +561,12 @@ def get_booking(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
+            try:
+                res['result']['response']['can_issued'] = False
+                if res['result']['response']['hold_date'] > datetime.now().strftime('%Y-%m-%d %H:%M:%S'):
+                    res['result']['response']['can_issued'] = True
+            except:
+                _logger.error('no hold date')
             for provider_booking in res['result']['response']['provider_bookings']:
                 for journey in provider_booking['journeys']:
                     journey.update({

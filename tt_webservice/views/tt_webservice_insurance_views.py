@@ -495,6 +495,17 @@ def get_booking(request):
     url_request = url + 'booking/insurance'
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
 
+    try:
+        if res['result']['error_code'] == 0:
+            try:
+                res['result']['response']['can_issued'] = False
+                if res['result']['response']['hold_date'] > datetime.now().strftime('%Y-%m-%d %H:%M:%S'):
+                    res['result']['response']['can_issued'] = True
+            except:
+                _logger.error('no hold date')
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+
     return res
 
 def issued(request):

@@ -2536,15 +2536,21 @@ function medical_get_result(data){
            console.log(msg);
            hide_modal_waiting_transaction();
            if(msg.result.error_code == 0){
-                if(msg.result.response.length != medical_get_detail.result.response.passengers.length){
+                pax_count = 0;
+                for(i in msg.result.response){
+                    if(msg.result.response[i] != ''){
+                        window.open(msg.result.response[i],'_blank');
+                        pax_count++;
+                    }
+                }
+                if(pax_count != medical_get_detail.result.response.passengers.length){
                     Swal.fire({
                       type: 'warning',
                       title: 'Notification!',
                       html: 'Result still not ready for some customer!',
                    })
                 }
-                for(i in msg.result.response)
-                    window.open(msg.result.response[i],'_blank');
+
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
            }else{

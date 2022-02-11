@@ -684,6 +684,12 @@ def get_booking(request):
         set_session(request, 'hotel_provision', res)
         _logger.info(json.dumps(request.session['hotel_provision']))
         if res['result']['error_code'] == 0:
+            try:
+                res['result']['response']['can_issued'] = False
+                if res['result']['response']['hold_date'] > datetime.now().strftime('%Y-%m-%d %H:%M:%S'):
+                    res['result']['response']['can_issued'] = True
+            except:
+                _logger.error('no hold date')
             res['result']['response'].update({
                 'checkin_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['checkin_date']),
                 'checkout_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['checkout_date'])

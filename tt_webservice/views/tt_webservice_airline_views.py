@@ -1633,7 +1633,13 @@ def get_booking(request):
                 'city': country['city']
             })
         if res['result']['error_code'] == 0:
-            res['result']['response']['datetime_now'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            try:
+                res['result']['response']['can_issued'] = False
+                if res['result']['response']['hold_date'] > datetime.now().strftime('%Y-%m-%d %H:%M:%S'):
+                    res['result']['response']['can_issued'] = True
+            except:
+                _logger.error('no hold date')
+
             for pax in res['result']['response']['passengers']:
                 try:
                     if len(pax['birth_date'].split(' ')[0].split('-')) == 3:
