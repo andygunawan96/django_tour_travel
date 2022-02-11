@@ -4183,7 +4183,7 @@ function airline_commit_booking(val){
         'voucher_code': ''
     }
     try{
-        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
         data['voucher_code'] =  voucher_code;
     }catch(err){
@@ -4384,7 +4384,7 @@ function airline_force_commit_booking(val){
         'voucher_code': ''
     }
     try{
-        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
         data['bypass_psg_validator'] = true;
         data['voucher_code'] =  voucher_code;
@@ -4607,6 +4607,9 @@ function airline_get_booking(data, sync=false){
 
            airline_get_detail = msg;
            get_payment = false;
+           can_issued = false;
+           if(msg.result.response.hold_date > msg.result.response.datetime_now)
+                can_issued = true;
            document.getElementById('airline_reissue_div').innerHTML = '';
            time_now = moment().format('YYYY-MM-DD HH:mm:SS');
            //get booking view edit here
@@ -4733,7 +4736,7 @@ function airline_get_booking(data, sync=false){
                    </div>`;
                 }else if(msg.result.response.state == 'booked'){
                    try{
-                       if(now.diff(hold_date_time, 'minutes')<0)
+                       if(can_issued)
                            check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature, msg.result.response.payment_acquirer_number);
                        get_payment = true;
     //                   get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
@@ -4911,7 +4914,7 @@ function airline_get_booking(data, sync=false){
                 }
                 if(msg.result.response.state == 'booked'){
                     try{
-                        if(now.diff(hold_date_time, 'minutes')<0)
+                        if(can_issued)
                             $(".issued_booking_btn").show();
                     }catch(err){
                         console.log(err); // error kalau ada element yg tidak ada
@@ -5435,6 +5438,7 @@ function airline_get_booking(data, sync=false){
                 <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
                     <h5> Booker</h5>
                     <hr/>
+                    <div style="overflow-x:auto;">
                     <table style="width:100%" id="list-of-passenger">
                         <tr>
                             <th style="width:10%;" class="list-of-passenger-left">No</th>
@@ -5461,10 +5465,12 @@ function airline_get_booking(data, sync=false){
                         text+=`</tr>
 
                     </table>
+                    </div>
                 </div>
                 <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
                     <h5> Contact Person</h5>
                     <hr/>
+                    <div style="overflow-x:auto;">
                     <table style="width:100%" id="list-of-passenger">
                         <tr>
                             <th style="width:10%;" class="list-of-passenger-left">No</th>
@@ -5479,6 +5485,7 @@ function airline_get_booking(data, sync=false){
                             <td>`+msg.result.response.contact.phone+`</td>
                         </tr>
                     </table>
+                    </div>
                 </div>
 
                 <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
@@ -6833,7 +6840,7 @@ function airline_issued(data){
            },
            data: {
                'order_number': data,
-               'seq_id': payment_acq2[payment_method][selected].seq_id,
+               'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
                'member': payment_acq2[payment_method][selected].method,
                'voucher_code': voucher_code,
                'signature': signature,
@@ -7502,7 +7509,7 @@ function update_booking_after_sales(input_pax_seat = false){
     data['signature'] = signature;
     error_log = '';
     if($("[name='radio_payment_type']").val() != undefined){
-        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
     }
     pax_seat = {};
@@ -7585,7 +7592,7 @@ function reissued_btn(){
     text+=`
             <div class="col-lg-12" style="margin-top:10px;">
                 <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="reissued_btn();" value="Reset">
-            </div><br/>`;
+            </div><hr/>`;
     for(i in airline_get_detail.result.response.provider_bookings){
         text += `<div id="reissue_`+i+`">`;
             text += `<input type='hidden' id="pnr`+i+`" value=`+airline_get_detail.result.response.provider_bookings[i].pnr+`>`;
@@ -7603,7 +7610,7 @@ function reissued_btn(){
                            <div class="col-lg-10 col-xs-10">`;
                     text+=`</div>
                            <div class="col-lg-2 col-xs-2">
-                            <label onclick="delete_reissue('reissue_`+i+`_journey`+j+`')">X</label>
+                            <label onclick="delete_reissue('reissue_`+i+`_journey`+j+`')" style="font-size:18px; color:red;"><i class="fas fa-times"></i></label>
                            </div>
                        </div>`;
                 for(k in airline_get_detail.result.response.provider_bookings[i].journeys[j].segments){
@@ -10068,7 +10075,7 @@ function reissue_airline_commit_booking(val){
         'signature': signature
     }
     try{
-        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
     }catch(err){
     }
@@ -11599,7 +11606,7 @@ function update_booking_after_sales_v2(input_pax_seat = false){
     data['signature'] = signature;
     error_log = '';
     if($("[name='radio_payment_type']").val() != undefined){
-        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
     }
     pax_seat = {};

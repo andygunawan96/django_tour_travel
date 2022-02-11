@@ -2461,11 +2461,10 @@ function sort(){
                                        </a>`;
 
                                    text+=`</div>
-                                   <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">`;
+                                   <div class="col-lg-6 col-md-6 col-sm-6 mt-2" style="text-align:right;">`;
+                                       text+=`<span id="fare`+i+`" class="basic_fare_field copy_price price_template"></span><br/>`;
                                        if(provider_list_data.hasOwnProperty(airline[i].provider) == true && provider_list_data[airline[i].provider].description != '')
-                                            text += `<span>`+provider_list_data[airline[i].provider].description+`</span><br/>`;
-                                       text+=`
-                                       <span id="fare`+i+`" class="basic_fare_field copy_price price_template" style="margin-right:5px;"></span>`;
+                                            text += `<span style="margin-right:5px;">`+provider_list_data[airline[i].provider].description+`</span>`;
                                        if(airline[i].can_book == true && airline[i].can_book_check_arrival_on_next_departure == true){
                                            text+=`<input type='button' style="margin:5px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Choose" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
                                        }else if(airline[i].can_book == true && airline[i].can_book_check_arrival_on_next_departure == false)
@@ -2547,8 +2546,8 @@ function sort(){
                                                                    <span class="copy_legs_date_depart" style="font-weight:600; font-size:16px;">`+airline[i].segments[j].legs[k].departure_date.split(' - ')[1]+`</span><br/>
                                                                    <span class="copy_legs_date_depart">`+airline[i].segments[j].legs[k].departure_date.split(' - ')[0]+`</span>
                                                                </div>
-                                                               <div style="width:84%;">
-                                                                   <span style="font-weight:500;" class="copy_legs_depart">`+airline[i].segments[j].legs[k].origin_city+` - `+airline[i].segments[j].legs[k].origin_name+` (`+airline[i].segments[j].legs[k].origin+`)</span></br>`;
+                                                               <div>
+                                                                   <span style="font-weight:500;" class="legs_word_break copy_legs_depart">`+airline[i].segments[j].legs[k].origin_city+` - `+airline[i].segments[j].legs[k].origin_name+` (`+airline[i].segments[j].legs[k].origin+`)</span>`;
                                                                 if(airline[i].segments[j].origin_terminal != ''){
                                                                     text+=`<span style="font-size:13px; font-weight:500;">Terminal: `+airline[i].segments[j].origin_terminal+`</span><br/>`;
                                                                 }else{
@@ -3433,8 +3432,9 @@ function airline_pick_mc(type){
                     }else{
                          text+= currency+' '+getrupiah(price) + '</span>';
                     }
+                    text+=`</span><br/>`;
                     if(provider_list_data.hasOwnProperty(airline_pick_list[i].provider) == true && provider_list_data[airline_pick_list[i].provider].description != '')
-                        text += `<br/><span>`+provider_list_data[airline_pick_list[i].provider].description+`</span><br/>`;
+                        text += `<span style="margin-right:5px;">`+provider_list_data[airline_pick_list[i].provider].description+`</span><br/>`;
                     if(type == 'all'){
                         text+=`
                         <input type='button' id="deletejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+airline_pick_list[i].airline_pick_sequence+`);" sequence_id="0"/>
@@ -5656,6 +5656,7 @@ function get_airline_review(){
         <div class="col-lg-12">
             <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
                 <h4>Contact(s) Person</h4><hr/>
+                <div style="overflow-x:auto;">
                 <table style="width:100%;" id="list-of-passenger">
                     <tr>
                         <th style="width:7%;" class="list-of-passenger-left">No</th>
@@ -5672,6 +5673,7 @@ function get_airline_review(){
                                </tr>`;
                     }
                 text+=`</table>
+                </div>
             </div>
         </div>
     </div>`;
@@ -5683,6 +5685,7 @@ function get_airline_review(){
             <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
                 <h4>Seat & SSR
                 </h4><hr/>
+                <div style="overflow-x:auto;">
                 <table style="width:100%;" id="list-of-passenger">
                     <tr>
                         <th style="width:7%;" class="list-of-passenger-left">No</th>
@@ -5740,6 +5743,7 @@ function get_airline_review(){
                         count_pax++;
                     }
                 text+=`</table>
+                </div>
             </div>
         </div>
     </div>`;
@@ -6465,11 +6469,11 @@ function change_date_next_prev(counter){
     var today_date = moment().format('DD MMM YYYY'); //hari ini
     flight_date = moment(airline_request.departure[counter]);
     var date_format = 'DD MMM YYYY';
-    document.getElementById('now_date').innerHTML = `<div style="background:white; border:2px solid `+color+`; padding:15px 5px; text-align: center;" id="div_onclick_now_date">`+flight_date.format(date_format)+`</div>`;
-    document.getElementById('prev_date_1').innerHTML = `<div class="button_date_np date_item_p1" style="padding:15px 5px;" id="div_onclick_p1" onclick="change_date_shortcut(1);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
-    document.getElementById('prev_date_2').innerHTML = `<div class="button_date_np date_item_p2" style="padding:15px 5px;" id="div_onclick_p2" onclick="change_date_shortcut(2);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
-    document.getElementById('next_date_1').innerHTML = `<div class="button_date_np date_item_n1" style="padding:15px 5px;" id="div_onclick_n1" onclick="change_date_shortcut(-1);">`+flight_date.subtract(-3, 'days').format(date_format)+`</div>`;
-    document.getElementById('next_date_2').innerHTML = `<div class="button_date_np date_item_n2" style="padding:15px 5px;" id="div_onclick_n2" onclick="change_date_shortcut(-2);">`+flight_date.subtract(-1, 'days').format(date_format)+`</div>`;
+    document.getElementById('now_date').innerHTML = `<div style="background:white; border:2px solid `+color+`; padding:15px 10px; text-align: center;" id="div_onclick_now_date">`+flight_date.format(date_format)+`</div>`;
+    document.getElementById('prev_date_1').innerHTML = `<div class="button_date_np date_item_p1" style="padding:15px 10px;" id="div_onclick_p1" onclick="change_date_shortcut(1);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
+    document.getElementById('prev_date_2').innerHTML = `<div class="button_date_np date_item_p2" style="padding:15px 10px;" id="div_onclick_p2" onclick="change_date_shortcut(2);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
+    document.getElementById('next_date_1').innerHTML = `<div class="button_date_np date_item_n1" style="padding:15px 10px;" id="div_onclick_n1" onclick="change_date_shortcut(-1);">`+flight_date.subtract(-3, 'days').format(date_format)+`</div>`;
+    document.getElementById('next_date_2').innerHTML = `<div class="button_date_np date_item_n2" style="padding:15px 10px;" id="div_onclick_n2" onclick="change_date_shortcut(-2);">`+flight_date.subtract(-1, 'days').format(date_format)+`</div>`;
     flight_date.subtract(+2, 'days') //balikin ke hari ini
 
     if(airline_request.direction == 'OW'){

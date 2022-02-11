@@ -1235,7 +1235,7 @@ function get_customer_list(passenger, number, product){
                                                     if(template == 1 || template == 5 || template == 6){
                                                         response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i> <i>Mobile: </i>`;
                                                     }else if(template == 2){
-                                                        response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i> <i>Mobile: </i>`;
+                                                        response+=`<br/> <div class="row"><div class="col-lg-12"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i> <i>Mobile: </i>`;
                                                     }else if(template == 3){
                                                         response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i> <i>Mobile: </i><div class="default-select"> `;
                                                     }else if(template == 4){
@@ -1248,7 +1248,7 @@ function get_customer_list(passenger, number, product){
                                                     if(template == 1 || template == 5 || template == 6){
                                                         response+=`</select></div>`;
                                                     }else if(template == 2){
-                                                        response+=`</select></div></div></div>`;
+                                                        response+=`</select></div></div>`;
                                                     }else if(template == 3){
                                                         response+=`</select></div></div></div></div>`;
                                                     }else if(template == 4){

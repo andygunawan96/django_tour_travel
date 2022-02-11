@@ -479,7 +479,7 @@ def get_transactions(request):
 def buy_quota_btbo2(request):
     try:
         data = {
-            'seq_id': request.POST['seq_id']
+            'acquirer_seq_id': request.POST['acquirer_seq_id']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -615,7 +615,7 @@ def submit_top_up(request):
 def commit_top_up(request):
     try:
         data = {
-            'seq_id': request.POST['seq_id'],
+            'acquirer_seq_id': request.POST['acquirer_seq_id'],
         }
         if request.POST['member'] == 'non_member':
             member = False
@@ -1337,15 +1337,15 @@ def get_va_number(request):
         if res['result']['error_code'] == 0:
             res['result']['response'].update({
                 "other": [{
-                    "seq_id": 'other_bank',
+                    "acquirer_seq_id": 'other_bank',
                     "name": 'Other Bank',
                     "type": ''
                 }]
             })
             for rec in res['result']['response']:
                 for data in res['result']['response'][rec]:
-                    if type(data['seq_id']) == str:
-                        file = read_cache_without_folder_path("payment_information/" + data['seq_id'], 90911)
+                    if type(data['acquirer_seq_id']) == str:
+                        file = read_cache_without_folder_path("payment_information/" + data['acquirer_seq_id'], 90911)
                         if file:
                             for idx, data_cache in enumerate(file.split('\n')):
                                 if idx == 0:
@@ -1375,14 +1375,14 @@ def get_va_number_for_mobile(request):
         if res['result']['error_code'] == 0:
             res['result']['response'].update({
                 "other": [{
-                    "seq_id": 'other_bank',
+                    "acquirer_seq_id": 'other_bank',
                     "name": 'Other Bank',
                     "type": ''
                 }]
             })
             for rec in res['result']['response']:
                 for data in res['result']['response'][rec]:
-                    file = read_cache_without_folder_path("payment_information/" + data['seq_id'], 90911)
+                    file = read_cache_without_folder_path("payment_information/" + data['acquirer_seq_id'], 90911)
                     if file:
                         for idx, data_cache in enumerate(file.split('\n')):
                             if idx == 0:
@@ -1418,12 +1418,12 @@ def get_va_bank(request):
         res = send_request_api(request, url_request, headers, data, 'POST')
         if res['result']['error_code'] == 0:
             res['result']['response'].append({
-                "seq_id": 'other_bank',
+                "acquirer_seq_id": 'other_bank',
                 "name": 'Other Bank',
                 "type": ''
             })
             for rec in res['result']['response']:
-                file = read_cache_without_folder_path("payment_information/" + rec['seq_id'], 90911)
+                file = read_cache_without_folder_path("payment_information/" + rec['acquirer_seq_id'], 90911)
                 if file:
                     for idx, data_cache in enumerate(file.split('\n')):
                         if idx == 0:

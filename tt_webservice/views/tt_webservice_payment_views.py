@@ -155,7 +155,7 @@ def get_order_number(request):
     try:
         data = {
             'order_number': request.POST['order_number'],
-            'seq_id': request.POST['seq_id']
+            'acquirer_seq_id': request.POST['acquirer_seq_id']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

@@ -208,7 +208,8 @@ function get_list_report_footer(){
                         text += `<option value='`+printout[i].code+`'>`+printout[i].name+`</option>`;
                     }
                     document.getElementById('printout_choose').innerHTML = text;
-                    $('#printout_choose').niceSelect('update');
+                    $('#printout_choose').select2();
+//                    $('#printout_choose').niceSelect('update');
                     change_printout();
                 }else{
                     //MEDICAL

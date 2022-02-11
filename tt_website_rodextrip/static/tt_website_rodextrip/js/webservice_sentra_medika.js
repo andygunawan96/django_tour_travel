@@ -734,7 +734,7 @@ function sentra_medika_commit_booking(val){
         'force_issued': val
     }
     try{
-        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
     }catch(err){
     }
@@ -1988,7 +1988,7 @@ function sentra_medika_issued_booking(data){
            },
            data: {
                'order_number': data,
-               'seq_id': payment_acq2[payment_method][selected].seq_id,
+               'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
                'member': payment_acq2[payment_method][selected].method,
                'voucher_code': voucher_code,
                'signature': signature,

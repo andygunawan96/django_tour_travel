@@ -639,7 +639,7 @@ def commit_booking(request):
                 member = True
             data.update({
                 'member': member,
-                'seq_id': request.POST['seq_id'],
+                'acquirer_seq_id': request.POST['acquirer_seq_id'],
                 'payment_method': request.POST['payment_method'],
                 'voucher_code': request.POST['voucher_code']
             })
@@ -730,7 +730,7 @@ def issued_booking(request):
             'order_number': request.POST['order_number'],
             'payment_method': request.POST['payment_method'],
             'member': member,
-            'acquirer_seq_id': request.POST['seq_id'],
+            'acquirer_seq_id': request.POST['acquirer_seq_id'],
             'voucher': {}
         }
         provider = []

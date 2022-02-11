@@ -1572,7 +1572,7 @@ function hotel_issued(data){
            },
            data: {
                'order_number': data,
-               'seq_id': payment_acq2[payment_method][selected].seq_id,
+               'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
                'member': payment_acq2[payment_method][selected].method,
                'voucher_code': voucher_code,
                'signature': signature,
@@ -1920,7 +1920,7 @@ function hotel_issued_booking(val){
         data = {
             'signature': signature,
             'force_issued': val,
-            'seq_id': payment_acq2[payment_method][selected].seq_id,
+            'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
             'member': payment_acq2[payment_method][selected].method,
             'voucher_code': voucher_code
         }

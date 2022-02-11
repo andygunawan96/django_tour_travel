@@ -1560,7 +1560,7 @@ def commit_booking(request):
                     member = True
                 data.update({
                     'member': member,
-                    'seq_id': request.POST['seq_id'],
+                    'acquirer_seq_id': request.POST['acquirer_seq_id'],
                     'voucher': {}
                 })
             provider = []
@@ -1633,6 +1633,7 @@ def get_booking(request):
                 'city': country['city']
             })
         if res['result']['error_code'] == 0:
+            res['result']['response']['datetime_now'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             for pax in res['result']['response']['passengers']:
                 try:
                     if len(pax['birth_date'].split(' ')[0].split('-')) == 3:
@@ -2031,7 +2032,7 @@ def issued(request):
             # 'order_number': 'TB.190329533467'
             'order_number': request.POST['order_number'],
             'member': member,
-            'seq_id': request.POST['seq_id'],
+            'acquirer_seq_id': request.POST['acquirer_seq_id'],
             'voucher': {}
         }
         provider = []
@@ -3133,7 +3134,7 @@ def update_booking(request):
                 member = True
             data.update({
                 'member': member,
-                'seq_id': request.POST['seq_id'],
+                'acquirer_seq_id': request.POST['acquirer_seq_id'],
             })
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -3861,7 +3862,7 @@ def update_booking_v2(request):
                 member = True
             data.update({
                 'member': member,
-                'seq_id': request.POST['seq_id'],
+                'acquirer_seq_id': request.POST['acquirer_seq_id'],
             })
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())

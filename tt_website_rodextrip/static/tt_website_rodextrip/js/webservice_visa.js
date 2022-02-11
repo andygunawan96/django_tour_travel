@@ -678,7 +678,7 @@ function visa_commit_booking(){
         'voucher_code': ''
     }
     try{
-        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
         data['voucher_code'] = voucher_code;
     }catch(err){

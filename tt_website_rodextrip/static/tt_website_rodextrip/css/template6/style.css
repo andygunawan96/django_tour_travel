@@ -355,6 +355,7 @@ li > a:only-child:after { content: ''; }
 	nav ul ul li:hover > ul,
 	nav ul li:hover > ul {
 		display: block;
+		border:1px solid #cdcdcd;
 	}
 		
 	/* Fisrt Tier Dropdown */
@@ -1840,14 +1841,6 @@ ul.social-icons li a span {
 	.footer-left h3 {
         font-size: 2em;
         text-align: center;
-    }
-
-    #contact_footer_div{
-        text-align:center;
-    }
-
-    #payment_partner_footer_div{
-        text-align:center;
     }
 }
 .footer-nav-wthree {

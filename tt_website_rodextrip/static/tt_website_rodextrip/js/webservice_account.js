@@ -706,7 +706,7 @@ function get_top_up_quota(){
         if(msg.result.error_code == 0){
             text = '';
             for(i in msg.result.response.price_list){
-                text += `<option value="`+msg.result.response.price_list[i].seq_id+`" data-amount="`+msg.result.response.price_list[i].amount+`">`+getrupiah(msg.result.response.price_list[i].amount)+` - PNR for `+msg.result.response.price_list[i].validity_duration+` days</option>`;
+                text += `<option value="`+msg.result.response.price_list[i].acquirer_seq_id+`" data-amount="`+msg.result.response.price_list[i].amount+`">`+getrupiah(msg.result.response.price_list[i].amount)+` - PNR for `+msg.result.response.price_list[i].validity_duration+` days</option>`;
             }
             document.getElementById('amount').innerHTML = text;
             document.getElementById('term_n_condition').innerHTML = 'Issued without package quota will be charge '+ msg.result.response.currency + ' ' + getrupiah(msg.result.response.excess_quota_fee);
@@ -730,7 +730,7 @@ function get_top_up_quota(){
 
 function change_quota_top_up_price(){
     for(i in top_up_amount_list.price_list){
-        if(top_up_amount_list.price_list[i].seq_id == document.getElementById('amount').value){
+        if(top_up_amount_list.price_list[i].acquirer_seq_id == document.getElementById('amount').value){
             document.getElementById('total_amount').value = top_up_amount_list.price_list[i].currency + ' ' + getrupiah(top_up_amount_list.price_list[i].price);
             break;
         }
@@ -771,7 +771,7 @@ function buy_quota_btbo2(){
        },
        data: {
             'signature': signature,
-            'seq_id': document.getElementById('amount').value
+            'acquirer_seq_id': document.getElementById('amount').value
        },
        success: function(msg) {
         console.log(msg);
@@ -839,7 +839,7 @@ function submit_top_up(){
             'amount': document.getElementById('amount').value.split(',').join(''),
 //            'amount_count': document.getElementById('qty').value,
 //            'unique_amount': payment_acq2[payment_method][selected].price_component.unique_amount,
-//            'seq_id': payment_acq2[payment_method][selected].seq_id,
+//            'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
             'signature': signature
        },
        success: function(msg) {
@@ -893,7 +893,7 @@ function commit_top_up(){
        },
        data: {
             'member': payment_acq2[payment_method][selected].method,
-            'seq_id': payment_acq2[payment_method][selected].seq_id,
+            'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
             'signature': signature
        },
        success: function(msg) {

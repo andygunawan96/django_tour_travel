@@ -708,8 +708,6 @@ Licence URI: http://www.os-templates.com/template-terms
         .primary-btn {
             background: {{color}};
             line-height: 42px;
-            padding-left: 30px;
-            padding-right: 30px;
             border: none;
             color: {{text_color}};
             display: inline-block;
@@ -1683,6 +1681,12 @@ Licence URI: http://www.os-templates.com/template-terms
             opacity: 0.8;
         }
         {% elif template == 4 %}
+        .image-change-route-vertical a{
+            color: {{text_color}};
+        }
+        .image-change-route-vertical a:hover{
+            color: {{color}};
+        }
         .owl-theme .owl-nav [class*=owl-]{
             background: {{color}};
             color: {{text_color}} !important;
@@ -1855,6 +1859,17 @@ Licence URI: http://www.os-templates.com/template-terms
         }
 
         {% elif template == 6 %}
+        a{
+            color: {{color}};
+        }
+        .footer_a{
+            color:black;
+            line-height:30px;
+        }
+        .footer_a:hover{
+            color:{{color}} !important;
+        }
+
         ul.create_tabs li:hover{
             color: {{color}} !important;
         }
