@@ -4607,9 +4607,8 @@ function airline_get_booking(data, sync=false){
 
            airline_get_detail = msg;
            get_payment = false;
-           can_issued = false;
-           if(msg.result.response.hold_date > msg.result.response.datetime_now)
-                can_issued = true;
+           can_issued = msg.result.response.can_issued;
+
            document.getElementById('airline_reissue_div').innerHTML = '';
            time_now = moment().format('YYYY-MM-DD HH:mm:SS');
            //get booking view edit here

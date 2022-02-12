@@ -420,6 +420,12 @@ def get_booking(request):
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
         if res['result']['error_code'] == 0:
+            try:
+                res['result']['response']['can_issued'] = False
+                if res['result']['response']['hold_date'] > datetime.now().strftime('%Y-%m-%d %H:%M:%S'):
+                    res['result']['response']['can_issued'] = True
+            except:
+                _logger.error('no hold date')
             for pax in res['result']['response']['passengers']:
                 try:
                     if len(pax['birth_date'].split(' ')[0].split('-')) == 3:

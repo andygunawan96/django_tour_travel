@@ -2861,6 +2861,7 @@ function activity_get_booking(data){
        hide_modal_waiting_transaction();
        try{
             if(msg.result.error_code == 0){
+                can_issued = msg.result.response.can_issued;
                 tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
                 localTime  = moment.utc(tes).toDate();
                 msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
@@ -3743,7 +3744,7 @@ function activity_get_booking(data){
                 if(msg.result.response.state == 'booked')
                 {
                     try{
-                        if(now.diff(hold_date_time, 'minutes')<0){
+                        if(can_issued){
                             check_payment_payment_method(activity_order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'activity', signature, msg.result.response.payment_acquirer_number);
         //                    get_payment_acq('Issued', msg.result.response.booker.seq_id, activity_order_number, 'billing',signature,'activity', signature);
                             document.getElementById("final_issued_btn").style.display = "block";

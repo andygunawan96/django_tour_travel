@@ -2030,6 +2030,7 @@ function hotel_get_booking(data){
                     document.getElementById('button-home').hidden = false;
                     document.getElementById('button-new-reservation').hidden = false;
                     document.getElementById("overlay-div-box").style.display = "none";
+                    can_issued = msg.result.response.can_issued;
                     if(msg.result.response.hold_date != ''){
                         tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
                         localTime  = moment.utc(tes).toDate();
@@ -2139,7 +2140,7 @@ function hotel_get_booking(data){
                        </div>`;
                     }else if(msg.result.response.state == 'booked'){
                        try{
-                           if(now.diff(hold_date_time, 'minutes')<0)
+                           if(can_issued)
                                check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature, msg.result.response.payment_acquirer_number);
                            get_payment = true;
         //                   get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
@@ -2322,7 +2323,7 @@ function hotel_get_booking(data){
                             </div>
                           </div>`;
                    document.getElementById('hotel_booking').innerHTML = text;
-                   if(msg.result.response.state == 'booked'){
+                   if(can_issued){
                        check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id,  'billing', 'hotel', signature, msg.result.response.payment_acquirer_number);
                        $(".issued_booking_btn").show();
                    }

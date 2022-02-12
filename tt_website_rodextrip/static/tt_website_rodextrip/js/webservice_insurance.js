@@ -1671,6 +1671,7 @@ function insurance_get_booking(data, sync=false){
                 //======================= Resv =========================
                 if(msg.result.error_code == 0){
                     insurance_get_detail = msg;
+                    can_issued = msg.result.response.can_issued;
                     document.getElementById('show_loading_booking_insurance').hidden = true;
 //                    document.getElementById('button-home').hidden = false;
                     document.getElementById('button-new-reservation').hidden = false;
