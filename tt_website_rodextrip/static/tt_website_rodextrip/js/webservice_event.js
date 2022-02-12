@@ -227,6 +227,7 @@ function event_get_booking(data){
                     timezone = timezone.split('')
                     timezone = timezone.filter(item => item !== '0')
                     msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
+                    can_issued = msg.result.response.can_issued;
                     if(msg.result.response.booked_date != ''){
                         tes = moment.utc(msg.result.response.booked_date).format('YYYY-MM-DD HH:mm:ss')
                         localTime  = moment.utc(tes).toDate();

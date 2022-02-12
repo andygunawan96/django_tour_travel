@@ -39,7 +39,7 @@
                                 <ul>
                             {% endif %}
                             {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
-                            <li><a href="/{% if provider_type == 'phc' or provider_type == 'periksain' %}medical/{% endif %}{% if provider_type == 'medical' %}medical_global{% elif provider_type == 'labpintar' %}lab_pintar{% elif provider_type == 'swabexpress' %}swab_express{% elif provider_type == 'mitrakeluarga' %}mitra_keluarga{% elif provider_type == 'sentramedika' %}sentra_medika{% else %}{{provider_type}}{% endif %}"><script>
+                            <li><a href="/{% if provider_type == 'phc' or provider_type == 'periksain' %}medical/{% endif %}{% if provider_type == 'medical' %}medical_global{% elif provider_type == 'labpintar' %}lab_pintar{% elif provider_type == 'swabexpress' %}swab_express{% elif provider_type == 'mitrakeluarga' %}mitra_keluarga{% elif provider_type == 'sentramedika' %}sentra_medika{% elif provider_type == 'groupbooking' %}group_booking{% else %}{{provider_type}}{% endif %}"><script>
                             temp = `{{provider_type}}`;
                             temp = temp.split('_');
                             data = '';
@@ -483,7 +483,7 @@
                         <ul style="font-size:15px;">
                             {% endif %}
                             {% if provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
-                            <li><a class="footer_a" href="/{% if provider_type == 'phc' or provider_type == 'periksain' %}medical/{% endif %}{% if provider_type == 'medical' %}medical_global{% elif provider_type == 'labpintar' %}lab_pintar{% elif provider_type == 'swabexpress' %}swab_express{% elif provider_type == 'mitrakeluarga' %}mitra_keluarga{% elif provider_type == 'sentramedika' %}sentra_medika{% else %}{{provider_type}}{% endif %}"><script>
+                            <li><a href="/{% if provider_type == 'phc' or provider_type == 'periksain' %}medical/{% endif %}{% if provider_type == 'medical' %}medical_global{% elif provider_type == 'labpintar' %}lab_pintar{% elif provider_type == 'swabexpress' %}swab_express{% elif provider_type == 'mitrakeluarga' %}mitra_keluarga{% elif provider_type == 'sentramedika' %}sentra_medika{% else %}{{provider_type}}{% endif %}"><script>
                             temp = `{{provider_type}}`;
                             temp = temp.split('_');
                             data = '';
@@ -509,7 +509,7 @@
                     </p>
                     <hr/>
                     <a class="footer_a" href="/about_us">{% trans 'About Us' %}</a><br/>
-                    <a class="footer_a" href="/contact_us">{% trans 'Contact Us' %}<br/>
+                    <a class="footer_a" href="/contact_us">{% trans 'Contact Us' %}</a><br/>
                     <a class="footer_a" href="/guide">Guide</a><br/>
                     <a class="footer_a" href="/faq">FAQ</a><br/>
                     {% if website_mode == 'btb_with_signup_b2c' or 'btb' in website_mode %}

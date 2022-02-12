@@ -34,6 +34,9 @@
                         </ul>
                     </li>
                     {% endif%}
+                    {% if "groupbooking" in provider and "ticketing_group_booking" in username.co_agent_frontend_security%}
+                    <li class="pt5"><a href="{% url 'tt_website_rodextrip:group_booking'%}">{% trans 'Group Booking' %}</a></li>
+                    {% endif %}
                     <li class="pt5"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
                     {% endif %}
                     <li class="menu-has-children pt5"><a href="#">{% trans 'Highlight' %}</a>
