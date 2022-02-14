@@ -347,7 +347,7 @@ def search(request):
     else:
         return no_session_logout(request)
 
-def passenger(request):
+def passenger(request, signature):
     if 'user_account' in request.session._session and 'ticketing_airline' in request.session['user_account']['co_agent_frontend_security']:
         try:
             javascript_version = get_javascript_version()
@@ -401,10 +401,10 @@ def passenger(request):
             set_session(request, 'time_limit', time_limit)
             set_session(request, 'signature', request.POST['signature'])
             set_session(request, 'airline_signature', request.POST['signature'])
-            signature = request.POST['signature']
+            # signature = request.POST['signature']
         except Exception as e:
             _logger.info(str(e) + traceback.format_exc())
-            signature = request.session['airline_signature']
+            # signature = request.session['airline_signature']
         carrier_code = read_cache_with_folder_path("get_airline_carriers", 90911)
         is_lionair = False
         is_international = False
@@ -478,7 +478,7 @@ def passenger(request):
     else:
         return no_session_logout(request)
 
-def ssr(request):
+def ssr(request, signature):
     if 'user_account' in request.session._session and 'ticketing_airline' in request.session['user_account']['co_agent_frontend_security']:
         try:
             javascript_version = get_javascript_version()
@@ -499,9 +499,9 @@ def ssr(request):
 
             try:
                 passenger = []
-                for pax in request.session['airline_create_passengers']['adult']:
+                for pax in request.session['airline_create_passengers_%s' % signature]['adult']:
                     passenger.append(pax)
-                for pax in request.session['airline_create_passengers']['child']:
+                for pax in request.session['airline_create_passengers_%s' % signature]['child']:
                     passenger.append(pax)
                 additional_price_input = ''
                 additional_price = request.POST['additional_price_input'].split(',')
@@ -525,7 +525,7 @@ def ssr(request):
                         'airline_list': airline_list
                     })
                     airline_list = []
-                passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+                passenger = request.session['airline_create_passengers_%s' % signature]['adult'] + request.session['airline_create_passengers_%s' % signature]['child']
 
                 time_limit = get_timelimit_product(request, 'airline')
                 if time_limit == 0:
@@ -544,8 +544,8 @@ def ssr(request):
                     'airline_carriers': carrier,
                     # 'airline_destinations': airline_destinations,
                     'airline_pick': request.session['airline_sell_journey']['sell_journey_provider'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']['price_itinerary_provider'],
-                    'upsell': request.session.get('airline_upsell_'+request.session['airline_signature']) and request.session.get('airline_upsell_'+request.session['airline_signature']) or 0,
-                    'signature': request.session['airline_signature'],
+                    'upsell': request.session.get('airline_upsell_'+signature) and request.session.get('airline_upsell_'+signature) or 0,
+                    'signature': signature,
                     'airline_ssrs': airline_ssr,
                     'passengers': passenger,
                     'username': request.session['user_account'],
@@ -755,7 +755,7 @@ def ssr(request):
                     'child': child,
                     'infant': infant
                 }
-                set_session(request, 'airline_create_passengers', airline_create_passengers)
+                set_session(request, 'airline_create_passengers_%s' % signature, airline_create_passengers)
 
                 passenger = []
                 for pax in adult:
@@ -795,7 +795,7 @@ def ssr(request):
     else:
         return no_session_logout(request)
 
-def seat_map(request):
+def seat_map(request, signature):
     if 'user_account' in request.session._session and 'ticketing_airline' in request.session['user_account']['co_agent_frontend_security']:
         try:
             javascript_version = get_javascript_version()
@@ -816,7 +816,7 @@ def seat_map(request):
             ssr = []
 
             try:
-                passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+                passenger = request.session['airline_create_passengers_%s' % signature]['adult'] + request.session['airline_create_passengers_%s' % signature]['child']
                 for pax in passenger:
                     if not 'seat_list' in pax:
                         pax['seat_list'] = []
@@ -960,7 +960,7 @@ def seat_map(request):
                     'child': child,
                     'infant': infant
                 }
-                set_session(request, 'airline_create_passengers', airline_create_passengers)
+                set_session(request, 'airline_create_passengers_%s' % signature, airline_create_passengers)
                 passenger = []
                 for pax in adult:
                     passenger.append(pax)
@@ -1024,7 +1024,7 @@ def seat_map(request):
                     'countries': airline_country,
                     'phone_code': phone_code,
                     'after_sales': 0,
-                    'upsell': request.session.get('airline_upsell_'+request.session['airline_signature']) and request.session.get('airline_upsell_'+request.session['airline_signature']) or 0,
+                    'upsell': request.session.get('airline_upsell_'+signature) and request.session.get('airline_upsell_'+signature) or 0,
                     'airline_request': request.session['airline_request'],
                     'price': request.session['airline_sell_journey'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary'],
                     'additional_price': float(additional_price_input),
@@ -1033,7 +1033,8 @@ def seat_map(request):
                     'static_path_url_server': get_url_static_path(),
                     'javascript_version': javascript_version,
                     'time_limit': int(request.session['time_limit']),
-                    'airline_getbooking': ''
+                    'airline_getbooking': '',
+                    'signature': signature
                 })
             except:
                 upsell = 0
@@ -1106,7 +1107,7 @@ def seat_map_public(request, signature=-1):
         #error 404
         return no_session_logout(request)
 
-def review(request):
+def review(request, signature):
     if 'user_account' in request.session._session and 'ticketing_airline' in request.session['user_account']['co_agent_frontend_security']:
         try:
             javascript_version = get_javascript_version()
@@ -1121,9 +1122,9 @@ def review(request):
             values = get_data_template(request)
 
             ssr = []
-            if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'ssr':
+            if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-2] == 'ssr':
                 try:
-                    passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+                    passenger = request.session['airline_create_passengers_%s' % signature]['adult'] + request.session['airline_create_passengers_%s' % signature]['child']
                     sell_ssrs = []
                     sell_ssrs_request = []
                     passengers_list = []
@@ -1165,9 +1166,9 @@ def review(request):
                     print('airline no ssr')
 
             #SEAT
-            if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'seat_map':
+            if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-2] == 'seat_map':
                 try:
-                    passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+                    passenger = request.session['airline_create_passengers_%s' % signature]['adult'] + request.session['airline_create_passengers_%s' % signature]['child']
                     passengers = json.loads(request.POST['passenger'])
                     #
                     for idx, pax in enumerate(passengers):
@@ -1200,7 +1201,7 @@ def review(request):
                     print('airline no seatmap')
 
 
-            if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'passenger':
+            if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-2] == 'passenger':
                 set_session(request, 'airline_seat_request', {})
                 set_session(request, 'airline_ssr_request', {})
                 adult = []
@@ -1404,10 +1405,10 @@ def review(request):
                     'infant': infant,
                     'contact': contact
                 }
-                set_session(request, 'airline_create_passengers', airline_create_passengers)
+                set_session(request, 'airline_create_passengers_%s' % signature, airline_create_passengers)
 
                 request.session.modified = True
-                passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+                passenger = request.session['airline_create_passengers_%s' % signature]['adult'] + request.session['airline_create_passengers_%s' % signature]['child']
                 for pax in passenger:
                     pax['ssr_list'] = []
             else:
@@ -1419,7 +1420,7 @@ def review(request):
                     # set_session(request, 'airline_create_passengers', airline_create_passengers)
                 except Exception as e:
                     _logger.error('use airline get price request from cache')
-                passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+                passenger = request.session['airline_create_passengers_%s' % signature]['adult'] + request.session['airline_create_passengers_%s' % signature]['child']
             file = read_cache_with_folder_path("get_airline_carriers", 90911)
             if file:
                 airline_carriers = file
@@ -1451,7 +1452,7 @@ def review(request):
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
-                'upsell': request.session.get('airline_upsell_'+request.session['airline_signature']) and request.session.get('airline_upsell_'+request.session['airline_signature']) or 0,
+                'upsell': request.session.get('airline_upsell_'+signature) and request.session.get('airline_upsell_'+signature) or 0,
                 'ssr': request.session.get('airline_get_ssr')['result']['error_code'] if request.session.get('airline_get_ssr') else 1,
                 'seat': request.session.get('airline_get_seat_availability')['result']['error_code'] if request.session.get('airline_get_seat_availability') else 1,
                 'airline_request': request.session['airline_request'],
@@ -1462,12 +1463,12 @@ def review(request):
                 'airline_carriers': airline_carriers,
                 'additional_price': float(additional_price_input.split(' ')[len(additional_price_input.split(' '))-1]),
                 'username': request.session['user_account'],
-                'passengers': request.session['airline_create_passengers'],
+                'passengers': request.session['airline_create_passengers_%s' % signature],
                 'passengers_ssr': passenger,
                 'force_issued': force_issued,
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
-                'signature': request.session['airline_signature'],
+                'signature': signature,
                 'time_limit': int(request.session['time_limit']),
                 'airline_get_price_request': request.session['airline_sell_journey'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary'],
                 # 'co_uid': request.session['co_uid'],
@@ -1480,7 +1481,7 @@ def review(request):
     else:
         return no_session_logout(request)
 
-def review_after_sales(request):
+def review_after_sales(request, signature):
     if 'user_account' in request.session._session and 'ticketing_airline' in request.session['user_account']['co_agent_frontend_security']:
         try:
             javascript_version = get_javascript_version()
@@ -1496,9 +1497,9 @@ def review_after_sales(request):
             goto = 0
             ssr = []
 
-            if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'ssr':
+            if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-2] == 'ssr':
                 try:
-                    passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+                    passenger = request.session['airline_create_passengers_%s' % signature]['adult'] + request.session['airline_create_passengers_%s' % signature]['child']
                     sell_ssrs = []
                     sell_ssrs_request = []
                     passengers_list = []
@@ -1543,9 +1544,9 @@ def review_after_sales(request):
                     print('airline no ssr')
 
             # SEAT
-            if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/')) - 1] == 'seat_map':
+            if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/')) - 2] == 'seat_map':
                 try:
-                    passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+                    passenger = request.session['airline_create_passengers_%s' % signature]['adult'] + request.session['airline_create_passengers_%s' % signature]['child']
                     passengers = json.loads(request.POST['passenger'])
                     #
                     page = 'seat'
@@ -1610,7 +1611,7 @@ def review_after_sales(request):
                 'airline_getbooking': airline_get_booking,
                 'additional_price': float(additional_price_input.split(' ')[len(additional_price_input.split(' '))-1]),
                 'username': request.session['user_account'],
-                'passengers': request.session['airline_create_passengers'],
+                'passengers': request.session['airline_create_passengers_%s' % signature],
                 'passengers_ssr': passenger,
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
