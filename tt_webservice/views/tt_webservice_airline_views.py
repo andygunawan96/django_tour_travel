@@ -287,8 +287,8 @@ def get_data_review_page(request):
         file = read_cache_with_folder_path("get_airline_carriers", 90911)
         if file:
             res['airline_carriers'] = file
-        res['passengers'] = request.session['airline_create_passengers']
-        res['passengers_ssr'] = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+        res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
+        res['passengers_ssr'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
         res['airline_request'] = request.session['airline_request']
 
         if request.session.get('airline_get_ssr'):
@@ -317,8 +317,8 @@ def get_data_review_after_sales_page(request):
         if file:
             res['airline_carriers'] = file
 
-        res['passengers'] = request.session['airline_create_passengers']
-        res['passengers_ssr'] = passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+        res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
+        res['passengers_ssr'] = passenger = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
         res['airline_get_detail'] = request.session['airline_get_booking_response']['result']['response']
 
     except Exception as e:
@@ -341,7 +341,7 @@ def get_data_ssr_page(request):
         file = read_cache_with_folder_path("get_airline_carriers", 90911)
         if file:
             res['airline_carriers'] = file
-        res['passengers'] = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+        res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
 
 
         if request.POST['after_sales'] == 'false':
@@ -352,7 +352,7 @@ def get_data_ssr_page(request):
         else:
             #post
             passenger = []
-            pax_list = request.session['airline_create_passengers']
+            pax_list = request.session['airline_create_passengers_%s' % request.POST['signature']]
             for pax in pax_list['adult']:
                 passenger.append(pax)
             for pax in pax_list['child']:
@@ -369,8 +369,7 @@ def get_data_seat_page(request):
         file = read_cache_with_folder_path("get_airline_carriers", 90911)
         if file:
             res['airline_carriers'] = file
-        res['passengers'] = request.session['airline_create_passengers']['adult'] + \
-                            request.session['airline_create_passengers']['child']
+        res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
 
         if request.POST['after_sales'] == 'false':
             # pre
@@ -381,7 +380,7 @@ def get_data_seat_page(request):
         else:
             # post
             passenger = []
-            pax_list = request.session['airline_create_passengers']
+            pax_list = request.session['airline_create_passengers_%s' % request.POST['signature']]
             for pax in pax_list['adult']:
                 passenger.append(pax)
             for pax in pax_list['child']:
@@ -1332,12 +1331,12 @@ def get_seat_map_response(request):
     return request.session['airline_get_seat_availability']['result']['response']
 
 def get_pax(request):
-    return request.session['airline_create_passengers']
+    return request.session['airline_create_passengers_%s' % request.POST['signature']]
 
 def update_contacts(request):
     try:
-        booker = copy.deepcopy(request.session['airline_create_passengers']['booker'])
-        contacts = copy.deepcopy(request.session['airline_create_passengers']['contact'])
+        booker = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']]['booker'])
+        contacts = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']]['contact'])
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
         for country in response['result']['response']['airline']['country']:
@@ -1385,7 +1384,7 @@ def update_passengers(request):
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
         passenger = []
-        passenger_cache = copy.deepcopy(request.session['airline_create_passengers'])
+        passenger_cache = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']])
         for pax_type in passenger_cache:
             if pax_type != 'booker' and pax_type != 'contact':
                 for pax in passenger_cache[pax_type]:
