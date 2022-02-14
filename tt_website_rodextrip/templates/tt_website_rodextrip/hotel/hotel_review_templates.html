@@ -464,27 +464,28 @@
 
 <script>
     address = '';
-    {% if response.location.address != false %}
+    {% if response.location.address != False %}
     address += `{{response.location.address}}`;
     {% endif %}
-    {% if response.location.city != false %}
+    {% if response.location.city != False and response.location.city != '' %}
     if(address != '')
         address += ', ';
     address += `{{response.location.city}}`;
     {% endif %}
-    {% if response.location.kelurahan != false %}
+    {% if response.location.country != False and response.location.country != '' %}
     if(address != '')
         address += ', ';
-    address += `{{response.location.kelurahan}}`;
+    address += `{{response.location.country}}`;
     {% endif %}
-    {% if response.location.state != false %}
+    {% if response.location.state != False and response.location.state != '' %}
     if(address != '')
         address += ', ';
-    address += `{{response.location.state}}{% endif %}`;
-    {% if response.location.zipcode != false %}
+    address += `{{response.location.state}}`;
+    {% endif %}
+    {% if response.location.postal_code != False and response.location.postal_code != '' %}
     if(address != '')
         address += ', ';
-    address += `{{response.location.zipcode}}`;
+    address += `{{response.location.postal_code}}`;
     {% endif %}
     document.getElementById('address_hotel').innerHTML = address;
     //document.getElementById('voucher_discount').style.display = 'none';

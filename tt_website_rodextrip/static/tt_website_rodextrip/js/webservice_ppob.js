@@ -573,6 +573,7 @@ function ppob_get_booking(data){
            try{
                //get booking view edit here
                if(msg.result.error_code == 0){
+                can_issued = msg.result.response.can_issued;
                 var text = '';
                 $text = '';
                 csc = 0;
@@ -674,7 +675,7 @@ function ppob_get_booking(data){
                    </div>`;
                 }else if(msg.result.response.state == 'booked'){
                    try{
-                       if(now.diff(hold_date_time, 'minutes')<0)
+                       if(can_issued)
                            check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'ppob', signature, msg.result.response.payment_acquirer_number);
                        get_payment = true;
     //                   get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
@@ -757,7 +758,7 @@ function ppob_get_booking(data){
                 }
                 if(msg.result.response.state == 'booked'){
                     try{
-                        if(now.diff(hold_date_time, 'minutes')<0)
+                        if(can_issued)
                             $(".issued_booking_btn").show();
                     }catch(err){
                         console.log(err); //kalau tidak ada button issued

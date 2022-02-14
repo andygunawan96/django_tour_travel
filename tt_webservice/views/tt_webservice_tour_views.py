@@ -684,6 +684,12 @@ def get_booking(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
+            try:
+                res['result']['response']['can_issued'] = False
+                if res['result']['response']['hold_date'] > datetime.now().strftime('%Y-%m-%d %H:%M:%S'):
+                    res['result']['response']['can_issued'] = True
+            except:
+                _logger.error('no hold date')
             for pax in res['result']['response']['passengers']:
                 pax.update({
                     'birth_date': '%s %s %s' % (

@@ -897,6 +897,7 @@ function lab_pintar_get_booking(order_number, sync=false){
 
                 //======================= Resv =========================
                 if(msg.result.error_code == 0){
+                    can_issued = msg.result.response.can_issued;
                     if(window.location.pathname.includes('confirm_order') && user_login.co_agent_frontend_security.includes('confirm_order_lab_pintar') == false){
                         window.location.href = '/lab_pintar/confirm_order/';
                         Swal.fire({

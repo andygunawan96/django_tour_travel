@@ -450,6 +450,12 @@ def get_booking(request):
 
     try:
         if res['result']['error_code'] == 0:
+            try:
+                res['result']['response']['can_issued'] = False
+                if res['result']['response']['hold_date'] > datetime.now().strftime('%Y-%m-%d %H:%M:%S'):
+                    res['result']['response']['can_issued'] = True
+            except:
+                _logger.error('no hold date')
             set_session(request, 'event_get_booking_response', res)
             # res['result']['response'].update({
             #     'from_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['from_date']),

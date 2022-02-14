@@ -37,7 +37,14 @@ provider_type = {
     'BT': 'ppob',
     'VT': 'event',
     'PK': 'medical',
-    'PH': 'medical'
+    'PH': 'medical',
+    'BU': 'bus',
+    'MK': 'mitrakeluarga',
+    'SE': 'swabexpress',
+    'SM': 'sentramedika',
+    'LP': 'labpintar',
+    'GB': 'groupbooking',
+
 }
 
 def check_captcha(request):

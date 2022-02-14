@@ -481,6 +481,12 @@ def get_booking(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
+            try:
+                res['result']['response']['can_issued'] = False
+                if res['result']['response']['hold_date'] > datetime.now().strftime('%Y-%m-%d %H:%M:%S'):
+                    res['result']['response']['can_issued'] = True
+            except:
+                _logger.error('no hold date')
             if res['result']['response']['journey']['in_process_date'] != '':
                 res['result']['response']['journey']['in_process_date'] = convert_string_to_date_to_string_front_end_with_unkown_separator(res['result']['response']['journey']['in_process_date'])
             for pax in res['result']['response']['passengers']:

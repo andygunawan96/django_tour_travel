@@ -714,6 +714,7 @@ function train_get_booking(data){
             var give_space = false;
             if(msg.result.error_code == 0){
                 train_get_detail = msg;
+                can_issued = msg.result.response.can_issued;
                 if(msg.result.response.hold_date != false && msg.result.response.hold_date != ''){
                     tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
                     var localTime  = moment.utc(tes).toDate();
@@ -739,7 +740,7 @@ function train_get_booking(data){
                 }
                 if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'  && msg.result.response.state != 'fail_issued' && msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                     try{
-                        if(now.diff(hold_date_time, 'minutes')<0){
+                        if(can_issued){
                             check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'train', signature, msg.result.response.payment_acquirer_number);
         //                    get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'train');
                             document.getElementById('voucher_discount').style.display = '';
@@ -1152,7 +1153,7 @@ function train_get_booking(data){
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                             if (msg.result.response.state  == 'booked'){
                                 try{
-                                    if(now.diff(hold_date_time, 'minutes')<0)
+                                    if(can_issued)
                                         $(".issued_booking_btn").show();
                                 }catch(err){
                                     console.log(err); // error kalau ada element yg tidak ada
