@@ -1555,7 +1555,7 @@
                                             <i class="fas fa-star" style="color:#FFC44D;"></i>
                                         {% endfor %}
                                     </span><br/>
-                                    <span class="address_hotel">{% if response.location.address != false %}{{response.location.address}}{% endif %}{% if response.location.city != false %}, {{response.location.city}}{% endif %}{% if response.location.kelurahan != false %}, {{response.location.kelurahan}}{% endif %}{% if response.location.state != false %}, {{response.location.state}}{% endif %}{% if response.location.zipcode != false %}, {{response.location.zipcode}}{% endif %}</span><br/>
+                                    <span class="address_hotel"></span><br/>
                                     <span id="date_hotel">Date: {{check_in}} - {{check_out}}</span>
                                     <hr/>
                                     <div style="padding-top:10px;" id="hotel_detail_table">
@@ -1692,27 +1692,28 @@
     hotel_detail_page();
     var myIndex = 0;
     address = '';
-    {% if response.location.address != false %}
+    {% if response.location.address != False %}
     address += `{{response.location.address}}`;
     {% endif %}
-    {% if response.location.city != false %}
+    {% if response.location.city != False and response.location.city != '' %}
     if(address != '')
         address += ', ';
     address += `{{response.location.city}}`;
     {% endif %}
-    {% if response.location.kelurahan != false %}
+    {% if response.location.country != False and response.location.country != '' %}
     if(address != '')
         address += ', ';
-    address += `{{response.location.kelurahan}}`;
+    address += `{{response.location.country}}`;
     {% endif %}
-    {% if response.location.state != false %}
+    {% if response.location.state != False and response.location.state != '' %}
     if(address != '')
         address += ', ';
-    address += `{{response.location.state}}{% endif %}`;
-    {% if response.location.zipcode != false %}
+    address += `{{response.location.state}}`;
+    {% endif %}
+    {% if response.location.postal_code != False and response.location.postal_code != '' %}
     if(address != '')
         address += ', ';
-    address += `{{response.location.zipcode}}`;
+    address += `{{response.location.postal_code}}`;
     {% endif %}
     document.getElementById('address_hotel').innerHTML = address;
     document.getElementById('location_info').innerHTML = address;
