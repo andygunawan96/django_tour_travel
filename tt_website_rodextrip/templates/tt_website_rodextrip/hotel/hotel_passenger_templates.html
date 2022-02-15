@@ -380,7 +380,8 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if forloop.counter <= room_qty %} <label style="color:red">*</label>{%endif%}
+                                            {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/>{%endif%}
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
@@ -422,7 +423,7 @@
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <br/>
-                                            {% if forloop.counter <= room_qty %} <label style="color:red">*</label>{%endif%}
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -439,7 +440,7 @@
                                             <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if forloop.counter <= room_qty %} <label style="color:red">*</label>{%endif%}
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -453,7 +454,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if forloop.counter <= room_qty %} <label style="color:red">*</label>{%endif%}
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -1066,7 +1067,8 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <label style="color:red">*</label>
+                                                {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/>{%endif%}
+                                                {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                                 <label>{% trans 'Title' %}</label>
                                                 <div class="form-select-2">
                                                     <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}" class="nice-select-default">
@@ -1106,7 +1108,7 @@
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                 <br/>
-                                                <label style="color:red">*</label>
+                                                {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                                 <label>{% trans 'First name and middle name (if any)' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -1123,7 +1125,7 @@
                                                 <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <label style="color:red">*</label>
+                                                {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                                 <label>{% trans 'Nationality' %}</label>
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}')" class="nice-select-default">
@@ -1135,7 +1137,7 @@
                                                 <input type="hidden" name="adult_nationality{{forloop.counter}}" id="adult_nationality{{forloop.counter}}" />
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <label style="color:red">*</label>
+                                                {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                                 <label>{% trans 'Birth Date' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -1742,7 +1744,8 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/>{%endif%}
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                             <label>{% trans 'Title' %}</label>
                                             <div class="default-select">
                                                 <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}" class="nice-select-default">
@@ -1782,7 +1785,7 @@
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <br/>
-                                            <label style="color:red">*</label>
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="form-group">
                                                 <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -1799,7 +1802,7 @@
                                             <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="form-group">
                                                 <div class="form-select">
@@ -1813,7 +1816,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="form-group">
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -2426,7 +2429,8 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <label style="color:red">*</label>
+                                        {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/>{%endif%}
+                                        {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                         <label>{% trans 'Title' %}</label>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select-2">
@@ -2468,7 +2472,7 @@
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                         <br/>
-                                        <label style="color:red">*</label>
+                                        {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                         <label>{% trans 'First name and middle name (if any)' %}</label>
                                         <div class="input-container-search-ticket">
                                             <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -2485,7 +2489,7 @@
                                         <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <label style="color:red">*</label>
+                                        {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                         <label>{% trans 'Nationality' %}</label>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select">
@@ -2499,7 +2503,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <label style="color:red">*</label>
+                                        {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                         <label>{% trans 'Birth Date' %}</label>
                                         <div class="input-container-search-ticket">
                                             <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -3116,7 +3120,8 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/>{%endif%}
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select" style="margin-bottom:0px;">
@@ -3158,7 +3163,7 @@
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <br/>
-                                            <label style="color:red">*</label>
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -3175,7 +3180,7 @@
                                             <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -3189,7 +3194,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -3806,7 +3811,8 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if forloop.counter < room_qty %} <label style="color:red">*</label>{%endif%}
+                                            {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/> {%endif%}
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {%endif%}
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -3848,7 +3854,7 @@
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <br/>
-                                            {% if forloop.counter < room_qty %} <label style="color:red">*</label>{%endif%}
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {%endif%}
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -3865,7 +3871,7 @@
                                             <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if forloop.counter < room_qty %} <label style="color:red">*</label>{%endif%}
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {%endif%}
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -3879,7 +3885,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if forloop.counter < room_qty %} <label style="color:red">*</label>{%endif%}
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {%endif%}
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>

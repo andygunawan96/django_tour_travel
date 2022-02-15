@@ -749,6 +749,9 @@ def search2(request):
             "carrier_codes": json.loads(request.POST['carrier_codes']),
         }
 
+        if 'airline_search' not in request.session._session:
+            set_session(request, 'airline_search', data)
+
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -770,8 +773,6 @@ def search2(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 120)
     try:
         if res['result']['error_code'] == 0:
-            if 'airline_search' not in request.session._session:
-                set_session(request, 'airline_search', data)
             for journey_list in res['result']['response']['schedules']:
                 for journey in journey_list['journeys']:
                     journey['is_combo_price'] = False
