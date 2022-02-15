@@ -4319,7 +4319,9 @@ function get_passenger_cache(type){
                             }
                         }
                     }
-                    response+=`<div class="col-lg-10 mt-2"></div><div class="col-lg-2 mt-2"><button type="button" class="primary-btn-custom" id="move_btn" onclick="reset_pax_cache();">Reset</button></div>`;
+                    if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'passenger' || window.location.href.split('/')[window.location.href.split('/').length-2] == 'passenger' || window.location.href.split('/')[window.location.href.split('/').length-1] == 'issued_offline'){
+                        response+=`<div class="col-lg-10 mt-2"></div><div class="col-lg-2 mt-2"><button type="button" class="primary-btn-custom" id="move_btn" onclick="reset_pax_cache();">Reset</button></div>`;
+                    }
                     for(i in msg.result.response){
                         var number_i = parseInt(i)+1;
                         if(number_i % 2 == 0){
@@ -4478,7 +4480,7 @@ function get_passenger_cache(type){
                                 if(msg.result.response[i].title == "MR" || msg.result.response[i].title == "MRS" || msg.result.response[i].title == "MS"){
                                     response+=`<optgroup label="Booker">`;
                                     response+=`<option value="booker">Booker Only</option>`;
-                                    response+=`<option value="booker_with_adult">Booker With Passenger 1</option>`;
+                                    response+=`<option value="booker_with_adult">Booker With Adult 1</option>`;
                                 }
 
                                 try{
@@ -4539,7 +4541,7 @@ function get_passenger_cache(type){
                                 if(msg.result.response[i].title == "MR" || msg.result.response[i].title == "MRS" || msg.result.response[i].title == "MS"){
                                     response+=`<optgroup label="Booker">`;
                                     response+=`<option value="booker">Booker Only</option>`;
-                                    response+=`<option value="booker_with_adult">Booker With Passenger 1</option>`;
+                                    response+=`<option value="booker_with_adult">Booker With Adult 1</option>`;
                                 }
 
                                 try{
@@ -4656,6 +4658,9 @@ function move_pax_cache(){
 function reset_pax_cache(){
     for(i in passenger_data_cache){
         document.getElementById('selection_type'+i).value = '';
+        for(j in document.getElementById('selection_type'+i).options){
+            document.getElementById('selection_type'+i).options[j].disabled = false;
+        }
         $('#selection_type'+i).niceSelect('update');
     }
 }
