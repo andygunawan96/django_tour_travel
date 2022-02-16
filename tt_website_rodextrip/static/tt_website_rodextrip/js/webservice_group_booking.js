@@ -1475,8 +1475,8 @@ function group_booking_get_booking(order_number){
                                 text+=`
                             </a>
                         </div>`;
-                    document.getElementById('btn_print').innerHTML = text;
                 }
+                document.getElementById('btn_print').innerHTML = text;
                 if(msg.result.response.state != 'draft')
                 document.getElementById('list_of_pax').hidden = false;
 
