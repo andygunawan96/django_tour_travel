@@ -743,7 +743,20 @@ function get_carrier_code_list(type, val){
            console.log(msg);
            airline_provider_list = msg;
            text=`<div class="row"><div class="col-lg-12" style="overflow-y:auto;overflow-x:hidden;height:235px;">`;
-           if(type != 'search'){
+           if(type == 'groupbooking'){
+               for(i in msg){
+                    if(msg[i].hasOwnProperty('is_excluded_from_b2c') && msg[i].is_excluded_from_b2c != true || user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                        text+=`
+                            <li>
+                                <label class="radio-button-custom crlabel">
+                                    <span style="font-size:13px;">`+msg[i].display_name+`</span>
+                                    <input type="radio" name="carrier_code" value="`+i+`">
+                                    <span class="checkmark-radio"></span>
+                                </label>
+                            </li>`;
+                    }
+               }
+           }else if(type != 'search'){
                text += `
                     <li>
                         <a class="small" data-value="option1" tabIndex="-1">
@@ -877,7 +890,8 @@ function get_carrier_code_list(type, val){
 //                   console.log(err);
 //               }
            }
-           first_value_provider();
+           if(type != 'groupbooking')
+            first_value_provider();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline carrier code list');

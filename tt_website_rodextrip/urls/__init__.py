@@ -17,5 +17,6 @@ from .tt_website_rodextrip_mitra_keluarga_urls import *
 from .tt_website_rodextrip_lab_pintar_urls import *
 from .tt_website_rodextrip_sentra_medika_urls import *
 from .tt_website_rodextrip_insurance_urls import *
+from .tt_website_rodextrip_group_booking_urls import *
 from .tt_website_rodextrip_medical_urls import * #PALING BAWAH KARENA ADA PATH DYNAMIC PHC/PERIKSAIN
 from .tt_website_rodextrip_urls import *

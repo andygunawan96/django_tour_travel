@@ -2797,6 +2797,10 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
         var breadcrumbs = ["Home", "Review", "Issued"];
         var breadcrumbs_url = ["location.href='/dashboard';", "", ""];
     }
+    else if(breadcrumbs_type == "group_booking"){
+        var breadcrumbs = ["Home", "Booking", "Issued"];
+        var breadcrumbs_url = ["location.href='/dashboard';", "", ""];
+    }
     else if(breadcrumbs_type == "event"){
         var breadcrumbs = ["Home", "Search", "Details", "Contact", "Review", "Issued"];
         var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/event/search';", "location.href='/event/detail';", "location.href='/event/passenger';", "", ""];

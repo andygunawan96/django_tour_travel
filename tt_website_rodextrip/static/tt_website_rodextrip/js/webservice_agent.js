@@ -1044,7 +1044,8 @@ function radio_button(type,val){
         radios = document.getElementsByName('radio_passenger'+val);
     }else if(type == 'pax_cache'){
         radios = document.getElementsByName('radio_passenger_cache');
-    }
+    }else if(type == 'contact')
+        radios = document.getElementsByName('radio_contact');
     value = '';
     for (var j = 0, length = radios.length; j < length; j++) {
         if (radios[j].checked) {
@@ -1095,6 +1096,12 @@ function radio_button(type,val){
     }else if(value == 'create' && type == 'passenger'){
         document.getElementById('passenger_search'+val).hidden = true;
         document.getElementById('passenger_input'+val).hidden = false;
+    }else if(value == 'search' && type == 'contact'){
+        document.getElementById('train_contact_search_div').hidden = false;
+        document.getElementById('contact_input').hidden = true;
+    }else if(value == 'create' && type == 'contact'){
+        document.getElementById('train_contact_search_div').hidden = true;
+        document.getElementById('contact_input').hidden = false;
     }
 }
 
@@ -1164,13 +1171,15 @@ function get_automatic_booker(cust_code){
 function get_customer_list(passenger, number, product){
     check = 0;
     getToken();
-    if(passenger == 'booker'){
+    if(passenger == 'booker' || passenger == 'contact'){
         $('.loading-booker-train').show();
 
         var minAge = '';
         var maxAge = '';
-
-        name = document.getElementById('train_booker_search').value;
+        if(passenger == 'booker')
+            name = document.getElementById('train_booker_search').value;
+        else
+            name = document.getElementById('train_contact_search').value;
 
         try{
             minAge = document.getElementById('booker_min_age').value;
@@ -1280,7 +1289,10 @@ function get_customer_list(passenger, number, product){
                                     </div>`;
         //                            <td>`+msg.response.result[i].booker_type+`</td>
         //                            <td>Rp. `+getrupiah(msg.response.result[i].agent_id.credit_limit+ msg.response.result[i].agent_id.balance)+`</td>
-                                    response+=`<div class="col-lg-4" style="text-align:center; padding:15px;"><button type="button" class="primary-btn-custom" onclick="pick_passenger('Booker',`+msg.result.response[i].sequence+`,'`+product+`');">Choose</button></div>`;
+                                    if(passenger == 'booker')
+                                        response+=`<div class="col-lg-4" style="text-align:center; padding:15px;"><button type="button" class="primary-btn-custom" onclick="pick_passenger('Booker',`+msg.result.response[i].sequence+`,'`+product+`');">Choose</button></div>`;
+                                    else if(passenger == 'contact')
+                                        response+=`<div class="col-lg-4" style="text-align:center; padding:15px;"><button type="button" class="primary-btn-custom" onclick="pick_passenger('Contact',`+msg.result.response[i].sequence+`,'`+product+`');">Choose</button></div>`;
                                     response+=`
                                 </div>
                             </div>`;
@@ -1293,6 +1305,8 @@ function get_customer_list(passenger, number, product){
                             document.getElementById('hide_btn_click').hidden = false;
                         }else if(passenger == 'passenger')
                             document.getElementById('search_result_passenger').innerHTML = response;
+                        else if(passenger == 'contact')
+                            document.getElementById('search_contact_result').innerHTML = response;
                         else
                             document.getElementById('search_result').innerHTML = response;
                         passenger_data = msg.result.response;
@@ -1703,10 +1717,22 @@ function pick_passenger_copy(type, sequence, product, identity=''){
             $('#customer_parent_booking_from_vendor').niceSelect('update');
         }
 //        get_customer_parent();
-    }else if(type == '' || product == 'issued_offline'){
-        if(type == 'Booker'){
-            document.getElementById('contact_person').value = passenger_data[sequence].title + ' ' + passenger_data[sequence].first_name + ' ' + passenger_data[sequence].last_name;
-            document.getElementById('contact_id').value = passenger_data[sequence].seq_id;
+    }else if(type == '' || product == 'issued_offline' || product == 'group_booking'){
+        if(type == 'Booker' || type == 'Contact'){
+            try{
+                document.getElementById('contact_person').value = passenger_data[sequence].title + ' ' + passenger_data[sequence].first_name + ' ' + passenger_data[sequence].last_name;
+                document.getElementById('contact_id').value = passenger_data[sequence].seq_id;
+            }catch(err){console.log(err);}
+            if(type == 'Booker')
+                try{
+                    document.getElementsByName('radio_booker')[1].checked = true;
+                    radio_button('booker');
+                }catch(err){console.log(err);}
+            else if(type == 'Contact')
+                try{
+                    document.getElementsByName('radio_contact')[1].checked = true;
+                    radio_button('contact');
+                }catch(err){console.log(err);}
             $('#myModal').modal('hide');
         }else if(product == 'medical'){
             passenger_number++;
@@ -2133,6 +2159,156 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                 //untuk booker check
                 passenger_data_pick.push(passenger_data[sequence]);
                 passenger_data_pick[passenger_data_pick.length-1].sequence = 'booker';
+                $('#myModal').modal('hide');
+                document.getElementById('search_result').innerHTML = '';
+            }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops...',
+                  text: "You can't choose same person in 1 booking",
+                })
+            }
+        }else if(type == 'Contact'){
+            //change booker
+            check = 0;
+            if(check == 0){
+                document.getElementById('train_contact_search').value = '';
+                try{
+                    if(document.getElementsByName('myRadios')[0].checked == true){
+                        clear_passenger('Adult',1);
+                        document.getElementsByName('myRadios')[1].checked = true;
+                    }
+                }catch(err){
+                    console.log(err); //error kalau tidak ada radio copy booker
+                }
+
+                for(i in passenger_data_pick){
+                    if(passenger_data_pick[i].sequence == 'contact'){
+                        passenger_data_pick.splice(i,1);
+                        break;
+                    }
+                }
+                document.getElementById('contact_title').value = passenger_data[sequence].title;
+                for(i in document.getElementById('contact_title').options){
+                    document.getElementById('contact_title').options[i].disabled = false;
+                }
+                for(i in document.getElementById('contact_title').options){
+                    if(document.getElementById('contact_title').options[i].selected != true)
+                       document.getElementById('contact_title').options[i].disabled = true;
+                }
+                $('#booker_title').niceSelect('update');
+                document.getElementById('contact_first_name').value = passenger_data[sequence].first_name;
+                document.getElementById('contact_first_name').readOnly = true;
+                document.getElementById('contact_last_name').value = passenger_data[sequence].last_name;
+                document.getElementById('contact_last_name').readOnly = true;
+
+    //            capitalizeInput('booker_first_name');
+    //            passenger_data[sequence].first_name = document.getElementById('booker_first_name').value;
+    //            capitalizeInput('booker_last_name');
+    //            passenger_data[sequence].last_name = document.getElementById('booker_last_name').value;
+
+                if(passenger_data[sequence].nationality_name != '' && passenger_data[sequence].nationality_name != ''){
+                    document.getElementById('select2-contact_nationality_id-container').innerHTML = passenger_data[sequence].nationality_name;
+                    document.getElementById('contact_nationality').value = passenger_data[sequence].nationality_name;
+                    document.getElementById('contact_nationality_id').disabled = true;
+                }
+                document.getElementById('contact_email').value = passenger_data[sequence].email;
+                try{
+                    var phone = document.getElementById('phone_chosen'+sequence).value;
+                    if(phone != false){
+                        document.getElementById('contact_phone_code').value = phone.split(' - ')[0];
+                        document.getElementById('select2-contact_phone_code_id-container').innerHTML = phone.split(' - ')[0];
+                        document.getElementById('contact_phone').value = phone.split(' - ')[1];
+                    }
+                }catch(err){
+                    try{ //ambil paling pertama untuk cor por
+                        document.getElementById('contact_phone_code').value = passenger_data[sequence].phones[0].calling_code;
+                        document.getElementById('select2-contact_phone_code_id-container').innerHTML = passenger_data[sequence].phones[0].calling_code;
+                        document.getElementById('contact_phone').value = passenger_data[sequence].phones[0].calling_number;
+                    }catch(err){
+                        console.log(err); //tidak ada phone number yg di pilih / belum ada data
+                    }
+                }
+                document.getElementById('contact_birth_date').value = passenger_data[sequence].birth_date;
+                document.getElementById('contact_birth_date').readOnly = true;
+
+                temp_data = '';
+                var index = 0;
+                for(i in passenger_data[sequence].identities){
+                    if(index != 0)
+                        temp_data += '~';
+                    temp_data += i + ',' + passenger_data[sequence].identities[i].identity_number + ',' + passenger_data[sequence].identities[i].identity_country_of_issued_name + ',' + passenger_data[sequence].identities[i].identity_expdate;
+                    index++;
+                }
+                document.getElementById('contact_id_number').value = temp_data;
+//                if(product == 'issued_offline'){
+//                    for(i in passenger_data[sequence].identities){
+//                        document.getElementById('booker_id_type').value = i;
+//                        document.getElementById('booker_id_type').readOnly = true;
+//                        document.getElementById('booker_id_number').value = passenger_data[sequence].identities[i].identity_number;
+//                        document.getElementById('booker_id_number').readOnly = true;
+//                        document.getElementById('booker_country_of_issued').value = passenger_data[sequence].identities[i].identity_country_of_issued_name;
+//                        document.getElementById('booker_country_of_issued').readOnly = true;
+//                        document.getElementById('booker_exp_date').value = passenger_data[sequence].identities[i].identity_expdate;
+//                        document.getElementById('booker_exp_date').readOnly = true;
+//                        break;
+//                    }
+//                }else if(product == 'train'){
+//                    for(i in passenger_data[sequence].identities){
+//                        document.getElementById('booker_id_type').value = i;
+//                        document.getElementById('booker_id_type').readOnly = true;
+//                        document.getElementById('booker_id_number').value = passenger_data[sequence].identities[i].identity_number;
+//                        document.getElementById('booker_id_number').readOnly = true;
+//                        document.getElementById('booker_country_of_issued').value = passenger_data[sequence].identities[i].identity_country_of_issued_name;
+//                        document.getElementById('booker_country_of_issued').readOnly = true;
+//                        document.getElementById('booker_exp_date').value = passenger_data[sequence].identities[i].identity_expdate;
+//                        document.getElementById('booker_exp_date').readOnly = true;
+//                        break;
+//                    }
+//
+//                }else if(product == 'airline' || product == 'visa' || product == 'activity' || product == 'tour'){
+//                    if(passenger_data[sequence].identities.hasOwnProperty('passport') == true){
+//
+//                        document.getElementById('booker_id_number').value = passenger_data[sequence].identities.passport.identity_number;
+//                        document.getElementById('booker_id_number').readOnly = true;
+//                        document.getElementById('booker_country_of_issued').value = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
+//                        document.getElementById('booker_country_of_issued').readOnly = true;
+//                        document.getElementById('booker_exp_date').value = passenger_data[sequence].identities.passport.identity_expdate;
+//                        document.getElementById('booker_exp_date').readOnly = true;
+//                        try{
+//                            document.getElementById('booker_id_type').value = 'passport';
+//                            document.getElementById('booker_id_type').readOnly = true;
+//                        }catch(err){}
+//                    }
+//                }
+                //$("#corporate_booker").attr('data-tooltip', '');
+                document.getElementById('corporate_booker').style.display = 'none';
+                if(passenger_data[sequence].customer_parents.length != 0){
+                    corporate_booker_temp = ''
+                    for(j in passenger_data[sequence].customer_parents){
+                        corporate_booker_temp += passenger_data[sequence].customer_parents[j].name + ' ' + passenger_data[sequence].customer_parents[j].currency + ' ' + getrupiah(passenger_data[sequence].customer_parents[j].actual_balance) + '\n';
+                    }
+                    //$("#corporate_booker").attr('data-tooltip', corporate_booker_temp);
+                    document.getElementById('corporate_booker').style.display = 'block';
+
+                    new jBox('Tooltip', {
+                        attach: '#corporate_booker',
+                        theme: 'TooltipBorder',
+                        width: 280,
+                        position: {
+                          x: 'center',
+                          y: 'bottom'
+                        },
+                        closeOnMouseleave: true,
+                        animation: 'zoomIn',
+                        content: corporate_booker_temp
+                    });
+                }
+                auto_complete('contact_nationality');
+                document.getElementById('contact_id').value = passenger_data[sequence].seq_id;
+                //untuk booker check
+                passenger_data_pick.push(passenger_data[sequence]);
+                passenger_data_pick[passenger_data_pick.length-1].sequence = 'contact';
                 $('#myModal').modal('hide');
                 document.getElementById('search_result').innerHTML = '';
             }else{

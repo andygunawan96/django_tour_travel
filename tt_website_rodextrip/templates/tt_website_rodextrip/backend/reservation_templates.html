@@ -579,6 +579,8 @@
             document.getElementById('gotobooking'+key).action = '/mitra_keluarga/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'sentramedika'){
             document.getElementById('gotobooking'+key).action = '/sentra_medika/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'groupbooking'){
+            document.getElementById('gotobooking'+key).action = '/group_booking/booking/' + btoa(data_search[key].order_number);
         }
         document.getElementById('gotobooking'+key).submit();
     }
