@@ -744,8 +744,9 @@ function get_carrier_code_list(type, val){
            airline_provider_list = msg;
            text=`<div class="row"><div class="col-lg-12" style="overflow-y:auto;overflow-x:hidden;height:235px;">`;
            if(type == 'groupbooking'){
+               list_carrier = ['JT','GA','AK','QG']
                for(i in msg){
-                    if(msg[i].hasOwnProperty('is_excluded_from_b2c') && msg[i].is_excluded_from_b2c != true || user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                    if(list_carrier.includes(i)){
                         text+=`
                             <li>
                                 <label class="radio-button-custom crlabel">
