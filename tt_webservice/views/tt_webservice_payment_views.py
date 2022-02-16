@@ -126,6 +126,8 @@ def get_payment_acquirer(request):
         url_post = 'booking/sentra_medika'
     elif request.POST['type'] == 'insurance' or request.POST['type'] == 'insurance_review':
         url_post = 'booking/insurance'
+    elif request.POST['type'] == 'groupbooking':
+        url_post = 'booking/group_booking'
     url_request = url + url_post
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:

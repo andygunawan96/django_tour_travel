@@ -1,0 +1,789 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_group_booking.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/xlsx/xlsx.full.min.js"></script>
+<script src="{{ static_path }}js/xlsx/jszip.js"></script>
+<script>
+    static_path_url_server = '{{static_path_url_server}}';
+    order_number = '{{order_number}}';
+    id_types = [];
+    cabin_class_types = [];
+    {% for id_type in id_types%}
+        id_types.push(['{{id_type.0}}', '{{id_type.1}}']);
+    {% endfor %}
+    {% for cabin_class_type in cabin_class_types%}
+        cabin_class_types.push(['{{cabin_class_type.0}}', '{{cabin_class_type.1}}']);
+    {% endfor %}
+</script>
+{% include 'tt_website_rodextrip/logout.html' %}
+{% include 'tt_website_rodextrip/loading_screen.html' %}
+{% include 'tt_website_rodextrip/check_connection.html' %}
+{% include 'tt_website_rodextrip/modal_balance_vendor.html' %}
+<div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
+<title id="title_search">{{name}} {% trans 'Group' %} - {% trans 'Booking' %}</title>
+{%if template == 1%}
+<header id="header" class="header_breadcrumb">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    {% include 'tt_website_rodextrip/header_corporate.html' %}
+    {% endif %}
+
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+</header>
+{% else %}
+<header class="header_breadcrumb" style="z-index:100; border-bottom:1px solid #cdcdcd;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+</header>
+{% endif %}
+{% include 'tt_website_rodextrip/waiting_transaction_modal.html' %}
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
+                <button type="button" class="primary-btn-white for-show-website-inb mb-2 mr-1" onclick="window.location.href='/reservation'"> <i class="fas fa-arrow-left"></i> Back to Reservation</button>
+                <button type="button" class="primary-btn-white for-show-website-inb mb-2" id="button-home" onclick="window.location.href='/'" hidden>
+                    <i class="fas fa-home"></i> {% trans 'Back to Home' %}
+                </button>
+                <button type="button" class="primary-btn-white for-show-mobile-inb mb-2 mr-1" onclick="window.location.href='/reservation'"> <i class="fas fa-arrow-left"></i></button>
+                <button type="button" class="primary-btn-white for-show-mobile-inb mb-2" id="button-home-mb" onclick="window.location.href='/'" hidden>
+                    <i class="fas fa-home"></i>
+                </button>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7" style="text-align:right;">
+                <button type="button" class="primary-btn-white mb-2" style="font-size:13px;" id="button-new-reservation" onclick="window.location.href='/'+window.location.href.split('/')[3]" hidden>
+                    <i class="fas fa-plus"></i> {% trans 'New Reservation' %}
+                </button>
+            </div>
+            <div class="col-lg-2 offset-lg-3" id="div_sync_status" hidden>
+                <input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Sync Status" onclick="please_wait_transaction();group_booking_get_booking('{{order_number}}',true)">
+            </div>
+            <div class="col-lg-4">
+
+            </div>
+
+        </div>
+        <div class="mt-3" id="show_title_group_booking" hidden>
+            <h3>{% trans 'Please Review Your Booking' %}</h3>
+            <h4>{% trans 'Prices may changes at any time' %}</h4>
+            <br/>
+        </div>
+        <div class="col-lg-12" id="show_loading_booking_group_booking">
+            <div class="center-div">
+                <div>
+                    <img src="{{static_path}}img/loading-screen-white.gif" style="height:25px; width:25px;"/>
+                </div>
+            </div>
+            <div style="text-align:center">
+                <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} ... </span>
+            </div>
+        </div>
+        <div class="alert alert-warning" id="show_error_booking_airline" style="display:none;">
+            <h5>{% trans 'Oops! Something went wrong, please try again or check your internet connection.' %}</h5>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="row">
+                    <input type="text" id="order_number" name="order_number" hidden value="{{order_number}}"/>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12" id="alert-state">
+
+                    </div>
+                </div>
+
+                <div id="group_booking">
+
+                </div>
+
+                <div style="text-align:left; margin-top:20px; margin-bottom:15px;" hidden id="list_of_pax">
+                    <h4>List of Passenger</h4><hr/>
+                    <div id="btn_pax" style="display:none;">
+                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_passenger('open');"><i class="fas fa-plus"></i> Add</button>
+                        <!--<button class="primary-btn-ticket" type="button" onclick="delete_table_of_passenger();"><i class="fas fa-trash-alt"></i> Delete</button>-->
+                        <button class="primary-btn-ticket" type="button" onclick="window.open('{{ static_path }}js/xlsx/import_groupbooking_template.xlsx')"><i class="fas fa-file-download"></i> Download</button>
+                        <input class="primary-btn-ticket" id="fileUpload" type="file" accept=".xlsx">
+                        <button class="primary-btn-ticket" type="button" onclick="Upload();"><i class="fas fa-file-upload"></i> Upload file</button>
+                    </div>
+                    <div style="margin-top:15px;">
+                        <table id="table_of_passenger" name="table_of_passenger" style="width:100%;" class="list-of-table">
+                            <tr>
+                                <th style="width:5%;">No</th>
+                                <th style="width:40%;">Name</th>
+                                <th style="width:35%;">Birth Date</th>
+                                <th style="width:15%;"></th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div id="btn_print">
+
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <button id="book_btn_group_booking" class="primary-btn-ticket" type="button" style="width:100%; display:none;" onclick="change_state_to_booked()">
+                    {% trans 'Book Now' %}
+                </button>
+                <div id="group_booking_detail">
+
+                </div>
+
+                {% if 'issued_reservation' in username.co_agent_frontend_security %}
+                {% include 'tt_website_rodextrip/voucher_code.html'  %}
+                {% endif %}
+
+                <div class="alert alert-danger" style="border:1px solid #cdcdcd;" id="cancel" hidden>
+
+                </div>
+
+
+
+                {% if 'issued_reservation' in username.co_agent_frontend_security %}
+                <button id="issued_btn_group_booking" class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; display:none;" onclick="focus_box('payment_acq');">
+                    {% trans 'Issued Booking' %}
+                </button>
+                {% endif %}
+
+                <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:15px; position:relative;" id="payment_acq" hidden>
+
+                </div>
+            </div>
+
+            <div id="issuedModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 style="color:{{text_color}}">{% trans 'Payment Option' %}</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body" id="modal_issued_groupbooking">
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="group_booking_issued_booking();" style="width:100%;">
+                                {% trans 'Confirm' %} <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="myModalRepricing" role="dialog">
+                <div class="modal-dialog" style="width:100% !important; height:100% !important; max-width:1200px;padding: 0;">
+
+                    <!-- Modal content-->
+                    <div class="modal-content" style="border-radius: 0;">
+                        <div class="modal-header">
+                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Reprice Change' %} <i class="fas fa-money"></i></h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="row" id="pricing" style="padding:15px;">
+                                        <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                        <h4 style="padding-top:10px;">{% trans 'Pricing' %}</h4>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <select id="repricing_type" name="repricing_type" class="nice-select-default" onchange="reset_repricing();">
+                                                            <option value="passenger">Passenger</option>
+                                                            <option value="booker">Booker</option>
+                                                        </select>
+                                                    </div>
+                                                <div class="col-lg-12" style="text-align:right;">
+                                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation();"><i class="fas fa-plus-circle"></i></button>
+                                                    <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div style="padding:10px;" id="table_of_equation">
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
+                                                    <hr/>
+                                                    <center>
+                                                        <input class="primary-btn-ticket" type="button" onclick="calculate('groupbooking');" value="Calculate">
+                                                    </center>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="row" style="padding:15px;">
+                                        <div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd; margin-top:15px;">
+                                            <h4>{% trans 'Result Pricing' %}</h4>
+                                            <hr/>
+                                            <div class="row" id="repricing_div">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="myModalTicket" role="dialog" data-keyboard="false">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Ticket</h4>
+                            <button type="button" class="close" data-dismiss="modal" onclick="modal('ticket','false')">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="ticket_content">
+
+                            </div>
+                            <div id="ticket_list">
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="primary-btn-ticket" data-dismiss="modal" onclick="choose_ticket()">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="myModalBooker" role="dialog" data-keyboard="false">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Booker</h4>
+                            <button type="button" class="close" data-dismiss="modal" onclick="modal('booker',false);">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                <label class="radio-button-custom">
+                                    <span style="font-size:14px;">Search</span>
+                                    <input type="radio" checked="checked" name="radio_booker" value="search" onclick="radio_button('booker');">
+                                    <span class="checkmark-radio"></span>
+                                </label>
+                                <label class="radio-button-custom">
+                                    <span style="font-size:14px;">Input Booker</span>
+                                    <input type="radio" name="radio_booker" value="create" onclick="radio_button('booker');">
+                                    <span class="checkmark-radio"></span>
+                                </label>
+                            </div>
+                            <div id="booker_content">
+                                <div id="train_booker_search_div">
+                                    <div class="row">
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                            <input class="form-control" type="text" id="train_booker_search" placeholder="Search"/>
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                            <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','1','group_booking')">Search</button>
+                                        </div>
+                                    </div>
+                                    <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
+
+                                    </div>
+                                </div>
+                                <div id="booker_input" style="background-color:white; padding:10px; border:1px solid #cdcdcd;" hidden>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h4>Booker Information</h4>
+                                            <hr/>
+                                        </div>
+                                        <!--<div class="col-lg-6" style="text-align:left;">-->
+                                            <!--<label>Booker Type :</label><br/>-->
+                                            <!--<label class="radio-button-custom">-->
+                                                <!--Corporate-->
+                                                <!--<input type="radio" checked="checked" name="radio-booker-type">-->
+                                                <!--<span class="checkmark-radio"></span>-->
+                                            <!--</label>-->
+                                            <!--<label class="radio-button-custom">-->
+                                                <!--Individual-->
+                                                <!--<input type="radio" name="radio-booker-type">-->
+                                                <!--<span class="checkmark-radio"></span>-->
+                                            <!--</label>-->
+                                        <!--</div>-->
+                                        <!--<div class="col-lg-6" style="text-align:right;">-->
+                                        <!--</div>-->
+
+                                        <div class="modal fade" id="myModal" role="dialog">
+                                            <div class="modal-dialog">
+
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" style="color:{{text_color}};">Booker List <i class="fas fa-address-card"></i></h4>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('booker','');">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <input class="form-control" type="text" id="train_booker_search" placeholder="Search"/>
+                                                            </div>
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <button type="button" class="primary-btn" class="btn btn-default" onclick="get_customer_list('booker','1','train')">Search <i class="fas fa-search"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" id="loading-booker-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <div class="sk-circle">
+                                                                    <div class="sk-circle1 sk-child"></div>
+                                                                    <div class="sk-circle2 sk-child"></div>
+                                                                    <div class="sk-circle3 sk-child"></div>
+                                                                    <div class="sk-circle4 sk-child"></div>
+                                                                    <div class="sk-circle5 sk-child"></div>
+                                                                    <div class="sk-circle6 sk-child"></div>
+                                                                    <div class="sk-circle7 sk-child"></div>
+                                                                    <div class="sk-circle8 sk-child"></div>
+                                                                    <div class="sk-circle9 sk-child"></div>
+                                                                    <div class="sk-circle10 sk-child"></div>
+                                                                    <div class="sk-circle11 sk-child"></div>
+                                                                    <div class="sk-circle12 sk-child"></div>
+                                                                </div>
+                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="primary-btn-ticket" data-dismiss="modal" onclick="clear_search_pax('booker','');">Confirm</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
+                                            <div class="input-container-search-ticket">
+                                                <label class="check_box_custom">
+                                                    <span class="span-search-ticket" style="color:black;">{% trans 'Make this to Contact Person' %}</span>
+                                                    <input type="checkbox" id="booker_cp" name="booker_cp" />
+                                                    <span class="check_box_span_custom"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
+                                        </div>
+
+                                        <div class="col-lg-6 col-xs-6">
+                                            <label style="color:red">*</label>
+                                            <label>Title</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select-2" id="default-select">
+                                                    <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('issued_offline');">
+                                                        {% for title in adult_title%}
+                                                        <option>{{title}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                            <div class="row" style="margin:0">
+                                                <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
+                                                <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> Corporate Booker</button>
+                                                <div class="modal fade" id="myModalHelp" role="dialog">
+                                                    <div class="modal-dialog">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title" style="color:{{text_color}};">Help <i class="fas fa-address-card"></i></h4>
+                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="col-sm-12">
+                                                                    <center><img src="/static/tt_website_rodextrip/img/id_card.png" alt="ID Card" style="width:100%; height:100%;"></center>
+                                                                </div>
+                                                                <div>
+                                        <p>1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).</p>
+                                        <p>2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.</p>
+                                        <p>3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.</p>
+                                    </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="primary-btn-ticket" data-dismiss="modal">Confirm</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label style="color:red">*</label>
+                                            <label>First name and middle name (if any)</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" onchange="capitalizeInput('booker_first_name'); change_booker_value('issued_offline');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
+                                                <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
+                                                <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
+                                                <input type="hidden" class="form-control" name="booker_exp_date" id="booker_exp_date" />
+                                                <input type="hidden" class="form-control" name="booker_country_of_issued" id="booker_country_of_issued" />
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label>Last name</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" onchange="capitalizeInput('booker_last_name'); change_booker_value('issued_offline');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
+                                            <label>Nationality</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality');change_booker_value('issued_offline');" class="nice-select-default">
+                                                        {% for country in countries %}
+                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="booker_nationality" id="booker_nationality" />
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
+                                            <label>Contact Email Address</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('issued_offline');">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">Example: email@example.com</label>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
+                                            <label style="margin:0;">Contact Person for Urgent Situation</label>
+                                            <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('issued_offline');" class="nice-select-default">
+                                                            {% for phone in phone_code %}
+                                                            <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
+                                                </div>
+                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                    <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('phone');change_booker_value('issued_offline');">
+                                                    <input type="hidden" class="form-control" name="booker_id" id="booker_id">
+                                                </div>
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">Example: 812345678</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="primary-btn-ticket" data-dismiss="modal" onclick="group_booking_update_booker();">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="myModalContact" role="dialog" data-keyboard="false">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Contact</h4>
+                            <button type="button" class="close" data-dismiss="modal" onclick="modal('contact',false);">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                <label class="radio-button-custom">
+                                    <span style="font-size:14px;">Search</span>
+                                    <input type="radio" checked="checked" name="radio_contact" value="search" onclick="radio_button('contact');">
+                                    <span class="checkmark-radio"></span>
+                                </label>
+                                <label class="radio-button-custom">
+                                    <span style="font-size:14px;">Input Contact</span>
+                                    <input type="radio" name="radio_contact" value="create" onclick="radio_button('contact');">
+                                    <span class="checkmark-radio"></span>
+                                </label>
+                            </div>
+                            <div id="contact_content">
+                                <div id="train_contact_search_div">
+                                    <div class="row">
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                            <input class="form-control" type="text" id="train_contact_search" placeholder="Search"/>
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                            <button type="button" id="contact_search" class="primary-btn" onclick="get_customer_list('contact','1','group_booking')">Search</button>
+                                        </div>
+                                    </div>
+                                    <div id="search_contact_result" style="max-height:600px; overflow:auto; padding:15px;">
+
+                                    </div>
+                                </div>
+                                <div id="contact_input" style="background-color:white; padding:10px; border:1px solid #cdcdcd;" hidden>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h4>Contact Information</h4>
+                                            <hr/>
+                                        </div>
+
+                                        <div class="modal fade" id="myModal" role="dialog">
+                                            <div class="modal-dialog">
+
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" style="color:{{text_color}};">Contact List <i class="fas fa-address-card"></i></h4>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('contact','');">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <input class="form-control" type="text" id="train_contact_search" placeholder="Search"/>
+                                                            </div>
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <button type="button" class="primary-btn" class="btn btn-default" onclick="get_customer_list('contact','1','train')">Search <i class="fas fa-search"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" id="loading-contact-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <div class="sk-circle">
+                                                                    <div class="sk-circle1 sk-child"></div>
+                                                                    <div class="sk-circle2 sk-child"></div>
+                                                                    <div class="sk-circle3 sk-child"></div>
+                                                                    <div class="sk-circle4 sk-child"></div>
+                                                                    <div class="sk-circle5 sk-child"></div>
+                                                                    <div class="sk-circle6 sk-child"></div>
+                                                                    <div class="sk-circle7 sk-child"></div>
+                                                                    <div class="sk-circle8 sk-child"></div>
+                                                                    <div class="sk-circle9 sk-child"></div>
+                                                                    <div class="sk-circle10 sk-child"></div>
+                                                                    <div class="sk-circle11 sk-child"></div>
+                                                                    <div class="sk-circle12 sk-child"></div>
+                                                                </div>
+                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="primary-btn-ticket" data-dismiss="modal" onclick="clear_search_pax('contact','');">Confirm</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-xs-6">
+                                            <label style="color:red">*</label>
+                                            <label>Title</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select-2" id="default-select">
+                                                    <select id="contact_title" name="contact_title" class="nice-select-default" onchange="change_contact_value('issued_offline');">
+                                                        {% for title in adult_title%}
+                                                        <option>{{title}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                            <div class="row" style="margin:0">
+                                                <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
+                                                <button type="button" class="tooltip-inner" style="display:none" id="corporate_contact" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> Corporate contact</button>
+                                                <div class="modal fade" id="myModalHelp" role="dialog">
+                                                    <div class="modal-dialog">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title" style="color:{{text_color}};">Help <i class="fas fa-address-card"></i></h4>
+                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="col-sm-12">
+                                                                    <center><img src="/static/tt_website_rodextrip/img/id_card.png" alt="ID Card" style="width:100%; height:100%;"></center>
+                                                                </div>
+                                                                <div>
+                                                                    <p>1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).</p>
+                                                                    <p>2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.</p>
+                                                                    <p>3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="primary-btn-ticket" data-dismiss="modal">Confirm</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label style="color:red">*</label>
+                                            <label>First name and middle name (if any)</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" onchange="capitalizeInput('contact_first_name'); change_contact_value('issued_offline');" class="form-control" name="contact_first_name" id="contact_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="hidden" class="form-control" name="contact_birth_date" id="contact_birth_date" />
+                                                <input type="hidden" class="form-control" name="contact_id_type" id="contact_id_type" />
+                                                <input type="hidden" class="form-control" name="contact_id_number" id="contact_id_number" />
+                                                <input type="hidden" class="form-control" name="contact_exp_date" id="contact_exp_date" />
+                                                <input type="hidden" class="form-control" name="contact_country_of_issued" id="contact_country_of_issued" />
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label>Last name</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" onchange="capitalizeInput('contact_last_name'); change_contact_value('issued_offline');" class="form-control" name="contact_last_name" id="contact_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
+                                            <label>Nationality</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="contact_nationality_id" style="width:100%;" id="contact_nationality_id" placeholder="Nationality" onchange="auto_complete('contact_nationality');change_contact_value('issued_offline');" class="nice-select-default">
+                                                        {% for country in countries %}
+                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="contact_nationality" id="contact_nationality" />
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
+                                            <label>Contact Email Address</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="contact_email" id="contact_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_contact_value('issued_offline');">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">Example: email@example.com</label>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
+                                            <label style="margin:0;">Contact Person for Urgent Situation</label>
+                                            <label style="font-size:10px; color:red;">(Must be filled with contact's mobile on first registration)</label>
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="contact_phone_code_id" style="width:100%;" id="contact_phone_code_id" onchange="auto_complete('contact_phone_code');change_contact_value('issued_offline');" class="nice-select-default">
+                                                            {% for phone in phone_code %}
+                                                            <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <input type="hidden" name="contact_phone_code" id="contact_phone_code" />
+                                                </div>
+                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                    <input type="text" class="form-control" name="contact_phone" id="contact_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_contact_value('phone');change_contact_value('issued_offline');">
+                                                    <input type="hidden" class="form-control" name="contact_id" id="contact_id">
+                                                </div>
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">Example: 812345678</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="primary-btn-ticket" data-dismiss="modal" onclick="group_booking_update_contact();">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% include 'tt_website_rodextrip/footer.html' %}
+
+<script>
+    try{
+        document.getElementById('voucher_discount').style.display = 'none';
+    }catch(err){
+        console.log(err);// error tidak ada element voucher
+    }
+    group_booking_signin('{{order_number}}');
+    $( document ).ready(function() {
+        breadcrumb_create("group_booking", 6, 1);
+    });
+    function goto_seat_map(){
+        document.getElementById('seat_map_request').innerHTML += `{% csrf_token %}`;
+        document.getElementById('seat_map_request').submit();
+    }
+</script>
+{% endblock %}
+
+
+<!--<div class="col-lg-4" style="padding-bottom:10px;">-->
+<!--    <a href="/bus/seat_map" id="seat-map-link"><input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Choose Seat" onclick="bus_create_booking();" /></a>-->
+<!--</div>-->
+<!--<div class="col-lg-4" style="padding-bottom:10px;">-->
+<!--    <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="" />-->
+<!--</div>-->
+<!--<div class="col-lg-4" style="padding-bottom:10px;">-->
+<!--    <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Issued" onclick="bus_issued_booking();" />-->
+<!--</div>-->
