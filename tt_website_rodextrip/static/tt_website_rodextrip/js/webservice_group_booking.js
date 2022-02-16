@@ -3211,6 +3211,7 @@ function add_table_of_passenger(type, data){
             name = title + ' ' + first_name + ' ' + last_name;
 
         }else{
+            pax_type = '';
             title = '';
             first_name = '';
             last_name = '';
