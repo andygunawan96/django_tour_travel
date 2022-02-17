@@ -230,7 +230,7 @@ li > a:only-child:after { content: ''; }
 
 	#logo {
 		display: block;
-		padding: 0;
+		padding: 0px 15px 5px 15px;
 		width: 100%;
 		text-align: center;
 		float: none;

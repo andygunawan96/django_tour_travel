@@ -117,10 +117,10 @@
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                    <span style="font-size:13px; font-weight:500; padding-right:5px;"><i class="fas fa-stopwatch"></i> {% trans 'Session Time' %}: </span><span class="count_time" id="session_time"></span>
+                    <span style="font-size:13px; font-weight:500; padding-right:0px;"><i class="fas fa-stopwatch"></i> {% trans 'Session Time' %}: </span><span class="count_time" id="session_time"></span>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                    <span style="font-size:13px; font-weight:500; padding-right:5px;"><i class="fas fa-clock"></i> {% trans 'Elapsed Time' %}: <span class="count_time" id="elapse_time"> </span></span>
+                    <span style="font-size:13px; font-weight:500; padding-right:0px;"><i class="fas fa-clock"></i> {% trans 'Elapsed Time' %}: <span class="count_time" id="elapse_time"> </span></span>
                 </div>
                 {% include 'tt_website_rodextrip/balance_credit.html' %}
             </div>
@@ -210,7 +210,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
@@ -223,7 +223,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <div class="row" style="margin:0">
                                                 <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
                                                 <div class="modal fade" id="myModalHelp" role="dialog">
@@ -397,10 +397,10 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <div class="col-lg-7 col-md-7 col-sm-7">
                                                                     <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <div class="col-lg-5 col-md-5 col-sm-5">
                                                                     <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">{% trans 'Search' %}</button>
                                                                 </div>
                                                             </div>
@@ -430,7 +430,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
@@ -443,7 +443,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -677,10 +677,10 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                            <div class="col-lg-7 col-md-7 col-sm-7">
                                                                 <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5">
                                                                 <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline')">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
@@ -709,7 +709,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
@@ -722,7 +722,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_child{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_child{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -921,10 +921,10 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row" >
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                            <div class="col-lg-7 col-md-7 col-sm-7">
                                                                 <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5">
                                                                 <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline')">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
@@ -953,7 +953,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
@@ -966,7 +966,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_infant{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_infant{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -1286,7 +1286,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-6 col-xs-6">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                                     <label style="color:red">*</label>
                                                     <label>{% trans 'Title' %}</label>
                                                     <select id="booker_title" name="booker_title" class="form-control" style="margin-bottom:0px;">
@@ -1295,7 +1295,7 @@
                                                         {% endfor %}
                                                     </select>
                                                 </div>
-                                                <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                                     <div class="row" style="margin:0">
                                                         <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
                                                         <div class="modal fade" id="myModalHelp" role="dialog">
@@ -1464,10 +1464,10 @@
                                                                 </div>
                                                                 <div class="modal-body" style="text-align:left;">
                                                                     <div class="row">
-                                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                        <div class="col-lg-7 col-md-7 col-sm-7">
                                                                             <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                                         </div>
-                                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                        <div class="col-lg-5 col-md-5 col-sm-5">
                                                                             <button type="button" class="primary-btn" id="search_adult_{{forloop.counter}}" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>
                                                                         </div>
                                                                     </div>
@@ -1497,7 +1497,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-xs-6">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                                     <label style="color:red">*</label>
                                                     <label>{% trans 'Title' %}</label>
                                                     <div class="input-container-search-ticket">
@@ -1508,7 +1508,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                                     <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                                     <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                                         <div class="modal-dialog">
@@ -1734,10 +1734,10 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
-                                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                    <div class="col-lg-7 col-md-7 col-sm-7">
                                                                         <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                                     </div>
-                                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                    <div class="col-lg-5 col-md-5 col-sm-5">
                                                                         <button type="button" class="primary-btn" id="search_child_{{forloop.counter}}" onclick="get_customer_list('child',{{forloop.counter}}, 'airline')">Search</button>
                                                                     </div>
                                                                 </div>
@@ -1766,7 +1766,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-xs-6">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                                     <label style="color:red">*</label>
                                                     <label>{% trans 'Title' %}</label>
                                                     <div class="input-container-search-ticket">
@@ -1777,7 +1777,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                                     <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_child{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                                     <div class="modal fade" id="myModalHelp_child{{forloop.counter}}" role="dialog">
                                                         <div class="modal-dialog">
@@ -1968,10 +1968,10 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row" >
-                                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                    <div class="col-lg-7 col-md-7 col-sm-7">
                                                                         <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                                     </div>
-                                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                    <div class="col-lg-5 col-md-5 col-sm-5">
                                                                         <button type="button" id="search_infant_{{forloop.counter}}" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline')">{% trans 'Search' %}</button>
                                                                     </div>
                                                                 </div>
@@ -2000,7 +2000,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-xs-6">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                                     <label style="color:red">*</label>
                                                     <label>{% trans 'Title' %}</label>
                                                     <div class="input-container-search-ticket">
@@ -2011,7 +2011,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                                     <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_infant{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                                     <div class="modal fade" id="myModalHelp_infant{{forloop.counter}}" role="dialog">
                                                         <div class="modal-dialog">
@@ -2325,7 +2325,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6 col-sm-6 col-xs-8">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="form-group">
@@ -2338,7 +2338,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-sm-6 col-xs-4" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <div class="form-group">
                                                 <div class="row" style="margin:0">
                                                     <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
@@ -2514,10 +2514,10 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <div class="col-lg-7 col-md-7 col-sm-7">
                                                                     <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <div class="col-lg-5 col-md-5 col-sm-5">
                                                                     <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">{% trans 'Search' %}</button>
                                                                 </div>
                                                             </div>
@@ -2547,7 +2547,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="form-group">
@@ -2560,7 +2560,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <div class="form-group">
                                                 <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             </div>
@@ -2799,10 +2799,10 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                            <div class="col-lg-7 col-md-7 col-sm-7">
                                                                 <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5">
                                                                 <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline')">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
@@ -2831,7 +2831,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-sm-6 col-xs-8">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="form-group">
@@ -2844,7 +2844,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-sm-6 col-xs-4" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <div class="form-group">
                                                 <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_child{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             </div>
@@ -3045,10 +3045,10 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row" >
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                            <div class="col-lg-7 col-md-7 col-sm-7">
                                                                 <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5">
                                                                 <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline')">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
@@ -3077,7 +3077,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-sm-6 col-xs-8">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="form-group">
@@ -3090,7 +3090,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-sm-6 col-xs-4" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <div class="form-group">
                                                 <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_infant{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             </div>
@@ -3415,7 +3415,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-6 col-xs-6">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Title' %}</label>
                                         <div class="input-container-search-ticket">
@@ -3428,7 +3428,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                         <div class="row" style="margin:0">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp" role="dialog">
@@ -3635,7 +3635,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-xs-6">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Title' %}</label>
                                         <div class="input-container-search-ticket">
@@ -3648,7 +3648,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                         <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                         <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                             <div class="modal-dialog">
@@ -3916,7 +3916,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-xs-6">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Title' %}</label>
                                         <div class="input-container-search-ticket">
@@ -3929,7 +3929,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                         <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_child{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                         <div class="modal fade" id="myModalHelp_child{{forloop.counter}}" role="dialog">
                                             <div class="modal-dialog">
@@ -4160,7 +4160,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-xs-6">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Title' %}</label>
                                         <div class="input-container-search-ticket">
@@ -4173,7 +4173,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                         <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_infant{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                         <div class="modal fade" id="myModalHelp_infant{{forloop.counter}}" role="dialog">
                                             <div class="modal-dialog">
@@ -4377,7 +4377,7 @@
 </section>
 
 {% elif template == 5 %}
-<header class="header_breadcrumb" style="background:white;">
+<header class="header_breadcrumb" style="background:white; padding-top:unset; padding-bottom:unset;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
     {% include 'tt_website_rodextrip/header_corporate.html' %}
     {% endif %}
@@ -4485,7 +4485,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
@@ -4498,7 +4498,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp" role="dialog">
                                                 <div class="modal-dialog">
@@ -4703,7 +4703,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
@@ -4716,7 +4716,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -4984,7 +4984,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
@@ -4997,7 +4997,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_child{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_child{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -5204,7 +5204,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
@@ -5217,7 +5217,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_infant{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_infant{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -5557,7 +5557,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
@@ -5570,7 +5570,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:25px;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:25px;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp" role="dialog">
                                                 <div class="modal-dialog">
@@ -5775,7 +5775,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
@@ -5788,7 +5788,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:25px;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:25px;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -6056,7 +6056,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
@@ -6069,7 +6069,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:25px;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:25px;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_child{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_child{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -6276,7 +6276,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
@@ -6289,7 +6289,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:25px;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:25px;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_infant{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_infant{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">

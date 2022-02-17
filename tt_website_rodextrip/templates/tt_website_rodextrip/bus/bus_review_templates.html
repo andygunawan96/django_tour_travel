@@ -43,10 +43,10 @@
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                    <span style="font-size:13px; font-weight:500; padding-right:5px;"><i class="fas fa-stopwatch"></i> {% trans 'Session Time' %}: </span><span class="count_time" id="session_time"></span>
+                    <span style="font-size:13px; font-weight:500; padding-right:0px;"><i class="fas fa-stopwatch"></i> {% trans 'Session Time' %}: </span><span class="count_time" id="session_time"></span>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                    <span style="font-size:13px; font-weight:500; padding-right:5px;"><i class="fas fa-clock"></i> {% trans 'Elapsed Time' %}: <span class="count_time" id="elapse_time"> </span></span>
+                    <span style="font-size:13px; font-weight:500; padding-right:0px;"><i class="fas fa-clock"></i> {% trans 'Elapsed Time' %}: <span class="count_time" id="elapse_time"> </span></span>
                 </div>
             </div>
             <div class="row">
@@ -59,7 +59,7 @@
     {% endif %}
 </header>
 {%elif template == 5%}
-<header id="header" class="header_breadcrumb">
+<header id="header" class="header_breadcrumb" style="padding-top:unset; padding-bottom:unset;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
     {% include 'tt_website_rodextrip/header_corporate.html' %}
     {% endif %}

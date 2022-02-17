@@ -160,6 +160,7 @@ $(document).ready(function(){
         if(template != 6){
             document.getElementById("overlay-search-box").style.display = "block";
             document.getElementById("div-search-overlay").style.zIndex = "3";
+            document.getElementById("change_search_box").style.zIndex = "100";
             if(div_overlay_checked == 1){
                 $('html, body').animate({
                     scrollTop: $("#div-search-overlay").offset().top - 110
@@ -2955,6 +2956,7 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
 function off_overlay() {
     document.getElementById("overlay-search-box").style.display = "none";
     document.getElementById("div-search-overlay").style.zIndex = "1";
+    document.getElementById("change_search_box").style.zIndex = "98";
     div_overlay_checked = 0;
 }
 
