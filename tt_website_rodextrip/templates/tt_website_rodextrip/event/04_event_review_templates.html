@@ -59,6 +59,35 @@
     {% include 'tt_website_rodextrip/header_signin_signup.html' %}
     {% endif %}
 </header>
+{% elif template == 5 %}
+<header id="header" class="header_breadcrumb">
+    {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+    {% include 'tt_website_rodextrip/header_corporate.html' %}
+    {% endif %}
+
+    <div class="container">
+        <div class="row align-items-center justify-content-between d-flex">
+            <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
+                <span style="font-size:13px; font-weight:500; padding-right:5px;"><i class="fas fa-stopwatch"></i> {% trans 'Session Time' %}: </span><span class="count_time" id="session_time"></span>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
+                <span style="font-size:13px; font-weight:500; padding-right:5px;"><i class="fas fa-clock"></i> {% trans 'Elapsed Time' %}: <span class="count_time" id="elapse_time"> </span></span>
+            </div>
+            {% include 'tt_website_rodextrip/balance_credit.html' %}
+        </div>
+    </div>
+    {% if username.co_user_login == 'agent_b2c' %}
+    {% include 'tt_website_rodextrip/header_signin_signup.html' %}
+    {% endif %}
+</header>
 {% elif template == 6 %}
 <header class="header_breadcrumb" style="padding:unset; z-index:100; border-bottom:1px solid #cdcdcd;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
@@ -271,32 +300,36 @@
                                         <h4> {% trans 'Contact Person' %} <i class="fas fa-users"></i></h4>
                                         <hr/>
                                         <h5>{% trans 'Booker' %}</h5>
-                                        <table style="width:100%; margin-top:10px;" id="list-of-passenger">
-                                            <tr>
-                                                <th style="width:40%;">{% trans 'Name' %}</th>
-                                                <th style="width:30%;">Email</th>
-                                                <th style="width:30%;">{% trans 'Phone Number' %}</th>
-                                            </tr>
-                                            <tr>
-                                                <td>{{booker.title}} {{booker.first_name}} {{booker.last_name}}</td>
-                                                <td>{{booker.email}}</td>
-                                                <td>{{booker.mobile}}</td>
-                                            </tr>
-                                        </table>
+                                        <div style="overflow:auto;">
+                                            <table style="width:100%; margin-top:10px;" id="list-of-passenger">
+                                                <tr>
+                                                    <th style="width:40%;">{% trans 'Name' %}</th>
+                                                    <th style="width:30%;">Email</th>
+                                                    <th style="width:30%;">{% trans 'Phone Number' %}</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{booker.title}} {{booker.first_name}} {{booker.last_name}}</td>
+                                                    <td>{{booker.email}}</td>
+                                                    <td>{{booker.mobile}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
                                         <br/>
                                         <h5>Contact Person</h5>
-                                        <table style="width:100%; margin-top:10px;" id="list-of-passenger">
-                                            <tr>
-                                                <th>{% trans 'Name' %}</th>
-                                                <th>{% trans 'Birth Date' %}</th>
-                                            </tr>
-                                            {% for adult in adults %}
-                                            <tr>
-                                                <td>{{adult.title}} {{adult.first_name}} {{adult.last_name}}</td>
-                                                <td>{{adult.birth_date}}</td>
-                                            </tr>
-                                            {% endfor %}
-                                        </table>
+                                        <div style="overflow:auto;">
+                                            <table style="width:100%; margin-top:10px;" id="list-of-passenger">
+                                                <tr>
+                                                    <th>{% trans 'Name' %}</th>
+                                                    <th>{% trans 'Birth Date' %}</th>
+                                                </tr>
+                                                {% for adult in adults %}
+                                                <tr>
+                                                    <td>{{adult.title}} {{adult.first_name}} {{adult.last_name}}</td>
+                                                    <td>{{adult.birth_date}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

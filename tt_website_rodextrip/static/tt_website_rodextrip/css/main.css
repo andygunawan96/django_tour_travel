@@ -3275,9 +3275,10 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 @media (max-width: 991px) {
+  /*
   .single-destination {
     margin-bottom: 30px;
-  }
+  }*/
 }
 
 /*-------- end Popular-destination Area ------------*/

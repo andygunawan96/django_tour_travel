@@ -138,14 +138,14 @@
                                                 <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
                                             </div>
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                                <div class="col-lg-6 col-md-6" style="padding:0px;">
                                                     <div class="form-select">
                                                         <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
                                                             <option value="0" selected="">{% trans 'All Countries' %}</option>
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                                <div class="col-lg-6 col-md-6" style="padding:0px;">
                                                     <div class="form-select">
                                                         <div id="temp_tour_cities">
                                                             <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
@@ -164,7 +164,7 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 search_type">
+                                                <div class="col-lg-6 col-md-6 search_type">
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
                                                             <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
@@ -185,7 +185,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                                <div class="col-lg-6 col-md-6" style="padding:0px;">
                                                     <input id="tour_hidden_year" type="hidden" value=""/>
                                                     <div class="form-select">
                                                         <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
@@ -268,13 +268,13 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
                                 <div class="row">
-                                    <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
+                                    <div class="col-lg-10 col-md-9">
                                         <span class="span-search-ticket"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off"/>
+                                            <input style="margin-bottom:0px;" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off"/>
                                         </div>
                                     </div>
-                                    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
+                                    <div class="col-lg-2 col-md-3">
                                         <span class="span-search-ticket">&nbsp;</span>
                                         <div class="input-container-search-ticket">
                                             <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -283,21 +283,21 @@
                                     </div>
                                 </div>
                                 <div class="row" id="tour_advanced_search" style="display:none;">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 mb-3">
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="col-lg-6 col-md-6">
                                                 <div class="form-select">
                                                     <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
                                                         <option value="0" selected="">{% trans 'All Countries' %}</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="col-lg-6 col-md-6">
                                                 <div class="form-select">
                                                     <div id="temp_tour_cities">
                                                         <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
@@ -316,7 +316,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="col-lg-6 col-md-6">
                                                 <div class="form-select">
                                                     <select class="js-example-basic-single" onchange="" name="tour_dest_month" id="tour_dest_month" size="5" style="width:100% !important;">
                                                         <option value="00" selected="True">{% trans 'All Months' %}</option>
@@ -335,7 +335,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="col-lg-6 col-md-6">
                                                 <input id="tour_hidden_year" type="hidden" value=""/>
                                                 <div class="form-select">
                                                     <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
@@ -459,13 +459,13 @@
                                     {% csrf_token %}
                                     <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
                                     <div class="row">
-                                        <div class="col-lg-9 col-md-7 col-sm-6 col-xs-6">
+                                        <div class="col-lg-9 col-md-7">
                                             <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Tour</span>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off"/>
+                                                <input style="margin-bottom:0px;" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off"/>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-5 col-sm-6 col-xs-6">
+                                        <div class="col-lg-3 col-md-5">
                                             <span class="span-search-ticket">&nbsp;</span>
                                             <div class="form-group">
                                                 <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -474,17 +474,17 @@
                                         </div>
                                     </div>
                                     <div class="row" id="tour_advanced_search" style="display:none;">
-                                        <div class="col-lg-12">
+                                        <div class="col-lg-12 mb-3">
                                             <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                <div class="col-lg-6 col-md-6">
                                                     <div class="form-group">
                                                         <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
                                                             <option value="0" selected="">{% trans 'All Countries' %}</option>
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                <div class="col-lg-6 col-md-6">
                                                     <div class="form-group">
                                                         <div id="temp_tour_cities">
                                                             <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
@@ -503,7 +503,7 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                <div class="col-lg-6 col-md-6">
                                                     <div class="form-group">
                                                         <div class="form-select">
                                                             <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
@@ -524,7 +524,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                <div class="col-lg-6 col-md-6">
                                                     <input id="tour_hidden_year" type="hidden" value=""/>
                                                     <div class="form-select">
                                                         <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
@@ -649,14 +649,14 @@
                                         {% csrf_token %}
                                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
                                         <div class="row">
-                                            <div class="col-lg-9 col-md-9 col-sm-8 col-xs-8">
+                                            <div class="col-lg-9 col-md-9">
                                                 <span class="span-search-ticket">{% trans 'Tour' %}</span>
                                                 <div class="input-container-search-ticket">
                                                     <i class="fas fa-briefcase" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                    <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off"/>
+                                                    <input style="margin-bottom:0px;" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off"/>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+                                            <div class="col-lg-3 col-md-3">
                                                 <span class="span-search-ticket">&nbsp;</span>
                                                 <div class="input-container-search-ticket">
                                                     <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -665,17 +665,17 @@
                                             </div>
                                         </div>
                                         <div class="row" id="tour_advanced_search" style="display:none;">
-                                            <div class="col-lg-12">
+                                            <div class="col-lg-12 mb-3">
                                                 <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
                                                 <div class="row">
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <div class="form-select">
                                                             <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
                                                                 <option value="0" selected="">{% trans 'All Countries' %}</option>
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <div class="form-select">
                                                             <div id="temp_tour_cities">
                                                                 <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
@@ -694,7 +694,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <div class="form-select">
                                                             <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
                                                                 <option value="00" selected="True">{% trans 'All Months' %}</option>
@@ -713,7 +713,7 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <input id="tour_hidden_year" type="hidden" value=""/>
                                                         <div class="form-select">
                                                             <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
@@ -818,13 +818,13 @@
                                             {% csrf_token %}
                                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_tour'>
                                             <div class="row">
-                                                <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
+                                                <div class="col-lg-10 col-md-9">
                                                     <span class="span-search-ticket"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off"/>
+                                                        <input style="margin-bottom:0px;" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off"/>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
+                                                <div class="col-lg-2 col-md-3">
                                                     <span class="span-search-ticket">&nbsp;</span>
                                                     <div class="input-container-search-ticket">
                                                         <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -833,17 +833,17 @@
                                                 </div>
                                             </div>
                                             <div class="row" id="tour_advanced_search" style="display:none;">
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-6 mb-3">
                                                     <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
                                                     <div class="row">
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <div class="col-lg-6 col-md-6">
                                                             <div class="form-select">
                                                                 <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
                                                                     <option value="0" selected="">{% trans 'All Countries' %}</option>
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <div class="col-lg-6 col-md-6">
                                                             <div class="form-select">
                                                                 <div id="temp_tour_cities">
                                                                     <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
@@ -862,7 +862,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <div class="col-lg-6 col-md-6">
                                                             <div class="input-container-search-ticket">
                                                                 <div class="form-select">
                                                                     <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
@@ -883,7 +883,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <div class="col-lg-6 col-md-6">
                                                             <input id="tour_hidden_year" type="hidden" value=""/>
                                                             <div class="form-select">
                                                                 <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
@@ -979,7 +979,7 @@
                             <div class="col-lg-8">
                                 <span class="span-search-ticket"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off" style="margin-bottom:0px;"/>
+                                    <input style="margin-bottom:0px;" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off" style="margin-bottom:0px;"/>
                                 </div>
                             </div>
                             <div class="col-lg-4">

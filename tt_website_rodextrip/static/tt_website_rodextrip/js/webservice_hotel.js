@@ -2330,6 +2330,7 @@ function hotel_get_booking(data){
                    text = `
                         <h4>List of Room(s)</h4>
                         <hr/>
+                        <div style="overflow-x:auto;">
                         <table style="width:100%;" id="list-of-passenger">
                             <tr>
                                 <th class="">No</th>
@@ -2368,12 +2369,14 @@ function hotel_get_booking(data){
 
                             </tr>`;
                         }
-                        text+=`</table>`;
+                        text+=`</table>
+                        </div>`;
                    document.getElementById('hotel_list_room').innerHTML = text;
                    text = '';
                    text=`
                         <h5>List of Guest(s)</h5>
                         <hr/>
+                        <div style="overflow-x:auto;">
                         <table style="width:100%;" id="list-of-passenger">
                             <tr>
                                 <th class="">No</th>
@@ -2388,7 +2391,8 @@ function hotel_get_booking(data){
                                     <td><span>`+msg.result.response.passengers[i].birth_date+`</span></td>
                                 </tr>`;
                             }
-                   text+=`</table>`;
+                   text+=`</table>
+                   </div>`;
                    console.log(text);
                    document.getElementById('hotel_passenger').innerHTML = text;
                     if(msg.result.response.state == 'issued'){

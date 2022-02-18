@@ -38,7 +38,7 @@
 {% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
-<title id="title_search">{{name}} Event - {{event_search.event_name}}</title>
+<title id="title_search">{{name}} Event - {% if event_search.event_name != ''%}{{event_search.event_name}}{% else %}All Event{% endif %}</title>
 
 <button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="left:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalSort">
     <span style="color:{{text_color}}; font-size:12px;"> <i class="fas fa-sort" style="font-size:20px;"></i> <span class="span_icon_fixed">{% trans 'Sort' %}</span>  </span>
@@ -50,7 +50,7 @@
 <div id="overlay-search-box" onclick="off_overlay()"></div>
 
 {%if template == 1%}
-<section class="destinations-area change_search_area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area change_search_area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:101;">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -69,7 +69,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:3; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -109,7 +109,7 @@
     </div>
 </section>
 {% elif template == 2 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:101;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -128,7 +128,7 @@
         </div>
     </div>
 </section>
-<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{background}}); padding-top:50px; padding-bottom:50px; z-index:5; position:relative; display:none;">
+<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{background}}); padding-top:50px; padding-bottom:50px; z-index:98; position:relative; display:none;">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -168,7 +168,7 @@
     </div>
 </section>
 {%elif template == 3%}
-<section class="change_search_area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
+<section class="change_search_area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:101;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -187,7 +187,7 @@
         </div>
     </div>
 </section>
-<section class="banner-area relative" id="change_search_box" style="padding-top:50px; padding-bottom:40px; background-color: black; z-index:98; position:relative; display:none;">
+<section class="banner-area relative" id="change_search_box" style="background-color: black; z-index:98; position:relative; display:none;">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row fullscreen d-flex">
@@ -226,7 +226,7 @@
     </div>
 </section>
 {%elif template == 4%}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:101;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -245,7 +245,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:3; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -256,8 +256,9 @@
                     <div class="row">
                         <input type="hidden" id="response" name="response">
                         <div class="col-lg-3">
-                            <span class="span-search-ticket"><i class="fas fa-folder"></i> {% trans 'Category' %}</span>
+                            <span class="span-search-ticket">{% trans 'Category' %}</span>
                             <div class="input-container-search-ticket">
+                                <i class="fas fa-folder" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                 <div class="form-select" id="default-select">
                                     <select id="category_event" name="category_event" class="nice-select-default">
 
@@ -284,7 +285,7 @@
     </div>
 </section>
 {%elif template == 5%}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:101;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -303,7 +304,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:3; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -344,7 +345,7 @@
     </div>
 </section>
 {%elif template == 6%}
-<section class="destinations-area change_search_area" style="padding:15px 0px 5px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:98;">
+<section class="destinations-area change_search_area" style="padding:15px 0px 5px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:101;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -363,7 +364,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" style="min-height:150px;padding-top:15px; padding-bottom:15px; background-image: url('{{background}}'); z-index:97; position:relative; display:none;">
+<section class="price-area" id="change_search_box" style="min-height:150px;padding-top:15px; padding-bottom:15px; background-image: url('{{background}}'); z-index:98; position:relative; display:none;">
     <div class="container" id="div-search-overlay">
         <div class="row">
             <div class="col-lg-12">

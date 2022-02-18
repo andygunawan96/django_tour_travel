@@ -77,7 +77,7 @@
 <div id="overlay-search-box" onclick="off_overlay()"></div>
 
 {%if template == 1%}
-<section class="destinations-area change_search_area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area change_search_area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:101;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -94,7 +94,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:3; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -239,13 +239,13 @@
                                 <input type="hidden" value="{{hotel_search.guest_nationality}}" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
                             </div>
 
-                            <div class="col-lg-12" style="padding:0px;margin-top:5px;float:left;display:contents;">
-                                <label class="check_box_custom">
+                            <div class="col-lg-12" style="padding:0px;float:left;display:contents;">
+                                <label class="check_box_custom" style="margin-top:15px;">
                                     <span class="span-search-ticket" id="business_trip_help_show" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                     <input type="checkbox" name="business_trip" id="business_trip" {% if hotel_search.business_trip == 'true' %} value="true" checked {% else %} value="false" {% endif %}/>
                                     <span class="check_box_span_custom"></span>
                                 </label>
-                                <span id="business_trip_help" style="color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
+                                <span id="business_trip_help" style="margin-top:15px; color:{{text_color}}; cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
                             </div>
                         </div>
 
@@ -260,7 +260,7 @@
     </div>
 </section>
 {% elif template == 2 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -277,7 +277,7 @@
         </div>
     </div>
 </section>
-<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{background}}); padding-top:50px; padding-bottom:50px; z-index:5; position:relative; display:none;">
+<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{background}}); padding-top:50px; padding-bottom:50px; z-index:98; position:relative; display:none;">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -409,7 +409,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-6 col-md-6" style="padding:0px;">
+                                <div class="col-lg-6 col-md-6">
                                     <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
                                     <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
                                     {% for country in countries %}
@@ -423,7 +423,7 @@
                                     <input type="hidden" value="{{hotel_search.guest_nationality}}" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
                                 </div>
 
-                                <div class="col-lg-12" style="margin-top:5px;float:left;">
+                                <div class="col-lg-12" style="margin-top:15px;float:left;">
                                     <label class="check_box_custom">
                                         <span style="font-size:13px; color:{{text_color}};" id="business_trip_help_show">{% trans 'Business Trip' %}</span>
                                         <input type="checkbox" name="business_trip" id="business_trip" {% if hotel_search.business_trip == 'true' %} value="true" checked {% else %} value="false" {% endif %}/>
@@ -595,7 +595,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-md-6" style="padding:0px;">
+                            <div class="col-lg-6 col-md-6">
                                 <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
                                 <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
                                     {% for country in countries %}
@@ -609,7 +609,7 @@
                                 <input type="hidden" value="{{hotel_search.guest_nationality}}" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
                             </div>
 
-                            <div class="col-lg-12" style="margin-top:5px;float:left;">
+                            <div class="col-lg-12" style="margin-top:15px;float:left;">
                                 <label class="check_box_custom">
                                     <span class="span-search-ticket" id="business_trip_help_show" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                     <input type="checkbox" name="business_trip" id="business_trip" {% if hotel_search.business_trip == 'true' %} value="true" checked {% else %} value="false" {% endif %}/>
@@ -632,7 +632,7 @@
     </div>
 </section>
 {%elif template == 4%}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -649,7 +649,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:3; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -782,18 +782,21 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-6 col-md-6" style="padding:0px;">
-                            <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
-                            <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
-                            {% for country in countries %}
-                                {% if country.code == hotel_search.nationality %}
-                                <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
-                                {% else %}
-                                <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
-                                {% endif %}
-                            {% endfor %}
-                            </select>
-                            <input type="hidden" value="{{hotel_search.guest_nationality}}" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
+                        <div class="col-lg-6 col-md-6">
+                            <span class="span-search-ticket">{% trans 'Guest Nationality' %}</span>
+                            <div class="input-container-search-ticket">
+                                <i class="fas fa-globe-asia" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
+                                    {% for country in countries %}
+                                    {% if country.code == hotel_search.nationality %}
+                                    <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
+                                    {% else %}
+                                    <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <input type="hidden" value="{{hotel_search.guest_nationality}}" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
+                            </div>
                         </div>
 
                         <div class="col-lg-12" style="margin-top:5px;float:left;">
@@ -818,7 +821,7 @@
     </div>
 </section>
 {%elif template == 5%}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -835,7 +838,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:3; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -966,7 +969,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-md-6" style="padding:0px;">
+                            <div class="col-lg-6 col-md-6">
                                 <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
                                 <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
                                 {% for country in countries %}
@@ -980,7 +983,7 @@
                                 <input type="hidden" value="{{hotel_search.guest_nationality}}" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
                             </div>
 
-                            <div class="col-lg-12" style="margin-top:5px;float:left;">
+                            <div class="col-lg-12" style="margin-top:15px;float:left;">
                                 <label class="check_box_custom">
                                     <span class="span-search-ticket" id="business_trip_help_show" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                     <input type="checkbox" name="business_trip" id="business_trip" {% if hotel_search.business_trip == 'true' %} value="true" checked {% else %} value="false" {% endif %}/>
@@ -1003,7 +1006,7 @@
     </div>
 </section>
 {%elif template == 6%}
-<section class="destinations-area change_search_area" style="padding:15px 0px 7px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:98;">
+<section class="destinations-area change_search_area" style="padding:15px 0px 7px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -1020,7 +1023,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" style="min-height:150px;padding-top:15px; padding-bottom:15px; background-image: url('{{background}}'); z-index:97; position:relative; display:none;">
+<section class="price-area" id="change_search_box" style="min-height:150px;padding-top:15px; padding-bottom:15px; background-image: url('{{background}}'); z-index:98; position:relative; display:none;">
     <div class="container" id="div-search-overlay">
         <div class="row">
             <div class="col-lg-12">
@@ -1195,9 +1198,9 @@
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1; background:#f7f7f7;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12" style="position:sticky; top:73px; z-index:99; display:none;" id="mybuttonsticky">
+            <div class="col-lg-12" style="position:sticky; top:73px; z-index:97; display:none;" id="mybuttonsticky">
                 <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-left:2px;">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <button class="primary-btn-custom" style="width:100%;" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result();">
                             <span style="color:{{text_color}}; font-size:12px;"> List Copy </span>
                             <span class="badge-notif2 animated bounceIn" id="badge-copy-notif2">0</span>

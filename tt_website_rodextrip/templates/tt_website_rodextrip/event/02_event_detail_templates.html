@@ -43,7 +43,7 @@
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 
-<title id="title_search">{{name}} Event - {% trans 'Session Time' %} {{event_code.name}}</title>
+<title id="title_search">{{name}} Event - {% if event_search.event_name != ''%}{{event_search.event_name}}{% else %}All Event{% endif %}</title>
 
 <div id="overlay-search-box" onclick="off_overlay()" style="z-index:90;"></div>
 
@@ -72,7 +72,7 @@
 
 {%if template == 1%}
 <!--<section class="destinations-area change_search_area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">-->
-<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; z-index:90; position:relative;">
+<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; z-index:101; position:relative;">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -91,7 +91,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:90; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -130,7 +130,7 @@
     </div>
 </section>
 {% elif template == 2 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:relative; z-index:90;">
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:relative; z-index:101;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -149,7 +149,7 @@
         </div>
     </div>
 </section>
-<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{background}}); padding-top:40px; padding-bottom:40px; z-index:90; position:relative; display:none;">
+<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{background}}); padding-top:40px; padding-bottom:40px; z-index:98; position:relative; display:none;">
     <div class="container" id="div-search-overlay">
         <div class="row">
             <div class="col-lg-12">
@@ -186,7 +186,7 @@
     </div>
 </section>
 {% elif template == 3 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:relative; z-index:90;">
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:relative; z-index:101;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -245,7 +245,7 @@
     </div>
 </section>
 {% elif template == 4 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; position:relative; z-index:90;">
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; position:relative; z-index:101;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -264,7 +264,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:90; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -274,8 +274,9 @@
                     <div class="row">
                         <input type="hidden" id="response" name="response">
                         <div class="col-lg-3">
-                            <span class="span-search-ticket"><i class="fas fa-folder"></i> {% trans 'Category' %}</span>
+                            <span class="span-search-ticket">{% trans 'Category' %}</span>
                             <div class="input-container-search-ticket">
+                                <i class="fas fa-folder" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                 <div class="form-select" id="default-select">
                                     <select id="category_event" name="category_event" class="nice-select-default">
 
@@ -302,7 +303,7 @@
     </div>
 </section>
 {% elif template == 5 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:relative; z-index:90;">
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:relative; z-index:101;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -321,7 +322,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:90; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -361,7 +362,7 @@
     </div>
 </section>
 {%elif template == 6%}
-<section class="destinations-area change_search_area" style="padding:15px 0px 5px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; z-index:98;">
+<section class="destinations-area change_search_area" style="padding:15px 0px 5px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; z-index:101;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -380,7 +381,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" style="min-height:150px;padding-top:15px; padding-bottom:15px; background-image: url('{{background}}'); z-index:97; position:relative; display:none;">
+<section class="price-area" id="change_search_box" style="min-height:150px;padding-top:15px; padding-bottom:15px; background-image: url('{{background}}'); z-index:98; position:relative; display:none;">
     <div class="container" id="div-search-overlay">
         <div class="row">
             <div class="col-lg-12">
@@ -421,14 +422,6 @@
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1; background:#f7f7f7">
     <div class="container">
-        <div class="row" style="padding-bottom:15px;">
-            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                <span style="font-size:13px; font-weight:500; padding-right:5px;"><i class="fas fa-stopwatch"></i> {% trans 'Session Time' %}: </span><span class="count_time" id="session_time"></span>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                <span style="font-size:13px; font-weight:500; padding-right:5px;"><i class="fas fa-clock"></i> {% trans 'Elapsed Time' %}: <span class="count_time" id="elapse_time"> </span></span>
-            </div>
-        </div>
         <div class="row">
             <div class="col-lg-12" style="margin-bottom:15px;">
                 <button class="primary-btn-custom" type="button" onclick="location.href='{% url 'tt_website_rodextrip:event_search'%}';"><i class="fas fa-chevron-left"></i> Back to result search</button>
@@ -438,6 +431,16 @@
         <div class="row align-items-center justify-content-between d-flex">
             <div class="col-lg-12" id="breadcrumbs_create" style="margin-bottom:15px;">
 
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom:15px;">
+            <div class="col-lg-12">
+                <div style="background-color:white; padding:10px; margin-top:20px; border:1px solid #cdcdcd;" id="session_timer">
+                    <span style="font-size:14px; font-weight:600;"><i class="fas fa-stopwatch"></i> {% trans 'Session Time' %}: <span class="count_time" id="session_time"> </span></span>
+                    <hr/>
+                    <span style="font-size:14px; font-weight:600;"><i class="fas fa-clock"></i>{% trans 'Elapsed Time' %}: <span class="count_time" id="elapse_time"> </span></span>
+                </div>
             </div>
         </div>
 
@@ -674,7 +677,7 @@
                             <hr/>
                         </div>
 
-                        <div class="col-lg-7">
+                        <div class="col-lg-7 mb-3">
                             <div class="row" id="loading-detail-event">
                                 <div class="col-lg-12">
                                     <div class="center-div">
