@@ -1082,6 +1082,9 @@ function button_payment(type, page){
             temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading-issued ld-ext-right" onclick="tour_pre_create_booking();" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
         else if(page == 'payment')
             temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading-issued ld-ext-right" onclick="tour_pre_issued_booking('`+order_number_id+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
+    }else if(type == 'groupbooking'){
+        if(page == 'reservation')
+            temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading-issued ld-ext-right" onclick="groupbooking_modal_issued();" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     }
     else if(type == 'event'){
         if(page == 'reservation')

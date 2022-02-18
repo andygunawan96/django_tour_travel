@@ -109,7 +109,7 @@
                                             <!--                                                <span class="checkmark-radio"></span>-->
                                             <!--                                            </label>-->
                                         </div>
-                                        <div class="col-lg-6" style="text-align:right;">
+                                        <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -127,10 +127,10 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                            <div class="col-lg-7 col-md-7 col-sm-7">
                                                                 <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5">
                                                                 <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
@@ -160,7 +160,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
@@ -173,7 +173,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <div class="modal fade" id="myModalHelp" role="dialog">
                                                 <div class="row" style="margin:0">
                                                     <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
@@ -257,7 +257,7 @@
                                             <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
                                             <label style="font-size:10px; color:red;">({% trans "Must be filled with booker's mobile on first registration" %})</label>
                                             <div class="row">
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-5">
                                                     <div class="form-select">
                                                         <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('hotel');" class="nice-select-default">
                                                             {% for phone in phone_code %}
@@ -267,7 +267,7 @@
                                                     </div>
                                                     <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                                 </div>
-                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-7">
                                                     <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('hotel');">
                                                     <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                                 </div>
@@ -283,7 +283,7 @@
                         <div class="row" style="margin-bottom:20px;">
                             <div class="col-lg-12">
                                 <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
-                                    <label>{% trans 'Do you book this trip for you?' %}</label>
+                                    <label>{% trans 'Do you book this trip for you?' %}</label><br/>
                                     <label class="radio-button-custom">
                                         {% trans 'Yes' %}
                                         <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','hotel');" value="yes"/>
@@ -322,7 +322,7 @@
                                 </div>
                                 <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                     <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
+                                        <div class="col-lg-6" style="text-align:left;">
                                             <div class="input-container-search-ticket">
                                                 <label class="check_box_custom">
                                                     <span class="span-search-ticket" style="color:black;">{% trans 'Make this to Contact Person' %}</span>
@@ -331,7 +331,7 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
+                                        <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -346,10 +346,10 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <div class="col-lg-7 col-md-7 col-sm-7">
                                                                     <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <div class="col-lg-5 col-md-5 col-sm-5">
                                                                     <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'hotel')">{% trans 'Search' %}</button>
                                                                 </div>
                                                             </div>
@@ -379,8 +379,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if forloop.counter <= room_qty %} <label style="color:red">*</label>{%endif%}
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
+                                            {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/>{%endif%}
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
@@ -392,7 +393,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -420,9 +421,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-lg-6">
                                             <br/>
-                                            {% if forloop.counter <= room_qty %} <label style="color:red">*</label>{%endif%}
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -430,7 +431,7 @@
                                             </div>
                                             <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-lg-6">
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
@@ -438,8 +439,8 @@
                                             </div>
                                             <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if forloop.counter <= room_qty %} <label style="color:red">*</label>{%endif%}
+                                        <div class="col-lg-6">
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -452,15 +453,15 @@
                                                 <input type="hidden" name="adult_nationality{{forloop.counter}}" id="adult_nationality{{forloop.counter}}" />
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if forloop.counter <= room_qty %} <label style="color:red">*</label>{%endif%}
+                                        <div class="col-lg-6">
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
+                                        <div class="col-lg-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
                                             <div class="input-container-search-ticket">
@@ -468,12 +469,12 @@
                                             </div>
                                             <label style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</label>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
+                                        <div class="col-lg-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
                                             <label style="color:red">*</label>
                                             <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
                                             <label style="font-size:10px; color:red;">({% trans "Must be filled with contact person's mobile on first registration" %})</label>
                                             <div class="row">
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-5">
 
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
@@ -486,7 +487,7 @@
                                                         <input type="hidden" name="adult_phone_code{{forloop.counter}}" id="adult_phone_code{{forloop.counter}}" />
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-7">
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control" name="adult_phone{{forloop.counter}}" id="adult_phone{{forloop.counter}}" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
                                                     </div>
@@ -518,7 +519,7 @@
                                 <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="child_paxs{{forloop.counter}}">
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
-                                        <div class="col-lg-6" style="text-align:right;">
+                                        <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -534,10 +535,10 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                            <div class="col-lg-7 col-md-7 col-sm-7">
                                                                 <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5">
                                                                 <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'hotel')">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
@@ -566,7 +567,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
@@ -579,7 +580,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_child{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_child{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -799,7 +800,7 @@
                                                 <!--                                                <span class="checkmark-radio"></span>-->
                                                 <!--                                            </label>-->
                                             </div>
-                                            <div class="col-lg-6" style="text-align:right;">
+                                            <div class="col-lg-6 mb-3" style="text-align:right;">
                                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                                 <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                 <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -817,10 +818,10 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <div class="col-lg-7 col-md-7 col-sm-7">
                                                                     <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <div class="col-lg-5 col-md-5 col-sm-5">
                                                                     <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                 </div>
                                                             </div>
@@ -850,7 +851,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-6 col-xs-6">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'Title' %}</label>
                                                 <div class="form-select-2" id="default-select">
@@ -861,7 +862,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                                 <div class="row" style="margin:0">
                                                     <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
                                                     <div class="modal fade" id="myModalHelp" role="dialog">
@@ -943,7 +944,7 @@
                                                 <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
                                                 <label style="font-size:10px; color:red;">({% trans "Must be filled with booker's mobile on first registration" %})</label>
                                                 <div class="row">
-                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-5">
                                                         <div class="form-select">
                                                             <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('hotel');" class="nice-select-default">
                                                                 {% for phone in phone_code %}
@@ -953,7 +954,7 @@
                                                         </div>
                                                         <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                                     </div>
-                                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-7">
                                                         <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('hotel');">
                                                         <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                                     </div>
@@ -969,7 +970,7 @@
                             <div class="row" style="margin-bottom:20px;">
                                 <div class="col-lg-12">
                                     <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
-                                        <label>{% trans 'Do you book this trip for you?' %}</label>
+                                        <label>{% trans 'Do you book this trip for you?' %}</label><br/>
                                         <label class="radio-button-custom">
                                             {% trans 'Yes' %}
                                             <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','hotel');" value="yes"/>
@@ -1008,7 +1009,7 @@
                                     </div>
                                     <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                         <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
+                                            <div class="col-lg-6" style="text-align:left;">
                                                 <div class="input-container-search-ticket">
                                                     <label class="check_box_custom">
                                                         <span class="span-search-ticket" style="color:black;">{% trans 'Make this to Contact Person' %}</span>
@@ -1017,7 +1018,7 @@
                                                     </label>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
+                                            <div class="col-lg-6 mb-3" style="text-align:right;">
                                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                                 <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide(); set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                 <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -1032,10 +1033,10 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
-                                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                    <div class="col-lg-7 col-md-7 col-sm-7">
                                                                         <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                                     </div>
-                                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                    <div class="col-lg-5 col-md-5 col-sm-5">
                                                                         <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'hotel')">{% trans 'Search' %}</button>
                                                                     </div>
                                                                 </div>
@@ -1065,8 +1066,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <label style="color:red">*</label>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
+                                                {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/>{%endif%}
+                                                {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                                 <label>{% trans 'Title' %}</label>
                                                 <div class="form-select-2">
                                                     <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}" class="nice-select-default">
@@ -1076,7 +1078,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                                 <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                                 <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                                     <div class="modal-dialog">
@@ -1104,9 +1106,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <div class="col-lg-6">
                                                 <br/>
-                                                <label style="color:red">*</label>
+                                                {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                                 <label>{% trans 'First name and middle name (if any)' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -1114,7 +1116,7 @@
                                                 </div>
                                                 <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <div class="col-lg-6">
                                                 <br/>
                                                 <label>{% trans 'Last name' %}</label>
                                                 <div class="input-container-search-ticket">
@@ -1122,8 +1124,8 @@
                                                 </div>
                                                 <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <label style="color:red">*</label>
+                                            <div class="col-lg-6">
+                                                {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                                 <label>{% trans 'Nationality' %}</label>
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}')" class="nice-select-default">
@@ -1134,15 +1136,15 @@
                                                 </div>
                                                 <input type="hidden" name="adult_nationality{{forloop.counter}}" id="adult_nationality{{forloop.counter}}" />
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <label style="color:red">*</label>
+                                            <div class="col-lg-6">
+                                                {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                                 <label>{% trans 'Birth Date' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                     <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
+                                            <div class="col-lg-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'Contact Email Address' %}</label>
                                                 <div class="input-container-search-ticket">
@@ -1150,7 +1152,7 @@
                                                 </div>
                                                 <label style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</label>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
+                                            <div class="col-lg-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
                                                 <label style="color:red">*</label>
                                                 <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
                                                 <label style="font-size:10px; color:red;">({% trans "Must be filled with contact person's mobile on first registration" %})</label>
@@ -1197,7 +1199,7 @@
                                     <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="child_paxs{{forloop.counter}}">
                                         <div class="row">
                                             <div class="col-lg-6" style="text-align:left;"></div>
-                                            <div class="col-lg-6" style="text-align:right;">
+                                            <div class="col-lg-6 mb-3" style="text-align:right;">
                                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                                 <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                 <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -1213,10 +1215,10 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <div class="col-lg-7 col-md-7 col-sm-7">
                                                                     <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <div class="col-lg-5 col-md-5 col-sm-5">
                                                                     <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'hotel')">{% trans 'Search' %}</button>
                                                                 </div>
                                                             </div>
@@ -1245,7 +1247,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-xs-6">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'Title' %}</label>
                                                 <div class="form-select-2">
@@ -1256,7 +1258,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                                 <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_child{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                                 <div class="modal fade" id="myModalHelp_child{{forloop.counter}}" role="dialog">
                                                     <div class="modal-dialog">
@@ -1474,7 +1476,7 @@
                                             <!--                                                <span class="checkmark-radio"></span>-->
                                             <!--                                            </label>-->
                                         </div>
-                                        <div class="col-lg-6" style="text-align:right;">
+                                        <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -1492,10 +1494,10 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                            <div class="col-lg-7 col-md-7 col-sm-7">
                                                                 <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5">
                                                                 <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
@@ -1525,7 +1527,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="default-select" id="default-select">
@@ -1536,7 +1538,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <div class="row" style="margin:0">
                                                 <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
                                                 <div class="modal fade" id="myModalHelp" role="dialog">
@@ -1636,7 +1638,6 @@
                                             </div>
                                             <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -1645,7 +1646,7 @@
                         <div class="row" style="margin-bottom:20px;">
                             <div class="col-lg-12">
                                 <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
-                                    <label>{% trans 'Do you book this trip for you?' %}</label>
+                                    <label>{% trans 'Do you book this trip for you?' %}</label><br/>
                                     <label class="radio-button-custom">
                                         {% trans 'Yes' %}
                                         <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','hotel');" value="yes"/>
@@ -1693,7 +1694,7 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
+                                        <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -1708,10 +1709,10 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <div class="col-lg-7 col-md-7 col-sm-7">
                                                                     <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <div class="col-lg-5 col-md-5 col-sm-5">
                                                                     <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'hotel')">{% trans 'Search' %}</button>
                                                                 </div>
                                                             </div>
@@ -1741,8 +1742,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
+                                            {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/>{%endif%}
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                             <label>{% trans 'Title' %}</label>
                                             <div class="default-select">
                                                 <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}" class="nice-select-default">
@@ -1752,7 +1754,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -1782,7 +1784,7 @@
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <br/>
-                                            <label style="color:red">*</label>
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="form-group">
                                                 <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -1799,7 +1801,7 @@
                                             <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="form-group">
                                                 <div class="form-select">
@@ -1813,7 +1815,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="form-group">
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -1878,7 +1880,7 @@
                                 <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="child_paxs{{forloop.counter}}">
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
-                                        <div class="col-lg-6" style="text-align:right;">
+                                        <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -1894,10 +1896,10 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                            <div class="col-lg-7 col-md-7 col-sm-7">
                                                                 <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5">
                                                                 <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'hotel')">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
@@ -1926,7 +1928,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="default-select">
@@ -1937,7 +1939,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_child{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_child{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -2154,7 +2156,7 @@
                                         <!--                                                <span class="checkmark-radio"></span>-->
                                         <!--                                            </label>-->
                                     </div>
-                                    <div class="col-lg-6" style="text-align:right;">
+                                    <div class="col-lg-6 mb-3" style="text-align:right;">
                                         {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                         <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                         <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -2172,10 +2174,10 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="row">
-                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                        <div class="col-lg-7 col-md-7 col-sm-7">
                                                             <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
                                                         </div>
-                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                        <div class="col-lg-5 col-md-5 col-sm-5">
                                                             <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                         </div>
                                                     </div>
@@ -2205,7 +2207,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-6 col-xs-6">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Title' %}</label>
                                         <div class="input-container-search-ticket">
@@ -2218,7 +2220,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                         <div class="row" style="margin:0">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp" role="dialog">
@@ -2328,7 +2330,7 @@
                     <div class="row" style="margin-bottom:20px;">
                         <div class="col-lg-12">
                             <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
-                                <label>{% trans 'Do you book this trip for you?' %}</label>
+                                <label>{% trans 'Do you book this trip for you?' %}</label><br/>
                                 <label class="radio-button-custom">
                                     {% trans 'Yes' %}
                                     <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','hotel');" value="yes"/>
@@ -2376,7 +2378,7 @@
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
+                                    <div class="col-lg-6 mb-3" style="text-align:right;">
                                         {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                         <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                         <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -2392,10 +2394,10 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                            <div class="col-lg-7 col-md-7 col-sm-7">
                                                                 <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5">
                                                                 <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'hotel')">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
@@ -2425,8 +2427,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <label style="color:red">*</label>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
+                                        {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/>{%endif%}
+                                        {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                         <label>{% trans 'Title' %}</label>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select-2">
@@ -2438,7 +2441,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                         <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                         <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                             <div class="modal-dialog">
@@ -2468,7 +2471,7 @@
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                         <br/>
-                                        <label style="color:red">*</label>
+                                        {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                         <label>{% trans 'First name and middle name (if any)' %}</label>
                                         <div class="input-container-search-ticket">
                                             <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -2485,7 +2488,7 @@
                                         <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <label style="color:red">*</label>
+                                        {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                         <label>{% trans 'Nationality' %}</label>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select">
@@ -2499,7 +2502,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <label style="color:red">*</label>
+                                        {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                         <label>{% trans 'Birth Date' %}</label>
                                         <div class="input-container-search-ticket">
                                             <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -2564,7 +2567,7 @@
                             <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="child_paxs{{forloop.counter}}">
                                 <div class="row">
                                     <div class="col-lg-6" style="text-align:left;"></div>
-                                    <div class="col-lg-6" style="text-align:right;">
+                                    <div class="col-lg-6 mb-3" style="text-align:right;">
                                         {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                         <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                         <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -2580,10 +2583,10 @@
                                                 </div>
                                                 <div class="modal-body" style="text-align:left;">
                                                     <div class="row">
-                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                        <div class="col-lg-7 col-md-7 col-sm-7">
                                                             <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                         </div>
-                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                        <div class="col-lg-5 col-md-5 col-sm-5">
                                                             <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'hotel')">{% trans 'Search' %}</button>
                                                         </div>
                                                     </div>
@@ -2612,7 +2615,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-xs-6">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Title' %}</label>
                                         <div class="input-container-search-ticket">
@@ -2625,7 +2628,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                         <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_child{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                         <div class="modal fade" id="myModalHelp_child{{forloop.counter}}" role="dialog">
                                             <div class="modal-dialog">
@@ -2790,25 +2793,23 @@
     {% include 'tt_website_rodextrip/header_corporate.html' %}
     {% endif %}
 
-    <div class="main-menu" style="border-bottom:1px solid #cdcdcd; padding:5px 0px;">
-        <div class="container">
-            <div class="row align-items-center justify-content-between d-flex">
-                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
-                </div>
-                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+    <div class="container">
+        <div class="row align-items-center justify-content-between d-flex">
+            <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
 
-                </div>
             </div>
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                    <span style="font-size:13px; font-weight:500; padding-right:5px;"><i class="fas fa-stopwatch"></i> {% trans 'Session Time' %}: </span><span class="count_time" id="session_time"></span>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                    <span style="font-size:13px; font-weight:500; padding-right:5px;"><i class="fas fa-clock"></i> {% trans 'Elapsed Time' %}: <span class="count_time" id="elapse_time"> </span></span>
-                </div>
-                {% include 'tt_website_rodextrip/balance_credit.html' %}
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
+                <span style="font-size:13px; font-weight:500; padding-right:5px;"><i class="fas fa-stopwatch"></i> {% trans 'Session Time' %}: </span><span class="count_time" id="session_time"></span>
             </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
+                <span style="font-size:13px; font-weight:500; padding-right:5px;"><i class="fas fa-clock"></i> {% trans 'Elapsed Time' %}: <span class="count_time" id="elapse_time"> </span></span>
+            </div>
+            {% include 'tt_website_rodextrip/balance_credit.html' %}
         </div>
     </div>
     {% if username.co_user_login == 'agent_b2c' %}
@@ -2844,7 +2845,7 @@
                                             <!--                                                <span class="checkmark-radio"></span>-->
                                             <!--                                            </label>-->
                                         </div>
-                                        <div class="col-lg-6" style="text-align:right;">
+                                        <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -2862,10 +2863,10 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                            <div class="col-lg-7 col-md-7 col-sm-7">
                                                                 <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5">
                                                                 <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
@@ -2895,7 +2896,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
@@ -2908,7 +2909,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <div class="row" style="margin:0">
                                                 <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
                                                 <div class="modal fade" id="myModalHelp" role="dialog">
@@ -3018,7 +3019,7 @@
                         <div class="row" style="margin-bottom:20px;">
                             <div class="col-lg-12">
                                 <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
-                                    <label>{% trans 'Do you book this trip for you?' %}</label>
+                                    <label>{% trans 'Do you book this trip for you?' %}</label><br/>
                                     <label class="radio-button-custom">
                                         {% trans 'Yes' %}
                                         <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','hotel');" value="yes"/>
@@ -3066,7 +3067,7 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
+                                        <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -3082,10 +3083,10 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <div class="col-lg-7 col-md-7 col-sm-7">
                                                                     <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <div class="col-lg-5 col-md-5 col-sm-5">
                                                                     <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'hotel')">{% trans 'Search' %}</button>
                                                                 </div>
                                                             </div>
@@ -3115,8 +3116,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
+                                            {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/>{%endif%}
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select" style="margin-bottom:0px;">
@@ -3128,7 +3130,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -3158,7 +3160,7 @@
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <br/>
-                                            <label style="color:red">*</label>
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -3175,7 +3177,7 @@
                                             <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -3189,7 +3191,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -3254,7 +3256,7 @@
                                 <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="child_paxs{{forloop.counter}}">
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
-                                        <div class="col-lg-6" style="text-align:right;">
+                                        <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -3270,10 +3272,10 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                            <div class="col-lg-7 col-md-7 col-sm-7">
                                                                 <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5">
                                                                 <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'hotel')">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
@@ -3302,7 +3304,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
@@ -3315,7 +3317,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_child{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_child{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -3535,7 +3537,7 @@
                                             <!--                                                <span class="checkmark-radio"></span>-->
                                             <!--                                            </label>-->
                                         </div>
-                                        <div class="col-lg-6" style="text-align:right;">
+                                        <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -3553,10 +3555,10 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                            <div class="col-lg-7 col-md-7 col-sm-7">
                                                                 <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5">
                                                                 <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
@@ -3586,7 +3588,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
@@ -3599,7 +3601,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <div class="modal fade" id="myModalHelp" role="dialog">
                                                 <div class="row" style="margin:0">
                                                     <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
@@ -3709,7 +3711,7 @@
                         <div class="row" style="margin-bottom:20px;">
                             <div class="col-lg-12">
                                 <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
-                                    <label>{% trans 'Do you book this trip for you?' %}</label>
+                                    <label>{% trans 'Do you book this trip for you?' %}</label><br/>
                                     <label class="radio-button-custom">
                                         {% trans 'Yes' %}
                                         <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','hotel');" value="yes"/>
@@ -3757,7 +3759,7 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
+                                        <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -3772,10 +3774,10 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <div class="col-lg-7 col-md-7 col-sm-7">
                                                                     <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <div class="col-lg-5 col-md-5 col-sm-5">
                                                                     <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'hotel')">{% trans 'Search' %}</button>
                                                                 </div>
                                                             </div>
@@ -3805,8 +3807,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if forloop.counter < room_qty %} <label style="color:red">*</label>{%endif%}
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
+                                            {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/> {%endif%}
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {%endif%}
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -3818,7 +3821,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -3848,7 +3851,7 @@
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <br/>
-                                            {% if forloop.counter < room_qty %} <label style="color:red">*</label>{%endif%}
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {%endif%}
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -3865,7 +3868,7 @@
                                             <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if forloop.counter < room_qty %} <label style="color:red">*</label>{%endif%}
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {%endif%}
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -3879,7 +3882,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            {% if forloop.counter < room_qty %} <label style="color:red">*</label>{%endif%}
+                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {%endif%}
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -3944,7 +3947,7 @@
                                 <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="child_paxs{{forloop.counter}}">
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
-                                        <div class="col-lg-6" style="text-align:right;">
+                                        <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -3960,10 +3963,10 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                            <div class="col-lg-7 col-md-7 col-sm-7">
                                                                 <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5">
                                                                 <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'hotel')">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
@@ -3992,7 +3995,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
@@ -4005,7 +4008,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_child{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_child{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">

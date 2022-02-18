@@ -1190,7 +1190,7 @@ def get_customer_list(request):
         lower = 0
         #define per product DEFAULT 0 - 200 / AMBIL SEMUA PASSENGER
         #check jos
-        if request.POST['passenger_type'] == 'booker':
+        if request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact':
             passenger = 'book'
         else:
             passenger = 'psg'
@@ -1248,17 +1248,17 @@ def get_customer_list(request):
             for pax in res['result']['response']:
                 try:
                     if pax['gender'] == 'female' and pax['marital_status'] == 'married':
-                        if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'passenger':
+                        if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger':
                             title = 'MRS'
                         else:
                             title = 'MISS'
                     elif pax['gender'] == 'female':
-                        if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'passenger':
+                        if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger':
                             title = 'MS'
                         else:
                             title = 'MISS'
                     else:
-                        if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'passenger':
+                        if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger':
                             title = 'MR'
                         else:
                             title = 'MSTR'

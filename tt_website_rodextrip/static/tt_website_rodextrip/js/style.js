@@ -160,6 +160,7 @@ $(document).ready(function(){
         if(template != 6){
             document.getElementById("overlay-search-box").style.display = "block";
             document.getElementById("div-search-overlay").style.zIndex = "3";
+            document.getElementById("change_search_box").style.zIndex = "100";
             if(div_overlay_checked == 1){
                 $('html, body').animate({
                     scrollTop: $("#div-search-overlay").offset().top - 110
@@ -2797,6 +2798,10 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
         var breadcrumbs = ["Home", "Review", "Issued"];
         var breadcrumbs_url = ["location.href='/dashboard';", "", ""];
     }
+    else if(breadcrumbs_type == "group_booking"){
+        var breadcrumbs = ["Home", "Booking", "Issued"];
+        var breadcrumbs_url = ["location.href='/dashboard';", "", ""];
+    }
     else if(breadcrumbs_type == "event"){
         var breadcrumbs = ["Home", "Search", "Details", "Contact", "Review", "Issued"];
         var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/event/search';", "location.href='/event/detail';", "location.href='/event/passenger';", "", ""];
@@ -2951,6 +2956,7 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
 function off_overlay() {
     document.getElementById("overlay-search-box").style.display = "none";
     document.getElementById("div-search-overlay").style.zIndex = "1";
+    document.getElementById("change_search_box").style.zIndex = "98";
     div_overlay_checked = 0;
 }
 

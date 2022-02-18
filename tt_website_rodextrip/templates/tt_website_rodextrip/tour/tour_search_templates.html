@@ -36,7 +36,7 @@
 {% endif %}
 
 {%if template == 1%}
-<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:101;">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -81,7 +81,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:3; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -110,14 +110,14 @@
                                     <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                    <div class="col-lg-6 col-md-6" style="padding:0px;">
                                         <div class="form-select">
                                             <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
                                                 <option value="0" selected="">{% trans 'All Countries' %}</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                    <div class="col-lg-6 col-md-6" style="padding:0px;">
                                         <div class="form-select">
                                             <div id="temp_tour_cities">
                                                 <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
@@ -135,7 +135,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 search_type">
+                                    <div class="col-lg-6 col-md-6 search_type">
                                         <div class="input-container-search-ticket">
                                             <div class="form-select">
                                                 <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
@@ -150,7 +150,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                    <div class="col-lg-6 col-md-6" style="padding:0px;">
                                         <input id="tour_hidden_year" type="hidden" value="{{dest_year}}"/>
                                         <div class="form-select">
                                             <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
@@ -174,7 +174,7 @@
     </div>
 </section>
 {% elif template == 2 %}
-<section class="change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:101;">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -219,7 +219,7 @@
         </div>
     </div>
 </section>
-<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{background}}); padding-top:40px; padding-bottom:40px; z-index:5; position:relative; display:none;">
+<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{background}}); padding-top:40px; padding-bottom:40px; z-index:98; position:relative; display:none;">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -229,13 +229,13 @@
                         <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" class="form-wrap" method="post">
                         {% csrf_token %}
                         <div class="row">
-                            <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
+                            <div class="col-lg-10 col-md-9">
                                 <span style="color:{{text_color}};"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
                                 <div class="input-container-search-ticket">
-                                    <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off" value="{{query}}"/>
+                                    <input style="margin-bottom:0px;" onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off" value="{{query}}"/>
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
+                            <div class="col-lg-2 col-md-3">
                                 <span style="color:{{text_color}};">&nbsp;</span>
                                 <div class="input-container-search-ticket">
                                     <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -244,21 +244,21 @@
                             </div>
                         </div>
                         <div class="row" id="tour_advanced_search" style="display:none;">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 mb-3">
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <span style="color:{{text_color}};"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div class="col-lg-6 col-md-6">
                                         <div class="form-select">
                                             <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
                                                 <option value="0" selected="">{% trans 'All Countries' %}</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div class="col-lg-6 col-md-6">
                                         <div class="form-select">
                                             <div id="temp_tour_cities">
                                                 <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
@@ -271,12 +271,12 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="row">
-                                    <div class="col-lg-12 search_type">
+                                    <div class="col-lg-12">
                                         <span style="color:{{text_color}};"><i class="fas fa-calendar-alt"></i> {% trans 'Departure Time' %} </span>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div class="col-lg-6 col-md-6">
                                         <div class="form-select">
                                             <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
                                                 {% for month_data in dest_month_data %}
@@ -289,7 +289,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div class="col-lg-6 col-md-6">
                                         <input id="tour_hidden_year" type="hidden" value="{{dest_year}}"/>
                                         <div class="form-select">
                                             <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
@@ -316,7 +316,7 @@
     </div>
 </section>
 {% elif template == 3 %}
-<section class="change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:100;">
+<section class="change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:101;">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -361,7 +361,7 @@
         </div>
     </div>
 </section>
-<section class="banner-area relative" id="change_search_box" style="padding-top:5px; padding-bottom:5px; z-index:99; position:relative; display:none;">
+<section class="banner-area relative" id="change_search_box" style="padding-top:5px; padding-bottom:5px; z-index:98; position:relative; display:none;">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row fullscreen d-flex">
@@ -369,13 +369,13 @@
                 <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" class="form-wrap" method="post">
                     {% csrf_token %}
                     <div class="row">
-                        <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
+                        <div class="col-lg-10 col-md-9">
                             <span style="color:{{text_color}};"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
                             <div class="input-container-search-ticket">
-                                <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off" value="{{query}}"/>
+                                <input style="margin-bottom:0px;" onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off" value="{{query}}"/>
                             </div>
                         </div>
-                        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
+                        <div class="col-lg-2 col-md-3">
                             <span style="color:{{text_color}};">&nbsp;</span>
                             <div class="input-container-search-ticket">
                                 <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -384,21 +384,21 @@
                         </div>
                     </div>
                     <div class="row" id="tour_advanced_search" style="display:none;">
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 mb-3">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <span style="color:{{text_color}};"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <div class="col-lg-6 col-md-6">
                                     <div class="form-select">
                                         <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
                                             <option value="0" selected="">{% trans 'All Countries' %}</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <div class="col-lg-6 col-md-6">
                                     <div class="form-select">
                                         <div id="temp_tour_cities">
                                             <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
@@ -411,12 +411,12 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="row">
-                                <div class="col-lg-12 search_type">
+                                <div class="col-lg-12">
                                     <span style="color:{{text_color}};"><i class="fas fa-calendar-alt"></i> {% trans 'Departure Time' %} </span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 search_type">
+                                <div class="col-lg-6 col-md-6">
                                     <div class="form-select">
                                         <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
                                             {% for month_data in dest_month_data %}
@@ -429,7 +429,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <div class="col-lg-6 col-md-6">
                                     <input id="tour_hidden_year" type="hidden" value="{{dest_year}}"/>
                                     <div class="form-select">
                                         <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
@@ -454,7 +454,7 @@
     </div>
 </section>
 {% elif template == 4 %}
-<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:101;">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -499,7 +499,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:30px; background-color: black; z-index:3; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:30px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -508,14 +508,14 @@
                     <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" class="form-wrap" method="post">
                         {% csrf_token %}
                         <div class="row">
-                            <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
+                            <div class="col-lg-10 col-md-9">
                                 <span class="span-search-ticket">{% trans 'Tour' %}</span>
                                 <div class="input-container-search-ticket">
                                     <i class="fas fa-briefcase" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                    <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off" value="{{query}}"/>
+                                    <input style="margin-bottom:0px;" onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off" value="{{query}}"/>
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
+                            <div class="col-lg-2 col-md-3">
                                 <span class="span-search-ticket">&nbsp;</span>
                                 <div class="input-container-search-ticket">
                                     <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -524,17 +524,17 @@
                             </div>
                         </div>
                         <div class="row" id="tour_advanced_search" style="display:none;">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 mb-3">
                                 <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div class="col-lg-6 col-md-6">
                                         <div class="form-select">
                                             <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
                                                 <option value="0" selected="">{% trans 'All Countries' %}</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div class="col-lg-6 col-md-6">
                                         <div class="form-select">
                                             <div id="temp_tour_cities">
                                                 <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
@@ -552,7 +552,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div class="col-lg-6 col-md-6">
                                         <div class="form-select">
                                             <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
                                                 {% for month_data in dest_month_data %}
@@ -565,7 +565,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div class="col-lg-6 col-md-6">
                                         <input id="tour_hidden_year" type="hidden" value="{{dest_year}}"/>
                                         <div class="form-select">
                                             <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
@@ -591,7 +591,7 @@
     </div>
 </section>
 {% elif template == 5 %}
-<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:101;">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -636,7 +636,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:3; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -645,13 +645,13 @@
                     <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" class="form-wrap" method="post">
                         {% csrf_token %}
                         <div class="row">
-                            <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
+                            <div class="col-lg-10 col-md-9">
                                 <span class="span-search-ticket"><i class="fas fa-briefcase"></i> {% trans 'Tour' %}</span>
                                 <div class="input-container-search-ticket">
-                                    <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off" value="{{query}}"/>
+                                    <input style="margin-bottom:0px;" onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="{% trans 'Search for Tour' %}" autocomplete="off" value="{{query}}"/>
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
+                            <div class="col-lg-2 col-md-3">
                                 <span class="span-search-ticket">&nbsp;</span>
                                 <div class="input-container-search-ticket">
                                     <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
@@ -660,19 +660,17 @@
                             </div>
                         </div>
                         <div class="row" id="tour_advanced_search" style="display:none;">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 mb-3">
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
                                 <div class="row">
-                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} </span>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div class="col-lg-6 col-md-6">
                                         <div class="form-select">
                                             <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
                                                 <option value="0" selected="">{% trans 'All Countries' %}</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div class="col-lg-6 col-md-6">
                                         <div class="form-select">
                                             <div id="temp_tour_cities">
                                                 <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
@@ -690,7 +688,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div class="col-lg-6 col-md-6">
                                         <div class="input-container-search-ticket">
                                             <div class="form-select">
                                                 <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
@@ -705,7 +703,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div class="col-lg-6 col-md-6">
                                         <input id="tour_hidden_year" type="hidden" value="{{dest_year}}"/>
                                         <div class="form-select">
                                             <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
@@ -731,7 +729,7 @@
     </div>
 </section>
 {% elif template == 6 %}
-<section class="destinations-area" style="padding:15px 0px 5px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:97;">
+<section class="destinations-area" style="padding:15px 0px 5px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:101;">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -776,7 +774,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" style="min-height:250px;padding-top:15px; padding-bottom:15px; background-image: url('{{background}}'); z-index:96; position:relative; display:none;">
+<section class="price-area" id="change_search_box" style="min-height:250px;padding-top:15px; padding-bottom:15px; background-image: url('{{background}}'); z-index:98; position:relative; display:none;">
     <div class="container" id="div-search-overlay">
         <div class="row">
             <div class="col-lg-12">
