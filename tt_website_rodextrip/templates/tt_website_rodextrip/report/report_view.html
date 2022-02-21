@@ -532,20 +532,42 @@
         htmls = `<html><head><style> table, td {border:thin solid black}
             table {border-collapse:collapse}</style></head><body>`;
 
-        htmls += `<h2>Date: `+document.getElementById('date_report').value+`<h2>`;
+        htmls += `<table style="border:none;">
+                    <tr>`;
+        htmls += `<td style="border:none;font-size:16px;font-weight:500;" colspan="4">Date: `+document.getElementById('date_report').value+`</></td>`;
+        htmls += `  </tr>
+                    <tr>
+                        <td style="border:none;font-size:16px;font-weight:500;" colspan="4">`;
         if(document.getElementById('provider_type').value == 'overall')
-            htmls += `<h2>Provider Type: All<h2>`;
+            htmls += `Provider Type: All`;
         else{
-            htmls += `<h2>Provider Type: `+document.getElementById('provider_type').value+`<h2>`;
+            htmls += `Provider Type: `+document.getElementById('provider_type').value;
             if(document.getElementById('provider').value != '')
-                htmls += `<h2>Provider: `+document.getElementById('provider').value+`<h2>`;
+                htmls += `Provider: `+document.getElementById('provider').value;
         }
-        if(document.getElementById('agent').value == '')
-            htmls += `<h2>Agent: All<h2>`;
+        htmls += `
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border:none;font-size:16px;font-weight:500;" colspan="4">`;
+        if(document.getElementById('agent_type').value == '')
+            htmls += `Agent Type: All`;
         else{
-            htmls += `<h2>Agent: `+document.getElementById('provider_type').value+`<h2>`;
+            htmls += `Agent: `+document.getElementById('agent_type').value;
         }
-        htmls+=`<table>`;
+        htmls += `
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border:none;font-size:16px;font-weight:500;" colspan="4">`;
+        if(document.getElementById('agent').value == '')
+            htmls += `Agent: All`;
+        else{
+            htmls += `Agent: `+document.getElementById('provider_type').value;
+        }
+        htmls += `      </td>
+                    </tr>`;
+        htmls+=`</table><table>`;
         if(type == 1){
             htmls += `<tr>
                         <th>Provider</th>
@@ -559,8 +581,8 @@
                       <tr>
                         <td>`+data_report.raw_data.result.response.first_overview[i].provider+`</td>
                         <td>`+data_report.raw_data.result.response.first_overview[i].issued+`</td>
-                        <td>`+number_format(data_report.raw_data.result.response.first_overview[i].total_price)+`</td>
-                        <td>`+number_format(data_report.raw_data.result.response.first_overview[i].total_commission)+`</td>
+                        <td style='mso-number-format:"#,##0.00"'>`+data_report.raw_data.result.response.first_overview[i].total_price+`</td>
+                        <td style='mso-number-format:"#,##0.00"'>`+data_report.raw_data.result.response.first_overview[i].total_commission+`</td>
                       </tr>`
             }
             name += 'Issued report';
@@ -597,8 +619,8 @@
                       <tr>
                         <td>`+data_report.raw_data.result.response.third_overview[i].agent_name+`</td>
                         <td>`+data_report.raw_data.result.response.third_overview[i].reservation+`</td>
-                        <td>`+data_report.raw_data.result.response.third_overview[i].revenue+`</td>
-                        <td>`+data_report.raw_data.result.response.third_overview[i].profit+`</td>
+                        <td style='mso-number-format:"#,##0.00"'>`+data_report.raw_data.result.response.third_overview[i].revenue+`</td>
+                        <td style='mso-number-format:"#,##0.00"'>`+data_report.raw_data.result.response.third_overview[i].profit+`</td>
                       </tr>`
             }
             name += 'Channel rank report';
@@ -615,8 +637,8 @@
                       <tr>
                         <td>`+data_report.raw_data.result.response.fourth_overview[i].customer_parent_name+`</td>
                         <td>`+data_report.raw_data.result.response.fourth_overview[i].reservation+`</td>
-                        <td>`+data_report.raw_data.result.response.fourth_overview[i].revenue+`</td>
-                        <td>`+data_report.raw_data.result.response.fourth_overview[i].profit+`</td>
+                        <td style='mso-number-format:"#,##0.00"'>`+data_report.raw_data.result.response.fourth_overview[i].revenue+`</td>
+                        <td style='mso-number-format:"#,##0.00"'>`+data_report.raw_data.result.response.fourth_overview[i].profit+`</td>
                       </tr>`
             }
             name += 'Booker report';
@@ -633,12 +655,16 @@
                       <tr>
                         <td>`+data_report.raw_data.result.response.fifth_overview[i].customer_name+`</td>
                         <td>`+data_report.raw_data.result.response.fifth_overview[i].reservation+`</td>
-                        <td>`+data_report.raw_data.result.response.fifth_overview[i].revenue+`</td>
-                        <td>`+data_report.raw_data.result.response.fifth_overview[i].profit+`</td>
+                        <td style='mso-number-format:"#,##0.00"'>`+data_report.raw_data.result.response.fifth_overview[i].revenue+`</td>
+                        <td style='mso-number-format:"#,##0.00"'>`+data_report.raw_data.result.response.fifth_overview[i].profit+`</td>
                       </tr>`
             }
             name += 'Customer report';
         }
+        if(document.getElementById('agent_type').value == '')
+            name += ` All Agent Type`;
+        else
+            name += ` `+document.getElementById('agent_type').value;
         if(document.getElementById('agent').value == '')
             name += ` All Agent`;
         else

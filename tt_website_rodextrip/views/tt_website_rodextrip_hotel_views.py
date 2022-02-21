@@ -62,7 +62,12 @@ def hotel(request):
                         str(datetime.now() + relativedelta(days=2))[:10])
             except:
                 pass
-
+            
+            try:
+                if 'hotel_error' in request.session._session:
+                    del request.session['hotel_error']
+            except:
+                pass
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'cache': json.dumps(cache),
