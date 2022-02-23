@@ -117,13 +117,13 @@ def get_payment_acquirer(request):
     elif request.POST['type'] == 'medical_global' or request.POST['type'] == 'medical_global_review':
         url_post = 'booking/medical'
     elif request.POST['type'] == 'swabexpress' or request.POST['type'] == 'swab_express_review':
-        url_post = 'booking/swab_express'
+        url_post = 'booking/swabexpress'
     elif request.POST['type'] == 'labpintar' or request.POST['type'] == 'lab_pintar_review':
-        url_post = 'booking/lab_pintar'
+        url_post = 'booking/labpintar'
     elif request.POST['type'] == 'mitrakeluarga' or request.POST['type'] == 'mitra_keluarga_review':
-        url_post = 'booking/mitra_keluarga'
+        url_post = 'booking/mitrakeluarga'
     elif request.POST['type'] == 'sentramedika' or request.POST['type'] == 'sentra_medika_review':
-        url_post = 'booking/sentra_medika'
+        url_post = 'booking/sentramedika'
     elif request.POST['type'] == 'insurance' or request.POST['type'] == 'insurance_review':
         url_post = 'booking/insurance'
     elif request.POST['type'] == 'groupbooking':
@@ -157,7 +157,8 @@ def get_order_number(request):
     try:
         data = {
             'order_number': request.POST['order_number'],
-            'acquirer_seq_id': request.POST['acquirer_seq_id']
+            'acquirer_seq_id': request.POST['acquirer_seq_id'],
+            'voucher_reference': request.POST['voucher_reference']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
