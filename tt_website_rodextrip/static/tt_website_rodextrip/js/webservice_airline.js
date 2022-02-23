@@ -1902,6 +1902,16 @@ function datasearch2(airline){
                     airline.schedules[i].journeys[j].airline_pick_sequence = parseInt(parseInt(k)+1);
                 }
            }
+           if(airline.schedules[i].journeys[j].hasOwnProperty('is_vtl_flight') && airline.schedules[i].journeys[j].is_vtl_flight == true){
+                //flight VTL hardcode dari frontend
+                airline.schedules[i].journeys[j].search_banner.push({
+                    "active": true,
+                    "banner_color": "#f15a22",
+                    "description": '',
+                    "name": "VTL Flight",
+                    "text_color": "#ffffff"
+                })
+           }
            price = 0;
            currency = '';
            airline.schedules[i].journeys[j].operated_by = true;
