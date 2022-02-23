@@ -1118,7 +1118,8 @@ function get_payment_order_number(order_number){
                 'signature': signature,
                 'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
                 'show_device_type': payment_acq2[payment_method][selected].show_device_type,
-                'url_back': window.location.href
+                'url_back': window.location.href,
+                'voucher_reference': typeof voucher_code === 'string' ? voucher_code : '',
            },
            success: function(msg) {
                 console.log(msg);

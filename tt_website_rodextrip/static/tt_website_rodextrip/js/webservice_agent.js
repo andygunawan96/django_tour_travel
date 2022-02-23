@@ -2836,7 +2836,9 @@ function copy_booker_to_passenger(val, type){
 function copy_booker(val,type,identity){
     if(val == 'copy'){
         //sini
-        data_identity = document.getElementById('booker_id_number').value.split('~');
+        data_identity = [];
+        if(document.getElementById('booker_id_number').value)
+            data_identity = document.getElementById('booker_id_number').value.split('~');
         var date1 = '';
         var date2 = '';
         var expired = null;
@@ -2930,7 +2932,7 @@ function copy_booker(val,type,identity){
                 date2 = '';
                 expired = null;
             }
-            if(identity_check){
+            if(identity_check && data_identity.length > 1){
                 //notif error
                 try{
                     document.getElementById('adult_identity_msg_error1').innerHTML = 'Identity already expired';

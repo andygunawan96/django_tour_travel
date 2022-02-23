@@ -1902,6 +1902,16 @@ function datasearch2(airline){
                     airline.schedules[i].journeys[j].airline_pick_sequence = parseInt(parseInt(k)+1);
                 }
            }
+           if(airline.schedules[i].journeys[j].hasOwnProperty('is_vtl_flight') && airline.schedules[i].journeys[j].is_vtl_flight == true){
+                //flight VTL hardcode dari frontend
+                airline.schedules[i].journeys[j].search_banner.push({
+                    "active": true,
+                    "banner_color": "#f15a22",
+                    "description": '',
+                    "name": "VTL Flight",
+                    "text_color": "#ffffff"
+                })
+           }
            price = 0;
            currency = '';
            airline.schedules[i].journeys[j].operated_by = true;
@@ -5045,9 +5055,7 @@ function airline_get_booking(data, sync=false){
                                        var selected_banner_date = moment(msg.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]).format('YYYY-MM-DD');
 
                                        if(selected_banner_date >= max_banner_date){
-                                           if(msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].active == true){
-                                               text+=`<label id="pop_search_banner`+i+``+j+``+banner_counter+`" style="background:`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].banner_color+`; color:`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].text_color+`;padding:5px 10px;">`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].name+`</label>`;
-                                           }
+                                           text+=`<label id="pop_search_banner`+i+``+j+``+banner_counter+`" style="background:`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].banner_color+`; color:`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].text_color+`;padding:5px 10px;">`+msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].name+`</label>`;
                                        }
                                    }
                                 }
@@ -5556,34 +5564,6 @@ function airline_get_booking(data, sync=false){
                 </div>`;
                 document.getElementById('airline_booking').innerHTML = text;
 
-                for(i in msg.result.response.provider_bookings){
-                    for(j in msg.result.response.provider_bookings[i].journeys){
-                        if(msg.result.response.provider_bookings[i].journeys[j].hasOwnProperty('search_banner')){
-                           for(banner_counter in msg.result.response.provider_bookings[i].journeys[j].search_banner){
-                               var max_banner_date = moment().subtract(parseInt(-1*msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
-                               var selected_banner_date = moment(msg.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]).format('YYYY-MM-DD');
-
-                               if(selected_banner_date >= max_banner_date){
-                                   if(msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].active == true && msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].description != ''){
-                                       new jBox('Tooltip', {
-                                            attach: '#pop_search_banner'+i+j+banner_counter,
-                                            theme: 'TooltipBorder',
-                                            width: 280,
-                                            position: {
-                                              x: 'center',
-                                              y: 'bottom'
-                                            },
-                                            closeOnMouseleave: true,
-                                            animation: 'zoomIn',
-                                            content: msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].description
-                                       });
-                                   }
-                               }
-                           }
-                        }
-                    }
-                }
-
                 //detail
                 text = '';
                 tax = 0;
@@ -6044,6 +6024,35 @@ function airline_get_booking(data, sync=false){
                 add_repricing();
                 if (msg.result.response.state != 'booked'){
     //                document.getElementById('issued-breadcrumb').classList.add("active");
+                }
+
+                for(i in msg.result.response.provider_bookings){
+                    for(j in msg.result.response.provider_bookings[i].journeys){
+                        if(msg.result.response.provider_bookings[i].journeys[j].hasOwnProperty('search_banner')){
+                           for(banner_counter in msg.result.response.provider_bookings[i].journeys[j].search_banner){
+                               var max_banner_date = moment().subtract(parseInt(-1*msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
+                               var selected_banner_date = moment(msg.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]).format('YYYY-MM-DD');
+
+                               if(selected_banner_date >= max_banner_date){
+                                   if(msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].description != ''){
+                                       console.log(msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].description);
+                                       new jBox('Tooltip', {
+                                            attach: '#pop_search_banner'+i+j+banner_counter,
+                                            theme: 'TooltipBorder',
+                                            width: 280,
+                                            position: {
+                                              x: 'center',
+                                              y: 'bottom'
+                                            },
+                                            closeOnMouseleave: true,
+                                            animation: 'zoomIn',
+                                            content: msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].description
+                                       });
+                                   }
+                               }
+                           }
+                        }
+                    }
                 }
 
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){

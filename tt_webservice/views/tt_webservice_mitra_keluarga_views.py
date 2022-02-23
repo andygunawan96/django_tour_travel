@@ -201,75 +201,9 @@ def get_config(request):
 
     return res
 
-def get_zip_code(request):
-    try:
-        file = open("tt_webservice/static/tt_webservice/zip_code.json", "r")
-        res = {
-            "result": {
-                "error_msg": '',
-                "error_code": 0,
-                "response": json.loads(file.read())
-            }
-        }
-        file.close()
-    except Exception as e:
-        res = {
-            "result": {
-                "error_msg": 'zip code not found',
-                "error_code": 500,
-                "response": ''
-            }
-        }
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    return res
-
-
-def get_kecamatan(request):
-    try:
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "get_kecamatan",
-            "signature": request.POST['signature']
-        }
-
-        data = {
-            'kabupaten': request.POST['kabupaten'],
-            'provider': 'phc'
-        }
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-
-    url_request = url + 'booking/phc'
-    res = send_request_api(request, url_request, headers, data, 'POST')
-
-    return res
-
-
-def get_desa(request):
-    try:
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "get_desa",
-            "signature": request.POST['signature']
-        }
-
-        data = {
-            'kecamatan': request.POST['kecamatan'],
-            'provider': 'phc'
-        }
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-
-    url_request = url + 'booking/phc'
-    res = send_request_api(request, url_request, headers, data, 'POST')
-
-    return res
-
 def get_availability(request):
     try:
-        additional_url = 'booking/mitra_keluarga'
+        additional_url = 'booking/mitrakeluarga'
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -293,7 +227,7 @@ def get_availability(request):
 
 def get_price(request):
     try:
-        additional_url = 'booking/mitra_keluarga'
+        additional_url = 'booking/mitrakeluarga'
 
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -330,7 +264,7 @@ def get_price_cache(request):
 
 def commit_booking(request):
     try:
-        additional_url = 'booking/mitra_keluarga'
+        additional_url = 'booking/mitrakeluarga'
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -401,7 +335,7 @@ def commit_booking(request):
 
 def get_booking(request):
     try:
-        additional_url = 'booking/mitra_keluarga'
+        additional_url = 'booking/mitrakeluarga'
 
         sync = False
         try:
@@ -486,7 +420,7 @@ def issued(request):
                 'voucher': data_voucher(request.POST['voucher_code'], provider_char, provider),
             })
 
-        additional_url = 'booking/mitra_keluarga'
+        additional_url = 'booking/mitrakeluarga'
 
         headers = {
             "Accept": "application/json,text/html,application/xml",

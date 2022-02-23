@@ -5064,18 +5064,17 @@ function check_passenger(adult, child, infant){
                }
            }else{
                 if(document.getElementById('adult_passport_number'+i).value != ''){
-                   error_log+= 'Please choose identity type for passenger adult '+i+'!</br>\n';
+                    error_log+= 'Please choose identity type for passenger adult '+i+'!</br>\n';
+                    document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
+                    document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
+                    $("#adult_id_type"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
+
+                    $("#adult_country_of_issued"+i+"_id").each(function() {
+                      $(this).siblings(".select2-container").css('border', '1px solid red');
+                    });
                 }
-                document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
-                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
-                $("#adult_id_type"+i).each(function() {
-                    $(this).parent().find('.nice-select').css('border', '1px solid red');
-                });
-
-                $("#adult_country_of_issued"+i+"_id").each(function() {
-                  $(this).siblings(".select2-container").css('border', '1px solid red');
-                });
-
            }
        }
 
