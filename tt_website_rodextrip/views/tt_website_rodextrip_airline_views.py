@@ -1059,7 +1059,8 @@ def seat_map(request, signature):
                     'javascript_version': javascript_version,
                     'airline_request': '',
                     'price': '',
-                    'time_limit': ''
+                    'time_limit': '',
+                    'signature': request.session['airline_signature'],
                 })
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
