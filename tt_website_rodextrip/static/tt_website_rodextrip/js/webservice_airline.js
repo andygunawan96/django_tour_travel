@@ -6035,7 +6035,6 @@ function airline_get_booking(data, sync=false){
 
                                if(selected_banner_date >= max_banner_date){
                                    if(msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].description != ''){
-                                       console.log(msg.result.response.provider_bookings[i].journeys[j].search_banner[banner_counter].description);
                                        new jBox('Tooltip', {
                                             attach: '#pop_search_banner'+i+j+banner_counter,
                                             theme: 'TooltipBorder',

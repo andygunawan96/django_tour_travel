@@ -967,7 +967,7 @@ def seat_map(request, signature):
                 for pax in child:
                     passenger.append(pax)
 
-                passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+                passenger = request.session['airline_create_passengers_%s' % signature]['adult'] + request.session['airline_create_passengers_%s' % signature]['child']
                 for pax in passenger:
                     pax['seat_list'] = []
                     for seat_provider in request.session['airline_get_seat_availability']['result']['response']['seat_availability_provider']:

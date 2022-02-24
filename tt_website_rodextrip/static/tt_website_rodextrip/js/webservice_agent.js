@@ -1954,13 +1954,14 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                                         }
                                     }catch(err){console.log(err)}
                                     //notif passport krng dari 6 bulan
-                                    if(expired != null || expired < -180){
-                                        identity_type = data[0];
-                                        Swal.fire({
-                                          type: 'warning',
-                                          title: 'Oops!',
-                                          html: '<span style="color: #ff9900;">'+identity_type+' expired date less then 6 months </span>' ,
-                                        })
+                                    if(expired != null){
+                                        if(expired > -180){
+                                            Swal.fire({
+                                              type: 'warning',
+                                              title: 'Oops!',
+                                              html: '<span style="color: #ff9900;">'+identity+' expired date less then 6 months </span>' ,
+                                            })
+                                        }
                                     }
                                     break;
                                 }
@@ -2895,13 +2896,15 @@ function copy_booker(val,type,identity){
                                     $('#adult_id_type1').niceSelect('update');
 
                                     //notif passport krng dari 6 bulan
-                                    if(expired != null || expired < -180){
-                                        identity_type = data[0];
-                                        Swal.fire({
-                                          type: 'warning',
-                                          title: 'Oops!',
-                                          html: '<span style="color: #ff9900;">'+identity_type+' expired date less then 6 months </span>' ,
-                                        })
+                                    if(expired != null){
+                                        if(expired > -180){
+                                            identity_type = data[0];
+                                            Swal.fire({
+                                              type: 'warning',
+                                              title: 'Oops!',
+                                              html: '<span style="color: #ff9900;">'+identity_type+' expired date less then 6 months </span>' ,
+                                            })
+                                        }
                                     }
                                 }
                             }
@@ -5526,13 +5529,15 @@ function pick_passenger_cache_copy(val, identity){
                                         }
                                         $('#'+passenger_pick+'_id_type'+passenger_pick_number).niceSelect('update');
                                         //notif passport krng dari 6 bulan
-                                        if(expired != null || expired < -180){
-                                            identity_type = data[0];
-                                            Swal.fire({
-                                              type: 'warning',
-                                              title: 'Oops!',
-                                              html: '<span style="color: #ff9900;">'+identity_type+' expired date less then 6 months </span>' ,
-                                            })
+                                        if(expired != null){
+                                            if(expired > -180){
+                                                identity_type = data[0];
+                                                Swal.fire({
+                                                  type: 'warning',
+                                                  title: 'Oops!',
+                                                  html: '<span style="color: #ff9900;">'+identity_type+' expired date less then 6 months </span>' ,
+                                                })
+                                            }
                                         }
                                     }
                                 }
