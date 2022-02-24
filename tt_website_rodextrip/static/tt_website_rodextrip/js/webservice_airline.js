@@ -7109,6 +7109,104 @@ function airline_issued(data){
     })
 }
 
+function airline_request_issued(req_order_number){
+    Swal.fire({
+      title: 'Are you sure want to Request Issued for this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        show_loading();
+        please_wait_transaction();
+        getToken();
+        $.ajax({
+           type: "POST",
+           url: "/webservice/content",
+           headers:{
+                'action': 'create_reservation_issued_request',
+           },
+           data: {
+               'order_number': req_order_number,
+               'table_name': 'airline',
+               'signature': signature
+           },
+           success: function(msg) {
+               console.log(msg);
+               if(msg.result.error_code == 0){
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    hide_modal_waiting_transaction();
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('airline_booking').innerHTML = '';
+                    document.getElementById('airline_detail').innerHTML = '';
+                    document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('voucher_div').style.display = 'none';
+                    document.getElementById('ssr_request_after_sales').hidden = true;
+                    document.getElementById('show_loading_booking_airline').style.display = 'block';
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('reissued').hidden = true;
+                    document.getElementById('cancel').hidden = true;
+                    document.getElementById('payment_acq').hidden = true;
+                    document.getElementById("overlay-div-box").style.display = "none";
+                    $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan
+                    window.location.href = '/reservation_request/' + btoa(msg.result.response.request_number);
+               }
+               else {
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error airline request issued </span>' + msg.result.error_msg,
+                    })
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('airline_booking').innerHTML = '';
+                    document.getElementById('airline_detail').innerHTML = '';
+                    document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('show_loading_booking_airline').style.display = 'block';
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('payment_acq').hidden = true;
+                    document.getElementById('reissued').hidden = true;
+                    document.getElementById('cancel').hidden = true;
+                    hide_modal_waiting_transaction();
+                    document.getElementById("overlay-div-box").style.display = "none";
+
+                    $('.hold-seat-booking-train').prop('disabled', false);
+                    $('.hold-seat-booking-train').removeClass("running");
+                    airline_get_booking(data);
+                    $(".issued_booking_btn").hide();
+               }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline request issued');
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                document.getElementById('show_loading_booking_airline').hidden = false;
+                document.getElementById('airline_booking').innerHTML = '';
+                document.getElementById('airline_detail').innerHTML = '';
+                document.getElementById('payment_acq').innerHTML = '';
+                document.getElementById('voucher_div').style.display = 'none';
+                document.getElementById('ssr_request_after_sales').hidden = true;
+                document.getElementById('show_loading_booking_airline').style.display = 'block';
+                document.getElementById('show_loading_booking_airline').hidden = false;
+                document.getElementById('reissued').hidden = true;
+                document.getElementById('cancel').hidden = true;
+                document.getElementById('payment_acq').hidden = true;
+                hide_modal_waiting_transaction();
+                document.getElementById("overlay-div-box").style.display = "none";
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                $(".issued_booking_btn").hide();
+                airline_get_booking(data);
+           },timeout: 300000
+        });
+      }
+    })
+}
+
 function update_service_charge(type){
     repricing_order_number = '';
     if(type == 'booking'){

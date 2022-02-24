@@ -940,6 +940,56 @@ def reservation(request):
     else:
         return no_session_logout(request)
 
+def reservation_request(request):
+    try:
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
+        values = get_data_template(request)
+
+        if translation.LANGUAGE_SESSION_KEY in request.session:
+            del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+        values.update({
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+            'username': request.session['user_account'],
+            'static_path_url_server': get_url_static_path(),
+            'javascript_version': javascript_version,
+            'signature': request.session['signature'],
+        })
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+        raise Exception('Make response code 500!')
+    return render(request, MODEL_NAME+'/backend/reservation_request_templates.html', values)
+
+def get_reservation_request(request, request_number):
+    try:
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
+        values = get_data_template(request)
+
+        try:
+            conv_req_num = base64.b64decode(request_number).decode('ascii')
+        except:
+            conv_req_num = request_number
+
+        if translation.LANGUAGE_SESSION_KEY in request.session:
+            del request.session[translation.LANGUAGE_SESSION_KEY]  # get language from browser
+        values.update({
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+            'username': request.session['user_account'],
+            'request_number': conv_req_num,
+            'static_path_url_server': get_url_static_path(),
+            'javascript_version': javascript_version,
+            'signature': request.session['signature'],
+        })
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+        raise Exception('Make response code 500!')
+    return render(request, MODEL_NAME+'/backend/get_reservation_request_templates.html', values)
+
 def live(request, data):
     try:
         javascript_version = get_javascript_version()

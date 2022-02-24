@@ -20,6 +20,7 @@
 <script>
     static_path_url_server = '{{static_path_url_server}}';
     order_number = '{{order_number}}';
+    issued_request_status = '{{issued_request_status}}';
 </script>
 <style>
     ul {
@@ -312,9 +313,21 @@
                     </div>
 
                     {% if 'issued_reservation' in username.co_agent_frontend_security %}
-                    <button class="primary-btn issued_booking_btn mt-3" id="issued_btn_airline" type="button" style="width:100%; display:none;" onclick="focus_box('payment_acq');">
-                         {% trans 'Issued Booking' %}
-                    </button>
+                        {% if username.co_job_position_is_request_required == True and issued_request_status != "approved" %}
+                            {% if issued_request_status == "on_process" %}
+                                <button class="primary-btn issued_booking_btn mt-3" id="request_issued_btn_airline" type="button" style="width:100%; display:none;" onclick="airline_request_issued('{{order_number}}');" disabled>
+                                     {% trans 'Issued Booking Requested' %}
+                                </button>
+                            {% else %}
+                                <button class="primary-btn issued_booking_btn mt-3" id="request_issued_btn_airline" type="button" style="width:100%; display:none;" onclick="airline_request_issued('{{order_number}}');">
+                                     {% trans 'Request Issued Booking' %}
+                                </button>
+                            {% endif %}
+                        {% else %}
+                            <button class="primary-btn issued_booking_btn mt-3" id="issued_btn_airline" type="button" style="width:100%; display:none;" onclick="focus_box('payment_acq');">
+                                 {% trans 'Issued Booking' %}
+                            </button>
+                        {% endif %}
                     {% endif %}
 
                     <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:15px; position:relative;" id="payment_acq" hidden>

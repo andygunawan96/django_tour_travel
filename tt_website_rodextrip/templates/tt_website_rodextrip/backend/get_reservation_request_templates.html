@@ -1,0 +1,88 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
+<script>
+    static_path_url_server = '{{static_path_url_server}}';
+    request_number = '{{request_number}}';
+    signature = `{{signature}}`;
+</script>
+<title>{{name}} - {% trans 'Reservation Request' %}</title>
+{% include 'tt_website_rodextrip/waiting_transaction_modal.html' %}
+{% include 'tt_website_rodextrip/logout.html' %}
+{% include 'tt_website_rodextrip/header.html' %}
+
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12" style="margin-top:20px; display:none;" id="success-issued">
+
+            </div>
+        </div>
+        <div class="row" style="padding-top:20px;">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
+                <button type="button" class="primary-btn-white for-show-website-inb mb-2 mr-1" onclick="window.location.href='/reservation_request'"> <i class="fas fa-arrow-left"></i> Back to Request List</button>
+                <button type="button" class="primary-btn-white for-show-website-inb mb-2" id="button-home" onclick="window.location.href='/'" hidden>
+                    <i class="fas fa-home"></i> {% trans 'Back to Home' %}
+                </button>
+                <button type="button" class="primary-btn-white for-show-mobile-inb mb-2 mr-1" onclick="window.location.href='/reservation'"> <i class="fas fa-arrow-left"></i></button>
+                <button type="button" class="primary-btn-white for-show-mobile-inb mb-2" id="button-home-mb" onclick="window.location.href='/'" hidden>
+                    <i class="fas fa-home"></i>
+                </button>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7" style="text-align:right;">
+
+            </div>
+            <div class="col-lg-12 mt-3">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div id="show_title_request" hidden>
+                            <h3>{% trans 'Reservation Issued Request' %}</h3>
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="col-md-4" id="div_sync_status" style="text-align:right;" hidden>
+
+                    </div>
+                </div>
+                <div class="col-lg-12" id="show_loading_booking_request">
+                    <div class="center-div">
+                        <div>
+                            <img src="{{static_path}}img/loading-screen-white.gif" alt="Loading Screen" style="height:25px; width:25px;"/>
+                        </div>
+                    </div>
+                    <div style="text-align:center">
+                        <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} ... </span>
+                    </div>
+                </div>
+                <div class="alert alert-warning" id="show_error_booking_request" style="display:none;">
+                    <h5>{% trans 'Oops! Something went wrong, please try again or check your internet connection.' %}</h5>
+                </div>
+            </div>
+
+            <div id="reservation_request_details" class="col-lg-8" style="padding-bottom:20px;">
+
+            </div>
+            <div id="reservation_request_buttons" class="col-lg-4" style="padding-bottom:20px;">
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $( document ).ready(function() {
+        get_reservation_issued_request('{{request_number}}');
+    });
+</script>
+{% include 'tt_website_rodextrip/footer.html' %}
+{% endblock %}
