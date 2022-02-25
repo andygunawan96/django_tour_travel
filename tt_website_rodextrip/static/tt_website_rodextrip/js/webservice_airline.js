@@ -4528,6 +4528,19 @@ function airline_get_booking(data, sync=false){
                 if(msg.result.response.state == 'booked' || msg.result.response.state == 'partial_booked' || msg.result.response.state == 'partial_issued' || msg.result.response.state == 'fail_issued'){
                     document.getElementById('div_sync_status').hidden = false;
                     try{
+                        if(user_login.co_job_position_is_request_required == true && msg.result.response.issued_request_status != "approved")
+                        {
+                            document.getElementById('issued_btn_airline').setAttribute("onClick", "airline_request_issued('"+msg.result.response.order_number+"');");
+                            if(msg.result.response.issued_request_status == "on_process")
+                            {
+                                document.getElementById('issued_btn_airline').innerHTML = "Issued Booking Requested";
+                                document.getElementById('issued_btn_airline').disabled = true;
+                            }
+                            else
+                            {
+                                document.getElementById('issued_btn_airline').innerHTML = "Request Issued Booking";
+                            }
+                        }
                         document.getElementById('issued_btn_airline').hidden = false;
                     }catch(err){
                         console.log(err); // error kalau ada element yg tidak ada

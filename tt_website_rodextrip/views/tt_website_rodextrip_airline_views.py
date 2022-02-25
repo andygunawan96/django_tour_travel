@@ -1632,11 +1632,9 @@ def review_after_sales(request, signature):
 def booking(request, order_number):
     try:
         javascript_version = get_javascript_version()
-        issued_request_status = 'none'
         if 'airline_create_passengers' in request.session:
             del request.session['airline_create_passengers']
         if 'airline_get_booking_response' in request.session:
-            issued_request_status = request.session['airline_get_booking_response']['result']['response']['issued_request_status']
             del request.session['airline_get_booking_response']
         if 'user_account' not in request.session:
             signin_btc(request)
@@ -1659,7 +1657,6 @@ def booking(request, order_number):
             'username': request.session.get('user_account') or {'co_user_login': ''},
             'airline_carriers': airline_carriers,
             'order_number': request.session['airline_order_number'],
-            'issued_request_status': issued_request_status,
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
         })

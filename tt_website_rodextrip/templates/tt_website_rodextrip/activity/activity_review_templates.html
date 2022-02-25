@@ -363,7 +363,7 @@
                             </button>
                         </div>
                         <div class="col-lg-4" style="margin-bottom:10px;">
-                            {% if 'issued_reservation' in username.co_agent_frontend_security and 'b2c_limitation' not in username.co_agent_frontend_security %}
+                            {% if 'issued_reservation' in username.co_agent_frontend_security and 'b2c_limitation' not in username.co_agent_frontend_security and not username.co_job_position_is_request_required %}
                             <button class="next-loading primary-btn hold-seat-booking-train ld-ext-right issued_booking_btn" type="button" style="width:100%;" onclick="activity_pre_create_booking(1);">
                                 {% trans 'Issued Booking' %}
                             </button>
