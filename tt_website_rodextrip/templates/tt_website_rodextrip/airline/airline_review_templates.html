@@ -409,7 +409,7 @@
                             </button>
                             {% endif %}
                         </div>
-                        {% if 'issued_reservation' in username.co_agent_frontend_security and force_issued == True %}
+                        {% if 'issued_reservation' in username.co_agent_frontend_security and force_issued == True and not username.co_job_position_is_request_required %}
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security%}
                             <div class="col-lg-12" style="padding-bottom:15px;">
                                 <button class="primary-btn issued_booking_btn" type="button" style="width:100%;" onclick="airline_hold_booking(1);">
