@@ -4819,7 +4819,9 @@ function on_change_ssr(){
 }
 
 function update_identity(type, val){
-    if(is_identity_required == 'false'){
+     if(is_identity_required == 'true' || is_international == 'true')
+        document.getElementById(type+'_identity_type'+val).style.display = 'block';
+    else if(is_identity_required == 'false'){
         document.getElementById(type+'_identity_type'+val).style.display = 'none';
         document.getElementById(type+'_passport_number'+val).value = '';
         try{
