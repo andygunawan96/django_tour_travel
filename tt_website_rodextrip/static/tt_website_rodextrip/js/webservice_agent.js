@@ -5321,8 +5321,9 @@ function pick_passenger_cache(val){
     var passenger_pick = document.getElementById('selection_type'+val).value.replace(/[^a-zA-Z ]/g,"");
     var passenger_pick_number = document.getElementById('selection_type'+val).value.replace( /^\D+/g, '');
     var identity_choose = null;
-    if(document.getElementById('identity_chosen'+val) != null && document.getElementById('identity_chosen'+val).value);
+    try{ //pakai try catch karena if tetap lolos jika id tidak ada
         identity_choose = document.getElementById('identity_chosen'+val).value;
+    }catch(err){console.log(err);}
     if("booker_with_adult".includes(passenger_pick) == false){
         var index = 0;
         var temp_data = '';
