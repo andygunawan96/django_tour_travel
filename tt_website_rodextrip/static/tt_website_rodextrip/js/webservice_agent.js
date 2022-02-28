@@ -5321,7 +5321,7 @@ function pick_passenger_cache(val){
     var passenger_pick = document.getElementById('selection_type'+val).value.replace(/[^a-zA-Z ]/g,"");
     var passenger_pick_number = document.getElementById('selection_type'+val).value.replace( /^\D+/g, '');
     var identity_choose = null;
-    if(document.getElementById('identity_chosen'+val) && document.getElementById('identity_chosen'+val).value);
+    if(document.getElementById('identity_chosen'+val) != null && document.getElementById('identity_chosen'+val).value);
         identity_choose = document.getElementById('identity_chosen'+val).value;
     if("booker_with_adult".includes(passenger_pick) == false){
         var index = 0;
