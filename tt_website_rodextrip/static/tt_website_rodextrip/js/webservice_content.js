@@ -2362,3 +2362,405 @@ function update_notification_airline(){
        },timeout: 60000
     });
 }
+
+function reservation_request_action_prompt(req_number, val){
+    //tambah swal
+    if(val == 0)
+    {
+        var temp_title = 'Are you sure you want to Reject this reservation issued request?';
+    }
+    else if(val == 1)
+    {
+        var temp_title = 'Are you sure you want to Approve this reservation issued request?';
+    }
+    else
+    {
+        var temp_title = 'Are you sure you want to Cancel this reservation issued request?';
+    }
+    Swal.fire({
+      title: temp_title,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        $('.issued_booking_btn').prop('disabled', true);
+        please_wait_transaction();
+        if(val == 0)
+        {
+            reject_reservation_issued_request(req_number);
+        }
+        else if(val == 1)
+        {
+            approve_reservation_issued_request(req_number);
+        }
+        else
+        {
+            cancel_reservation_issued_request(req_number);
+        }
+      }
+    })
+}
+
+function get_reservation_issued_request_list()
+{
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'get_issued_request_list',
+       },
+       data: {
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           $('#loading-search-reservation').hide();
+           $('#main_request_tables').show();
+           if(msg.result.error_code == 0){
+                text = `
+                    <tr>
+                        <th>No.</th>
+                        <th>Request Number</th>
+                        <th>Provider Type</th>
+                        <th>Booker</th>
+                        <th>Created Date</th>
+                        <th>State</th>
+                        <th>Action</th>
+                    </tr>
+                `;
+                text2 = `
+                    <tr>
+                        <th>No.</th>
+                        <th>Request Number</th>
+                        <th>Provider Type</th>
+                        <th>Booker</th>
+                        <th>Created Date</th>
+                        <th>State</th>
+                        <th>Action</th>
+                    </tr>
+                `;
+                num1 = 1;
+                num2 = 1;
+                for(i in msg.result.response){
+                    req_obj = msg.result.response[i];
+                    if(req_obj.direct_approval == true)
+                    {
+                        text += `
+                            <tr>
+                                <td>`+num1+`</td>
+                                <td>`+req_obj.request_number+`</td>
+                                <td>`+req_obj.provider_type+`</td>
+                                <td>`+req_obj.booker.name+` (`+req_obj.booker_job_position+`)</td>
+                                <td>`+req_obj.created_date+`</td>
+                                <td>`+req_obj.state_description+`</td>
+                                <td><button type='button' class="primary-btn-custom" onclick="goto_detail_reservation_request('`+req_obj.request_number+`')"><i class="fas fa-search"></button></td>
+                            </tr>
+                        `;
+                        num1 += 1;
+                    }
+                    else
+                    {
+                        text2 += `
+                            <tr>
+                                <td>`+num2+`</td>
+                                <td>`+req_obj.request_number+`</td>
+                                <td>`+req_obj.provider_type+`</td>
+                                <td>`+req_obj.booker.name+` (`+req_obj.booker_job_position+`)</td>
+                                <td>`+req_obj.created_date+`</td>
+                                <td>`+req_obj.state_description+`</td>
+                                <td><button type='button' class="primary-btn-custom" onclick="goto_detail_reservation_request('`+req_obj.request_number+`')"><i class="fas fa-search"></button></td>
+                            </tr>
+                        `;
+                        num2 += 1;
+                    }
+                }
+                document.getElementById('table_reservation_request_direct').innerHTML = text;
+                document.getElementById('table_reservation_request').innerHTML = text2;
+           }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error get issued request list </span>' + msg.result.error_msg,
+                })
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+}
+
+function get_reservation_issued_request(request_number)
+{
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'get_reservation_issued_request',
+       },
+       data: {
+           'request_number': request_number,
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           document.getElementById('show_title_request').hidden = false;
+           document.getElementById('show_loading_booking_request').style.display = 'none';
+           document.getElementById('show_loading_booking_request').hidden = true;
+           if(msg.result.error_code == 0){
+                $(".issued_booking_btn").show();
+                req_obj = msg.result.response;
+                text = `
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="reservation_request_details" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
+                            <div style="padding:10px;">
+                                <h4>`+ req_obj.request_number +`</h4>
+                                <hr/>
+                                <table style="width:100%;">
+                                    <tr>
+                                        <th style="width:40%;">Booker</th>
+                                        <th style="width:30%;">Date</th>
+                                        <th style="width:30%;">State</th>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:40%;">`+req_obj.booker.name+` (`+req_obj.booker_job_position+`)</td>
+                                        <td style="width:30%;">`+req_obj.created_date+`</td>
+                                        <td style="width:30%;">`+req_obj.state_description+`</td>
+                                    </tr>
+                                </table>
+                                <br/>
+                                <table style="width:100%;">
+                                    <tr>
+                                        <th style="width:40%;">Reservation</th>
+                                        <th style="width:30%;">Provider Type</th>
+                                        <th style="width:30%;">Total Price</th>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:40%;">`+req_obj.reservation_data.order_number+` (<a href="/`+req_obj.provider_type_code+`/booking/`+btoa(req_obj.reservation_data.order_number)+`">Details</a>)</td>
+                                        <td style="width:30%;">`+req_obj.provider_type+`</td>
+                                        <td style="width:30%;"> IDR `+getrupiah(req_obj.reservation_data.total_price)+`</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div id="reservation_request_approvals" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto; margin-top: 15px;">
+                            <div style="padding:10px;">
+                                <h4>Approvals</h4>
+                                <hr/>
+                                <table style="width:100%;" id="list-of-bookers" class="list-of-passenger-class">
+                                    <tr>
+                                        <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                        <th style="width:25%;">User</th>
+                                        <th style="width:25%;">Customer</th>
+                                        <th style="width:15%;">Position</th>
+                                        <th style="width:15%;">Date</th>
+                                        <th style="width:15%;">Action</th>
+                                    </tr>
+                                `;
+               temp_pax_seq = 1
+               for(i in req_obj.approvals)
+               {
+                    text += `
+                        <tr>
+                            <td>`+temp_pax_seq+`</td>
+                            <td>`+req_obj.approvals[i].approved_by+`</td>
+                            <td>`+req_obj.approvals[i].approved_by_customer+`</td>
+                            <td>`+req_obj.approvals[i].approved_job_position+`</td>
+                            <td>`+req_obj.approvals[i].approved_date+`</td>
+                            <td>`+req_obj.approvals[i].action+`</td>
+                        </tr>
+                    `;
+                    temp_pax_seq += 1;
+               }
+               text += `</table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+
+                document.getElementById('reservation_request_details').innerHTML = text;
+
+                if (user_login.co_customer_seq_id == req_obj.booker.seq_id)
+                {
+                    if (req_obj.state == 'cancel' || req_obj.state == 'approved' || req_obj.state == 'rejected')
+                    {
+                        btn_text = `
+                        <button class="primary-btn issued_booking_btn" id="disabled_request_btn" type="button" style="width:100%;" onclick="" disabled>
+                            Request `+req_obj.state_description+`
+                        </button>
+                        `;
+                    }
+                    else
+                    {
+                        btn_text = `
+                        <button class="primary-btn issued_booking_btn" id="cancel_request_btn" type="button" style="width:100%;" onclick="reservation_request_action_prompt('`+req_obj.request_number+`', 2)">
+                            Cancel Request
+                        </button>
+                        `;
+                    }
+                }
+                else
+                {
+                    if (req_obj.state == 'cancel' || req_obj.state == 'approved' || req_obj.state == 'rejected' || user_login.co_hierarchy_sequence >= req_obj.current_approval_sequence)
+                    {
+                        btn_text = `
+                        <button class="primary-btn issued_booking_btn" id="disabled_request_btn" type="button" style="width:100%;" onclick="" disabled>
+                            Request `+req_obj.state_description+`
+                        </button>
+                        `;
+                    }
+                    else
+                    {
+                        btn_text = `
+                        <button class="primary-btn-white issued_booking_btn" id="reject_request_btn" type="button" style="width:100%;" onclick="reservation_request_action_prompt('`+req_obj.request_number+`', 0)">
+                            Reject Request
+                        </button>
+                        <button class="primary-btn issued_booking_btn mt-3" id="approve_request_btn" type="button" style="width:100%;" onclick="reservation_request_action_prompt('`+req_obj.request_number+`', 1)">
+                            Approve Request
+                        </button>
+                        `;
+                    }
+                }
+                document.getElementById('reservation_request_buttons').innerHTML = btn_text;
+           }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error get reservation issued request </span>' + msg.result.error_msg,
+                })
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+}
+
+function approve_reservation_issued_request(request_number)
+{
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'approve_reservation_issued_request',
+       },
+       data: {
+           'request_number': request_number,
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                Swal.fire({
+                   type: 'success',
+                   title: 'Success',
+                   text: 'Approved!',
+                }).then((result) => {
+                    window.location.href = '/reservation_request/' + btoa(request_number);
+                })
+           }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error approve reservation issued request </span>' + msg.result.error_msg,
+               }).then((result) => {
+                   $('.issued_booking_btn').prop('disabled', false);
+                   hide_modal_waiting_transaction();
+               })
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error approve reservation issued request');
+            $('.issued_booking_btn').prop('disabled', false);
+            hide_modal_waiting_transaction();
+       },timeout: 60000
+    });
+}
+
+function reject_reservation_issued_request(request_number)
+{
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'reject_reservation_issued_request',
+       },
+       data: {
+           'request_number': request_number,
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                Swal.fire({
+                   type: 'success',
+                   title: 'Success',
+                   text: 'Rejected!',
+                }).then((result) => {
+                    window.location.href = '/reservation_request/' + btoa(request_number);
+                })
+           }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error reject reservation issued request </span>' + msg.result.error_msg,
+               }).then((result) => {
+                   $('.issued_booking_btn').prop('disabled', false);
+                   hide_modal_waiting_transaction();
+               })
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error reject reservation issued request');
+            $('.issued_booking_btn').prop('disabled', false);
+            hide_modal_waiting_transaction();
+       },timeout: 60000
+    });
+}
+
+function cancel_reservation_issued_request(request_number)
+{
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'cancel_reservation_issued_request',
+       },
+       data: {
+           'request_number': request_number,
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                Swal.fire({
+                   type: 'success',
+                   title: 'Success',
+                   text: 'Cancelled!',
+                }).then((result) => {
+                    window.location.href = '/reservation_request/' + btoa(request_number);
+                })
+           }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error cancel reservation issued request </span>' + msg.result.error_msg,
+               }).then((result) => {
+                   $('.issued_booking_btn').prop('disabled', false);
+                   hide_modal_waiting_transaction();
+               })
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error cancel reservation issued request');
+            $('.issued_booking_btn').prop('disabled', false);
+            hide_modal_waiting_transaction();
+       },timeout: 60000
+    });
+}
