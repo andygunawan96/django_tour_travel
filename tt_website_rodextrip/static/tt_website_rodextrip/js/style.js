@@ -160,7 +160,11 @@ $(document).ready(function(){
         if(template != 6){
             document.getElementById("overlay-search-box").style.display = "block";
             document.getElementById("div-search-overlay").style.zIndex = "3";
-            document.getElementById("change_search_box").style.zIndex = "100";
+            try{
+                document.getElementById("change_search_box").style.zIndex = "100";
+            }catch(err){
+                console.log('err');
+            }
             if(div_overlay_checked == 1){
                 $('html, body').animate({
                     scrollTop: $("#div-search-overlay").offset().top - 110
@@ -515,7 +519,6 @@ $(document).ready(function(){
         }
     });
 
-
     var quantity_adult_flight = parseInt($('#adult_flight').val());
     var quantity_child_flight = parseInt($('#child_flight').val());
     var quantity_infant_flight = parseInt($('#infant_flight').val());
@@ -782,6 +785,481 @@ $(document).ready(function(){
             document.getElementById("right-plus-infant-flight").disabled = false;
         }
     });
+
+
+    //groupbooking
+    var quantity_adult_flight_gb = parseInt($('#adult_flight_gb').val());
+    var quantity_child_flight_gb = parseInt($('#child_flight_gb').val());
+    var quantity_infant_flight_gb = parseInt($('#infant_flight_gb').val());
+
+    $('#show_total_pax_flight_gb').text(quantity_adult_flight_gb + " Adult, " + quantity_child_flight_gb + " Child, " +quantity_infant_flight_gb + " Infant");
+    $('.right-plus-adult-flight_gb').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#adult_flight_gb').val());
+        var quantity_child_flight_gb = parseInt($('#child_flight_gb').val());
+        var quantity_infant_flight_gb = parseInt($('#infant_flight_gb').val());
+
+        // If is not undefined
+        if(quantity < 50){
+            $('#adult_flight_gb').val(quantity + 1);
+            quantity_adult_flight_gb = quantity + 1;
+
+            $('#show_total_pax_flight_gb').text(quantity_adult_flight_gb + " Adult, " +quantity_child_flight_gb + " Child, " +quantity_infant_flight_gb + " Infant");
+        }
+
+        if (quantity_adult_flight_gb+quantity_child_flight_gb == 50){
+            document.getElementById("left-minus-adult-flight_gb").disabled = false;
+            document.getElementById("right-plus-adult-flight_gb").disabled = true;
+            document.getElementById("right-plus-child-flight_gb").disabled = true;
+            if (quantity_child_flight_gb > 0){
+                document.getElementById("left-minus-child-flight_gb").disabled = false;
+            }
+            else{
+                document.getElementById("left-minus-child-flight_gb").disabled = true;
+            }
+        }
+        else{
+            document.getElementById("left-minus-adult-flight_gb").disabled = false;
+            document.getElementById("right-plus-child-flight_gb").disabled = false;
+            if (quantity_child_flight_gb > 0){
+                document.getElementById("left-minus-child-flight_gb").disabled = false;
+            }
+            else{
+                document.getElementById("left-minus-child-flight_gb").disabled = true;
+            }
+        }
+        // Increment
+
+        if (quantity_adult_flight_gb > quantity_infant_flight_gb){
+            document.getElementById("right-plus-infant-flight_gb").disabled = false;
+        }
+        if (quantity_adult_flight_gb == quantity_infant_flight_gb){
+            document.getElementById("right-plus-infant-flight_gb").disabled = true;
+        }
+    });
+    $('.left-minus-adult-flight_gb').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#adult_flight_gb').val());
+        var quantity_child_flight_gb = parseInt($('#child_flight_gb').val());
+        var quantity_infant_flight_gb = parseInt($('#infant_flight_gb').val());
+
+        // If is not undefined
+        // Increment
+        if(quantity > 9){
+            $('#adult_flight_gb').val(quantity - 1);
+            quantity_adult_flight_gb = quantity - 1;
+
+            if(quantity_adult_flight_gb < quantity_infant_flight_gb){
+               quantity_infant_flight_gb = quantity_adult_flight_gb;
+               $('#infant_flight_gb').val(quantity - 1);
+            }
+
+            $('#show_total_pax_flight_gb').text(quantity_adult_flight_gb + " Adult, " + quantity_child_flight_gb + " Child, " +quantity_infant_flight_gb + " Infant");
+        }
+
+        if (quantity_adult_flight_gb+quantity_child_flight_gb == 50){
+            document.getElementById("left-minus-adult-flight_gb").disabled = false;
+            document.getElementById("right-plus-adult-flight_gb").disabled = true;
+            document.getElementById("right-plus-child-flight_gb").disabled = true;
+            if (quantity_child_flight_gb > 0){
+                document.getElementById("left-minus-child-flight_gb").disabled = false;
+            }
+        }
+        else{
+            document.getElementById("right-plus-child-flight_gb").disabled = false;
+            if (quantity_child_flight_gb > 0){
+                document.getElementById("left-minus-child-flight_gb").disabled = false;
+            }
+
+            if (quantity_adult_flight_gb == 10){
+                document.getElementById("left-minus-adult-flight_gb").disabled = true;
+                document.getElementById("right-plus-adult-flight_gb").disabled = false;
+            }
+            else{
+                document.getElementById("right-plus-adult-flight_gb").disabled = false;
+            }
+        }
+
+        if (quantity_adult_flight_gb == quantity_infant_flight_gb){
+            document.getElementById("right-plus-infant-flight_gb").disabled = true;
+        }
+    });
+    $('.right-plus-child-flight_gb').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#child_flight_gb').val());
+        var quantity_adult_flight_gb = parseInt($('#adult_flight_gb').val());
+        var quantity_infant_flight_gb = parseInt($('#infant_flight_gb').val());
+
+        // If is not undefined
+        if(quantity < 49){
+            $('#child_flight_gb').val(quantity + 1);
+            quantity_child_flight_gb = quantity + 1;
+
+            $('#show_total_pax_flight_gb').text(quantity_adult_flight_gb + " Adult, " +quantity_child_flight_gb + " Child, " +quantity_infant_flight_gb + " Infant");
+        }
+
+        if (quantity_adult_flight_gb+quantity_child_flight_gb == 50){
+            document.getElementById("right-plus-adult-flight_gb").disabled = true;
+            document.getElementById("right-plus-child-flight_gb").disabled = true;
+            document.getElementById("left-minus-child-flight_gb").disabled = false;
+            if (quantity_adult_flight_gb == 50){
+                document.getElementById("left-minus-adult-flight_gb").disabled = true;
+            }
+            if (quantity_child_flight_gb > 0){
+                document.getElementById("left-minus-child-flight_gb").disabled = false;
+            }
+            else{
+                document.getElementById("left-minus-child-flight_gb").disabled = true;
+            }
+        }
+        else{
+            document.getElementById("right-plus-child-flight_gb").disabled = false;
+            document.getElementById("left-minus-child-flight_gb").disabled = false;
+
+            if (quantity_child_flight_gb > 0){
+                document.getElementById("left-minus-child-flight_gb").disabled = false;
+            }
+            else{
+                document.getElementById("left-minus-child-flight_gb").disabled = true;
+            }
+        }
+    });
+    $('.left-minus-child-flight_gb').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#child_flight_gb').val());
+        var quantity_adult_flight_gb = parseInt($('#adult_flight_gb').val());
+        var quantity_infant_flight_gb = parseInt($('#infant_flight_gb').val());
+
+        // If is not undefined
+        // Increment
+        if(quantity > 0){
+            $('#child_flight_gb').val(quantity - 1);
+            quantity_child_flight_gb = quantity - 1;
+
+            $('#show_total_pax_flight_gb').text(quantity_adult_flight_gb + " Adult, " + quantity_child_flight_gb + " Child, " +quantity_infant_flight_gb + " Infant");
+        }
+
+        if (quantity_adult_flight_gb+quantity_child_flight_gb != 9){
+            document.getElementById("right-plus-adult-flight_gb").disabled = false;
+            document.getElementById("right-plus-child-flight_gb").disabled = false;
+            if (quantity_adult_flight_gb == 50){
+                document.getElementById("left-minus-adult-flight_gb").disabled = true;
+            }
+            if (quantity_child_flight_gb > 0){
+                document.getElementById("left-minus-child-flight_gb").disabled = false;
+            }
+            else{
+                document.getElementById("left-minus-child-flight_gb").disabled = true;
+            }
+        }
+    });
+    $('.right-plus-infant-flight_gb').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#infant_flight_gb').val());
+        var quantity_adult_flight_gb = parseInt($('#adult_flight_gb').val());
+        var quantity_child_flight_gb = parseInt($('#child_flight_gb').val());
+
+        // If is not undefined
+        if (quantity < quantity_adult_flight_gb){
+            $('#infant_flight_gb').val(quantity + 1);
+            quantity_infant_flight_gb = quantity + 1;
+
+            $('#show_total_pax_flight_gb').text(quantity_adult_flight_gb + " Adult, " + quantity_child_flight_gb + " Child, " +quantity_infant_flight_gb + " Infant");
+        }
+        // Increment
+
+//        alert(quantity_infant_train);
+//        alert(quantity_adult_train);
+
+        if (quantity_infant_flight_gb < quantity_adult_flight_gb){
+            document.getElementById("left-minus-infant-flight_gb").disabled = false;
+            document.getElementById("right-plus-infant-flight_gb").disabled = false;
+        }
+        else if(quantity_infant_flight_gb == quantity_adult_flight_gb){
+            document.getElementById("left-minus-infant-flight_gb").disabled = false;
+            document.getElementById("right-plus-infant-flight_gb").disabled = true;
+        }
+        else{
+            document.getElementById("right-plus-infant-flight_gb").disabled = true;
+            document.getElementById("left-minus-infant-flight_gb").disabled = false;
+        }
+    });
+    $('.left-minus-infant-flight_gb').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#infant_flight_gb').val());
+        var quantity_adult_flight_gb = parseInt($('#adult_flight_gb').val());
+        var quantity_child_flight_gb = parseInt($('#child_flight_gb').val());
+
+        // If is not undefined
+        // Increment
+        if(quantity > 0){
+            $('#infant_flight_gb').val(quantity - 1);
+            quantity_infant_flight_gb = quantity - 1;
+
+            $('#show_total_pax_flight_gb').text(quantity_adult_flight_gb + " Adult, " + quantity_child_flight_gb + " Child, " +quantity_infant_flight_gb + " Infant");
+        }
+
+        if (quantity_infant_flight_gb == 0){
+            document.getElementById("left-minus-infant-flight_gb").disabled = true;
+            document.getElementById("right-plus-infant-flight_gb").disabled = false;
+        }
+        else{
+            document.getElementById("right-plus-infant-flight_gb").disabled = false;
+        }
+    });
+
+    $("#adult_flight_gb").change(function(){
+        var quantity = parseInt($('#adult_flight_gb').val());
+        var quantity_child = parseInt($('#child_flight_gb').val());
+        var quantity_infant = parseInt($('#infant_flight_gb').val());
+        var count_max_qty_adt = 50-quantity_child;
+
+        if(quantity < 10){
+            quantity = 10;
+            $('#adult_flight_gb').val(quantity);
+            document.getElementById("left-minus-adult-flight_gb").disabled = true;
+            if (quantity+quantity_child == 50){
+                document.getElementById("right-plus-adult-flight_gb").disabled = true;
+                document.getElementById("right-plus-child-flight_gb").disabled = true;
+                document.getElementById("left-minus-child-flight_gb").disabled = false;
+            }else{
+                document.getElementById("right-plus-adult-flight_gb").disabled = false;
+                document.getElementById("right-plus-child-flight_gb").disabled = false;
+
+                if(quantity_child == 0){
+                    document.getElementById("left-minus-child-flight_gb").disabled = true;
+                }else{
+                    document.getElementById("left-minus-child-flight_gb").disabled = false;
+                }
+            }
+
+            if (quantity <= quantity_infant){
+                $('#infant_flight_gb').val(quantity);
+                quantity_infant = quantity;
+                document.getElementById("right-plus-infant-flight_gb").disabled = true;
+            }else{
+                document.getElementById("right-plus-infant-flight_gb").disabled = false;
+            }
+            $('#show_total_pax_flight_gb').text(quantity+ " Adult, " +quantity_child + " Child, " +quantity_infant + " Infant");
+        }
+        else if(quantity > count_max_qty_adt){
+            quantity = count_max_qty_adt;
+            $('#adult_flight_gb').val(quantity);
+
+            if (quantity+quantity_child >= 50){
+                document.getElementById("right-plus-adult-flight_gb").disabled = true;
+                document.getElementById("right-plus-child-flight_gb").disabled = true;
+
+                if(quantity != 10){
+                    document.getElementById("left-minus-adult-flight_gb").disabled = false;
+                }else{
+                    document.getElementById("left-minus-adult-flight_gb").disabled = true;
+                }
+                if (quantity_child == 0){
+                    document.getElementById("left-minus-child-flight_gb").disabled = true;
+                }else{
+                    document.getElementById("left-minus-child-flight_gb").disabled = false;
+                }
+            }else{
+                document.getElementById("right-plus-adult-flight_gb").disabled = false;
+                document.getElementById("right-plus-child-flight_gb").disabled = false;
+            }
+
+            if (quantity <= quantity_infant){
+                $('#infant_flight_gb').val(quantity);
+                quantity_infant = quantity;
+                document.getElementById("right-plus-infant-flight_gb").disabled = true;
+            }else{
+                document.getElementById("right-plus-infant-flight_gb").disabled = false;
+            }
+            $('#show_total_pax_flight_gb').text(quantity + " Adult, " +quantity_child + " Child, " +quantity_infant + " Infant");
+        }
+        else{
+            $('#adult_flight_gb').val(quantity);
+            if (quantity+quantity_child >= 50){
+                document.getElementById("right-plus-adult-flight_gb").disabled = true;
+                document.getElementById("right-plus-child-flight_gb").disabled = true;
+            }else{
+                document.getElementById("right-plus-adult-flight_gb").disabled = false;
+                document.getElementById("right-plus-child-flight_gb").disabled = false;
+
+                if(quantity <= 10){
+                    document.getElementById("left-minus-adult-flight_gb").disabled = true;
+                }else{
+                    document.getElementById("left-minus-adult-flight_gb").disabled = false;
+                }
+
+                if (quantity_child == 0){
+                    document.getElementById("left-minus-child-flight_gb").disabled = true;
+                }else{
+                    document.getElementById("left-minus-child-flight_gb").disabled = false;
+                }
+            }
+
+            if (quantity <= quantity_infant){
+                $('#infant_flight_gb').val(quantity);
+                quantity_infant = quantity;
+                document.getElementById("right-plus-infant-flight_gb").disabled = true;
+            }else{
+                document.getElementById("right-plus-infant-flight_gb").disabled = false;
+            }
+            $('#show_total_pax_flight_gb').text(quantity + " Adult, " +quantity_child + " Child, " +quantity_infant + " Infant");
+        }
+    });
+    $("#child_flight_gb").change(function(){
+        var quantity = parseInt($('#child_flight_gb').val());
+        var quantity_adult = parseInt($('#adult_flight_gb').val());
+        var quantity_infant = parseInt($('#infant_flight_gb').val());
+        var count_max_qty_adt = 50-quantity_adult;
+
+        if(quantity < 1){
+            quantity = 0;
+            $('#child_flight_gb').val(quantity);
+            document.getElementById("left-minus-child-flight_gb").disabled = true;
+            if (quantity+quantity_adult < 50){
+                document.getElementById("right-plus-adult-flight_gb").disabled = false;
+                document.getElementById("left-minus-adult-flight_gb").disabled = false;
+                document.getElementById("right-plus-child-flight_gb").disabled = false;
+            }
+
+            if(quantity_adult != 10){
+                document.getElementById("left-minus-adult-flight_gb").disabled = false;
+            }else{
+                document.getElementById("left-minus-adult-flight_gb").disabled = true;
+            }
+
+            $('#show_total_pax_flight_gb').text(quantity_adult+ " Adult, " +quantity + " Child, " +quantity_infant + " Infant");
+        }
+        else{
+            if(quantity >= count_max_qty_adt){
+                quantity = count_max_qty_adt;
+                $('#child_flight_gb').val(quantity);
+
+                document.getElementById("right-plus-adult-flight_gb").disabled = true;
+                document.getElementById("right-plus-child-flight_gb").disabled = true;
+
+                if(quantity_adult != 10){
+                    document.getElementById("left-minus-adult-flight_gb").disabled = false;
+                }else{
+                    document.getElementById("left-minus-adult-flight_gb").disabled = true;
+                }
+
+                if(quantity != 0){
+                    document.getElementById("left-minus-child-flight_gb").disabled = false;
+                }else{
+                    document.getElementById("left-minus-child-flight_gb").disabled = true;
+                }
+
+                $('#show_total_pax_flight_gb').text(quantity_adult + " Adult, " +quantity + " Child, " +quantity_infant + " Infant");
+            }
+            else{
+                if(count_max_qty_adt == 0){
+                    $('#child_flight_gb').val(count_max_qty_adt);
+                    document.getElementById("right-plus-child-flight_gb").disabled = true;
+                    document.getElementById("left-minus-child-flight_gb").disabled = true;
+                }else{
+                    $('#child_flight_gb').val(quantity);
+                    document.getElementById("right-plus-adult-flight_gb").disabled = false;
+                    document.getElementById("right-plus-child-flight_gb").disabled = false;
+
+                    if(quantity_adult != 10){
+                        document.getElementById("left-minus-adult-flight_gb").disabled = false;
+                    }else{
+                        document.getElementById("left-minus-adult-flight_gb").disabled = true;
+                    }
+
+                    if(quantity != 0){
+                        document.getElementById("left-minus-child-flight_gb").disabled = false;
+                    }else{
+                        document.getElementById("left-minus-child-flight_gb").disabled = true;
+                    }
+                }
+
+                $('#show_total_pax_flight_gb').text(quantity_adult + " Adult, " +quantity + " Child, " +quantity_infant + " Infant");
+            }
+        }
+    });
+    $("#infant_flight_gb").change(function(){
+        var quantity = parseInt($('#infant_flight_gb').val());
+        var quantity_adult = parseInt($('#adult_flight_gb').val());
+        var quantity_child = parseInt($('#child_flight_gb').val());
+
+        if(quantity < 1){
+            quantity = 0;
+            $('#infant_flight_gb').val(quantity);
+            document.getElementById("left-minus-infant-flight_gb").disabled = true;
+            document.getElementById("right-plus-infant-flight_gb").disabled = false;
+            $('#show_total_pax_flight_gb').text(quantity_adult+ " Adult, " +quantity_child + " Child, " +quantity + " Infant");
+        }else{
+            if(quantity >= quantity_adult){
+                $('#infant_flight_gb').val(quantity_adult);
+                document.getElementById("right-plus-infant-flight_gb").disabled = true;
+                document.getElementById("left-minus-infant-flight_gb").disabled = false;
+            }else{
+                $('#infant_flight_gb').val(quantity);
+                document.getElementById("right-plus-infant-flight_gb").disabled = false;
+                document.getElementById("left-minus-infant-flight_gb").disabled = false;
+            }
+
+            $('#show_total_pax_flight_gb').text(quantity_adult+ " Adult, " +quantity_child + " Child, " +quantity + " Infant");
+        }
+    });
+
+    //medical
+    var quantity_passenger_medical = parseInt($('#passenger_medical').val());
+    $('#show_total_pax_medical').text(quantity_passenger_medical + " Passengers");
+    $('.right-plus-adult-medical').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#adult_medical').val());
+
+        // If is not undefined
+        if(quantity < 9){
+            $('#adult_medical').val(quantity + 1);
+            quantity_adult_flight = quantity + 1;
+
+            $('#show_total_pax_medical').text(quantity_passenger_medical + " Passengers");
+        }
+
+        // Increment
+
+        if (quantity == 9){
+            document.getElementById("right-plus-adult-medical").disabled = true;
+        }
+
+    });
+    $('.left-minus-adult-medical').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#adult_medical').val());
+
+        // If is not undefined
+        // Increment
+        if(quantity > 1){
+            $('#adult_medical').val(quantity - 1);
+            quantity_adult_flight = quantity - 1;
+            $('#show_total_pax_medical').text(quantity_passenger_medical + " Passengers");
+        }
+        if (quantity == 1){
+            document.getElementById("left-minus-adult-medical").disabled = true;
+        }
+
+    });
+
 
     var quantity_room_hotel = parseInt($('#hotel_room').val());
     var quantity_adult_hotel = parseInt($('#hotel_adult').val());
@@ -2799,7 +3277,7 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
         var breadcrumbs_url = ["location.href='/dashboard';", "", ""];
     }
     else if(breadcrumbs_type == "group_booking"){
-        var breadcrumbs = ["Home", "Booking", "Issued"];
+        var breadcrumbs = ["Home", "Request", "Confirm", "Booking", "Issued"];
         var breadcrumbs_url = ["location.href='/dashboard';", "", ""];
     }
     else if(breadcrumbs_type == "event"){
@@ -2956,7 +3434,11 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
 function off_overlay() {
     document.getElementById("overlay-search-box").style.display = "none";
     document.getElementById("div-search-overlay").style.zIndex = "1";
-    document.getElementById("change_search_box").style.zIndex = "98";
+    try{
+        document.getElementById("change_search_box").style.zIndex = "98";
+    }catch(err){
+        console.log('err');
+    }
     div_overlay_checked = 0;
 }
 

@@ -486,12 +486,12 @@ Licence URI: http://www.os-templates.com/template-terms
             background: {{color}};
         }
         .forgot-pass-login{
-            color:{{text_color}};
+            color:{{color}};
             font-size:15px;
             font-weight:700;
         }
         .radio-label  > .div_label{
-            border:2px solid {{text_color}};
+            border:2px solid {{color}};
         }
 
         .radio-label > input:checked + .div_label{
@@ -1291,6 +1291,10 @@ Licence URI: http://www.os-templates.com/template-terms
 
         .owl-bg-border{
             border-bottom: 5px solid {{color}} !important;
+        }
+
+        .span_link:hover{
+            color:{{color}};
         }
 
         {% if template == 1%}

@@ -1174,6 +1174,14 @@ function get_customer_list(passenger, number, product){
     if(passenger == 'booker' || passenger == 'contact'){
         $('.loading-booker-train').show();
 
+        if(product == 'group_booking'){
+            if(passenger == 'contact'){
+                $('#loading_contact').show();
+            }else if(passenger == 'booker'){
+                $('#loading_booker').show();
+            }
+        }
+
         var minAge = '';
         var maxAge = '';
         if(passenger == 'booker')
@@ -1311,6 +1319,15 @@ function get_customer_list(passenger, number, product){
                             document.getElementById('search_result').innerHTML = response;
                         passenger_data = msg.result.response;
                         $('.loading-booker-train').hide();
+
+                        if(product == 'group_booking'){
+                            if(passenger == 'contact'){
+                                $('#loading_contact').hide();
+                            }else if(passenger == 'booker'){
+                                $('#loading_booker').hide();
+                            }
+                        }
+
                         $('.phone_chosen_cls').niceSelect();
                     }else{
                         response = '';
@@ -1324,11 +1341,26 @@ function get_customer_list(passenger, number, product){
                         else
                             document.getElementById('search_result').innerHTML = response;
                         $('.loading-booker-train').hide();
+                        if(product == 'group_booking'){
+                            if(passenger == 'contact'){
+                                $('#loading_contact').hide();
+                            }else if(passenger == 'booker'){
+                                $('#loading_booker').hide();
+                            }
+                        }
+
                         $('.phone_chosen_cls').niceSelect();
                     }
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
                     $('.loading-booker-train').hide();
+                    if(product == 'group_booking'){
+                        if(passenger == 'contact'){
+                            $('#loading_contact').hide();
+                        }else if(passenger == 'booker'){
+                            $('#loading_booker').hide();
+                        }
+                    }
                 }else{
                     Swal.fire({
                       type: 'error',
@@ -1337,15 +1369,36 @@ function get_customer_list(passenger, number, product){
                     })
 
                     $('.loading-booker-train').hide();
+                    if(product == 'group_booking'){
+                        if(passenger == 'contact'){
+                            $('#loading_contact').hide();
+                        }else if(passenger == 'booker'){
+                            $('#loading_booker').hide();
+                        }
+                    }
                 }
                },
                error: function(XMLHttpRequest, textStatus, errorThrown) {
                     error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error customer list');
                     $('.loading-booker-train').hide();
+                    if(product == 'group_booking'){
+                        if(passenger == 'contact'){
+                            $('#loading_contact').hide();
+                        }else if(passenger == 'booker'){
+                            $('#loading_booker').hide();
+                        }
+                    }
                },timeout: 60000
             });
         }else{
             $('.loading-booker-train').hide();
+            if(product == 'group_booking'){
+                if(passenger == 'contact'){
+                    $('#loading_contact').hide();
+                }else if(passenger == 'booker'){
+                    $('#loading_booker').hide();
+                }
+            }
             response = '';
             response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-times-circle"></i> Please input more than 1 letter!</h6></div></center>`;
             try{
@@ -1564,12 +1617,14 @@ function get_customer_list(passenger, number, product){
                         passenger_data = msg.result.response;
                         $('.loading-pax-train').hide();
                         $('.phone_chosen_cls_search').niceSelect();
+                        $('.phone_chosen_cls').niceSelect();
                     }else{
                         response = '';
                         response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> Oops! User nof found!</h6></div></center>`;
                         document.getElementById('search_result_'+passenger+number).innerHTML = response;
                         $('.loading-pax-train').hide();
                         $('.phone_chosen_cls_search').niceSelect();
+                        $('.phone_chosen_cls').niceSelect();
                     }
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
