@@ -37,10 +37,6 @@
                         </ul>
                     </li>
                     {% endif%}
-                    {% if "groupbooking" in provider and "ticketing_group_booking" in username.co_agent_frontend_security%}
-                    <li class="pt5"><a href="{% url 'tt_website_rodextrip:group_booking'%}">{% trans 'Group Booking' %}</a></li>
-                    {% endif %}
-                    <li class="pt5"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
                     {% endif %}
                     <li class="menu-has-children pt5"><a href="#">{% trans 'Highlight' %}</a>
                         <ul id="highlight_header_div">
@@ -307,7 +303,6 @@
                                 </ul>
                             </li>
                             {% endif%}
-                            <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
                             {% endif %}
                             <li class="menu-has-children pt5"><a href="#">{% trans 'Highlight' %}</a>
                                 <ul id="highlight_header_div" class="dropdown">
@@ -534,7 +529,6 @@
                             </ul>
                         </li>
                         {% endif%}
-                        <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
                         {% endif %}
                         <li class="menu-has-children"><a href="#">{% trans 'Highlight' %}</a>
                             <ul id="highlight_header_div">
@@ -758,7 +752,6 @@
                             </ul>
                         </li>
                         {% endif%}
-                        <li class="pt5"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
                         {% endif %}
                         <li class="has-children"><a href="#">{% trans 'Highlight' %}</a>
                             <ul id="highlight_header_div" class="dropdown">
@@ -982,7 +975,6 @@
                         </ul>
                     </li>
                     {% endif%}
-                    <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
                     {% endif %}
                     <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Highlight' %}</a>
                         <ul id="highlight_header_div" style="top:65%;">
@@ -1173,7 +1165,6 @@
                     </ul>
                 </li>
                 {% endif%}
-                <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
                 {% endif %}
                 <li><a href="#">{% trans 'Highlight' %} <i class="fas fa-chevron-down"></i></a>
                     <ul id="highlight_header_div">

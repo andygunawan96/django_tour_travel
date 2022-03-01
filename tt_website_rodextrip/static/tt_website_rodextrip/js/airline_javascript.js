@@ -7006,3 +7006,7 @@ function delete_checked_copy_resultReschedule(id){
     }
     checkboxCopyReschedule();
 }
+
+function choose_airline_groupbooking(text){
+    $('#show_provider_airline').text(text);
+}

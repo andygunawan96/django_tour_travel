@@ -6841,3 +6841,16 @@ ul.progress_tabs li.current .image-rounded-icon{
   }
 }
 
+.span_link{
+    font-weight:500;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.span_link:hover{
+    color:#f15a22;
+}
+
+.section_bg{
+    background:white;
+}

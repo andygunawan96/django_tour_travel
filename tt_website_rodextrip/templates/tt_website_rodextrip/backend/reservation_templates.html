@@ -434,7 +434,7 @@
     text+=`<div class="row">`;
     for(i in provider_types_sequence){
         if(i == 0){
-            text+=`<div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">`;
+            text+=`<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">`;
                 text += `<label class="radio-button-custom">`;
                 if(provider_types_sequence[i].name == 'airline'){
                     text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/airlines_black.png" alt="Airline Icon"/>`;
@@ -472,6 +472,8 @@
                     text+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/swab_black.png" alt="Swab Express Icon"/>`;
                 }else if(provider_types_sequence[i].name == 'sentramedika'){
                     text+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/swab_black.png" alt="Sentra Medika Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'groupbooking'){
+                    text+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/groupbooking_black.png" alt="Group Booking Icon"/>`;
                 }
                 text +=`
                     <span>`+provider_types_sequence[i].name.charAt(0).toUpperCase()+provider_types_sequence[i].name.slice(1).toLowerCase()+`</span>
@@ -480,7 +482,7 @@
                 </label>
             </div>`;
         }else if(provider_types_sequence[i].name != 'health_care'){//health_care provider buatan dari frontend tidak ada di backend
-            text+=`<div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">`;
+            text+=`<div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">`;
                 text += `<label class="radio-button-custom">`;
                 if(provider_types_sequence[i].name == 'airline'){
                     text+=`<img style="width:auto; height:20px" src="{{static_path}}images/icon/airlines_black.png" alt="Airline Icon"/>`;
@@ -518,6 +520,8 @@
                     text+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/swab_black.png" alt="Swab Express Icon"/>`;
                 }else if(provider_types_sequence[i].name == 'sentramedika'){
                     text+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/swab_black.png" alt="Sentra Medika Icon"/>`;
+                }else if(provider_types_sequence[i].name == 'groupbooking'){
+                    text+=`<img style="width:auto; height:15px" src="{{static_path}}images/icon/groupbooking_black.png" alt="Group Booking Icon"/>`;
                 }
                 text+=`
                     <span>`+provider_types_sequence[i].name.charAt(0).toUpperCase()+provider_types_sequence[i].name.slice(1).toLowerCase()+`</span>
@@ -531,6 +535,7 @@
     text += `
     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
         <label class="radio-button-custom">
+            <img style="width:auto; height:15px" src="{{static_path}}images/icon/offline_black.png" alt="Offline Icon"/>
             <span>Offline</span>
             <input type="radio" name="filter" value="offline" onclick="get_transactions('filter');">
             <span class="checkmark-radio"></span>

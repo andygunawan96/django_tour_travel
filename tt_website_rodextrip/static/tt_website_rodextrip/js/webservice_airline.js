@@ -751,7 +751,7 @@ function get_carrier_code_list(type, val){
                             <li>
                                 <label class="radio-button-custom crlabel">
                                     <span style="font-size:13px;">`+msg[i].display_name+`</span>
-                                    <input type="radio" name="carrier_code" value="`+i+`">
+                                    <input type="radio" name="carrier_code" value="`+i+`" onchange="choose_airline_groupbooking('`+msg[i].display_name+`');">
                                     <span class="checkmark-radio"></span>
                                 </label>
                             </li>`;
