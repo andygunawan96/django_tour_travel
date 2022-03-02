@@ -4753,7 +4753,7 @@ function airline_get_booking(data, sync=false){
                        check_ff = 0;
                        check_split = 0;
                        col = 4;
-                       if(msg.result.response.is_agent){
+                       if(msg.result.response.is_agent || user_login.co_agent_frontend_security.includes('process_channel_booking')){
                            if(last_date != '' && time_now < last_date){
                                for(i in msg.result.response.provider_bookings){
                                     if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_reschedule){
@@ -4796,19 +4796,15 @@ function airline_get_booking(data, sync=false){
                             document.getElementById('split_booking').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="split_booking_btn();" value="Split Booking">`;
                        }
                        document.getElementById('ssr_request_after_sales').innerHTML = '<h4>Request</h4><hr>';
-                       if(check_ssr){
-                            document.getElementById('ssr_request_after_sales').hidden = false;
-                            document.getElementById('ssr_request_after_sales').innerHTML += `
-                            <button class="primary-btn-ticket" id="ssr_req_new_ssr" style="width:100%;margin-bottom:10px;" type="button" onclick="set_new_request_ssr()">
-                                Request New SSR
-                            </button>`;
-                       }
                        if(check_seat){
                             document.getElementById('ssr_request_after_sales').hidden = false;
                             document.getElementById('ssr_request_after_sales').innerHTML += `
-                            <button class="primary-btn-ticket" id="ssr_req_new_seat" type="button" style="width:100%;" type="button" onclick="set_new_request_seat()">
-                                Request New Seat
-                            </button>`;
+                            <input class="primary-btn-ticket" style="margin-bottom:15px;" type="button" onclick="set_new_request_seat()" value="Seat"><br/>`;
+                       }
+                       if(check_ssr){
+                            document.getElementById('ssr_request_after_sales').hidden = false;
+                            document.getElementById('ssr_request_after_sales').innerHTML += `
+                            <input class="primary-btn-ticket" type="button" onclick="set_new_request_ssr()" value="Baggage, Meal, Medical">`;
                        }
                        if(check_ff){
                        }
@@ -4851,7 +4847,7 @@ function airline_get_booking(data, sync=false){
                        check_ff = 0;
                        check_split = 0;
                        col = 4;
-                       if(msg.result.response.is_agent){
+                       if(msg.result.response.is_agent || user_login.co_agent_frontend_security.includes('process_channel_booking')){
                            if(last_date != '' && time_now < last_date){
                                for(i in msg.result.response.provider_bookings){
                                     if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_reschedule){
