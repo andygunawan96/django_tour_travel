@@ -126,7 +126,30 @@
 {% include 'tt_website_rodextrip/logout.html' %}
 {% endif %}
 {% include 'tt_website_rodextrip/header.html' %}
-
+{% if username.co_user_login != 'agent_b2c' %}
+{% if template != 6 %}
+{% if template == 1%}
+<section class="section_bg" style="z-index:998; position:relative; border-top:1px solid #cdcdcd;">
+{% elif template == 2%}
+<section class="section_bg" style="z-index:3; position:relative; border-top:1px solid #cdcdcd;">
+{% elif template == 3%}
+<section class="section_bg" style="z-index:4; position:relative; border-top:1px solid #cdcdcd;">
+{% else %}
+<section class="section_bg" style="z-index:998; position:relative; border-top:1px solid #cdcdcd;">
+{% endif %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 pt-2 pb-2">
+                <span class="span_link" style="border-right:2px solid #cdcdcd; padding-right:5px;" onclick="location='{% url 'tt_website_rodextrip:issued_offline'%}'"><i class="fas fa-book-open"></i> {% trans 'Issued Offline' %}</span>
+                {% if "groupbooking" in provider and "ticketing_group_booking" in username.co_agent_frontend_security%}
+                <span class="span_link" style="padding-left:5px;" onclick="location='{% url 'tt_website_rodextrip:group_booking'%}'"><i class="fas fa-users"></i> {% trans 'Group Booking' %}</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif%}
+{% endif%}
 <meta name="twitter:card" content="Twitter" />
 <meta name="twitter:site" content="@rodextrip" />
 <meta name="twitter:creator" content="@rodextrip" />
@@ -7600,6 +7623,20 @@
 
     </section>
 </div>
+{% if username.co_user_login != 'agent_b2c' %}
+<section class="section_bg" style="z-index:998; padding-top:5px; padding-bottom:5px; position:relative; border-bottom:1px solid #cdcdcd;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 pt-2 pb-2">
+                <span class="span_link" style="border-right:2px solid #cdcdcd; padding-right:5px;" onclick="location='{% url 'tt_website_rodextrip:issued_offline'%}'"><i class="fas fa-book-open"></i> {% trans 'Issued Offline' %}</span>
+                {% if "groupbooking" in provider and "ticketing_group_booking" in username.co_agent_frontend_security%}
+                <span class="span_link" style="padding-left:5px;" onclick="location='{% url 'tt_website_rodextrip:group_booking'%}'"><i class="fas fa-users"></i> {% trans 'Group Booking' %}</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif%}
 
 <section class="about" id="box_choose" style="margin-top:45px; margin-bottom:50px; padding:15px;">
     <div class="container">
