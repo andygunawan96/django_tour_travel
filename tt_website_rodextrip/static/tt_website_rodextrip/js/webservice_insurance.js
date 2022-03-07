@@ -1671,6 +1671,8 @@ function insurance_get_booking(data, sync=false){
                 //======================= Resv =========================
                 if(msg.result.error_code == 0){
                     insurance_get_detail = msg;
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
                     can_issued = msg.result.response.can_issued;
                     document.getElementById('show_loading_booking_insurance').hidden = true;
 //                    document.getElementById('button-home').hidden = false;
@@ -1701,7 +1703,6 @@ function insurance_get_booking(data, sync=false){
                         localTime  = moment.utc(tes).toDate();
                         msg.result.response.issued_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
                     }
-                    insurance_get_detail = msg;
                     $text = '';
                     $text += 'Order Number: '+ msg.result.response.order_number + '\n';
 
@@ -2088,7 +2089,7 @@ function insurance_get_booking(data, sync=false){
                             //booker
                             booker_insentif = '-';
                             if(msg.result.response.hasOwnProperty('booker_insentif'))
-                                booker_insentif = msg.result.response.booker_insentif
+                                booker_insentif = getrupiah(msg.result.response.booker_insentif)
                             text_repricing += `
                                 <div class="col-lg-12">
                                     <div style="padding:5px;" class="row" id="booker_repricing" hidden>
@@ -2298,68 +2299,10 @@ function insurance_get_booking(data, sync=false){
                             <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
                         </center>
                     </div>`;
-                    if (msg.result.response.state  == 'issued' && msg.result.response.order_number.includes('PH')) {
-                        var verify = false;
-//                        var verify = true;
-//                        for(i in msg.result.response.passengers){
-//                            if(msg.result.response.passengers[i].verify == false){
-//                                verify = false;
-//                                break;
-//                            }
-//                        }
-                        if(verify == false){
-                            text_update_data_pax+=`<button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="update_data_passengers();" style="width:100%;margin-top:15px;">
-                            Update Data Customers`;
-
-                            if(user_login.co_agent_frontend_security.includes('verify_phc') == true && verify == false){
-                                text_update_data_pax+= ` / Verify Data`;
-                            }
-                            text_update_data_pax+=`
-                                <i class="fas fa-user-edit"></i>
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>`;
-                        }
-                        /*if(user_login.co_agent_frontend_security.includes('verify_phc') == true){
-                            text_detail+=`
-                            <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="verify_passenger();" style="width:100%;margin-top:15px;">
-                                Verify Data
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>`;
-                        }*/
-                        document.getElementById('cancel_reservation').innerHTML = '';
-                    }
-                    else if(msg.result.response.state  == 'booked' && msg.result.response.order_number.includes('PH')){
-                        text_update_data_pax+=`<button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="update_data_passengers();" style="width:100%;margin-top:15px;">
-                            Update Data Customers <i class="fas fa-user-edit"></i>`;
-                            text_update_data_pax+=`
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>`;
-                        document.getElementById('cancel_reservation').innerHTML = `
-                            <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="insurance_cancel_booking('` + msg.result.response.order_number + `');" style="width:100%;">
-                                Cancel Booking
-                                <i class="fas fa-times" style="padding-left:5px; color:red; font-size:16px;"></i>
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>
-                        `;
-                    }
-                    if (msg.result.response.state  == 'issued' && msg.result.response.order_number.includes('PH') == true && msg.result.response.provider_bookings[0].carrier_code.includes('PHCHC') == false) {
-                        text_update_data_pax+=`
-                            <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="insurance_get_result('` + msg.result.response.order_number + `');" style="width:100%;margin-top:15px;">
-                                Get Result
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>`;
-                    }
                     text_detail+=`
                 </div>`;
                 }catch(err){console.log(err);}
 
-//                if(user_login.co_agent_frontend_security.includes('view_map')) //map comment dulu
-                if(msg.result.response.test_address_map_link){
-                    map = msg.result.response.test_address_map_link.split('/')[msg.result.response.test_address_map_link.split('/').length-1]
-                    lat = parseFloat(map.split(',')[0]);
-                    long = parseFloat(map.split(',')[1]);
-//                        change_area();
-                }
 
                 document.getElementById('insurance_detail').innerHTML = text_detail;
                 document.getElementById('update_data_passenger').innerHTML = text_update_data_pax;
@@ -2390,12 +2333,11 @@ function insurance_get_booking(data, sync=false){
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
                     }else{
-                        if(order_number.includes('PK'))
-                            print_text+=`
-                            <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','insurance');" style="width:100%;">
-                                Print Ticket (With Price)
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>`;
+                        print_text+=`
+                        <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','insurance');" style="width:100%;">
+                            Print Ticket (With Price)
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>`;
                     }
                     print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
                     // === Button 3 ===
@@ -2463,6 +2405,17 @@ function insurance_get_booking(data, sync=false){
 
                     //======================= Other =========================
                     add_repricing();
+                    if(msg.result.response.hasOwnProperty('voucher_reference') && msg.result.response.voucher_reference != '' && msg.result.response.voucher_reference != false){
+                        try{
+                            render_voucher(price.currency,disc, msg.result.response.state)
+                        }catch(err){console.log(err);}
+                    }
+                    try{
+                        if(msg.result.response.state == 'booked' || msg.result.response.state == 'issued' && msg.result.response.voucher_reference)
+                            document.getElementById('voucher_discount').style.display = 'block';
+                        else
+                            document.getElementById('voucher_discount').style.display = 'none';
+                    }catch(err){console.log(err);}
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
                 }else if(msg.result.error_code == 1035){

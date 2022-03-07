@@ -907,7 +907,7 @@ function set_price(val, type, product_type){
 //                <span>`+payment_acq2[payment_method][selected].currency+` 0</span>
 //            </div>`;
         try{
-            if(Object.keys(discount_voucher).length != 0){
+            if(Object.keys(discount_voucher).length != 0 && window.location.href.includes('booking') == false){
                 payment_total = 0;
                 text += `
                     <div class='col-sm-6' style='text-align:left;'>

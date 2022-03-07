@@ -679,7 +679,6 @@ function ppob_get_booking(data){
                            check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'ppob', signature, msg.result.response.payment_acquirer_number);
                        get_payment = true;
     //                   get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
-                       document.getElementById('voucher_div').style.display = '';
                        //document.getElementById('issued-breadcrumb').classList.remove("active");
                        //document.getElementById('issued-breadcrumb').classList.add("current");
                        document.getElementById('issued-breadcrumb').classList.add("br-active");
@@ -738,11 +737,6 @@ function ppob_get_booking(data){
                 }
 
                 if(msg.result.response.state == 'issued'){
-                    try{
-                        document.getElementById('voucher_discount').style.display = 'none';
-                    }catch(err){
-                        console.log(err);
-                    }
                    //tanya ko sam kalau nyalain
     //                document.getElementById('ssr_request_after_sales').hidden = false;
     //                document.getElementById('ssr_request_after_sales').innerHTML = `
@@ -1081,6 +1075,7 @@ function ppob_get_booking(data){
                 total_price = 0;
                 total_price_for_discount = 0;
                 total_price_provider = [];
+                disc = 0;
                 price_provider = 0;
                 commission = 0;
                 service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
@@ -1124,9 +1119,11 @@ function ppob_get_booking(data){
                         price_discount = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
                         for(j in msg.result.response.passengers){
                             for(k in msg.result.response.passengers[j].sale_service_charges){
-                                price_discount[k] += msg.result.response.passengers[j].sale_service_charges[k].amount
+                                for(l in msg.result.response.passengers[j].sale_service_charges[k])
+                                    price_discount[l] += msg.result.response.passengers[j].sale_service_charges[k][l].amount
                             }
                         }
+                        disc -= price_discount['DISC'];
                         total_price_provider.push({
                             'pnr': msg.result.response.provider_booking[i].pnr,
                             'provider': msg.result.response.provider_booking[i].provider,
@@ -1198,7 +1195,7 @@ function ppob_get_booking(data){
                                 //booker
                                 booker_insentif = '-';
                                 if(msg.result.response.hasOwnProperty('booker_insentif'))
-                                    booker_insentif = msg.result.response.booker_insentif
+                                    booker_insentif = getrupiah(msg.result.response.booker_insentif)
                                 text_repricing += `
                                 <div class="col-lg-12">
                                     <div style="padding:5px;" class="row" id="booker_repricing" hidden>
@@ -1332,10 +1329,22 @@ function ppob_get_booking(data){
                     }
                 }
                 try{
+                    total_price -= disc;
                     bills_get_detail.result.response.total_price = total_price;
                     $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price);
                     if(check_provider_booking != 0 && msg.result.response.state == 'booked'){
                         $text += '\n\nPrices and availability may change at any time';
+                    }
+                    if(disc != 0){
+                        text_detail+=`
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                    <span style="font-size:12px;">Discount</span>`;
+                                text_detail+=`</div>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                    <span style="font-size:13px;">`+price.currency+` -`+getrupiah(parseInt(disc))+`</span>
+                                </div>
+                            </div>`;
                     }
                     text_detail+=`
                     <div>
@@ -1555,6 +1564,17 @@ function ppob_get_booking(data){
                 document.getElementById('show_title_bills').hidden = false;
                 document.getElementById('show_loading_booking_bills').hidden = true;
                 add_repricing();
+                if(msg.result.response.hasOwnProperty('voucher_reference') && msg.result.response.voucher_reference != '' && msg.result.response.voucher_reference != false){
+                    try{
+                        render_voucher(price.currency,disc, msg.result.response.state)
+                    }catch(err){console.log(err);}
+                }
+                try{
+                    if(msg.result.response.state == 'booked' || msg.result.response.state == 'issued' && msg.result.response.voucher_reference)
+                        document.getElementById('voucher_div').style.display = 'block';
+                    else
+                        document.getElementById('voucher_div').style.display = 'none';
+                }catch(err){console.log(err);}
                 if (msg.result.response.state != 'booked'){
     //                document.getElementById('issued-breadcrumb').classList.add("active");
                 }

@@ -709,6 +709,7 @@ function passport_get_data(data){
             document.getElementById('button-new-reservation').hidden = false;
             try{
                 if(msg.result.error_code == 0){
+                    passport_get_detail = msg;
                     passport = msg.result.response;
                     var cur_state = msg.result.response.journey.state;
                     var cur_state_passport= msg.result.response.journey.state_passport;
@@ -1046,7 +1047,7 @@ function passport_get_data(data){
                                     //booker
                                     booker_insentif = '-';
                                     if(msg.result.response.hasOwnProperty('booker_insentif'))
-                                        booker_insentif = msg.result.response.booker_insentif
+                                        booker_insentif = getrupiah(msg.result.response.booker_insentif)
                                     text_repricing += `
                                         <div class="col-lg-12">
                                             <div style="padding:5px;" class="row" id="booker_repricing" hidden>
