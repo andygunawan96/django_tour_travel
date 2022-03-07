@@ -741,6 +741,7 @@ function visa_get_data(data){
                 document.getElementById('button-home').hidden = false;
                 document.getElementById('button-new-reservation').hidden = false;
                 if(msg.result.error_code == 0){
+                    visa_get_detail = msg;
                     visa = msg.result.response;
                     var cur_state = msg.result.response.journey.state;
                     var cur_state_visa = msg.result.response.journey.state_visa;
@@ -1081,7 +1082,7 @@ function visa_get_data(data){
                                     //booker
                                     booker_insentif = '-';
                                     if(msg.result.response.hasOwnProperty('booker_insentif'))
-                                        booker_insentif = msg.result.response.booker_insentif
+                                        booker_insentif = getrupiah(msg.result.response.booker_insentif)
                                     text_repricing += `
                                         <div class="col-lg-12">
                                             <div style="padding:5px;" class="row" id="booker_repricing" hidden>

@@ -714,6 +714,8 @@ function train_get_booking(data){
             var give_space = false;
             if(msg.result.error_code == 0){
                 train_get_detail = msg;
+                price_arr_repricing = {};
+                pax_type_repricing = [];
                 can_issued = msg.result.response.can_issued;
                 if(msg.result.response.hold_date != false && msg.result.response.hold_date != ''){
                     tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
@@ -738,23 +740,29 @@ function train_get_booking(data){
                         msg.result.response.issued_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
                     }
                 }
-                if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'  && msg.result.response.state != 'fail_issued' && msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
-                    try{
-                        if(can_issued){
-                            check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'train', signature, msg.result.response.payment_acquirer_number);
-        //                    get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'train');
-                            document.getElementById('voucher_discount').style.display = '';
-                        }
-                    }catch(err){
-                        console.log(err); // error kalau ada element yg tidak ada
-                    }
-                }else{
-                    try{
+                try{
+                    if(msg.result.response.state == 'booked' || msg.result.response.state == 'issued' && msg.result.response.voucher_reference)
+                        document.getElementById('voucher_discount').style.display = 'block';
+                    else
                         document.getElementById('voucher_discount').style.display = 'none';
-                    }catch(err){
-                        console.log(err); // error kalau ada element yg tidak ada
-                    }
-                }
+                }catch(err){console.log(err);}
+//                if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'  && msg.result.response.state != 'fail_issued' && msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
+//                    try{
+//                        if(can_issued){
+//                            check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'train', signature, msg.result.response.payment_acquirer_number);
+//        //                    get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'train');
+//                            document.getElementById('voucher_discount').style.display = 'block';
+//                        }
+//                    }catch(err){
+//                        console.log(err); // error kalau ada element yg tidak ada
+//                    }
+//                }else{
+//                    try{
+//                        document.getElementById('voucher_discount').style.display = 'none';
+//                    }catch(err){
+//                        console.log(err); // error kalau ada element yg tidak ada
+//                    }
+//                }
                 total_price_provider = [];
                 price_provider = 0;
                 price_provider_for_discount = 0;
@@ -1323,7 +1331,7 @@ function train_get_booking(data){
                             //booker
                             booker_insentif = '-';
                             if(msg.result.response.hasOwnProperty('booker_insentif'))
-                                booker_insentif = msg.result.response.booker_insentif
+                                booker_insentif = getrupiah(msg.result.response.booker_insentif)
                             text_repricing += `
                                 <div class="col-lg-12">
                                     <div style="padding:5px;" class="row" id="booker_repricing" hidden>
@@ -1708,6 +1716,11 @@ function train_get_booking(data){
                    <div class="alert alert-success" role="alert">
                        <h5>Your booking has been successfully Issued!</h5>
                    </div>`;
+                }
+                if(msg.result.response.hasOwnProperty('voucher_reference') && msg.result.response.voucher_reference != '' && msg.result.response.voucher_reference != false){
+                    try{
+                        render_voucher(price.currency,disc, msg.result.response.state)
+                    }catch(err){console.log(err);}
                 }
 
             }else if(msg.result.error_code == 1035){

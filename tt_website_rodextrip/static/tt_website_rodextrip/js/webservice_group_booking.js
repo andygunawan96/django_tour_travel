@@ -421,6 +421,8 @@ function group_booking_get_booking(order_number){
            $(".issued_booking_btn").hide();
            try{
                if(msg.result.error_code == 0){
+                price_arr_repricing = {};
+                pax_type_repricing = [];
                 for(i in msg.result.response.ticket_list){
                     msg.result.response.ticket_list[i].fare_pick = 0;
                 }
@@ -1609,7 +1611,7 @@ function group_booking_get_booking(order_number){
                                 //booker
                                 booker_insentif = '-';
                                 if(msg.result.response.hasOwnProperty('booker_insentif'))
-                                    booker_insentif = msg.result.response.booker_insentif
+                                    booker_insentif = getrupiah(msg.result.response.booker_insentif)
                                 text_repricing += `
                                     <div class="col-lg-12">
                                         <div style="padding:5px;" class="row" id="booker_repricing" hidden>
@@ -1953,6 +1955,17 @@ function group_booking_get_booking(order_number){
                     ]
                     add_table_of_passenger('close',data_pax)
                 }
+                if(msg.result.response.hasOwnProperty('voucher_reference') && msg.result.response.voucher_reference != '' && msg.result.response.voucher_reference != false){
+                    try{
+                        render_voucher(price.currency,disc, msg.result.response.state)
+                    }catch(err){console.log(err);}
+                }
+//                try{
+//                    if(msg.result.response.state == 'booked' || msg.result.response.state == 'issued' && msg.result.response.voucher_reference)
+//                        document.getElementById('voucher_discount').style.display = 'block';
+//                    else
+//                        document.getElementById('voucher_discount').style.display = 'none';
+//                }catch(err){console.log(err);}
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                    auto_logout();
                }else if(msg.result.error_code == 1035){
@@ -2573,7 +2586,7 @@ function group_booking_update_passenger(){
                 "nationality_code": document.getElementById('select2-adult_nationality'+i+'_id-container').innerHTML,
                 "identity": {
                     "identity_country_of_issued_name": document.getElementById('select2-adult_country_of_issued'+i+'_id-container').innerHTML,
-                    "identity_expdate": document.getElementById('adult_identity_expired_date'+i).value != '' ? moment(document.getElementById('adult_identity_expired_date'+i).value,'DD MMM YYYY').format('YYYY-MM-DD') : '',
+                    "identity_expdate": document.getElementById('adult_identity_expired_date'+i).value != '' && document.getElementById('adult_identity_expired_date'+i).value != 'Invalid Date' ? moment(document.getElementById('adult_identity_expired_date'+i).value,'DD MMM YYYY').format('YYYY-MM-DD') : '',
                     "identity_number": document.getElementById('adult_identity_number'+i).value,
                     "identity_type": document.getElementById('adult_identity_type'+i).value
                 }
@@ -3236,7 +3249,10 @@ function add_table_of_passenger(type, data){
             birth_date = moment(data[5]+'-'+data[6]+'-'+data[7],'DD-MM-YYYY').format('DD MMM YYYY');
             identity_type = data[8];
             identity_number = data[9];
-            identity_exp_date = moment(data[10]+'-'+data[11]+'-'+data[12],'DD-MM-YYYY').format('DD MMM YYYY');;
+            if(data[10] != '' && data[11] != '' && data[12] != '')
+                identity_exp_date = moment(data[10]+'-'+data[11]+'-'+data[12],'DD-MM-YYYY').format('DD MMM YYYY');
+            else
+                identity_exp_date = '';
             country_of_issued = data[13];
             name = title + ' ' + first_name + ' ' + last_name;
 
