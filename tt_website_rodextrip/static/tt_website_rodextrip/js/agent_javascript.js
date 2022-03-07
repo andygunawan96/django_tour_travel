@@ -31,7 +31,10 @@ function table_reservation(data){
         text+= `<td>`+data[i].state_description+`</td>`;
 
         text+= `<td>`+data[i].pnr+`</td>`;
-
+        if(data[i].transaction_addtional_info != '')
+            text+= `<td>`+data[i].transaction_addtional_info+`</td>`;
+        else
+            text+= `<td>-</td>`;
         if(data[i].issued_date == false){
             text+= `<td>-</td>`;
         }
