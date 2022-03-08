@@ -746,23 +746,17 @@ function train_get_booking(data){
                     else
                         document.getElementById('voucher_discount').style.display = 'none';
                 }catch(err){console.log(err);}
-//                if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'  && msg.result.response.state != 'fail_issued' && msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
-//                    try{
-//                        if(can_issued){
-//                            check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'train', signature, msg.result.response.payment_acquirer_number);
-//        //                    get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'train');
-//                            document.getElementById('voucher_discount').style.display = 'block';
-//                        }
-//                    }catch(err){
-//                        console.log(err); // error kalau ada element yg tidak ada
-//                    }
-//                }else{
-//                    try{
-//                        document.getElementById('voucher_discount').style.display = 'none';
-//                    }catch(err){
-//                        console.log(err); // error kalau ada element yg tidak ada
-//                    }
-//                }
+                if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'  && msg.result.response.state != 'fail_issued' && msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
+                    try{
+                        if(can_issued){
+                            check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'train', signature, msg.result.response.payment_acquirer_number);
+        //                    get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'train');
+                            document.getElementById('voucher_discount').style.display = 'block';
+                        }
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
+                }
                 total_price_provider = [];
                 price_provider = 0;
                 price_provider_for_discount = 0;
