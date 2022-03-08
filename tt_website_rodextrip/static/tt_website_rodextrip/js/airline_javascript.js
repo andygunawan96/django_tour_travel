@@ -5207,6 +5207,10 @@ function check_passenger(adult, child, infant){
                if(document.getElementById('adult_nationality'+i).value == 'Indonesia'){
                    //indonesia
                    if(document.getElementById('adult_id_type'+i).value == 'ktp' && is_international == 'false'){
+                        document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                        $("#adult_id_type"+i).each(function() {
+                            $(this).parent().find('.nice-select').css('border', '0px solid red');
+                        });
                         document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#cdcdcd';
                         if(check_ktp(document.getElementById('adult_passport_number'+i).value) == false){
                            error_log+= 'Please fill id number, nik only contain 16 digits for passenger adult '+i+'!</br>\n';
@@ -5224,6 +5228,9 @@ function check_passenger(adult, child, infant){
                            });
                         }
                    }else if(document.getElementById('adult_id_type'+i).value == 'passport' && is_international == 'true'){
+                       $("#adult_id_type"+i).each(function() {
+                           $(this).parent().find('.nice-select').css('border', '0px solid red');
+                       });
                        if(document.getElementById('adult_id_type'+i).value == 'passport' && check_passport(document.getElementById('adult_passport_number'+i).value) == false){
                            error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger adult '+i+'!</br>\n';
                            document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
@@ -5259,6 +5266,9 @@ function check_passenger(adult, child, infant){
                    }
                }else{
                    //foreign
+                   $("#adult_id_type"+i).each(function() {
+                       $(this).parent().find('.nice-select').css('border', '0px solid red');
+                   });
                    if(document.getElementById('adult_id_type'+i).value == 'passport'){
                        if(document.getElementById('adult_id_type'+i).value == 'passport' && check_passport(document.getElementById('adult_passport_number'+i).value) == false){
                            error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger adult '+i+'!</br>\n';
@@ -5401,9 +5411,13 @@ function check_passenger(adult, child, infant){
        if(document.getElementById('child_identity_type'+i).style.display == 'block'){
            if(document.getElementById('child_id_type'+i).value != ''){
                document.getElementById('child_id_type'+i).style['border-color'] = '#EFEFEF';
-               if(document.getElementById('adult_nationality'+i).value == 'Indonesia'){
+               if(document.getElementById('child_nationality'+i).value == 'Indonesia'){
                    //indonesia
                    if(document.getElementById('child_id_type'+i).value == 'ktp' && is_international == 'false'){
+                        document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                        $("#child_id_type"+i).each(function() {
+                            $(this).parent().find('.nice-select').css('border', '0px solid red');
+                        });
                         if(check_ktp(document.getElementById('child_passport_number'+i).value) == false){
                            error_log+= 'Please fill id number, nik only contain 16 digits for passenger child '+i+'!</br>\n';
                            document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
@@ -5420,6 +5434,9 @@ function check_passenger(adult, child, infant){
                            });
                         }
                    }else if(document.getElementById('child_id_type'+i).value == 'passport' && is_international == 'true'){
+                       $("#child_id_type"+i).each(function() {
+                           $(this).parent().find('.nice-select').css('border', '0px solid red');
+                       });
                        if(document.getElementById('child_id_type'+i).value == 'passport' && check_passport(document.getElementById('child_passport_number'+i).value) == false){
                            error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger child '+i+'!</br>\n';
                            document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
@@ -5457,6 +5474,9 @@ function check_passenger(adult, child, infant){
                }else{
                    //foreign
                    if(document.getElementById('child_id_type'+i).value == 'passport'){
+                       $("#child_id_type"+i).each(function() {
+                           $(this).parent().find('.nice-select').css('border', '0px solid red');
+                       });
                        if(document.getElementById('child_id_type'+i).value == 'passport' && check_passport(document.getElementById('child_passport_number'+i).value) == false){
                            error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger child '+i+'!</br>\n';
                            document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
@@ -5610,9 +5630,13 @@ function check_passenger(adult, child, infant){
        if(document.getElementById('infant_identity_type'+i).style.display == 'block'){
            if(document.getElementById('infant_id_type'+i).value != ''){
                document.getElementById('infant_id_type'+i).style['border-color'] = '#EFEFEF';
-               if(document.getElementById('adult_nationality'+i).value == 'Indonesia'){
+               if(document.getElementById('infant_nationality'+i).value == 'Indonesia'){
                    //indonesia
                    if(document.getElementById('infant_id_type'+i).value == 'ktp' && is_international == 'false'){
+                        document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                        $("#infant_id_type"+i).each(function() {
+                            $(this).parent().find('.nice-select').css('border', '0px solid red');
+                        });
                         if(check_ktp(document.getElementById('infant_passport_number'+i).value) == false){
                            error_log+= 'Please fill id number, nik only contain 16 digits for passenger infant '+i+'!</br>\n';
                            document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
@@ -5639,6 +5663,9 @@ function check_passenger(adult, child, infant){
                         }
 
                    }else if(document.getElementById('infant_id_type'+i).value == 'passport' && is_international == 'true'){
+                       $("#infant_id_type"+i).each(function() {
+                            $(this).parent().find('.nice-select').css('border', '0px solid red');
+                       });
                        if(document.getElementById('infant_id_type'+i).value == 'passport' && check_passport(document.getElementById('infant_passport_number'+i).value) == false){
                            error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger infant '+i+'!</br>\n';
                            document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
@@ -5674,6 +5701,9 @@ function check_passenger(adult, child, infant){
                }else{
                    //foreign
                    if(document.getElementById('infant_id_type'+i).value == 'passport'){
+                       $("#infant_id_type"+i).each(function() {
+                            $(this).parent().find('.nice-select').css('border', '0px solid red');
+                       });
                        if(document.getElementById('infant_id_type'+i).value == 'passport' && check_passport(document.getElementById('infant_passport_number'+i).value) == false){
                            error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger infant '+i+'!</br>\n';
                            document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
