@@ -4634,15 +4634,32 @@ function airline_detail(type){
             try{
                 if(upsell_price != 0){
                     text+=`<div class="col-lg-7" style="text-align:left;">
-                        <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
+                        <label>Other Service Charge</label><br/>
                     </div>
                     <div class="col-lg-5" style="text-align:right;">`;
                     if(airline_price[0].ADT.currency == 'IDR')
                     text+=`
-                        <span style="font-size:13px; font-weight:500;">`+airline_price[0].ADT.currency+` `+getrupiah(upsell_price)+`</span><br/>`;
+                        <label>`+airline_price[0].ADT.currency+` `+getrupiah(upsell_price)+`</label><br/>`;
                     else
                     text+=`
-                        <span style="font-size:13px; font-weight:500;">`+airline_price[0].ADT.currency+` `+upsell_price+`</span><br/>`;
+                        <label>`+airline_price[0].ADT.currency+` `+upsell_price+`</label><br/>`;
+                    text+=`</div>`;
+                }
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
+            try{
+                if(total_discount != 0){
+                    text+=`<div class="col-lg-7" style="text-align:left;">
+                        <label>Discount</label><br/>
+                    </div>
+                    <div class="col-lg-5" style="text-align:right;">`;
+                    if(airline_price[0].ADT.currency == 'IDR')
+                    text+=`
+                        <label>`+airline_price[0].ADT.currency+` `+getrupiah(total_discount)+`</label><br/>`;
+                    else
+                    text+=`
+                        <label>`+airline_price[0].ADT.currency+` `+total_discount+`</label><br/>`;
                     text+=`</div>`;
                 }
             }catch(err){
@@ -4663,15 +4680,9 @@ function airline_detail(type){
             if(airline_price[0].ADT.currency == 'IDR'){
                 text+=`
                     <span style="font-size:14px; font-weight:bold;" id="total_price"><b> `+airline_price[i].ADT.currency+` `+getrupiah(grand_total_price+total_discount)+`</b></span><br/>`;
-                if(total_discount != 0)
-                    text+=`
-                    <span style="font-size:12px; color:#cdcdcd; text-decoration: line-through;"> `+airline_price[i].ADT.currency+` `+getrupiah(grand_total_price)+`</span><br/>`;
             }else{
                 text+=`
                     <span style="font-size:14px; font-weight:bold;" id="total_price"><b> `+airline_price[i].ADT.currency+` `+parseFloat(grand_total_price+total_discount)+`</b></span><br/>`;
-                if(total_discount != 0)
-                    text+=`
-                    <span style="font-size:12px; color:#cdcdcd; text-decoration: line-through;"> `+airline_price[i].ADT.currency+` `+parseFloat(grand_total_price)+`</span><br/>`;
             }
             text+=`
             </div>
