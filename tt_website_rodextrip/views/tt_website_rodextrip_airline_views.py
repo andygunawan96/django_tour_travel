@@ -379,7 +379,7 @@ def passenger(request, signature):
             adult = []
             infant = []
             child = []
-            pax = copy.deepcopy(request.session['airline_request'])
+            pax = copy.deepcopy(request.session['airline_request_%s' % signature])
             for i in range(int(pax['adult'])):
                 adult.append('')
             for i in range(int(pax['child'])):
@@ -389,18 +389,18 @@ def passenger(request, signature):
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             #CHECK INI
-            set_session(request, 'airline_price_itinerary', json.loads(request.POST['airline_price_itinerary']))
-            set_session(request, 'airline_get_price_request', json.loads(request.POST['airline_price_itinerary_request']))
+            set_session(request, 'airline_price_itinerary_%s' % signature, json.loads(request.POST['airline_price_itinerary']))
+            set_session(request, 'airline_get_price_request_%s' % signature, json.loads(request.POST['airline_price_itinerary_request']))
             try:
-                set_session(request, 'airline_sell_journey', json.loads(request.POST['airline_sell_journey_response']))
+                set_session(request, 'airline_sell_journey_%s' % signature, json.loads(request.POST['airline_sell_journey_response']))
             except:
                 _logger.info('no sell journey input')
             time_limit = get_timelimit_product(request,'airline')
             if time_limit == 0:
                 time_limit = int(request.POST['time_limit_input'])
             set_session(request, 'time_limit', time_limit)
-            set_session(request, 'signature', request.POST['signature'])
-            set_session(request, 'airline_signature', request.POST['signature'])
+            set_session(request, 'signature', signature)
+            set_session(request, 'airline_signature', signature)
             # signature = request.POST['signature']
         except Exception as e:
             _logger.info(str(e) + traceback.format_exc())
@@ -411,7 +411,7 @@ def passenger(request, signature):
         is_garuda = False
         is_identity_required = False
         is_birthdate_required = False
-        airline_price_provider_temp = request.session['airline_sell_journey']['sell_journey_provider'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']['price_itinerary_provider']
+        airline_price_provider_temp = request.session['airline_sell_journey_%s' % signature]['sell_journey_provider']
         for airline in airline_price_provider_temp:
             for journey in airline['journeys']:
                 for segment in journey['segments']:
@@ -434,7 +434,7 @@ def passenger(request, signature):
             if airline['provider'] == 'lionair' or airline['provider'] == 'lionairapi':
                 is_lionair = True
             try:
-                ff_request = request.session['airline_get_ff_availability']['result']['response']['ff_availability_provider']
+                ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
             except:
                 ff_request = []
         try:
@@ -449,12 +449,12 @@ def passenger(request, signature):
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
-                'is_identity_required':is_identity_required,
-                'airline_request': request.session['airline_request'],
-                'price': request.session['airline_sell_journey'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary'],
-                'airline_get_price_request': request.session['airline_get_price_request'],
+                'is_identity_required': is_identity_required,
+                'airline_request': request.session['airline_request_%s' % signature],
+                'price': request.session['airline_sell_journey_%s' % signature],
+                'airline_get_price_request': request.session['airline_get_price_request_%s' % signature],
                 'airline_carriers': carrier,
-                'airline_pick': request.session['airline_sell_journey']['sell_journey_provider'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']['price_itinerary_provider'],
+                'airline_pick': request.session['airline_sell_journey_%s' % signature]['sell_journey_provider'],
                 'adults': adult,
                 'childs': child,
                 'infants': infant,
@@ -512,7 +512,7 @@ def ssr(request, signature):
                     'ssr_availability_provider': []
                 }
                 airline_list = []
-                for ssr_provider in request.session['airline_get_ssr']['result']['response']['ssr_availability_provider']:
+                for ssr_provider in request.session['airline_get_ssr_%s' % signature]['result']['response']['ssr_availability_provider']:
                     if ssr_provider.get('ssr_availability'):
                         airline_ssr['ssr_availability_provider'].append(ssr_provider)
                     for available in ssr_provider['ssr_availability']:
@@ -525,7 +525,7 @@ def ssr(request, signature):
                         'airline_list': airline_list
                     })
                     airline_list = []
-                passenger = request.session['airline_create_passengers_%s' % signature]['adult'] + request.session['airline_create_passengers_%s' % signature]['child']
+                passenger = request.session['passenger_with_ssr_%s' % signature]
 
                 time_limit = get_timelimit_product(request, 'airline')
                 if time_limit == 0:
@@ -534,8 +534,8 @@ def ssr(request, signature):
 
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
-                    'airline_request': request.session['airline_request'],
-                    'price': request.session['airline_sell_journey'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary'],
+                    'airline_request': request.session['airline_request_%s' % signature],
+                    'price': request.session['airline_sell_journey_%s' % signature],
                     'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                     'countries': airline_country,
                     'phone_code': phone_code,
@@ -543,7 +543,7 @@ def ssr(request, signature):
                     'additional_price': float(additional_price_input),
                     'airline_carriers': carrier,
                     # 'airline_destinations': airline_destinations,
-                    'airline_pick': request.session['airline_sell_journey']['sell_journey_provider'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']['price_itinerary_provider'],
+                    'airline_pick': request.session['airline_sell_journey_%s' % signature]['sell_journey_provider'],
                     'upsell': request.session.get('airline_upsell_'+signature) and request.session.get('airline_upsell_'+signature) or 0,
                     'signature': signature,
                     'airline_ssrs': airline_ssr,
@@ -565,7 +565,7 @@ def ssr(request, signature):
                     'ssr_availability_provider': []
                 }
                 airline_list = []
-                after_sales_data = json.loads(request.POST['after_sales_data']) if request.POST.get('after_sales_data') else request.session['airline_get_ssr']
+                after_sales_data = json.loads(request.POST['after_sales_data_%s' % signature]) if request.POST.get('after_sales_data_%s' % signature) else request.session['airline_get_ssr_%s' % signature]
                 for ssr_provider in after_sales_data['result']['response']['ssr_availability_provider']:
                     if ssr_provider.get('ssr_availability'):
                         airline_ssr['ssr_availability_provider'].append(ssr_provider)
@@ -659,9 +659,9 @@ def ssr(request, signature):
                                                 for ssr in availability['ssrs']:
                                                     if ssr['fee_code'] == fee['fee_code']:
                                                         child[len(child) - 1]['ssr_list'].append({
-                                                            "name": fee['fee_name'],
+                                                            "fee_code": fee['fee_code'],
                                                             "journey_code": ssr['journey_code'],
-                                                            "availability_type": fee['fee_category']
+                                                            "availability_type": fee['fee_category'].lower()
                                                         })
                         else:
                             adult.append({
@@ -679,7 +679,7 @@ def ssr(request, signature):
                             })
                             if len(pax['fees']):
                                 adult[len(adult) - 1]['ssr_list'] = []
-                                if ssr_provider.get('is_replace_ssr') and ssr_provider['is_replace_ssr']:
+                                if ssr_provider.get('is_replace_ssr') and ssr_provider['is_replace_ssr'] or True:
                                     for fee in pax['fees']:
                                         for provider in ssr_provider['ssr_availability']:
                                             for availability in ssr_provider['ssr_availability'][provider]:
@@ -687,17 +687,17 @@ def ssr(request, signature):
                                                     if ssr.get('fee_code'):
                                                         if fee['fee_code'] in ssr.get('fee_code'):
                                                             adult[len(adult) - 1]['ssr_list'].append({
-                                                                "name": fee['fee_name'],
+                                                                "fee_code": fee['fee_code'],
                                                                 "journey_code": ssr['journey_code'],
-                                                                "availability_type": fee['fee_category'],
+                                                                "availability_type": fee['fee_category'].lower(),
                                                                 "price": fee['amount']
                                                             })
                                                     elif ssr.get('ssr_code'):
                                                         if fee['fee_code'] in ssr.get('ssr_code'):
                                                             adult[len(adult) - 1]['ssr_list'].append({
-                                                                "name": fee['fee_name'],
+                                                                "fee_code": fee['fee_code'],
                                                                 "journey_code": ssr['journey_code'],
-                                                                "availability_type": fee['fee_category'],
+                                                                "availability_type": fee['fee_category'].lower(),
                                                                 "price": fee['amount']
                                                             })
                     else:
@@ -723,15 +723,15 @@ def ssr(request, signature):
                                             for ssr in availability['ssrs']:
                                                 if ssr.get('fee_code') == fee['fee_code']:
                                                     adult[len(adult) - 1]['ssr_list'].append({
-                                                        "name": fee['fee_name'],
+                                                        "fee_code": fee['fee_code'],
                                                         "journey_code": ssr['journey_code'],
-                                                        "availability_type": fee['fee_category']
+                                                        "availability_type": fee['fee_category'].lower()
                                                     })
                                                 elif ssr.get('ssr_code') == fee['fee_code']:
                                                     adult[len(adult) - 1]['ssr_list'].append({
-                                                        "name": fee['fee_name'],
+                                                        "fee_code": fee['fee_code'],
                                                         "journey_code": ssr['journey_code'],
-                                                        "availability_type": fee['fee_category']
+                                                        "availability_type": fee['fee_category'].lower()
                                                     })
                 title_booker = 'MR'
                 title_contact = 'MR'
@@ -820,7 +820,7 @@ def seat_map(request, signature):
                 for pax in passenger:
                     if not 'seat_list' in pax:
                         pax['seat_list'] = []
-                        for seat_provider in request.session['airline_get_seat_availability']['result']['response']['seat_availability_provider']:
+                        for seat_provider in request.session['airline_get_seat_availability_%s' % signature]['result']['response']['seat_availability_provider']:
                             for segment in seat_provider['segments']:
                                 pax['seat_list'].append({
                                     'segment_code': segment['segment_code2'],
@@ -970,7 +970,7 @@ def seat_map(request, signature):
                 passenger = request.session['airline_create_passengers_%s' % signature]['adult'] + request.session['airline_create_passengers_%s' % signature]['child']
                 for pax in passenger:
                     pax['seat_list'] = []
-                    for seat_provider in request.session['airline_get_seat_availability']['result']['response']['seat_availability_provider']:
+                    for seat_provider in request.session['airline_get_seat_availability_%s' % signature]['result']['response']['seat_availability_provider']:
                         if seat_provider.get('segments'):
                             for segment in seat_provider['segments']:
                                 found = False
@@ -1024,9 +1024,9 @@ def seat_map(request, signature):
                     'countries': airline_country,
                     'phone_code': phone_code,
                     'after_sales': 0,
-                    'upsell': request.session.get('airline_upsell_'+signature) and request.session.get('airline_upsell_'+signature) or 0,
-                    'airline_request': request.session['airline_request'],
-                    'price': request.session['airline_sell_journey'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary'],
+                    'upsell': request.session.get('airline_upsell_'+signature) and request.session.get('airline_upsell_%s' % signature) or 0,
+                    'airline_request': request.session['airline_request_%s' % signature],
+                    'price': request.session['airline_sell_journey_%s' % signature],
                     'additional_price': float(additional_price_input),
                     'passengers': passenger,
                     'username': request.session['user_account'],
@@ -1131,7 +1131,7 @@ def review(request, signature):
                     passengers_list = []
                     for pax in passenger:
                         pax['ssr_list'] = []
-                    ssr_response = request.session['airline_get_ssr']['result']['response']
+                    ssr_response = request.session['airline_get_ssr_%s' % signature]['result']['response']
                     for counter_ssr_availability_provider, ssr_package in enumerate(ssr_response['ssr_availability_provider']):
                         for ssr_key in ssr_package['ssr_availability']:
                             for counter_journey, journey_ssr in enumerate(ssr_package['ssr_availability'][ssr_key]):
@@ -1142,7 +1142,8 @@ def review(request, signature):
                                             "ssr_code": request.POST[ssr_key+'_'+str(counter_ssr_availability_provider+1)+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
                                         })
                                         for list_ssr in journey_ssr['ssrs']:
-                                            if request.POST[ssr_key +'_'+str(counter_ssr_availability_provider+1)+ '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
+                                            if request.POST[ssr_key + '_' +str(counter_ssr_availability_provider+1)+ '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
+                                                list_ssr['fee_code'] = list_ssr['ssr_code']
                                                 pax['ssr_list'].append(list_ssr)
                                                 break
                                     except:
@@ -1161,7 +1162,7 @@ def review(request, signature):
                             })
                         sell_ssrs_request = []
                     if len(sell_ssrs) > 0:
-                        set_session(request, 'airline_ssr_request', sell_ssrs)
+                        set_session(request, 'airline_ssr_request_%s' % signature, sell_ssrs)
                     sell_ssrs = []
                 except:
                     print('airline no ssr')
@@ -1174,7 +1175,7 @@ def review(request, signature):
                     #
                     for idx, pax in enumerate(passengers):
                         passenger[idx]['seat_list'] = passengers[idx]['seat_list']
-                    seat_map_list = request.session['airline_get_seat_availability']['result']['response']
+                    seat_map_list = request.session['airline_get_seat_availability_%s' % signature]['result']['response']
                     segment_seat_request = []
 
                     for seat_map_provider in seat_map_list['seat_availability_provider']:
@@ -1196,15 +1197,15 @@ def review(request, signature):
                                     'passengers': pax_request
                                 })
                             pax_request = []
-                    set_session(request, 'airline_seat_request', segment_seat_request)
+                    set_session(request, 'airline_seat_request_%s' % signature, segment_seat_request)
 
                 except:
                     print('airline no seatmap')
 
 
             if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-2] == 'passenger':
-                set_session(request, 'airline_seat_request', {})
-                set_session(request, 'airline_ssr_request', {})
+                set_session(request, 'airline_seat_request_%s' % signature, {})
+                set_session(request, 'airline_ssr_request_%s' % signature, {})
                 adult = []
                 child = []
                 infant = []
@@ -1219,10 +1220,10 @@ def review(request, signature):
                     'nationality_name': request.POST['booker_nationality'],
                     'booker_seq_id': request.POST['booker_id']
                 }
-                for i in range(int(request.session['airline_request']['adult'])):
+                for i in range(int(request.session['airline_request_%s' % signature]['adult'])):
                     ff_number = []
                     try:
-                        ff_request = request.session['airline_get_ff_availability']['result']['response']['ff_availability_provider']
+                        ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
                     except:
                         ff_request = []
                     counter = 0
@@ -1332,10 +1333,10 @@ def review(request, signature):
                         'is_also_booker': True
                     })
 
-                for i in range(int(request.session['airline_request']['child'])):
+                for i in range(int(request.session['airline_request_%s' % signature]['child'])):
                     ff_number = []
                     try:
-                        ff_request = request.session['airline_get_ff_availability']['result']['response']['ff_availability_provider']
+                        ff_request = request.session['airline_get_ff_availability_%s' % signature]['result']['response']['ff_availability_provider']
                     except:
                         ff_request = []
                     counter = 0
@@ -1378,7 +1379,7 @@ def review(request, signature):
                         "ff_numbers": ff_number
                     })
 
-                for i in range(int(request.session['airline_request']['infant'])):
+                for i in range(int(request.session['airline_request_%s' % signature]['infant'])):
                     passport_number = ''
                     passport_ed = ''
                     passport_country_of_issued = ''
@@ -1415,7 +1416,7 @@ def review(request, signature):
             else:
                 #b2c login
                 try:
-                    set_session(request, 'airline_get_price_request',json.loads(request.POST['airline_price_itinerary_request']))
+                    set_session(request, 'airline_get_price_request_%s' % signature,json.loads(request.POST['airline_price_itinerary_request']))
                     set_session(request, 'signature', request.POST['signature'])
                     set_session(request, 'airline_signature', request.POST['signature'])
                     # set_session(request, 'airline_create_passengers', airline_create_passengers)
@@ -1434,19 +1435,20 @@ def review(request, signature):
 
             force_issued = True
             try:
-                airline_price_temp = request.session['airline_sell_journey']['sell_journey_provider'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']['price_itinerary_provider']
+                airline_price_temp = request.session['airline_sell_journey_%s' % signature]['sell_journey_provider']
                 for airline in airline_price_temp:
                     if airline['provider'] == 'traveloka':
                         force_issued = False
             except Exception as e:
                 # cache reset
                 _logger.info('cache reset here ' + str(e) + '\n' + traceback.format_exc())
-                set_session(request, 'airline_sell_journey', json.loads(request.POST['airline_sell_journey']))
+                set_session(request, 'airline_sell_journey_%s' % signature, json.loads(request.POST['airline_sell_journey']))
 
             time_limit = get_timelimit_product(request, 'airline')
             if time_limit == 0:
                 time_limit = int(request.POST['time_limit_input'])
             set_session(request, 'time_limit', time_limit)
+            set_session(request, 'passenger_with_ssr_%s' % signature, passenger)
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -1454,13 +1456,13 @@ def review(request, signature):
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'upsell': request.session.get('airline_upsell_'+signature) and request.session.get('airline_upsell_'+signature) or 0,
-                'ssr': request.session.get('airline_get_ssr')['result']['error_code'] if request.session.get('airline_get_ssr') else 1,
-                'seat': request.session.get('airline_get_seat_availability')['result']['error_code'] if request.session.get('airline_get_seat_availability') else 1,
-                'airline_request': request.session['airline_request'],
-                'price': request.session['airline_sell_journey'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary'],
-                'airline_pick': request.session['airline_sell_journey']['sell_journey_provider'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']['price_itinerary_provider'],
+                'ssr': request.session.get('airline_get_ssr_%s' % signature)['result']['error_code'] if request.session.get('airline_get_ssr_%s' % signature) else 1,
+                'seat': request.session.get('airline_get_seat_availability_%s' % signature)['result']['error_code'] if request.session.get('airline_get_seat_availability_%s' % signature) else 1,
+                'airline_request': request.session['airline_request_%s' % signature],
+                'price': request.session['airline_sell_journey_%s' % signature],
+                'airline_pick': request.session['airline_sell_journey_%s' % signature]['sell_journey_provider'],
                 'back_page': request.META.get('HTTP_REFERER'),
-                'json_airline_pick': request.session['airline_sell_journey']['sell_journey_provider'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary']['price_itinerary_provider'],
+                'json_airline_pick': request.session['airline_sell_journey_%s' % signature]['sell_journey_provider'],
                 'airline_carriers': airline_carriers,
                 'additional_price': float(additional_price_input.split(' ')[len(additional_price_input.split(' '))-1]),
                 'username': request.session['user_account'],
@@ -1471,7 +1473,7 @@ def review(request, signature):
                 'static_path_url_server': get_url_static_path(),
                 'signature': signature,
                 'time_limit': int(request.session['time_limit']),
-                'airline_get_price_request': request.session['airline_sell_journey'] if request.session.get('airline_sell_journey') else request.session['airline_price_itinerary'],
+                'airline_get_price_request': request.session['airline_sell_journey_%s' % signature],
                 # 'co_uid': request.session['co_uid'],
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             })
@@ -1507,7 +1509,7 @@ def review_after_sales(request, signature):
                     page = 'ssr'
                     for pax in passenger:
                         pax['ssr_list'] = []
-                    ssr_response = request.session['airline_get_ssr']['result']['response']
+                    ssr_response = request.session['airline_get_ssr_%s' % signature]['result']['response']
                     data_booking = request.session['airline_get_booking_response']['result']['response']['provider_bookings']
                     for counter_ssr_availability_provider, ssr_package in enumerate(ssr_response['ssr_availability_provider']):
                         for ssr_key in ssr_package['ssr_availability']:
@@ -1539,7 +1541,7 @@ def review_after_sales(request, signature):
                             })
                         sell_ssrs_request = []
                     if len(sell_ssrs) > 0:
-                        request.session['airline_ssr_request'] = sell_ssrs
+                        request.session['airline_ssr_request_%s' % signature] = sell_ssrs
                     sell_ssrs = []
                 except:
                     print('airline no ssr')
@@ -1553,7 +1555,7 @@ def review_after_sales(request, signature):
                     page = 'seat'
                     for idx, pax in enumerate(passengers):
                         passenger[idx]['seat_list'] = passengers[idx]['seat_list']
-                    seat_map_list = request.session['airline_get_seat_availability']['result']['response']
+                    seat_map_list = request.session['airline_get_seat_availability_%s' % signature]['result']['response']
                     segment_seat_request = []
                     data_booking = request.session['airline_get_booking_response']['result']['response']['provider_bookings']
                     for counter_seat_availability_provider, seat_map_provider in enumerate(seat_map_list['seat_availability_provider']):
@@ -1576,8 +1578,8 @@ def review_after_sales(request, signature):
                                     'passengers': pax_request
                                 })
                             pax_request = []
-                    set_session(request, 'airline_seat_request', segment_seat_request)
-                except:
+                    set_session(request, 'airline_seat_request_%s' % signature, segment_seat_request)
+                except Exception as e:
                     print('airline no seatmap')
 
             # agent

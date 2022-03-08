@@ -951,6 +951,8 @@ function swab_express_get_booking(order_number, sync=false){
                        })
                     }else{
                         medical_get_detail = msg;
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
                         document.getElementById('show_loading_booking_swab_express').hidden = true;
     //                    document.getElementById('button-home').hidden = false;
                         document.getElementById('button-new-reservation').hidden = false;
@@ -1255,6 +1257,7 @@ function swab_express_get_booking(order_number, sync=false){
                             </table>
                         </div>`;
                         print_provider = false;
+                        $text += '\nCustomer\n';
                         for(i in msg.result.response.provider_bookings){
                             if(msg.result.response.provider_bookings[i].hasOwnProperty('tickets')){
                                 for(j in msg.result.response.provider_bookings[i].tickets){
@@ -1274,34 +1277,23 @@ function swab_express_get_booking(order_number, sync=false){
                                             <table style="width:100%" id="list-of-passenger">
                                                 <tr>
                                                     <th style="width:10%;" class="list-of-passenger-left">No</th>
-                                                    <th style="width:40%;">Name</th>
+                                                    <th style="width:50%;">Name</th>
                                                     <th style="width:30%;">Email</th>
                                                     <th style="width:30%;">Phone Number</th>
                                                     <th style="width:30%;">Ticket Number</th>
-                                                    <th style="width:30%;">Label</th>
-                                                    <th style="width:30%;">Result</th>
                                                 </tr>`;
                                     }
                                     text+=`<tr>
                                                     <td class="list-of-passenger-left">`+(parseInt(j)+1)+`</td>
                                                     <td>`+pax.title+` `+pax.name+` `;
-                                    if(pax.verify)
-                                        text += '<i class="fas fa-check-square" style="color:blue"></i>';
-
+                                    if(pax.identity_number != '' && pax.identity_number != false){
+                                        text += `<br/>`+pax.identity_type+` - `+pax.identity_number;
+                                    }
                                     text+=`</td>
                                                     <td>`+pax.email+`</td>
                                                     <td>`+pax.phone_number+`</td>
                                                     <td>`+msg.result.response.provider_bookings[i].tickets[j].ticket_number+`</td>`;
-                                    if(msg.result.response.passengers[j].label_url){
-                                        text+= `<td><button class="primary-btn-ticket" type="button" onclick="window.open('`+msg.result.response.passengers[j].label_url+`','_blank');"><i class="fas fa-external-link-alt"></i> </button></td>`;
-                                    }else{
-                                        text+= `<td>-</td>`;
-                                    }
-                                    if(msg.result.response.passengers[j].result_url){
-                                        text+= `<td><button class="primary-btn-ticket" type="button" onclick="window.open('`+msg.result.response.passengers[j].result_url+`','_blank');"><i class="fas fa-external-link-alt"></i> </button></td>`;
-                                    }else{
-                                        text+= `<td>-</td>`;
-                                    }
+
                                     text+=`
                                                 </tr>
                                     `;
@@ -1310,34 +1302,6 @@ function swab_express_get_booking(order_number, sync=false){
                                         </div>`
                                 }
                                 print_provider = true
-                            }
-                        }
-                        if(print_provider == false){
-                            //periksain
-                            for(i in msg.result.response.passengers){
-                                if(i==0){
-                                    text += `
-                                        <div class="mb-3" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
-                                            <h5> List of Customer</h5>
-                                            <hr/>
-                                            <table style="width:100%" id="list-of-passenger">
-                                                <tr>
-                                                    <th style="width:10%;" class="list-of-passenger-left">No</th>
-                                                    <th style="width:40%;">Name</th>
-                                                    <th style="width:30%;">Email</th>
-                                                    <th style="width:30%;">Phone Number</th>
-                                                </tr>`;
-                                    }
-                                text+=`<tr>
-                                                    <td class="list-of-passenger-left">`+(1)+`</td>
-                                                    <td>`+msg.result.response.passengers[i].title+` `+msg.result.response.passengers[i].name+`</td>
-                                                    <td>`+msg.result.response.passengers[i].email+`</td>
-                                                    <td>`+msg.result.response.passengers[i].phone_number+`</td>
-                                                </tr>`;
-                                if(i == msg.result.response.passengers.length-1)
-                                text+=`
-                                            </table>
-                                        </div>`;
                             }
                         }
                         document.getElementById('swab_express_booking').innerHTML = text;
@@ -1434,7 +1398,7 @@ function swab_express_get_booking(order_number, sync=false){
                                 //booker
                                 booker_insentif = '-';
                                 if(msg.result.response.hasOwnProperty('booker_insentif'))
-                                    booker_insentif = msg.result.response.booker_insentif
+                                    booker_insentif = getrupiah(msg.result.response.booker_insentif)
                                 text_repricing += `
                                 <div class="col-lg-12">
                                     <div style="padding:5px;" class="row" id="booker_repricing" hidden>
@@ -1831,6 +1795,17 @@ function swab_express_get_booking(order_number, sync=false){
                         //======================= Other =========================
                         add_repricing();
                     }
+                    if(msg.result.response.hasOwnProperty('voucher_reference') && msg.result.response.voucher_reference != '' && msg.result.response.voucher_reference != false){
+                        try{
+                            render_voucher(price.currency,disc, msg.result.response.state)
+                        }catch(err){console.log(err);}
+                    }
+                    try{
+                        if(msg.result.response.state == 'booked' || msg.result.response.state == 'issued' && msg.result.response.voucher_reference)
+                            document.getElementById('voucher_discount').style.display = 'block';
+                        else
+                            document.getElementById('voucher_discount').style.display = 'none';
+                    }catch(err){console.log(err);}
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
                 }else if(msg.result.error_code == 1035){

@@ -39,6 +39,27 @@ function set_voucher(type){
     });
 }
 
+function render_voucher(currency, discount,state='booked'){
+    text_voucher = `
+    <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
+        <div class="alert alert-success" role="alert">
+            <h6>Discount `;
+            if(state == 'booked')
+                text_voucher+=`up to `;
+            text_voucher+=currency+` `+getrupiah(discount)+`</h6>
+        </div>`;
+    if(state == 'booked'){
+        text_voucher+=`
+        <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
+            Change Voucher Code
+        </button>
+        <h6><span style="color:red">* </span>This will be use if you issued</h6>`;
+    }
+    text_voucher +=`
+    </div>`;
+    document.getElementById('voucher_discount').innerHTML = text_voucher;
+}
+
 function check_voucher(){
     if(document.getElementById('voucher_code').value != ''){
         provider_type_id = window.location.href.split('/')[window.location.href.split('/').length-2 + 5 - window.location.href.split('/').length];
@@ -131,7 +152,9 @@ function check_voucher(){
                 provider_id.push(response.provider)
             }catch(err){
 //                console.log(act_get_booking.result.response.provider);
-                provider_id.push(act_get_booking.result.response.provider);
+                for(idx in act_get_booking.result.response.provider_booking){
+                    provider_id.push(act_get_booking.result.response.provider_booking[idx].provider);
+                }
             }
             try{
                 order_number = act_get_booking.result.response.order_number;
@@ -142,7 +165,9 @@ function check_voucher(){
             try{
                 provider_id.push(provider);
             }catch(err){
-                provider_id.push(tr_get_booking.result.response.provider);
+                for(idx in tr_get_booking.result.response.provider_booking){
+                    provider_id.push(tr_get_booking.result.response.provider_booking[idx].provider);
+                }
             }
             try{
                 order_number = tr_get_booking.result.response.order_number;
@@ -162,7 +187,102 @@ function check_voucher(){
         }else if(provider_type_id == 'event'){
             provider_id.push('event_internal');
             try{
-                order_number = hotel_get_detail.result.response.booking_name;
+                order_number = event_get_detail.result.response.order_number;
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
+        }else if(provider_type_id == 'bus'){
+            for(idx in bus_get_detail.result.response.provider_bookings){
+                provider_id.push(bus_get_detail.result.response.provider_bookings[idx].provider);
+            }
+            try{
+                order_number = bus_get_detail.result.response.order_number;
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
+        }else if(provider_type_id == 'medical' || provider_type_id == 'phc' || provider_type_id == 'periksain'){
+            for(idx in medical_get_detail.result.response.provider_bookings){
+                provider_id.push(medical_get_detail.result.response.provider_bookings[idx].provider);
+            }
+            provider_type_id = medical_get_detail.result.response.provider_type;
+            try{
+                order_number = medical_get_detail.result.response.order_number;
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
+        }else if(provider_type_id == 'medical_global'){
+            for(idx in medical_get_detail.result.response.provider_bookings){
+                provider_id.push(medical_get_detail.result.response.provider_bookings[idx].provider);
+            }
+            provider_type_id = medical_get_detail.result.response.provider_type;
+            try{
+                order_number = medical_get_detail.result.response.order_number;
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
+        }else if(provider_type_id == 'swab_express'){
+            for(idx in medical_get_detail.result.response.provider_bookings){
+                provider_id.push(medical_get_detail.result.response.provider_bookings[idx].provider);
+            }
+            provider_type_id = medical_get_detail.result.response.provider_type;
+            try{
+                order_number = medical_get_detail.result.response.order_number;
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
+        }else if(provider_type_id == 'lab_pintar'){
+            for(idx in medical_get_detail.result.response.provider_bookings){
+                provider_id.push(medical_get_detail.result.response.provider_bookings[idx].provider);
+            }
+            provider_type_id = medical_get_detail.result.response.provider_type;
+            try{
+                order_number = medical_get_detail.result.response.order_number;
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
+        }else if(provider_type_id == 'mitra_keluarga'){
+            for(idx in medical_get_detail.result.response.provider_bookings){
+                provider_id.push(medical_get_detail.result.response.provider_bookings[idx].provider);
+            }
+            provider_type_id = medical_get_detail.result.response.provider_type;
+            try{
+                order_number = medical_get_detail.result.response.order_number;
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
+        }else if(provider_type_id == 'sentra_medika'){
+            for(idx in medical_get_detail.result.response.provider_bookings){
+                provider_id.push(medical_get_detail.result.response.provider_bookings[idx].provider);
+            }
+            provider_type_id = medical_get_detail.result.response.provider_type;
+            try{
+                order_number = medical_get_detail.result.response.order_number;
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
+        }else if(provider_type_id == 'insurance'){
+            for(idx in insurance_get_detail.result.response.provider_bookings){
+                provider_id.push(insurance_get_detail.result.response.provider_bookings[idx].provider);
+            }
+            try{
+                order_number = insurance_get_detail.result.response.order_number;
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
+        }else if(provider_type_id == 'issued_offline'){
+            provider_type_id = 'offline';
+            try{
+                order_number = offline_get_detail.result.response.order_number;
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
+        }else if(provider_type_id == 'group_booking'){
+            for(idx in group_booking_get_detail.result.response.provider_bookings){
+                provider_id.push(group_booking_get_detail.result.response.provider_bookings[idx].provider);
+            }
+            provider_type_id = 'groupbooking';
+            try{
+                order_number = group_booking_get_detail.result.response.order_number;
             }catch(err){
                 console.log(err); // error kalau ada element yg tidak ada
             }
@@ -187,234 +307,90 @@ function check_voucher(){
                 voucher_code = voucher_reference;
                 voucher_discount_response = msg;
                 if(msg.result.error_code == 0){
-                    if(provider_type_id == 'visa'){
-                        discount_voucher = {
-                            'discount': 0,
-                            'currency': ''
-                        };
-                        if(price > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
-                            for(i in msg.result.response.provider){
-                                if(msg.result.response.provider[i].able_to_use == true){
-                                    if(msg.result.response.voucher_type == 'percent'){
-                                        discount_voucher['discount'] += price * msg.result.response.voucher_value / 100;
-
-                                    }else if(msg.result.response.voucher_type == 'amount'){
-                                        if(price > msg.result.response.voucher_value)
-                                            discount_voucher['discount'] += msg.result.response.voucher_value;
-                                        else
-                                            discount_voucher['discount'] += price;
+                    discount_voucher = {
+                        'discount': 0,
+                        'currency': ''
+                    };
+                    for(i in msg.result.response.provider){
+                        if(msg.result.response.provider[i].able_to_use == true){
+                            total_price_discount = 0;
+                            disc = 0;
+                            if(msg.result.response.voucher_type == 'percent' ){
+                                if(msg.result.response.voucher_effect_all){
+                                    for(j in total_price_provider){
+                                        if(msg.result.response.provider[i].provider == total_price_provider[j].provider){
+                                            for(k in total_price_provider[j].price){
+                                                if(k != 'currency' && k != 'RAC' && k != 'rac' && k != 'CSC' && k != 'csc'){
+                                                    disc += total_price_provider[j].price[k] * msg.result.response.voucher_value / 100;
+                                                    total_price_discount += total_price_provider[j].price[k];
+                                                }
+                                            }
+                                        }
+                                    }
+                                }else{
+                                    for(j in total_price_provider){
+                                        if(msg.result.response.provider[i].provider == total_price_provider[j].provider){
+                                            for(k in total_price_provider[j].price){
+                                                if(k == 'fare' || k == 'FARE'){
+                                                    disc += total_price_provider[j].price[k] * msg.result.response.voucher_value / 100;
+                                                }
+                                                if(k != 'currency' && k != 'RAC' && k != 'rac' && k != 'CSC' && k != 'csc'){
+                                                    total_price_discount += total_price_provider[j].price[k];
+                                                }
+                                            }
+                                        }
                                     }
                                 }
+                            }else if(msg.result.response.voucher_type == 'amount'){
+                                if(msg.result.response.voucher_effect_all){
+                                    for(j in total_price_provider){
+                                        if(msg.result.response.provider[i].provider == total_price_provider[j].provider){
+                                            for(k in total_price_provider[j].price){
+                                                if(k != 'currency' && k != 'RAC' && k != 'rac' && k != 'CSC' && k != 'csc'){
+                                                    disc += total_price_provider[j].price[k];
+                                                    total_price_discount += total_price_provider[j].price[k];
+                                                }
+                                            }
+                                        }
+                                    }
+                                }else{
+                                    for(j in total_price_provider){
+                                        if(msg.result.response.provider[i].provider == total_price_provider[j].provider){
+                                            for(k in total_price_provider[j].price){
+                                                if(k == 'fare' || k == 'FARE'){
+                                                    disc += total_price_provider[j].price[k];
+                                                }
+                                                if(k != 'currency' && k != 'RAC' && k != 'rac' && k != 'CSC' && k != 'csc'){
+                                                    total_price_discount += total_price_provider[j].price[k];
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
                             }
+                            if(msg.result.response.voucher_minimum_purchase == false || total_price_discount > msg.result.response.voucher_minimum_purchase)
+                                discount_voucher['discount'] = disc
+                            if(discount_voucher['discount'] > msg.result.response.voucher_value && msg.result.response.voucher_type == 'amount')
+                                discount_voucher['discount'] = msg.result.response.voucher_value;
                             discount_voucher['currency'] = msg.result.response.voucher_currency;
-                            if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
-                                discount_voucher['discount'] = msg.result.response.voucher_cap
-                        }
 
-                        discount_voucher['currency'] = msg.result.response.voucher_currency;
-                        if(msg.result.response.voucher_cap != false && discount > msg.result.response.voucher_cap)
-                            discount = msg.result.response.voucher_cap
-
-
-                        document.getElementById('voucher_discount').innerHTML = `
-                        <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
-                            <div class="alert alert-success" role="alert">
-                                <h6>Discount up to `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
-                            </div>
-                            <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
-                                Change Voucher Code
-                            </button>
-                            <h6><span style="color:red">* </span>This will be use if you issued</h6>
-                        </div>`;
-                        try{
-                            set_price('Issued','visa');
-                        }catch(err){
-                            console.log(err); // error kalau ada element yg tidak ada
                         }
                     }
-                    else if(provider_type_id == 'passport'){
-                        discount_voucher = {
-                            'discount': 0,
-                            'currency': ''
-                        };
-                        if(price > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
-                            for(i in msg.result.response.provider){
-                                if(msg.result.response.provider[i].able_to_use == true){
-                                    if(msg.result.response.voucher_type == 'percent'){
-                                        discount_voucher['discount'] += price * msg.result.response.voucher_value / 100;
+                    if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
+                        discount_voucher['discount'] = msg.result.response.voucher_cap
 
-                                    }else if(msg.result.response.voucher_type == 'amount'){
-                                        if(price > msg.result.response.voucher_value)
-                                            discount_voucher['discount'] += msg.result.response.voucher_value;
-                                        else
-                                            discount_voucher['discount'] += price;
-                                    }
-                                }
-                            }
-                            discount_voucher['currency'] = msg.result.response.voucher_currency;
-                            if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
-                                discount_voucher['discount'] = msg.result.response.voucher_cap
-                        }
-
-                        discount_voucher['currency'] = msg.result.response.voucher_currency;
-                        if(msg.result.response.voucher_cap != false && discount > msg.result.response.voucher_cap)
-                            discount = msg.result.response.voucher_cap
-
-
-                        document.getElementById('voucher_discount').innerHTML = `
-                        <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
-                            <div class="alert alert-success" role="alert">
-                                <h6>Discount up to `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
-                            </div>
-                            <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
-                                Change Voucher Code
-                            </button>
-                            <h6><span style="color:red">* </span>This will be use if you issued</h6>
-                        </div>`;
-                        try{
-                            set_price('Issued','visa');
-                        }catch(err){
-                            console.log(err); // error kalau ada element yg tidak ada
-                        }
-                    }
-                    else if(provider_type_id == 'event'){
-                        discount_voucher = {
-                            'discount': 0,
-                            'currency': ''
-                        };
-                        try{
-                            if(event_get_detail.result.response.total_price > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
-                                if(msg.result.response.provider[i].able_to_use == true){
-                                    if(msg.result.response.voucher_type == 'percent'){
-                                        discount_voucher['discount'] += event_get_detail.result.response.total_price * msg.result.response.voucher_value / 100;
-
-                                    }else if(msg.result.response.voucher_type == 'amount'){
-                                        if(total_price > msg.result.response.voucher_value)
-                                            discount_voucher['discount'] += msg.result.response.voucher_value;
-                                        else
-                                            discount_voucher['discount'] += event_get_detail.result.response.total_price;
-                                    }
-                                }
-                            }
-                            discount_voucher['currency'] = msg.result.response.voucher_currency;
-                            if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
-                                discount_voucher['discount'] = msg.result.response.voucher_cap
-                        }catch(err){
-                            if(grand_total_option > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
-                                if(msg.result.response.voucher_type == 'percent' ){
-                                    discount_voucher['discount'] += grand_total_option * msg.result.response.voucher_value / 100;
-                                }else if(msg.result.response.voucher_type == 'amount'){
-                                    if(grand_total_option > msg.result.response.voucher_value)
-                                        discount_voucher['discount'] = msg.result.response.voucher_value;
-                                    else
-                                        discount_voucher['discount'] = grand_total_option;
-                                }
-                                discount_voucher['currency'] = msg.result.response.voucher_currency;
-                                if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
-                                    discount_voucher['discount'] = msg.result.response.voucher_cap
-                            }
-                        }
-
-                        document.getElementById('voucher_discount').innerHTML = `
-                        <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
-                            <div class="alert alert-success" role="alert">
-                                <h6>Discount up to `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
-                            </div>
-                            <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
-                                Change Voucher Code
-                            </button>
-                            <h6><span style="color:red">* </span>This will be use if you issued</h6>
-                        </div>`;
-                        try{
-                            set_price('Issued','event');
-                        }catch(err){
-                            console.log(err); // error kalau ada element yg tidak ada
-                        }
-                    }
-                    else{
-                        discount_voucher = {
-                            'discount': 0,
-                            'currency': ''
-                        };
-                        for(i in msg.result.response.provider){
-                            if(msg.result.response.provider[i].able_to_use == true){
-                                total_price_discount = 0;
-                                disc = 0;
-                                if(msg.result.response.voucher_type == 'percent' ){
-                                    if(msg.result.response.voucher_effect_all){
-                                        for(j in total_price_provider){
-                                            if(msg.result.response.provider[i].provider == total_price_provider[j].provider){
-                                                for(k in total_price_provider[j].price){
-                                                    if(k != 'currency' && k != 'RAC' && k != 'rac' && k != 'CSC' && k != 'csc'){
-                                                        disc += total_price_provider[j].price[k] * msg.result.response.voucher_value / 100;
-                                                        total_price_discount += total_price_provider[j].price[k];
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }else{
-                                        for(j in total_price_provider){
-                                            if(msg.result.response.provider[i].provider == total_price_provider[j].provider){
-                                                for(k in total_price_provider[j].price){
-                                                    if(k == 'fare' || k == 'FARE'){
-                                                        disc += total_price_provider[j].price[k] * msg.result.response.voucher_value / 100;
-                                                    }
-                                                    if(k != 'currency' && k != 'RAC' && k != 'rac' && k != 'CSC' && k != 'csc'){
-                                                        total_price_discount += total_price_provider[j].price[k];
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }else if(msg.result.response.voucher_type == 'amount'){
-                                    if(msg.result.response.voucher_effect_all){
-                                        for(j in total_price_provider){
-                                            if(msg.result.response.provider[i].provider == total_price_provider[j].provider){
-                                                for(k in total_price_provider[j].price){
-                                                    if(k != 'currency' && k != 'RAC' && k != 'rac' && k != 'CSC' && k != 'csc'){
-                                                        disc += total_price_provider[j].price[k];
-                                                        total_price_discount += total_price_provider[j].price[k];
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }else{
-                                        for(j in total_price_provider){
-                                            if(msg.result.response.provider[i].provider == total_price_provider[j].provider){
-                                                for(k in total_price_provider[j].price){
-                                                    if(k == 'fare' || k == 'FARE'){
-                                                        disc += total_price_provider[j].price[k];
-                                                    }
-                                                    if(k != 'currency' && k != 'RAC' && k != 'rac' && k != 'CSC' && k != 'csc'){
-                                                        total_price_discount += total_price_provider[j].price[k];
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                }
-                                if(msg.result.response.voucher_minimum_purchase == false || total_price_discount > msg.result.response.voucher_minimum_purchase)
-                                    discount_voucher['discount'] = disc
-                                if(discount_voucher['discount'] > msg.result.response.voucher_value && msg.result.response.voucher_type == 'amount')
-                                    discount_voucher['discount'] = msg.result.response.voucher_value;
-                                discount_voucher['currency'] = msg.result.response.voucher_currency;
-
-                            }
-                        }
-                        if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
-                            discount_voucher['discount'] = msg.result.response.voucher_cap
-
-                        document.getElementById('voucher_discount').innerHTML = `
-                        <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
-                            <div class="alert alert-success" role="alert">
-                                <h6>Discount up to `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
-                            </div>
-                            <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
-                                Change Voucher Code
-                            </button>
-                            <h6><span style="color:red">* </span>This will be use if you issued</h6>
-                        </div>`;
+                    document.getElementById('voucher_discount').innerHTML = `
+                    <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
+                        <div class="alert alert-success" role="alert">
+                            <h6>Discount up to `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
+                        </div>
+                        <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
+                            Change Voucher Code
+                        </button>
+                        <h6><span style="color:red">* </span>This will be use if you issued</h6>
+                    </div>`;
+                    if(window.location.href.includes('booking') == false){
                         try{
                             if(provider_type_id == 'ppob')
                                 set_price('Issued','ppob');
@@ -431,6 +407,43 @@ function check_voucher(){
                         }catch(err){
                             console.log(err); // error kalau ada element yg tidak ada
                         }
+                    }else{
+                        if(provider_type_id == 'activity')
+                            activity_get_booking(act_order_number)
+                        else if(provider_type_id == 'airline')
+                            airline_get_booking(order_number)
+                        else if(provider_type_id == 'bus')
+                            bus_get_booking(order_number)
+                        else if(provider_type_id == 'event')
+                            event_get_booking(order_number)
+                        else if(provider_type_id == 'groupbooking')
+                            group_booking_get_booking(order_number)
+                        else if(provider_type_id == 'hotel')
+                            hotel_get_booking(order_number)
+                        else if(provider_type_id == 'insurance')
+                            insurance_get_booking(order_number)
+                        else if(provider_type_id == 'offline')
+                            get_booking_offline(order_number)
+                        else if(provider_type_id == 'labpintar')
+                            lab_pintar_get_booking(order_number)
+                        else if(provider_type_id == 'phc' || provider_type_id == 'periksain')
+                            medical_get_booking(order_number)
+                        else if(provider_type_id == 'medical')
+                            medical_global_get_booking(order_number)
+                        else if(provider_type_id == 'mitrakeluarga')
+                            mitra_keluarga_get_booking(order_number)
+                        else if(provider_type_id == 'passport')
+                            passport_get_data(order_number)
+                        else if(provider_type_id == 'sentramedika')
+                            sentra_medika_get_booking(order_number)
+                        else if(provider_type_id == 'swabexpress')
+                            swab_express_get_booking(order_number)
+                        else if(provider_type_id == 'tour')
+                            tour_get_booking(tour_order_number)
+                        else if(provider_type_id == 'train')
+                            train_get_booking(order_number)
+                        else if(provider_type_id == 'visa')
+                            visa_get_data(order_number)
                     }
                 }else{
                     discount_voucher = {};

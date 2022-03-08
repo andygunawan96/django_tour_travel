@@ -445,16 +445,17 @@ function get_transactions(type){
                     <tr>
                         <th style="width:2%;">No.</th>
                         <th style="width:9%;">Order Number</th>
-                        <th style="width:6%;">Provider</th>
-                        <th style="width:11%;">Book Date</th>
-                        <th style="width:11%;">Booker name</th>
-                        <th style="width:11%;">Hold Date</th>
-                        <th style="width:7%;">State</th>
+                        <th style="width:5%;">Provider</th>
+                        <th style="width:10%;">Book Date</th>
+                        <th style="width:10%;">Booker name</th>
+                        <th style="width:10%;">Hold Date</th>
+                        <th style="width:6%;">State</th>
                         <th style="width:4%;">PNR</th>
-                        <th style="width:11%;">Issued Date</th>
+                        <th style="width:13%;">Info</th>
+                        <th style="width:10%;">Issued Date</th>
                         <th style="width:9%;">Booked By</th>
                         <th style="width:9%;">Issued By</th>
-                        <th style="width:6%;">Action</th>
+                        <th style="width:3%;">Action</th>
                     </tr>`;
     }
     carrier_code = [];
@@ -557,16 +558,17 @@ function get_transactions(type){
                     <tr>
                         <th style="width:2%;">No.</th>
                         <th style="width:9%;">Order Number</th>
-                        <th style="width:6%;">Provider</th>
-                        <th style="width:11%;">Book Date</th>
-                        <th style="width:11%;">Booker name</th>
-                        <th style="width:11%;">Hold Date</th>
-                        <th style="width:7%;">State</th>
+                        <th style="width:5%;">Provider</th>
+                        <th style="width:10%;">Book Date</th>
+                        <th style="width:10%;">Booker name</th>
+                        <th style="width:10%;">Hold Date</th>
+                        <th style="width:6%;">State</th>
                         <th style="width:4%;">PNR</th>
-                        <th style="width:11%;">Issued Date</th>
+                        <th style="width:13%;">Info</th>
+                        <th style="width:10%;">Issued Date</th>
                         <th style="width:9%;">Booked By</th>
                         <th style="width:9%;">Issued By</th>
-                        <th style="width:6%;">Action</th>
+                        <th style="width:3%;">Action</th>
                     </tr>`;
             }
             try{

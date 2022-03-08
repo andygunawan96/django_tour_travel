@@ -265,6 +265,10 @@
         document.getElementById('back_btn_medical').onclick = function() {
           window.location.href="/reservation";
         }
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
+    try{
         document.getElementById('voucher_discount').style.display = 'none';
     }catch(err){
         console.log(err) //ada element yg tidak ada

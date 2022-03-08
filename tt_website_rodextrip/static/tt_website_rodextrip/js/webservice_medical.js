@@ -1110,6 +1110,8 @@ function medical_get_booking(order_number, sync=false){
                 //======================= Resv =========================
                 if(msg.result.error_code == 0){
                     medical_get_detail = msg;
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
                     document.getElementById('show_loading_booking_medical').hidden = true;
 //                    document.getElementById('button-home').hidden = false;
                     document.getElementById('button-new-reservation').hidden = false;
@@ -1426,6 +1428,7 @@ function medical_get_booking(order_number, sync=false){
                         </table>
                     </div>`;
                     print_provider = false;
+                    $text += '\nCustomer\n';
                     for(i in msg.result.response.provider_bookings){
                         if(msg.result.response.provider_bookings[i].hasOwnProperty('tickets')){
                             for(j in msg.result.response.provider_bookings[i].tickets){
@@ -1445,7 +1448,7 @@ function medical_get_booking(order_number, sync=false){
                                         <table style="width:100%" id="list-of-passenger">
                                             <tr>
                                                 <th style="width:10%;" class="list-of-passenger-left">No</th>
-                                                <th style="width:40%;">Name</th>
+                                                <th style="width:50%;">Name</th>
                                                 <th style="width:30%;">Email</th>
                                                 <th style="width:30%;">Phone Number</th>
                                                 <th style="width:30%;">Ticket Number</th>
@@ -1458,7 +1461,9 @@ function medical_get_booking(order_number, sync=false){
                                                 <td>`+pax.title+` `+pax.name+` `;
                                 if(pax.verify)
                                     text += '<i class="fas fa-check-square" style="color:blue"></i>';
-
+                                if(pax.identity_number != '' && pax.identity_number != false){
+                                    text += `<br/>`+pax.identity_type+` - `+pax.identity_number;
+                                }
                                 text+=`</td>
                                                 <td>`+pax.email+`</td>
                                                 <td>`+pax.phone_number+`</td>
@@ -1494,14 +1499,18 @@ function medical_get_booking(order_number, sync=false){
                                         <table style="width:100%" id="list-of-passenger">
                                             <tr>
                                                 <th style="width:10%;" class="list-of-passenger-left">No</th>
-                                                <th style="width:40%;">Name</th>
+                                                <th style="width:50%;">Name</th>
                                                 <th style="width:30%;">Email</th>
                                                 <th style="width:30%;">Phone Number</th>
                                             </tr>`;
                                 }
                             text+=`<tr>
                                                 <td class="list-of-passenger-left">`+(1)+`</td>
-                                                <td>`+msg.result.response.passengers[i].title+` `+msg.result.response.passengers[i].name+`</td>
+                                                <td>`+msg.result.response.passengers[i].title+` `+msg.result.response.passengers[i].name;
+                            if(msg.result.response.passengers[i].identity_number != '' && msg.result.response.passengers[i].identity_number != false){
+                                text += `<br/>`+msg.result.response.passengers[i].identity_type+` - `+msg.result.response.passengers[i].identity_number;
+                            }
+                            text+=`</td>
                                                 <td>`+msg.result.response.passengers[i].email+`</td>
                                                 <td>`+msg.result.response.passengers[i].phone_number+`</td>
                                             </tr>`;
@@ -1603,7 +1612,7 @@ function medical_get_booking(order_number, sync=false){
                             //booker
                             booker_insentif = '-';
                             if(msg.result.response.hasOwnProperty('booker_insentif'))
-                                booker_insentif = msg.result.response.booker_insentif
+                                booker_insentif = getrupiah(msg.result.response.booker_insentif)
                             text_repricing += `
                                 <div class="col-lg-12">
                                     <div style="padding:5px;" class="row" id="booker_repricing" hidden>
@@ -2020,6 +2029,17 @@ function medical_get_booking(order_number, sync=false){
 
                     //======================= Other =========================
                     add_repricing();
+                    if(msg.result.response.hasOwnProperty('voucher_reference') && msg.result.response.voucher_reference != '' && msg.result.response.voucher_reference != false){
+                        try{
+                            render_voucher(price.currency,disc, msg.result.response.state)
+                        }catch(err){console.log(err);}
+                    }
+                    try{
+                        if(msg.result.response.state == 'booked' || msg.result.response.state == 'issued' && msg.result.response.voucher_reference)
+                            document.getElementById('voucher_discount').style.display = 'block';
+                        else
+                            document.getElementById('voucher_discount').style.display = 'none';
+                    }catch(err){console.log(err);}
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
                 }else if(msg.result.error_code == 1035){
