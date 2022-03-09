@@ -282,42 +282,68 @@ function search_passport(provider){
                         <div style="background-color:white; border:1px solid #cdcdcd; margin-bottom:15px; padding:15px;" id="journey`+i+`">`;
                     text+=`
                             <div class="row">
-                                <div class="col-lg-12">
-                                    <table style="width:100%" id="list-of-passenger">
-                                        <tr>
-                                            <th style="width:40%;">Name</th>
-                                            <th style="width:15%;">Apply Type</th>
-                                            <th style="width:15%;">Regular Type</th>
-                                            <th style="width:10%;">Input Qty</th>
-                                        </tr>
-                                        <tr>
-                                            <td>`+msg.result.response.list_of_passport[i].name+`</td>
-                                            <td>`+msg.result.response.list_of_passport[i].apply_type+`</td>
-                                            <td>`+msg.result.response.list_of_passport[i].type.process_type+` `+msg.result.response.list_of_passport[i].type.duration+` Day(s)</td>
-                                            <td>`;
-                                            if(template == 1){
-                                                text+=`<div class="banner-right">`;
-                                            }else if(template == 2){
-                                                text+=`
-                                                <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
-                                                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
-                                            }
-                                            text+=`
-                                                <div class="form-wrap" style="padding:0px;">
-                                                    <input style="margin-bottom:unset;" class="form-control" type="number" value="0" min="0" id="qty_pax_`+counter_passport+`" name="qty_pax_`+counter_passport+`" onchange="update_table('search');"/>
-                                                </div>
-                                            </div>`;
-                                            if(template == 2){
-                                                text+=`</div>`;
-                                            }
-                                            text+=`
-                                            </td>
-                                        </tr>
-                                    </table>
+                                <div class="col-lg-9 mb-3">
+                                    <div class="row" style="padding-left:15px; padding-right:15px;">
+                                        <div class="col-xs-5" style="padding-top:5px; padding-bottom:5px; border:1px solid #cdcdcd; font-weight:bold;">
+                                            Name
+                                        </div>
+                                        <div class="col-xs-7" style="padding-top:5px; padding-bottom:5px; border:1px solid #cdcdcd; font-size:13px;">
+                                            `+msg.result.response.list_of_passport[i].name+`
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-left:15px; padding-right:15px;">
+                                        <div class="col-xs-5" style="padding-top:5px; padding-bottom:5px; border:1px solid #cdcdcd; font-weight:bold;">
+                                            Apply Type
+                                        </div>
+                                        <div class="col-xs-7" style="padding-top:5px; padding-bottom:5px; border:1px solid #cdcdcd; font-size:13px;">
+                                            `+msg.result.response.list_of_passport[i].apply_type+`
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-left:15px; padding-right:15px;">
+                                        <div class="col-xs-5" style="padding-top:5px; padding-bottom:5px; border:1px solid #cdcdcd; font-weight:bold;">
+                                            Regular Type
+                                        </div>
+                                        <div class="col-xs-7" style="padding-top:5px; padding-bottom:5px; border:1px solid #cdcdcd; font-size:13px;">
+                                            `+msg.result.response.list_of_passport[i].type.process_type+` `+msg.result.response.list_of_passport[i].type.duration+` Day(s)
+                                        </div>
+                                    </div>
                                 </div>
+                                <div class="col-lg-3">
+                                    <h6>Input Qty</h6>`;
+                                    if(template == 1){
+                                        text+=`<div class="banner-right">`;
+                                    }else if(template == 2){
+                                        text+=`
+                                        <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
+                                            <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
+                                    }else{
+                                        text+=`<div>`;
+                                    }
+
+                                    if(template == 1 || template == 2){
+                                        text+=`<div class="form-wrap" style="padding:0px;">`;
+                                    }else{
+                                        text+=`<div class="form-wrap">`;
+                                    }
+
+                                    text+=`
+                                            <input style="margin-bottom:unset;" class="form-control" type="number" value="0" min="0" id="qty_pax_`+counter_passport+`" name="qty_pax_`+counter_passport+`"/>
+                                        </div>
+                                    </div>`;
+                                    if(template == 2){
+                                        text+=`</div>`;
+                                    }
+                                text+=`<br/>`;
+
+                                    text+=`
+                                    <div style="text-align:right;">
+                                        <span id="fare`+counter_passport+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050;">`+msg.result.response.list_of_passport[i].sale_price.currency+` `+getrupiah(msg.result.response.list_of_passport[i].sale_price.total_price)+`</span>
+                                    </div>
+                                </div>
+
                                 <div class="col-lg-12" style="margin-top:15px;">
                                     <div class="row">
-                                        <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6" style="text-align:left;">
+                                        <div class="col-lg-12" style="text-align:left;">
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <a id="detail_button_journey0" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+counter_passport+`);" href="#detail_departjourney`+counter_passport+`" style="color: `+color+`;" aria-expanded="true">
@@ -332,9 +358,6 @@ function search_passport(provider){
                                                     </a>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6" style="text-align:right;">
-                                            <span id="fare`+counter_passport+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050;">`+msg.result.response.list_of_passport[i].sale_price.currency+` `+getrupiah(msg.result.response.list_of_passport[i].sale_price.total_price)+`</span>
                                         </div>
                                     </div>
                                 </div>
@@ -379,6 +402,18 @@ function search_passport(provider){
                         </div>`;
                     node.innerHTML = text;
                     document.getElementById("passport_ticket").appendChild(node);
+
+                    $("#qty_pax_"+counter_passport).change(function(){
+                        var quantity = this.value;
+                        if(quantity < 0){
+                            quantity = 0;
+                        }else if(quantity > 20){
+                            quantity = 20;
+                        }
+                        this.value = quantity;
+                        update_table('search');
+                    });
+
                 }
                 update_table('search');
             }
@@ -964,6 +999,7 @@ function passport_get_data(data){
                             <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
                                 <h4>List of Contact(s)</h4>
                                 <hr/>
+                                <div style="overflow-x:auto;">
                                 <table style="width:100%;" id="list-of-passenger">
                                     <tr>
                                         <th style="width:7%;" class="list-of-passenger-left">No</th>
@@ -978,6 +1014,7 @@ function passport_get_data(data){
                                         <td>`+msg.result.response.contact.phone+`</td>
                                     </tr>
                                 </table>
+                                </div>
                             </div>
                         </div>
                     </div>`;

@@ -35,7 +35,7 @@
 <div id="overlay-search-box" onclick="off_overlay()"></div>
 
 {%if template == 1%}
-<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -52,7 +52,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:3; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -110,7 +110,7 @@
     </div>
 </section>
 {% elif template == 2 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -127,7 +127,7 @@
         </div>
     </div>
 </section>
-<section class="bg-img bg-overlay jarallax" id="change_search_box" style="padding-top:40px; padding-bottom:20px; z-index:5; position:relative; display:none;">
+<section class="bg-img bg-overlay jarallax" id="change_search_box" style="padding-top:40px; padding-bottom:20px; z-index:98; position:relative; display:none;">
     <div class="container" id="div-search-overlay">
         <div class="row">
             <div class="col-lg-12">
@@ -136,7 +136,7 @@
                         <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
                             {% csrf_token %}
                             <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                                <div class="col-lg-4 col-md-4 col-sm-4 mb-3">
                                     <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Passport Type' %}</span>
                                     <div class="input-container-search-ticket">
                                         <div class="form-select">
@@ -147,7 +147,7 @@
                                     </div>
                                     <input type="hidden" name="passport_type" id="passport_type" />
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                                <div class="col-lg-4 col-md-4 col-sm-4 mb-3">
                                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Apply Type' %}</span>
                                     <div class="input-container-search-ticket">
                                         <div class="form-select">
@@ -158,7 +158,7 @@
                                     </div>
                                     <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                                <div class="col-lg-4 col-md-4 col-sm-4">
                                     <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
                                     <div class="input-container-search-ticket">
                                         <div class="form-select">
@@ -186,7 +186,7 @@
     </div>
 </section>
 {% elif template == 3 %}
-<section class="change_search_area" style="padding:10px 0px 10px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="change_search_area" style="padding:10px 0px 10px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -203,7 +203,7 @@
         </div>
     </div>
 </section>
-<section class="banner-area relative" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:3; position:relative; display:none">
+<section class="banner-area relative" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -212,7 +212,7 @@
                     <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
                         {% csrf_token %}
                         <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                            <div class="col-lg-4 col-md-4 col-sm-4 mb-3" style="padding:0px;">
                                 <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Passport Type' %}</span>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
@@ -223,7 +223,7 @@
                                 </div>
                                 <input type="hidden" name="passport_type" id="passport_type" />
                             </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                            <div class="col-lg-4 col-md-4 col-sm-4 mb-3" style="padding:0px;">
                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Apply Type' %}</span>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
@@ -261,7 +261,7 @@
     </div>
 </section>
 {% elif template == 4 %}
-<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -278,7 +278,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:3; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -286,7 +286,7 @@
                 <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
                     {% csrf_token %}
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                        <div class="col-lg-4 col-md-4 col-sm-4 mb-3">
                             <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Passport Type' %}</span>
                             <div class="input-container-search-ticket">
                                 <div class="form-select">
@@ -297,7 +297,7 @@
                             </div>
                             <input type="hidden" name="passport_type" id="passport_type" />
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                        <div class="col-lg-4 col-md-4 col-sm-4 mb-3">
                             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Apply Type' %}</span>
                             <div class="input-container-search-ticket">
                                 <div class="form-select">
@@ -308,7 +308,7 @@
                             </div>
                             <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
                             <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
                             <div class="input-container-search-ticket">
                                 <div class="form-select">
@@ -334,7 +334,7 @@
     </div>
 </section>
 {% elif template == 5 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -351,7 +351,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:3; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -360,7 +360,7 @@
                     <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
                         {% csrf_token %}
                         <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                            <div class="col-lg-4 col-md-4 col-sm-4 mb-3">
                                 <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Passport Type' %}</span>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
@@ -371,7 +371,7 @@
                                 </div>
                                 <input type="hidden" name="passport_type" id="passport_type" />
                             </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                            <div class="col-lg-4 col-md-4 col-sm-4 mb-3">
                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Apply Type' %}</span>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
@@ -382,7 +382,7 @@
                                 </div>
                                 <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
                             </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                            <div class="col-lg-4 col-md-4 col-sm-4">
                                 <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
@@ -409,7 +409,7 @@
     </div>
 </section>
 {% elif template == 6 %}
-<section class="destinations-area" style="padding:15px 0px 5px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:98;">
+<section class="destinations-area" style="padding:15px 0px 5px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -426,7 +426,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" style="min-height:150px;padding-top:15px; padding-bottom:15px; background-image: url('{{background}}'); z-index:97; position:relative; display:none;">
+<section class="price-area" id="change_search_box" style="min-height:150px;padding-top:15px; padding-bottom:15px; background-image: url('{{background}}'); z-index:98; position:relative; display:none;">
     <div class="container" id="div-search-overlay">
         <div class="row">
             <div class="col-lg-12">
@@ -502,12 +502,13 @@
             </div>
         </div>
         {% endif %}
-        <div class="row" style="padding-bottom:15px;">
-            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                <span style="font-size:13px; font-weight:500; padding-right:5px;"><i class="fas fa-stopwatch"></i> {% trans 'Session Time' %}: </span><span class="count_time" id="session_time"></span>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                <span style="font-size:13px; font-weight:500; padding-right:5px;"><i class="fas fa-clock"></i> {% trans 'Elapsed Time' %}: <span class="count_time" id="elapse_time"> </span></span>
+        <div class="row mt-3" style="padding-bottom:15px;">
+            <div class="col-lg-12">
+                <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
+                    <span style="font-size:14px; font-weight:600;"><i class="fas fa-stopwatch"></i> {% trans 'Session Time' %}: <span class="count_time" id="session_time"> </span></span>
+                    <hr/>
+                    <span style="font-size:14px; font-weight:600;"><i class="fas fa-clock"></i> {% trans 'Elapsed Time' %}: <span class="count_time" id="elapse_time"> </span></span>
+                </div>
             </div>
         </div>
         <form action="{% url 'tt_website_rodextrip:passport_passenger'%}" method="POST" id="passport_passenger">
@@ -535,7 +536,7 @@
                 <div class="col-lg-12" id="show-visa-search">
                 </div>
 
-                <div class="col-lg-8 col-md-8" style="margin-top:10px;">
+                <div class="col-lg-8" style="margin-top:10px;">
                     <div class="row" id="show-search-train">
                         {%if template == 3%}
                         <div class="col-lg-12 header-right" id="passport_ticket" style="background:unset; border:unset;">
@@ -548,7 +549,7 @@
                         {%endif%}
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4" style="margin-top:10px;">
+                <div class="col-lg-4" style="margin-top:10px;">
                     <div class="row">
                         <div class="col-lg-12">
                             <div id="detail">

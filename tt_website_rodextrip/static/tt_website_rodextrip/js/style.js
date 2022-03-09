@@ -50,6 +50,7 @@ $(document).ready(function(){
         }
     });
 
+
     $(window).click(function(e) {
         if ($(".ld-over-full-inverse").hasClass("running")) {
             $(".ld-over-full-inverse").removeClass("running");

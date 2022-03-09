@@ -206,6 +206,21 @@ $(document).ready(function () {
             console.log(err) //ada element yg tidak ada
         }
 
+        document.getElementById("password2").addEventListener("keyup", function(event) {
+          // Number 13 is the "Enter" key on the keyboard
+          if (event.keyCode === 13) {
+                event.preventDefault();
+                get_captcha('g-recaptcha-response','signin_btc');
+          }
+        });
+        document.getElementById("username2").addEventListener("keyup", function(event) {
+          // Number 13 is the "Enter" key on the keyboard
+          if (event.keyCode === 13) {
+                event.preventDefault();
+                get_captcha('g-recaptcha-response','signin_btc');
+          }
+        });
+
         $(document).on('click', '.menu-has-children i', function (e) {
             $(this).next().toggleClass('menu-item-active');
             $(this).nextAll('ul').eq(0).slideToggle();

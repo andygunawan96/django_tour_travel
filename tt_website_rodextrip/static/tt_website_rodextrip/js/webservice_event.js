@@ -1916,11 +1916,28 @@ function event_create_booking(val,a){
 ////            path = 'http://192.168.0.11:8000/';
 //            window.location.href = path + "event/booking/" + msg.result.response.order_number;
         }else{
-            alert(msg.result.error_msg);
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: msg.result.error_msg,
+            })
+
+            $('.next-loading-booking').prop('disabled', false);
+            $('.next-loading-issued').removeClass("running");
+            $('.next-loading-issued').prop('disabled', false);
+            $('.loader-rodextrip').fadeOut();
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: errorThrown,
+            })
+            $('.next-loading-booking').prop('disabled', false);
+            $('.next-loading-issued').removeClass("running");
+            $('.next-loading-issued').prop('disabled', false);
+            $('.loader-rodextrip').fadeOut();
        }
     });
 }

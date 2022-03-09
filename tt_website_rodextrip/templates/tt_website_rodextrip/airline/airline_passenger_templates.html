@@ -4377,7 +4377,7 @@
 </section>
 
 {% elif template == 5 %}
-<header class="header_breadcrumb" style="background:white; padding-top:unset; padding-bottom:unset;">
+<header class="header_breadcrumb" style="z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
     {% include 'tt_website_rodextrip/header_corporate.html' %}
     {% endif %}
