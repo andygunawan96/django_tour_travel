@@ -2689,6 +2689,73 @@ function copy_data(){
     })
 }
 
+function activity_request_issued(req_order_number){
+    Swal.fire({
+      title: 'Are you sure want to Request Issued for this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        show_loading();
+        please_wait_transaction();
+        getToken();
+        $.ajax({
+           type: "POST",
+           url: "/webservice/content",
+           headers:{
+                'action': 'create_reservation_issued_request',
+           },
+           data: {
+               'order_number': req_order_number,
+               'table_name': 'activity',
+               'signature': signature
+           },
+           success: function(msg) {
+               console.log(msg);
+               if(msg.result.error_code == 0){
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('payment_acq').hidden = true;
+                    document.getElementById("overlay-div-box").style.display = "none";
+                    hide_modal_waiting_transaction();
+                    window.location.href = '/reservation_request/' + btoa(msg.result.response.request_number);
+               }
+               else {
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error activity request issued </span>' + msg.result.error_msg,
+                    })
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    $('.hold-seat-booking-train').prop('disabled', false);
+                    $('.hold-seat-booking-train').removeClass("running");
+                    document.getElementById("overlay-div-box").style.display = "none";
+                    hide_modal_waiting_transaction();
+                    activity_get_booking(req_order_number);
+               }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error activity request issued');
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                document.getElementById('payment_acq').innerHTML = '';
+                document.getElementById('payment_acq').hidden = true;
+                document.getElementById("overlay-div-box").style.display = "none";
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                hide_modal_waiting_transaction();
+                activity_get_booking(req_order_number);
+           },timeout: 300000
+        });
+      }
+    })
+}
+
 function update_service_charge(type){
     repricing_order_number = '';
     if(type == 'booking'){
@@ -3755,6 +3822,19 @@ function activity_get_booking(data){
                 {
                     try{
                         if(can_issued){
+                            if(user_login.co_job_position_is_request_required == true && msg.result.response.issued_request_status != "approved")
+                            {
+                                document.getElementById('final_issued_btn').setAttribute("onClick", "activity_request_issued('"+msg.result.response.order_number+"');");
+                                if(msg.result.response.issued_request_status == "on_process")
+                                {
+                                    document.getElementById('final_issued_btn').innerHTML = "Issued Booking Requested";
+                                    document.getElementById('final_issued_btn').disabled = true;
+                                }
+                                else
+                                {
+                                    document.getElementById('final_issued_btn').innerHTML = "Request Issued Booking";
+                                }
+                            }
                             check_payment_payment_method(activity_order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'activity', signature, msg.result.response.payment_acquirer_number);
         //                    get_payment_acq('Issued', msg.result.response.booker.seq_id, activity_order_number, 'billing',signature,'activity', signature);
                             document.getElementById("final_issued_btn").style.display = "block";
