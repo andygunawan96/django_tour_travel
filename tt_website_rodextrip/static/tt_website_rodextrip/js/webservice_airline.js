@@ -8009,6 +8009,16 @@ function datareissue2(airline){
                    currency = '';
                    airline[i].schedules[j].journeys[k].operated_by = true;
                    can_book = true;
+                   if(airline[i].schedules[j].journeys[k].hasOwnProperty('is_vtl_flight') && airline[i].schedules[j].journeys[k].is_vtl_flight == true){
+                        //flight VTL hardcode dari frontend
+                        airline[i].schedules[j].journeys[k].search_banner.push({
+                            "active": true,
+                            "banner_color": "#f15a22",
+                            "description": '',
+                            "name": "VTL Flight",
+                            "text_color": "#ffffff"
+                        })
+                   }
                    for(l in airline[i].schedules[j].journeys[k].segments){
                        if(airline[i].schedules[j].journeys[k].segments[l].fares.length == 0)
                             can_book = false;
