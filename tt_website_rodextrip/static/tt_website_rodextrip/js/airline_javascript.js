@@ -6028,7 +6028,17 @@ function get_airline_review(){
                     for(i in passengers_ssr){
                         text+=`<tr>
                                 <td class="list-of-passenger-left">`+(parseInt(count_pax)+1)+`</td>
-                                <td>`+passengers_ssr[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name +`</td>
+                                <td>`+passengers_ssr[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name;
+                                if(passengers_ssr[i].hasOwnProperty('behaviors') && Object.keys(passengers_ssr[i].behaviors).length > 0){
+                                    text+=`<br/><b>Behaviors:</b><br/>`;
+                                    for(j in passengers_ssr[i].behaviors){
+                                        text+=`<i>`+j+`</i><br/>`;
+                                        for(k in passengers_ssr[i].behaviors[j]){
+                                            text+=`<span><i>`+k+`: </i><b>`+passengers_ssr[i].behaviors[j][k].value+`</b></span><br/>`;
+                                        }
+                                    }
+                                }
+                                text+=`</td>
                                 <td>`;
                                 if(passengers_ssr[i].pax_type == 'ADT')
                                     text += `Adult`;

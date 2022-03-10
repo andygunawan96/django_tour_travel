@@ -1263,7 +1263,8 @@ def review(request, signature):
                         "identity_number": passport_number,
                         "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
                         "identity_type": request.POST['adult_id_type' + str(i + 1)],
-                        "ff_numbers": ff_number
+                        "ff_numbers": ff_number,
+                        "behaviors": json.loads(request.POST['adult_behaviors' + str(i + 1)]) if request.POST.get('adult_behaviors' + str(i + 1)) else {},
                     })
 
                     if i == 0:
@@ -1376,7 +1377,8 @@ def review(request, signature):
                         "identity_country_of_issued_name": passport_country_of_issued,
                         "passenger_seq_id": request.POST['child_id' + str(i + 1)],
                         "identity_type": request.POST['child_id_type' + str(i + 1)],
-                        "ff_numbers": ff_number
+                        "ff_numbers": ff_number,
+                        "behaviors": json.loads(request.POST['child_behaviors' + str(i + 1)]) if request.POST.get('child_behaviors' + str(i + 1)) else {},
                     })
 
                 for i in range(int(request.session['airline_request_%s' % signature]['infant'])):
@@ -1399,6 +1401,7 @@ def review(request, signature):
                         "identity_country_of_issued_name": passport_country_of_issued,
                         "passenger_seq_id": request.POST['infant_id' + str(i + 1)],
                         "identity_type": request.POST['infant_id_type' + str(i + 1)],
+                        "behaviors": json.loads(request.POST['infant_behaviors' + str(i + 1)]) if request.POST.get('infant_behaviors' + str(i + 1)) else {},
                     })
                 airline_create_passengers = {
                     'booker': booker,

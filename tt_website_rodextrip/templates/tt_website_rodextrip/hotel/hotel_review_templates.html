@@ -504,20 +504,20 @@
         address += ', ';
     address += `{{response.location.city}}`;
     {% endif %}
-    {% if response.location.country != False and response.location.country != '' %}
-    if(address != '')
-        address += ', ';
-    address += `{{response.location.country}}`;
-    {% endif %}
     {% if response.location.state != False and response.location.state != '' %}
     if(address != '')
         address += ', ';
     address += `{{response.location.state}}`;
     {% endif %}
-    {% if response.location.postal_code != False and response.location.postal_code != '' %}
+    {% if response.location.district != False and response.location.district != '' %}
     if(address != '')
         address += ', ';
-    address += `{{response.location.postal_code}}`;
+    address += `{{response.location.district}}`;
+    {% endif %}
+    {% if response.location.zipcode != false and response.location.zipcode != '' %}
+    if(address != '')
+        address += ', ';
+    address += `{{response.location.zipcode}}`;
     {% endif %}
     document.getElementById('address_hotel').innerHTML = address;
     //document.getElementById('voucher_discount').style.display = 'none';
