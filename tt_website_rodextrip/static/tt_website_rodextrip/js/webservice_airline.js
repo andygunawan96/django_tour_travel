@@ -3633,7 +3633,17 @@ function set_passenger_seat_map_airline(val){
     text += `<hr/>
     <h5 style="color:`+color+`;">
         <i class="fas fa-user"></i> `+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`
-    </h5>
+    </h5>`;
+    if(passengers[val].hasOwnProperty('behaviors') && Object.keys(passengers[val].behaviors).length > 0){
+        text+=`<br/><b>Behaviors:</b><br/>`;
+        for(j in passengers[val].behaviors){
+            text+=`<i>`+j+`</i><br/>`;
+            for(k in passengers[val].behaviors[j]){
+                text+=`<span><i>`+k+`: </i><b>`+passengers[val].behaviors[j][k].value+`</b></span><br/>`;
+            }
+        }
+    }
+    text+=`
     <div class="row">`;
     for(i in passengers[val].seat_list){
         text+=`
@@ -3676,7 +3686,17 @@ function set_first_passenger_seat_map_airline(val){
     text += `<hr/>
     <h5 style="color:`+color+`;">
         <i class="fas fa-user"></i> `+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`
-    </h5>
+    </h5>`;
+    if(passengers[val].hasOwnProperty('behaviors') && Object.keys(passengers[val].behaviors).length > 0){
+        text+=`<br/><b>Behaviors:</b><br/>`;
+        for(j in passengers[val].behaviors){
+            text+=`<i>`+j+`</i><br/>`;
+            for(k in passengers[val].behaviors[j]){
+                text+=`<span><i>`+k+`: </i><b>`+passengers[val].behaviors[j][k].value+`</b></span><br/>`;
+            }
+        }
+    }
+    text+=`
     <div class="row">`;
     for(i in passengers[val].seat_list){
         text+=`

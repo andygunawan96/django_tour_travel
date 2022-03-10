@@ -1316,6 +1316,15 @@ function get_customer_list(passenger, number, product){
                                                     response+=`<br/> <span><i class="fas fa-id-card"></i> <i>KTP: </i><b>`+msg.result.response[i].identities.ktp.identity_number+`</b></span>`;
                                                 if(msg.result.response[i].identities.hasOwnProperty('sim') == true)
                                                     response+=`<br/> <span><i class="fas fa-id-badge"></i> <i>SIM: </i><b>`+msg.result.response[i].identities.sim.identity_number+`</b></span>`;
+                                                if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
+                                                    response+=`<br/><b>Behaviors:</b><br/>`;
+                                                    for(j in msg.result.response[i].behaviors){
+                                                        response+=`<i>`+j+`</i><br/>`;
+                                                        for(k in msg.result.response[i].behaviors[j]){
+                                                            response+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b></span><br/>`;
+                                                        }
+                                                    }
+                                                }
                                         response+=`
                                             </div>
                                         </div>
@@ -1694,6 +1703,15 @@ function get_customer_list(passenger, number, product){
                                                     response+=`</div></div></div>`;
                                                 }
                                             }
+                                            if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
+                                                response+=`<b>Behaviors:</b><br/>`;
+                                                for(j in msg.result.response[i].behaviors){
+                                                    response+=`<i>`+j+`</i><br/>`;
+                                                    for(k in msg.result.response[i].behaviors[j]){
+                                                        response+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b></span><br/>`;
+                                                    }
+                                                }
+                                            }
 
                                         response+=`
                                             </div>
@@ -2032,7 +2050,10 @@ function pick_passenger_copy(type, sequence, product, identity=''){
             document.getElementById('adult_first_name'+passenger_number).readOnly = true;
             document.getElementById('adult_last_name'+passenger_number).value = passenger_data[sequence].last_name;
             document.getElementById('adult_last_name'+passenger_number).readOnly = true;
-
+            try{
+                document.getElementById('adult_behaviors'+passenger_number).value = JSON.stringify(passenger_data[sequence].behaviors);
+                //belum semua product di tambahkan
+            }catch(err){console.log(err);}
 //            capitalizeInput('adult_first_name'+passenger_number);
 //            passenger_data[sequence].first_name = document.getElementById('adult_first_name'+passenger_number).value;
 //            capitalizeInput('adult_last_name'+passenger_number);
@@ -2223,6 +2244,10 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                 document.getElementById('booker_first_name').readOnly = true;
                 document.getElementById('booker_last_name').value = passenger_data[sequence].last_name;
                 document.getElementById('booker_last_name').readOnly = true;
+                try{
+                    //belum smua product di tambahkan
+                    document.getElementById('booker_behaviors').value = JSON.stringify(passenger_data[sequence].behaviors);
+                }catch(err){}
 
     //            capitalizeInput('booker_first_name');
     //            passenger_data[sequence].first_name = document.getElementById('booker_first_name').value;
@@ -2518,6 +2543,10 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     document.getElementById('adult_first_name'+passenger_number).readOnly = true;
                     document.getElementById('adult_last_name'+passenger_number).value = passenger_data[sequence].last_name;
                     document.getElementById('adult_last_name'+passenger_number).readOnly = true;
+                    try{
+                        document.getElementById('adult_behaviors'+passenger_number).value = JSON.stringify(passenger_data[sequence].behaviors);
+                        //belum semua product di tambahkan
+                    }catch(err){console.log(err);}
                     document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_name;
 
     //                capitalizeInput('adult_first_name'+passenger_number);
@@ -2698,6 +2727,10 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     document.getElementById('child_first_name'+passenger_number).readOnly = true;
                     document.getElementById('child_last_name'+passenger_number).value = passenger_data[sequence].last_name;
                     document.getElementById('child_last_name'+passenger_number).readOnly = true;
+                    try{
+                        document.getElementById('child_behaviors'+passenger_number).value = JSON.stringify(passenger_data[sequence].behaviors);
+                        //belum semua product di tambahkan
+                    }catch(err){console.log(err);}
 
     //                capitalizeInput('child_first_name'+passenger_number);
     //                passenger_data[sequence].first_name = document.getElementById('child_first_name'+passenger_number).value;
@@ -2789,7 +2822,10 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     document.getElementById('infant_first_name'+passenger_number).readOnly = true;
                     document.getElementById('infant_last_name'+passenger_number).value = passenger_data[sequence].last_name;
                     document.getElementById('infant_last_name'+passenger_number).readOnly = true;
-
+                    try{
+                        document.getElementById('infant_behaviors'+passenger_number).value = JSON.stringify(passenger_data[sequence].behaviors);
+                        //belum semua product di tambahkan
+                    }catch(err){console.log(err);}
     //                capitalizeInput('infant_first_name'+passenger_number);
     //                passenger_data[sequence].first_name = document.getElementById('infant_first_name'+passenger_number).value;
     //                capitalizeInput('infant_last_name'+passenger_number);
@@ -2873,7 +2909,10 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     document.getElementById('senior_first_name'+passenger_number).readOnly = true;
                     document.getElementById('senior_last_name'+passenger_number).value = passenger_data[sequence].last_name;
                     document.getElementById('senior_last_name'+passenger_number).readOnly = true;
-
+                    try{
+                        document.getElementById('senior_behaviors'+passenger_number).value = JSON.stringify(passenger_data[sequence].behaviors);
+                        //belum semua product di tambahkan
+                    }catch(err){console.log(err);}
     //                capitalizeInput('senior_first_name'+passenger_number);
     //                passenger_data[sequence].first_name = document.getElementById('senior_first_name'+passenger_number).value;
     //                capitalizeInput('senior_last_name'+passenger_number);
@@ -3344,6 +3383,10 @@ function copy_booker(val,type,identity){
             document.getElementById('adult_first_name1').readOnly = true;
             document.getElementById('adult_last_name1').value = document.getElementById('booker_last_name').value;
             document.getElementById('adult_last_name1').readOnly = true;
+            try{
+                document.getElementById('adult_behaviors1').value = document.getElementById('booker_behaviors').value;
+                //belum semua product di tambahkan
+            }catch(err){console.log(err);}
             document.getElementById('adult_nationality1').value = document.getElementById('booker_nationality').value;
             document.getElementById('select2-adult_nationality1_id-container').innerHTML = document.getElementById('booker_nationality').value;
             //testing
@@ -3462,6 +3505,10 @@ function copy_booker(val,type,identity){
         document.getElementById('adult_first_name1').readOnly = false;
         document.getElementById('adult_last_name1').value = '';
         document.getElementById('adult_last_name1').readOnly = false;
+        try{
+            document.getElementById('adult_behaviors1').value = '';
+            //belum semua product di tambahkan
+        }catch(err){console.log(err);}
         document.getElementById('adult_nationality1').value = 'Indonesia';
         document.getElementById('select2-adult_nationality1_id-container').value = 'Indonesia';
         //testing
@@ -3582,6 +3629,10 @@ function clear_passenger(type, sequence){
             $('#adult_title'+sequence).niceSelect('update');
             document.getElementById('adult_email'+sequence).value = '';
             document.getElementById('adult_email'+sequence).readOnly = false;
+            try{
+                document.getElementById('adult_behaviors'+sequence).value = '';
+                //belum semua product di tambahkan
+            }catch(err){console.log(err);}
             document.getElementById('adult_phone_code'+sequence).value = '62';
             document.getElementById('select2-adult_phone_code'+sequence+'_id-container').value = '62';
             document.getElementById('select2-adult_phone_code'+sequence+'_id-container').readOnly = false;
@@ -3631,6 +3682,10 @@ function clear_passenger(type, sequence){
             document.getElementById('infant_first_name'+sequence).readOnly = false;
             document.getElementById('infant_last_name'+sequence).value = '';
             document.getElementById('infant_last_name'+sequence).readOnly = false;
+            try{
+                document.getElementById('infant_behaviors'+sequence).value = '';
+                //belum semua product di tambahkan
+            }catch(err){console.log(err);}
             document.getElementById('infant_nationality'+sequence).value = 'Indonesia';
             document.getElementById('select2-infant_nationality'+sequence+'_id-container').value = 'Indonesia';
             //testing
@@ -3664,6 +3719,10 @@ function clear_passenger(type, sequence){
         document.getElementById('senior_first_name'+sequence).readOnly = false;
         document.getElementById('senior_last_name'+sequence).value = '';
         document.getElementById('senior_last_name'+sequence).readOnly = false;
+        try{
+            document.getElementById('senior_behaviors'+sequence).value = '';
+            //belum semua product di tambahkan
+        }catch(err){console.log(err);}
         document.getElementById('senior_nationality'+sequence).value = 'Indonesia';
         document.getElementById('select2-senior_nationality'+sequence+'_id-container').value = 'Indonesia';
         //testing
@@ -3693,6 +3752,10 @@ function clear_passenger(type, sequence){
         document.getElementById('child_first_name'+sequence).readOnly = false;
         document.getElementById('child_last_name'+sequence).value = '';
         document.getElementById('child_last_name'+sequence).readOnly = false;
+        try{
+            document.getElementById('child_behaviors'+sequence).value = '';
+            //belum semua product di tambahkan
+        }catch(err){console.log(err);}
         document.getElementById('child_nationality'+sequence).value = 'Indonesia';
         document.getElementById('select2-child_nationality'+sequence+'_id-container').value = 'Indonesia';
         //testing
@@ -3733,6 +3796,10 @@ function clear_passenger(type, sequence){
                     document.getElementById('adult_email'+sequence).value = '';
                     document.getElementById('adult_email'+sequence).readOnly = false;
                     document.getElementById('adult_phone_code'+sequence).value = '62';
+                    try{
+                        document.getElementById('adult_behaviors'+sequence).value = '';
+                        //belum semua product di tambahkan
+                    }catch(err){console.log(err);}
                     document.getElementById('select2-adult_phone_code'+sequence+'_id-container').value = '62';
                     document.getElementById('select2-adult_phone_code'+sequence+'_id-container').readOnly = false;
                     document.getElementById('adult_phone'+sequence).value = '';
@@ -4944,6 +5011,17 @@ function get_passenger_cache(type){
             //                                else
             //                                    response+=`<div class="col-lg-12 mt-2"><button type="button" class="primary-btn-custom" disabled id="move_btn_`+i+`">`+passenger_sequence+`</button></div>`;
                                         }
+                                        if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
+                                            response+=`<div class="col-lg-12 mt-2">
+                                            <b>Behaviors:</b><br/>`;
+                                            for(j in msg.result.response[i].behaviors){
+                                                response+=`<i>`+j+`</i><br/>`;
+                                                for(k in msg.result.response[i].behaviors[j]){
+                                                    response+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b></span><br/>`;
+                                                }
+                                            }
+                                            response += `</div>`;
+                                        }
                                         response+=`
                                     </div>
                                 </div>
@@ -5647,6 +5725,9 @@ function pick_passenger_cache_copy(val, identity){
         document.getElementById(passenger_pick+'_first_name'+passenger_pick_number).readOnly = true;
         document.getElementById(passenger_pick+'_last_name'+passenger_pick_number).value = passenger_data_cache[val].last_name;
         document.getElementById(passenger_pick+'_last_name'+passenger_pick_number).readOnly = true;
+        try{
+            document.getElementById(passenger_pick+'_behaviors'+passenger_pick_number).value = JSON.stringify(passenger_data_cache[val].behaviors);
+        }catch(err){console.log(err);}
         if(passenger_data_cache[val].nationality_name != '' && passenger_data_cache[val].nationality_name != ''){
             document.getElementById('select2-'+passenger_pick+'_nationality'+passenger_pick_number+'_id-container').innerHTML = passenger_data_cache[val].nationality_name;
             document.getElementById(passenger_pick+'_nationality'+passenger_pick_number).value = passenger_data_cache[val].nationality_name;
