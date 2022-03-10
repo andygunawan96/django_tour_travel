@@ -772,19 +772,23 @@ function sort(response, check_filter){
                                 }if(response.hotel_ids[i].location.city != '' && response.hotel_ids[i].location.city != false){
                                     if(address != '')
                                         address += ', '
-                                    address+= response.hotel_ids[i].location.city + ', ';
-                                }if(response.hotel_ids[i].location.country != '' && response.hotel_ids[i].location.country != false){
-                                    if(address != '')
-                                        address += ', '
-                                    address+= response.hotel_ids[i].location.country;
+                                    address+= response.hotel_ids[i].location.city;
                                 }if(response.hotel_ids[i].location.state != '' && response.hotel_ids[i].location.state != false){
                                     if(address != '')
                                         address += ', '
                                     address+= ', '+ response.hotel_ids[i].location.state;
-                                }if(response.hotel_ids[i].location.postal_code != '' && response.hotel_ids[i].location.postal_code != false){
+                                }if(response.hotel_ids[i].location.district != '' && response.hotel_ids[i].location.district != false){
                                     if(address != '')
                                         address += ', '
-                                    address+= ', '+ response.hotel_ids[i].location.postal_code;
+                                    address+= ', '+ response.hotel_ids[i].location.district;
+                                }if(response.hotel_ids[i].location.kelurahan != '' && response.hotel_ids[i].location.kelurahan != false){
+                                    if(address != '')
+                                        address += ', '
+                                    address+= ', '+ response.hotel_ids[i].location.kelurahan;
+                                }if(response.hotel_ids[i].location.zipcode != '' && response.hotel_ids[i].location.zipcode != false){
+                                    if(address != '')
+                                        address += ', '
+                                    address+= ', '+ response.hotel_ids[i].location.zipcode;
                                 }
                                 text += address;
 //                            if(response.hotel_ids[i].location.address)
