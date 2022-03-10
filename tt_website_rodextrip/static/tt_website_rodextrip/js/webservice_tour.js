@@ -1422,6 +1422,84 @@ function tour_issued_booking(order_number)
     });
 }
 
+function tour_request_issued(req_order_number){
+    Swal.fire({
+      title: 'Are you sure want to Request Issued for this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        show_loading();
+        please_wait_transaction();
+        getToken();
+        $.ajax({
+           type: "POST",
+           url: "/webservice/content",
+           headers:{
+                'action': 'create_reservation_issued_request',
+           },
+           data: {
+               'order_number': req_order_number,
+               'table_name': 'tour',
+               'signature': signature
+           },
+           success: function(msg) {
+               console.log(msg);
+               if(msg.result.error_code == 0){
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('payment_acq').hidden = true;
+                    document.getElementById("overlay-div-box").style.display = "none";
+                    hide_modal_waiting_transaction();
+                    window.location.href = '/reservation_request/' + btoa(msg.result.response.request_number);
+               }
+               else {
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error tour request issued </span>' + msg.result.error_msg,
+                    })
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('payment_acq').hidden = true;
+                    $("#issuedModal").modal('hide');
+                    hide_modal_waiting_transaction();
+                    document.getElementById("overlay-div-box").style.display = "none";
+                    document.getElementById('tour_final_info').innerHTML = text;
+                    document.getElementById('product_title').innerHTML = '';
+                    document.getElementById('product_type_title').innerHTML = '';
+                    document.getElementById('tour_detail_table').innerHTML = '';
+                    tour_get_booking(req_order_number);
+                    $('.hold-seat-booking-train').prop('disabled', false);
+                    $('.hold-seat-booking-train').removeClass("running");
+               }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                hide_modal_waiting_transaction();
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                document.getElementById('payment_acq').innerHTML = '';
+                document.getElementById('payment_acq').hidden = true;
+                $("#issuedModal").modal('hide');
+                document.getElementById("overlay-div-box").style.display = "none";
+                document.getElementById('tour_final_info').innerHTML = text;
+                document.getElementById('product_title').innerHTML = '';
+                document.getElementById('product_type_title').innerHTML = '';
+                document.getElementById('tour_detail_table').innerHTML = '';
+                tour_get_booking(req_order_number);
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+           },timeout: 300000
+        });
+      }
+    })
+}
+
 function update_service_charge(type){
     repricing_order_number = '';
     if(type == 'booking'){
@@ -2353,6 +2431,19 @@ function tour_get_booking(order_number)
                        print_payment_rules(payment);
                        try{
                            if(can_issued){
+                               if(user_login.co_job_position_is_request_required == true && msg.result.response.issued_request_status != "approved")
+                               {
+                                    document.getElementById('final_issued_btn').setAttribute("onClick", "tour_request_issued('"+msg.result.response.order_number+"');");
+                                    if(msg.result.response.issued_request_status == "on_process")
+                                    {
+                                        document.getElementById('final_issued_btn').innerHTML = "Issued Booking Requested";
+                                        document.getElementById('final_issued_btn').disabled = true;
+                                    }
+                                    else
+                                    {
+                                        document.getElementById('final_issued_btn').innerHTML = "Request Issued Booking";
+                                    }
+                               }
                                check_payment_payment_method(order_number, 'Issued', book_obj.booker.seq_id, 'billing', 'tour', signature, msg.result.response.payment_acquirer_number);
             //                   get_payment_acq('Issued', book_obj.booker.seq_id, order_number, 'billing',signature,'tour');
                                document.getElementById("final_issued_btn").style.display = "block";
