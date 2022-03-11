@@ -1759,7 +1759,7 @@
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_event'>
                                 <div class="row">
                                     <div class="col-lg-3" style="padding:0px;">
-                                        <span class="span-search-ticket">{% trans 'Category' %}</span>
+                                        <span class="span-search-ticket"><i class="fas fa-folder"></i> {% trans 'Category' %}</span>
                                         <div class="input-container-search-ticket btn-group">
                                             <div class="form-select">
                                                 <select id="category_event" name="category_event" class="nice-select-default">
@@ -2592,7 +2592,7 @@
                                         <input type="text" class="form-control" style="cursor:pointer; background:white !important;" name="visa_departure" id="visa_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                <div class="col-lg-4 col-md-4 col-sm-4 mb-3">
                                     <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
                                     <div class="form-select">
                                         <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="Consulate" onchange="visa_autocomplete('consulate','home')">
@@ -2729,8 +2729,8 @@
                             {% csrf_token %}
                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_event'>
                             <div class="row">
-                                <div class="col-lg-3">
-                                    <span class="span-search-ticket">{% trans 'Category' %}</span>
+                                <div class="col-lg-3 mb-2">
+                                    <span class="span-search-ticket"><i class="fas fa-folder"></i> {% trans 'Category' %}</span>
                                     <div class="input-container-search-ticket btn-group">
                                         <select id="category_event" name="category_event" class="nice-select-default">
 
@@ -4126,7 +4126,7 @@
                                 <input type="hidden" name="g-recaptcha-response" id='recaptcha_event'>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <span class="span-search-ticket">{% trans 'Category' %}</span>
+                                        <span class="span-search-ticket"><i class="fas fa-folder"></i> {% trans 'Category' %}</span>
                                         <div class="form-group">
                                             <div class="default-select">
                                                 <select id="category_event" name="category_event">
@@ -5469,7 +5469,7 @@
                                         {% csrf_token %}
                                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_passport'>
                                         <div class="row">
-                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 mb-3">
                                                 <span class="span-search-ticket"> {% trans 'Passport Type' %}</span>
                                                 <div class="input-container-search-ticket">
                                                     <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
@@ -5481,7 +5481,7 @@
                                                 </div>
                                                 <input type="hidden" name="passport_type" id="passport_type" />
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 mb-3">
                                                 <span class="span-search-ticket"> {% trans 'Apply Type' %}</span>
                                                 <div class="input-container-search-ticket">
                                                     <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
@@ -5591,6 +5591,7 @@
                                             <div class="col-lg-3">
                                                 <span class="span-search-ticket">{% trans 'Category' %}</span>
                                                 <div class="input-container-search-ticket btn-group">
+                                                    <i class="fas fa-folder" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                                     <select id="category_event" name="category_event" class="nice-select-default">
 
                                                     </select>
@@ -6867,7 +6868,7 @@
                                         {% csrf_token %}
                                         <input type="hidden" name="g-recaptcha-response" id='recaptcha_visa'>
                                         <div class="row">
-                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 mb-2">
                                                 <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %}</span>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
@@ -6878,7 +6879,7 @@
                                                 </div>
                                                 <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 mb-1">
                                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" class="form-control" style="cursor:pointer; background:white;" name="visa_departure" id="visa_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
@@ -8763,7 +8764,7 @@
                     <input type="hidden" name="g-recaptcha-response" id='recaptcha_event'>
                     <div class="row">
                         <div class="col-lg-5">
-                            <span class="span-search-ticket">{% trans 'Category' %}</span>
+                            <span class="span-search-ticket"><i class="fas fa-folder"></i> {% trans 'Category' %}</span>
                             <div class="input-container-search-ticket btn-group">
                                 <div class="form-select">
                                     <select id="category_event" name="category_event" class="nice-select-default">
@@ -8852,13 +8853,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6" id="bus_date_search">
+                        <div class="col-lg-6 col-md-6" id="bus_date_search">
                             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                             <div class="input-container-search-ticket">
                                 <input type="text" class="form-control" style="background:white;" id="bus_departure" name="bus_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 col-md-6">
                             <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                             <div class="input-container-search-ticket btn-group">
                                 <button id="show_total_pax_bus" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>

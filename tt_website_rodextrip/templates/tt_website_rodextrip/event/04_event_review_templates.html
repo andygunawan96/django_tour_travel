@@ -33,7 +33,6 @@
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
     {% include 'tt_website_rodextrip/header_corporate.html' %}
     {% endif %}
-
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -46,10 +45,10 @@
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                    <span style="font-size:13px; font-weight:500; padding-right:5px;"><i class="fas fa-stopwatch"></i> {% trans 'Session Time' %}: </span><span class="count_time" id="session_time"></span>
+                    <span style="font-size:13px; font-weight:500; padding-right:0px;"><i class="fas fa-stopwatch"></i> {% trans 'Session Time' %}: </span><span class="count_time" id="session_time"></span>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                    <span style="font-size:13px; font-weight:500; padding-right:5px;"><i class="fas fa-clock"></i> {% trans 'Elapsed Time' %}: <span class="count_time" id="elapse_time"> </span></span>
+                    <span style="font-size:13px; font-weight:500; padding-right:0px;"><i class="fas fa-clock"></i> {% trans 'Elapsed Time' %}: <span class="count_time" id="elapse_time"> </span></span>
                 </div>
                 {% include 'tt_website_rodextrip/balance_credit.html' %}
             </div>
@@ -169,7 +168,7 @@
                                         <h4> {% trans 'Booking Event Review' %} </h4>
                                         <hr/>
                                     </div>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4 mb-3">
                                         {% if event_code.images|length > 0 %}
                                         <img class="img-fluid" style="background-size:contain; background-repeat: no-repeat;" src="{{event_code.images.0.url}}" alt="Event" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no-event.png';">
                                         {% else %}

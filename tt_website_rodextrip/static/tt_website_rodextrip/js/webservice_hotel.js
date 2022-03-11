@@ -1914,6 +1914,93 @@ function hotel_issued(data){
     })
 }
 
+function hotel_request_issued(req_order_number){
+    Swal.fire({
+      title: 'Are you sure want to Request Issued for this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        show_loading();
+        please_wait_transaction();
+        getToken();
+        $.ajax({
+           type: "POST",
+           url: "/webservice/content",
+           headers:{
+                'action': 'create_reservation_issued_request',
+           },
+           data: {
+               'order_number': req_order_number,
+               'table_name': 'hotel',
+               'signature': signature
+           },
+           success: function(msg) {
+               console.log(msg);
+               if(msg.result.error_code == 0){
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('payment_acq').hidden = true;
+                    document.getElementById("overlay-div-box").style.display = "none";
+                    hide_modal_waiting_transaction();
+                    window.location.href = '/reservation_request/' + btoa(msg.result.response.request_number);
+               }
+               else {
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error hotel request issued </span>' + msg.result.error_msg,
+                    })
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('airline_booking').innerHTML = '';
+                    document.getElementById('airline_detail').innerHTML = '';
+                    document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('show_loading_booking_airline').style.display = 'block';
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('payment_acq').hidden = true;
+                    document.getElementById('reissued').hidden = true;
+                    document.getElementById('cancel').hidden = true;
+                    hide_modal_waiting_transaction();
+                    document.getElementById("overlay-div-box").style.display = "none";
+
+                    $('.hold-seat-booking-train').prop('disabled', false);
+                    $('.hold-seat-booking-train').removeClass("running");
+                    hotel_get_booking(req_order_number);
+                    $(".issued_booking_btn").hide();
+               }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                document.getElementById('show_loading_booking_airline').hidden = false;
+                document.getElementById('airline_booking').innerHTML = '';
+                document.getElementById('airline_detail').innerHTML = '';
+                document.getElementById('payment_acq').innerHTML = '';
+                document.getElementById('voucher_div').style.display = 'none';
+                document.getElementById('ssr_request_after_sales').hidden = true;
+                document.getElementById('show_loading_booking_airline').style.display = 'block';
+                document.getElementById('show_loading_booking_airline').hidden = false;
+                document.getElementById('reissued').hidden = true;
+                document.getElementById('cancel').hidden = true;
+                document.getElementById('payment_acq').hidden = true;
+                hide_modal_waiting_transaction();
+                document.getElementById("overlay-div-box").style.display = "none";
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                $(".issued_booking_btn").hide();
+                hotel_get_booking(req_order_number);
+           },timeout: 300000
+        });
+      }
+    })
+}
+
 function hotel_issued_booking(val){
     force_issued = false;
     if(val == 1)
@@ -2324,6 +2411,19 @@ function hotel_get_booking(data){
                           </div>`;
                    document.getElementById('hotel_booking').innerHTML = text;
                    if(can_issued){
+                       if(user_login.co_job_position_is_request_required == true && msg.result.response.issued_request_status != "approved")
+                       {
+                            document.getElementById('issued_booking_btn').setAttribute("onClick", "hotel_request_issued('"+msg.result.response.order_number+"');");
+                            if(msg.result.response.issued_request_status == "on_process")
+                            {
+                                document.getElementById('issued_booking_btn').innerHTML = "Issued Booking Requested";
+                                document.getElementById('issued_booking_btn').disabled = true;
+                            }
+                            else
+                            {
+                                document.getElementById('issued_booking_btn').innerHTML = "Request Issued Booking";
+                            }
+                       }
                        check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id,  'billing', 'hotel', signature, msg.result.response.payment_acquirer_number);
                        $(".issued_booking_btn").show();
                    }
