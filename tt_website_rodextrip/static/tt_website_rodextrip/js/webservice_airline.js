@@ -3635,18 +3635,22 @@ function set_passenger_seat_map_airline(val){
         <i class="fas fa-user"></i> `+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`
     </h5>`;
     if(passengers[val].hasOwnProperty('behaviors') && Object.keys(passengers[val].behaviors).length > 0){
-        text+=`<br/><b>Behaviors:</b><br/>`;
+        print_behavior = false;
+        text_behaviors=`<br/><b>Behaviors:</b><br/>`;
         for(j in passengers[val].behaviors){
             if(j.toLowerCase() == 'airline'){
-                text+=`<b>`+j+`</b><br/>`;
+                print_behavior = true;
+                text_behaviors+=`<b>`+j+`</b><br/>`;
                 for(k in passengers[val].behaviors[j]){
-                    text+=`<span><i>`+k+`: </i><b>`+passengers[val].behaviors[j][k].value+`</b>`;
+                    text_behaviors+=`<span><i>`+k+`: </i><b>`+passengers[val].behaviors[j][k].value+`</b>`;
                     if(passengers[val].behaviors[j][k].remark != '' && passengers[val].behaviors[j][k].remark != false)
-                        text +=` - `+passengers[val].behaviors[j][k].remark;
-                    text+=`</span><br/>`;
+                        text_behaviors +=` - `+passengers[val].behaviors[j][k].remark;
+                    text_behaviors+=`</span><br/>`;
                 }
             }
         }
+        if(print_behavior)
+            text += text_behaviors
     }
     text+=`
     <div class="row">`;
@@ -3693,18 +3697,22 @@ function set_first_passenger_seat_map_airline(val){
         <i class="fas fa-user"></i> `+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`
     </h5>`;
     if(passengers[val].hasOwnProperty('behaviors') && Object.keys(passengers[val].behaviors).length > 0){
-        text+=`<br/><b>Behaviors:</b><br/>`;
+        print_behavior = false;
+        text_behaviors=`<br/><b>Behaviors:</b><br/>`;
         for(j in passengers[val].behaviors){
             if(j.toLowerCase() == 'airline'){
-                text+=`<b>`+j+`</b><br/>`;
+                print_behavior = true;
+                text_behaviors+=`<b>`+j+`</b><br/>`;
                 for(k in passengers[val].behaviors[j]){
-                    text+=`<span><i>`+k+`: </i><b>`+passengers[val].behaviors[j][k].value+`</b>`;
+                    text_behaviors+=`<span><i>`+k+`: </i><b>`+passengers[val].behaviors[j][k].value+`</b>`;
                     if(passengers[val].behaviors[j][k].remark != '' && passengers[val].behaviors[j][k].remark != false)
-                        text +=` - `+passengers[val].behaviors[j][k].remark;
-                    text+=`</span><br/>`;
+                        text_behaviors +=` - `+passengers[val].behaviors[j][k].remark;
+                    text_behaviors+=`</span><br/>`;
                 }
             }
         }
+        if(print_behavior)
+            text += text_behaviors
     }
     text+=`
     <div class="row">`;
