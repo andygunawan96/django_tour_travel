@@ -173,10 +173,12 @@
                                     {% if 'behaviors' in pax  and pax.behaviors|length > 0%}
                                         <h6 style="color:{{color}};">Behaviors</h6>
                                         {% for key, provider_type in pax.behaviors.items %}
+                                            {% if key == 'Airline'%}
                                         <b>{{key}}</b><br/>
                                             {% for key,behavior_provider in provider_type.items %}
-                                            <i>{{key}}</i>: <b>{{behavior_provider.value}}</b><br/>
+                                            <i>{{key}}</i>: <b>{{behavior_provider.value}}</b><br/> {% if behavior_provider.remark != '' and behavior_provider.remark != false %} - {{behavior_provider.remark}} {% endif %}
                                             {% endfor%}
+                                            {% endif %}
                                         {% endfor %}
                                         <hr/>
                                     {% endif %}

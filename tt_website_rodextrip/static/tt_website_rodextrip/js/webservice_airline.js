@@ -3637,9 +3637,14 @@ function set_passenger_seat_map_airline(val){
     if(passengers[val].hasOwnProperty('behaviors') && Object.keys(passengers[val].behaviors).length > 0){
         text+=`<br/><b>Behaviors:</b><br/>`;
         for(j in passengers[val].behaviors){
-            text+=`<i>`+j+`</i><br/>`;
-            for(k in passengers[val].behaviors[j]){
-                text+=`<span><i>`+k+`: </i><b>`+passengers[val].behaviors[j][k].value+`</b></span><br/>`;
+            if(j.toLowerCase() == 'airline'){
+                text+=`<b>`+j+`</b><br/>`;
+                for(k in passengers[val].behaviors[j]){
+                    text+=`<span><i>`+k+`: </i><b>`+passengers[val].behaviors[j][k].value+`</b>`;
+                    if(passengers[val].behaviors[j][k].remark != '' && passengers[val].behaviors[j][k].remark != false)
+                        text +=` - `+passengers[val].behaviors[j][k].remark;
+                    text+=`</span><br/>`;
+                }
             }
         }
     }
@@ -3690,9 +3695,14 @@ function set_first_passenger_seat_map_airline(val){
     if(passengers[val].hasOwnProperty('behaviors') && Object.keys(passengers[val].behaviors).length > 0){
         text+=`<br/><b>Behaviors:</b><br/>`;
         for(j in passengers[val].behaviors){
-            text+=`<i>`+j+`</i><br/>`;
-            for(k in passengers[val].behaviors[j]){
-                text+=`<span><i>`+k+`: </i><b>`+passengers[val].behaviors[j][k].value+`</b></span><br/>`;
+            if(j.toLowerCase() == 'airline'){
+                text+=`<b>`+j+`</b><br/>`;
+                for(k in passengers[val].behaviors[j]){
+                    text+=`<span><i>`+k+`: </i><b>`+passengers[val].behaviors[j][k].value+`</b>`;
+                    if(passengers[val].behaviors[j][k].remark != '' && passengers[val].behaviors[j][k].remark != false)
+                        text +=` - `+passengers[val].behaviors[j][k].remark;
+                    text+=`</span><br/>`;
+                }
             }
         }
     }

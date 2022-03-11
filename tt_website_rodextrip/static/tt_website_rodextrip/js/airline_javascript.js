@@ -6032,9 +6032,11 @@ function get_airline_review(){
                                 if(passengers_ssr[i].hasOwnProperty('behaviors') && Object.keys(passengers_ssr[i].behaviors).length > 0){
                                     text+=`<br/><b>Behaviors:</b><br/>`;
                                     for(j in passengers_ssr[i].behaviors){
-                                        text+=`<i>`+j+`</i><br/>`;
-                                        for(k in passengers_ssr[i].behaviors[j]){
-                                            text+=`<span><i>`+k+`: </i><b>`+passengers_ssr[i].behaviors[j][k].value+`</b></span><br/>`;
+                                        if(j.toLowerCase() == 'airline'){
+                                            text+=`<i>`+j+`</i><br/>`;
+                                            for(k in passengers_ssr[i].behaviors[j]){
+                                                text+=`<span><i>`+k+`: </i><b>`+passengers_ssr[i].behaviors[j][k].value+`</b></span><br/>`;
+                                            }
                                         }
                                     }
                                 }
