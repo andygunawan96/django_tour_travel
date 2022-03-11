@@ -1654,9 +1654,11 @@ function select_passenger(val){
             document.getElementById('seat_journey'+parseInt(parseInt(i)+1)).innerHTML = '';
     }
     if(pax[val-1].hasOwnProperty('behaviors') && Object.keys(pax[val-1].behaviors).length > 0){
+        print_behavior = false;
         text=`<br/><b>Behaviors:</b><br/>`;
         for(j in pax[val-1].behaviors){
             if(j.toLowerCase() == 'train'){
+                print_behavior = true;
                 text+=`<b>`+j+`</b><br/>`;
                 for(k in pax[val-1].behaviors[j]){
                     text+=`<span><i>`+k+`: </i><b>`+pax[val-1].behaviors[j][k].value+`</b>`;
@@ -1666,7 +1668,8 @@ function select_passenger(val){
                 }
             }
         }
-        document.getElementById('detail_behavior_passenger').innerHTML = text;
+        if(print_behavior)
+            document.getElementById('detail_behavior_passenger').innerHTML = text;
     }
 
     pax_click = val;

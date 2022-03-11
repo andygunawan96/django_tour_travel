@@ -1317,18 +1317,22 @@ function get_customer_list(passenger, number, product){
                                                 if(msg.result.response[i].identities.hasOwnProperty('sim') == true)
                                                     response+=`<br/> <span><i class="fas fa-id-badge"></i> <i>SIM: </i><b>`+msg.result.response[i].identities.sim.identity_number+`</b></span>`;
                                                 if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
-                                                    response+=`<br/><b>Behaviors:</b><br/>`;
+                                                    print_behavior = false;
+                                                    response_behavior=`<br/><b>Behaviors:</b><br/>`;
                                                     for(j in msg.result.response[i].behaviors){
                                                         if(j.toLowerCase() == product){
-                                                            response+=`<b>`+j+`</b><br/>`;
+                                                            print_behavior = true;
+                                                            response_behavior+=`<b>`+j+`</b><br/>`;
                                                             for(k in msg.result.response[i].behaviors[j]){
-                                                                response+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b>`;
+                                                                response_behavior+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b>`;
                                                                 if(msg.result.response[i].behaviors[j][k].remark != '' && msg.result.response[i].behaviors[j][k].remark != false)
-                                                                    response +=` - `+msg.result.response[i].behaviors[j][k].remark;
-                                                                response+=`</span><br/>`;
+                                                                    response_behavior +=` - `+msg.result.response[i].behaviors[j][k].remark;
+                                                                response_behavior+=`</span><br/>`;
                                                             }
                                                         }
                                                     }
+                                                    if(print_behavior)
+                                                        response+= response_behavior;
                                                 }
                                         response+=`
                                             </div>
@@ -1709,16 +1713,22 @@ function get_customer_list(passenger, number, product){
                                                 }
                                             }
                                             if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
-                                                response+=`<b>Behaviors:</b><br/>`;
+                                                print_behavior = false;
+                                                response_behavior=`<br/><b>Behaviors:</b><br/>`;
                                                 for(j in msg.result.response[i].behaviors){
-                                                    response+=`<b>`+j+`</b><br/>`;
-                                                    for(k in msg.result.response[i].behaviors[j]){
-                                                        response+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b>`;
-                                                        if(msg.result.response[i].behaviors[j][k].remark != '' && msg.result.response[i].behaviors[j][k].remark != false)
-                                                            response +=` - `+msg.result.response[i].behaviors[j][k].remark;
-                                                        response+=`</span><br/>`;
+                                                    if(j.toLowerCase() == product){
+                                                        print_behavior = true;
+                                                        response_behavior+=`<b>`+j+`</b><br/>`;
+                                                        for(k in msg.result.response[i].behaviors[j]){
+                                                            response_behavior+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b>`;
+                                                            if(msg.result.response[i].behaviors[j][k].remark != '' && msg.result.response[i].behaviors[j][k].remark != false)
+                                                                response_behavior +=` - `+msg.result.response[i].behaviors[j][k].remark;
+                                                            response_behavior+=`</span><br/>`;
+                                                        }
                                                     }
                                                 }
+                                                if(print_behavior)
+                                                    response+= response_behavior;
                                             }
 
                                         response+=`
@@ -5021,17 +5031,22 @@ function get_passenger_cache(type){
             //                                    response+=`<div class="col-lg-12 mt-2"><button type="button" class="primary-btn-custom" disabled id="move_btn_`+i+`">`+passenger_sequence+`</button></div>`;
                                         }
                                         if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
-                                            response+=`<div class="col-lg-12 mt-2">
-                                            <b>Behaviors:</b><br/>`;
+                                            print_behavior = false;
+                                            response_behavior=`<br/><b>Behaviors:</b><br/>`;
                                             for(j in msg.result.response[i].behaviors){
-                                                response+=`<b>`+j+`</b><br/>`;
-                                                for(k in msg.result.response[i].behaviors[j]){
-                                                    response+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b>`;
-                                                    if(msg.result.response[i].behaviors[j][k].remark != '' && msg.result.response[i].behaviors[j][k].remark != false)
-                                                        response +=` - `+msg.result.response[i].behaviors[j][k].remark;
-                                                    response+=`</span><br/>`;
+                                                if(j.toLowerCase() == product){
+                                                    print_behavior = true;
+                                                    response_behavior+=`<b>`+j+`</b><br/>`;
+                                                    for(k in msg.result.response[i].behaviors[j]){
+                                                        response_behavior+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b>`;
+                                                        if(msg.result.response[i].behaviors[j][k].remark != '' && msg.result.response[i].behaviors[j][k].remark != false)
+                                                            response_behavior +=` - `+msg.result.response[i].behaviors[j][k].remark;
+                                                        response_behavior+=`</span><br/>`;
+                                                    }
                                                 }
                                             }
+                                            if(print_behavior)
+                                                response+= response_behavior;
                                             response += `</div>`;
                                         }
                                         response+=`
