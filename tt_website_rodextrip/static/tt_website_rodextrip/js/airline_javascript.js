@@ -3692,10 +3692,10 @@ function airline_pick_mc(type){
 //                        }
 //                    }
                     console.log('price print ' + getrupiah(price));
+                    total_discount = 0;
                     if(price == 0){
                         text+= 'Choose All Flight Schedule to view price</span>';
                     }else{
-                        total_discount = 0;
                         for(j in airline_pick_list[i].segments){
                             for(k in airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary){
                                 for(l in airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges){
