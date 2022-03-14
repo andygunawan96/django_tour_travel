@@ -2411,7 +2411,9 @@ function sort(){
                                                                     text+= airline[i].elapsed_time.split(':')[2] + 'm ';
                                                                 }
                                                                 text+=`</span>
-                                                            </div>`;
+                                                            </div>
+                                                            <div class="col-xs-12">
+                                                                <div class="row" id="airline`+i+`fare_details">`;
                                                             for(j in airline[i].fare_details){
                                                                text+=`
                                                                <div class="col-xs-12">`;
@@ -2426,6 +2428,8 @@ function sort(){
                                                                text+=`</div>`;
                                                             }
                                                             text+=`
+                                                                </div>
+                                                            </div>
                                                             <div class="col-xs-12">`;
                                                             if(airline[i].available_count != 0){
                                                                 if(airline[i].available_count > 9){
