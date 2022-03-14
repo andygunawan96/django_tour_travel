@@ -172,6 +172,9 @@
                                         <div class="panel panel-default">
                                             <div class="panel-body-n">
                                                 {{va_number}}
+                                                <span style="float: right; cursor: pointer;color:{{color}}" onclick="copy_data();">
+                                                    Copy <i class="fa fa-clone" aria-hidden="true"></i>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -470,6 +473,10 @@ try{
                                         <div class="panel panel-default">
                                             <div class="panel-body-n">
                                                 {{nomor_rekening}}
+                                                <span style="float: right; cursor: pointer;color:{{color}}" onclick="copy_data();">
+                                                    Copy <i class="fa fa-clone" aria-hidden="true"></i>
+                                                </span>
+                                                <!--<i class="fa fa-clone" aria-hidden="true" style="float: right; cursor: pointer;" onclick="copy_data();"></i>-->
                                             </div>
                                         </div>
                                     </div>
@@ -559,6 +566,31 @@ document.getElementById("btn_done").onclick = function() {window.location='/{{pr
     var timelimit = moment(localTime).format('DD MMM YYYY HH:mm');
     document.getElementById('timelimit').innerHTML = timelimit;
 
+    function copy_data(){
+        //
+        text_copy = `{{va_number}}`;
+        if(text_copy == '' || text_copy == 'False'){
+            text_copy = `{{nomor_rekening}}`.split('.').join('');
+        }
+        const el = document.createElement('textarea');
+        el.value = text_copy;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000
+        })
+
+        Toast.fire({
+          type: 'success',
+          title: 'Copied Successfully'
+        })
+    }
 
     function div_dropdown(type){
         var general_down = document.getElementById('down_'+type);
