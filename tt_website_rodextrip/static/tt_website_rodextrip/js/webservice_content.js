@@ -2563,8 +2563,13 @@ function get_reservation_issued_request(request_number)
                                     </tr>
                                 `;
                temp_pax_seq = 1
+               is_user_exist = false;
                for(i in req_obj.approvals)
                {
+                    if (user_login.co_customer_seq_id == req_obj.approvals[i].approved_cust_seq_id)
+                    {
+                        is_user_exist = true;
+                    }
                     text += `
                         <tr>
                             <td>`+temp_pax_seq+`</td>
@@ -2607,7 +2612,7 @@ function get_reservation_issued_request(request_number)
                 }
                 else
                 {
-                    if (req_obj.state == 'cancel' || req_obj.state == 'approved' || req_obj.state == 'rejected' || user_login.co_hierarchy_sequence >= req_obj.current_approval_sequence)
+                    if (req_obj.state == 'cancel' || req_obj.state == 'approved' || req_obj.state == 'rejected' || user_login.co_hierarchy_sequence >= req_obj.current_approval_sequence || is_user_exist == true)
                     {
                         btn_text = `
                         <button class="primary-btn issued_booking_btn" id="disabled_request_btn" type="button" style="width:100%;" onclick="" disabled>

@@ -2048,6 +2048,58 @@ function change_fare(journey, segment, fares){
             document.getElementById('fare_no_discount'+journey).innerHTML = 'IDR ' + getrupiah(price.toString());
     }
 //    airline_data[journey].total_price = price;
+
+    //update fare details detail
+    if(airline[journey].segments[segment].fares[fares].hasOwnProperty('fare_details')){
+        for(l in airline[journey].segments[segment].fares[fares].fare_details){
+            text=`
+            <span class="copy_fares" hidden>`+journey+segment+fares+l+`</span>`;
+            if(airline[journey].segments[segment].fares[fares].fare_details[l].detail_type.includes('BG')){
+                text+=`<i class="fas fa-suitcase"></i><span style="font-weight:500;" class="copy_suitcase_details"> `+airline[journey].segments[segment].fares[fares].fare_details[l].amount+` `+airline[journey].segments[segment].fares[fares].fare_details[l].unit+`</span><br/>`;
+            }else if(airline[journey].segments[segment].fares[fares].fare_details[l].detail_type == 'ML'){
+                text+=`<i class="fas fa-utensils"></i><span style="font-weight:500;" class="copy_utensils_details"> `+airline[journey].segments[segment].fares[fares].fare_details[l].amount+` `+airline[journey].segments[segment].fares[fares].fare_details[l].unit+`</span><br/>`;
+            }else{
+                text+=`<span style="font-weight:500;" class="copy_others_details"> `+airline[journey].segments[segment].fares[fares].fare_details[l].amount+` `+airline[journey].segments[segment].fares[fares].fare_details[l].unit+`</span><br/>`;
+            }
+            document.getElementById('copy_fares_details'+journey+segment+"0"+l).innerHTML = text
+        }
+        fare_details = [];
+        for(j in airline[journey].segments){
+            if(airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].hasOwnProperty('fare_details')){
+                for(l in airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].fare_details){
+                    add_new_data = true;
+                    for(m in fare_details){
+                        add_new_data = false;
+                        if(fare_details[m].detail_code == airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].fare_details[l].detail_code && fare_details[m].amount > airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].fare_details[l].amount){
+                            fare_details.splice(m, 1);
+                            add_new_data = true;
+                            break;
+                        }else if(fare_details[m].detail_code == airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].fare_details[l].detail_code && fare_details[m].amount < airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].fare_details[l].amount){
+                            break;
+                        }
+                    }
+                    if(add_new_data)
+                        fare_details.push(airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].fare_details[l])
+                }
+            }
+        }
+        airline[journey].fare_details = fare_details;
+        text = '';
+        for(j in airline[journey].fare_details){
+           text+=`
+           <div class="col-xs-12">`;
+           if(airline[journey].fare_details[j].detail_type.includes('BG')){
+                text+=`<i class="fas fa-suitcase"></i><span style="font-weight:500;" class="copy_suitcase_details"> `+airline[journey].fare_details[j].amount+` `+airline[journey].fare_details[j].unit+`</span><br/>`;
+           }
+           else if(airline[journey].fare_details[j].detail_type == 'ML'){
+                text+=`<i class="fas fa-utensils"></i><span style="font-weight:500;" class="copy_utensils_details"> `+airline[journey].fare_details[j].amount+` `+airline[journey].fare_details[j].unit+`</span><br/>`;
+           }else{
+                text+=`<span style="font-weight:500;" class="copy_others_details">`+airline[journey].fare_details[j].amount+` `+airline[journey].fare_details[j].unit+`</span><br/>`;
+           }
+           text+=`</div>`;
+        }
+        document.getElementById('airline'+journey+'fare_details').innerHTML = text;
+    }
 }
 
 function get_price_itinerary(val){
@@ -2196,57 +2248,59 @@ function get_price_itinerary(val){
     }
     if(airline_pick_list.length != 0){
         if(airline_recommendations_list.length > 0){
-            Swal.fire({
-              title: 'Auto combo price?',
-              type: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Yes'
-            }).then((result) => {
-                if(result.value == true){
-                    if(airline_pick_list.length != 0 && auto_combo_price_flag == true){
-                        for(i in airline_pick_list){
-                            for(j in airline_pick_list[i].segments){
-                                for(k in airline_pick_list[i].segments[j].fares){
-                                    try{
-                                        if(airline_pick_list[i].segments[j].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline_data_filter[val].journey_ref_id)].journey_flight_refs[i].fare_flight_refs[j].fare_ref_id){
-                                            airline_pick_list[i].segments[j].fare_pick = parseInt(k);
-                                            break;
-                                        }
-                                    }catch(err){
-                                        console.log(err); // error kalau ada element yg tidak ada
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    airline_pick_list.push(JSON.parse(JSON.stringify(airline_data_filter[val])));
-                    value_pick.push(val);
-                    set_segment_provider_get_itinenary(segment, provider, val);
-                }else{
-                    //check combo price ada tidak kalau ada lanjut kalau tidak error
-                    data_check = true;
-                    if(airline_recommendations_list != 0){
-                        data_check = check_combo_price_schedule_fare(airline_data_filter[val]);
-                    }
-                    if(data_check){
-                        airline_pick_list.push(JSON.parse(JSON.stringify(airline_data_filter[val])));
-                        value_pick.push(val);
-                        set_segment_provider_get_itinenary(segment, provider, val);
-                    }else{
-                        document.getElementById('departjourney'+val).value = 'Choose';
-                        document.getElementById('departjourney'+val).classList.add("primary-btn-custom");
-                        document.getElementById('departjourney'+val).classList.remove("primary-btn-custom-un");
-                        document.getElementById('departjourney'+val).disabled = false;
-                        Swal.fire({
-                          type: 'warning',
-                          title: 'Oops!',
-                          html: 'Invalid Combination, Please change your last combination flight!',
-                       })
-                    }
-                }
-            });
+            data_check = true;
+            if(airline_recommendations_list != 0){
+                data_check = check_combo_price_schedule_fare(airline_data_filter[val]);
+            }
+            if(data_check){
+                airline_pick_list.push(JSON.parse(JSON.stringify(airline_data_filter[val])));
+                value_pick.push(val);
+                set_segment_provider_get_itinenary(segment, provider, val);
+            }else{
+                document.getElementById('departjourney'+val).value = 'Choose';
+                document.getElementById('departjourney'+val).classList.add("primary-btn-custom");
+                document.getElementById('departjourney'+val).classList.remove("primary-btn-custom-un");
+                document.getElementById('departjourney'+val).disabled = false;
+                Swal.fire({
+                  type: 'warning',
+                  title: 'Oops!',
+                  html: 'Invalid Combination, Please change your last combination flight!',
+               })
+            }
+        // tidak terpakai karena fare sudah mengikuti recomm
+//            Swal.fire({
+//              title: 'Auto combo price?',
+//              type: 'warning',
+//              showCancelButton: true,
+//              confirmButtonColor: '#3085d6',
+//              cancelButtonColor: '#d33',
+//              confirmButtonText: 'Yes'
+//            }).then((result) => {
+//                if(result.value == true){
+//                    if(airline_pick_list.length != 0 && auto_combo_price_flag == true){
+//                        for(i in airline_pick_list){
+//                            for(j in airline_pick_list[i].segments){
+//                                for(k in airline_pick_list[i].segments[j].fares){
+//                                    try{
+//                                        if(airline_pick_list[i].segments[j].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline_data_filter[val].journey_ref_id)].journey_flight_refs[i].fare_flight_refs[j].fare_ref_id){
+//                                            airline_pick_list[i].segments[j].fare_pick = parseInt(k);
+//                                            break;
+//                                        }
+//                                    }catch(err){
+//                                        console.log(err); // error kalau ada element yg tidak ada
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                    airline_pick_list.push(JSON.parse(JSON.stringify(airline_data_filter[val])));
+//                    value_pick.push(val);
+//                    set_segment_provider_get_itinenary(segment, provider, val);
+//                }else{
+//                    //check combo price ada tidak kalau ada lanjut kalau tidak error
+//
+//                }
+//            });
         }else{
             if(airline_pick_list.length != 0 && auto_combo_price_flag == true){
                 for(i in airline_pick_list){
@@ -3635,13 +3689,22 @@ function set_passenger_seat_map_airline(val){
         <i class="fas fa-user"></i> `+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`
     </h5>`;
     if(passengers[val].hasOwnProperty('behaviors') && Object.keys(passengers[val].behaviors).length > 0){
-        text+=`<br/><b>Behaviors:</b><br/>`;
+        print_behavior = false;
+        text_behaviors=`<br/><b>Behaviors:</b><br/>`;
         for(j in passengers[val].behaviors){
-            text+=`<i>`+j+`</i><br/>`;
-            for(k in passengers[val].behaviors[j]){
-                text+=`<span><i>`+k+`: </i><b>`+passengers[val].behaviors[j][k].value+`</b></span><br/>`;
+            if(j.toLowerCase() == 'airline'){
+                print_behavior = true;
+                text_behaviors+=`<b>`+j+`</b><br/>`;
+                for(k in passengers[val].behaviors[j]){
+                    text_behaviors+=`<span><i>`+k+`: </i><b>`+passengers[val].behaviors[j][k].value+`</b>`;
+                    if(passengers[val].behaviors[j][k].remark != '' && passengers[val].behaviors[j][k].remark != false)
+                        text_behaviors +=` - `+passengers[val].behaviors[j][k].remark;
+                    text_behaviors+=`</span><br/>`;
+                }
             }
         }
+        if(print_behavior)
+            text += text_behaviors
     }
     text+=`
     <div class="row">`;
@@ -3688,13 +3751,22 @@ function set_first_passenger_seat_map_airline(val){
         <i class="fas fa-user"></i> `+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`
     </h5>`;
     if(passengers[val].hasOwnProperty('behaviors') && Object.keys(passengers[val].behaviors).length > 0){
-        text+=`<br/><b>Behaviors:</b><br/>`;
+        print_behavior = false;
+        text_behaviors=`<br/><b>Behaviors:</b><br/>`;
         for(j in passengers[val].behaviors){
-            text+=`<i>`+j+`</i><br/>`;
-            for(k in passengers[val].behaviors[j]){
-                text+=`<span><i>`+k+`: </i><b>`+passengers[val].behaviors[j][k].value+`</b></span><br/>`;
+            if(j.toLowerCase() == 'airline'){
+                print_behavior = true;
+                text_behaviors+=`<b>`+j+`</b><br/>`;
+                for(k in passengers[val].behaviors[j]){
+                    text_behaviors+=`<span><i>`+k+`: </i><b>`+passengers[val].behaviors[j][k].value+`</b>`;
+                    if(passengers[val].behaviors[j][k].remark != '' && passengers[val].behaviors[j][k].remark != false)
+                        text_behaviors +=` - `+passengers[val].behaviors[j][k].remark;
+                    text_behaviors+=`</span><br/>`;
+                }
             }
         }
+        if(print_behavior)
+            text += text_behaviors
     }
     text+=`
     <div class="row">`;
@@ -8494,7 +8566,7 @@ function render_ticket_reissue(){
                                                text+=`
                                                <div id="copy_fares_details`+i+``+j+``+k+``+l+`">
                                                <span class="copy_fares" hidden>`+i+``+j+``+k+``+l+`</span>`;
-                                               if(airline[i].segments[j].fares[k].fare_details[l].detail_type == 'BG'){
+                                               if(airline[i].segments[j].fares[k].fare_details[l].detail_type.includes('BG')){
                                                     text+=`<i class="fas fa-suitcase"></i><span style="font-weight:500;" class="copy_suitcase_details">`+airline[i].segments[j].fares[k].fare_details[l].amount+` `+airline[i].segments[j].fares[k].fare_details[l].unit+`</span><br/>`;
                                                }
                                                else if(airline[i].segments[j].fares[k].fare_details[l].detail_type == 'ML'){
@@ -8503,7 +8575,7 @@ function render_ticket_reissue(){
                                                     text+=`<span style="font-weight:500;" class="copy_others_details">`+airline[i].segments[j].fares[k].fare_details[l].amount+` `+airline[i].segments[j].fares[k].fare_details[l].unit+`</span><br/>`;
                                                }
                                                text+=`</div>`;
-                                            }
+                                           }
                                            break;
                                        }
                                    }

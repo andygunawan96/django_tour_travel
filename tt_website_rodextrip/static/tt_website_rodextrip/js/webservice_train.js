@@ -1804,7 +1804,8 @@ function set_seat_map(){
                             'origin': train_get_detail.result.response.provider_bookings[i].journeys[j].origin,
                             'seat_code': train_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].seat_code,
                             'destination': train_get_detail.result.response.provider_bookings[i].journeys[j].destination
-                        }]
+                        }],
+                        'behaviors': train_get_detail.result.response.passengers[k].hasOwnProperty('behaviors') ? train_get_detail.result.response.passengers[k].behaviors : {}
                     })
                 }
             }

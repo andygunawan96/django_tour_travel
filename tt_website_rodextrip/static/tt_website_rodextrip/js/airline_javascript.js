@@ -2411,7 +2411,9 @@ function sort(){
                                                                     text+= airline[i].elapsed_time.split(':')[2] + 'm ';
                                                                 }
                                                                 text+=`</span>
-                                                            </div>`;
+                                                            </div>
+                                                            <div class="col-xs-12">
+                                                                <div class="row" id="airline`+i+`fare_details">`;
                                                             for(j in airline[i].fare_details){
                                                                text+=`
                                                                <div class="col-xs-12">`;
@@ -2426,6 +2428,8 @@ function sort(){
                                                                text+=`</div>`;
                                                             }
                                                             text+=`
+                                                                </div>
+                                                            </div>
                                                             <div class="col-xs-12">`;
                                                             if(airline[i].available_count != 0){
                                                                 if(airline[i].available_count > 9){
@@ -3692,10 +3696,10 @@ function airline_pick_mc(type){
 //                        }
 //                    }
                     console.log('price print ' + getrupiah(price));
+                    total_discount = 0;
                     if(price == 0){
                         text+= 'Choose All Flight Schedule to view price</span>';
                     }else{
-                        total_discount = 0;
                         for(j in airline_pick_list[i].segments){
                             for(k in airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary){
                                 for(l in airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].service_charge_summary[k].service_charges){
@@ -6032,9 +6036,11 @@ function get_airline_review(){
                                 if(passengers_ssr[i].hasOwnProperty('behaviors') && Object.keys(passengers_ssr[i].behaviors).length > 0){
                                     text+=`<br/><b>Behaviors:</b><br/>`;
                                     for(j in passengers_ssr[i].behaviors){
-                                        text+=`<i>`+j+`</i><br/>`;
-                                        for(k in passengers_ssr[i].behaviors[j]){
-                                            text+=`<span><i>`+k+`: </i><b>`+passengers_ssr[i].behaviors[j][k].value+`</b></span><br/>`;
+                                        if(j.toLowerCase() == 'airline'){
+                                            text+=`<i>`+j+`</i><br/>`;
+                                            for(k in passengers_ssr[i].behaviors[j]){
+                                                text+=`<span><i>`+k+`: </i><b>`+passengers_ssr[i].behaviors[j][k].value+`</b></span><br/>`;
+                                            }
                                         }
                                     }
                                 }

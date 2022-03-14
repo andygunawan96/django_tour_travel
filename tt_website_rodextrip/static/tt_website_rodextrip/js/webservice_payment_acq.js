@@ -209,7 +209,14 @@ function set_price(val, type, product_type){
 
                 </div>
                 <div class="col-sm-7" style='text-align:right;'>
-                    <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][selected].account_number+`<br/>
+                    <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][selected].account_number;
+                if(type == 'top_up'){
+                    text+=`
+                    <span style="float: right; cursor: pointer;color:`+color+`" onclick="copy_data_acount('`+payment_acq2[payment_method][selected].account_number+`');">
+                        <i class="fa fa-clone" aria-hidden="true"></i>
+                    </span>`
+                }
+                text+=`<br/>
                     <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][selected].account_name+`<br>
                 </div>`;
         }
@@ -1695,4 +1702,27 @@ function cancel_payment_method(order_number, provider_type){
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update dynamic page');
        }
     });
+}
+
+function copy_data_acount(data){
+    //
+        text_copy = data.split('.').join('');
+        const el = document.createElement('textarea');
+        el.value = text_copy;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000
+        })
+
+        Toast.fire({
+          type: 'success',
+          title: 'Copied Successfully'
+        })
 }
