@@ -4423,9 +4423,26 @@ function airline_detail(type){
                 for(k in price_itinerary_temp[i].journeys[j].segments){
                     $text += '‣ ';
                     try{
-                        $text += airline_carriers[price_itinerary_temp[i].journeys[j].segments[k].carrier_code].name + ' ' + price_itinerary_temp[i].journeys[j].segments[k].carrier_code + price_itinerary_temp[i].journeys[j].segments[k].carrier_number + ' ';
+                        if(price_itinerary_temp[i].journeys[j].segments[k].carrier_code != price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code && price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code != ''){
+                            text+=`<span style="font-size:13px; font-weight:500;">Operated By `+airline_carriers[price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code].name+` (`+price_itinerary_temp[i].journeys[j].segments[k].carrier_code+price_itinerary_temp[i].journeys[j].segments[k].carrier_number+`)</span><br/>`
+                            text+=`<img data-toggle="tooltip" alt="`+airline_carriers[price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code].name+`" title="`+airline_carriers[price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code].name+`" style="margin-top:10px; width:50px; height:50px; margin-right:10px;" src="`+static_path_url_server+`/public/airline_logo/`+price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code+`.png"><span> </span>`;
+                            $text += 'Operated By ' + airline_carriers[price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code].name + ' (' + price_itinerary_temp[i].journeys[j].segments[k].carrier_code + price_itinerary_temp[i].journeys[j].segments[k].carrier_number + ') ';
+                        }else{
+                            text+=`<span style="font-size:13px; font-weight:500;">`+airline_carriers[price_itinerary_temp[i].journeys[j].segments[k].carrier_code].name+` (`+price_itinerary_temp[i].journeys[j].segments[k].carrier_code+price_itinerary_temp[i].journeys[j].segments[k].carrier_number+`)</span><br/>`
+                            text+=`<img data-toggle="tooltip" alt="`+airline_carriers[price_itinerary_temp[i].journeys[j].segments[k].carrier_code].name+`" title="`+airline_carriers[price_itinerary_temp[i].journeys[j].segments[k].carrier_code].name+`" style="margin-top:10px; width:50px; height:50px; margin-right:10px;" src="`+static_path_url_server+`/public/airline_logo/`+price_itinerary_temp[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
+                            $text += airline_carriers[price_itinerary_temp[i].journeys[j].segments[k].carrier_code].name + ' (' + price_itinerary_temp[i].journeys[j].segments[k].carrier_code + price_itinerary_temp[i].journeys[j].segments[k].carrier_number + ') ';
+                        }
                     }catch(err){
-                        $text += price_itinerary_temp[i].journeys[j].segments[k].carrier_code + ' ' + price_itinerary_temp[i].journeys[j].segments[k].carrier_code + price_itinerary_temp[i].journeys[j].segments[k].carrier_number + ' ';
+                        // carrier tidak ketemu di dict
+                        if(price_itinerary_temp[i].journeys[j].segments[k].carrier_code != price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code && price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code != ''){
+                            text+=`<span style="font-size:13px; font-weight:500;">Operated By`+price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code+` (`+price_itinerary_temp[i].journeys[j].segments[k].carrier_code+price_itinerary_temp[i].journeys[j].segments[k].carrier_number+`)</span><br/>`
+                            text+=`<img data-toggle="tooltip" alt="`+price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code+`" title="`+price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code+`" style="margin-top:10px; width:50px; height:50px; margin-right:10px;" src="`+static_path_url_server+`/public/airline_logo/`+price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code+`.png"><span> </span>`;
+                            $text += 'Operated By ' + price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code + ' (' + price_itinerary_temp[i].journeys[j].segments[k].carrier_code + price_itinerary_temp[i].journeys[j].segments[k].carrier_number + ') ';
+                        }else{
+                            text+=`<span style="font-size:13px; font-weight:500;">`+price_itinerary_temp[i].journeys[j].segments[k].carrier_code+` (`+price_itinerary_temp[i].journeys[j].segments[k].carrier_code+price_itinerary_temp[i].journeys[j].segments[k].carrier_number+`)</span><br/>`
+                            text+=`<img data-toggle="tooltip" alt="`+price_itinerary_temp[i].journeys[j].segments[k].carrier_code+`" title="`+price_itinerary_temp[i].journeys[j].segments[k].carrier_code+`" style="margin-top:10px; width:50px; height:50px; margin-right:10px;" src="`+static_path_url_server+`/public/airline_logo/`+price_itinerary_temp[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
+                            $text += price_itinerary_temp[i].journeys[j].segments[k].carrier_code + ' (' + price_itinerary_temp[i].journeys[j].segments[k].carrier_code + price_itinerary_temp[i].journeys[j].segments[k].carrier_number + ') ';
+                        }
                     }
                     for(l in price_itinerary_temp[i].journeys[j].segments[k].fares){
                         if(is_citilink && price_itinerary_temp[i].journeys[j].segments[k].fares[l].cabin_class == 'W')
@@ -4443,27 +4460,9 @@ function airline_detail(type){
 //                    $text += '‣ Arrival:\n';
 //                    $text += price_itinerary_temp[i].journeys[j].segments[k].destination_name + ' (' + price_itinerary_temp[i].journeys[j].segments[k].destination_city + ') '+price_itinerary_temp[i].journeys[j].segments[k].arrival_date +'\n\n';
 
-                    $text += ''+price_itinerary_temp[i].journeys[j].segments[k].origin_city + ' (' + price_itinerary_temp[i].journeys[j].segments[k].origin + ') - ' + price_itinerary_temp[i].journeys[j].segments[k].destination_city + ' (' + price_itinerary_temp[i].journeys[j].segments[k].destination + ')\n';
+                    $text += '\n'+price_itinerary_temp[i].journeys[j].segments[k].origin_city + ' (' + price_itinerary_temp[i].journeys[j].segments[k].origin + ') - ' + price_itinerary_temp[i].journeys[j].segments[k].destination_city + ' (' + price_itinerary_temp[i].journeys[j].segments[k].destination + ')\n';
                     $text += 'Departure Date: '+price_itinerary_temp[i].journeys[j].segments[k].departure_date+'\n';
                     $text += 'Arrival Date: '+price_itinerary_temp[i].journeys[j].segments[k].arrival_date +'\n';
-                    try{
-                        if(price_itinerary_temp[i].journeys[j].segments[k].carrier_code != price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code && price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code != ''){
-                            text+=`<span style="font-size:13px; font-weight:500;">Operated By `+airline_carriers[price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code].name+` (`+price_itinerary_temp[i].journeys[j].segments[k].carrier_code+price_itinerary_temp[i].journeys[j].segments[k].carrier_number+`)</span><br/>`
-                            text+=`<img data-toggle="tooltip" alt="`+airline_carriers[price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code].name+`" title="`+airline_carriers[price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code].name+`" style="margin-top:10px; width:50px; height:50px; margin-right:10px;" src="`+static_path_url_server+`/public/airline_logo/`+price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code+`.png"><span> </span>`;
-                        }else{
-                            text+=`<span style="font-size:13px; font-weight:500;">`+airline_carriers[price_itinerary_temp[i].journeys[j].segments[k].carrier_code].name+` (`+price_itinerary_temp[i].journeys[j].segments[k].carrier_code+price_itinerary_temp[i].journeys[j].segments[k].carrier_number+`)</span><br/>`
-                            text+=`<img data-toggle="tooltip" alt="`+airline_carriers[price_itinerary_temp[i].journeys[j].segments[k].carrier_code].name+`" title="`+airline_carriers[price_itinerary_temp[i].journeys[j].segments[k].carrier_code].name+`" style="margin-top:10px; width:50px; height:50px; margin-right:10px;" src="`+static_path_url_server+`/public/airline_logo/`+price_itinerary_temp[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
-                        }
-                    }catch(err){
-                        // carrier tidak ketemu di dict
-                        if(price_itinerary_temp[i].journeys[j].segments[k].carrier_code != price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code && price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code != ''){
-                            text+=`<span style="font-size:13px; font-weight:500;">Operated By`+price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code+` (`+price_itinerary_temp[i].journeys[j].segments[k].carrier_code+price_itinerary_temp[i].journeys[j].segments[k].carrier_number+`)</span><br/>`
-                            text+=`<img data-toggle="tooltip" alt="`+price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code+`" title="`+price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code+`" style="margin-top:10px; width:50px; height:50px; margin-right:10px;" src="`+static_path_url_server+`/public/airline_logo/`+price_itinerary_temp[i].journeys[j].segments[k].operating_airline_code+`.png"><span> </span>`;
-                        }else{
-                            text+=`<span style="font-size:13px; font-weight:500;">`+price_itinerary_temp[i].journeys[j].segments[k].carrier_code+` (`+price_itinerary_temp[i].journeys[j].segments[k].carrier_code+price_itinerary_temp[i].journeys[j].segments[k].carrier_number+`)</span><br/>`
-                            text+=`<img data-toggle="tooltip" alt="`+price_itinerary_temp[i].journeys[j].segments[k].carrier_code+`" title="`+price_itinerary_temp[i].journeys[j].segments[k].carrier_code+`" style="margin-top:10px; width:50px; height:50px; margin-right:10px;" src="`+static_path_url_server+`/public/airline_logo/`+price_itinerary_temp[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
-                        }
-                    }
                     text+=`
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
