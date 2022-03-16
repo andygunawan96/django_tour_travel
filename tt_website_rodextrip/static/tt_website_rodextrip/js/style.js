@@ -2940,6 +2940,7 @@ function delete_country_of_issued(type, id){
     document.getElementById('select2-'+type+'_country_of_issued'+id+'_id-container').innerHTML = "Country Of Issued";
     document.getElementById(type+'_country_of_issued'+id+'_id').value = "";
     document.getElementById(type+'_country_of_issued'+id).value = "";
+    $('#'+type+'_country_of_issued'+id+'_id').val('').trigger('change');
 
 }
 
