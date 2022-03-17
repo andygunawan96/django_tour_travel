@@ -338,7 +338,7 @@
                         <div class="col-lg-12">
                             {% if 'issued_reservation' in username.co_agent_frontend_security %}
                             {% include 'tt_website_rodextrip/voucher_code.html'  %}
-                                {% if 'b2c_limitation' not in username.co_agent_frontend_security%}
+                                {% if 'b2c_limitation' not in username.co_agent_frontend_security and not username.co_job_position_is_request_required %}
                                 <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" disabled id="issued_hotel_btn" onclick="hotel_issued_alert(1);">
                                     {% trans 'Issued Booking' %}
                                 </button>
@@ -504,20 +504,20 @@
         address += ', ';
     address += `{{response.location.city}}`;
     {% endif %}
-    {% if response.location.country != False and response.location.country != '' %}
-    if(address != '')
-        address += ', ';
-    address += `{{response.location.country}}`;
-    {% endif %}
     {% if response.location.state != False and response.location.state != '' %}
     if(address != '')
         address += ', ';
     address += `{{response.location.state}}`;
     {% endif %}
-    {% if response.location.postal_code != False and response.location.postal_code != '' %}
+    {% if response.location.district != False and response.location.district != '' %}
     if(address != '')
         address += ', ';
-    address += `{{response.location.postal_code}}`;
+    address += `{{response.location.district}}`;
+    {% endif %}
+    {% if response.location.zipcode != false and response.location.zipcode != '' %}
+    if(address != '')
+        address += ', ';
+    address += `{{response.location.zipcode}}`;
     {% endif %}
     document.getElementById('address_hotel').innerHTML = address;
     //document.getElementById('voucher_discount').style.display = 'none';

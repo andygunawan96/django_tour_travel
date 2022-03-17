@@ -1653,6 +1653,25 @@ function select_passenger(val){
         else
             document.getElementById('seat_journey'+parseInt(parseInt(i)+1)).innerHTML = '';
     }
+    if(pax[val-1].hasOwnProperty('behaviors') && Object.keys(pax[val-1].behaviors).length > 0){
+        print_behavior = false;
+        text=`<br/><b>Behaviors:</b><br/>`;
+        for(j in pax[val-1].behaviors){
+            if(j.toLowerCase() == 'train'){
+                print_behavior = true;
+                text+=`<b>`+j+`</b><br/>`;
+                for(k in pax[val-1].behaviors[j]){
+                    text+=`<span><i>`+k+`: </i><b>`+pax[val-1].behaviors[j][k].value+`</b>`;
+                    if(pax[val-1].behaviors[j][k].remark != '' && pax[val-1].behaviors[j][k].remark != false)
+                        text +=` - `+pax[val-1].behaviors[j][k].remark;
+                    text+=`</span><br/>`;
+                }
+            }
+        }
+        if(print_behavior)
+            document.getElementById('detail_behavior_passenger').innerHTML = text;
+    }
+
     pax_click = val;
     print_seat_map();
 }
@@ -2576,11 +2595,11 @@ function change_date_next_prev(counter){
     var today_date = moment().format('DD MMM YYYY'); //hari ini
     flight_date = moment(train_request.departure[counter]);
     var date_format = 'DD MMM YYYY';
-    document.getElementById('now_date').innerHTML = `<div style="background:white; border:2px solid `+color+`; padding:15px 10px; text-align: center;">`+flight_date.format(date_format)+`</div>`;
-    document.getElementById('prev_date_1').innerHTML = `<div class="button_date_np date_item_p1" id="div_onclick_p1" style="background:white; padding:15px 10px; text-align: center;" onclick="change_date_shortcut(1);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
-    document.getElementById('prev_date_2').innerHTML = `<div class="button_date_np date_item_p2" id="div_onclick_p2" style="background:white; padding:15px 10px; text-align: center;" onclick="change_date_shortcut(2);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
-    document.getElementById('next_date_1').innerHTML = `<div class="button_date_np date_item_n1" id="div_onclick_n1" style="background:white; padding:15px 10px; text-align: center;" onclick="change_date_shortcut(-1);">`+flight_date.subtract(-3, 'days').format(date_format)+`</div>`;
-    document.getElementById('next_date_2').innerHTML = `<div class="button_date_np date_item_n2" id="div_onclick_n2" style="background:white; padding:15px 10px; text-align: center;" onclick="change_date_shortcut(-2);">`+flight_date.subtract(-1, 'days').format(date_format)+`</div>`;
+    document.getElementById('now_date').innerHTML = `<div style="background:white; border:2px solid `+color+`; padding:15px; text-align: center;">`+flight_date.format(date_format)+`</div>`;
+    document.getElementById('prev_date_1').innerHTML = `<div class="button_date_np date_item_p1" id="div_onclick_p1" style="background:white; padding:15px; text-align: center;" onclick="change_date_shortcut(1);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
+    document.getElementById('prev_date_2').innerHTML = `<div class="button_date_np date_item_p2" id="div_onclick_p2" style="background:white; padding:15px; text-align: center;" onclick="change_date_shortcut(2);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
+    document.getElementById('next_date_1').innerHTML = `<div class="button_date_np date_item_n1" id="div_onclick_n1" style="background:white; padding:15px; text-align: center;" onclick="change_date_shortcut(-1);">`+flight_date.subtract(-3, 'days').format(date_format)+`</div>`;
+    document.getElementById('next_date_2').innerHTML = `<div class="button_date_np date_item_n2" id="div_onclick_n2" style="background:white; padding:15px; text-align: center;" onclick="change_date_shortcut(-2);">`+flight_date.subtract(-1, 'days').format(date_format)+`</div>`;
     flight_date.subtract(+2, 'days') //balikin ke hari ini
 
     if(train_request.direction == 'OW'){

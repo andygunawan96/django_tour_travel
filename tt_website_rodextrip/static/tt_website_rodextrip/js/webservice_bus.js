@@ -790,6 +790,8 @@ function bus_get_booking(data, sync=false){
             document.getElementById('button-home').hidden = false;
             document.getElementById('button-new-reservation').hidden = false;
             if(msg.result.error_code == 0){
+                price_arr_repricing = {};
+                pax_type_repricing = [];
                 bus_get_detail = msg;
                 can_issued = msg.result.response.can_issued;
                 if(msg.result.response.hold_date != false && msg.result.response.hold_date != ''){
@@ -1224,7 +1226,22 @@ function bus_get_booking(data, sync=false){
                             if (msg.result.response.state  == 'booked'){
                                 try{
                                     if(can_issued)
+                                    {
+                                        if(user_login.co_job_position_is_request_required == true && msg.result.response.issued_request_status != "approved")
+                                        {
+                                            document.getElementById('issued_btn_bus').setAttribute("onClick", "bus_request_issued('"+msg.result.response.order_number+"');");
+                                            if(msg.result.response.issued_request_status == "on_process")
+                                            {
+                                                document.getElementById('issued_btn_bus').innerHTML = "Issued Booking Requested";
+                                                document.getElementById('issued_btn_bus').disabled = true;
+                                            }
+                                            else
+                                            {
+                                                document.getElementById('issued_btn_bus').innerHTML = "Request Issued Booking";
+                                            }
+                                        }
                                         $(".issued_booking_btn").show();
+                                    }
                                 }catch(err){
                                     console.log(err); // error kalau ada element yg tidak ada
                                 }
@@ -1393,7 +1410,7 @@ function bus_get_booking(data, sync=false){
                             //booker
                             booker_insentif = '-';
                             if(msg.result.response.hasOwnProperty('booker_insentif'))
-                                booker_insentif = msg.result.response.booker_insentif
+                                booker_insentif = getrupiah(msg.result.response.booker_insentif)
                             text_repricing += `
                             <div class="col-lg-12">
                                 <div style="padding:5px;" class="row" id="booker_repricing" hidden>
@@ -1752,7 +1769,17 @@ function bus_get_booking(data, sync=false){
                        <h5>Your booking has been successfully Issued!</h5>
                    </div>`;
                 }
-
+                if(msg.result.response.hasOwnProperty('voucher_reference') && msg.result.response.voucher_reference != '' && msg.result.response.voucher_reference != false){
+                    try{
+                        render_voucher(price.currency,disc, msg.result.response.state)
+                    }catch(err){console.log(err);}
+                }
+                try{
+                    if(msg.result.response.state == 'booked' || msg.result.response.state == 'issued' && msg.result.response.voucher_reference)
+                        document.getElementById('voucher_discount').style.display = 'block';
+                    else
+                        document.getElementById('voucher_discount').style.display = 'none';
+                }catch(err){console.log(err);}
             }else if(msg.result.error_code == 1035){
                 document.getElementById('show_title_bus').hidden = false;
                 document.getElementById('show_loading_booking_bus').hidden = true;
@@ -1983,6 +2010,94 @@ function bus_issued(data){
                 document.getElementById("overlay-div-box").style.display = "none";
                 bus_get_booking(data);
            },timeout: 480000
+        });
+      }
+    })
+}
+
+function bus_request_issued(req_order_number){
+    Swal.fire({
+      title: 'Are you sure want to Request Issued for this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        show_loading();
+        please_wait_transaction();
+        getToken();
+        $.ajax({
+           type: "POST",
+           url: "/webservice/content",
+           headers:{
+                'action': 'create_reservation_issued_request',
+           },
+           data: {
+               'order_number': req_order_number,
+               'table_name': 'bus',
+               'signature': signature
+           },
+           success: function(msg) {
+               console.log(msg);
+               if(msg.result.error_code == 0){
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('payment_acq').hidden = true;
+                    document.getElementById("overlay-div-box").style.display = "none";
+                    hide_modal_waiting_transaction();
+                    window.location.href = '/reservation_request/' + btoa(msg.result.response.request_number);
+               }
+               else {
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error train request issued </span>' + msg.result.error_msg,
+                    })
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    document.getElementById('show_loading_booking_bus').hidden = true;
+                    document.getElementById('bus_booking').innerHTML = '';
+                    document.getElementById('bus_detail').innerHTML = '';
+                    document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('show_loading_booking_bus').style.display = 'block';
+                    document.getElementById('show_loading_booking_bus').hidden = false;
+                    document.getElementById('payment_acq').hidden = true;
+                    document.getElementById("overlay-div-box").style.display = "none";
+                    try{
+                        document.getElementById('voucher_discount').style.display = 'none';
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
+                    $('.hold-seat-booking-bus').prop('disabled', false);
+                    $('.hold-seat-booking-bus').removeClass("running");
+                    hide_modal_waiting_transaction();
+                    bus_get_booking(req_order_number);
+               }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                document.getElementById('show_loading_booking_bus').hidden = true;
+                document.getElementById('bus_booking').innerHTML = '';
+                document.getElementById('bus_detail').innerHTML = '';
+                document.getElementById('payment_acq').innerHTML = '';
+                document.getElementById('show_loading_booking_bus').style.display = 'block';
+                document.getElementById('show_loading_booking_bus').hidden = false;
+                document.getElementById('payment_acq').hidden = true;
+                try{
+                    document.getElementById('voucher_discount').style.display = 'none';
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
+                $('.hold-seat-booking-bus').prop('disabled', false);
+                $('.hold-seat-booking-bus').removeClass("running");
+                hide_modal_waiting_transaction();
+                document.getElementById("overlay-div-box").style.display = "none";
+                bus_get_booking(req_order_number);
+           },timeout: 300000
         });
       }
     })

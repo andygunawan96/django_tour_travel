@@ -765,28 +765,33 @@ function sort(response, check_filter){
                             <div style="padding-bottom:5px;">
                                 <i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`;
                             address = '';
+                            address_detail = '';
                                 if(response.hotel_ids[i].location.address){
                                     if(address != '')
                                         address += ', '
                                     address+= response.hotel_ids[i].location.address + '<br/>';
                                 }if(response.hotel_ids[i].location.city != '' && response.hotel_ids[i].location.city != false){
-                                    if(address != '')
-                                        address += ', '
-                                    address+= response.hotel_ids[i].location.city + ', ';
-                                }if(response.hotel_ids[i].location.country != '' && response.hotel_ids[i].location.country != false){
-                                    if(address != '')
-                                        address += ', '
-                                    address+= response.hotel_ids[i].location.country;
+                                    if(address_detail != '')
+                                        address_detail += ', '
+                                    address_detail+= response.hotel_ids[i].location.city;
                                 }if(response.hotel_ids[i].location.state != '' && response.hotel_ids[i].location.state != false){
-                                    if(address != '')
-                                        address += ', '
-                                    address+= ', '+ response.hotel_ids[i].location.state;
-                                }if(response.hotel_ids[i].location.postal_code != '' && response.hotel_ids[i].location.postal_code != false){
-                                    if(address != '')
-                                        address += ', '
-                                    address+= ', '+ response.hotel_ids[i].location.postal_code;
+                                    if(address_detail != '')
+                                        address_detail += ', '
+                                    address_detail+= ', '+ response.hotel_ids[i].location.state;
+                                }if(response.hotel_ids[i].location.district != '' && response.hotel_ids[i].location.district != false){
+                                    if(address_detail != '')
+                                        address_detail += ', '
+                                    address_detail+= ', '+ response.hotel_ids[i].location.district;
+                                }if(response.hotel_ids[i].location.kelurahan != '' && response.hotel_ids[i].location.kelurahan != false){
+                                    if(address_detail != '')
+                                        address_detail += ', '
+                                    address_detail+= ', '+ response.hotel_ids[i].location.kelurahan;
+                                }if(response.hotel_ids[i].location.zipcode != '' && response.hotel_ids[i].location.zipcode != false){
+                                    if(address_detail != '')
+                                        address_detail += ', '
+                                    address_detail+= ', '+ response.hotel_ids[i].location.zipcode;
                                 }
-                                text += address;
+                                text += address + address_detail;
 //                            if(response.hotel_ids[i].location.address)
 //                                text+= response.hotel_ids[i].location.address + '<br/>';
                             //IVAN

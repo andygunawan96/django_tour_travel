@@ -714,6 +714,8 @@ function train_get_booking(data){
             var give_space = false;
             if(msg.result.error_code == 0){
                 train_get_detail = msg;
+                price_arr_repricing = {};
+                pax_type_repricing = [];
                 can_issued = msg.result.response.can_issued;
                 if(msg.result.response.hold_date != false && msg.result.response.hold_date != ''){
                     tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
@@ -738,19 +740,19 @@ function train_get_booking(data){
                         msg.result.response.issued_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
                     }
                 }
+                try{
+                    if(msg.result.response.state == 'booked' || msg.result.response.state == 'issued' && msg.result.response.voucher_reference)
+                        document.getElementById('voucher_discount').style.display = 'block';
+                    else
+                        document.getElementById('voucher_discount').style.display = 'none';
+                }catch(err){console.log(err);}
                 if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'  && msg.result.response.state != 'fail_issued' && msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                     try{
                         if(can_issued){
                             check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'train', signature, msg.result.response.payment_acquirer_number);
         //                    get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'train');
-                            document.getElementById('voucher_discount').style.display = '';
+                            document.getElementById('voucher_discount').style.display = 'block';
                         }
-                    }catch(err){
-                        console.log(err); // error kalau ada element yg tidak ada
-                    }
-                }else{
-                    try{
-                        document.getElementById('voucher_discount').style.display = 'none';
                     }catch(err){
                         console.log(err); // error kalau ada element yg tidak ada
                     }
@@ -1154,7 +1156,22 @@ function train_get_booking(data){
                             if (msg.result.response.state  == 'booked'){
                                 try{
                                     if(can_issued)
+                                    {
+                                        if(user_login.co_job_position_is_request_required == true && msg.result.response.issued_request_status != "approved")
+                                        {
+                                            document.getElementById('issued_btn_train').setAttribute("onClick", "train_request_issued('"+msg.result.response.order_number+"');");
+                                            if(msg.result.response.issued_request_status == "on_process")
+                                            {
+                                                document.getElementById('issued_btn_train').innerHTML = "Issued Booking Requested";
+                                                document.getElementById('issued_btn_train').disabled = true;
+                                            }
+                                            else
+                                            {
+                                                document.getElementById('issued_btn_train').innerHTML = "Request Issued Booking";
+                                            }
+                                        }
                                         $(".issued_booking_btn").show();
+                                    }
                                 }catch(err){
                                     console.log(err); // error kalau ada element yg tidak ada
                                 }
@@ -1323,7 +1340,7 @@ function train_get_booking(data){
                             //booker
                             booker_insentif = '-';
                             if(msg.result.response.hasOwnProperty('booker_insentif'))
-                                booker_insentif = msg.result.response.booker_insentif
+                                booker_insentif = getrupiah(msg.result.response.booker_insentif)
                             text_repricing += `
                                 <div class="col-lg-12">
                                     <div style="padding:5px;" class="row" id="booker_repricing" hidden>
@@ -1709,6 +1726,11 @@ function train_get_booking(data){
                        <h5>Your booking has been successfully Issued!</h5>
                    </div>`;
                 }
+                if(msg.result.response.hasOwnProperty('voucher_reference') && msg.result.response.voucher_reference != '' && msg.result.response.voucher_reference != false){
+                    try{
+                        render_voucher(price.currency,disc, msg.result.response.state)
+                    }catch(err){console.log(err);}
+                }
 
             }else if(msg.result.error_code == 1035){
                 document.getElementById('show_title_train').hidden = false;
@@ -1782,7 +1804,8 @@ function set_seat_map(){
                             'origin': train_get_detail.result.response.provider_bookings[i].journeys[j].origin,
                             'seat_code': train_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].seat_code,
                             'destination': train_get_detail.result.response.provider_bookings[i].journeys[j].destination
-                        }]
+                        }],
+                        'behaviors': train_get_detail.result.response.passengers[k].hasOwnProperty('behaviors') ? train_get_detail.result.response.passengers[k].behaviors : {}
                     })
                 }
             }
@@ -1939,6 +1962,94 @@ function train_issued(data){
                 document.getElementById("overlay-div-box").style.display = "none";
                 train_get_booking(data);
            },timeout: 480000
+        });
+      }
+    })
+}
+
+function train_request_issued(req_order_number){
+    Swal.fire({
+      title: 'Are you sure want to Request Issued for this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        show_loading();
+        please_wait_transaction();
+        getToken();
+        $.ajax({
+           type: "POST",
+           url: "/webservice/content",
+           headers:{
+                'action': 'create_reservation_issued_request',
+           },
+           data: {
+               'order_number': req_order_number,
+               'table_name': 'train',
+               'signature': signature
+           },
+           success: function(msg) {
+               console.log(msg);
+               if(msg.result.error_code == 0){
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('payment_acq').hidden = true;
+                    document.getElementById("overlay-div-box").style.display = "none";
+                    hide_modal_waiting_transaction();
+                    window.location.href = '/reservation_request/' + btoa(msg.result.response.request_number);
+               }
+               else {
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error train request issued </span>' + msg.result.error_msg,
+                    })
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    document.getElementById('show_loading_booking_train').hidden = true;
+                    document.getElementById('train_booking').innerHTML = '';
+                    document.getElementById('train_detail').innerHTML = '';
+                    document.getElementById('payment_acq').innerHTML = '';
+                    try{
+                        document.getElementById('voucher_discount').style.display = 'none';
+                    }catch(err){
+                        console.log(err); // error kalau ada element yg tidak ada
+                    }
+                    document.getElementById('show_loading_booking_train').style.display = 'block';
+                    document.getElementById('show_loading_booking_train').hidden = false;
+                    document.getElementById('payment_acq').hidden = true;
+                    document.getElementById("overlay-div-box").style.display = "none";
+                    $('.hold-seat-booking-train').prop('disabled', false);
+                    $('.hold-seat-booking-train').removeClass("running");
+                    hide_modal_waiting_transaction();
+                    train_get_booking(req_order_number);
+               }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                document.getElementById('show_loading_booking_train').hidden = true;
+                document.getElementById('train_booking').innerHTML = '';
+                document.getElementById('train_detail').innerHTML = '';
+                document.getElementById('payment_acq').innerHTML = '';
+                document.getElementById('show_loading_booking_train').style.display = 'block';
+                document.getElementById('show_loading_booking_train').hidden = false;
+                document.getElementById('payment_acq').hidden = true;
+                try{
+                    document.getElementById('voucher_discount').style.display = 'none';
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                hide_modal_waiting_transaction();
+                document.getElementById("overlay-div-box").style.display = "none";
+                train_get_booking(req_order_number);
+           },timeout: 300000
         });
       }
     })

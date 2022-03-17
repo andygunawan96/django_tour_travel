@@ -118,6 +118,18 @@ def api_models(request):
             res = get_notification_train(request)
         elif req_data['action'] == 'get_notification_airline':
             res = get_notification_airline(request)
+        elif req_data['action'] == 'create_reservation_issued_request':
+            res = create_reservation_issued_request(request)
+        elif req_data['action'] == 'get_reservation_issued_request':
+            res = get_reservation_issued_request(request)
+        elif req_data['action'] == 'get_issued_request_list':
+            res = get_issued_request_list(request)
+        elif req_data['action'] == 'approve_reservation_issued_request':
+            res = approve_reservation_issued_request(request)
+        elif req_data['action'] == 'reject_reservation_issued_request':
+            res = reject_reservation_issued_request(request)
+        elif req_data['action'] == 'cancel_reservation_issued_request':
+            res = cancel_reservation_issued_request(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -1054,4 +1066,182 @@ def set_dynamic_page(request):
             }
         }
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def create_reservation_issued_request(request):
+    data = {
+        'order_number': request.POST['order_number'],
+        'table_name': request.POST['table_name']
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "create_reservation_issued_request_api",
+        "signature": request.POST['signature'],
+    }
+
+    url_request = url + 'content'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS request issued SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR create_reservation_issued_request SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_reservation_issued_request(request):
+    data = {
+        'request_number': request.POST['request_number']
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "get_reservation_issued_request_api",
+        "signature": request.POST['signature'],
+    }
+
+    url_request = url + 'content'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            if res['result']['response'].get('created_date'):
+                res['result']['response'].update({
+                    'created_date': convert_string_to_date_to_string_front_end_with_time(res['result']['response']['created_date'])
+                })
+            if res['result']['response'].get('approvals'):
+                for app in res['result']['response']['approvals']:
+                    if app.get('approved_date'):
+                        app.update({
+                            'approved_date': convert_string_to_date_to_string_front_end_with_time(app['approved_date'])
+                        })
+            _logger.info("SUCCESS get request issued SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR get_reservation_issued_request SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_issued_request_list(request):
+    data = {
+
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "get_issued_request_list_api",
+        "signature": request.POST['signature'],
+    }
+
+    url_request = url + 'content'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            for rec in res['result']['response']:
+                if rec.get('created_date'):
+                    rec.update({
+                        'created_date': convert_string_to_date_to_string_front_end_with_time(rec['created_date'])
+                    })
+            _logger.info("SUCCESS get request issued list SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR get_issued_request_list SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def approve_reservation_issued_request(request):
+    data = {
+        'request_number': request.POST['request_number']
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "approve_reservation_issued_request_api",
+        "signature": request.POST['signature'],
+    }
+
+    url_request = url + 'content'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            if res['result']['response'].get('created_date'):
+                res['result']['response'].update({
+                    'created_date': convert_string_to_date_to_string_front_end_with_time(res['result']['response']['created_date'])
+                })
+            if res['result']['response'].get('approvals'):
+                for app in res['result']['response']['approvals']:
+                    if app.get('approved_date'):
+                        app.update({
+                            'approved_date': convert_string_to_date_to_string_front_end_with_time(app['approved_date'])
+                        })
+            _logger.info("SUCCESS approve request issued SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR approve_reservation_issued_request SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def reject_reservation_issued_request(request):
+    data = {
+        'request_number': request.POST['request_number']
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "reject_reservation_issued_request_api",
+        "signature": request.POST['signature'],
+    }
+
+    url_request = url + 'content'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            if res['result']['response'].get('created_date'):
+                res['result']['response'].update({
+                    'created_date': convert_string_to_date_to_string_front_end_with_time(res['result']['response']['created_date'])
+                })
+            if res['result']['response'].get('approvals'):
+                for app in res['result']['response']['approvals']:
+                    if app.get('approved_date'):
+                        app.update({
+                            'approved_date': convert_string_to_date_to_string_front_end_with_time(app['approved_date'])
+                        })
+            _logger.info("SUCCESS reject request issued SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR reject_reservation_issued_request SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def cancel_reservation_issued_request(request):
+    data = {
+        'request_number': request.POST['request_number']
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "cancel_reservation_issued_request_api",
+        "signature": request.POST['signature'],
+    }
+
+    url_request = url + 'content'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            if res['result']['response'].get('created_date'):
+                res['result']['response'].update({
+                    'created_date': convert_string_to_date_to_string_front_end_with_time(res['result']['response']['created_date'])
+                })
+            if res['result']['response'].get('approvals'):
+                for app in res['result']['response']['approvals']:
+                    if app.get('approved_date'):
+                        app.update({
+                            'approved_date': convert_string_to_date_to_string_front_end_with_time(app['approved_date'])
+                        })
+            _logger.info("SUCCESS cancel request issued SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR cancel_reservation_issued_request SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

@@ -26,6 +26,9 @@
                     <li class="pt5"><a href="{% url 'tt_website_rodextrip:index'%}">{% trans 'Home' %}</a></li>
                     {% if username.co_user_login != ''%}
                     <li class="pt5"><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
+                    {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
+                    <li class="pt5"><a href="{% url 'tt_website_rodextrip:reservation_request'%}">{% trans 'Reservation Request' %}</a></li>
+                    {% endif%}
                     {% if "top_up" in username.co_agent_frontend_security %}
                     <li class="menu-has-children pt5"><a href="#">{% trans 'Top Up' %}</a>
                         <ul>
@@ -34,10 +37,6 @@
                         </ul>
                     </li>
                     {% endif%}
-                    {% if "groupbooking" in provider and "ticketing_group_booking" in username.co_agent_frontend_security%}
-                    <li class="pt5"><a href="{% url 'tt_website_rodextrip:group_booking'%}">{% trans 'Group Booking' %}</a></li>
-                    {% endif %}
-                    <li class="pt5"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
                     {% endif %}
                     <li class="menu-has-children pt5"><a href="#">{% trans 'Highlight' %}</a>
                         <ul id="highlight_header_div">
@@ -293,6 +292,9 @@
                             <li class="active"><a href="{% url 'tt_website_rodextrip:index'%}">{% trans 'Home' %}</a></li>
                             {% if username.co_user_login != '' %}
                             <li><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
+                            {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
+                            <li><a href="{% url 'tt_website_rodextrip:reservation_request'%}">{% trans 'Reservation Request' %}</a></li>
+                            {% endif%}
                             {% if "top_up" in username.co_agent_frontend_security %}
                             <li><a href="#">{% trans 'Top Up' %}</a>
                                 <ul class="dropdown">
@@ -301,7 +303,6 @@
                                 </ul>
                             </li>
                             {% endif%}
-                            <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
                             {% endif %}
                             <li class="menu-has-children pt5"><a href="#">{% trans 'Highlight' %}</a>
                                 <ul id="highlight_header_div" class="dropdown">
@@ -517,6 +518,9 @@
                         <li class="menu-active"><a href="{% url 'tt_website_rodextrip:index'%}">{% trans 'Home' %}</a></li>
                         {% if username.co_user_login != '' %}
                         <li><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
+                        {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
+                        <li><a href="{% url 'tt_website_rodextrip:reservation_request'%}">{% trans 'Reservation Request' %}</a></li>
+                        {% endif%}
                         {% if "top_up" in username.co_agent_frontend_security %}
                         <li class="menu-has-children"><a href="#">{% trans 'Top Up' %}</a>
                             <ul>
@@ -525,7 +529,6 @@
                             </ul>
                         </li>
                         {% endif%}
-                        <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
                         {% endif %}
                         <li class="menu-has-children"><a href="#">{% trans 'Highlight' %}</a>
                             <ul id="highlight_header_div">
@@ -738,6 +741,9 @@
                         <li><a href="{% url 'tt_website_rodextrip:index'%}">{% trans 'Home' %}</a></li>
                         {% if username.co_user_login != '' %}
                         <li><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
+                        {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
+                        <li><a href="{% url 'tt_website_rodextrip:reservation_request'%}">{% trans 'Reservation Request' %}</a></li>
+                        {% endif%}
                         {% if "top_up" in username.co_agent_frontend_security %}
                         <li class="has-children"><a href="#">{% trans 'Top Up' %}</a>
                             <ul class="dropdown">
@@ -746,7 +752,6 @@
                             </ul>
                         </li>
                         {% endif%}
-                        <li class="pt5"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
                         {% endif %}
                         <li class="has-children"><a href="#">{% trans 'Highlight' %}</a>
                             <ul id="highlight_header_div" class="dropdown">
@@ -959,6 +964,9 @@
                     <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:index'%}">{% trans 'Home' %}</a></li>
                     {% if username.co_user_login != '' %}
                     <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
+                    {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
+                    <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:reservation_request'%}">{% trans 'Reservation Request' %}</a></li>
+                    {% endif%}
                     {% if "top_up" in username.co_agent_frontend_security %}
                     <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Top Up' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                         <ul style="top:65%;">
@@ -967,7 +975,6 @@
                         </ul>
                     </li>
                     {% endif%}
-                    <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
                     {% endif %}
                     <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Highlight' %}</a>
                         <ul id="highlight_header_div" style="top:65%;">
@@ -1147,6 +1154,9 @@
                 <li><a href="{% url 'tt_website_rodextrip:index'%}">{% trans 'Home' %}</a></li>
                 {% if username.co_user_login != ''%}
                 <li><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
+                {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
+                <li><a href="{% url 'tt_website_rodextrip:reservation_request'%}">{% trans 'Reservation Request' %}</a></li>
+                {% endif%}
                 {% if "top_up" in username.co_agent_frontend_security %}
                 <li><a href="#">{% trans 'Top Up' %} <i class="fas fa-chevron-down"></i></a>
                     <ul>
@@ -1155,7 +1165,6 @@
                     </ul>
                 </li>
                 {% endif%}
-                <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
                 {% endif %}
                 <li><a href="#">{% trans 'Highlight' %} <i class="fas fa-chevron-down"></i></a>
                     <ul id="highlight_header_div">
@@ -1407,6 +1416,22 @@
                 get_captcha('g-recaptcha-response','signin_btc');
           }
         });
+        {% if template == 2 or template == 6 %}
+        document.getElementById("password2").addEventListener("keyup", function(event) {
+          // Number 13 is the "Enter" key on the keyboard
+          if (event.keyCode === 13) {
+                event.preventDefault();
+                get_captcha('g-recaptcha-response','signin_btc');
+          }
+        });
+        document.getElementById("username2").addEventListener("keyup", function(event) {
+          // Number 13 is the "Enter" key on the keyboard
+          if (event.keyCode === 13) {
+                event.preventDefault();
+                get_captcha('g-recaptcha-response','signin_btc');
+          }
+        });
+        {% endif %}
     }catch(err){
         console.log(err) //ada element yg tidak ada
     }

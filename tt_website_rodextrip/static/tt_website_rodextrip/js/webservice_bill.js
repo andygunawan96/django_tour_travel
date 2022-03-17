@@ -855,7 +855,7 @@ function bills_get_booking(data){
                                 //booker
                                 booker_insentif = '-';
                                 if(msg.result.response.hasOwnProperty('booker_insentif'))
-                                    booker_insentif = msg.result.response.booker_insentif
+                                    booker_insentif = getrupiah(msg.result.response.booker_insentif)
                                 text_repricing += `
                                 <div class="col-lg-12">
                                     <div style="padding:5px;" class="row" id="booker_repricing" hidden>
@@ -1205,6 +1205,17 @@ function bills_get_booking(data){
                 document.getElementById('bills_booking').innerHTML += text;
                 document.getElementById('show_title_bills').hidden = false;
                 document.getElementById('show_loading_booking_bills').hidden = true;
+                if(msg.result.response.hasOwnProperty('voucher_reference') && msg.result.response.voucher_reference != '' && msg.result.response.voucher_reference != false){
+                    try{
+                        render_voucher(price.currency,disc, msg.result.response.state)
+                    }catch(err){console.log(err);}
+                }
+                try{
+                    if(msg.result.response.state == 'booked' || msg.result.response.state == 'issued' && msg.result.response.voucher_reference)
+                        document.getElementById('voucher_discount').style.display = 'block';
+                    else
+                        document.getElementById('voucher_discount').style.display = 'none';
+                }catch(err){console.log(err);}
                 add_repricing();
                 if (msg.result.response.state != 'booked'){
     //                document.getElementById('issued-breadcrumb').classList.add("active");

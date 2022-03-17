@@ -102,6 +102,37 @@ jQuery(document).ready(function($) {
 		});
 		//$this.find('.forget_password_mobile').replaceWith('<li style="padding-right:5px;"><a style="cursor:pointer; text-transform: unset; padding:0px 5px; color:'+text_color+';" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 12px;"></i> Forgot Password</a></li>');
 
+        document.getElementById("password").addEventListener("keyup", function(event) {
+          // Number 13 is the "Enter" key on the keyboard
+          if (event.keyCode === 13) {
+                event.preventDefault();
+                get_captcha('g-recaptcha-response','signin_btc');
+          }
+        });
+        document.getElementById("username").addEventListener("keyup", function(event) {
+          // Number 13 is the "Enter" key on the keyboard
+          if (event.keyCode === 13) {
+                event.preventDefault();
+                get_captcha('g-recaptcha-response','signin_btc');
+          }
+        });
+
+        document.getElementById("password2").addEventListener("keyup", function(event) {
+          // Number 13 is the "Enter" key on the keyboard
+          if (event.keyCode === 13) {
+                event.preventDefault();
+                get_captcha('g-recaptcha-response','signin_btc');
+          }
+        });
+        document.getElementById("username2").addEventListener("keyup", function(event) {
+          // Number 13 is the "Enter" key on the keyboard
+          if (event.keyCode === 13) {
+                event.preventDefault();
+                get_captcha('g-recaptcha-response','signin_btc');
+          }
+        });
+
+
 		setTimeout(function() {
 			
 			var counter = 0;

@@ -290,8 +290,12 @@
         document.getElementById('back_btn_sentra_medika').onclick = function() {
           window.location.href="/reservation";
         }
-        document.getElementById('voucher_discount').style.display = 'none';
     }catch(err){}
+    try{
+        document.getElementById('voucher_discount').style.display = 'none';
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
+    }
     $( document ).ready(function() {
         sentra_medika_signin('{{order_number}}');
         breadcrumb_create("medical", 4, 1);

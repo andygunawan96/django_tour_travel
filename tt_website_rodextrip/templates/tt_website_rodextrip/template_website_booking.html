@@ -486,12 +486,12 @@ Licence URI: http://www.os-templates.com/template-terms
             background: {{color}};
         }
         .forgot-pass-login{
-            color:{{text_color}};
+            color:{{color}};
             font-size:15px;
             font-weight:700;
         }
         .radio-label  > .div_label{
-            border:2px solid {{text_color}};
+            border:2px solid {{color}};
         }
 
         .radio-label > input:checked + .div_label{
@@ -1231,8 +1231,8 @@ Licence URI: http://www.os-templates.com/template-terms
         }
 
         .tags_btn:hover{
-            background: {{color}};
-            color:{{text_color}};
+            background: {{color}} !important;
+            color:{{text_color}} !important;
             text-decoration: unset;
         }
 
@@ -1291,6 +1291,10 @@ Licence URI: http://www.os-templates.com/template-terms
 
         .owl-bg-border{
             border-bottom: 5px solid {{color}} !important;
+        }
+
+        .span_link:hover{
+            color:{{color}};
         }
 
         {% if template == 1%}
@@ -1960,8 +1964,8 @@ Licence URI: http://www.os-templates.com/template-terms
     color = `{{color}}`;
     text_color = `{{text_color}}`;
     user_login = '{{username}}';
-    user_login = user_login.replace(/False/g, '""');
-    user_login = user_login.replace(/True/g, '""');
+    user_login = user_login.replace(/False/g, false);
+    user_login = user_login.replace(/True/g, true);
     user_login = JSON.parse(user_login.replace(/&#39;/g, '"'));
     name = `{{name}}`;
     web_name = `{{name}}`;

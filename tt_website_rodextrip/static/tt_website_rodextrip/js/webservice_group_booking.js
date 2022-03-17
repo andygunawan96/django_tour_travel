@@ -156,17 +156,16 @@ function group_booking_get_config(page=false){
                 if(page == 'home'){
                     text = '<div class="row">';
                     text += `
-                    <div class="col-lg-12" id="radio_group_booking" style="padding:0px; text-align:left;margin-bottom:10px;">`;
+                    <div class="col-lg-12" id="radio_group_booking" style="margin: 15px 15px 0px 15px;">`;
                     for(i in msg.result.response.provider_type){
-
                         text += `
-                            <label class="radio-button-custom crlabel">
-                                <span style="font-size:13px; color:#FFFFFF;">`+msg.result.response.provider_type[i].name+`</span>
+                            <label class="radio-img">
                                 <input type="radio"`;
                         if(msg.result.response.provider_type[i].code == 'airline')
                             text+=` checked="checked"`;
                         text+=` name="radio_group_booking_type" value="`+msg.result.response.provider_type[i].code+`">
-                                <span class="checkmark-radio crspan"></span>
+                                <img style="width:70px; height:70px; padding:0px;" src="/static/tt_website_rodextrip/images/icon/home-airline.png" alt="Airline Icon"/><br/>
+                                <div style="text-align:center;"><span style="font-size:13px; color:`+text_color+`;">`+msg.result.response.provider_type[i].name+`</span></div>
                             </label>`;
                     }
                     text += `</div></div><hr style="border-color": `+text_color+`/>`;
@@ -260,9 +259,9 @@ function group_booking_commit_booking(page=false){
             error_log += 'Please choose airline<br/>';
         data = {
             'provider_type': product_type,
-            'ADT': parseInt(document.getElementById('adult_flight').value),
-            'CHD': parseInt(document.getElementById('child_flight').value),
-            'INF': parseInt(document.getElementById('infant_flight').value),
+            'ADT': parseInt(document.getElementById('adult_flight_gb').value),
+            'CHD': parseInt(document.getElementById('child_flight_gb').value),
+            'INF': parseInt(document.getElementById('infant_flight_gb').value),
             'carrier_code': carrier_code,
             'origin': document.getElementById('origin_id_flight').value.split(' - ')[0],
             'destination': document.getElementById('destination_id_flight').value.split(' - ')[0],
@@ -291,9 +290,9 @@ function group_booking_commit_booking(page=false){
                       title: 'Create!',
                       html: msg.result.response.order_number
                     })
-                    document.getElementById('adult_flight').value = '1';
-                    document.getElementById('child_flight').value = '0';
-                    document.getElementById('infant_flight').value = '0';
+                    document.getElementById('adult_flight_gb').value = '10';
+                    document.getElementById('child_flight_gb').value = '0';
+                    document.getElementById('infant_flight_gb').value = '0';
                     document.getElementById('origin_id_flight').value = '';
                     document.getElementById('destination_id_flight').value = '';
 
@@ -422,6 +421,8 @@ function group_booking_get_booking(order_number){
            $(".issued_booking_btn").hide();
            try{
                if(msg.result.error_code == 0){
+                price_arr_repricing = {};
+                pax_type_repricing = [];
                 for(i in msg.result.response.ticket_list){
                     msg.result.response.ticket_list[i].fare_pick = 0;
                 }
@@ -473,7 +474,8 @@ function group_booking_get_booking(order_number){
                     }
                 }
                 try{
-                    if(msg.result.response.state == 'cancel'){
+                    if(msg.result.response.state_groupbooking == 'cancel'){
+                       breadcrumb_create("group_booking", 5, 1);
                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
                        //document.getElementById('issued-breadcrumb').classList.remove("current");
@@ -486,7 +488,8 @@ function group_booking_get_booking(order_number){
                        <div class="alert alert-danger" role="alert">
                            <h5>Your booking has been Cancelled!</h5>
                        </div>`;
-                    }else if(msg.result.response.state == 'cancel2'){
+                    }else if(msg.result.response.state_groupbooking == 'cancel2' || msg.result.response.state_groupbooking == 'expired'){
+                       breadcrumb_create("group_booking", 5, 1);
                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
                        //document.getElementById('issued-breadcrumb').classList.remove("current");
@@ -499,7 +502,9 @@ function group_booking_get_booking(order_number){
                        <div class="alert alert-danger" role="alert">
                            <h5>Your booking has been Expired!</h5>
                        </div>`;
-                    }else if(msg.result.response.state == 'void'){
+                       $("#group_booking_detail").hide();
+                    }else if(msg.result.response.state_groupbooking == 'void'){
+                       breadcrumb_create("group_booking", 5, 1);
                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
                        //document.getElementById('issued-breadcrumb').classList.remove("current");
@@ -512,7 +517,8 @@ function group_booking_get_booking(order_number){
                        <div class="alert alert-danger" role="alert">
                            <h5>Your booking has been Cancelled!</h5>
                        </div>`;
-                    }else if(msg.result.response.state == 'fail_refunded'){
+                    }else if(msg.result.response.state_groupbooking == 'fail_refunded'){
+                       breadcrumb_create("group_booking", 5, 1);
                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
                        //document.getElementById('issued-breadcrumb').classList.remove("current");
@@ -525,7 +531,8 @@ function group_booking_get_booking(order_number){
                        <div class="alert alert-danger" role="alert">
                            <h5>Your booking has been Failed!</h5>
                        </div>`;
-                    }else if(msg.result.response.state == 'fail_issued'){
+                    }else if(msg.result.response.state_groupbooking == 'fail_issued'){
+                       breadcrumb_create("group_booking", 5, 1);
                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
                        //document.getElementById('issued-breadcrumb').classList.remove("current");
@@ -538,7 +545,8 @@ function group_booking_get_booking(order_number){
                        <div class="alert alert-danger" role="alert">
                            <h5>Your booking has been Failed!</h5>
                        </div>`;
-                    }else if(msg.result.response.state == 'fail_booked'){
+                    }else if(msg.result.response.state_groupbooking == 'fail_booked'){
+                       breadcrumb_create("group_booking", 5, 1);
                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
                        //document.getElementById('issued-breadcrumb').classList.remove("current");
@@ -551,7 +559,7 @@ function group_booking_get_booking(order_number){
                        <div class="alert alert-danger" role="alert">
                            <h5>Your booking has been Failed!</h5>
                        </div>`;
-                    }else if(msg.result.response.state == 'booked'){
+                    }else if(msg.result.response.state_groupbooking == 'booked'){
                        try{
     //                       if(now.diff(hold_date_time, 'minutes')<0)
     //                           check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'groupbooking', signature, msg.result.response.payment_acquirer_number);
@@ -579,7 +587,12 @@ function group_booking_get_booking(order_number){
                        }catch(err){
                         console.log(err); // error kalau ada element yg tidak ada
                        }
-                    }else if(msg.result.response.state == 'draft'){
+                    }else if(msg.result.response.state_groupbooking == 'draft'){
+                        breadcrumb_create("group_booking", 2, 1);
+                    }else if(msg.result.response.state_groupbooking == 'confirm'){
+                        breadcrumb_create("group_booking", 3, 1);
+                    }else if(msg.result.response.state_groupbooking == 'sent'){
+                       breadcrumb_create("group_booking", 4, 1);
                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
                        document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
@@ -594,7 +607,7 @@ function group_booking_get_booking(order_number){
                        <div class="alert alert-info" role="alert">
                            <h5>Your booking has not been processed!</h5>
                        </div>`;
-                    }else if(msg.result.response.state == 'refund'){
+                    }else if(msg.result.response.state_groupbooking == 'refund'){
                        //document.getElementById('issued-breadcrumb').classList.remove("current");
                        //document.getElementById('issued-breadcrumb').classList.add("active");
                        document.getElementById('issued-breadcrumb').classList.add("br-active");
@@ -605,6 +618,7 @@ function group_booking_get_booking(order_number){
                            <h5>Your booking has been Refunded!</h5>
                        </div>`;
                     }else{
+                       breadcrumb_create("group_booking", 5, 1);
                        //document.getElementById('issued-breadcrumb').classList.remove("current");
                        //document.getElementById('issued-breadcrumb').classList.add("active");
                        document.getElementById('issued-breadcrumb').classList.add("br-active");
@@ -684,20 +698,24 @@ function group_booking_get_booking(order_number){
                     </div>
                     <hr/>
                     <div class="row">
-                        <div class="col-lg-6 mb-3">
-                            <h6>Request</h6>
-                            <span>Departure Date: <b>`;
-                                text+= msg.result.response.request.departure_date;
-                                text+=`</b>
-                            </span>
+                        <div class="col-lg-12">
+                            <h5 style="border-bottom:3px solid `+color+`; width:fit-content;">Group Booking Request</h5>
                             <br/>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <h6><i class="fas fa-plane-departure"></i> Departure</h6>
                             <span>Origin: <b>`;
-                                text+= msg.result.response.request.origin.city + `(` + msg.result.response.request.origin.code + `)`;
+                                text+= msg.result.response.request.origin.city + ` (` + msg.result.response.request.origin.code + `)`;
                                 text+=`</b>
                             </span>
                             <br/>
                             <span>Destination: <b>`;
-                                text+= msg.result.response.request.destination.city + `(` + msg.result.response.request.destination.code + `)`;
+                                text+= msg.result.response.request.destination.city + ` (` + msg.result.response.request.destination.code + `)`;
+                                text+=`</b>
+                            </span>
+                            <br/>
+                            <span>Departure Date: <b>`;
+                                text+= msg.result.response.request.departure_date;
                                 text+=`</b>
                             </span>
                             <br/>
@@ -728,12 +746,7 @@ function group_booking_get_booking(order_number){
                         <div class="col-lg-6 mb-3">`;
                         if(msg.result.response.request.return_date != ''){
                             text+=`
-                            <h6 style="color:white">Request</h6>
-                            <span>Return Date: <b>`;
-                                text+= msg.result.response.request.return_date;
-                                text+=`</b>
-                            </span>
-                            <br/>
+                            <h6><i class="fas fa-plane-arrival"></i> Return</h6>
                             <span>Origin: <b>`;
                                 text+= msg.result.response.request.destination.city + `(` + msg.result.response.request.destination.code + `)`;
                                 text+=`</b>
@@ -741,6 +754,11 @@ function group_booking_get_booking(order_number){
                             <br/>
                             <span>Destination: <b>`;
                                 text+= msg.result.response.request.origin.city + `(` + msg.result.response.request.origin.code + `)`;
+                                text+=`</b>
+                            </span>
+                            <br/>
+                            <span>Return Date: <b>`;
+                                text+= msg.result.response.request.return_date;
                                 text+=`</b>
                             </span>
                             <br/>
@@ -770,19 +788,28 @@ function group_booking_get_booking(order_number){
                         text+=`
                         </div>
                     </div>
-                </div>`;
+                </div>
 
-                if(msg.result.response.state_groupbooking == 'confirm'){
+                <div class="row">`;
+                    if(msg.result.response.state_groupbooking == 'confirm'){
                     text+= `
-                        <button type="button" id="button-print-print" class="primary-btn ld-ext-right" style="width:100%;margin-top:10px;" onclick="modal('ticket',true)">`;
-                    //kalau sudah pilih
+                    <div class="col-sm-12">
+                        <h4 style="border-bottom:3px solid `+color+`; width:fit-content;">Ticket</h4>
+                    </div>
+                    <div class="col-sm-12">`;
+                        text+= `
+                            <button type="button" id="button-print-print" class="primary-btn ld-ext-right" style="margin-top:10px;" onclick="modal('ticket',true)">`;
+                        //kalau sudah pilih
+                        text+=`
+                                Choose Ticket`;
+                        text+=`
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        `;
+                    text+=`</div>`;
+                    }
                     text+=`
-                            Choose Ticket`;
-                    text+=`
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
-                    `;
-                }
+                </div>`;
                 rules = 0;
                 if(msg.result.response.state_groupbooking == 'confirm'){
                     if(msg.result.response.price_pick_departure){
@@ -1252,8 +1279,9 @@ function group_booking_get_booking(order_number){
             </div>`;
                 }
                 if(msg.result.response.state_groupbooking == 'confirm'){
+                    text+=`<h4 class="mt-3" style="border-bottom:3px solid `+color+`; width:fit-content;">Booker</h4>`;
                     text+= `
-                        <button type="button" id="button-print-print" class="primary-btn ld-ext-right" style="width:100%;margin-top:10px;" onclick="modal('booker',true)">`;
+                        <button type="button" id="button-print-print" class="primary-btn ld-ext-right mt-2" onclick="modal('booker',true)">`;
                     if(msg.result.response.booker.name == false)
                         text+=`
                             Add Booker`;
@@ -1266,9 +1294,8 @@ function group_booking_get_booking(order_number){
                 }
                 if(msg.result.response.booker.name != false){
                     text+=`
-                    <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
-                        <h5> Booker</h5>
-                        <hr/>
+                    <div style="background-color:white; margin-top:20px;">
+                        <div style="overflow-x:auto;">
                         <table style="width:100%" id="list-of-passenger">
                             <tr>
                                 <th style="width:10%;" class="list-of-passenger-left">No</th>
@@ -1295,6 +1322,7 @@ function group_booking_get_booking(order_number){
                             text+=`</tr>
 
                         </table>
+                        </div>
                     </div>`;
                     document.getElementById('booker_title').value = title;
                     document.getElementById('booker_first_name').value = msg.result.response.booker.first_name;
@@ -1308,10 +1336,12 @@ function group_booking_get_booking(order_number){
                     $('#booker_title').niceSelect('update');
                     document.getElementById('booker_cp').checked = false;
                 }
+
                 if(msg.result.response.booker.name != false){
                     if(msg.result.response.state_groupbooking == 'confirm'){
+                        text+=`<h4 class="mt-3" style="border-bottom:3px solid `+color+`; width:fit-content;">Contact Person</h4>`;
                         text += `
-                            <button type="button" id="button-print-print" class="primary-btn ld-ext-right" style="width:100%;margin-top:10px;" onclick="modal('contact',true)">`;
+                            <button type="button" id="button-print-print" class="primary-btn ld-ext-right mt-2" onclick="modal('contact',true)">`;
                         if(msg.result.response.contact.name == false)
                             text+=`
                                 Add Contact`;
@@ -1326,9 +1356,8 @@ function group_booking_get_booking(order_number){
                 if(msg.result.response.contact.name != false){
 
                     text+=`
-                <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
-                    <h5> Contact Person</h5>
-                    <hr/>
+                <div style="background-color:white; margin-top:20px;">
+                    <div style="overflow-x:auto;">
                     <table style="width:100%" id="list-of-passenger">
                         <tr>
                             <th style="width:10%;" class="list-of-passenger-left">No</th>
@@ -1343,6 +1372,7 @@ function group_booking_get_booking(order_number){
                             <td>`+msg.result.response.contact.phone+`</td>
                         </tr>
                     </table>
+                    </div>
                 </div>`;
                     document.getElementById('contact_title').value = msg.result.response.contact.title;
                     document.getElementById('contact_first_name').value = msg.result.response.contact_id.first_name;
@@ -1366,10 +1396,10 @@ function group_booking_get_booking(order_number){
                 text = '';
                 if(msg.result.response.state_groupbooking == 'confirm'){
                     text+= `
-                        <button type="button" id="button-print-print" class="primary-btn ld-ext-right" style="width:100%;margin-top:10px;" onclick="group_booking_update_passenger()">`;
+                        <button type="button" id="button-print-print" class="primary-btn ld-ext-right mt-3" onclick="group_booking_update_passenger()">`;
                     //kalau sudah pilih
                     text+=`
-                            SavePassengers`;
+                            Save Passengers`;
                     text+=`
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
@@ -1581,7 +1611,7 @@ function group_booking_get_booking(order_number){
                                 //booker
                                 booker_insentif = '-';
                                 if(msg.result.response.hasOwnProperty('booker_insentif'))
-                                    booker_insentif = msg.result.response.booker_insentif
+                                    booker_insentif = getrupiah(msg.result.response.booker_insentif)
                                 text_repricing += `
                                     <div class="col-lg-12">
                                         <div style="padding:5px;" class="row" id="booker_repricing" hidden>
@@ -1925,6 +1955,17 @@ function group_booking_get_booking(order_number){
                     ]
                     add_table_of_passenger('close',data_pax)
                 }
+                if(msg.result.response.hasOwnProperty('voucher_reference') && msg.result.response.voucher_reference != '' && msg.result.response.voucher_reference != false){
+                    try{
+                        render_voucher(price.currency,disc, msg.result.response.state)
+                    }catch(err){console.log(err);}
+                }
+//                try{
+//                    if(msg.result.response.state == 'booked' || msg.result.response.state == 'issued' && msg.result.response.voucher_reference)
+//                        document.getElementById('voucher_discount').style.display = 'block';
+//                    else
+//                        document.getElementById('voucher_discount').style.display = 'none';
+//                }catch(err){console.log(err);}
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                    auto_logout();
                }else if(msg.result.error_code == 1035){
@@ -1996,7 +2037,7 @@ function render_ticket(){
     type = '';
     for(i in group_booking_get_detail.result.response.ticket_list){
         if(type != group_booking_get_detail.result.response.ticket_list[i].type){
-            text +=`<h5>`+group_booking_get_detail.result.response.ticket_list[i].type+`</h5>`;
+            text +=`<h4 class="mt-2 mb-2" style="text-transform: capitalize; border-bottom:3px solid `+color+`; width:fit-content;">`+group_booking_get_detail.result.response.ticket_list[i].type+`</h4>`;
             type = group_booking_get_detail.result.response.ticket_list[i].type;
         }
         is_choose = false;
@@ -2027,125 +2068,126 @@ function render_ticket(){
         }
             text += `
             <div class="row" style="padding:10px;">
-               <div class="col-xs-10">
-               </div>
-               <div class="col-xs-2" style="padding:0px 10px 15px 15px;">
-                   <label class="radio-button-custom">
-                        <input type="radio" name="`+type+`" value="`+i+`" `;
-                        if(is_choose)
-                            text += `checked`;
-                        text+=`/>
-                        <span class="checkmark-radio"></span>
-                   </label>
-               </div>
-                    <div class="col-lg-12" id="copy_div_airline`+i+`">
-                        <span class="copy_airline" hidden="">`+i+`</span>
-                        <div class="row mt-2">
-                            <div class="col-lg-2">
-                                <div class="row">
-                                    <div class="col-lg-12" id="copy_provider_operated`+i+`">
-                                        <span class="copy_po" hidden="">`+i+`</span>`;
-                                        carrier_code_list = [];
-                                        for(j in group_booking_get_detail.result.response.ticket_list[i].segments){
-                                            if(carrier_code_list.includes(group_booking_get_detail.result.response.ticket_list[i].segments[j].carrier_code) == false){
-                                                try{
-                                                    text+= `
-                                                <span class="copy_carrier_provider" style="font-weight:500; font-size:12px;">`+airline_carriers[group_booking_get_detail.result.response.ticket_list[i].segments[j].carrier_code].name+`</span><br>
-                                                <img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+airline_carriers[group_booking_get_detail.result.response.ticket_list[i].segments[j].carrier_code].name+`" title="`+airline_carriers[group_booking_get_detail.result.response.ticket_list[i].segments[j].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+group_booking_get_detail.result.response.ticket_list[i].segments[j].carrier_code+`.png"><br>`;
-                                                }catch(err){
-                                                    text+= `
-                                                <span class="copy_carrier_provider" style="font-weight:500; font-size:12px;">`+group_booking_get_detail.result.response.ticket_list[i].segments[j].carrier_code+`</span><br>
-                                                <img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+group_booking_get_detail.result.response.ticket_list[i].segments[j].carrier_code+`" title="`+group_booking_get_detail.result.response.ticket_list[i].segments[j].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+group_booking_get_detail.result.response.ticket_list[i].segments[j].carrier_code+`.png"><br>`;
-                                                }
-                                                carrier_code_list.push(group_booking_get_detail.result.response.ticket_list[i].segments[j].carrier_code);
+                <div class="col-lg-12" id="copy_div_airline`+i+`" style="border:1px solid #cdcdcd;">
+                    <span class="copy_airline" hidden="">`+i+`</span>
+                    <div class="row mt-2">
+                        <div class="col-lg-2">
+                            <div class="row">
+                                <div class="col-lg-12" id="copy_provider_operated`+i+`">
+                                    <span class="copy_po" hidden="">`+i+`</span>`;
+                                    carrier_code_list = [];
+                                    for(j in group_booking_get_detail.result.response.ticket_list[i].segments){
+                                        if(carrier_code_list.includes(group_booking_get_detail.result.response.ticket_list[i].segments[j].carrier_code) == false){
+                                            try{
+                                                text+= `
+                                            <span class="copy_carrier_provider" style="font-weight:500; font-size:12px;">`+airline_carriers[group_booking_get_detail.result.response.ticket_list[i].segments[j].carrier_code].name+`</span><br>
+                                            <img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+airline_carriers[group_booking_get_detail.result.response.ticket_list[i].segments[j].carrier_code].name+`" title="`+airline_carriers[group_booking_get_detail.result.response.ticket_list[i].segments[j].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+group_booking_get_detail.result.response.ticket_list[i].segments[j].carrier_code+`.png"><br>`;
+                                            }catch(err){
+                                                text+= `
+                                            <span class="copy_carrier_provider" style="font-weight:500; font-size:12px;">`+group_booking_get_detail.result.response.ticket_list[i].segments[j].carrier_code+`</span><br>
+                                            <img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+group_booking_get_detail.result.response.ticket_list[i].segments[j].carrier_code+`" title="`+group_booking_get_detail.result.response.ticket_list[i].segments[j].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+group_booking_get_detail.result.response.ticket_list[i].segments[j].carrier_code+`.png"><br>`;
                                             }
+                                            carrier_code_list.push(group_booking_get_detail.result.response.ticket_list[i].segments[j].carrier_code);
                                         }
-                                        text+=`
-                                    </div>
+                                    }
+                                    text+=`
                                 </div>
                             </div>
-                            <div class="col-lg-10">
+                        </div>
+                        <div class="col-lg-10">
+                            <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                <table style="width:100%">
+                                    <tbody><tr>
+                                        <td class="airport-code"><h5 class="copy_time_depart">`+group_booking_get_detail.result.response.ticket_list[i].departure_date.split('  ')[1]+`</h5></td>
+                                        <td style="padding-left:15px;">
+                                            <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px;">
+                                        </td>
+                                        <td style="height:30px;padding:0 15px;width:100%">
+                                            <div style="display:inline-block;position:relative;width:100%">
+                                                <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                                <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                                <div style="height:30px;min-width:40px;position:relative;width:0%">
+                                            </div>
+                                        </div></td>
+                                    </tr>
+                                </tbody></table>
+                                <span class="copy_date_depart">`+group_booking_get_detail.result.response.ticket_list[i].departure_date.split('  ')[0]+` </span><br>
+                                <span class="copy_departure" style="font-weight:500;">`;
+                                if(group_booking_get_detail.result.response.ticket_list[i].type == 'departure')
+                                    text += group_booking_get_detail.result.response.request.origin.city + ` (` + group_booking_get_detail.result.response.request.origin.code + `)`;
+                                else
+                                    text += group_booking_get_detail.result.response.request.destination.city + ` (` + group_booking_get_detail.result.response.request.destination.code + `)`;
+                                text+=`</span><br>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 mb-2">
+                                <table style="width:100%; margin-bottom:6px;">
+                                    <tbody><tr>
+                                        <td><h5 class="copy_time_arr">`+group_booking_get_detail.result.response.ticket_list[i].arrival_date.split('  ')[1]+`</h5></td>
+                                        <td></td>
+                                        <td style="height:30px;padding:0 15px;width:100%"></td>
+                                    </tr>
+                                </tbody></table>
+                                <span class="copy_date_arr">`+group_booking_get_detail.result.response.ticket_list[i].arrival_date.split('  ')[0]+`</span><br>
+                                <span class="copy_arrival" style="font-weight:500;">`;
+                                if(group_booking_get_detail.result.response.ticket_list[i].type == 'departure')
+                                    text += group_booking_get_detail.result.response.request.destination.city + ` (` + group_booking_get_detail.result.response.request.destination.code + `)`;
+                                else
+                                    text += group_booking_get_detail.result.response.request.origin.city + ` (` + group_booking_get_detail.result.response.request.origin.code + `)`;
+                                text+=`</span><br>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                                    <table style="width:100%">
-                                        <tbody><tr>
-                                            <td class="airport-code"><h5 class="copy_time_depart">`+group_booking_get_detail.result.response.ticket_list[i].departure_date.split('  ')[1]+`</h5></td>
-                                            <td style="padding-left:15px;">
-                                                <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px;">
-                                            </td>
-                                            <td style="height:30px;padding:0 15px;width:100%">
-                                                <div style="display:inline-block;position:relative;width:100%">
-                                                    <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                                    <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                                    <div style="height:30px;min-width:40px;position:relative;width:0%">
-                                                </div>
-                                            </div></td>
-                                        </tr>
-                                    </tbody></table>
-                                    <span class="copy_date_depart">`+group_booking_get_detail.result.response.ticket_list[i].departure_date.split('  ')[0]+` </span><br>
-                                    <span class="copy_departure" style="font-weight:500;">`;
-                                    if(group_booking_get_detail.result.response.ticket_list[i].type == 'departure')
-                                        text += group_booking_get_detail.result.response.request.origin.city + ` (` + group_booking_get_detail.result.response.request.origin.code + `)`;
-                                    else
-                                        text += group_booking_get_detail.result.response.request.destination.city + ` (` + group_booking_get_detail.result.response.request.destination.code + `)`;
-                                    text+=`</span><br>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 mb-2">
-                                    <table style="width:100%; margin-bottom:6px;">
-                                        <tbody><tr>
-                                            <td><h5 class="copy_time_arr">`+group_booking_get_detail.result.response.ticket_list[i].arrival_date.split('  ')[1]+`</h5></td>
-                                            <td></td>
-                                            <td style="height:30px;padding:0 15px;width:100%"></td>
-                                        </tr>
-                                    </tbody></table>
-                                    <span class="copy_date_arr">`+group_booking_get_detail.result.response.ticket_list[i].arrival_date.split('  ')[0]+`</span><br>
-                                    <span class="copy_arrival" style="font-weight:500;">`;
-                                    if(group_booking_get_detail.result.response.ticket_list[i].type == 'departure')
-                                        text += group_booking_get_detail.result.response.request.destination.city + ` (` + group_booking_get_detail.result.response.request.destination.code + `)`;
-                                    else
-                                        text += group_booking_get_detail.result.response.request.origin.city + ` (` + group_booking_get_detail.result.response.request.origin.code + `)`;
-                                    text+=`</span><br>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4">
-                                    <div class="row">
-                                        <div class="col-xs-12">
-                                            <i class="fas fa-clock"></i><span class="copy_duration" style="font-weight:500;"> duration belum </span>
-                                        </div>
+                                    <div class="col-xs-12">
+                                        <i class="fas fa-clock"></i><span class="copy_duration" style="font-weight:500;"> duration belum </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-               <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:10px; margin: auto;">
-                   <a id="detail_button_journey`+i+`" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+i+`);" href="#detail_departjourney`+i+`" style="color: #237395; text-decoration: unset;" aria-expanded="true">
-                       <span class="detail-link" style="font-weight: bold; display:none;" id="flight_details_up`+i+`"> Flight details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
-                        <span class="detail-link" style="font-weight: bold; display:block;" id="flight_details_down`+i+`"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
-                   </a>
-               </div>
-               <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">`;
-               text +=`
-                   <span id="fare`+i+`" class="basic_fare_field copy_price price_template" style="margin-right:5px;">`;
-               price = 0;
-               pax_count = 0;
-               for(j in group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list){
-                    if(group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list[j].pax_type == 'ADT'){
-                        pax_count = group_booking_get_detail.result.response.request.pax.ADT;
-                    }else if(group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list[j].pax_type == 'CHD'){
-                        pax_count = group_booking_get_detail.result.response.request.pax.CHD;
-                    }else if(group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list[j].pax_type == 'INF'){
-                        pax_count = group_booking_get_detail.result.response.request.pax.INF;
-                    }
-                    for(k in group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list[j].service_charges){
-                        if(k != 'RAC')
-                            price += pax_count * group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list[j].service_charges[k].amount;
-                    }
-               }
-               console.log(price);
-               text += group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list[0].currency+` `+getrupiah(price)+`</span>`;
-               text+=`
+                </div>
+                <div class="row">
+                   <div class="col-lg-6" style="padding-bottom:10px;">
+                       <a id="detail_button_journey`+i+`" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+i+`);" href="#detail_departjourney`+i+`" style="color: #237395; text-decoration: unset;" aria-expanded="true">
+                           <span class="detail-link" style="font-weight: bold; display:none;" id="flight_details_up`+i+`"> Flight details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                            <span class="detail-link" style="font-weight: bold; display:block;" id="flight_details_down`+i+`"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                       </a>
+                   </div>
+
+                   <div class="col-lg-6" style="text-align:right; padding:0px 10px 15px 15px;">
+                        `;
+
+                   text +=`
+                       <span id="fare`+i+`" class="basic_fare_field copy_price price_template" style="margin-right:5px;">`;
+                   price = 0;
+                   pax_count = 0;
+                   for(j in group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list){
+                        if(group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list[j].pax_type == 'ADT'){
+                            pax_count = group_booking_get_detail.result.response.request.pax.ADT;
+                        }else if(group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list[j].pax_type == 'CHD'){
+                            pax_count = group_booking_get_detail.result.response.request.pax.CHD;
+                        }else if(group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list[j].pax_type == 'INF'){
+                            pax_count = group_booking_get_detail.result.response.request.pax.INF;
+                        }
+                        for(k in group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list[j].service_charges){
+                            if(k != 'RAC')
+                                price += pax_count * group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list[j].service_charges[k].amount;
+                        }
+                   }
+                   console.log(price);
+                   text += group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list[0].currency+` `+getrupiah(price)+`</span>`;
+                   text+=`
+                        <label class="radio-label" style="padding:unset; width:100px;">
+                            <input type="radio" name="`+type+`" value="`+i+`"`;
+                            if(is_choose)
+                                text += `checked`;
+                            text+=`/>
+                            <div class="div_label" style="min-height:50px; max-height:50px;"><span style="black;">Choose</span></div>
+                        </label>
+                   </div>
                </div>
            </div>
-           <div id="detail_departjourney`+i+`" class="panel-collapse in collapse show" aria-expanded="true" style="display: none;"><div id="copy_segments_details`+i+`">`;
+           <div id="detail_departjourney`+i+`" class="panel-collapse in collapse show" aria-expanded="true" style="border:1px solid #cdcdcd; display: none;"><div id="copy_segments_details`+i+`">`;
             if(group_booking_get_detail.result.response.ticket_list[i].hasOwnProperty('segments')){
                 text += `
                     <div class="col-lg-12 mt-2 mb-2">
@@ -2296,10 +2338,9 @@ function render_ticket(){
                 </div>`;
             }
 
-
             text += `
                </div>
-           </div>
+            </div>
         </div>`;
     }
     document.getElementById('ticket_list').innerHTML = text;
@@ -2545,7 +2586,7 @@ function group_booking_update_passenger(){
                 "nationality_code": document.getElementById('select2-adult_nationality'+i+'_id-container').innerHTML,
                 "identity": {
                     "identity_country_of_issued_name": document.getElementById('select2-adult_country_of_issued'+i+'_id-container').innerHTML,
-                    "identity_expdate": document.getElementById('adult_identity_expired_date'+i).value != '' ? moment(document.getElementById('adult_identity_expired_date'+i).value,'DD MMM YYYY').format('YYYY-MM-DD') : '',
+                    "identity_expdate": document.getElementById('adult_identity_expired_date'+i).value != '' && document.getElementById('adult_identity_expired_date'+i).value != 'Invalid Date' ? moment(document.getElementById('adult_identity_expired_date'+i).value,'DD MMM YYYY').format('YYYY-MM-DD') : '',
                     "identity_number": document.getElementById('adult_identity_number'+i).value,
                     "identity_type": document.getElementById('adult_identity_type'+i).value
                 }
@@ -3208,7 +3249,10 @@ function add_table_of_passenger(type, data){
             birth_date = moment(data[5]+'-'+data[6]+'-'+data[7],'DD-MM-YYYY').format('DD MMM YYYY');
             identity_type = data[8];
             identity_number = data[9];
-            identity_exp_date = moment(data[10]+'-'+data[11]+'-'+data[12],'DD-MM-YYYY').format('DD MMM YYYY');;
+            if(data[10] != '' && data[11] != '' && data[12] != '')
+                identity_exp_date = moment(data[10]+'-'+data[11]+'-'+data[12],'DD-MM-YYYY').format('DD MMM YYYY');
+            else
+                identity_exp_date = '';
             country_of_issued = data[13];
             name = title + ' ' + first_name + ' ' + last_name;
 
@@ -3266,7 +3310,7 @@ function add_table_of_passenger(type, data){
                                         <span class="checkmark-radio"></span>
                                     </label>
                                     <label class="radio-button-custom">
-                                        <span style="font-size:14px;">Input Passenger</span>
+                                        <span style="font-size:14px;">Input/Edit Passenger</span>
                                         <input type="radio" id="radio_passenger_input`+parseInt(counter_passenger+1)+`" name="radio_passenger`+parseInt(counter_passenger+1)+`" value="create" onclick="radio_button('passenger',`+(counter_passenger+1)+`);">
                                         <span class="checkmark-radio"></span>
                                     </label>
@@ -3274,32 +3318,27 @@ function add_table_of_passenger(type, data){
                                 <div id="passenger_content">
                                     <div id="passenger_search`+parseInt(counter_passenger+1)+`">
                                         <div class="row">
-                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                            <div class="col-lg-7 col-md-7 col-sm-7 mb-2">
                                                 <input class="form-control" type="text" id="train_`+(counter_passenger+1)+`_search" placeholder="Search"/>
                                             </div>
-                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                            <div class="col-lg-5 col-md-5 col-sm-5">
                                                 <button type="button" class="primary-btn" id="passenger_btn_io_click`+(counter_passenger+1)+`" onclick="get_customer_list('','`+(counter_passenger+1)+`','issued_offline')">Search</button>
                                             </div>
                                         </div>
                                         <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
+                                        <div class="loading-pax-train" style="text-align:center; margin-top:15px; display:none;">
+                                            <span style="font-size:18px; font-weight:bold;"> PLEASE WAIT </span><img src="/static/tt_website_rodextrip/img/search.gif" alt="Search" style="height:50px; width:50px;"/>
+                                        </div>
+                                        <br/>
+                                        <span style="font-size:14px;">Max 100 customers in 1 search</span>
 
                                         <div id="search_result_`+(counter_passenger+1)+`" style="max-height:600px; overflow:auto; padding:15px;">
 
                                         </div>
                                     </div>
                                     <div id="passenger_input`+parseInt(counter_passenger+1)+`" style="background-color:white;" hidden>
-                                        <div class="col-lg-12" style="padding:0px;">
-                                            <div style="background-color:`+color+`; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;">
-                                                <div class="row">
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                        <span style="font-size:16px;color:`+text_color+`" id="passenger_number_modal_title`+counter_passenger+`">Passenger - `+parseInt(count_pax+1)+`</span>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid `+color+`;" id="adult_paxs`+parseInt(counter_passenger+1)+`">
+                                        <div class="row">
+                                            <div class="col-lg-12" style="background-color:white;" id="adult_paxs`+parseInt(counter_passenger+1)+`">
                                                 <div class="row">
                                                     <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
                                                         <label style="color:red">*</label>
@@ -3596,6 +3635,9 @@ function add_table_of_passenger(type, data){
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" onclick="update_contact('passenger',`+parseInt(counter_passenger+1)+`);" class="primary-btn" style="background-color:#cdcdcd; color:black;" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>

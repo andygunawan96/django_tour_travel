@@ -238,6 +238,12 @@ function event_get_booking(data){
                         localTime  = moment.utc(tes).toDate();
                         msg.result.response.issued_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
                     }
+                    try{
+                        if(msg.result.response.state == 'booked' || msg.result.response.state == 'issued' && msg.result.response.voucher_reference)
+                            document.getElementById('voucher_div').style.display = 'block';
+                        else
+                            document.getElementById('voucher_div').style.display = 'none';
+                    }catch(err){console.log(err);}
                     event_get_detail = msg;
                     $text = '';
                     $text += 'Order Number: '+ msg.result.response.order_number + '\n';
@@ -660,7 +666,7 @@ function event_get_booking(data){
                         //booker
                         booker_insentif = '-';
                         if(msg.result.response.hasOwnProperty('booker_insentif'))
-                            booker_insentif = msg.result.response.booker_insentif
+                            booker_insentif = getrupiah(msg.result.response.booker_insentif)
                         text_repricing += `
                             <div class="col-lg-12">
                                 <div style="padding:5px;" class="row" id="booker_repricing" hidden>
@@ -863,7 +869,17 @@ function event_get_booking(data){
             }
             print_text += '</div>';
             document.getElementById('event_btn_printout').innerHTML = print_text;
-
+            if(msg.result.response.hasOwnProperty('voucher_reference') && msg.result.response.voucher_reference != '' && msg.result.response.voucher_reference != false){
+                try{
+                    render_voucher(price.currency,disc, msg.result.response.state)
+                }catch(err){console.log(err);}
+            }
+            try{
+                if(msg.result.response.state == 'booked' || msg.result.response.state == 'issued' && msg.result.response.voucher_reference)
+                    document.getElementById('voucher_discount').style.display = 'block';
+                else
+                    document.getElementById('voucher_discount').style.display = 'none';
+            }catch(err){console.log(err);}
             //======================= Other =========================
             add_repricing();
             console.log($text);
@@ -1900,11 +1916,28 @@ function event_create_booking(val,a){
 ////            path = 'http://192.168.0.11:8000/';
 //            window.location.href = path + "event/booking/" + msg.result.response.order_number;
         }else{
-            alert(msg.result.error_msg);
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: msg.result.error_msg,
+            })
+
+            $('.next-loading-booking').prop('disabled', false);
+            $('.next-loading-issued').removeClass("running");
+            $('.next-loading-issued').prop('disabled', false);
+            $('.loader-rodextrip').fadeOut();
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: errorThrown,
+            })
+            $('.next-loading-booking').prop('disabled', false);
+            $('.next-loading-issued').removeClass("running");
+            $('.next-loading-issued').prop('disabled', false);
+            $('.loader-rodextrip').fadeOut();
        }
     });
 }

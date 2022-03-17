@@ -9372,3 +9372,23 @@ ul.progress_tabs li.current .image-rounded-icon{
 .legs_word_break{
     display: block;
 }
+
+.span_link{
+    font-weight:500;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.span_link:hover{
+    color:#f15a22;
+}
+
+.section_bg{
+    background:white;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .image-change-route-vertical2{
+        left: 46.9%;
+    }
+}

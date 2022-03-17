@@ -68,7 +68,6 @@
 
 <div class="modal fade" id="myModalPlugin" role="dialog" data-keyboard="false">
     <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -2670,7 +2669,7 @@
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                     <input type="hidden" name="passenger_edit_identity_country_of_issued1" id="passenger_edit_identity_country_of_issued1" />
                                                 </div>
@@ -2724,16 +2723,16 @@
                                                     <span>{% trans 'Country of Issued' %}</span><br/>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued2_id" style="width:100%;" id="passenger_edit_identity_country_of_issued2_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued2')" class="nice-select-default">
+                                                            <select class="form-control js-example-basic-single" name="passenger_edit_identity_country_of_issued2_id" style="width:100%;" id="passenger_edit_identity_country_of_issued2_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued2')" class="nice-select-default">
                                                                 <option value="">{% trans 'Country of Issued' %}</option>
                                                                 {% for country in countries %}
                                                                 <option value="{{country.name}}">{{country.name}}</option>
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
-                                                    <input type="hidden" name="passenger_identity_country_of_issued2" id="passenger_edit_identity_country_of_issued2" />
+                                                    <input type="hidden" name="passenger_edit_identity_country_of_issued2" id="passenger_edit_identity_country_of_issued2" />
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Attachment' %}</span><br/>
@@ -2785,16 +2784,16 @@
                                                     <span>{% trans 'Country of Issued' %}</span><br/>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued3_id" style="width:100%;" id="passenger_edit_identity_country_of_issued3_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued3')" class="nice-select-default">
+                                                            <select class="form-control js-example-basic-single" name="passenger_edit_identity_country_of_issued3_id" style="width:100%;" id="passenger_edit_identity_country_of_issued3_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued3')" class="nice-select-default">
                                                                 <option value="">{% trans 'Country of Issued' %}</option>
                                                                 {% for country in countries %}
                                                                 <option value="{{country.name}}">{{country.name}}</option>
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
-                                                    <input type="hidden" name="passenger_identity_country_of_issued3" id="passenger_edit_identity_country_of_issued3" />
+                                                    <input type="hidden" name="passenger_edit_identity_country_of_issued3" id="passenger_edit_identity_country_of_issued3" />
                                                 </div>
                                                 <div class="col-sm-5">
                                                     <span>{% trans 'Attachment' %}</span><br/>
@@ -2853,7 +2852,7 @@
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                     <input type="hidden" name="passenger_edit_identity_country_of_issued4" id="passenger_edit_identity_country_of_issued4" />
                                                 </div>
@@ -3027,7 +3026,7 @@
                                                                     <option value="{{country.name}}">{{country.name}}</option>
                                                                     {% endfor %}
                                                                 </select>
-                                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                             <input type="hidden" name="passenger_edit_identity_country_of_issued1" id="passenger_edit_identity_country_of_issued1" />
                                                         </div>
@@ -3080,13 +3079,13 @@
                                                         <div class="col-sm-6">
                                                             <span>{% trans 'Country of Issued' %}</span><br/>
                                                             <div class="input-container-search-ticket">
-                                                                <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued2_id" style="width:100%;" id="passenger_edit_identity_country_of_issued2_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued2')" class="nice-select-default">
+                                                                <select class="form-control js-example-basic-single" name="passenger_edit_identity_country_of_issued2_id" style="width:100%;" id="passenger_edit_identity_country_of_issued2_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued2')" class="nice-select-default">
                                                                     <option value="">{% trans 'Country of Issued' %}</option>
                                                                     {% for country in countries %}
                                                                     <option value="{{country.name}}">{{country.name}}</option>
                                                                     {% endfor %}
                                                                 </select>
-                                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                             <input type="hidden" name="passenger_identity_country_of_issued2" id="passenger_edit_identity_country_of_issued2" />
                                                         </div>
@@ -3139,15 +3138,15 @@
                                                         <div class="col-sm-6">
                                                             <span>{% trans 'Country of Issued' %}</span><br/>
                                                             <div class="input-container-search-ticket">
-                                                                <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued3_id" style="width:100%;" id="passenger_edit_identity_country_of_issued3_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued3')" class="nice-select-default">
+                                                                <select class="form-control js-example-basic-single" name="passenger_edit_identity_country_of_issued3_id" style="width:100%;" id="passenger_edit_identity_country_of_issued3_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued3')" class="nice-select-default">
                                                                     <option value="">{% trans 'Country of Issued' %}</option>
                                                                     {% for country in countries %}
                                                                     <option value="{{country.name}}">{{country.name}}</option>
                                                                     {% endfor %}
                                                                 </select>
-                                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
-                                                            <input type="hidden" name="passenger_identity_country_of_issued3" id="passenger_edit_identity_country_of_issued3" />
+                                                            <input type="hidden" name="passenger_edit_identity_country_of_issued3" id="passenger_edit_identity_country_of_issued3" />
                                                         </div>
                                                         <div class="col-sm-5">
                                                             <span>{% trans 'Attachment' %}</span><br/>
@@ -3204,7 +3203,7 @@
                                                                     <option value="{{country.name}}">{{country.name}}</option>
                                                                     {% endfor %}
                                                                 </select>
-                                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                             <input type="hidden" name="passenger_edit_identity_country_of_issued4" id="passenger_edit_identity_country_of_issued4" />
                                                         </div>
@@ -3378,7 +3377,7 @@
                                                             <option value="{{country.name}}">{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                     <input type="hidden" name="passenger_edit_identity_country_of_issued1" id="passenger_edit_identity_country_of_issued1" />
                                                 </div>
@@ -3437,9 +3436,9 @@
                                                             <option value="{{country.name}}">{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger','2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
-                                                    <input type="hidden" name="passenger_identity_country_of_issued2" id="passenger_edit_identity_country_of_issued2" />
+                                                    <input type="hidden" name="passenger_edit_identity_country_of_issued2" id="passenger_edit_identity_country_of_issued2" />
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Attachment' %}</span><br/>
@@ -3490,15 +3489,15 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Country of Issued' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued3_id" style="width:100%;" id="passenger_edit_identity_country_of_issued3_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued3')" class="nice-select-default">
+                                                        <select class="form-control js-example-basic-single" name="passenger_edit_identity_country_of_issued3_id" style="width:100%;" id="passenger_edit_identity_country_of_issued3_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued3')" class="nice-select-default">
                                                             <option value="">{% trans 'Country of Issued' %}</option>
                                                             {% for country in countries %}
                                                             <option value="{{country.name}}">{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger','3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
-                                                    <input type="hidden" name="passenger_identity_country_of_issued3" id="passenger_edit_identity_country_of_issued3" />
+                                                    <input type="hidden" name="passenger_edit_identity_country_of_issued3" id="passenger_edit_identity_country_of_issued3" />
                                                 </div>
                                                 <div class="col-sm-5">
                                                     <span>{% trans 'Attachment' %}</span><br/>
@@ -3555,7 +3554,7 @@
                                                             <option value="{{country.name}}">{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                     <input type="hidden" name="passenger_edit_identity_country_of_issued4" id="passenger_edit_identity_country_of_issued4" />
                                                 </div>
@@ -3727,7 +3726,7 @@
                                                             <option value="{{country.name}}">{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                     <input type="hidden" name="passenger_edit_identity_country_of_issued1" id="passenger_edit_identity_country_of_issued1" />
                                                 </div>
@@ -3780,15 +3779,15 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Country of Issued' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued2_id" style="width:100%;" id="passenger_edit_identity_country_of_issued2_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued2')" class="nice-select-default">
+                                                        <select class="form-control js-example-basic-single" name="passenger_edit_identity_country_of_issued2_id" style="width:100%;" id="passenger_edit_identity_country_of_issued2_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued2')" class="nice-select-default">
                                                             <option value="">{% trans 'Country of Issued' %}</option>
                                                             {% for country in countries %}
                                                             <option value="{{country.name}}">{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
-                                                    <input type="hidden" name="passenger_identity_country_of_issued2" id="passenger_edit_identity_country_of_issued2" />
+                                                    <input type="hidden" name="passenger_edit_identity_country_of_issued2" id="passenger_edit_identity_country_of_issued2" />
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Attachment' %}</span><br/>
@@ -3839,15 +3838,15 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Country of Issued' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued3_id" style="width:100%;" id="passenger_edit_identity_country_of_issued3_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued3')" class="nice-select-default">
+                                                        <select class="form-control js-example-basic-single" name="passenger_edit_identity_country_of_issued3_id" style="width:100%;" id="passenger_edit_identity_country_of_issued3_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued3')" class="nice-select-default">
                                                             <option value="">{% trans 'Country of Issued' %}</option>
                                                             {% for country in countries %}
                                                             <option value="{{country.name}}">{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
-                                                    <input type="hidden" name="passenger_identity_country_of_issued3" id="passenger_edit_identity_country_of_issued3" />
+                                                    <input type="hidden" name="passenger_edit_identity_country_of_issued3" id="passenger_edit_identity_country_of_issued3" />
                                                 </div>
                                                 <div class="col-sm-5">
                                                     <span>{% trans 'Attachment' %}</span><br/>
@@ -3904,7 +3903,7 @@
                                                             <option value="{{country.name}}">{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                     <input type="hidden" name="passenger_edit_identity_country_of_issued4" id="passenger_edit_identity_country_of_issued4" />
                                                 </div>
@@ -4081,7 +4080,7 @@
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                     <input type="hidden" name="passenger_edit_identity_country_of_issued1" id="passenger_edit_identity_country_of_issued1" />
                                                 </div>
@@ -4135,16 +4134,16 @@
                                                     <span>{% trans 'Country of Issued' %}</span><br/>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued2_id" style="width:100%;" id="passenger_edit_identity_country_of_issued2_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued2')" class="nice-select-default">
+                                                            <select class="form-control js-example-basic-single" name="passenger_edit_identity_country_of_issued2_id" style="width:100%;" id="passenger_edit_identity_country_of_issued2_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued2')" class="nice-select-default">
                                                                 <option value="">{% trans 'Country of Issued' %}</option>
                                                                 {% for country in countries %}
                                                                 <option value="{{country.name}}">{{country.name}}</option>
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
-                                                    <input type="hidden" name="passenger_identity_country_of_issued2" id="passenger_edit_identity_country_of_issued2" />
+                                                    <input type="hidden" name="passenger_edit_identity_country_of_issued2" id="passenger_edit_identity_country_of_issued2" />
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Attachment' %}</span><br/>
@@ -4196,16 +4195,16 @@
                                                     <span>{% trans 'Country of Issued' %}</span><br/>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued3_id" style="width:100%;" id="passenger_edit_identity_country_of_issued3_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued3')" class="nice-select-default">
+                                                            <select class="form-control js-example-basic-single" name="passenger_edit_identity_country_of_issued3_id" style="width:100%;" id="passenger_edit_identity_country_of_issued3_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued3')" class="nice-select-default">
                                                                 <option value="">{% trans 'Country of Issued' %}</option>
                                                                 {% for country in countries %}
                                                                 <option value="{{country.name}}">{{country.name}}</option>
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
-                                                    <input type="hidden" name="passenger_identity_country_of_issued3" id="passenger_edit_identity_country_of_issued3" />
+                                                    <input type="hidden" name="passenger_edit_identity_country_of_issued3" id="passenger_edit_identity_country_of_issued3" />
                                                 </div>
                                                 <div class="col-sm-5">
                                                     <span>{% trans 'Attachment' %}</span><br/>
@@ -4264,7 +4263,7 @@
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                     <input type="hidden" name="passenger_edit_identity_country_of_issued4" id="passenger_edit_identity_country_of_issued4" />
                                                 </div>
@@ -4441,7 +4440,7 @@
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                     <input type="hidden" name="passenger_edit_identity_country_of_issued1" id="passenger_edit_identity_country_of_issued1" />
                                                 </div>
@@ -4495,14 +4494,14 @@
                                                     <span>{% trans 'Country of Issued' %}</span><br/>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued2_id" style="width:100%;" id="passenger_edit_identity_country_of_issued2_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued2')" class="nice-select-default">
+                                                            <select class="form-control js-example-basic-single" name="passenger_edit_identity_country_of_issued2_id" style="width:100%;" id="passenger_edit_identity_country_of_issued2_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued2')" class="nice-select-default">
                                                                 <option value="">{% trans 'Country of Issued' %}</option>
                                                                 {% for country in countries %}
                                                                 <option value="{{country.name}}">{{country.name}}</option>
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                     <input type="hidden" name="passenger_identity_country_of_issued2" id="passenger_edit_identity_country_of_issued2" />
                                                 </div>
@@ -4556,16 +4555,16 @@
                                                     <span>{% trans 'Country of Issued' %}</span><br/>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued3_id" style="width:100%;" id="passenger_edit_identity_country_of_issued3_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued3')" class="nice-select-default">
+                                                            <select class="form-control js-example-basic-single" name="passenger_edit_identity_country_of_issued3_id" style="width:100%;" id="passenger_edit_identity_country_of_issued3_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued3')" class="nice-select-default">
                                                                 <option value="">{% trans 'Country of Issued' %}</option>
                                                                 {% for country in countries %}
                                                                 <option value="{{country.name}}">{{country.name}}</option>
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
-                                                    <input type="hidden" name="passenger_identity_country_of_issued3" id="passenger_edit_identity_country_of_issued3" />
+                                                    <input type="hidden" name="passenger_edit_identity_country_of_issued3" id="passenger_edit_identity_country_of_issued3" />
                                                 </div>
                                                 <div class="col-sm-5">
                                                     <span>{% trans 'Attachment' %}</span><br/>
@@ -4624,7 +4623,7 @@
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued_passenger_cache('passenger_edit','4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                     <input type="hidden" name="passenger_edit_identity_country_of_issued4" id="passenger_edit_identity_country_of_issued4" />
                                                 </div>
@@ -4673,6 +4672,9 @@
                     </form>
                 </div>
                 {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('passenger','');">{% trans 'Close' %}</button>
             </div>
         </div>
     </div>
