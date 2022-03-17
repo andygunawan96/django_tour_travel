@@ -1385,12 +1385,17 @@ function get_page(data){
        },
        success: function(msg) {
             if(msg.result.error_code == 0){
-                msg.result.response.body = msg.result.response.body.replace(/&lt;/g, '<');
-                msg.result.response.body = msg.result.response.body.replace(/&gt;/g, '>');
-                msg.result.response.body = msg.result.response.body.replace(/&nbsp;/g,' ');
-                document.getElementById('container').innerHTML = msg.result.response.body;
-                document.getElementById('title').innerHTML = `<h1 style="text-align:center;color:`+color+`">`+msg.result.response.title+`</h1>`;
-                document.getElementById('header_page').innerHTML = `<img src="`+msg.result.response.image_carousel+`" style="max-height:350px;max-width:100%;" alt="`+msg.result.response.title+`" title="" />`;
+                if(Object.keys(msg.result.response).length > 0){
+                    msg.result.response.body = msg.result.response.body.replace(/&lt;/g, '<');
+                    msg.result.response.body = msg.result.response.body.replace(/&gt;/g, '>');
+                    msg.result.response.body = msg.result.response.body.replace(/&nbsp;/g,' ');
+                    document.getElementById('container').innerHTML = msg.result.response.body;
+                    document.getElementById('title').innerHTML = `<h1 style="text-align:center;color:`+color+`">`+msg.result.response.title+`</h1>`;
+                    document.getElementById('header_page').innerHTML = `<img src="`+msg.result.response.image_carousel+`" style="max-height:350px;max-width:100%;" alt="`+msg.result.response.title+`" title="" />`;
+                }else{
+                    document.getElementById('container').innerHTML = `<center><img src="/static/tt_website_rodextrip/images/question.jpeg" style="max-height:250px;" /></center>`;
+                    document.getElementById('title').innerHTML = `<h1 style="text-align:center;color:`+color+`">Page Not Found</h1>`;
+                }
             }else{
                 document.getElementById('container').innerHTML = 'Page not found';
             }
