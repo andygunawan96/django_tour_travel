@@ -54,6 +54,7 @@ def write_cache(data, file_name):
 
 def write_cache_with_folder(data, file_name):
     try:
+        ## ISI DATA file_name HANYA NAMA FILE TANPA EXTENSION
         save_res = {}
         date_time = parse_save_cache(datetime.now())
         save_res['datetime'] = date_time
@@ -72,6 +73,7 @@ def write_cache_with_folder(data, file_name):
 
 def read_cache_without_folder_path(file_name, time=300):
     try:
+        ## ISI DATA file_name HANYA NAMA FILE TANPA EXTENSION
         date_time = datetime.now()
         file = open(var_log_path_without_folder() + "%s.txt" % (file_name), "r")
         data = file.read()
