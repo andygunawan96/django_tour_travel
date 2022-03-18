@@ -5751,17 +5751,7 @@ function check_passenger(adult, child, infant){
                            $("#infant_country_of_issued"+i+"_id").each(function() {
                              $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
                            });
-                        }if(is_lionair == true){
-                           duration = moment.duration(moment(document.getElementById('infant_passport_expired_date'+i).value).diff(last_departure_date));
-                           //CHECK EXPIRED
-                           if(duration._milliseconds < 0 ){
-                                error_log+= 'Please update ktp expired date for passenger infant '+i+'!</br>\n';
-                                document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
-                           }else
-                                document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-
                         }
-
                    }else if(document.getElementById('infant_id_type'+i).value == 'passport' && is_international == 'true'){
                        $("#infant_id_type"+i).each(function() {
                             $(this).parent().find('.nice-select').css('border', '0px solid red');
