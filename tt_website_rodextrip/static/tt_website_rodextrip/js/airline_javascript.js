@@ -4345,6 +4345,13 @@ function airline_detail(type){
                         if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary.length != 0)
                             airline_price.push({});
                         for(m in price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary){
+                            price_type = {
+                                'fare': 0,
+                                'tax':  0,
+                                'rac':  0,
+                                'roc':  0,
+                                'disc':  0,
+                            }
                             for(n in price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
                                 price_type[price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase()] = price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
                                 if(price_type.hasOwnProperty('currency') == false)

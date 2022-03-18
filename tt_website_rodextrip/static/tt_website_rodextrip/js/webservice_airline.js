@@ -2608,6 +2608,13 @@ function get_price_itinerary_request(){
                                     }
                                 }
                                 for(m in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary){
+                                    price_type = {
+                                        'fare': 0,
+                                        'tax':  0,
+                                        'rac':  0,
+                                        'roc':  0,
+                                        'disc':  0,
+                                    }
                                     for(n in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
                                         price_type[resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase()] = resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
                                         if(price_type.hasOwnProperty('currency') == false)
@@ -5638,15 +5645,53 @@ function airline_get_booking(data, sync=false){
                                 <td>`+msg.result.response.passengers[pax].birth_date+`</td>
                                 <td id="passenger_ticket_`+parseInt(pax)+`">`+ticket+`</td>
                                 <td>`+ff_request;
+                                fee_dict = {}; //bikin ke dict agar bisa fees per segment / journey
                                       try{
-                                          for(i in msg.result.response.passengers[pax].fees){
-                                            text += `<label>`;
-                                            if(msg.result.response.passengers[pax].fees[i].fee_name.toLowerCase().includes(msg.result.response.passengers[pax].fees[i].fee_category.toLowerCase()) == false)
-                                                text += msg.result.response.passengers[pax].fees[i].fee_category + ': ';
-                                            text += msg.result.response.passengers[pax].fees[i].fee_name + `</label><br/>`;
-                                          }
+                                            for(i in msg.result.response.passengers[pax].fees){
+                                                if(fee_dict.hasOwnProperty(msg.result.response.passengers[pax].fees[i].journey_code) == false){
+                                                    fee_dict[msg.result.response.passengers[pax].fees[i].journey_code] = {
+                                                        "fees": [],
+                                                    };
+                                                    found = false;
+                                                    for(j in msg.result.response.provider_bookings){
+                                                        for(k in msg.result.response.provider_bookings[j].journeys){
+                                                            if(msg.result.response.provider_bookings[j].journeys[k].journey_code == msg.result.response.passengers[pax].fees[i].journey_code){
+                                                                found = true;
+                                                                fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].origin = msg.result.response.provider_bookings[j].journeys[k].origin;
+                                                                fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].destination = msg.result.response.provider_bookings[j].journeys[k].destination;
+                                                                break;
+                                                            }
+                                                            for(l in msg.result.response.provider_bookings[j].journeys[k].segments){
+                                                                if(msg.result.response.provider_bookings[j].journeys[k].segments[l].segment_code == msg.result.response.passengers[pax].fees[i].journey_code){
+                                                                    found = true;
+                                                                    fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].origin = msg.result.response.provider_bookings[j].journeys[k].segments[l].origin;
+                                                                    fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].destination = msg.result.response.provider_bookings[j].journeys[k].segments[l].destination;
+                                                                    break;
+                                                                }
+                                                            }
+                                                            if(found)
+                                                                break;
+                                                        }
+                                                        if(found)
+                                                            break
+                                                    }
+                                                }
+                                                fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].fees.push({
+                                                    "fee_category": msg.result.response.passengers[pax].fees[i].fee_category,
+                                                    "fee_name": msg.result.response.passengers[pax].fees[i].fee_name
+                                                })
+                                            }
                                       }catch(err){
                                           console.log(err); // error kalau ada element yg tidak ada
+                                      }
+                                      for(i in fee_dict){
+                                            text += `<label>`+fee_dict[i].origin+` - `+fee_dict[i].destination+`</label><br/>`;
+                                            for(j in fee_dict[i].fees){
+                                                text += `<label>`;
+                                                if(fee_dict[i].fees[j].fee_name.toLowerCase().includes(fee_dict[i].fees[j].fee_category.toLowerCase()) == false)
+                                                    text += fee_dict[i].fees[j].fee_category + ': ';
+                                                text += fee_dict[i].fees[j].fee_name + `</label><br/>`;
+                                            }
                                       }
                                       text+=`
                                     </div>
