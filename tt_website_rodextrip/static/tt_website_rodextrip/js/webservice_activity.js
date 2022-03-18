@@ -2092,7 +2092,7 @@ function activity_get_price(val, bool){
         document.getElementById('date').innerHTML = `
             <div class="col-lg-6 form-group departure_date">
                 <label id="departure_date_activity_label" for="activity_date"><span style="color:red;">* </span><i class="fas fa-calendar-alt"></i> Visit Date</label>
-                <input id="activity_date" name="activity_date" onchange="" class="form-control" style="margin-bottom:unset; background:white;" type="text" placeholder="Please Select a Date" autocomplete="off" readonly/>
+                <input id="activity_date" name="activity_date" onchange="reset_activity_table_detail();" class="form-control" style="margin-bottom:unset; background:white;" type="text" placeholder="Please Select a Date" autocomplete="off" readonly/>
             </div>
        `;
 

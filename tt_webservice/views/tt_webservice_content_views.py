@@ -8,6 +8,7 @@ from tools.parser import *
 from ..static.tt_webservice.url import *
 import json
 import base64
+import re
 import logging
 import traceback
 from .tt_webservice_views import *
@@ -1002,16 +1003,18 @@ def set_dynamic_page(request):
         data = os.listdir('/var/log/django/page_dynamic')
         #create new
         title = request.POST['title']
-        counter = 1
-        generate_uuid = ''
-        if int(request.POST['page_number']) == -1:
+        if int(request.POST['page_number']) == -1: ##new page
+            title_duplicate_counter = 0
+            trimmed_title_name = re.compile('[\W_]+').sub(' ',title).strip().replace(' ','-') ## trimming non alphanumeric except "-" while replacing spaces to "-"
             while True:
-                generate_uuid = str(uuid.uuid4()).replace('-', '')
-                if generate_uuid + '.txt' not in data:
+                if trimmed_title_name + '.txt' not in data:
                     break
+                else:
+                    title_duplicate_counter += 1
+                    trimmed_title_name += str(title_duplicate_counter)
             text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + "image_dynamic/" + filename
-            write_cache(text, "page_dynamic/" + generate_uuid)
-        #replace
+            write_cache(text, "page_dynamic/" + trimmed_title_name)
+        #replace page
         else:
             if filename == '':
                 file = read_cache_without_folder_path("page_dynamic/" + data[int(request.POST['page_number'])][:-4], 90911)
