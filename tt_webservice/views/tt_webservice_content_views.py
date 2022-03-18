@@ -1005,7 +1005,7 @@ def set_dynamic_page(request):
         title = request.POST['title']
         if int(request.POST['page_number']) == -1: ##new page
             title_duplicate_counter = 0
-            trimmed_title_name = re.compile('[\W_]+').sub(' ',title).strip().replace(' ','-') ## trimming non alphanumeric except "-" while replacing spaces to "-"
+            trimmed_title_name = re.compile('[\W_]+').sub(' ',title).strip().lower().replace(' ','-') ## trimming non alphanumeric except "-" while replacing spaces to "-"
             while True:
                 if trimmed_title_name + '.txt' not in data:
                     break
