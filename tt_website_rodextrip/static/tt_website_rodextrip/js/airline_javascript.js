@@ -4353,7 +4353,10 @@ function airline_detail(type){
                                 'disc':  0,
                             }
                             for(n in price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
-                                price_type[price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase()] = price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
+                                if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase() == 'fare' || price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase() == 'rac')
+                                    price_type[price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase()] = price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
+                                else
+                                    price_type[price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase()] = price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].total;
                                 if(price_type.hasOwnProperty('currency') == false)
                                     price_type['currency'] = price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].currency;
                             }
@@ -4583,7 +4586,7 @@ function airline_detail(type){
                                         if(airline_price[price_counter].ADT['rac'] != null)
                                             commission = airline_price[price_counter].ADT['rac']
                                         commission_price += airline_request.adult * commission;
-                                        total_price += airline_request.adult * (airline_price[price_counter].ADT['fare'] + price);
+                                        total_price += (airline_request.adult * airline_price[price_counter].ADT['fare']) + price;
                                         text+=`
                                             <div class="row" style="padding:5px;">
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
@@ -4593,17 +4596,17 @@ function airline_detail(type){
                                                     <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Adult Fare @`+airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare))+`</span><br/>
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
-                                                    <span style="font-size:13px; font-weight:500;">    Tax @`+airline_price[price_counter].ADT.currency+` `+getrupiah(Math.ceil(price))+`</span>
+                                                    <span style="font-size:13px; font-weight:500;">    Service Charge `+airline_price[price_counter].ADT.currency+` `+getrupiah(Math.ceil(price))+`</span>
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
-                                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].ADT.currency+` `+getrupiah(Math.ceil((airline_price[price_counter].ADT.fare+price) * airline_request.adult))+`</span>
+                                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].ADT.currency+` `+getrupiah(Math.ceil((airline_price[price_counter].ADT.fare * airline_request.adult) +price))+`</span>
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                                                 </div>
                                            </div>`;
                                         $text += airline_request.adult + ' Adult Fare @'+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare))+'\n';
-                                        $text += airline_request.adult + ' Adult Tax @'+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(price))+'\n';
+                                        $text += 'Adult Tax '+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(price))+'\n';
                                         price = 0;
                                         total_price_provider.push({
                                             'provider': price_itinerary_temp[i].provider,
@@ -4628,24 +4631,24 @@ function airline_detail(type){
                                         if(airline_price[price_counter].CHD['rac'] != null)
                                             commission = airline_price[price_counter].CHD['rac'];
                                         commission_price += airline_request.child * commission;
-                                        total_price += airline_request.child * (airline_price[price_counter].CHD['fare'] + price);
+                                        total_price += (airline_request.child * airline_price[price_counter].CHD['fare']) + price;
                                         text+=`
                                             <div class="row" style="padding:5px;">
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
                                                     <span style="font-size:13px; font-weight:500;">`+airline_request.child+`x Child Fare @`+airline_price[price_counter].CHD.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].CHD.fare))+`</span><br/>
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
-                                                    <span style="font-size:13px; font-weight:500;">Tax @`+airline_price[price_counter].CHD.currency+` `+getrupiah(Math.ceil(price))+`</span>
+                                                    <span style="font-size:13px; font-weight:500;">Service Charge `+airline_price[price_counter].CHD.currency+` `+getrupiah(Math.ceil(price))+`</span>
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
-                                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].CHD.currency+` `+getrupiah(Math.ceil((airline_price[price_counter].CHD.fare+price) * airline_request.child))+`</span>
+                                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].CHD.currency+` `+getrupiah(Math.ceil((airline_price[price_counter].CHD.fare * airline_request.child)+price))+`</span>
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                                                 </div>
                                             </div>`;
                                         $text += airline_request.child + ' Child Fare @'+ airline_price[price_counter].CHD.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].CHD.fare))+'\n';
-                                        $text += airline_request.child + ' Child Tax @'+ airline_price[price_counter].CHD.currency +' '+getrupiah(Math.ceil(price))+'\n';
+                                        $text += 'Child Tax '+ airline_price[price_counter].CHD.currency +' '+getrupiah(Math.ceil(price))+'\n';
                                         price = 0;
                                         total_price_provider.push({
                                             'provider': price_itinerary_temp[i].provider,
@@ -4675,24 +4678,24 @@ function airline_detail(type){
 
                                         }
                                         commission_price += airline_request.infant * commission;
-                                        total_price += airline_request.infant * (airline_price[price_counter].INF['fare'] + price);
+                                        total_price += (airline_request.infant * airline_price[price_counter].INF['fare']) + price;
                                         text+=`
                                             <div class="row" style="padding:5px;">
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
                                                     <span style="font-size:13px; font-weight:500;">`+airline_request.infant+`x Infant Fare @`+airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare))+`</span><br/>
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
-                                                    <span style="font-size:13px; font-weight:500;">    Tax @`+airline_price[price_counter].INF.currency+` `+getrupiah(Math.ceil(price))+`</span>
+                                                    <span style="font-size:13px; font-weight:500;">    Service Charge `+airline_price[price_counter].INF.currency+` `+getrupiah(Math.ceil(price))+`</span>
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
-                                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].INF.currency+` `+getrupiah(Math.ceil((airline_price[price_counter].INF.fare+price) * airline_request.infant))+`</span>
+                                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].INF.currency+` `+getrupiah(Math.ceil((airline_price[price_counter].INF.fare * airline_request.infant)+price))+`</span>
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                                                 </div>
                                             </div>`;
                                         $text += airline_request.infant + ' Infant Fare @'+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare+price))+'\n';
-                                        $text += airline_request.infant + ' Infant Tax @'+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(price))+'\n';
+                                        $text += 'Infant Tax '+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(price))+'\n';
                                         price = 0;
                                         total_price_provider.push({
                                             'provider': price_itinerary_temp[i].provider,
