@@ -410,10 +410,10 @@ function add_table_of_passenger_verify(type){
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                        <div class="col-lg-7 col-md-7 col-sm-7 mb-2">
                             <input class="form-control" type="text" id="train_`+(counter_passenger+1)+`_search" placeholder="Search"/>
                         </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <div class="col-lg-5 col-md-5 col-sm-5">
                             <button type="button" class="primary-btn" id="passenger_btn_io_click`+(counter_passenger+1)+`" onclick="get_customer_list('','`+(counter_passenger+1)+`','medical')">Search</button>
                         </div>
                     </div>
@@ -511,7 +511,7 @@ function add_table_of_passenger_verify(type){
 
 
                     text_div_paxs+=`
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6">
                         <br/>
                         <label style="color:red !important">*</label>
                         <label>First name and middle name (if any)</label>
@@ -521,7 +521,7 @@ function add_table_of_passenger_verify(type){
                         </div>
                         <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label><br/>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6">
                         <br/>
                         <label>Last name</label>
                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -538,7 +538,7 @@ function add_table_of_passenger_verify(type){
                     //ini phc
                     if(vendor == 'phc'){
                         text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6">
                             <label style="color:red !important">*</label>
                             <label>Tempat Lahir</label>`;
                             if(template == 1){
@@ -578,7 +578,7 @@ function add_table_of_passenger_verify(type){
                     }
 
                     text_div_paxs+=`
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6">
                         <label style="color:red !important">*</label>
                         <label>Birth Date</label>
                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -592,7 +592,7 @@ function add_table_of_passenger_verify(type){
 
 
                     text_div_paxs+=`
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6 mb-3">
                         <label style="color:red !important">*</label>
                         <label>ID Type</label>`;
                         if(template == 1){
@@ -637,7 +637,7 @@ function add_table_of_passenger_verify(type){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6 mb-2">
                         <label style="color:red !important">*</label>
                         <label>Identity Number</label>
                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -645,7 +645,7 @@ function add_table_of_passenger_verify(type){
                         </div>
                     </div>
 
-                    <div class="col-lg-6 col-md-6 col-sm-6" id="identity_exp_date_hidden`+parseInt(counter_passenger+1)+`" hidden>
+                    <div class="col-lg-6" id="identity_exp_date_hidden`+parseInt(counter_passenger+1)+`" hidden>
                         <label style="color:red !important">*</label>
                         <label>Identity Expired Date</label>
                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -667,7 +667,7 @@ function add_table_of_passenger_verify(type){
                         <label style="color:red !important">*</label>
                         <label>WA Number (WhatsApp Number)</label>
                         <div class="row">
-                            <div class="col-lg-3">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-5">
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
                                         <select id="adult_phone_code`+parseInt(counter_passenger+1)+`_id" name="adult_phone_code`+parseInt(counter_passenger+1)+`_id" class="form-control js-example-basic-single">`;
@@ -683,7 +683,7 @@ function add_table_of_passenger_verify(type){
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-9">
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-7">
                                 <input type="text" class="form-control" name="adult_phone`+parseInt(counter_passenger+1)+`" id="adult_phone`+parseInt(counter_passenger+1)+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
                             </div>
                         </div>
@@ -863,8 +863,8 @@ function add_table_of_passenger(type){
             Customer #`+(parseInt(counter_passenger)+1)+`
         </span>
     </div>
-    <div class="col-lg-12 mb-4" style="border:1px solid `+color+`; padding:20px 15px 0px 15px;" id="div_form_customer`+counter_passenger+`">
-        <span id="span_customer_data`+counter_passenger+`" style="color:red; font-weight:bold;"></span><br/>
+    <div class="col-lg-12 mb-4" style="border:1px solid `+color+`;" id="div_form_customer`+counter_passenger+`">
+        <span id="span_customer_data`+counter_passenger+`" style="color:red; font-weight:bold;"></span>
         <div class="row mt-2">`;
             text+=`<div class="col-lg-12 mt-4 mb-3">`;
 
@@ -924,10 +924,10 @@ function add_table_of_passenger(type){
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                        <div class="col-lg-7 col-md-7 col-sm-7 mb-2">
                             <input class="form-control" type="text" id="train_`+(counter_passenger+1)+`_search" placeholder="Search"/>
                         </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <div class="col-lg-5 col-md-5 col-sm-5">
                             <button type="button" class="primary-btn" id="passenger_btn_io_click`+(counter_passenger+1)+`" onclick="get_customer_list('','`+(counter_passenger+1)+`','medical')">Search</button>
                         </div>
                     </div>
@@ -1027,7 +1027,7 @@ function add_table_of_passenger(type){
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6">
                         <br/>
                         <label style="color:red !important">*</label>
                         <label>First name and middle name (if any)</label>
@@ -1037,7 +1037,7 @@ function add_table_of_passenger(type){
                         </div>
                         <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6">
                         <br/>
                         <label>Last name</label>
                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -1047,7 +1047,7 @@ function add_table_of_passenger(type){
                     </div>`;
 
                     text_div_paxs+=`
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6">
                         <label style="color:red !important">*</label>
                         <label>Nationality</label>`;
                         if(template == 1 || template == 5 || template == 6){
@@ -1079,7 +1079,7 @@ function add_table_of_passenger(type){
                     //ini phc
 
                     text_div_paxs+=`
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6 mb-2">
                         <label style="color:red !important">*</label>
                         <label>Birth Date</label>
                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -1089,7 +1089,7 @@ function add_table_of_passenger(type){
                     </div>`;
 
                     text_div_paxs+=`
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6 mb-3">
                         <label style="color:red !important">*</label>
                         <label>ID Type</label>`;
                         if(template == 1){
@@ -1129,7 +1129,7 @@ function add_table_of_passenger(type){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6 mb-2">
                         <label style="color:red !important">*</label>
                         <label>Identity Number</label>
                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -1137,7 +1137,7 @@ function add_table_of_passenger(type){
                         </div>
                     </div>
 
-                    <div class="col-lg-6 col-md-6 col-sm-6" id="identity_exp_date_hidden`+parseInt(counter_passenger+1)+`" hidden>
+                    <div class="col-lg-6" id="identity_exp_date_hidden`+parseInt(counter_passenger+1)+`" hidden>
                         <label style="color:red !important">*</label>
                         <label>Identity Expired Date</label>
                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -1147,7 +1147,7 @@ function add_table_of_passenger(type){
                     </div>`;
 
                     text_div_paxs+=`
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6">
                         <label style="color:red !important">*</label>
                         <label>Country of Issued</label>`;
                         if(template == 1){
@@ -1260,7 +1260,7 @@ function add_table_of_passenger(type){
 
 
                     text_div_paxs+=`
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6">
                         <label style="color:red !important">*</label>
                         <label>Address KTP</label>
                         <div class="input-container-search-ticket">
@@ -1268,7 +1268,7 @@ function add_table_of_passenger(type){
                         </div>
                         <label style="font-size:12px; padding:0;">Example: Jl. Raya Darmo 177B</label>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_`+parseInt(counter_passenger+1)+`">
+                    <div class="col-lg-6" id="adult_cp_hidden1_`+parseInt(counter_passenger+1)+`">
                         <label style="color:red !important">*</label>
                         <label>Contact Email Address</label>
                         <div class="input-container-search-ticket">
@@ -1283,7 +1283,7 @@ function add_table_of_passenger(type){
                         <label style="color:red !important">*</label>
                         <label>WA Number (WhatsApp Number)</label>
                         <div class="row">
-                            <div class="col-lg-3">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-5">
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
                                         <select id="adult_phone_code`+parseInt(counter_passenger+1)+`_id" name="adult_phone_code`+parseInt(counter_passenger+1)+`_id" class="js-example-basic-single form-control">`;
@@ -1299,7 +1299,7 @@ function add_table_of_passenger(type){
                                     <input type="hidden" name="adult_phone_code`+parseInt(counter_passenger+1)+`" id="adult_phone_code`+parseInt(counter_passenger+1)+`" />
                                 </div>
                             </div>
-                            <div class="col-lg-9">
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-7">
                                 <input type="text" class="form-control" name="adult_phone`+parseInt(counter_passenger+1)+`" id="adult_phone`+parseInt(counter_passenger+1)+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onkeyup="onchange_number_no_zero(`+parseInt(counter_passenger+1)+`)">
                             </div>
                         </div>

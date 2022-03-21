@@ -401,7 +401,7 @@
                                             <!--                                                <span class="checkmark-radio"></span>-->
                                             <!--                                            </label>-->
                                         </div>
-                                        <div class="col-lg-6" style="text-align:right;">
+                                        <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -452,7 +452,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red !important;">*</label>
                                             <label>{% trans "Title" %}</label>
                                             <div class="input-container-search-ticket">
@@ -465,7 +465,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:30px;">
                                             <div class="row" style="margin:0">
                                                 <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
                                                 <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans "Corporate Booker" %}</button>
@@ -548,7 +548,7 @@
                                             <label style="color:red !important;">*</label>
                                             <label style="margin:0;">{% trans 'WA Number (WhatsApp Number)' %}:</label>
                                             <div class="row">
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-5">
                                                     <div class="form-select">
                                                         <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('train');" class="nice-select-default">
                                                             {% for phone in phone_code %}
@@ -558,7 +558,7 @@
                                                     </div>
                                                     <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                                 </div>
-                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-7">
                                                     <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="{% trans 'Phone' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('train');">
                                                     <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                                 </div>
@@ -574,7 +574,7 @@
                         <div class="row" id="copy_booker_div" style="margin-bottom:20px;margin-top:20px;display:none;">
                             <div class="col-lg-12">
                                 <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
-                                    <label>{% trans 'Do you book this trip for you?' %}</label>
+                                    <label>{% trans 'Do you book this reservation for you?' %}</label><br/>
                                     <label class="radio-button-custom">
                                         {% trans 'Yes' %}
                                         <input type="radio" name="copy" onchange="copy_booker_to_passenger('copy','medical');" value="yes"/>
@@ -660,7 +660,7 @@
                 <div class="row" id="copy_booker_to_pax_div" hidden>
                     <div class="col-lg-8" style="display:none;">
                         <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
-                            <label>{% trans 'Do you book this reservation for you?' %}</label>
+                            <label>{% trans 'Do you book this reservation for you?' %}</label><br/>
                             <label class="radio-button-custom">
                                 {% trans 'Yes' %}
                                 <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','medical');" value="yes"/>
@@ -957,7 +957,7 @@
                                                 <!--                                                <span class="checkmark-radio"></span>-->
                                                 <!--                                            </label>-->
                                             </div>
-                                            <div class="col-lg-6" style="text-align:right;">
+                                            <div class="col-lg-6 mb-3" style="text-align:right;">
                                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                                 <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                 <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -1008,7 +1008,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-6 col-xs-6">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                                 <label style="color:red !important;">*</label>
                                                 <label>{% trans "Title" %}</label>
                                                 <div class="input-container-search-ticket">
@@ -1021,7 +1021,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:30px;">
                                                 <div class="row" style="margin:0">
                                                     <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
                                                     <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans "Corporate Booker" %}</button>
@@ -1104,7 +1104,7 @@
                                                 <label style="color:red !important;">*</label>
                                                 <label style="margin:0;">{% trans 'WA Number (WhatsApp Number)' %}:</label>
                                                 <div class="row">
-                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-5">
                                                         <div class="form-select">
                                                             <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('train');" class="nice-select-default">
                                                                 {% for phone in phone_code %}
@@ -1114,7 +1114,7 @@
                                                         </div>
                                                         <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                                     </div>
-                                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-7">
                                                         <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="{% trans 'Phone' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('train');">
                                                         <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                                     </div>
@@ -1190,7 +1190,7 @@
                     <div class="row" id="copy_booker_to_pax_div" hidden>
                         <div class="col-lg-8" style="display:none;">
                             <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
-                                <label>{% trans 'Do you book this reservation for you?' %}</label>
+                                <label>{% trans 'Do you book this reservation for you?' %}</label><br/>
                                 <label class="radio-button-custom">
                                     {% trans 'Yes' %}
                                     <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','medical');" value="yes"/>
@@ -1508,7 +1508,7 @@
                                             <!--                                                <span class="checkmark-radio"></span>-->
                                             <!--                                            </label>-->
                                         </div>
-                                        <div class="col-lg-6" style="text-align:right;">
+                                        <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -1559,7 +1559,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red !important;">*</label>
                                             <label>{% trans "Title" %}</label>
                                             <div class="form-group">
@@ -1655,7 +1655,7 @@
                                             <label style="color:red !important;">*</label>
                                             <label style="margin:0;">{% trans 'WA Number (WhatsApp Number)' %}:</label>
                                             <div class="row">
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-5">
                                                     <div class="form-select">
                                                         <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('train');" class="nice-select-default">
                                                             {% for phone in phone_code %}
@@ -1665,7 +1665,7 @@
                                                     </div>
                                                     <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                                 </div>
-                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-7">
                                                     <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="{% trans 'Phone' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('train');">
                                                     <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                                 </div>
@@ -1741,7 +1741,7 @@
                 <div class="row" id="copy_booker_to_pax_div" hidden>
                     <div class="col-lg-8" style="display:none;">
                         <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
-                            <label>{% trans 'Do you book this reservation for you?' %}</label>
+                            <label>{% trans 'Do you book this reservation for you?' %}</label><br/>
                             <label class="radio-button-custom">
                                 {% trans 'Yes' %}
                                 <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','medical');" value="yes"/>
@@ -2036,7 +2036,7 @@
                                         <!--                                                <span class="checkmark-radio"></span>-->
                                         <!--                                            </label>-->
                                     </div>
-                                    <div class="col-lg-6" style="text-align:right;">
+                                    <div class="col-lg-6 mb-3" style="text-align:right;">
                                         {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                         <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                         <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -2087,7 +2087,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-6 col-xs-6">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                         <label style="color:red !important;">*</label>
                                         <label>{% trans "Title" %}</label>
                                         <div class="input-container-search-ticket">
@@ -2100,7 +2100,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:30px;">
                                         <div class="row" style="margin:0">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
                                             <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans "Corporate Booker" %}</button>
@@ -2183,7 +2183,7 @@
                                         <label style="color:red !important;">*</label>
                                         <label style="margin:0;">{% trans 'WA Number (WhatsApp Number)' %}:</label>
                                         <div class="row">
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-5">
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('train');" class="nice-select-default">
                                                         {% for phone in phone_code %}
@@ -2193,7 +2193,7 @@
                                                 </div>
                                                 <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                             </div>
-                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-7">
                                                 <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="{% trans 'Phone' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('train');">
                                                 <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                             </div>
@@ -2270,7 +2270,7 @@
             <div class="row" id="copy_booker_to_pax_div" hidden>
                 <div class="col-lg-8" style="display:none;">
                     <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
-                        <label>{% trans 'Do you book this reservation for you?' %}</label>
+                        <label>{% trans 'Do you book this reservation for you?' %}</label><br/>
                         <label class="radio-button-custom">
                             {% trans 'Yes' %}
                             <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','medical');" value="yes"/>
@@ -2565,7 +2565,7 @@
                                             <!--                                                <span class="checkmark-radio"></span>-->
                                             <!--                                            </label>-->
                                         </div>
-                                        <div class="col-lg-6" style="text-align:right;">
+                                        <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -2616,7 +2616,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red !important;">*</label>
                                             <label>{% trans "Title" %}</label>
                                             <div class="input-container-search-ticket">
@@ -2712,7 +2712,7 @@
                                             <label style="color:red !important;">*</label>
                                             <label style="margin:0;">{% trans 'WA Number (WhatsApp Number)' %}:</label>
                                             <div class="row">
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-5">
                                                     <div class="form-select">
                                                         <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('train');" class="nice-select-default">
                                                             {% for phone in phone_code %}
@@ -2722,7 +2722,7 @@
                                                     </div>
                                                     <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                                 </div>
-                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-7">
                                                     <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="{% trans 'Phone' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('train');">
                                                     <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                                 </div>
@@ -2799,7 +2799,7 @@
                 <div class="row" id="copy_booker_to_pax_div" hidden>
                     <div class="col-lg-8" style="display:none;">
                         <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
-                            <label>{% trans 'Do you book this reservation for you?' %}</label>
+                            <label>{% trans 'Do you book this reservation for you?' %}</label><br/>
                             <label class="radio-button-custom">
                                 {% trans 'Yes' %}
                                 <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','medical');" value="yes"/>
@@ -3095,7 +3095,7 @@
                                             <!--                                                <span class="checkmark-radio"></span>-->
                                             <!--                                            </label>-->
                                         </div>
-                                        <div class="col-lg-6" style="text-align:right;">
+                                        <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
@@ -3146,7 +3146,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red !important;">*</label>
                                             <label>{% trans "Title" %}</label>
                                             <div class="input-container-search-ticket">
@@ -3159,7 +3159,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:30px;">
                                             <div class="row" style="margin:0">
                                                 <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
                                                 <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> {% trans "Corporate Booker" %}</button>
@@ -3242,7 +3242,7 @@
                                             <label style="color:red !important;">*</label>
                                             <label style="margin:0;">{% trans 'WA Number (WhatsApp Number)' %}:</label>
                                             <div class="row">
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-5">
                                                     <div class="form-select">
                                                         <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('train');" class="nice-select-default">
                                                             {% for phone in phone_code %}
@@ -3252,7 +3252,7 @@
                                                     </div>
                                                     <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                                 </div>
-                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-7">
                                                     <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="{% trans 'Phone' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('train');">
                                                     <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                                 </div>
@@ -3328,7 +3328,7 @@
                 <div class="row" id="copy_booker_to_pax_div" hidden>
                     <div class="col-lg-8" style="display:none;">
                         <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
-                            <label>{% trans 'Do you book this reservation for you?' %}</label>
+                            <label>{% trans 'Do you book this reservation for you?' %}</label><br/>
                             <label class="radio-button-custom">
                                 {% trans 'Yes' %}
                                 <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','medical');" value="yes"/>

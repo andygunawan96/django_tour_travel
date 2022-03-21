@@ -421,10 +421,10 @@ function add_table_of_passenger_verify(type){
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                        <div class="col-lg-7 col-md-7 col-sm-7">
                             <input class="form-control" type="text" id="train_`+(counter_passenger+1)+`_search" placeholder="Search"/>
                         </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <div class="col-lg-5 col-md-5 col-sm-5">
                             <button type="button" class="primary-btn" id="passenger_btn_io_click`+(counter_passenger+1)+`" onclick="get_customer_list('','`+(counter_passenger+1)+`','medical')">Search</button>
                         </div>
                     </div>
@@ -522,7 +522,7 @@ function add_table_of_passenger_verify(type){
 
 
                     text_div_paxs+=`
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6">
                         <br/>
                         <label style="color:red !important">*</label>
                         <label>First name and middle name (if any)</label>
@@ -532,7 +532,7 @@ function add_table_of_passenger_verify(type){
                         </div>
                         <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label><br/>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6">
                         <br/>
                         <label>Last name</label>
                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -549,7 +549,7 @@ function add_table_of_passenger_verify(type){
                     //ini phc
                     if(vendor == 'phc'){
                         text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 mb-3">
                             <label style="color:red !important">*</label>
                             <label>Tempat Lahir</label>`;
                             if(template == 1){
@@ -589,7 +589,7 @@ function add_table_of_passenger_verify(type){
                     }
 
                     text_div_paxs+=`
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6 mb-2">
                         <label style="color:red !important">*</label>
                         <label>Birth Date</label>
                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -603,7 +603,7 @@ function add_table_of_passenger_verify(type){
 
 
                     text_div_paxs+=`
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6 mb-3">
                         <label style="color:red !important">*</label>
                         <label>ID Type</label>`;
                         if(template == 1){
@@ -646,7 +646,7 @@ function add_table_of_passenger_verify(type){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6 mb-1">
                         <label style="color:red !important">*</label>
                         <label>Identity Number</label>
                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -654,7 +654,7 @@ function add_table_of_passenger_verify(type){
                         </div>
                     </div>
 
-                    <div class="col-lg-6 col-md-6 col-sm-6" id="identity_exp_date_hidden`+parseInt(counter_passenger+1)+`" hidden>
+                    <div class="col-lg-6" id="identity_exp_date_hidden`+parseInt(counter_passenger+1)+`" hidden>
                         <label style="color:red !important">*</label>
                         <label>Identity Expired Date</label>
                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -676,7 +676,7 @@ function add_table_of_passenger_verify(type){
                         <label style="color:red !important">*</label>
                         <label>WA Number (WhatsApp Number)</label>
                         <div class="row">
-                            <div class="col-lg-3">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-5">
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
                                         <select id="adult_phone_code`+parseInt(counter_passenger+1)+`_id" name="adult_phone_code`+parseInt(counter_passenger+1)+`_id" class="form-control js-example-basic-single">`;
@@ -692,7 +692,7 @@ function add_table_of_passenger_verify(type){
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-9">
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-7">
                                 <input type="text" class="form-control" name="adult_phone`+parseInt(counter_passenger+1)+`" id="adult_phone`+parseInt(counter_passenger+1)+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
                             </div>
                         </div>
@@ -872,8 +872,8 @@ function add_table_of_passenger(type){
             Customer #`+(parseInt(counter_passenger)+1)+`
         </span>
     </div>
-    <div class="col-lg-12 mb-4" style="border:1px solid `+color+`; padding:20px 15px 0px 15px;" id="div_form_customer`+counter_passenger+`">
-        <span id="span_customer_data`+counter_passenger+`" style="color:red; font-weight:bold;"></span><br/>
+    <div class="col-lg-12 mb-4" style="border:1px solid `+color+`;" id="div_form_customer`+counter_passenger+`">
+        <span id="span_customer_data`+counter_passenger+`" style="color:red; font-weight:bold;"></span>
         <div class="row mt-2">`;
             text+=`<div class="col-lg-12 mt-4 mb-3">`;
 
@@ -1138,7 +1138,7 @@ function add_table_of_passenger(type){
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6">
                         <br/>
                         <label style="color:red !important">*</label>
                         <label>First name and middle name (if any)</label>
@@ -1148,7 +1148,7 @@ function add_table_of_passenger(type){
                         </div>
                         <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6">
                         <br/>
                         <label>Last name</label>
                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -1160,7 +1160,7 @@ function add_table_of_passenger(type){
                     if(vendor == 'phc'){
                         if(test_type.includes('PCR')){
                             text_div_paxs+=`
-                            <div class="col-lg-6 col-md-6 col-sm-6" hidden>
+                            <div class="col-lg-6" hidden>
                                 <label style="color:red !important">*</label>
                                 <label>Mother name</label>
                                 <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -1171,7 +1171,7 @@ function add_table_of_passenger(type){
                     }
 
                     text_div_paxs+=`
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6">
                         <label style="color:red !important">*</label>
                         <label>Nationality</label>`;
                         if(template == 1 || template == 5 || template == 6){
@@ -1208,7 +1208,7 @@ function add_table_of_passenger(type){
                     //ini phc
                     if(vendor == 'phc'){
                         text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 mb-3">
                             <label style="color:red !important">*</label>
                             <label>Tempat Lahir</label>`;
                             if(template == 1){
@@ -1248,7 +1248,7 @@ function add_table_of_passenger(type){
                     }
 
                     text_div_paxs+=`
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6 mb-2">
                         <label style="color:red !important">*</label>
                         <label>Birth Date</label>
                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -1258,7 +1258,7 @@ function add_table_of_passenger(type){
                     </div>`;
 
                     text_div_paxs+=`
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6 mb-3">
                         <label id="adult_identity_div1" style="color:red !important">*</label>
                         <label>ID Type</label>`;
                         if(template == 1){
@@ -1301,7 +1301,7 @@ function add_table_of_passenger(type){
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6 mb-1">
                         <label style="color:red !important">*</label>
                         <label>Identity Number</label>
                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -1309,7 +1309,7 @@ function add_table_of_passenger(type){
                         </div>
                     </div>
 
-                    <div class="col-lg-6 col-md-6 col-sm-6" id="identity_exp_date_hidden`+parseInt(counter_passenger+1)+`" hidden>
+                    <div class="col-lg-6 mb-1" id="identity_exp_date_hidden`+parseInt(counter_passenger+1)+`" hidden>
                         <label style="color:red !important">*</label>
                         <label>Identity Expired Date</label>
                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -1319,7 +1319,7 @@ function add_table_of_passenger(type){
                     </div>`;
 
                     text_div_paxs+=`
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6">
                         <label style="color:red !important">*</label>
                         <label>Country of Issued</label>`;
                         if(template == 1){
@@ -1432,7 +1432,7 @@ function add_table_of_passenger(type){
 
 
                     text_div_paxs+=`
-                    <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_`+parseInt(counter_passenger+1)+`">
+                    <div class="col-lg-6 mb-3" id="adult_cp_hidden1_`+parseInt(counter_passenger+1)+`">
                         <label style="color:red !important">*</label>
                         <label>Contact Email Address</label>
                         <div class="input-container-search-ticket">
@@ -1440,14 +1440,14 @@ function add_table_of_passenger(type){
                         </div>
                         <label style="font-size:12px; padding:0;">Example: email@example.com</label>
                     </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12 mb-2">
                         <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                     </div>
                     <div class="col-lg-6" id="adult_cp_hidden2_`+parseInt(counter_passenger+1)+`">
                         <label style="color:red !important">*</label>
                         <label>WA Number (WhatsApp Number)</label>
                         <div class="row">
-                            <div class="col-lg-3">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-5">
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
                                         <select id="adult_phone_code`+parseInt(counter_passenger+1)+`_id" name="adult_phone_code`+parseInt(counter_passenger+1)+`_id" class="js-example-basic-single form-control">`;
@@ -1463,7 +1463,7 @@ function add_table_of_passenger(type){
                                     <input type="hidden" name="adult_phone_code`+parseInt(counter_passenger+1)+`" id="adult_phone_code`+parseInt(counter_passenger+1)+`" />
                                 </div>
                             </div>
-                            <div class="col-lg-9">
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-7">
                                 <input type="text" class="form-control" name="adult_phone`+parseInt(counter_passenger+1)+`" id="adult_phone`+parseInt(counter_passenger+1)+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onkeyup="onchange_number_no_zero(`+parseInt(counter_passenger+1)+`)">
                             </div>
                         </div>
@@ -1473,7 +1473,7 @@ function add_table_of_passenger(type){
 
                     text_div_paxs+=`
 
-                    <div class="col-lg-6 col-md-6 col-sm-6" style="display:none;">
+                    <div class="col-lg-6" style="display:none;">
                         <label style="color:red !important">*</label>
                         <label>Golongan Darah</label>`;
                         if(template == 1){
@@ -1522,7 +1522,7 @@ function add_table_of_passenger(type){
                             <hr/>
                             <h4>Profession</h4>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                        <div class="col-lg-6" style="margin-top:15px;">
                             <label style="color:red !important">*</label>
                             <label>Profession</label>`;
                             if(template == 1){
@@ -1566,7 +1566,7 @@ function add_table_of_passenger(type){
                         </div>`;
 
                         text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                        <div class="col-lg-6" style="margin-top:15px;">
                             <div id="adult_work_place_div`+parseInt(counter_passenger+1)+`" style="display:none;">
                                 <label id="adult_work_place_label`+parseInt(counter_passenger+1)+`" style="color:white !important">*</label>
                                 <label>Work Place</label>
@@ -1578,7 +1578,7 @@ function add_table_of_passenger(type){
 
                         if(test_type.includes('PCR')){
                             text_div_paxs+=`
-                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                            <div class="col-lg-6" style="margin-top:15px;">
                                 <label style="color:red !important">*</label>
                                 <label>Asal Perusahaan/Rumah Sakit/Pribadi</label>`;
                                 if(template == 1){
@@ -1622,7 +1622,7 @@ function add_table_of_passenger(type){
                             </div>`;
 
                             text_div_paxs+=`
-                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                            <div class="col-lg-6" style="margin-top:15px;">
                                 <label style="color:red !important">*</label>
                                 <label>Nama Perusahaan/Rumah Sakit/Pribadi</label>
                                 <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -1642,7 +1642,7 @@ function add_table_of_passenger(type){
                             <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                         </div>`
                         text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 mb-2">
                             <label style="color:red !important">*</label>
                             <label>Address</label>
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -1652,7 +1652,7 @@ function add_table_of_passenger(type){
 
                         text_div_paxs+=`
 
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 mb-2">
                             <label style="color:red !important">*</label>
                             <label>Provinsi</label>`;
                             if(template == 1){
@@ -1693,7 +1693,7 @@ function add_table_of_passenger(type){
 
                         text_div_paxs+=`
 
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 mb-2">
                             <label style="color:red !important">*</label>
                             <label>Kabupaten/Kota</label>`;
                             if(template == 1){
@@ -1732,7 +1732,7 @@ function add_table_of_passenger(type){
 
                         text_div_paxs+=`
 
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 mb-2">
                             <label style="color:red !important">*</label>
                             <label>Kecamatan</label>`;
                             if(template == 1){
@@ -1771,7 +1771,7 @@ function add_table_of_passenger(type){
 
                         text_div_paxs+=`
 
-                        <div class="col-lg-6 col-md-6 col-sm-6 mt-2">
+                        <div class="col-lg-6 mb-2">
                             <label style="color:red !important">*</label>
                             <label>Kelurahan</label>`;
                             if(template == 1){
@@ -1832,14 +1832,14 @@ function add_table_of_passenger(type){
                         </div>`
 
                         text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 mb-2">
                             <label style="color:red !important">*</label>
                             <label>Address KTP</label>
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                 <input type="text" class="form-control" name="adult_address_ktp`+parseInt(counter_passenger+1)+`" id="adult_address_ktp`+parseInt(counter_passenger+1)+`" placeholder="Address KTP " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address KTP '" onchange="auto_change_copy_to_ktp(`+parseInt(counter_passenger+1)+`);">
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 mb-2">
                             <label style="color:red !important">*</label>
                             <label>RT KTP</label>
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -1847,7 +1847,7 @@ function add_table_of_passenger(type){
                             </div>
 
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 mb-2">
                             <label style="color:red !important">*</label>
                             <label>RW KTP</label>
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -1858,7 +1858,7 @@ function add_table_of_passenger(type){
 
                         text_div_paxs+=`
 
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 mb-2">
                             <label style="color:red !important">*</label>
                             <label>Kabupaten/Kota KTP</label>`;
                             if(template == 1){
@@ -1899,7 +1899,7 @@ function add_table_of_passenger(type){
 
                         text_div_paxs+=`
 
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 mb-2">
                             <label style="color:red !important">*</label>
                             <label>Kecamatan KTP</label>`;
                             if(template == 1){
@@ -1938,7 +1938,7 @@ function add_table_of_passenger(type){
 
                         text_div_paxs+=`
 
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 mb-2">
                             <label style="color:red !important">*</label>
                             <label>Kelurahan KTP</label>`;
                             if(template == 1){
@@ -1976,7 +1976,7 @@ function add_table_of_passenger(type){
                             </div>`;
 
                         text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="display:none;">
+                        <div class="col-lg-6 mb-2" style="display:none;">
                             <label style="color:white !important">*</label>
                             <label>ZIP CODE KTP (Kode Pos)</label>
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -1986,7 +1986,7 @@ function add_table_of_passenger(type){
 
                         //copy to ktp
                         text_div_paxs+= `
-                        <div class="col-lg-12 col-md-12 col-sm-12 mt-2">
+                        <div class="col-lg-12 col-md-12 col-sm-12 mb-2">
                             <hr/>
                             <label>Copy KTP to Domisili?</label>
                             <label class="radio-button-custom">
@@ -2010,14 +2010,14 @@ function add_table_of_passenger(type){
                             <span style="padding-right:10px; font-weight:700; font-size:15px;font-weight:bold;color:red">DATA HARUS BENAR KARENA TIDAK BISA DIUBAH</span><br/>
                         </div>`
                         text_div_paxs+=`
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 mb-2">
                             <label style="color:red !important">*</label>
                             <label>Address</label>
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                 <input type="text" class="form-control" style="background:white;" name="adult_address`+parseInt(counter_passenger+1)+`" id="adult_address`+parseInt(counter_passenger+1)+`" placeholder="Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address '" >
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 mb-2">
                             <label style="color:red !important">*</label>
                             <label>RT</label>
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -2025,7 +2025,7 @@ function add_table_of_passenger(type){
                             </div>
 
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 mb-2">
                             <label style="color:red !important">*</label>
                             <label>RW</label>
                             <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -2036,7 +2036,7 @@ function add_table_of_passenger(type){
 
                         text_div_paxs+=`
 
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 mb-2">
                             <label style="color:red !important">*</label>
                             <label>Kabupaten/Kota</label>`;
                             if(template == 1){
@@ -2077,7 +2077,7 @@ function add_table_of_passenger(type){
 
                         text_div_paxs+=`
 
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 mb-2">
                             <label style="color:red !important">*</label>
                             <label>Kecamatan</label>`;
                             if(template == 1){
@@ -2116,7 +2116,7 @@ function add_table_of_passenger(type){
 
                         text_div_paxs+=`
 
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 mb-2">
                             <label style="color:red !important">*</label>
                             <label>Kelurahan</label>`;
                             if(template == 1){
@@ -2153,7 +2153,7 @@ function add_table_of_passenger(type){
                                     </div>
                                 </div>`;
                             text_div_paxs+=`
-                            <div class="col-lg-6 col-md-6 col-sm-6" style='display:none;'>
+                            <div class="col-lg-6 mb-2" style='display:none;'>
                                 <label style="color:white !important">*</label>
                                 <label>ZIP CODE (Kode Pos)</label>
                                 <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -2202,7 +2202,7 @@ function add_table_of_passenger(type){
                                         </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6 mt-2">
+                                <div class="col-lg-6 mb-2 mt-2">
                                     <label style="color:red !important">*</label>
                                     <label>Kriteria Covid</label>`;
                                     if(template == 1){
@@ -2247,7 +2247,7 @@ function add_table_of_passenger(type){
                                 </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                <div class="col-lg-6" style="margin-top:15px;">
                                     <label style="color:red !important">*</label>
                                     <label>Pemeriksaan Swab Keberapa</label>
                                     <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -2258,7 +2258,7 @@ function add_table_of_passenger(type){
                                 </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                <div class="col-lg-6" style="margin-top:15px;">
                                     <label style="color:red !important">*</label>
                                     <label>Pernah di rawat di RS sebelumnya?</label>`;
                                     if(template == 1){
@@ -2304,14 +2304,14 @@ function add_table_of_passenger(type){
                                 </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;" id="nama_rs_div`+parseInt(counter_passenger+1)+`" hidden>
+                                <div class="col-lg-6 mb-3" style="margin-top:15px;" id="nama_rs_div`+parseInt(counter_passenger+1)+`" hidden>
                                     <label style="color:red !important">*</label>
                                     <label>Nama RS</label>
                                     <input type="text" class="form-control date-picker-birth" name="adult_nama_rs`+parseInt(counter_passenger+1)+`" id="adult_nama_rs`+parseInt(counter_passenger+1)+`" placeholder="Nama RS " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama RS '" autocomplete="off">
                                 </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6" id="tanggal_masuk_rs`+parseInt(counter_passenger+1)+`" hidden>
+                                <div class="col-lg-6 mb-3" id="tanggal_masuk_rs`+parseInt(counter_passenger+1)+`" hidden>
                                     <label style="color:red !important">*</label>
                                     <label>Tanggal Masuk RS</label>
                                     <div class="input-container-search-ticket">
@@ -2321,7 +2321,7 @@ function add_table_of_passenger(type){
                                 </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6" id="nama_ruang_perawatan`+parseInt(counter_passenger+1)+`" hidden>
+                                <div class="col-lg-6 mb-1" id="nama_ruang_perawatan`+parseInt(counter_passenger+1)+`" hidden>
                                     <label style="color:white !important">*</label>
                                     <label>Nama Ruang Perawatan</label>
                                     <div class="input-container-search-ticket" style="margin-bottom:0px;">
@@ -2330,7 +2330,7 @@ function add_table_of_passenger(type){
                                 </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;" id="adult_sedang_dirawat_di_icu_div`+parseInt(counter_passenger+1)+`" hidden>
+                                <div class="col-lg-6" style="margin-top:15px;" id="adult_sedang_dirawat_di_icu_div`+parseInt(counter_passenger+1)+`" hidden>
                                     <label style="color:red !important">*</label>
                                     <label>Sedang Dirawat ICU</label>`;
                                     if(template == 1){
@@ -2371,7 +2371,7 @@ function add_table_of_passenger(type){
                                 </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;" id="adult_status_terakhir_div`+parseInt(counter_passenger+1)+`" hidden>
+                                <div class="col-lg-6" style="margin-top:15px;" id="adult_status_terakhir_div`+parseInt(counter_passenger+1)+`" hidden>
                                     <label style="color:white !important">*</label>
                                     <label>Status Terakhir</label>`;
                                     if(template == 1){
@@ -2412,7 +2412,7 @@ function add_table_of_passenger(type){
                                 </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;" id="adult_menggunakan_intubasi_div`+parseInt(counter_passenger+1)+`" hidden>
+                                <div class="col-lg-6" style="margin-top:15px;" id="adult_menggunakan_intubasi_div`+parseInt(counter_passenger+1)+`" hidden>
                                     <label style="color:white !important">*</label>
                                     <label>Menggunakan Intubasi</label>`;
                                     if(template == 1){
@@ -2453,7 +2453,7 @@ function add_table_of_passenger(type){
                                 </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;" id="adult_menggunakan_emco_div`+parseInt(counter_passenger+1)+`" hidden>
+                                <div class="col-lg-6" style="margin-top:15px;" id="adult_menggunakan_emco_div`+parseInt(counter_passenger+1)+`" hidden>
                                     <label style="color:red !important">*</label>
                                     <label>Menggunakan Emco</label>`;
                                     if(template == 1){
@@ -2494,7 +2494,7 @@ function add_table_of_passenger(type){
                                 </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;" hidden>
+                                <div class="col-lg-6" style="margin-top:15px;" hidden>
                                     <label style="color:red !important">*</label>
                                     <label>Nama RS Lainnya</label>
                                     <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -2503,7 +2503,7 @@ function add_table_of_passenger(type){
                                 </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;" id="adult_klinis_ada_penumonia_div`+parseInt(counter_passenger+1)+`" hidden>
+                                <div class="col-lg-6" style="margin-top:15px;" id="adult_klinis_ada_penumonia_div`+parseInt(counter_passenger+1)+`" hidden>
                                     <label style="color:red !important">*</label>
                                     <label>Penumonia</label>`;
                                     if(template == 1){
@@ -2544,7 +2544,7 @@ function add_table_of_passenger(type){
                                 </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;" id="adult_klinis_ada_ards_div`+parseInt(counter_passenger+1)+`" hidden>
+                                <div class="col-lg-6" style="margin-top:15px;" id="adult_klinis_ada_ards_div`+parseInt(counter_passenger+1)+`" hidden>
                                     <label style="color:red !important">*</label>
                                     <label>ARDS (Acute Respiratory Distress Syndrom)</label>`;
                                     if(template == 1){
@@ -2585,7 +2585,7 @@ function add_table_of_passenger(type){
                                 </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;" id="ards_detail_div`+parseInt(counter_passenger+1)+`" hidden>
+                                <div class="col-lg-6" style="margin-top:15px;" id="ards_detail_div`+parseInt(counter_passenger+1)+`" hidden>
                                     <label style="color:red !important">*</label>
                                     <label>Ards Detail</label>
                                     <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -2594,7 +2594,7 @@ function add_table_of_passenger(type){
                                 </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;" id="adult_klinis_ada_penyakit_pernafasan_div`+parseInt(counter_passenger+1)+`" hidden>
+                                <div class="col-lg-6" style="margin-top:15px;" id="adult_klinis_ada_penyakit_pernafasan_div`+parseInt(counter_passenger+1)+`" hidden>
                                     <label style="color:red !important">*</label>
                                     <label>Penyakit Pernafasan</label>`;
                                     if(template == 1){
@@ -2635,7 +2635,7 @@ function add_table_of_passenger(type){
                                 </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;" hidden>
+                                <div class="col-lg-6" style="margin-top:15px;" hidden>
                                     <label style="color:red !important">*</label>
                                     <label>Penyakit Pernafasan Detail</label>
                                     <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -2697,7 +2697,7 @@ function add_table_of_passenger(type){
                                 text_div_paxs+=`
                                 <div class="col-lg-12 col-md-12 col-sm-12" id="table_gejala_div`+parseInt(counter_passenger+1)+`" hidden>
                                     <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                <div class="col-lg-6" style="margin-top:15px;">
                                     <label style="color:red !important">*</label>
                                     <label>Tanggal pertama kali gejala</label>
                                     <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -2705,12 +2705,12 @@ function add_table_of_passenger(type){
                                         <button type="button" class="primary-delete-date" onclick="clear_date('adult_tanggal_pertama_kali_gejala`+parseInt(counter_passenger+1)+`')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="col-lg-6">
                                 </div>`;
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Demam</label>`;
                                         if(template == 1){
@@ -2751,7 +2751,7 @@ function add_table_of_passenger(type){
                                     </div>`;
 
                                 text_div_paxs+=`
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <div id="suhu_tubuh_div`+parseInt(counter_passenger+1)+`" hidden>
                                             <label style="color:red !important">*</label>
                                             <label>Suhu Tubuh</label>
@@ -2763,7 +2763,7 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Batuk</label>`;
                                         if(template == 1){
@@ -2805,7 +2805,7 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Flu</label>`;
                                         if(template == 1){
@@ -2847,7 +2847,7 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Sakit Tenggorokan</label>`;
                                         if(template == 1){
@@ -2889,7 +2889,7 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Sesak Nafas</label>`;
                                         if(template == 1){
@@ -2931,7 +2931,7 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Sakit Kepala</label>`;
                                         if(template == 1){
@@ -2973,7 +2973,7 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Badan Lemah</label>`;
                                         if(template == 1){
@@ -3015,7 +3015,7 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Nyeri Otot</label>`;
                                         if(template == 1){
@@ -3057,7 +3057,7 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Mual</label>`;
                                         if(template == 1){
@@ -3099,7 +3099,7 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Nyeri Abdomen</label>`;
                                         if(template == 1){
@@ -3141,7 +3141,7 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Diare</label>`;
                                         if(template == 1){
@@ -3183,7 +3183,7 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Gangguan Penciuman</label>`;
                                         if(template == 1){
@@ -3224,7 +3224,7 @@ function add_table_of_passenger(type){
                                     </div>`;
 
                                 text_div_paxs+=`
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:white !important">*</label>
                                         <label>Gejala Lainnya</label>
                                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -3287,7 +3287,7 @@ function add_table_of_passenger(type){
                                 text_div_paxs+=`
                                     <div class="col-lg-12 col-md-12 col-sm-12" id="table_penyakit_bawaan_div`+parseInt(counter_passenger+1)+`" hidden>
                                         <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Diabetes</label>`;
                                         if(template == 1){
@@ -3329,7 +3329,7 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Penyakit Jantung</label>`;
                                         if(template == 1){
@@ -3371,7 +3371,7 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Hipertensi</label>`;
                                         if(template == 1){
@@ -3413,7 +3413,7 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Keganasan</label>`;
                                         if(template == 1){
@@ -3455,7 +3455,7 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Gangguan Imunologi</label>`;
                                         if(template == 1){
@@ -3497,7 +3497,7 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Gangguan Ginjal</label>`;
                                         if(template == 1){
@@ -3539,7 +3539,7 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Gangguan Hati</label>`;
                                         if(template == 1){
@@ -3581,7 +3581,7 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Gangguan Paru Obstruksi Kronis</label>`;
                                         if(template == 1){
@@ -3622,7 +3622,7 @@ function add_table_of_passenger(type){
                                     </div>`;
 
                                 text_div_paxs+=`
-                                <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                <div class="col-lg-6" style="margin-top:15px;">
                                     <label style="color:white !important">*</label>
                                     <label>Kondisi Penyerta Lainnya</label>
                                     <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -3667,8 +3667,10 @@ function add_table_of_passenger(type){
                                 text_div_paxs+=`
 
                                     <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top:15px;">
+                                    <label>
                                         <label style="color:red !important">*</label>
-                                        <label>Pernah Melakukan Perjalanan/Berkunjung? (seperti Luar Negri, Dalam Negri, Fasilitas Kesehatan, Pasar, Pasien)</label>`;
+                                        <label>Pernah Melakukan Perjalanan/Berkunjung? (seperti Luar Negri, Dalam Negri, Fasilitas Kesehatan, Pasar, Pasien)</label>
+                                    </label>`;
                                         if(template == 1){
                                             text_div_paxs+=`<div class="input-container-search-ticket">`;
                                         }else if(template == 2){
@@ -4041,7 +4043,7 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Apakah pasien seorang petugas kesehatan?</label>`;
                                         if(template == 1){
@@ -4086,7 +4088,7 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;" id="apd_div`+parseInt(counter_passenger+1)+`" hidden>
+                                    <div class="col-lg-6" style="margin-top:15px;" id="apd_div`+parseInt(counter_passenger+1)+`" hidden>
                                         <label style="color:red !important">*</label>
                                         <label>APD yang digunakan?</label>`;
                                         if(template == 1){
@@ -4129,7 +4131,7 @@ function add_table_of_passenger(type){
 
                                 text_div_paxs+=`
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:red !important">*</label>
                                         <label>Apakah melakukan prosedur yang menimbulkan aerosol?</label>`;
                                         if(template == 1){
@@ -4173,7 +4175,7 @@ function add_table_of_passenger(type){
                                     </div>`;
 
                                 text_div_paxs+=`
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;" id="tindakan_aerosol_div`+parseInt(counter_passenger+1)+`" hidden>
+                                    <div class="col-lg-6" style="margin-top:15px;" id="tindakan_aerosol_div`+parseInt(counter_passenger+1)+`" hidden>
                                         <label style="color:red !important">*</label>
                                         <label>Tindakan Aerosol</label>
                                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
@@ -4183,7 +4185,7 @@ function add_table_of_passenger(type){
                                     <div class="col-lg-12"></div>`;
 
                                 text_div_paxs+=`
-                                    <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                    <div class="col-lg-6" style="margin-top:15px;">
                                         <label style="color:white !important">*</label>
                                         <label>Faktor Lain</label>
                                         <div class="input-container-search-ticket" style="margin-bottom:5px;">
