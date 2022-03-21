@@ -1910,6 +1910,8 @@ function render_preview_template(){
             document.getElementById("preview_template").innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate4.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
         }else if(value_template == 5){
             document.getElementById("preview_template").innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate5.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
+        }else if(value_template == 6){
+            document.getElementById("preview_template").innerHTML = `<img src="/static/tt_website_rodextrip/img/preview/HomeTemplate6.png" alt="Preview Template" style="height:auto; width:100%;"/>`;
         }
         document.getElementById("preview_template_loading").style.display = "none";
     }, 1000);
