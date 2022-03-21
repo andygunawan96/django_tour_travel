@@ -1630,7 +1630,8 @@ def get_booking(request):
             airline_destinations.append({
                 'code': country['code'],
                 'name': country['name'],
-                'city': country['city']
+                'city': country['city'],
+                'country': country['country']
             })
         if res['result']['error_code'] == 0:
             try:
@@ -1661,6 +1662,7 @@ def get_booking(request):
                             journey.update({
                                 'origin_city': destination['city'],
                                 'origin_name': destination['name'],
+                                'origin_country': destination['country']
                             })
                             break
                     for destination in airline_destinations:
@@ -1668,6 +1670,7 @@ def get_booking(request):
                             journey.update({
                                 'destination_city': destination['city'],
                                 'destination_name': destination['name'],
+                                'destination_country': destination['country']
                             })
                             break
                     for segment in journey['segments']:
@@ -1685,6 +1688,7 @@ def get_booking(request):
                                 segment.update({
                                     'origin_city': destination['city'],
                                     'origin_name': destination['name'],
+                                    'origin_country': destination['country']
                                 })
                                 break
                         for destination in airline_destinations:
@@ -1692,6 +1696,7 @@ def get_booking(request):
                                 segment.update({
                                     'destination_city': destination['city'],
                                     'destination_name': destination['name'],
+                                    'destination_country': destination['country']
                                 })
                                 break
                         for leg in segment['legs']:
@@ -1705,6 +1710,7 @@ def get_booking(request):
                                     leg.update({
                                         'origin_city': destination['city'],
                                         'origin_name': destination['name'],
+                                        'origin_country': destination['country']
                                     })
                                     break
                             for destination in airline_destinations:
@@ -1712,6 +1718,7 @@ def get_booking(request):
                                     leg.update({
                                         'destination_city': destination['city'],
                                         'destination_name': destination['name'],
+                                        'destination_country': destination['country']
                                     })
                                     break
             if res['result']['response'].get('reschedule_list'):
@@ -1727,6 +1734,7 @@ def get_booking(request):
                                     journey.update({
                                         'origin_city': destination['city'],
                                         'origin_name': destination['name'],
+                                        'origin_country': destination['country']
                                     })
                                     break
                             for destination in airline_destinations:
@@ -1734,6 +1742,7 @@ def get_booking(request):
                                     journey.update({
                                         'destination_city': destination['city'],
                                         'destination_name': destination['name'],
+                                        'destination_country': destination['country']
                                     })
                                     break
                             for segment in journey['segments']:
@@ -1746,6 +1755,7 @@ def get_booking(request):
                                         segment.update({
                                             'origin_city': destination['city'],
                                             'origin_name': destination['name'],
+                                            'origin_country': destination['country']
                                         })
                                         break
                                 for destination in airline_destinations:
@@ -1753,6 +1763,7 @@ def get_booking(request):
                                         segment.update({
                                             'destination_city': destination['city'],
                                             'destination_name': destination['name'],
+                                            'destination_country': destination['country']
                                         })
                                         break
                                 for leg in segment['legs']:
@@ -1766,6 +1777,7 @@ def get_booking(request):
                                             leg.update({
                                                 'origin_city': destination['city'],
                                                 'origin_name': destination['name'],
+                                                'origin_country': destination['country']
                                             })
                                             break
                                     for destination in airline_destinations:
@@ -1773,6 +1785,7 @@ def get_booking(request):
                                             leg.update({
                                                 'destination_city': destination['city'],
                                                 'destination_name': destination['name'],
+                                                'destination_country': destination['country']
                                             })
                                             break
                     for segment in reschedule['new_segments']:
@@ -1785,6 +1798,7 @@ def get_booking(request):
                                 segment.update({
                                     'origin_city': destination['city'],
                                     'origin_name': destination['name'],
+                                    'origin_country': destination['country']
                                 })
                                 break
                         for destination in airline_destinations:
@@ -1792,12 +1806,12 @@ def get_booking(request):
                                 segment.update({
                                     'destination_city': destination['city'],
                                     'destination_name': destination['name'],
+                                    'destination_country': destination['country']
                                 })
                                 break
                         for leg in segment['legs']:
                             leg.update({
-                                'departure_date': convert_string_to_date_to_string_front_end_with_time(
-                                    leg['departure_date']),
+                                'departure_date': convert_string_to_date_to_string_front_end_with_time(leg['departure_date']),
                                 'arrival_date': convert_string_to_date_to_string_front_end_with_time(leg['arrival_date']),
                             })
                             for destination in airline_destinations:
@@ -1805,6 +1819,7 @@ def get_booking(request):
                                     leg.update({
                                         'origin_city': destination['city'],
                                         'origin_name': destination['name'],
+                                        'origin_country': destination['country']
                                     })
                                     break
                             for destination in airline_destinations:
@@ -1812,6 +1827,7 @@ def get_booking(request):
                                     leg.update({
                                         'destination_city': destination['city'],
                                         'destination_name': destination['name'],
+                                        'destination_country': destination['country']
                                     })
                                     break
                     for segment in reschedule['old_segments']:
@@ -1824,6 +1840,7 @@ def get_booking(request):
                                 segment.update({
                                     'origin_city': destination['city'],
                                     'origin_name': destination['name'],
+                                    'origin_country': destination['country']
                                 })
                                 break
                         for destination in airline_destinations:
@@ -1831,12 +1848,12 @@ def get_booking(request):
                                 segment.update({
                                     'destination_city': destination['city'],
                                     'destination_name': destination['name'],
+                                    'destination_country': destination['country']
                                 })
                                 break
                         for leg in segment['legs']:
                             leg.update({
-                                'departure_date': convert_string_to_date_to_string_front_end_with_time(
-                                    leg['departure_date']),
+                                'departure_date': convert_string_to_date_to_string_front_end_with_time(leg['departure_date']),
                                 'arrival_date': convert_string_to_date_to_string_front_end_with_time(leg['arrival_date']),
                             })
                             for destination in airline_destinations:
@@ -1844,6 +1861,7 @@ def get_booking(request):
                                     leg.update({
                                         'origin_city': destination['city'],
                                         'origin_name': destination['name'],
+                                        'origin_country': destination['country']
                                     })
                                     break
                             for destination in airline_destinations:
@@ -1851,6 +1869,7 @@ def get_booking(request):
                                     leg.update({
                                         'destination_city': destination['city'],
                                         'destination_name': destination['name'],
+                                        'destination_country': destination['country']
                                     })
                                     break
             response = copy.deepcopy(res)
