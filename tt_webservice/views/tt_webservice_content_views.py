@@ -804,6 +804,7 @@ def get_dynamic_page(request):
         response = []
         if not os.path.exists("/var/log/django/page_dynamic"):
             os.mkdir('/var/log/django/page_dynamic')
+        empty_sequence = False
         for data in os.listdir('/var/log/django/page_dynamic'):
             file = read_cache_without_folder_path("page_dynamic/"+data[:-4], 90911)
             if file:
@@ -811,6 +812,7 @@ def get_dynamic_page(request):
                 title = ''
                 body = ''
                 image_carousel = ''
+                sequence = ''
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 0:
                         if line.split('\n')[0] == 'false':
@@ -823,13 +825,26 @@ def get_dynamic_page(request):
                         body = json.loads(line.split('\n')[0])
                     elif idx == 3:
                         image_carousel = line.split('\n')[0]
+                    elif idx == 4:
+                        sequence = line.split('\n')[0]
                 response.append({
                     "state": bool(state),
                     "title": title,
                     "body": body,
                     "image_carousel": image_carousel,
+                    "sequence": sequence,
                     "url": data.split('.')[0]
                 })
+                if sequence == '':
+                    empty_sequence = True
+        if empty_sequence:
+            last_sequence = 1
+            for page_dynamic_dict in response:
+                if page_dynamic_dict['sequence'] == '':
+                    last_sequence += 1
+                    page_dynamic_dict['sequence'] = str(last_sequence)
+
+        response = sorted(response, key=lambda k: int(k['sequence']))
         res = {
             'result': {
                 'error_code': 0,
@@ -1003,6 +1018,7 @@ def set_dynamic_page(request):
         data = os.listdir('/var/log/django/page_dynamic')
         #create new
         title = request.POST['title']
+        sequence = request.POST['sequence']
         if int(request.POST['page_number']) == -1: ##new page
             title_duplicate_counter = 0
             trimmed_title_name = re.compile('[\W_]+').sub(' ',title).strip().lower().replace(' ','-') ## trimming non alphanumeric except "-" while replacing spaces to "-"
@@ -1012,7 +1028,7 @@ def set_dynamic_page(request):
                 else:
                     title_duplicate_counter += 1
                     trimmed_title_name += str(title_duplicate_counter)
-            text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + "image_dynamic/" + filename
+            text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + "image_dynamic/" + filename + '\n' + sequence
             write_cache(text, "page_dynamic/" + trimmed_title_name)
         #replace page
         else:
@@ -1027,7 +1043,7 @@ def set_dynamic_page(request):
                             text.pop(0)
                             filename = "/".join(text)
             # os.remove('/var/log/django/page_dynamic/' + data[int(request.POST['page_number'])])
-            text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + "image_dynamic/" + filename
+            text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + "image_dynamic/" + filename + '\n' + sequence
             write_cache(text, "page_dynamic/" + data[int(request.POST['page_number'])][:-4])
         #check image
         data = os.listdir('/var/log/django/page_dynamic')
