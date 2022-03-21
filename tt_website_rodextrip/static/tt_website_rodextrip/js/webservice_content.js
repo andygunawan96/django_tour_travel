@@ -1687,6 +1687,8 @@ function change_dynamic_page(){
     if(page_number != -1){
         document.getElementById('page_active').checked = dynamic_page[page_number].state;
         document.getElementById('title_dynamic_page').value = dynamic_page[page_number].title;
+        if(dynamic_page[page_number].hasOwnProperty('sequence'))
+            document.getElementById('sequence_dynamic_page').value = dynamic_page[page_number].sequence;
         document.getElementById('delete_page').hidden = false;
         CKEDITOR.instances.editor.setData(dynamic_page[page_number].body);
     }else{
@@ -1755,6 +1757,9 @@ function update_dynamic_page(){
     if(document.getElementById('title_dynamic_page').value == ''){
         error_log += 'Please input title\n';
     }
+    if(document.getElementById('sequence_dynamic_page').value == ''){
+        error_log += 'Please input sequence\n';
+    }
     if(document.getElementById("image_carousel").files.length == 0 && page_number == -1){
         error_log += 'Please input image URL\n';
     }
@@ -1765,6 +1770,7 @@ function update_dynamic_page(){
         var formData = new FormData($('#form_admin').get(0));
         formData.append('state', document.getElementById('page_active').checked);
         formData.append('title', document.getElementById('title_dynamic_page').value);
+        formData.append('sequence', document.getElementById('sequence_dynamic_page').value);
         formData.append('page_number', parseInt(page_number));
         formData.append('body', JSON.stringify(CKEDITOR.instances.editor.getData()));
         getToken();
