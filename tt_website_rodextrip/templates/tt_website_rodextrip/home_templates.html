@@ -7639,7 +7639,7 @@
 </section>
 {% endif%}
 
-<section class="about" id="box_choose" style="margin-top:45px; margin-bottom:50px; padding:15px;">
+<section class="about" id="box_choose" style="margin-top:20px; margin-bottom:20px; padding:15px;">
     <div class="container">
         <!-- services -->
         <div class="row fetured-sec" style="padding:0px 15px;">
@@ -7669,9 +7669,6 @@
             </div>
 
             <div class="col-lg-8 mt-4 serv_bottom" style="border:2px solid {{color}}; border-radius:14px; padding:30px;">
-                <h3 class="text-center mb-2">
-                    OUR PRODUCT
-                </h3><br/>
                 <div class="featured-left text-center row">
                     {% for rec in provider_types_sequence %}
                     {% if "airline" in provider and "ticketing_airline" in username.co_agent_frontend_security and rec.name == "airline" %}

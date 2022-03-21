@@ -583,16 +583,16 @@ li > a:only-child:after { content: ''; }
 .banner-top13,
 .banner-top14,
 .banner-top15 {
-    max-height: 475px;
+    max-height: 415px;
 }
 .overlay {
-    min-height: 475px;
-    max-height: 475px;
+    min-height: 415px;
+    max-height: 415px;
     background: rgba(0, 0, 0, 0.6);
 }
 .overlay1 {
-    min-height: 475px;
-    max-height: 475px;
+    min-height: 415px;
+    max-height: 415px;
     background: rgba(0, 0, 0, 0.5);
 }
 
