@@ -1198,7 +1198,18 @@ function commit_booking_tour(val)
                         document.getElementById('tour_booking').submit();
                           }
                         })
-                    }else{
+                    }else if(user_login.hasOwnProperty('co_job_position_is_request_required') && user_login.co_job_position_is_request_required == true){
+                        Swal.fire({
+                          title: 'Success',
+                          type: 'success',
+                          confirmButtonColor: 'blue',
+                          confirmButtonText: 'View Booking',
+                        }).then((result) => {
+                            document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
+                            document.getElementById('tour_booking').action = '/tour/booking/' + btoa(msg.result.response.order_number);
+                            document.getElementById('tour_booking').submit();
+                        })
+                   }else{
                         Swal.fire({
                           title: 'Success',
                           type: 'success',
@@ -1218,8 +1229,8 @@ function commit_booking_tour(val)
 
                           }else{
                             document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
-                        document.getElementById('tour_booking').action = '/tour/booking/' + btoa(msg.result.response.order_number);
-                        document.getElementById('tour_booking').submit();
+                            document.getElementById('tour_booking').action = '/tour/booking/' + btoa(msg.result.response.order_number);
+                            document.getElementById('tour_booking').submit();
                           }
                         })
 //                        document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
