@@ -2037,8 +2037,16 @@ function hotel_issued_booking(val){
             try{
                 if(msg.result.error_code == 0){
                     if(val == 0){
-                        document.getElementById('order_number').value = msg.result.response.order_number;
-                        document.getElementById('hotel_issued').submit();
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                        {
+                            document.getElementById('order_number').value = msg.result.response.order_number;
+                            document.getElementById('hotel_issued').submit();
+                        }
+                        else
+                        {
+                            document.getElementById('issued').action = '/hotel/booking/' + btoa(msg.result.response.order_number);
+                            document.getElementById('issued').submit();
+                        }
                     }else{
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
                             send_url_booking('hotel', btoa(msg.result.response.os_res_no), msg.result.response.order_number);
