@@ -1488,7 +1488,7 @@ function hotel_room_pick(key, key2){
         for(j in hotel_room.rooms[i].nightly_prices){
             date = new Date(hotel_room.rooms[i].nightly_prices[j].date).toString().split(' ');
             text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_room.rooms[i].nightly_prices[j].price)+'<span/></div>';
-            $text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_room.rooms[i].nightly_prices[j].price) + '\n';
+//            $text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_room.rooms[i].nightly_prices[j].price) + '\n';
         }
         var total_room = document.getElementById("hotel_room").value;
         var total_night = document.getElementById("total_night_search").textContent;
@@ -1502,8 +1502,8 @@ function hotel_room_pick(key, key2){
         </div>`;
         text += `<div class="col-lg-12"><hr/></div></div>`;
         total_price_hotel += hotel_room.rooms[i].price_total;
-        $text2 += '\nTotal: IDR '+getrupiah(hotel_room.rooms[i].price_total) + ' ';
-        $text2 += '(for 1 room, ' +total_night+ ' night) \n';
+//        $text2 += '\nTotal: IDR '+getrupiah(hotel_room.rooms[i].price_total) + ' ';
+//        $text2 += '(for 1 room, ' +total_night+ ' night) \n';
     }
     text += `</div>`;
 
@@ -1985,17 +1985,18 @@ function hotel_detail(old_cancellation_policy){
         //$text2 += 'Room Category: '+ hotel_price.rooms[i].category +'\n';
         $text2 += 'Room #' + (parseInt(i)+1) + ' ' + hotel_price.rooms[i].description +'\n';
         //$text2 += hotel_price.rooms[i].qty +' room(s) \n';
-        $text2 += 'Meal Type: '+ hotel_price.meal_type +'\n \n';
+//        $text2 += 'Meal Type: '+ hotel_price.meal_type +'\n \n';
+        $text2 += 'Meal Type: '+ hotel_price.meal_type;
 
         text += `<div class="row">`;
         for(j in hotel_price.rooms[i].nightly_prices){
             date = new Date(hotel_price.rooms[i].nightly_prices[j].date).toString().split(' ');
             if(hotel_price.rooms[i].nightly_prices[j].currency != 'IDR'){
                 text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price))+'<span/></div>';
-                $text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price))+'\n';
+                //$text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price))+'\n';
             }else{
                 text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_price.rooms[i].nightly_prices[j].price)+'<span/></div>';
-                $text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_price.rooms[i].nightly_prices[j].price))+'\n';
+                //$text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_price.rooms[i].nightly_prices[j].price))+'\n';
             }
         }
         try{
@@ -2014,31 +2015,31 @@ function hotel_detail(old_cancellation_policy){
         </div>`;
         text += `<div class="col-lg-12"><hr/></div>`;
 
-        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
-
-            $text2 += '\nContact Person:\n';
-            $text2 += contact[0].title + ' ' + contact[0].first_name + ' ' + contact[0].last_name + '\n';
-            $text2 += contact[0].email + '\n';
-            $text2 += contact[0].calling_code + ' - ' +contact[0].mobile + '\n';
-
-        }
-
-        try{
-            if(adult.length > 0){
-                $text2 += '\nPassengers\n'
-                for(k in adult){
-                    $text2 += adult[k].title + ' ' + adult[k].first_name + ' ' + adult[k].last_name+'\n';
-                }
-                for(k in child){
-                    $text2 += child[k].title + ' ' + child[k].first_name + ' ' + child[k].last_name+'\n';
-                }
-            }
-            $text2 += '\n';
-        }catch(err){
-            console.log(err); // error kalau ada element yg tidak ada
-        }
-        $text2 += 'Total: IDR ' + getrupiah(hotel_price.rooms[i].price_total) + '\n';
+        $text2 += 'Total: IDR ' + getrupiah(hotel_price.rooms[i].price_total) + '\n\n';
         text += `</div>`;
+    }
+    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+
+        $text2 += '\nContact Person:\n';
+        $text2 += contact[0].title + ' ' + contact[0].first_name + ' ' + contact[0].last_name + '\n';
+        $text2 += contact[0].email + '\n';
+        $text2 += contact[0].calling_code + ' - ' +contact[0].mobile + '\n';
+
+    }
+
+    try{
+        if(adult.length > 0){
+            $text2 += '\nPassengers\n'
+            for(k in adult){
+                $text2 += adult[k].title + ' ' + adult[k].first_name + ' ' + adult[k].last_name+'\n';
+            }
+            for(k in child){
+                $text2 += child[k].title + ' ' + child[k].first_name + ' ' + child[k].last_name+'\n';
+            }
+        }
+        $text2 += '\n';
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
     }
     text += `</div>`;
 
