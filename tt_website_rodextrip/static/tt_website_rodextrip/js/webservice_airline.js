@@ -4360,6 +4360,17 @@ function airline_commit_booking(val){
                                document.getElementById('airline_booking').submit();
                           }
                         })
+                   }else if(user_login.hasOwnProperty('co_job_position_is_request_required') && user_login.co_job_position_is_request_required == true){
+                    Swal.fire({
+                      title: 'Success',
+                      type: 'success',
+                      confirmButtonColor: 'blue',
+                      confirmButtonText: 'View Booking',
+                    }).then((result) => {
+                        document.getElementById('airline_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                        document.getElementById('airline_booking').action = '/airline/booking/' + btoa(msg.result.response.order_number);
+                        document.getElementById('airline_booking').submit();
+                    })
                    }else{
                         Swal.fire({
                           title: 'Success',
