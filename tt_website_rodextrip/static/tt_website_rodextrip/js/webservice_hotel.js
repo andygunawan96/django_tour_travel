@@ -1568,7 +1568,7 @@ function hotel_issued(data){
            type: "POST",
            url: "/webservice/hotel",
            headers:{
-                'action': 'issued',
+                'action': 'issued_b2c',
            },
            data: {
                'order_number': data,
