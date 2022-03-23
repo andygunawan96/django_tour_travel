@@ -1614,7 +1614,6 @@ function hotel_issued(data){
                    document.getElementById('ssr_request_after_sales').hidden = true;
                    document.getElementById('show_loading_booking_airline').style.display = 'block';
                    document.getElementById('show_loading_booking_airline').hidden = false;
-                   document.getElementById('cancel').hidden = true;
                    document.getElementById('payment_acq').hidden = true;
                    document.getElementById("overlay-div-box").style.display = "none";
                    $(".issued_booking_btn").hide();
@@ -1875,7 +1874,6 @@ function hotel_issued(data){
                     document.getElementById('show_loading_booking_airline').style.display = 'block';
                     document.getElementById('show_loading_booking_airline').hidden = false;
                     document.getElementById('payment_acq').hidden = true;
-                    document.getElementById('cancel').hidden = true;
                     hide_modal_waiting_transaction();
                     document.getElementById("overlay-div-box").style.display = "none";
 
@@ -1897,7 +1895,6 @@ function hotel_issued(data){
                 document.getElementById('ssr_request_after_sales').hidden = true;
                 document.getElementById('show_loading_booking_airline').style.display = 'block';
                 document.getElementById('show_loading_booking_airline').hidden = false;
-                document.getElementById('cancel').hidden = true;
                 document.getElementById('payment_acq').hidden = true;
                 hide_modal_waiting_transaction();
                 document.getElementById("overlay-div-box").style.display = "none";
@@ -1961,7 +1958,6 @@ function hotel_request_issued(req_order_number){
                     document.getElementById('show_loading_booking_airline').style.display = 'block';
                     document.getElementById('show_loading_booking_airline').hidden = false;
                     document.getElementById('payment_acq').hidden = true;
-                    document.getElementById('cancel').hidden = true;
                     hide_modal_waiting_transaction();
                     document.getElementById("overlay-div-box").style.display = "none";
 
@@ -1982,7 +1978,6 @@ function hotel_request_issued(req_order_number){
                 document.getElementById('ssr_request_after_sales').hidden = true;
                 document.getElementById('show_loading_booking_airline').style.display = 'block';
                 document.getElementById('show_loading_booking_airline').hidden = false;
-                document.getElementById('cancel').hidden = true;
                 document.getElementById('payment_acq').hidden = true;
                 hide_modal_waiting_transaction();
                 document.getElementById("overlay-div-box").style.display = "none";
