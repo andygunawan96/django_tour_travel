@@ -2469,8 +2469,9 @@ function sort(){
 
                                    text+=`</div>
                                    <div class="col-lg-6 col-md-6 col-sm-6 mt-2" style="text-align:right;">`;
+                                       text+=`<span id="fare_no_discount`+i+`" class="basic_fare_field" style="text-decoration: line-through;color:#cdcdcd;"></span><br/>`;
                                        text+=`<span id="fare`+i+`" class="basic_fare_field copy_price price_template"></span><br/>`;
-                                        text+=`<span id="fare_no_discount`+i+`" class="basic_fare_field" style="text-decoration: line-through;color:#cdcdcd;"></span><br/>`;
+
                                        if(provider_list_data.hasOwnProperty(airline[i].provider) == true && provider_list_data[airline[i].provider].description != '')
                                             text += `<span style="margin-right:5px;">`+provider_list_data[airline[i].provider].description+`</span>`;
                                        if(airline[i].can_book == true && airline[i].can_book_check_arrival_on_next_departure == true){
@@ -3603,8 +3604,7 @@ function airline_pick_mc(type){
                     </a>
                 </div>
 
-                <div class="col-lg-8" style="text-align:right;">
-                    <span id="fare_detail_pick`+airline_pick_list[i].airline_pick_sequence+`" class="basic_fare_field price_template" style="font-size:16px;font-weight: bold; color:`+color+`; padding:10px 0px;">`;
+                <div class="col-lg-8" style="text-align:right;">`;
                     price = 0;
                     if(i == airline_pick_list.length - 1 && airline_pick_list.length == airline_request.origin.length && Object.keys(airline_recommendations_dict).length > 0 && i != 0){
                         total_price = 0;
@@ -3708,12 +3708,12 @@ function airline_pick_mc(type){
                                 }
                             }
                         }
+                        if(total_discount != 0){
+                            text += `<br/><span id="fare_no_discount_detail_pick`+airline_pick_list[i].airline_pick_sequence+`" class="basic_fare_field" style="text-decoration: line-through;color:#cdcdcd;">`+currency+` `+getrupiah(price)+`</span><br/>`
+                        }
+                        text+= `<span id="fare_detail_pick`+airline_pick_list[i].airline_pick_sequence+`" class="basic_fare_field price_template" style="font-size:16px;font-weight: bold; color:`+color+`; padding:10px 0px;">`+currency+' '+getrupiah(price-total_discount) + '</span>';
+                    }
 
-                        text+= currency+' '+getrupiah(price-total_discount) + '</span>';
-                    }
-                    if(total_discount != 0){
-                        text += `<br/><span id="fare_no_discount_detail_pick`+airline_pick_list[i].airline_pick_sequence+`" class="basic_fare_field" style="text-decoration: line-through;color:#cdcdcd;">`+getrupiah(price)+`</span><br/>`
-                    }
                     text+=`</span><br/>`;
                     if(provider_list_data.hasOwnProperty(airline_pick_list[i].provider) == true && provider_list_data[airline_pick_list[i].provider].description != '')
                         text += `<span style="margin-right:5px;">`+provider_list_data[airline_pick_list[i].provider].description+`</span><br/>`;

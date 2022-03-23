@@ -182,7 +182,7 @@ function hotel_redirect_signup(type){
             }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-              error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline signin');
+              error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel signin');
               $("#barFlightSearch").hide();
               $("#waitFlightSearch").hide();
               $('.loader-rodextrip').fadeOut();
@@ -1566,9 +1566,9 @@ function hotel_issued(data){
         getToken();
         $.ajax({
            type: "POST",
-           url: "/webservice/airline",
+           url: "/webservice/hotel",
            headers:{
-                'action': 'issued',
+                'action': 'issued_b2c',
            },
            data: {
                'order_number': data,
@@ -1580,7 +1580,7 @@ function hotel_issued(data){
            success: function(msg) {
                console.log(msg);
                if(google_analytics != '')
-                   gtag('event', 'airline_issued', {});
+                   gtag('event', 'hotel_issued', {});
                if(msg.result.error_code == 0){
                    try{
                        if(msg.result.response.state == 'issued')
@@ -1607,22 +1607,20 @@ function hotel_issued(data){
                    pax_type_repricing = [];
                    hide_modal_waiting_transaction();
                    document.getElementById('show_loading_booking_airline').hidden = false;
-                   document.getElementById('airline_booking').innerHTML = '';
-                   document.getElementById('airline_detail').innerHTML = '';
+                   document.getElementById('hotel_booking').innerHTML = '';
+                   document.getElementById('hotel_detail').innerHTML = '';
                    document.getElementById('payment_acq').innerHTML = '';
                    document.getElementById('voucher_div').style.display = 'none';
                    document.getElementById('ssr_request_after_sales').hidden = true;
                    document.getElementById('show_loading_booking_airline').style.display = 'block';
                    document.getElementById('show_loading_booking_airline').hidden = false;
-                   document.getElementById('reissued').hidden = true;
-                   document.getElementById('cancel').hidden = true;
                    document.getElementById('payment_acq').hidden = true;
                    document.getElementById("overlay-div-box").style.display = "none";
                    $(".issued_booking_btn").hide();
                    Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error airline issued </span>' + msg.result.error_msg,
+                      html: '<span style="color: #ff9900;">Error hotel issued </span>' + msg.result.error_msg,
                     }).then((result) => {
                       if (result.value) {
                         hide_modal_waiting_transaction();
@@ -1638,7 +1636,7 @@ function hotel_issued(data){
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error airline issued </span>' + msg.result.error_msg,
+                      html: '<span style="color: #ff9900;">Error hotel issued </span>' + msg.result.error_msg,
                     }).then((result) => {
                       if (result.value) {
                         hide_modal_waiting_transaction();
@@ -1665,27 +1663,27 @@ function hotel_issued(data){
                             </center>
                         </div>
                         <div style="background-color:white; padding:15px; border: 1px solid `+color+`;">`;
-                    for(i in airline_get_detail.result.response.passengers[0].sale_service_charges){
+                    for(i in hotel_get_detail.result.response.passengers[0].sale_service_charges){
                         text+=`
                         <div style="text-align:center">
                             `+i+`
                         </div>`;
-                        for(j in airline_get_detail.result.response.passengers){
+                        for(j in hotel_get_detail.result.response.passengers){
                             price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
-                            for(k in airline_get_detail.result.response.passengers[j].sale_service_charges[i]){
-                                price[k] = airline_get_detail.result.response.passengers[j].sale_service_charges[i][k].amount;
+                            for(k in hotel_get_detail.result.response.passengers[j].sale_service_charges[i]){
+                                price[k] = hotel_get_detail.result.response.passengers[j].sale_service_charges[i][k].amount;
                                 if(price['currency'] == '')
-                                    price['currency'] = airline_get_detail.result.response.passengers[j].sale_service_charges[i][k].currency;
+                                    price['currency'] = hotel_get_detail.result.response.passengers[j].sale_service_charges[i][k].currency;
                             }
                             try{
-                                price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
+                                price['CSC'] = hotel_get_detail.result.response.passengers[j].channel_service_charges.amount;
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
 
                             text+=`<div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` Fare
+                                    <span style="font-size:12px;">`+hotel_get_detail.result.response.passengers[j].name+` Fare
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                     <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE))+`</span>
@@ -1693,7 +1691,7 @@ function hotel_issued(data){
                             </div>
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` Tax
+                                    <span style="font-size:12px;">`+hotel_get_detail.result.response.passengers[j].name+` Tax
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                     <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>
@@ -1703,7 +1701,7 @@ function hotel_issued(data){
                                 text+=`
                                 <div class="row" style="margin-bottom:5px;">
                                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` Additional
+                                        <span style="font-size:12px;">`+hotel_get_detail.result.response.passengers[j].name+` Additional
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                         <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.SSR + price.SEAT))+`</span>
@@ -1713,7 +1711,7 @@ function hotel_issued(data){
                                 text+=`
                                 <div class="row" style="margin-bottom:5px;">
                                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` DISC
+                                        <span style="font-size:12px;">`+hotel_get_detail.result.response.passengers[j].name+` DISC
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                         <span style="font-size:13px;">IDR -`+getrupiah(parseInt(price.DISC))+`</span>
@@ -1755,7 +1753,7 @@ function hotel_issued(data){
                     text+=`</div>`;
                     document.getElementById('old_price').innerHTML = text;
 
-                    airline_get_detail = msg;
+                    hotel_get_detail = msg;
                     total_price = 0;
                     commission = 0;
                     //new price
@@ -1781,7 +1779,7 @@ function hotel_issued(data){
                             }
 
                             try{
-                                price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
+                                price['CSC'] = hotel_get_detail.result.response.passengers[j].channel_service_charges.amount;
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
@@ -1806,7 +1804,7 @@ function hotel_issued(data){
                                 text+=`
                                 <div class="row" style="margin-bottom:5px;">
                                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` Additional
+                                        <span style="font-size:12px;">`+hotel_get_detail.result.response.passengers[j].name+` Additional
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                         <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.SSR + price.SEAT))+`</span>
@@ -1816,7 +1814,7 @@ function hotel_issued(data){
                                 text+=`
                                 <div class="row" style="margin-bottom:5px;">
                                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` DISC
+                                        <span style="font-size:12px;">`+hotel_get_detail.result.response.passengers[j].name+` DISC
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                         <span style="font-size:13px;">IDR -`+getrupiah(parseInt(price.DISC))+`</span>
@@ -1865,19 +1863,17 @@ function hotel_issued(data){
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error airline issued </span>' + msg.result.error_msg,
+                      html: '<span style="color: #ff9900;">Error hotel issued </span>' + msg.result.error_msg,
                     })
                     price_arr_repricing = {};
                     pax_type_repricing = [];
                     document.getElementById('show_loading_booking_airline').hidden = false;
-                    document.getElementById('airline_booking').innerHTML = '';
-                    document.getElementById('airline_detail').innerHTML = '';
+                    document.getElementById('hotel_booking').innerHTML = '';
+                    document.getElementById('hotel_detail').innerHTML = '';
                     document.getElementById('payment_acq').innerHTML = '';
                     document.getElementById('show_loading_booking_airline').style.display = 'block';
                     document.getElementById('show_loading_booking_airline').hidden = false;
                     document.getElementById('payment_acq').hidden = true;
-                    document.getElementById('reissued').hidden = true;
-                    document.getElementById('cancel').hidden = true;
                     hide_modal_waiting_transaction();
                     document.getElementById("overlay-div-box").style.display = "none";
 
@@ -1888,19 +1884,17 @@ function hotel_issued(data){
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline issued');
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel issued');
                 price_arr_repricing = {};
                 pax_type_repricing = [];
                 document.getElementById('show_loading_booking_airline').hidden = false;
-                document.getElementById('airline_booking').innerHTML = '';
-                document.getElementById('airline_detail').innerHTML = '';
+                document.getElementById('hotel_booking').innerHTML = '';
+                document.getElementById('hotel_detail').innerHTML = '';
                 document.getElementById('payment_acq').innerHTML = '';
                 document.getElementById('voucher_div').style.display = 'none';
                 document.getElementById('ssr_request_after_sales').hidden = true;
                 document.getElementById('show_loading_booking_airline').style.display = 'block';
                 document.getElementById('show_loading_booking_airline').hidden = false;
-                document.getElementById('reissued').hidden = true;
-                document.getElementById('cancel').hidden = true;
                 document.getElementById('payment_acq').hidden = true;
                 hide_modal_waiting_transaction();
                 document.getElementById("overlay-div-box").style.display = "none";
@@ -1958,14 +1952,12 @@ function hotel_request_issued(req_order_number){
                     price_arr_repricing = {};
                     pax_type_repricing = [];
                     document.getElementById('show_loading_booking_airline').hidden = false;
-                    document.getElementById('airline_booking').innerHTML = '';
-                    document.getElementById('airline_detail').innerHTML = '';
+                    document.getElementById('hotel_booking').innerHTML = '';
+                    document.getElementById('hotel_detail').innerHTML = '';
                     document.getElementById('payment_acq').innerHTML = '';
                     document.getElementById('show_loading_booking_airline').style.display = 'block';
                     document.getElementById('show_loading_booking_airline').hidden = false;
                     document.getElementById('payment_acq').hidden = true;
-                    document.getElementById('reissued').hidden = true;
-                    document.getElementById('cancel').hidden = true;
                     hide_modal_waiting_transaction();
                     document.getElementById("overlay-div-box").style.display = "none";
 
@@ -1979,15 +1971,13 @@ function hotel_request_issued(req_order_number){
                 price_arr_repricing = {};
                 pax_type_repricing = [];
                 document.getElementById('show_loading_booking_airline').hidden = false;
-                document.getElementById('airline_booking').innerHTML = '';
-                document.getElementById('airline_detail').innerHTML = '';
+                document.getElementById('hotel_booking').innerHTML = '';
+                document.getElementById('hotel_detail').innerHTML = '';
                 document.getElementById('payment_acq').innerHTML = '';
                 document.getElementById('voucher_div').style.display = 'none';
                 document.getElementById('ssr_request_after_sales').hidden = true;
                 document.getElementById('show_loading_booking_airline').style.display = 'block';
                 document.getElementById('show_loading_booking_airline').hidden = false;
-                document.getElementById('reissued').hidden = true;
-                document.getElementById('cancel').hidden = true;
                 document.getElementById('payment_acq').hidden = true;
                 hide_modal_waiting_transaction();
                 document.getElementById("overlay-div-box").style.display = "none";
@@ -2236,9 +2226,9 @@ function hotel_get_booking(data){
                     }else if(msg.result.response.state == 'booked'){
                        try{
                            if(can_issued)
-                               check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature, msg.result.response.payment_acquirer_number);
+                               check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'hotel', signature, msg.result.response.payment_acquirer_number);
                            get_payment = true;
-        //                   get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
+        //                   get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'hotel');
                            document.getElementById('voucher_div').style.display = '';
                            //document.getElementById('issued-breadcrumb').classList.remove("active");
                            //document.getElementById('issued-breadcrumb').classList.add("current");
