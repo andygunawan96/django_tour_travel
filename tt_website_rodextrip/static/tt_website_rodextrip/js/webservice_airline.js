@@ -1925,9 +1925,10 @@ function datasearch2(airline){
                if(airline.schedules[i].journeys[j].segments[k].fares.length == 0)
                     can_book = false;
                for(l in airline.schedules[i].journeys[j].segments[k].fares){
+                   //fix bug seat available di case seat available < request pax
+                   if(available_count > airline.schedules[i].journeys[j].segments[k].fares[l].available_count)
+                        available_count = airline.schedules[i].journeys[j].segments[k].fares[l].available_count;
                    if(airline.schedules[i].journeys[j].segments[k].fares[l].available_count >= parseInt(airline_request.adult)+parseInt(airline_request.child) || airline.schedules[i].journeys[j].segments[k].fares[l].available_count == -1){//atau buat sia
-                       if(available_count > airline.schedules[i].journeys[j].segments[k].fares[l].available_count)
-                            available_count = airline.schedules[i].journeys[j].segments[k].fares[l].available_count;
                        can_book = true;
                        airline.schedules[i].journeys[j].segments[k].fare_pick = 0;
                        for(m in airline.schedules[i].journeys[j].segments[k].fares[l].fare_details){
