@@ -2037,8 +2037,16 @@ function hotel_issued_booking(val){
             try{
                 if(msg.result.error_code == 0){
                     if(val == 0){
-                        document.getElementById('order_number').value = msg.result.response.order_number;
-                        document.getElementById('hotel_issued').submit();
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                        {
+                            document.getElementById('order_number').value = msg.result.response.order_number;
+                            document.getElementById('hotel_issued').submit();
+                        }
+                        else
+                        {
+                            document.getElementById('issued').action = '/hotel/booking/' + btoa(msg.result.response.order_number);
+                            document.getElementById('issued').submit();
+                        }
                     }else{
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
                             send_url_booking('hotel', btoa(msg.result.response.os_res_no), msg.result.response.order_number);
@@ -2413,15 +2421,15 @@ function hotel_get_booking(data){
                    if(can_issued){
                        if(user_login.co_job_position_is_request_required == true && msg.result.response.issued_request_status != "approved")
                        {
-                            document.getElementById('issued_booking_btn').setAttribute("onClick", "hotel_request_issued('"+msg.result.response.order_number+"');");
+                            document.getElementById('hotel_issued_btn').setAttribute("onClick", "hotel_request_issued('"+msg.result.response.order_number+"');");
                             if(msg.result.response.issued_request_status == "on_process")
                             {
-                                document.getElementById('issued_booking_btn').innerHTML = "Issued Booking Requested";
-                                document.getElementById('issued_booking_btn').disabled = true;
+                                document.getElementById('hotel_issued_btn').innerHTML = "Issued Booking Requested";
+                                document.getElementById('hotel_issued_btn').disabled = true;
                             }
                             else
                             {
-                                document.getElementById('issued_booking_btn').innerHTML = "Request Issued Booking";
+                                document.getElementById('hotel_issued_btn').innerHTML = "Request Issued Booking";
                             }
                        }
                        check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id,  'billing', 'hotel', signature, msg.result.response.payment_acquirer_number);
