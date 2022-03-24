@@ -494,6 +494,28 @@ function hotel_detail_page(){
    });
 }
 
+function hotel_passenger_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/hotel",
+       headers:{
+            'action': 'passenger_page',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            hotel_price = msg.hotel_price;
+            hotel_detail();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
+            $('#loading-search-hotel').hide();
+       },timeout: 180000
+   });
+}
+
 function hotel_review_page(){
     $.ajax({
        type: "POST",
@@ -1415,7 +1437,7 @@ function hotel_issued_alert(val){
                     text+=`
                     <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel_old">
                         <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+hotel_price.rooms[i].nightly_prices[j].currency+` `+ getrupiah(hotel_price.commission) +`</span><br>
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+hotel_price.rooms[i].nightly_prices[j].currency+` `+ getrupiah(hotel_price.commission*-1) +`</span><br>
                         </div>
                     </div>`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
@@ -1478,7 +1500,7 @@ function hotel_issued_alert(val){
                     text+=`
                     <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel_new">
                         <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+temporary.rooms[i].currency+` `+ getrupiah(parseInt(temporary.commission)) +`</span><br>
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+temporary.rooms[i].currency+` `+ getrupiah(parseInt(temporary.commission*-1)) +`</span><br>
                         </div>
                     </div>`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)

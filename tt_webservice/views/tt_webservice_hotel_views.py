@@ -83,6 +83,8 @@ def api_models(request):
             res = review_page(request)
         elif req_data['action'] == 'detail_page':
             res = detail_page(request)
+        elif req_data['action'] == 'passenger_page':
+            res = passenger_page(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -838,6 +840,14 @@ def detail_page(request):
         res['hotel_search'] = data
         res['check_in'] = data['checkin_date']
         res['check_out'] = data['checkout_date']
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def passenger_page(request):
+    try:
+        res = {}
+        res['hotel_price'] = request.session['hotel_room_pick']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
