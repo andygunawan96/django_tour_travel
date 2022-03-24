@@ -4528,7 +4528,8 @@ function get_payment_espay(order_number_full){
         url_back = window.location.href.split('/');
         url_back.pop();
         url_back = url_back.join('/');
-        window.location.href = '/' + type_render + '/booking/' + order_number_id;
+//        window.location.href = '/' + type_render + '/booking/' + order_number_id;
+        window.location.href = '/payment/espay' + order_number_full; //redirect ke dari payment dengan nomor va
     }else
         url_back = window.location.href;
     $.ajax({

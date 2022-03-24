@@ -29,14 +29,6 @@
 
         document.getElementById('adult_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
     }
-    hotel_price = `{{hotel_room_detail_pick}}`;
-    hotel_price = hotel_price.replace(/&#39;/g, '"');
-    hotel_price = hotel_price.replace(/&quot;/g, '"');
-    hotel_price = hotel_price.replace(/False/g, 'false');
-    hotel_price = hotel_price.replace(/True/g, 'true');
-    hotel_price = hotel_price.replace(/None/g, '[]');
-
-    hotel_price = JSON.parse(hotel_price);
     adult = {{adult_count}};
     child = {{child_count}};
     infant = 0;
@@ -4201,8 +4193,9 @@
     address += `{{response.location.zipcode}}`;
     {% endif %}
     document.getElementById('address_hotel').innerHTML = address;
-    hotel_detail();
     hotel_get_cancellation_policy('{{hotel_room_detail_pick.price_code}}', '{{hotel_room_detail_pick.provider}}', '1')
+
+    hotel_passenger_page();
 
     $( document ).ready(function() {
       breadcrumb_create("hotel", 4, 0);

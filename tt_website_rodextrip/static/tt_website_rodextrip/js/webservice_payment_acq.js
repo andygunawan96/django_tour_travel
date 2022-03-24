@@ -1132,11 +1132,14 @@ function get_payment_order_number(order_number){
                 console.log(msg);
                 if(msg.result.error_code == 0){
                     if(payment_acq2[payment_method][selected].account_number == ""){
+                        //payment gateway espay
                         if(payment_acq2[payment_method][selected].name == 'OVO')
                             document.getElementById('detail_description_msg').innerHTML += `<span style="font-size:13px;">`+payment_acq2[payment_method][selected].description_msg+` </span>`;
                         get_order_number_frontend(msg.result.response.order_number);
-                    }else
+                    }else{
+                        //payment gateway transfer manual
                         window.location.href = '/payment/'+name+'/' + msg.result.response.order_number;
+                    }
                 }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
