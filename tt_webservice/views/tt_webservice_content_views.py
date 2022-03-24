@@ -805,6 +805,7 @@ def get_dynamic_page(request):
         if not os.path.exists("/var/log/django/page_dynamic"):
             os.mkdir('/var/log/django/page_dynamic')
         empty_sequence = False
+        last_sequence = 1
         for data in os.listdir('/var/log/django/page_dynamic'):
             file = read_cache_without_folder_path("page_dynamic/"+data[:-4], 90911)
             if file:
@@ -835,10 +836,12 @@ def get_dynamic_page(request):
                     "sequence": sequence,
                     "url": data.split('.')[0]
                 })
+                if sequence != '':
+                    if last_sequence < int(sequence):
+                        last_sequence = int(sequence)
                 if sequence == '':
                     empty_sequence = True
         if empty_sequence:
-            last_sequence = 1
             for page_dynamic_dict in response:
                 if page_dynamic_dict['sequence'] == '':
                     last_sequence += 1
@@ -960,7 +963,7 @@ def get_dynamic_page_mobile_detail(request):
 def delete_dynamic_page(request):
     try:
         data = os.listdir('/var/log/django/page_dynamic')
-        os.remove('/var/log/django/page_dynamic/' + data[int(request.POST['page_number'])])
+        os.remove('/var/log/django/page_dynamic/%s.txt' % request.POST['page_url'])
         # check image
         fs = FileSystemStorage()
         fs.location += '/image_dynamic'
@@ -973,10 +976,10 @@ def delete_dynamic_page(request):
                     if idx == 3:
                         line = line.split('\n')[0]
                         line = line.split('/')
-                        line.pop(0)
-                        line.pop(0)
-                        line.pop(0)
-                        line = '/'.join(line)
+                        line.pop(0) ## ''
+                        line.pop(0) ## media
+                        line.pop(0) ## image dynamic
+                        line = '/'.join(line) ## image
                         image_list.append(line)
         for data in os.listdir(fs.location):
             if not data in image_list:
@@ -1033,15 +1036,15 @@ def set_dynamic_page(request):
         #replace page
         else:
             if filename == '':
-                file = read_cache_without_folder_path("page_dynamic/" + data[int(request.POST['page_number'])][:-4], 90911)
+                file = read_cache_without_folder_path("page_dynamic/%s.txt" % request.POST['page_url'], 90911)
                 if file:
                     for idx, line in enumerate(file.split('\n')):
                         if idx == 3:
                             text = line.split('\n')[0].split('/')
-                            text.pop(0)
-                            text.pop(0)
-                            text.pop(0)
-                            filename = "/".join(text)
+                            text.pop(0) ## ''
+                            text.pop(0) ## media
+                            text.pop(0) ## image dynamic
+                            filename = "/".join(text) ## image
             # os.remove('/var/log/django/page_dynamic/' + data[int(request.POST['page_number'])])
             text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + "image_dynamic/" + filename + '\n' + sequence
             write_cache(text, "page_dynamic/" + data[int(request.POST['page_number'])][:-4])
