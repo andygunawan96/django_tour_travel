@@ -1690,11 +1690,13 @@ function change_dynamic_page(){
         if(dynamic_page[page_number].hasOwnProperty('sequence'))
             document.getElementById('sequence_dynamic_page').value = dynamic_page[page_number].sequence;
         document.getElementById('delete_page').hidden = false;
+        document.getElementById('page_url').value = dynamic_page[page_number].url;
         CKEDITOR.instances.editor.setData(dynamic_page[page_number].body);
     }else{
         document.getElementById('page_active').checked = false;
         document.getElementById('title_dynamic_page').value = '';
         document.getElementById('delete_page').hidden = true;
+        document.getElementById('page_url').value = '';
         CKEDITOR.instances.editor.setData('');
     }
 
@@ -1753,6 +1755,7 @@ function update_dynamic_page(){
 //        }
 //    }
     page_number = parseInt(document.getElementById('page_choose').value) - 1
+    page_url = document.getElementById('page_url').value;
     error_log = '';
     if(document.getElementById('title_dynamic_page').value == ''){
         error_log += 'Please input title\n';
@@ -1773,6 +1776,7 @@ function update_dynamic_page(){
         formData.append('sequence', document.getElementById('sequence_dynamic_page').value);
         formData.append('page_number', parseInt(page_number));
         formData.append('body', JSON.stringify(CKEDITOR.instances.editor.getData()));
+        formData.append('url', page_url);
         getToken();
         $.ajax({
            type: "POST",
@@ -1853,11 +1857,13 @@ function delete_dynamic_page(){
 //            break;
 //        }
 //    }
-    page_number = parseInt(document.getElementById('page_choose').value) - 1
+    page_number = parseInt(document.getElementById('page_choose').value) - 1;
+    page_url = document.getElementById('page_url').value;
     error_log = '';
     if(error_log == ''){
         var formData = new FormData($('#form_admin').get(0));
         formData.append('page_number', parseInt(page_number));
+        formData.append('url', page_url);
         getToken();
         $.ajax({
            type: "POST",
