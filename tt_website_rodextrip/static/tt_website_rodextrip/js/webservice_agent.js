@@ -3307,7 +3307,10 @@ function copy_booker(val,type,identity){
                     }catch(err){
 
                     }
-                    document.getElementById('adult_title1').value = document.getElementById('booker_title').value;
+                    if(document.getElementById('booker_title').value != 'MRS')
+                        document.getElementById('adult_title1').value = document.getElementById('booker_title').value;
+                    else
+                        document.getElementById('adult_title1').value = 'MS';
                     document.getElementById('adult_title1').readOnly = true;
                     for(i in document.getElementById('adult_title1').options){
                         if(document.getElementById('adult_title1').options[i].selected != true)
