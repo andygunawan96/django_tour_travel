@@ -391,7 +391,7 @@ def review(request):
                 journeys = []
             set_session(request, 'train_booking', schedules)
             try:
-                time_limit = get_timelimit_product(request, 'activity')
+                time_limit = get_timelimit_product(request, 'train')
                 if time_limit == 0:
                     time_limit = int(request.POST['time_limit_input'])
                 set_session(request, 'time_limit', time_limit)
