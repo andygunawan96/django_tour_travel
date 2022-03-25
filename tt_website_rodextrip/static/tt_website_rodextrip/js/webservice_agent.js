@@ -1251,8 +1251,10 @@ function get_customer_list(passenger, number, product){
                                         response+=`
                                             </div>
                                             <div class="col-lg-8 col-md-8 col-sm-8">`;
+                                                if(msg.result.response[i].original_agent != '')
+                                                    response+=`<span><i class="fas fa-user-secret"></i> <i>Customer Of Agent: </i><b>`+msg.result.response[i].original_agent+`</b></span>`;
                                                 if(msg.result.response[i].birth_date != '')
-                                                    response+=`<span><i class="fas fa-birthday-cake"></i> <i>Birth Date: </i><b>`+msg.result.response[i].birth_date+`</b></span>`;
+                                                    response+=`<br/><span><i class="fas fa-birthday-cake"></i> <i>Birth Date: </i><b>`+msg.result.response[i].birth_date+`</b></span>`;
                                                 if(msg.result.response[i].phones.length != 0){
                                                     if(template == 1 || template == 5 || template == 6){
                                                         response+=`
@@ -1599,8 +1601,10 @@ function get_customer_list(passenger, number, product){
                                             </div>
                                             <div class="col-lg-8 col-md-8 col-sm-8">`;
 
+                                            if(msg.result.response[i].original_agent != '')
+                                                response+=`<i class="fas fa-user-secret"></i> <i>Customer Of Agent: </i><b>`+msg.result.response[i].original_agent+`</b>`;
                                             if(msg.result.response[i].birth_date != '')
-                                                response+=`<i class="fas fa-birthday-cake"></i> <i>Birth Date: </i><b>`+msg.result.response[i].birth_date+`</b>`;
+                                                response+=`<br/><i class="fas fa-birthday-cake"></i> <i>Birth Date: </i><b>`+msg.result.response[i].birth_date+`</b>`;
                                             if(msg.result.response[i].phones.length != 0){
                                                 if(template == 1 || template == 5 || template == 6){
                                                     response+=`
@@ -3303,7 +3307,10 @@ function copy_booker(val,type,identity){
                     }catch(err){
 
                     }
-                    document.getElementById('adult_title1').value = document.getElementById('booker_title').value;
+                    if(document.getElementById('booker_title').value != 'MRS')
+                        document.getElementById('adult_title1').value = document.getElementById('booker_title').value;
+                    else
+                        document.getElementById('adult_title1').value = 'MS';
                     document.getElementById('adult_title1').readOnly = true;
                     for(i in document.getElementById('adult_title1').options){
                         if(document.getElementById('adult_title1').options[i].selected != true)
@@ -4798,8 +4805,12 @@ function get_passenger_cache(type){
                                 <div class="col-lg-8 col-md-8 col-sm-8">
                                     <div class="row">
                                         <div class="col-lg-12">`;
+                                            if(msg.result.response[i].original_agent != '')
+                                            {
+                                                response+=`<span><i class="fas fa-user-secret"></i> <i>Customer Of Agent: </i><b>`+msg.result.response[i].original_agent+`</b></span>`;
+                                            }
                                             if(msg.result.response[i].birth_date != ''){
-                                                response+=`<span><i class="fas fa-birthday-cake"></i> <i>Birth Date:</i> <b> `+msg.result.response[i].birth_date+`</b></span>`;
+                                                response+=`<br/><span><i class="fas fa-birthday-cake"></i> <i>Birth Date:</i> <b> `+msg.result.response[i].birth_date+`</b></span>`;
                                             }
 
                                             if(msg.result.response[i].phones.length != 0){
