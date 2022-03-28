@@ -5745,6 +5745,7 @@ function airline_get_booking(data, sync=false){
                                                 text += fee_dict[i].fees[j].fee_name + `</label><br/>`;
                                             }
                                       }
+                                      msg.result.response.passengers[pax].fees_dict = fee_dict;
                                       text+=`
                                     </div>
                                 </td>
@@ -6004,19 +6005,20 @@ function airline_get_booking(data, sync=false){
                                     journey_code.push(msg.result.response.provider_bookings[i].journeys[k].segments[l].segment_code)
                                 }
                             }
-                            coma = false
-                            for(k in msg.result.response.passengers[j].fees){
-                                if(k == 0)
+                            counter_ssr = 0;
+                            for(k in msg.result.response.passengers[j].fees_dict){
+                                if(counter_ssr == 0)
                                     $text += 'SSR Request:\n';
-                                $text += msg.result.response.passengers[j].fees[k].fee_type + ' ' + msg.result.response.passengers[j].fees[k].fee_value;
-                                if(coma == true)
-                                    $text += ', ';
-                                else
-                                    $text += ' ';
-                                coma = true
+                                $text += msg.result.response.passengers[j].fees_dict[k].origin + ' → ' + msg.result.response.passengers[j].fees_dict[k].destination+'\n';
+                                for(l in msg.result.response.passengers[j].fees_dict[k].fees){
+                                    $text += msg.result.response.passengers[j].fees_dict[k].fees[l].fee_category+': '+msg.result.response.passengers[j].fees_dict[k].fees[l].fee_name + '\n';
+                                }
+                                if(Object.keys(msg.result.response.passengers[j].fees_dict).length != counter_ssr)
+                                    $text += '\n';
+                                counter_ssr++;
                             }
                             $text += '['+msg.result.response.provider_bookings[i].pnr+'] '
-                            $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n\n';
+                            $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n\n\n';
                             if(counter_service_charge == 0){
                                 total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
                             }else{
