@@ -766,7 +766,7 @@ def ssr(request, signature):
                 upsell = 0
                 for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
                     if pax.get('channel_service_charges'):
-                        upsell = pax.get('channel_service_charges')
+                        upsell = pax['channel_service_charges']['amount']
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'after_sales': 1,
@@ -1040,7 +1040,7 @@ def seat_map(request, signature):
                 upsell = 0
                 for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
                     if pax.get('channel_service_charges'):
-                        upsell = pax.get('channel_service_charges')
+                        upsell = pax['channel_service_charges']['amount']
                 airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response']['result']['response'])
                 del airline_get_booking['reschedule_list'] #pop sementara ada list isi string pakai " wktu di parser error
                 values.update({
