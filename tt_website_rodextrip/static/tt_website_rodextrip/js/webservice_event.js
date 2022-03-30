@@ -2025,11 +2025,29 @@ function event_issued(data){
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
                }else{
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error event issued </span>' + msg.result.error_msg,
-                    })
+                    if(msg.result.error_code != 1007){
+                        Swal.fire({
+                          type: 'error',
+                          title: 'Oops!',
+                          html: '<span style="color: #ff9900;">Error event issued </span>' + msg.result.error_msg,
+                        })
+                    }else{
+                        Swal.fire({
+                          type: 'error',
+                          title: 'Error event issued '+ msg.result.error_msg,
+                          showCancelButton: true,
+                          cancelButtonText: 'Ok',
+                          confirmButtonColor: '#f15a22',
+                          cancelButtonColor: '#3085d6',
+                          confirmButtonText: 'Top Up'
+                        }).then((result) => {
+                            console.log(result);
+                            if (result.value) {
+                                window.location.href = '/top_up';
+                            }
+                        })
+                    }
+
                     price_arr_repricing = {};
                     pax_type_repricing = [];
                     document.getElementById('show_loading_booking_airline').hidden = false;
