@@ -2617,7 +2617,7 @@ function get_price_itinerary_request(){
                                         'disc':  0,
                                     }
                                     for(n in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
-                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase() == 'fare' || resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase() == 'rac')
+                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase() == 'fare') //harga per pax hanya fare saja yang lain ambil total karena pax count bisa beda
                                             price_type[resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase()] += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
                                         else
                                             price_type[resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase()] += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount * resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].pax_count;
@@ -3146,7 +3146,7 @@ function render_price_in_get_price(text, $text, $text_share){
             commission = 0;
             if(airline_price[price_counter].ADT['rac'] != null)
                 commission = airline_price[price_counter].ADT['rac']
-            commission_price += airline_request.adult * commission;
+            commission_price += commission;
             total_price += (airline_request.adult * airline_price[price_counter].ADT['fare']) + price;
             if(airline_price[price_counter].ADT.hasOwnProperty('disc')){
                 total_discount += airline_request.adult * airline_price[price_counter].ADT['disc'];
@@ -3192,7 +3192,7 @@ function render_price_in_get_price(text, $text, $text_share){
             commission = 0;
             if(airline_price[price_counter].CHD['rac'] != null)
                 commission = airline_price[price_counter].CHD['rac'];
-            commission_price += airline_request.child * commission;
+            commission_price += commission;
             total_price += (airline_request.child * airline_price[price_counter].CHD['fare']) + price;
             if(airline_price[price_counter].CHD.hasOwnProperty('disc')){
                 total_discount += airline_request.child * airline_price[price_counter].CHD['disc'];
@@ -3242,7 +3242,7 @@ function render_price_in_get_price(text, $text, $text_share){
             }catch(err){
 
             }
-            commission_price += airline_request.infant * commission;
+            commission_price += commission;
             total_price += (airline_request.infant * airline_price[price_counter].INF['fare']) + price;
             if(airline_price[price_counter].INF.hasOwnProperty('disc')){
                 total_discount += airline_request.infant * airline_price[price_counter].INF['disc'];
@@ -5306,11 +5306,18 @@ function airline_get_booking(data, sync=false){
                         flight_counter = 1;
                         rules = 0;
                         for(i in msg.result.response.provider_bookings){
-                            $text += '‣ Booking Code: ' + msg.result.response.provider_bookings[i].pnr+'\n';
+                            $text += '‣ Booking Code: ';
+                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                                $text += msg.result.response.provider_bookings[i].pnr+'\n';
+                            else
+                                $text += '-\n';
                             if(i != 0){
                                 text+=`<hr/>`;
                             }
-                            text+=`<h5>PNR: `+msg.result.response.provider_bookings[i].pnr+`</h5>`;
+                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                                text+=`<h5>PNR: `+msg.result.response.provider_bookings[i].pnr+`</h5>`;
+                            else
+                                text += `<h5>PNR: - </h5>`;
                             for(j in msg.result.response.provider_bookings[i].journeys){
                                 fare_detail_list = [];
                                 text+=`<h6>Flight `+flight_counter+`</h6>`;
@@ -7373,11 +7380,28 @@ function airline_issued(data){
                     auto_logout();
                     $(".issued_booking_btn").hide();
                }else{
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error airline issued </span>' + msg.result.error_msg,
-                    })
+                    if(msg.result.error_code != 1007){
+                        Swal.fire({
+                          type: 'error',
+                          title: 'Oops!',
+                          html: '<span style="color: #ff9900;">Error airline issued </span>' + msg.result.error_msg,
+                        })
+                    }else{
+                        Swal.fire({
+                          type: 'error',
+                          title: 'Error airline issued '+ msg.result.error_msg,
+                          showCancelButton: true,
+                          cancelButtonText: 'Ok',
+                          confirmButtonColor: '#f15a22',
+                          cancelButtonColor: '#3085d6',
+                          confirmButtonText: 'Top Up'
+                        }).then((result) => {
+                            console.log(result);
+                            if (result.value) {
+                                window.location.href = '/top_up';
+                            }
+                        })
+                    }
                     price_arr_repricing = {};
                     pax_type_repricing = [];
                     document.getElementById('show_loading_booking_airline').hidden = false;

@@ -1036,7 +1036,7 @@ def set_dynamic_page(request):
         #replace page
         else:
             if filename == '':
-                file = read_cache_without_folder_path("page_dynamic/%s.txt" % request.POST['page_url'], 90911)
+                file = read_cache_without_folder_path("page_dynamic/%s" % request.POST['page_url'], 90911)
                 if file:
                     for idx, line in enumerate(file.split('\n')):
                         if idx == 3:
@@ -1047,7 +1047,7 @@ def set_dynamic_page(request):
                             filename = "/".join(text) ## image
             # os.remove('/var/log/django/page_dynamic/' + data[int(request.POST['page_number'])])
             text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + "image_dynamic/" + filename + '\n' + sequence
-            write_cache(text, "page_dynamic/" + data[int(request.POST['page_number'])][:-4])
+            write_cache(text, "page_dynamic/%s" % request.POST['page_url'])
         #check image
         data = os.listdir('/var/log/django/page_dynamic')
         image_list = []

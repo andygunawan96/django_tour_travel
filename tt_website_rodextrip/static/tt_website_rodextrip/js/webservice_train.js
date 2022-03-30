@@ -794,7 +794,10 @@ function train_get_booking(data){
                                 msg.result.response.provider_bookings[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone;
                             }
                             //
-                            $text += msg.result.response.provider_bookings[i].pnr;
+                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                                $text += msg.result.response.provider_bookings[i].pnr;
+                            else
+                                $text += '-';
                             if(msg.result.response.state == 'booked')
                                 $text +=' ('+msg.result.response.provider_bookings[i].hold_date+')\n';
                             else
@@ -887,7 +890,10 @@ function train_get_booking(data){
                                 if(i != 0){
                                     text+=`<hr/>`;
                                 }
-                                text += `<h5>PNR: `+msg.result.response.provider_bookings[i].journeys[j].pnr+`</h5>`;
+                                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                                    text += `<h5>PNR: `+msg.result.response.provider_bookings[i].journeys[j].pnr+`</h5>`;
+                                else
+                                    text += `<h5>PNR: -</h5>`;
                                 text+=`<h6>Journey `+flight_counter+`</h6><br/>`;
                                 $text += 'Journey '+ flight_counter+'\n';
                                 flight_counter++;

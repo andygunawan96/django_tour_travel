@@ -1501,7 +1501,7 @@ function get_dynamic_page(type){
                     dynamic_page = msg.result.response;
                     for(i in msg.result.response){
                         counter++;
-                        text += `<option value=`+counter+` select>`+msg.result.response[i].title+`</option>`;
+                        text += `<option value=`+counter+` select>`+msg.result.response[i].sequence+`. `+msg.result.response[i].title+`</option>`;
                     }
                 }
                 else if(type == 'login' || type == 'home'){
