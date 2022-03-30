@@ -4353,7 +4353,7 @@ function airline_detail(type){
                                 'disc':  0,
                             }
                             for(n in price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
-                                if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase() == 'fare' || price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase() == 'rac')
+                                if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase() == 'fare') //harga per pax hanya fare karena yg lain pax count bisa beda
                                     price_type[price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase()] = price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
                                 else
                                     price_type[price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase()] = price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].total;
@@ -4585,7 +4585,7 @@ function airline_detail(type){
                                         commission = 0;
                                         if(airline_price[price_counter].ADT['rac'] != null)
                                             commission = airline_price[price_counter].ADT['rac']
-                                        commission_price += airline_request.adult * commission;
+                                        commission_price += commission;
                                         total_price += (airline_request.adult * airline_price[price_counter].ADT['fare']) + price;
                                         text+=`
                                             <div class="row" style="padding:5px;">
@@ -4630,7 +4630,7 @@ function airline_detail(type){
                                         commission = 0;
                                         if(airline_price[price_counter].CHD['rac'] != null)
                                             commission = airline_price[price_counter].CHD['rac'];
-                                        commission_price += airline_request.child * commission;
+                                        commission_price += commission;
                                         total_price += (airline_request.child * airline_price[price_counter].CHD['fare']) + price;
                                         text+=`
                                             <div class="row" style="padding:5px;">
@@ -4677,7 +4677,7 @@ function airline_detail(type){
                                         }catch(err){
 
                                         }
-                                        commission_price += airline_request.infant * commission;
+                                        commission_price += commission;
                                         total_price += (airline_request.infant * airline_price[price_counter].INF['fare']) + price;
                                         text+=`
                                             <div class="row" style="padding:5px;">
@@ -5227,6 +5227,13 @@ function check_passenger(adult, child, infant){
         else if(check_word(document.getElementById('booker_first_name').value) == false)
             error_log+= 'Please use alpha characters for booker first name!</br>\n';
         document.getElementById('booker_first_name').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
+    }if(document.getElementById('booker_nationality').value == ''){
+        error_log+= 'Please fill booker nationality!</br>\n';
+        $("#booker_nationality").each(function() {
+          $(this).siblings(".select2-container").css('border', '1px solid red');
+        });
     }else{
         document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
     }if(check_phone_number(document.getElementById('booker_phone').value)==false){

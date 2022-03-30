@@ -4253,9 +4253,8 @@ function alert_message_swal(msg){
 }
 
 function check_name_airline(first_name, last_name){
-    if(check_word(last_name) == true){
+    if(check_word(last_name) == true || last_name == ''){ //kalau lastname kosong biar tetap masuk pengecheckan
         log = '';
-        console.log();
         //last name alpha characters
         if(first_name.split(' ').length != 1 && last_name == '')
             log = 'fill last name of';
