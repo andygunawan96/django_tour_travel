@@ -865,6 +865,7 @@ function goto_passenger(){
         `<input type="hidden" id="response" name="response"
         value='`+JSON.stringify(journeys)+`'>
         <input type="hidden" id="time_limit_input" name="time_limit_input" value="`+time_limit+`" />`;
+    document.getElementById('train_passenger').action = '/train/passenger/'+signature;
     document.getElementById('train_passenger').submit();
 }
 

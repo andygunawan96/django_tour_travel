@@ -135,6 +135,12 @@
                 <button type="button" class="primary-btn-white for-show-mobile-inb mb-2" id="button-home-mb" onclick="window.location.href='/'" hidden>
                     <i class="fas fa-home"></i>
                 </button>
+                <div id="reorder_div" class="for-show-website-inb mb-2 mr-1">
+
+                </div>
+                <div id="button-re-order-div">
+
+                </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-8 col-xs-7" style="text-align:right;">
                 <button type="button" class="primary-btn-white mb-2" id="button-new-reservation" style="font-size:13px;" onclick="window.location.href='/'+window.location.href.split('/')[3]" hidden>
@@ -142,6 +148,9 @@
                 </button>
             </div>
         </div>
+        <form method="POST" id="train_booking_form" hidden>
+            {% csrf_token %}
+        </form>
         <div class="mt-3" id="show_title_train" hidden>
             <h3>{% trans 'Please Review Your Booking' %}</h3>
             <h4>{% trans 'Prices may changes at any time' %}</h4>
