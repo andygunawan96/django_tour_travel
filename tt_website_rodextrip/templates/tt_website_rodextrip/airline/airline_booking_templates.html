@@ -195,6 +195,14 @@
             </div>
         </div>
         <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
+        <form method="POST" id="go_to_passenger" action="" hidden>
+            {% csrf_token %}
+            <input type="hidden" id="time_limit_input" name="time_limit_input"/>
+            <input type="hidden" id="airline_price_itinerary" name="airline_price_itinerary"/>
+            <input type="hidden" id="airline_price_itinerary_request" name="airline_price_itinerary_request"/>
+            <input type="hidden" id="airline_sell_journey_response" name="airline_sell_journey_response"/>
+        </form>
+
         <form method="POST" id="airline_form" action="">
             {% csrf_token %}
             <div class="row" style="padding-top:20px;">
@@ -207,6 +215,12 @@
                     <button type="button" class="primary-btn-white for-show-mobile-inb mb-2" id="button-home-mb" onclick="window.location.href='/'" hidden>
                         <i class="fas fa-home"></i>
                     </button>
+                    <div id="reorder_div" class="for-show-website-inb mb-2 mr-1">
+
+                    </div>
+                    <div id="button-re-order-div">
+
+                    </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-8 col-xs-7" style="text-align:right;">
                     <button type="button" class="primary-btn-white mb-2" style="font-size:13px;" id="button-new-reservation" onclick="window.location.href='/'+window.location.href.split('/')[3]" hidden>

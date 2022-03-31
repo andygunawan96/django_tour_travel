@@ -1115,6 +1115,7 @@ def review(request, signature):
             cache_version = get_cache_version()
             response = get_cache_data(cache_version)
             airline_country = response['result']['response']['airline']['country']
+            country = {}
             phone_code = []
             for i in airline_country:
                 if i['phone_code'] not in phone_code:
@@ -1168,7 +1169,7 @@ def review(request, signature):
                     print('airline no ssr')
 
             #SEAT
-            if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-2] == 'seat_map':
+            elif request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-2] == 'seat_map':
                 try:
                     passenger = request.session['airline_create_passengers_%s' % signature]['adult'] + request.session['airline_create_passengers_%s' % signature]['child']
                     passengers = json.loads(request.POST['passenger'])
@@ -1203,13 +1204,22 @@ def review(request, signature):
                     print('airline no seatmap')
 
 
-            if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-2] == 'passenger':
+            elif request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-2] == 'passenger':
                 set_session(request, 'airline_seat_request_%s' % signature, {})
                 set_session(request, 'airline_ssr_request_%s' % signature, {})
                 adult = []
                 child = []
                 infant = []
                 contact = []
+                nationality = ''
+                if country.get(request.POST['booker_nationality']):
+                    nationality = country[request.POST['booker_nationality']]
+                else:
+                    for country in airline_country:
+                        if country['name'] == request.POST['booker_nationality']:
+                            country[request.POST['booker_nationality']] = country['code']
+                            nationality = country['code']
+                            break
                 booker = {
                     'title': request.POST['booker_title'],
                     'first_name': request.POST['booker_first_name'],
@@ -1218,6 +1228,7 @@ def review(request, signature):
                     'calling_code': request.POST['booker_phone_code'],
                     'mobile': request.POST['booker_phone'],
                     'nationality_name': request.POST['booker_nationality'],
+                    'nationality_code': nationality,
                     'booker_seq_id': request.POST['booker_id']
                 }
                 for i in range(int(request.session['airline_request_%s' % signature]['adult'])):
@@ -1251,6 +1262,27 @@ def review(request, signature):
                         passport_number = request.POST.get('adult_passport_number' + str(i + 1))
                         passport_ed = request.POST.get('adult_passport_expired_date' + str(i + 1))
                         passport_country_of_issued = request.POST.get('adult_country_of_issued' + str(i + 1))
+
+                    nationality = ''
+                    if country.get(request.POST['adult_nationality' + str(i + 1)]):
+                        nationality = country[request.POST['adult_nationality' + str(i + 1)]]
+                    else:
+                        for country in airline_country:
+                            if country['name'] == request.POST['adult_nationality' + str(i + 1)]:
+                                country[request.POST['adult_nationality' + str(i + 1)]] = country['code']
+                                nationality = country['code']
+                                break
+                    country_of_issued_code = ''
+                    if passport_country_of_issued:
+                        if country.get(passport_country_of_issued):
+                            country_of_issued_code = country[passport_country_of_issued]
+                        else:
+                            for country in airline_country:
+                                if country['name'] == passport_country_of_issued:
+                                    country[passport_country_of_issued] = country['code']
+                                    country_of_issued_code = country['code']
+                                    break
+
                     adult.append({
                         "pax_type": "ADT",
                         "first_name": request.POST['adult_first_name' + str(i + 1)],
@@ -1258,7 +1290,9 @@ def review(request, signature):
                         "title": request.POST['adult_title' + str(i + 1)],
                         "birth_date": request.POST.get('adult_birth_date' + str(i + 1)),
                         "nationality_name": request.POST['adult_nationality' + str(i + 1)],
+                        "nationality_code": nationality,
                         "identity_country_of_issued_name": passport_country_of_issued,
+                        "identity_country_of_issued_code": country_of_issued_code,
                         "identity_expdate": passport_ed,
                         "identity_number": passport_number,
                         "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
@@ -1365,6 +1399,27 @@ def review(request, signature):
                         passport_number = request.POST['child_passport_number' + str(i + 1)]
                         passport_ed = request.POST['child_passport_expired_date' + str(i + 1)]
                         passport_country_of_issued = request.POST['child_country_of_issued' + str(i + 1)]
+
+                    nationality = ''
+                    if country.get(request.POST['child_nationality' + str(i + 1)]):
+                        nationality = country[request.POST['child_nationality' + str(i + 1)]]
+                    else:
+                        for country in airline_country:
+                            if country['name'] == request.POST['child_nationality' + str(i + 1)]:
+                                country[request.POST['child_nationality' + str(i + 1)]] = country['code']
+                                nationality = country['code']
+                                break
+                    country_of_issued_code = ''
+                    if passport_country_of_issued:
+                        if country.get(passport_country_of_issued):
+                            country_of_issued_code = country[passport_country_of_issued]
+                        else:
+                            for country in airline_country:
+                                if country['name'] == passport_country_of_issued:
+                                    country[passport_country_of_issued] = country['code']
+                                    country_of_issued_code = country['code']
+                                    break
+
                     child.append({
                         "pax_type": "CHD",
                         "first_name": request.POST['child_first_name' + str(i + 1)],
@@ -1372,9 +1427,11 @@ def review(request, signature):
                         "title": request.POST['child_title' + str(i + 1)],
                         "birth_date": request.POST['child_birth_date' + str(i + 1)],
                         "nationality_name": request.POST['child_nationality' + str(i + 1)],
+                        "nationality_code": nationality,
                         "identity_number": passport_number,
                         "identity_expdate": passport_ed,
                         "identity_country_of_issued_name": passport_country_of_issued,
+                        "identity_country_of_issued_code": country_of_issued_code,
                         "passenger_seq_id": request.POST['child_id' + str(i + 1)],
                         "identity_type": request.POST['child_id_type' + str(i + 1)],
                         "ff_numbers": ff_number,
@@ -1389,6 +1446,26 @@ def review(request, signature):
                         passport_number = request.POST['infant_passport_number' + str(i + 1)]
                         passport_ed = request.POST['infant_passport_expired_date' + str(i + 1)]
                         passport_country_of_issued = request.POST['infant_country_of_issued' + str(i + 1)]
+
+                    nationality = ''
+                    if country.get(request.POST['infant_nationality' + str(i + 1)]):
+                        nationality = country[request.POST['infant_nationality' + str(i + 1)]]
+                    else:
+                        for country in airline_country:
+                            if country['name'] == request.POST['infant_nationality' + str(i + 1)]:
+                                country[request.POST['infant_nationality' + str(i + 1)]] = country['code']
+                                nationality = country['code']
+                                break
+                    country_of_issued_code = ''
+                    if passport_country_of_issued:
+                        if country.get(passport_country_of_issued):
+                            country_of_issued_code = country[passport_country_of_issued]
+                        else:
+                            for country in airline_country:
+                                if country['name'] == passport_country_of_issued:
+                                    country[passport_country_of_issued] = country['code']
+                                    country_of_issued_code = country['code']
+                                    break
                     infant.append({
                         "pax_type": "INF",
                         "first_name": request.POST['infant_first_name' + str(i + 1)],
@@ -1396,9 +1473,11 @@ def review(request, signature):
                         "title": request.POST['infant_title' + str(i + 1)],
                         "birth_date": request.POST['infant_birth_date' + str(i + 1)],
                         "nationality_name": request.POST['infant_nationality' + str(i + 1)],
+                        "nationality_code": nationality,
                         "identity_number": passport_number,
                         "identity_expdate": passport_ed,
                         "identity_country_of_issued_name": passport_country_of_issued,
+                        "identity_country_of_issued_code": country_of_issued_code,
                         "passenger_seq_id": request.POST['infant_id' + str(i + 1)],
                         "identity_type": request.POST['infant_id_type' + str(i + 1)],
                         "behaviors": json.loads(request.POST['infant_behaviors' + str(i + 1)]) if request.POST.get('infant_behaviors' + str(i + 1)) else {},

@@ -173,7 +173,7 @@ def search(request):
     else:
         return no_session_logout(request)
 
-def passenger(request):
+def passenger(request, signature):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version()
@@ -203,10 +203,9 @@ def passenger(request):
                     time_limit = int(request.POST['time_limit_input'])
                 set_session(request, 'time_limit', time_limit)
                 set_session(request, 'train_pick', json.loads(request.POST['response']))
-                set_session(request, 'train_signature', request.POST['signature'])
             except:
                 pass
-
+            set_session(request, 'train_signature', signature)
             file = read_cache_with_folder_path("get_train_carriers",90911)
             if file:
                 carrier = file
@@ -253,7 +252,7 @@ def passenger(request):
     else:
         return no_session_logout(request)
 
-def review(request):
+def review(request, signature):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version()

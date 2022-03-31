@@ -184,24 +184,26 @@ def index(request):
                         #get_data_awal
                         cache = {}
                         try:
-                            cache['airline'] = {
-                                    'origin': request.session['airline_request']['origin'][0],
-                                    'destination': request.session['airline_request']['destination'][0],
-                                    'departure': request.session['airline_request']['departure'][0],
-                                }
-                            if cache['airline']['departure'] == 'Invalid date':
-                                cache['airline']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
+                            if request.session['airline_request']['origin'][0].split('-')[1] != ' ':
+                                cache['airline'] = {
+                                        'origin': request.session['airline_request']['origin'][0],
+                                        'destination': request.session['airline_request']['destination'][0],
+                                        'departure': request.session['airline_request']['departure'][0],
+                                    }
+                                if cache['airline']['departure'] == 'Invalid date':
+                                    cache['airline']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
                         except:
                             pass
 
                         try:
-                            cache['train'] = {
-                                    'origin': request.session['train_request']['origin'][0],
-                                    'destination': request.session['train_request']['destination'][0],
-                                    'departure': request.session['train_request']['departure'][0],
-                                }
-                            if cache['train']['departure'] == 'Invalid date':
-                                cache['train']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
+                            if request.session['train_request']['origin'][0].split('-')[1] != ' ':
+                                cache['train'] = {
+                                        'origin': request.session['train_request']['origin'][0],
+                                        'destination': request.session['train_request']['destination'][0],
+                                        'departure': request.session['train_request']['departure'][0],
+                                    }
+                                if cache['train']['departure'] == 'Invalid date':
+                                    cache['train']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
                         except:
                             pass
 

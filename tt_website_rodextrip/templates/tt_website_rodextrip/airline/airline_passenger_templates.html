@@ -39,7 +39,6 @@
     last_session = 'passenger';
 
     signature = `{{signature}}`;
-    get_airline_data_passenger_page();
 
     birth_date_required = `{{birth_date_required}}`;
     birth_date_required = birth_date_required.replace(/False/g, false);
@@ -6435,6 +6434,7 @@
     {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" %}
         get_automatic_booker('{{username.co_customer_seq_id}}');
     {% endif %}
+    get_airline_data_passenger_page();
 </script>
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% endblock %}
