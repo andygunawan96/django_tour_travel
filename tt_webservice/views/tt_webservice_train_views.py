@@ -12,6 +12,7 @@ from .tt_webservice_views import *
 from .tt_webservice import *
 from .tt_webservice_voucher_views import *
 from ..views import tt_webservice_agent_views as webservice_agent
+import copy
 _logger = logging.getLogger("rodextrip_logger")
 
 month = {
@@ -50,6 +51,10 @@ def api_models(request):
             res = login(request)
         elif req_data['action'] == 'get_data':
             res = get_data(request)
+        elif req_data['action'] == 're_order_set_passengers':
+            res = re_order_set_passengers(request)
+        elif req_data['action'] == 'choose_train_reorder':
+            res = choose_train_reorder(request)
         elif req_data['action'] == 'get_train_data_search_page':
             res = get_train_data_search_page(request)
         elif req_data['action'] == 'get_train_data_passenger_page':
@@ -257,6 +262,114 @@ def get_train_data_review_page(request):
         _logger.error('ERROR get train_cache_data file\n' + str(e) + '\n' + traceback.format_exc())
 
     return res
+
+def get_age(birthdate):
+    today = date.today()
+    age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
+    return age
+
+def re_order_set_passengers(request):
+    try:
+        adult = []
+        infant = []
+        contact = []
+        data_booker = json.loads(request.POST['booker'])
+        data_pax = json.loads(request.POST['pax'])
+        title = ''
+        if data_booker['gender'] == 'male':
+            title = 'MR'
+        elif data_booker['gender'] == 'female' and data_booker['martial_status'] == '':
+            title = 'MS'
+        else:
+            title = 'MRS'
+        booker = {
+            "title": title,
+            "first_name": data_booker['first_name'],
+            "last_name": data_booker['last_name'],
+            "email": data_booker['email'],
+            "calling_code": data_booker['phones'][0]['calling_code'],
+            "mobile": data_booker['phones'][0]['calling_number'],
+            "nationality_code": data_booker['nationality_code'],
+            "nationality_name": data_booker['nationality_name'],
+            "booker_seq_id": data_booker['seq_id']
+        }
+        contact.append(copy.deepcopy(booker))
+        contact[0].update({
+            "customer_seq_id": contact[0].pop('booker_seq_id')
+        })
+        for pax in data_pax:
+            if pax['birth_date'] == '' or pax['birth_date'] == False:
+                pax_type = 'ADT'
+            else:
+                birth_date = pax['birth_date'].split(' ')
+                old = get_age(date(int(birth_date[2]),int(month[birth_date[1]]),int(birth_date[0])))
+                if old > 2:
+                    pax_type = 'ADT'
+                else:
+                    pax_type = 'INF'
+            if pax['gender'] == 'male':
+                if pax_type == 'ADT':
+                    title = 'MR'
+                else:
+                    title = 'MSTR'
+            elif pax['gender'] == 'female':
+                if pax_type == 'ADT':
+                    if data_booker['martial_status'] == '':
+                        title = 'MS'
+                    else:
+                        title = 'MRS'
+                else:
+                    title = 'MISS'
+
+            data_pax_dict = {
+                "pax_type": pax_type,
+                "first_name": pax['first_name'],
+                "last_name": pax['last_name'],
+                "title": title,
+                "birth_date": pax['birth_date'],
+                "nationality": pax['nationality_code'],
+                "nationality_name": pax['nationality_name'],
+                "identity_country_of_issued": pax['identity_country_of_issued_code'],
+                "identity_country_of_issued_name": pax['identity_country_of_issued_name'],
+                "identity_expdate": convert_string_to_date_to_string_front_end(pax['identity_expdate']) if pax['identity_expdate'] != '' and pax['identity_expdate'] != False else '',
+                "identity_number": pax['identity_number'],
+                "passenger_seq_id": pax['seq_id'],
+                "identity_type": pax['identity_type'],
+                "behaviors": pax['behaviors'],
+            }
+            if pax_type == 'ADT':
+                adult.append(data_pax_dict)
+            else:
+                infant.append(data_pax_dict)
+        train_create_passengers = {
+            'booker': booker,
+            'adult': adult,
+            'infant': infant,
+            'contact': contact
+        }
+        set_session(request, 'train_create_passengers', train_create_passengers)
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return ERR.get_no_error_api()
+
+def choose_train_reorder(request):
+    try:
+        journeys = []
+        schedules = []
+        for journey in json.loads(request.POST['train_pick']):
+            journeys.append({
+                'journey_code': journey['journey_code'],
+                'fare_code': journey['fares'][0]['fare_code']
+            })
+            schedules.append({
+                'journeys': journeys,
+                'provider': journey['provider'],
+            })
+            journeys = []
+        set_session(request, 'train_booking', schedules)
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return ERR.get_no_error_api()
 
 def search(request):
     #train
@@ -500,12 +613,26 @@ def get_booking(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
+            javascript_version = get_cache_version()
+            response = get_cache_data(javascript_version)
+            airline_country = response['result']['response']['airline']['country']
+            country = {}
+            now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             try:
                 res['result']['response']['can_issued'] = False
-                if res['result']['response']['hold_date'] > datetime.now().strftime('%Y-%m-%d %H:%M:%S'):
+                if res['result']['response']['hold_date'] > now:
                     res['result']['response']['can_issued'] = True
             except:
                 _logger.error('no hold date')
+
+            if 'process_rebooking' in request.session['user_account']['co_agent_frontend_security']:
+                rebooking = True
+                for provider_booking_dict in res['result']['response']['provider_bookings']:
+                    for journey_dict in provider_booking_dict['journeys']:
+                        if now > journey_dict['departure_date']:
+                            rebooking = False
+                res['result']['response']['rebooking'] = rebooking
+
             for provider_booking in res['result']['response']['provider_bookings']:
                 for journey in provider_booking['journeys']:
                     journey.update({
@@ -533,6 +660,24 @@ def get_booking(request):
                         month[pax['birth_date'].split(' ')[0].split('-')[1]],
                         pax['birth_date'].split(' ')[0].split('-')[0])
                 })
+                if pax.get('nationality_code'):
+                    if country.get(pax['nationality_code']):
+                        pax['nationality_name'] = country[pax['nationality_code']]
+                    else:
+                        for country in airline_country:
+                            if country['code'] == pax['nationality_code']:
+                                country[pax['nationality_code']] = country['name']
+                                pax['nationality_name'] = country['name']
+                                break
+                if pax.get('identity_country_of_issued_code'):
+                    if country.get(pax['identity_country_of_issued_code']):
+                        pax['identity_country_of_issued_name'] = country[pax['identity_country_of_issued_code']]
+                    else:
+                        for country in airline_country:
+                            if country['code'] == pax['identity_country_of_issued_code']:
+                                country[pax['identity_country_of_issued_code']] = country['name']
+                                pax['identity_country_of_issued_name'] = country['name']
+                                break
             _logger.info("SUCCESS get_booking TRAIN SIGNATURE " + request.session['train_signature'])
         else:
             _logger.error("ERROR get_booking_train TRAIN SIGNATURE " + request.session['train_signature'] + ' ' + json.dumps(res))

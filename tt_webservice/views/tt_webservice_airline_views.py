@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from tools import util, ERR
 from tools.parser import *
-from datetime import datetime
+from datetime import datetime, date
 from tools.parser import *
 from ..static.tt_webservice.url import *
 from .tt_webservice_views import *
@@ -64,6 +64,10 @@ def api_models(request):
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'signin':
             res = login(request)
+        elif req_data['action'] == 're_order_set_airline_request':
+            res = re_order_set_airline_request(request)
+        elif req_data['action'] == 're_order_set_passengers':
+            res = re_order_set_passengers(request)
         elif req_data['action'] == 'get_data_search_page':
             res = get_data_search_page(request)
         elif req_data['action'] == 'get_data_passenger_page':
@@ -236,6 +240,94 @@ def login(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
+def re_order_set_airline_request(request):
+    try:
+        set_session(request, 'airline_request_%s' % request.POST['signature'], json.loads(request.POST['airline_request']))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return ERR.get_no_error_api()
+
+def get_age(birthdate):
+    today = date.today()
+    age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
+    return age
+
+def re_order_set_passengers(request):
+    try:
+        adult = []
+        child = []
+        infant = []
+        contact = []
+        data_booker = json.loads(request.POST['booker'])
+        data_pax = json.loads(request.POST['pax'])
+        title = ''
+        if data_booker['gender'] == 'male':
+            title = 'MR'
+        elif data_booker['gender'] == 'female' and data_booker['martial_status'] == '':
+            title = 'MS'
+        else:
+            title = 'MRS'
+        booker = {
+            "title": title,
+            "first_name": data_booker['first_name'],
+            "last_name": data_booker['last_name'],
+            "email": data_booker['email'],
+            "calling_code": data_booker['phones'][0]['calling_code'],
+            "mobile": data_booker['phones'][0]['calling_number'],
+            "nationality_code": data_booker['nationality_code'],
+            "booker_seq_id": data_booker['seq_id']
+        }
+        for pax in data_pax:
+            if pax['birth_date'] == '' or pax['birth_date'] == False:
+                pax_type = 'ADT'
+            else:
+                birth_date = pax['birth_date'].split(' ')
+                old = get_age(date(int(birth_date[2]),int(month[birth_date[1]]),int(birth_date[0])))
+                if old > 11:
+                    pax_type = 'ADT'
+                elif old > 2:
+                    pax_type = 'CHD'
+                else:
+                    pax_type = 'INF'
+            if pax['gender'] == 'male':
+                title = 'MR'
+            elif pax['gender'] == 'female' and data_booker['martial_status'] == '':
+                title = 'MS'
+            else:
+                title = 'MRS'
+            data_pax_dict = {
+                "pax_type": pax_type,
+                "first_name": pax['first_name'],
+                "last_name": pax['last_name'],
+                "title": title,
+                "birth_date": pax['birth_date'],
+                "nationality_name": pax['nationality_name'],
+                "identity_country_of_issued_name": pax['identity_country_of_issued_name'],
+                "identity_expdate": convert_string_to_date_to_string_front_end(pax['identity_expdate']) if pax['identity_expdate'] != '' and pax['identity_expdate'] != False else '',
+                "identity_number": pax['identity_number'],
+                "passenger_seq_id": pax['seq_id'],
+                "identity_type": pax['identity_type'],
+                "ff_numbers": [],
+                "behaviors": pax['behaviors'],
+            }
+            if pax_type == 'ADT':
+                adult.append(data_pax_dict)
+            elif pax_type == 'CHD':
+                child.append(data_pax_dict)
+            else:
+                infant.append(data_pax_dict)
+        airline_create_passengers = {
+            'booker': booker,
+            'adult': adult,
+            'child': child,
+            'infant': infant,
+            'contact': contact
+        }
+        set_session(request, 'airline_create_passengers_%s' % request.POST['signature'], airline_create_passengers)
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return ERR.get_no_error_api()
+
 def get_data_search_page(request):
     try:
         res = {}
@@ -256,6 +348,8 @@ def get_data_passenger_page(request):
         res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
         res['airline_get_price_request'] = request.session['airline_get_price_request_%s' % request.POST['signature']]
         res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
+        if request.session.get('airline_create_passengers_%s' % request.POST['signature']):
+            res['pax_cache'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
         file = read_cache_with_folder_path("get_airline_carriers", 90911)
         if file:
             res['airline_carriers'] = file
@@ -963,6 +1057,7 @@ def get_price_itinerary(request, boolean, counter):
 
     try:
         if res['result']['error_code'] == 0:
+            res['result']['request'] = data
             try:
                 for price_itinerary_provider in res['result']['response']['price_itinerary_provider']:
                     for journey in price_itinerary_provider['journeys']:
@@ -1080,7 +1175,7 @@ def get_price_itinerary(request, boolean, counter):
             res['result']['response'].update({
                 'is_combo_price': not boolean
             })
-        res['result']['request'] = data
+
     except Exception as e:
         _logger.error(str(e) + traceback.format_exc())
     return res
@@ -1622,6 +1717,8 @@ def get_booking(request):
     try:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
+        airline_country = response['result']['response']['airline']['country']
+        country = {}
         file = read_cache_with_folder_path("airline_destination", 90911)
         if file:
             response = file
@@ -1634,12 +1731,21 @@ def get_booking(request):
                 'country': country['country']
             })
         if res['result']['error_code'] == 0:
+            now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             try:
                 res['result']['response']['can_issued'] = False
-                if res['result']['response']['hold_date'] > datetime.now().strftime('%Y-%m-%d %H:%M:%S'):
+                if res['result']['response']['hold_date'] > now:
                     res['result']['response']['can_issued'] = True
             except:
                 _logger.error('no hold date')
+
+            if 'process_rebooking' in request.session['user_account']['co_agent_frontend_security']:
+                rebooking = True
+                for provider_booking_dict in res['result']['response']['provider_bookings']:
+                    for journey_dict in provider_booking_dict['journeys']:
+                        if now > journey_dict['departure_date']:
+                            rebooking = False
+                res['result']['response']['rebooking'] = rebooking
 
             for pax in res['result']['response']['passengers']:
                 try:
@@ -1651,6 +1757,24 @@ def get_booking(request):
                         })
                 except Exception as e:
                     _logger.error(str(e) + traceback.format_exc())
+                if pax.get('nationality_code'):
+                    if country.get(pax['nationality_code']):
+                        pax['nationality_name'] = country[pax['nationality_code']]
+                    else:
+                        for country in airline_country:
+                            if country['code'] == pax['nationality_code']:
+                                country[pax['nationality_code']] = country['name']
+                                pax['nationality_name'] = country['name']
+                                break
+                if pax.get('identity_country_of_issued_code'):
+                    if country.get(pax['identity_country_of_issued_code']):
+                        pax['identity_country_of_issued_name'] = country[pax['identity_country_of_issued_code']]
+                    else:
+                        for country in airline_country:
+                            if country['code'] == pax['identity_country_of_issued_code']:
+                                country[pax['identity_country_of_issued_code']] = country['name']
+                                pax['identity_country_of_issued_name'] = country['name']
+                                break
             for provider in res['result']['response']['provider_bookings']:
                 for journey in provider['journeys']:
                     journey.update({
