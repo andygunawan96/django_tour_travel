@@ -5803,10 +5803,23 @@ function airline_get_booking(data, sync=false){
                             if(i != 0){
                                 text+=`<hr/>`;
                             }
+                            text += `<div class="row">
+                                        <div class="col-lg-6">`;
                             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
                                 text+=`<h5>PNR: `+msg.result.response.provider_bookings[i].pnr+`</h5>`;
                             else
                                 text += `<h5>PNR: - </h5>`;
+                            text += `   </div>
+                                        <div class="col-lg-6" style="text-align:right;">`;
+                            if(provider_list_data.hasOwnProperty(msg.result.response.provider_bookings[i].provider) && provider_list_data[msg.result.response.provider_bookings[i].provider].description != '')
+                                text +=`
+                                            <h5>`+provider_list_data[msg.result.response.provider_bookings[i].provider].description+`</h5>`;
+                            else
+                                text +=`
+                                            <h5>`+msg.result.response.provider_bookings[i].provider+`</h5>`;
+                            text+=`
+                                        </div>
+                                    </div>`;
                             for(j in msg.result.response.provider_bookings[i].journeys){
                                 fare_detail_list = [];
                                 text+=`<h6>Flight `+flight_counter+`</h6>`;
