@@ -2599,6 +2599,8 @@ function sort(){
                                            text+=`</span><br/>`;
                                            if(airline[i].segments[j].carrier_type_name != '')
                                                text += `<span style="font-weight:500;"><i class="fas fa-plane"></i> `+airline[i].segments[j].carrier_type_name+`</span><br/>`;
+                                           else if(airline[i].segments[j].carrier_type_code != '')
+                                               text += `<span style="font-weight:500;"><i class="fas fa-plane"></i> `+airline[i].segments[j].carrier_type_code+`</span><br/>`;
                                            for(k in airline[i].segments[j].fares){
                                                if(k == 0){
                                                    for(l in airline[i].segments[j].fares[k].fare_details){
@@ -3853,6 +3855,8 @@ function airline_pick_mc(type){
                             text+=`</span><br/>`;
                             if(airline_pick_list[i].segments[j].carrier_type_name != '')
                                 text += `<span style="font-weight:500;"><i class="fas fa-plane"></i> `+airline_pick_list[i].segments[j].carrier_type_name+`</span><br/>`;
+                            else if(airline_pick_list[i].segments[j].carrier_type_code!= '')
+                                text += `<span style="font-weight:500;"><i class="fas fa-plane"></i> `+airline_pick_list[i].segments[j].carrier_type_code+`</span><br/>`;
                             for(k in airline_pick_list[i].segments[j].fares){
                                 if(k == 0){
                                     for(l in airline_pick_list[i].segments[j].fares[k].fare_details){
