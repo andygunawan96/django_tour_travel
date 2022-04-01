@@ -1556,7 +1556,7 @@ function airline_get_provider_list(type, data=''){
                         });
                         $('input[name="infant_passport_expired_date'+i+'"]').val("");
                       }
-                    if (pax_cache_reorder !== undefined){
+                    if (typeof pax_cache_reorder !== 'undefined'){
                         auto_input_pax_cache_reorder();
                     }
                    });
