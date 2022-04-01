@@ -1589,7 +1589,7 @@ $(document).ready(function(){
               opens: 'center',
               startDate: moment(),
               minDate: moment(),
-              maxDate: moment().subtract(-90, 'days'),
+              maxDate: moment().subtract(-45, 'days'),
               showDropdowns: true,
               locale: {
                   format: 'DD MMM YYYY',
