@@ -12,7 +12,6 @@ function submit_agent_registration(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
 //                if(username == '')
 //                    get_payment_acq('Issued','', '', 'top_up', signature, 'registration','', '')
@@ -88,7 +87,6 @@ function agent_register_get_config(){
 
        },
        success: function(msg) {
-            console.log(msg);
             agent_register_get_requirement_list_doc();
             text=  '';
             //company
@@ -204,7 +202,6 @@ function onchange_agent_type(){
     term_text = '';
     for(i in msg.result.response.agent_type){
         if(document.getElementById('agent_type').value == msg.result.response.agent_type[i].name){
-            console.log(msg.result.response.agent_type[i].terms_and_condition);
             if(msg.result.response.agent_type[i].terms_and_condition)
             {
                 term_text += msg.result.response.agent_type[i].terms_and_condition;
@@ -232,7 +229,6 @@ function get_promotions(){
             'signature': ''
        },
        success: function(msg) {
-            console.log(msg);
 //            if(msg.result.error_code == 0)
 //                requirement_document = msg.result.response;
             try{
@@ -271,7 +267,6 @@ function get_promotions(){
 }
 
 function change_promotion(){
-    console.log(document.getElementById('promotion').value);
     text = '';
     temp_grand_total = 0;
     for(i in promotion){
@@ -335,7 +330,6 @@ function agent_register_get_requirement_list_doc(){
 
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0)
                 requirement_document = msg.result.response;
        },

@@ -9,7 +9,6 @@ function signin_rodextrip(type){
        },
        data: {},
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;
             }
@@ -47,7 +46,6 @@ function get_balance(val){
                     'using_cache': using_cache
                },
                success: function(msg) {
-                console.log(msg);
                 if(msg.result.error_code == 0){
                     time = 300;
                     balance = 0;
@@ -197,7 +195,6 @@ function get_account(){
                 'signature': signature
            },
            success: function(msg) {
-           console.log(msg);
             if(msg.result.error_code == 0){
                 //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
             }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -246,7 +243,6 @@ function get_transactions_notification(val){
                 'using_cache': using_cache
            },
            success: function(msg) {
-           console.log(msg);
            try{
                 document.getElementById('notification_detail').innerHTML = '';
     //            document.getElementById('notification_detail2').innerHTML = '';
@@ -538,7 +534,6 @@ function get_transactions(type){
             'using_cache': 'false'
        },
        success: function(msg) {
-        console.log(msg);
         document.getElementById('search').style.display = 'block';
         document.getElementById('button').disabled = false;
         $('#loading-search-reservation').hide();
@@ -703,7 +698,6 @@ function get_top_up_quota(){
         'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         top_up_amount_list = msg.result.response;
         if(msg.result.error_code == 0){
             text = '';
@@ -776,7 +770,6 @@ function buy_quota_btbo2(){
             'acquirer_seq_id': document.getElementById('amount').value
        },
        success: function(msg) {
-        console.log(msg);
         if(msg.result.error_code == 0){
             Swal.fire({
               type: 'success',
@@ -845,7 +838,6 @@ function submit_top_up(){
             'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         if(msg.result.error_code == 0){
             document.getElementById('amount').disabled = true;
 //            document.getElementById('payment_method').disabled = true;
@@ -899,8 +891,6 @@ function commit_top_up(){
             'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
-        console.log(document.getElementById('top_up_form'));
         if(msg.result.error_code == 0){
             document.getElementById('top_up_form').submit();
         }else{
@@ -947,7 +937,6 @@ function cancel_top_up(name){
                 'signature': signature
            },
            success: function(msg) {
-            console.log(msg);
             document.getElementById("table_top_up_history").innerHTML = `
             <tr>
                 <th style="width:10%;">No.</th>
@@ -1019,7 +1008,6 @@ function get_top_up(){
             'type': 'all'
        },
        success: function(msg) {
-        console.log(msg);
         document.getElementById('button').disabled = false;
         data_length = 0;
         text = '';
@@ -1126,7 +1114,6 @@ function confirm_top_up(name){
                     'signature': signature
                },
                success: function(msg) {
-                console.log(msg);
                 document.getElementById("table_top_up_history").innerHTML = '';
                 get_top_up();
         //        document.getElementById('top_up_form').submit();
@@ -1140,8 +1127,6 @@ function confirm_top_up(name){
 }
 
 function request_top_up(val){
-    console.log(val);
-    console.log(top_up_history);
     getToken();
     $.ajax({
        type: "POST",
@@ -1154,7 +1139,6 @@ function request_top_up(val){
             'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         document.getElementById("table_top_up_history").innerHTML = '';
         document.getElementById("payment_acq").innerHTML = '';
         document.getElementById("payment_acq").style = 'padding-bottom:20px;';
@@ -1329,7 +1313,6 @@ function check_top_up(){
           cancelButtonColor: '#d33',
           confirmButtonText: 'Yes'
         }).then((result) => {
-            console.log(result);
           if (result.value) {
             $('.loader-rodextrip').fadeIn();
             $('.payment_acq_btn').prop('disabled', true);
@@ -1375,7 +1358,6 @@ function get_vendor_balance(val){
             'using_cache': using_cache
        },
        success: function(msg) {
-        console.log(msg);
         text_balance = '';
         if(msg.result.error_code == 0){
             text_balance += `

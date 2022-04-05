@@ -11,7 +11,6 @@ function insurance_signin(data){
        data: {},
        success: function(msg) {
        try{
-           console.log(msg);
            if(msg.result.error_code == 0){
                insurance_signature = msg.result.response.signature;
                signature = msg.result.response.signature;
@@ -72,7 +71,6 @@ function insurance_get_config(page=false){
        },
        success: function(msg) {
        try{
-           console.log(msg);
            if(msg.result.error_code == 0){
                 insurance_config = msg.result.response;
                 for(i in insurance_config){
@@ -261,7 +259,6 @@ function insurance_get_availability(){
        },
        success: function(msg) {
        try{
-           console.log(msg);
            if(msg.result.error_code == 0){
                 insurance_data = msg.result.response;
                 var sequence = 0;
@@ -403,7 +400,6 @@ function insurance_get_token(){
        },
        success: function(msg) {
        try{
-           console.log(msg);
            if(msg.result.error_code == 0){
 
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -458,7 +454,6 @@ function insurance_get_kurs(){
        },
        success: function(msg) {
        try{
-           console.log(msg);
            if(msg.result.error_code == 0){
 
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -513,7 +508,6 @@ function insurance_get_premi(){
        },
        success: function(msg) {
        try{
-           console.log(msg);
            if(msg.result.error_code == 0){
 
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -568,7 +562,6 @@ function insurance_check_benefit_data(){
        },
        success: function(msg) {
        try{
-           console.log(msg);
            if(msg.result.error_code == 0){
 
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -678,7 +671,6 @@ function insurance_commit_booking(){
        },
        success: function(msg) {
        try{
-           console.log(msg);
            if(msg.result.error_code == 0){
 
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -730,7 +722,6 @@ function get_insurance_data_search_page(){
             'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            insurance_request = msg.insurance_request;
            insurance_get_config('search');
        },
@@ -751,7 +742,6 @@ function get_insurance_data_passenger_page(){
             'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            insurance_pick = msg.insurance_pick;
            insurance_request = msg.insurance_request;
            if(insurance_pick.type_trip_name == 'Family'){
@@ -780,7 +770,6 @@ function get_insurance_data_review_page(){
             'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            insurance_pick = msg.insurance_pick;
            insurance_request = msg.insurance_request;
            insurance_passenger = msg.insurance_passenger;
@@ -836,7 +825,6 @@ function insurance_commit_booking(){
                },
                data: data,
                success: function(msg) {
-                   console.log(msg);
                    if(msg.result.error_code == 0){
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
                             Swal.fire({
@@ -1624,7 +1612,6 @@ function set_insurance_search_value_to_true(){
 
 function insurance_search_autocomplete(term,type){
     term = term.toLowerCase();
-    console.log(type);
     var choices = [];
     if(type == 'origin')
         choices = origin_insurance_destination;
@@ -1664,7 +1651,6 @@ function insurance_get_booking(data, sync=false){
             'sync': sync
        },
        success: function(msg) {
-           console.log(msg);
            try{
                 hide_modal_waiting_transaction();
 
@@ -2503,7 +2489,6 @@ function insurance_issued_booking(data){
                'booking': temp_data
            },
            success: function(msg) {
-               console.log(msg);
                if(google_analytics != '')
                    gtag('event', 'insurance_issued', {});
                if(msg.result.error_code == 0){
@@ -2814,7 +2799,6 @@ function insurance_issued_booking(data){
                           cancelButtonColor: '#3085d6',
                           confirmButtonText: 'Top Up'
                         }).then((result) => {
-                            console.log(result);
                             if (result.value) {
                                 window.location.href = '/top_up';
                             }

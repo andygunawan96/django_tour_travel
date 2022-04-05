@@ -16,8 +16,6 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             'top_up_name': top_up_name
        },
        success: function(msg) {
-            console.log(msg);
-            console.log(type);
             payment_acq2 = {};
             type_render = type.replace('_review','').replace('_book_then_issued',''); //fix karena di pakai untuk path next get booking
             val_render = val;
@@ -131,7 +129,7 @@ function payment(){
        },
        data: {},
        success: function(msg) {
-            console.log(msg);
+
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error payment');
@@ -1129,7 +1127,6 @@ function get_payment_order_number(order_number){
                 'voucher_reference': typeof voucher_code === 'string' ? voucher_code : '',
            },
            success: function(msg) {
-                console.log(msg);
                 if(msg.result.error_code == 0){
                     if(payment_acq2[payment_method][selected].account_number == ""){
                         //payment gateway espay
@@ -1172,7 +1169,6 @@ function get_order_number_frontend(order_number){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             get_payment_espay(msg.result.response.order_number)
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1276,7 +1272,6 @@ function check_payment_payment_method(order_number,btn_name,booker,type,provider
 //            'signature': signature,
 //       },
 //       success: function(msg) {
-//            console.log(msg);
 //            if(msg.result.error_code != 0){
 //                get_payment_acq(btn_name, booker, order_number, type, signature, provider_type);
 //                if(provider_type == 'airline')
@@ -1309,7 +1304,6 @@ function get_va_bank(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 text = '';
                 payment_information = msg.result.response;
@@ -1352,7 +1346,6 @@ function set_payment_information(){
             'heading': document.getElementById('payment_information_heading').value
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 location.reload();
             }
@@ -1374,7 +1367,6 @@ function get_va_number(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             text = '';
             text += `
                 <div class="col-lg-12" id="radio_top_up" style="padding:0px; text-align:left;margin-bottom:10px;" onchange="change_top_up_method();">
@@ -1440,7 +1432,6 @@ function change_top_up_method(){
             break;
         }
     }
-    console.log(top_up_select);
     if(top_up_select == 'online_payment'){
         text = `<div class="col-sm-12" data-id="253" data-token="">`;
         for(i in va_number){
@@ -1643,7 +1634,6 @@ function func_get_term(){
        data: {
        },
        success: function(msg) {
-            console.log(msg);
             msg = msg.replace(/&lt;/g, '<');
             msg = msg.replace(/&gt;/g, '>');
             document.getElementById('topup_tac').innerHTML = msg;

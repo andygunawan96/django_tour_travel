@@ -63,7 +63,6 @@ function get_printout(order_number,type,provider_type, timeout=60){
                 'kwitansi_name': kwitansi_name
            },
            success: function(msg) {
-                console.log(msg);
                 if(msg.result.error_code == 0){
                     for(i in msg.result.response)
                         window.open(msg.result.response[i].url,'_blank');
@@ -198,7 +197,6 @@ function get_list_report_footer(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 text = '';
                 printout = msg.result.response;
@@ -289,7 +287,6 @@ function update_list_report_footer(){
             'name': document.getElementById('printout_choose').options[document.getElementById('printout_choose').selectedIndex].text
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 Swal.fire({
                  type: 'success',
@@ -350,7 +347,6 @@ function update_printout_color(){
             'color': '#' + document.getElementById('printout_color_background').value
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 Swal.fire({
                   type: 'success',
@@ -412,7 +408,6 @@ function get_medical_information(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.error_code == 0){
                 medical_data_frontend = msg.response;
                 change_medical_information();
@@ -449,7 +444,6 @@ function update_medical_information(){
             'html': CKEDITOR.instances['body_medical_information'].getData(),
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.error_code == 0){
                 Swal.fire({
                   type: 'success',

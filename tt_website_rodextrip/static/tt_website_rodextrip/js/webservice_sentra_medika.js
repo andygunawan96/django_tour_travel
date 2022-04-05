@@ -10,7 +10,6 @@ function sentra_medika_signin(data){
        data: {},
        success: function(msg) {
        try{
-           console.log(msg);
            if(msg.result.error_code == 0){
                sentra_medika_signature = msg.result.response.signature;
                signature = msg.result.response.signature;
@@ -72,7 +71,6 @@ function sentra_medika_page_passenger(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             titles = msg.titles;
             countries = msg.countries;
             get_list_report_footer();
@@ -95,7 +93,6 @@ function sentra_medika_page_review(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             passengers = msg.passenger;
             sentra_medika_get_cache_price();
        },
@@ -116,7 +113,6 @@ function get_config_sentra_medika(type){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 medical_config = msg;
                 if(type == 'home'){
@@ -196,7 +192,6 @@ function sentra_medika_get_availability(){
             'carrier_code': test_type
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 print_check_price++;
                 if(print_check_price == 2){
@@ -331,7 +326,6 @@ function sentra_medika_check_price(){
                 'carrier_code': test_type
            },
            success: function(msg) {
-                console.log(msg);
                 try{
                 if(msg.result.error_code == 0){
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
@@ -473,7 +467,6 @@ function sentra_medika_get_cache_price(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             try{
             if(msg.result.error_code == 0){
                 var text = `
@@ -670,7 +663,6 @@ function confirm_order(){
            'signature': signature,
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 //update ticket
                 document.getElementById('show_loading_booking_sentra_medika').hidden = false;
@@ -751,7 +743,6 @@ function sentra_medika_commit_booking(val){
        },
        data: data,
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
                     Swal.fire({
@@ -936,7 +927,6 @@ function sentra_medika_get_booking(order_number, sync=false){
             "order_number": order_number
        },
        success: function(msg) {
-            console.log(msg);
             try{
                 hide_modal_waiting_transaction();
 
@@ -1868,7 +1858,6 @@ function sentra_medika_cancel_booking(data){
                'signature': signature
            },
            success: function(msg) {
-               console.log(msg);
                document.getElementById('cancel_reservation').innerHTML = '';
                if(msg.result.error_code == 0){
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
@@ -1971,7 +1960,6 @@ function sentra_medika_issued_booking(data){
                'booking': temp_data
            },
            success: function(msg) {
-               console.log(msg);
                if(google_analytics != '')
                    gtag('event', 'sentra_medika_issued', {});
                if(msg.result.error_code == 0){
@@ -2276,7 +2264,6 @@ function sentra_medika_issued_booking(data){
                           cancelButtonColor: '#3085d6',
                           confirmButtonText: 'Top Up'
                         }).then((result) => {
-                            console.log(result);
                             if (result.value) {
                                 window.location.href = '/top_up';
                             }
@@ -2343,7 +2330,6 @@ function sentra_medika_get_result(data){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            hide_modal_waiting_transaction();
            if(msg.result.error_code == 0){
                 if(msg.result.response.length != medical_get_detail.result.response.passengers.length){
@@ -2388,7 +2374,6 @@ function get_transaction_by_analyst(){
            'vendor': vendor
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 document.getElementById("table_reservation").innerHTML = '';
                 var node = document.createElement("tr");
@@ -2591,7 +2576,6 @@ function get_data_cache_passenger_sentra_medika(type){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             passenger_data_cache_medical = msg;
             auto_fill_data();
        },
@@ -2613,7 +2597,6 @@ function get_data_cache_schedule_sentra_medika(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             if(Object.keys(msg).length != 0){
                 schedule_medical = msg;
                 auto_fill_home_care();
@@ -2672,7 +2655,6 @@ function save_data_pax_backend(action){
                 'request': JSON.stringify(request)
            },
            success: function(msg) {
-                console.log(msg);
                 if(msg.result.error_code == 0){
                     Swal.fire({
                       type: 'success',
@@ -2715,7 +2697,6 @@ function get_medical_information(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.error_code == 0){
                 medical_data_frontend = msg.response;
                 if(vendor == 'periksain'){
@@ -2818,7 +2799,6 @@ function update_service_charge(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 if(type == 'booking'){
                     price_arr_repricing = {};
@@ -2874,7 +2854,6 @@ function update_insentif_booker(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 try{
                     if(type == 'booking'){

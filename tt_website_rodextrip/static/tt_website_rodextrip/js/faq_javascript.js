@@ -1,5 +1,4 @@
 function get_faq(type){
-    console.log(type);
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -8,7 +7,6 @@ function get_faq(type){
        },
        data: {},
        success: function(msg) {
-            console.log(msg);
             if(type == 'admin'){
             text = '';
                 counter = 0;

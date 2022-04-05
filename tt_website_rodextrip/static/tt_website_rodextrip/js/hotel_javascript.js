@@ -286,7 +286,6 @@ function filtering(type, update){
         }
 
         if (selected_fac.length > 0 ){
-            console.log('Selected Length: ' + selected_fac.length);
             data.hotel_ids.forEach((obj)=> {
                 var selected = 0;
                 selected_fac.forEach((obj1)=> {
@@ -843,7 +842,9 @@ function sort(response, check_filter){
                                             text+=`</div>`;
                                         }
                                     }
-                                catch(err){}
+                                catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
                                 text+=`</div>
                                 </div>
 
@@ -2134,8 +2135,6 @@ function hotel_review_price_total(prices){
     prices = prices.replace(/None/g, '[]');
 
     prices = JSON.parse(prices);
-    console.log('Delete Me Review:');
-    console.log(prices);
     var element_printed = '<h4>Price Detail</h4><hr/>';
 
     element_printed += 'Commission : IDR ' + getrupiah(1000) + '<br/>';
@@ -2146,7 +2145,6 @@ function hotel_review_price_total(prices){
 function update_contact_cp(val){
     temp = 1;
     while(temp != adult+1){
-        console.log(document.getElementById('adult_cp'+temp.toString()).checked);
         if(document.getElementById('adult_cp'+temp.toString()).checked == true && val != temp){
             document.getElementById('adult_cp_hidden1_'+temp.toString()).hidden = true;
             document.getElementById('adult_cp_hidden2_'+temp.toString()).hidden = true;
@@ -2349,7 +2347,6 @@ function copy_data(){
     try{
         get_checked_copy_result();
     }catch(err){console.log(err)}
-    console.log($text);
 //    console.log('lalala');
 
     const el = document.createElement('textarea');
@@ -2383,7 +2380,6 @@ function copy_data(){
 function copy_data2(){
     var obj_hotel_name = document.getElementById('js_hotel_name');
     $text_print = '';
-    console.log($text2);
     $text_print = $text2+'\n===Price may change at any time===';
     document.getElementById('data_copy2').innerHTML = $text_print;
     document.getElementById('data_copy2').hidden = false;
@@ -2545,7 +2541,6 @@ function checking_price_slider(filter, type){
 function go_to_owl_carousel_bottom(counter, co_i){
     text_img = '';
     var idx_img_bot = 1;
-    console.log(temp_response.hotel_ids[co_i]);
     text_img +=`
     <div class="owl-carousel-hotel-img-modal owl-theme" style="text-align:center;">`;
     if(temp_response.hotel_ids[co_i].images.length != 0){

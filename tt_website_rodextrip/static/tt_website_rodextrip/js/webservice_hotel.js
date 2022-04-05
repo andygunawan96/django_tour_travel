@@ -31,7 +31,6 @@ function get_hotel_config(){
        },
        data: {},
        success: function(msg) {
-        console.log(msg);
         hotel_config = msg
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -43,7 +42,6 @@ function get_hotel_config(){
 function get_auto_complete(term,suggest){
     clearTimeout(hotelAutoCompleteVar);
     term = term.toLowerCase();
-    console.log(term);
     check = 0;
     var priority = [];
 
@@ -84,7 +82,6 @@ function hotel_redirect_signup(type){
            data: {},
            success: function(msg) {
            try{
-               console.log(msg);
                if(msg.result.error_code == 0){
                     hotel_signature = msg.result.response.signature;
                     new_login_signature = msg.result.response.signature;
@@ -101,7 +98,6 @@ function hotel_redirect_signup(type){
                                'signature': new_login_signature
                            },
                            success: function(msg) {
-                           console.log(msg);
                                if(msg.result.error_code == 0){
                                     $.ajax({
                                        type: "POST",
@@ -114,7 +110,6 @@ function hotel_redirect_signup(type){
                                           'signature': new_login_signature,
                                        },
                                        success: function(msg) {
-                                            console.log(msg);
                                             if(msg.result.error_code == 0 && type != 'get_details'){
                                                 $.ajax({
                                                    type: "POST",
@@ -127,7 +122,6 @@ function hotel_redirect_signup(type){
                                                         'signature': new_login_signature
                                                    },
                                                    success: function(msg) {
-                                                        console.log(msg);
                                                         if(type == 'review' && msg.result.error_code == 0){
                                                             $.ajax({
                                                                type: "POST",
@@ -140,7 +134,6 @@ function hotel_redirect_signup(type){
                                                                     'signature': new_login_signature
                                                                },
                                                                success: function(msg) {
-                                                                    console.log(msg);
                                                                     signature = new_login_signature;
                                                                     $('#myModalSignin').modal('hide');
                                                                     location.reload();
@@ -206,7 +199,6 @@ function hotel_signin(data, need_signin=false){
        },
        data: {},
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                signature = msg.result.response.signature;
                get_carriers_hotel();
@@ -261,7 +253,6 @@ function get_carriers_hotel(){
             'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            hotel_carriers = msg;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -301,7 +292,6 @@ function hotel_search_in_detail(){
        },
        success: function(msg) {
            $('#loading-search-hotel').hide();
-           console.log(msg);
            if(google_analytics != '')
                gtag('event', 'hotel_search', {});
            try{
@@ -363,7 +353,6 @@ function hotel_search(){
        },
        success: function(msg) {
            $('#loading-search-hotel').hide();
-           console.log(msg);
            if(google_analytics != '')
                gtag('event', 'hotel_search', {});
            try{
@@ -505,7 +494,6 @@ function hotel_passenger_page(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             hotel_price = msg.hotel_price;
             hotel_detail();
        },
@@ -559,7 +547,6 @@ function get_top_facility(){
             'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         if(msg.result.error_code == 0){
             hotel_search();
             top_facility = msg.result.response;
@@ -622,39 +609,30 @@ function hotel_facility_request_1(hotel_facilities){
             'signature': signature
         },
         success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
-                //console.log('start');
                 facility_image = msg.result.response;
                 facility_image_html = '';
                 //Note: Fungsi Buat get Master facility dari backend(msg)
                 //Note: Fungsi Buat checking Facility Hotel yg sedang aktif(hotel_facilities)
-                //console.log(msg);
-                //console.log(hotel_facilities);
                 hotel_facilities = $.parseJSON(hotel_facilities);
-                //console.log(hotel_facilities);
 
                 for (rec in hotel_facilities){
                     var new_html = '';
                     for(i in facility_image){
                         if (facility_image[i].facility_name == hotel_facilities[rec].facility_name){
-                            //console.log(facility_image[i].facility_name+ ' Similar Name');
                             new_html = `
                             <div class="col-md-3 col-xs-4" style="width:25%; padding-bottom:15px;">
                                 <i class="fas fa-circle" style="font-size:9px;"></i>
                                 <span style="font-weight:500;"> `+ hotel_facilities[rec].facility_name +`</span>
                             </div>`;
-                            //console.log(facility_image[i].facility_image);
                             break;
                         }
                         if (facility_image[i].internal_code == hotel_facilities[rec].facility_id){
-                            // console.log(facility_image[i].name);
                             new_html = `
                             <div class="col-md-3 col-sm-4 col-xs-6" style="width:25%; padding-bottom:15px;">
                                 <i class="fas fa-circle" style="font-size:9px;"></i>
                                 <span style="font-weight:500;"> `+ hotel_facilities[rec].facility_name +`</span>
                             </div>`;
-                            //console.log(facility_image[i].facility_image);
                             break;
                         }
                     }
@@ -691,9 +669,7 @@ function hotel_facility_request(hotel_facilities){
     var facility_image_html = '';
     try{
         hotel_facilities = $.parseJSON(hotel_facilities);
-        console.log(hotel_facilities);
         for (rec in hotel_facilities){
-            //console.log(hotel_facilities[rec].facility_name);
             if (hotel_facilities[rec].facility_name != undefined){
                 var fac_name = hotel_facilities[rec].facility_name;
             } else {
@@ -750,7 +726,6 @@ function hotel_detail_request(checkin_date, checkout_date){
             document.getElementById("select_copy_all").innerHTML = '';
             $('#loading-detail-hotel').hide();
             off_overlay();
-            console.log(msg);
             //show package
             if(msg.result.error_code == 0){
                 var result = msg.result.response;
@@ -823,7 +798,6 @@ function hotel_detail_request(checkin_date, checkout_date){
 
                         img_dict.sort(sortFunction);
 
-                        //console.log(img_dict);
                         var current_img = null;
                         var current_url = "";
                         var cnt_img = 0;
@@ -1170,7 +1144,6 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
        },
        success: function(msg) {
             // hotel_provision(price_code, provider);
-            console.log(msg);
             if(msg.result.error_code == 0){
                 var result = msg.result.response;
                 if (view_type == '0'){
@@ -1189,7 +1162,8 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                             text += '<li style="list-style: unset;">' + result.policies[i].cancellation_string + '</li>';
                         }
                     } else {
-                        text += '<li style="list-style: unset;">No Cancellation Policy Provided</li>';
+                        text += '<li style="list-style: unset;">Not Refundable</li>';
+//                        text += '<li style="list-style: unset;">No Cancellation Policy Provided</li>';
                         //$text2 += 'No Cancellation Policy Provided \n';
                     }
                     text += '</ul>';
@@ -1215,11 +1189,11 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                             //}
                         }
                     } else {
-                        text += '<li style="color:'+color+'; list-style: unset;">No Cancellation Policy Provided</li>';
+                        text += '<li style="color:'+color+'; list-style: unset;">Not Refundable</li>';
+//                        text += '<li style="color:'+color+'; list-style: unset;">No Cancellation Policy Provided</li>';
                         //$text2 += 'No Cancellation Policy Provided \n';
                     };
                     text += '</ul>';
-                    //console.log(text);
                     document.getElementById('cancellation_policy').innerHTML = text;
                 } else {
                     text = '<ul style="list-style-type: disc; margin: 0 15px;">';
@@ -1233,7 +1207,8 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                             //}
                         }
                     } else {
-                        text += '<li style="color:'+color+'; list-style: unset;">No Cancellation Policy Provided</li>';
+                        text += '<li style="color:'+color+'; list-style: unset;">Not Refundable</li>';
+//                        text += '<li style="color:'+color+'; list-style: unset;">No Cancellation Policy Provided</li>';
                     };
                     text += '</ul>';
                     document.getElementById('js_cancellation_button'+provider).parentNode.innerHTML = text;
@@ -1253,11 +1228,13 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel cancellation policy');
             if (view_type == '1'){
                 var text = '<h4>Cancellation Policy</h4>';
-                text += '<ul style="list-style-type: circle; margin: 0 15px;"><li style="list-style: unset;">No Cancellation Policy Provided</li></ul>';
+                text += '<ul style="list-style-type: circle; margin: 0 15px;"><li style="list-style: unset;">Not Refundable</li></ul>';
+//                text += '<ul style="list-style-type: circle; margin: 0 15px;"><li style="list-style: unset;">No Cancellation Policy Provided</li></ul>';
                 document.getElementById('cancellation_policy').innerHTML = text;
             } else {
                 var text = '<ul style="list-style-type: circle; margin: 0 15px;">';
-                text += '<li style="list-style: unset;">No Cancellation Policy Provided</li></ul>';
+                text += '<li style="list-style: unset;">Not Refundable</li></ul>';
+//                text += '<li style="list-style: unset;">No Cancellation Policy Provided</li></ul>';
                 document.getElementById('js_cancellation_button'+provider).parentNode.innerHTML = text;
             }
        },timeout: 60000
@@ -1279,8 +1256,6 @@ function hotel_provision(price_code, provider){
        },
        success: function(msg) {
             //testing start
-            //console.log("Provsion:");
-            //console.log(msg);
             //testing end
             provision = msg;
             if(msg.result.error_code == 0){
@@ -1323,7 +1298,6 @@ function hotel_provision(price_code, provider){
                 }
             }
             if (msg.result.response.cancellation_policy){
-                console.log(msg.result.response.cancellation_policy);
                 var text = '';
                 for (i in msg.result.response.cancellation_policy){
                     if (msg.result.response.cancellation_policy[i].charge_type == 'amount'){
@@ -1368,7 +1342,6 @@ function hotel_issued_alert(val){
     }).then((result) => {
       if (result.value) {
 //        hotel_issued_booking();
-//        console.log(provision.result);
         if(provision.result.error_code == 0){
             $('.next-loading-booking').prop('disabled', true);
             $('.next-loading-issued').addClass("running");
@@ -1449,7 +1422,6 @@ function hotel_issued_alert(val){
             document.getElementById('old_price').innerHTML = text;
             text = '';
             temporary = provision.result.response;
-            //console.log(temporary);
             text += `
                 <div class="row" style="margin-bottom:5px; ">
                     <div class="col-lg-12">
@@ -1519,7 +1491,6 @@ function hotel_issued_alert(val){
 }
 
 function hotel_force_issued_alert(force_issued){
-    console.log(force_issued);
     if(force_issued == 1)
         var msg_str = 'Are you sure you want to Force Issued this booking?'
      else
@@ -1600,7 +1571,6 @@ function hotel_issued(data){
                'signature': signature,
            },
            success: function(msg) {
-               console.log(msg);
                if(google_analytics != '')
                    gtag('event', 'hotel_issued', {});
                if(msg.result.error_code == 0){
@@ -1898,7 +1868,6 @@ function hotel_issued(data){
                           cancelButtonColor: '#3085d6',
                           confirmButtonText: 'Top Up'
                         }).then((result) => {
-                            console.log(result);
                             if (result.value) {
                                 window.location.href = '/top_up';
                             }
@@ -1972,7 +1941,6 @@ function hotel_request_issued(req_order_number){
                'signature': signature
            },
            success: function(msg) {
-               console.log(msg);
                if(msg.result.error_code == 0){
                     price_arr_repricing = {};
                     pax_type_repricing = [];
@@ -2061,8 +2029,6 @@ function hotel_issued_booking(val){
                 else
                     gtag('event', 'hotel_hold_booking', {});
             }
-            console.log('Result');
-            console.log(msg);
             try{
                 if(msg.result.error_code == 0){
                     if(val == 0){
@@ -2146,7 +2112,6 @@ function hotel_get_booking(data){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             try{
                 list_pnr = [];
                 if(msg.result.error_code == 0){
@@ -2530,7 +2495,6 @@ function hotel_get_booking(data){
                             }
                    text+=`</table>
                    </div>`;
-                   console.log(text);
                    document.getElementById('hotel_passenger').innerHTML = text;
                     if(msg.result.response.state == 'issued'){
                         document.getElementById('issued-breadcrumb').classList.add("br-active");
@@ -3276,7 +3240,6 @@ function update_service_charge(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 if(type == 'booking'){
                     please_wait_transaction();
@@ -3334,7 +3297,6 @@ function update_insentif_booker(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 try{
                     if(type == 'booking'){

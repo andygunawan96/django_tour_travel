@@ -11,7 +11,6 @@ function get_passport_config(type){
        },
        data: {},
        success: function(msg) {
-        console.log(msg);
         if(type == 'search')
             passport_signin('');
         passport_config = msg;
@@ -109,7 +108,6 @@ function passport_page_passenger(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             passenger = msg.passenger;
             passport = msg.passport;
             passport_request = msg.passport_request;
@@ -169,7 +167,6 @@ function passport_page_review(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             passenger = msg.passengers;
 
             passport_request = msg.passport_request;
@@ -197,7 +194,6 @@ function get_carriers_passport(){
             'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            passport_carriers = msg;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -264,7 +260,6 @@ function search_passport(provider){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             var node;
             try{
                 country = msg.result.response.country;
@@ -440,7 +435,6 @@ function get_availability(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 check = 0;
                 for(i in msg.result.response.availability){
@@ -592,7 +586,6 @@ function update_passenger(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 passport_update_contact();
             }else{
@@ -620,7 +613,6 @@ function passport_update_contact(){
             'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
             if(msg.result.error_code == 0){
                 passport_commit_booking();
 //                document.getElementById("passengers").value = JSON.stringify(passenger);
@@ -696,7 +688,6 @@ function passport_commit_booking(){
        },
        data: data,
        success: function(msg) {
-            console.log(msg);
             if(google_analytics != ''){
                 if(data.hasOwnProperty('member') == true)
                     gtag('event', 'passport_issued', {});
@@ -738,7 +729,6 @@ function passport_get_data(data){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             hide_modal_waiting_transaction();
             document.getElementById('button-home').hidden = false;
             document.getElementById('button-new-reservation').hidden = false;
@@ -1430,7 +1420,6 @@ function update_service_charge(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 try{
                     if(type == 'booking'){
@@ -1492,7 +1481,6 @@ function update_insentif_booker(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 try{
                     if(type == 'booking'){

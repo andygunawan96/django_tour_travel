@@ -173,7 +173,6 @@ function set_inactive_delete_banner(){
 
     }
 
-    console.log(img);
     getToken();
     $.ajax({
        type: "POST",
@@ -186,7 +185,6 @@ function set_inactive_delete_banner(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 update_cache_version_func('image');
             }else{
@@ -903,7 +901,6 @@ function get_banner(type,page){
                                                     }
                                                 }
                                                 if(cek_active == 1){
-                                                    console.log(msg.result.response);
                                                     for(i in msg.result.response){
                                                         if(msg.result.response[i].provider_type == page){
                                                             text+=`
@@ -1288,17 +1285,7 @@ function get_banner(type,page){
     });
 }
 
-//function testing(){
-//    console.log(document.getElementById('selectedFiles_bigbanner'));
-//    console.log(document.getElementById('files_bigbanner'));
-//    console.log($('#form_admin').get(0));
-//    console.log($('files_bigbanner[type=file]').val());
-//    var formData = new FormData($('#form_admin').get(0));
-//    console.log(formData);
-//}
-
 function handleFileSelect_bigbanner(e) {
-    console.log(e);
     if(!e.target.files || !window.FileReader) return;
 
     selDiv_bigbanner.innerHTML = "";
@@ -1322,7 +1309,6 @@ function handleFileSelect_bigbanner(e) {
 }
 
 function handleFileSelect_smallbanner(e) {
-    console.log(e);
     if(!e.target.files || !window.FileReader) return;
 
     selDiv_smallbanner.innerHTML = "";
@@ -1349,7 +1335,6 @@ function handleFileSelect_smallbanner(e) {
 }
 
 function handleFileSelect_promotionbanner(e) {
-    console.log(e);
     if(!e.target.files || !window.FileReader) return;
 
     selDiv_promotionbanner.innerHTML = "";
@@ -1439,27 +1424,27 @@ function send_notif_message(){
     });
 }
 
-function test_ledger(val){
-    for(i=0;i<val;i++){
-        $.ajax({
-           type: "POST",
-           url: "/webservice/content",
-           headers:{
-                'action': 'test_ledger',
-           },
-           data: {
-                'signature': signature,
-                'value': parseInt(100000+parseInt(i)+ new Date().toString().split(' ')[4].split(':')[2]*1000)
-           },
-           success: function(msg) {
-            console.log(msg);
-           },
-           error: function(XMLHttpRequest, textStatus, errorThrown) {
-
-           },timeout: 60000
-        });
-    }
-}
+//function test_ledger(val){
+//    for(i=0;i<val;i++){
+//        $.ajax({
+//           type: "POST",
+//           url: "/webservice/content",
+//           headers:{
+//                'action': 'test_ledger',
+//           },
+//           data: {
+//                'signature': signature,
+//                'value': parseInt(100000+parseInt(i)+ new Date().toString().split(' ')[4].split(':')[2]*1000)
+//           },
+//           success: function(msg) {
+//            console.log(msg);
+//           },
+//           error: function(XMLHttpRequest, textStatus, errorThrown) {
+//
+//           },timeout: 60000
+//        });
+//    }
+//}
 
 function testing_espay_close(){
     $.ajax({
@@ -1479,7 +1464,6 @@ function testing_espay_close(){
 }
 
 function get_dynamic_page(type){
-    console.log(type);
     check_available_dynamic = 0;
     $.ajax({
        type: "POST",
@@ -1489,7 +1473,6 @@ function get_dynamic_page(type){
        },
        data: {},
        success: function(msg) {
-            console.log(msg);
             check_dynamic = false;
             if(type == 'admin'){
             text = '';
@@ -1508,7 +1491,6 @@ function get_dynamic_page(type){
                     //buat owlcaoursel
                     text = `<div class="owl-carousel-login owl-theme" style="z-index:0;">`;
                     for(i in msg.result.response){
-                        console.log(msg.result.response[i]);
                         if(msg.result.response[i].state == true){
                             check_dynamic = true;
                             text += `<div class="item">`;
@@ -2137,7 +2119,6 @@ function get_notif_train(page=""){
        },
        data: data,
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 if(page == 'admin'){
                     if(msg.result.response.train_page){
@@ -2183,7 +2164,6 @@ function get_notif_airline(page=""){
        },
        data: data,
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 if(page == 'admin'){
                     if(msg.result.response.airline_page){
@@ -2250,7 +2230,6 @@ function update_notification_train(){
        },
        data: data,
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 Swal.fire({
                   type: 'success',
@@ -2331,7 +2310,6 @@ function update_notification_airline(){
        },
        data: data,
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 Swal.fire({
                   type: 'success',
@@ -2435,7 +2413,6 @@ function get_reservation_issued_request_list()
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            $('#loading-search-reservation').hide();
            $('#main_request_tables').show();
            if(msg.result.error_code == 0){
@@ -2525,7 +2502,6 @@ function get_reservation_issued_request(request_number)
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            document.getElementById('show_title_request').hidden = false;
            document.getElementById('show_loading_booking_request').style.display = 'none';
            document.getElementById('show_loading_booking_request').hidden = true;
@@ -2679,7 +2655,6 @@ function approve_reservation_issued_request(request_number)
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 Swal.fire({
                    type: 'success',
@@ -2720,7 +2695,6 @@ function reject_reservation_issued_request(request_number)
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 Swal.fire({
                    type: 'success',
@@ -2761,7 +2735,6 @@ function cancel_reservation_issued_request(request_number)
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 Swal.fire({
                    type: 'success',

@@ -50,7 +50,6 @@ function activity_redirect_signup(type){
            data: {},
            success: function(msg) {
            try{
-               console.log(msg);
                if(msg.result.error_code == 0){
                     activity_signature = msg.result.response.signature;
                     new_login_signature = msg.result.response.signature;
@@ -67,7 +66,6 @@ function activity_redirect_signup(type){
                                'signature': new_login_signature
                            },
                            success: function(msg) {
-                           console.log(msg);
                                if(msg.result.error_code == 0){
                                     if(type != 'get_details'){
                                         $.ajax({
@@ -81,7 +79,6 @@ function activity_redirect_signup(type){
                                               'signature': new_login_signature,
                                            },
                                            success: function(msg) {
-                                                console.log(msg);
                                                 if(type != 'get_price' && msg.result.error_code == 0){
                                                     $.ajax({
                                                        type: "POST",
@@ -94,7 +91,6 @@ function activity_redirect_signup(type){
                                                             'use_cache': true,
                                                        },
                                                        success: function(msg) {
-                                                            console.log(msg);
                                                             if(msg.result.error_code == 0){
                                                                 if(type != 'sell_journeys'){
                                                                     $.ajax({
@@ -107,7 +103,6 @@ function activity_redirect_signup(type){
                                                                             'signature': new_login_signature,
                                                                        },
                                                                        success: function(msg) {
-                                                                           console.log(msg);
                                                                            if(msg.result.error_code == 0){
                                                                                 $.ajax({
                                                                                    type: "POST",
@@ -119,7 +114,6 @@ function activity_redirect_signup(type){
                                                                                         'signature': new_login_signature
                                                                                    },
                                                                                    success: function(msg) {
-                                                                                        console.log(msg);
                                                                                         $.ajax({
                                                                                            type: "POST",
                                                                                            url: "/webservice/activity",
@@ -130,7 +124,6 @@ function activity_redirect_signup(type){
                                                                                                 'signature': new_login_signature
                                                                                            },
                                                                                            success: function(msg) {
-                                                                                                console.log(msg);
                                                                                                 $.ajax({
                                                                                                    type: "POST",
                                                                                                    url: "/webservice/activity",
@@ -141,7 +134,6 @@ function activity_redirect_signup(type){
                                                                                                         'signature': new_login_signature
                                                                                                    },
                                                                                                    success: function(msg) {
-                                                                                                        console.log(msg);
                                                                                                         signature = new_login_signature;
                                                                                                         if(type == 'review'){
                                                                                                             //ambil pax
@@ -155,7 +147,6 @@ function activity_redirect_signup(type){
                                                                                                                     'signature': new_login_signature
                                                                                                                },
                                                                                                                success: function(msg) {
-                                                                                                                    console.log(msg);
                                                                                                                     //bikin form isi input airline_pick csrf_token time_limit_input signature
                                                                                                                     document.getElementById('reload_page').innerHTML +=`
                                                                                                                         <input type='hidden' name="time_limit_input" value="`+time_limit+`"/>
@@ -324,7 +315,6 @@ function activity_passenger_page(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             price = msg.price;
             detail = msg.detail;
             passenger = msg.pax_count;
@@ -352,7 +342,6 @@ function activity_review_page(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             pax_count = msg.pax_count;
             printout_paxs = msg.printout_paxs;
             printout_prices = msg.printout_prices;
@@ -385,7 +374,6 @@ function get_carriers_activity(){
             'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            activity_carriers = msg;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -406,7 +394,6 @@ function get_activity_config(type, val){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             activity_country = [];
             activity_categories = [];
             sub_category = {};
@@ -595,7 +582,6 @@ function activity_search(){
           'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         if(google_analytics != '')
            gtag('event', 'activity_search', {});
            var text = '';
@@ -973,7 +959,6 @@ function activity_get_detail(activity_uuid){
        },
        success: function(msg) {
            try{
-               console.log(msg);
                if(msg.result.error_code == 0){
                    last_session = 'get_price'
                    activity_data = msg.result.response;
@@ -2145,8 +2130,6 @@ function activity_get_price_date(){
            success: function(msg) {
                if(msg.result.error_code == 0){
                    last_session = 'sell_journeys'
-                   console.log(startingDate);
-                   console.log(msg);
                    activity_date = msg.result.response;
                    is_avail = 0;
                    act_date_data = JSON.stringify(activity_date).replace(/'/g, '');
@@ -2221,7 +2204,6 @@ function update_sell_activity(){
            "event_seq": event_pick
        },
        success: function(msg) {
-        console.log(msg);
         if(msg.result.error_code == 0){
             detail_to_passenger_page();
         }else{
@@ -2261,7 +2243,6 @@ function update_contact_activity(value){
            'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         if(msg.result.error_code == 0){
             update_passengers_activity(value);
         }else{
@@ -2301,7 +2282,6 @@ function update_passengers_activity(value){
            'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         if(msg.result.error_code == 0){
             update_options_activity(value);
         }else{
@@ -2341,7 +2321,6 @@ function update_options_activity(value){
            'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         if(msg.result.error_code == 0){
             if (!act_booker_id)
             {
@@ -2470,7 +2449,6 @@ function activity_commit_booking(val){
        },
        data: data,
        success: function(msg) {
-        console.log(msg);
         if(google_analytics != ''){
             if(data.hasOwnProperty('member') == true)
                 gtag('event', 'activity_issued', {});
@@ -2592,7 +2570,6 @@ function activity_issued_booking(order_number)
            'booking': temp_data
        },
        success: function(msg) {
-           console.log(msg);
            if(google_analytics != '')
                gtag('event', 'activity_issued', {});
            if(msg.result.error_code == 0){
@@ -2665,7 +2642,6 @@ function activity_issued_booking(order_number)
                       cancelButtonColor: '#3085d6',
                       confirmButtonText: 'Top Up'
                     }).then((result) => {
-                        console.log(result);
                         if (result.value) {
                             window.location.href = '/top_up';
                         }
@@ -2742,7 +2718,6 @@ function activity_request_issued(req_order_number){
                'signature': signature
            },
            success: function(msg) {
-               console.log(msg);
                if(msg.result.error_code == 0){
                     price_arr_repricing = {};
                     pax_type_repricing = [];
@@ -2802,7 +2777,6 @@ function update_service_charge(type){
                 }
 
             }
-            console.log(act_get_booking.result.response.passengers[i]);
             upsell.push({
                 'sequence': act_get_booking.result.response.passengers[i].sequence,
                 'pricing': JSON.parse(JSON.stringify(list_price))
@@ -2846,7 +2820,6 @@ function update_service_charge(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 if(type == 'booking'){
                     please_wait_transaction();
@@ -2901,7 +2874,6 @@ function update_insentif_booker(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 try{
                     if(type == 'booking'){
@@ -2947,7 +2919,6 @@ function activity_get_booking(data){
            'signature': signature
        },
        success: function(msg) {
-       console.log(msg);
        act_order_number = data;
        act_get_booking = msg;
        $('#loading-search-activity').hide();
@@ -3157,7 +3128,6 @@ function activity_get_booking(data){
                         </div>`;
                     }
                     else{
-                        console.log(msg.result.response.state);
                         conv_status = 'On Request (max 3 working days)';
                         document.getElementById('issued-breadcrumb').classList.remove("br-active");
                         document.getElementById('issued-breadcrumb').classList.add("br-pending");
@@ -3929,7 +3899,6 @@ function activity_get_voucher(order_number){
             'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         $('.next-loading-ticket').removeClass("running");
         $('.next-loading-ticket').prop('disabled', false);
         if(msg.result.error_code == 0){
@@ -3951,7 +3920,6 @@ function activity_get_voucher(order_number){
 function activity_search_autocomplete(term,suggest){
     clearTimeout(activityAutoCompleteVar);
     term = term.toLowerCase();
-    console.log(term);
     check = 0;
     var priority = [];
 
