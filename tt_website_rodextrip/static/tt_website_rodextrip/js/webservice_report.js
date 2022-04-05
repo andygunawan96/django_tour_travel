@@ -73,8 +73,6 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 function get_peripherals(card_id, header){
-    console.log("LETSGO");
-    console.log(header);
     getToken();
     $.ajax({
         type: "POST",
@@ -86,8 +84,6 @@ function get_peripherals(card_id, header){
             'signature': signature
         },
         success: function(result){
-            console.log("RETURN LETSGO");
-            console.log(result);
             $('#' + card_id).html(result.result.response.data);
         }
     })
@@ -95,7 +91,6 @@ function get_peripherals(card_id, header){
 
 // as a note maybe in the future get report overall, get report book issued, and get report chanel can be in 1 function
 function get_report_overall(){
-    console.log("GET REPORT");
     var reportChart = $('#first_chart_report');
     var secondReportChart = $('#second_chart_report');
     var thirdReportChart = $('#third_chart_report');
@@ -118,13 +113,10 @@ function get_report_overall(){
             'end_date': moment().endOf('month').format('YYYY-MM-DD'),
         },
         success: function(result){
-            console.log("This one sparks joy");
-            console.log(result);
             data_report = result
             document.getElementById('update_chart_button').disabled = false;
             filter_agent(result, '');
             $("#get_report_startdate").val(result.start_date);
-//            console.log(data.date.end);
             $("#get_report_enddate").val(result.end_date);
 
             // first graph (issued ratio something)
@@ -1130,11 +1122,8 @@ $('#report_form').submit(function(evt){
         },
         success: function(result){
             // for debugging purpose
-            console.log(result);
             data_report = result
-            //console.log(data.date.start);
 //            $("#get_report_startdate").val(result.start_date);
-//            console.log(data.date.end);
 //            $("#get_report_enddate").val(result.end_date);
 
             // update the first chart
@@ -1767,12 +1756,10 @@ $('#report_form').submit(function(evt){
 });
 
 function update_chart(button_class, canvas_id, action, report_title, report_of, type="days"){
-    console.log("UPDATE UPDATE");
 //    $('.' + button_class).prop('disabled', true);
     var reportChart = canvas_id;
     var config = canvas_id.data("ChartJs");
 
-//    console.log(config);
     getToken();
     $.ajax({
         url: "/webservice/report",
@@ -1786,10 +1773,7 @@ function update_chart(button_class, canvas_id, action, report_title, report_of, 
         },
         type: 'POST',
         success: function(data){
-            console.log(data);
-//            console.log(data.date.start);
             $('#' + action + "_startdate").val(data.start_date);
-//            console.log(data.date.end);
             $('#' + action + "_enddate").val(data.end_date);
             config.data = {
                 labels: data.raw_data.result.response.overall_graph.label,
@@ -1824,7 +1808,6 @@ function overview_overall(data){
     var total_commission = 0
 
     // first section of overview
-    console.log(data);
     content += `
     <div class="mb-3" style="overflow:auto;">
         <table class="table list-of-reservation" id="overall_table">
@@ -1879,7 +1862,6 @@ function overview_overall(data){
 // why first, this will be the default page (hence first section)
 // will also  be use to name the section(s)
 function overview_airline(data){
-    //console.log(data);
     // declare return
     var content = ``;
 
@@ -2131,7 +2113,6 @@ function overview_airline(data){
 
 // create chart for overview_ariline
 function overview_airline_chart(data){
-console.log(data);
     var departure = {
         type: 'doughnut',
         data: {

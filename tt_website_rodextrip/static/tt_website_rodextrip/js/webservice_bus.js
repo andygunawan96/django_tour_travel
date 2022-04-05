@@ -62,7 +62,6 @@ function bus_redirect_signup(type){
            data: {},
            success: function(msg) {
            try{
-               console.log(msg);
                if(msg.result.error_code == 0){
                     bus_signature = msg.result.response.signature;
                     new_login_signature = msg.result.response.signature;
@@ -78,7 +77,6 @@ function bus_redirect_signup(type){
                                'signature': new_login_signature
                            },
                            success: function(msg) {
-                           console.log(msg);
                                if(msg.result.error_code == 0){
                                     signature = new_login_signature;
                                     document.getElementById('reload_page').innerHTML +=`
@@ -125,7 +123,6 @@ function bus_signin(data){
        },
        data: {},
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;
                 get_carriers_bus();
@@ -165,7 +162,6 @@ function bus_search_page(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             bus_request = msg.bus_request;
             get_bus_config();
             bus_signin('');
@@ -188,7 +184,6 @@ function bus_search_page(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             bus_request = msg.bus_request;
             get_bus_config();
             bus_signin('');
@@ -211,7 +206,6 @@ function bus_passenger_page(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             bus_data = msg.response;
             bus_carriers = msg.bus_carriers;
 
@@ -274,7 +268,6 @@ function bus_review_page(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             bus_data = msg.response;
 
             passengers = msg.passenger;
@@ -343,7 +336,6 @@ function get_bus_config(){
             'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         for(i in msg.station){
             msg.station[i]['name_show'] = msg.station[i].city+' - '+ msg.station[i].name;
         }
@@ -366,7 +358,6 @@ function get_carriers_bus(){
             'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            bus_carriers = msg;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -386,7 +377,6 @@ function bus_get_config_provider(signature){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             counter_bus_provider = 0;
             counter_bus_search = 0;
             if(google_analytics != '')
@@ -456,7 +446,6 @@ function bus_search(provider, signature){
             'provider': provider
        },
        success: function(msg) {
-           console.log(msg);
            counter_bus_search++;
            try{
                 if(msg.result.error_code==0){
@@ -544,7 +533,6 @@ function bus_get_rules(){
             'data': JSON.stringify(data_send),
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                for(i in msg.result.response)
                     journeys[i].rules = msg.result.response[i].rules;
@@ -697,7 +685,6 @@ function bus_create_booking(val){
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
-    console.log(data);
     $.ajax({
        type: "POST",
        url: "/webservice/bus",
@@ -706,7 +693,6 @@ function bus_create_booking(val){
        },
        data: data,
        success: function(msg) {
-       console.log(msg);
        if(google_analytics != ''){
            if(data.hasOwnProperty('member') == true)
                 gtag('event', 'bus_issued', {});
@@ -785,7 +771,6 @@ function bus_get_booking(data, sync=false){
             'sync': sync
        },
        success: function(msg) {
-        console.log(msg);
         try{
             document.getElementById('button-home').hidden = false;
             document.getElementById('button-new-reservation').hidden = false;
@@ -1898,7 +1883,6 @@ function bus_issued(data){
                'booking': temp_data
            },
            success: function(msg) {
-               console.log(msg);
                if(google_analytics != '')
                    gtag('event', 'bus_issued', {});
                if(msg.result.error_code == 0){
@@ -2058,7 +2042,6 @@ function bus_request_issued(req_order_number){
                'signature': signature
            },
            success: function(msg) {
-               console.log(msg);
                if(msg.result.error_code == 0){
                     price_arr_repricing = {};
                     pax_type_repricing = [];
@@ -2133,7 +2116,6 @@ function bus_get_seat_map(){
             'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         if(msg.result.error_code==0){
             seat_map_response = msg.result.response;
             print_seat_map(0);
@@ -2175,7 +2157,6 @@ function bus_cancel_booking(){
                 'signature': signature
            },
            success: function(msg) {
-           console.log(msg);
             if(msg.result.error_code == 0){
                price_arr_repricing = {};
                pax_type_repricing = [];
@@ -2254,7 +2235,6 @@ function bus_manual_seat(){
 
        },
        success: function(msg) {
-       console.log(msg);
         if(msg.result.error_code == 0){
             check = 0;
             for(i in msg.result.response){
@@ -2378,7 +2358,6 @@ function update_service_charge(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 if(type == 'booking'){
                     price_arr_repricing = {};
@@ -2434,7 +2413,6 @@ function update_insentif_booker(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 try{
                     if(type == 'booking'){
@@ -2489,7 +2467,6 @@ function get_seat_map(){
             'journey_code_list': JSON.stringify(data_journey_code),
        },
        success: function(msg) {
-        console.log(msg);
         if(msg.result.error_code==0){
             document.getElementById('passenger_input').value = JSON.stringify(passengers);
             document.getElementById('seat_map_request_input').value = JSON.stringify(msg.result.response);
@@ -2526,7 +2503,6 @@ function get_seat_map_cache(){
             'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         if(msg.result.error_code==0){
             seat_map_response = msg.result.response;
             print_seat_map(0);

@@ -10,7 +10,6 @@ function medical_global_signin(data){
        data: {},
        success: function(msg) {
        try{
-           console.log(msg);
            if(msg.result.error_code == 0){
                medical_signature = msg.result.response.signature;
                signature = msg.result.response.signature;
@@ -72,7 +71,6 @@ function medical_global_page_passenger(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             titles = msg.titles;
             countries = msg.countries;
             get_list_report_footer();
@@ -95,7 +93,6 @@ function medical_global_page_review(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             passengers = msg.passenger;
             medical_global_get_cache_price();
        },
@@ -116,7 +113,6 @@ function get_config_medical_global(type){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 medical_config = msg;
                 if(type == 'home'){
@@ -192,7 +188,6 @@ function get_zip_code(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 zip_code_list = msg;
             }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -320,7 +315,6 @@ function medical_global_get_availability(){
             'carrier_code': test_type
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 print_check_price++;
                 if(print_check_price == 2){
@@ -442,7 +436,6 @@ function medical_global_check_price(){
                 'carrier_code': test_type
            },
            success: function(msg) {
-                console.log(msg);
                 try{
                 if(msg.result.error_code == 0){
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
@@ -598,7 +591,6 @@ function medical_global_get_cache_price(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             try{
             if(msg.result.error_code == 0){
                 var text = `
@@ -808,7 +800,6 @@ function confirm_order(){
            'signature': signature,
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 //update ticket
                 document.getElementById('show_loading_booking_medical').hidden = false;
@@ -893,7 +884,6 @@ function medical_global_commit_booking(val){
        },
        data: data,
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
                     Swal.fire({
@@ -1087,7 +1077,6 @@ function medical_global_get_booking(order_number, sync=false){
             "order_number": order_number
        },
        success: function(msg) {
-            console.log(msg);
             try{
                 hide_modal_waiting_transaction();
 
@@ -2033,7 +2022,6 @@ function medical_global_cancel_booking(data){
                'signature': signature
            },
            success: function(msg) {
-               console.log(msg);
                document.getElementById('cancel_reservation').innerHTML = '';
                if(msg.result.error_code == 0){
                    if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
@@ -2136,7 +2124,6 @@ function medical_global_issued_booking(data){
                'booking': temp_data
            },
            success: function(msg) {
-               console.log(msg);
                if(google_analytics != '')
                    gtag('event', 'medical_issued', {});
                if(msg.result.error_code == 0){
@@ -2441,7 +2428,6 @@ function medical_global_issued_booking(data){
                           cancelButtonColor: '#3085d6',
                           confirmButtonText: 'Top Up'
                         }).then((result) => {
-                            console.log(result);
                             if (result.value) {
                                 window.location.href = '/top_up';
                             }
@@ -2508,7 +2494,6 @@ function medical_get_result(data){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            hide_modal_waiting_transaction();
            if(msg.result.error_code == 0){
                 if(msg.result.response.length != medical_get_detail.result.response.passengers.length){
@@ -2553,7 +2538,6 @@ function get_transaction_by_analyst(){
            'vendor': vendor
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 document.getElementById("table_reservation").innerHTML = '';
                 var node = document.createElement("tr");
@@ -2757,7 +2741,6 @@ function get_data_cache_passenger_medical(type){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             passenger_data_cache_medical = msg;
             auto_fill_data();
        },
@@ -2779,7 +2762,6 @@ function get_data_cache_schedule_medical(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             if(Object.keys(msg).length != 0){
                 schedule_medical = msg;
                 auto_fill_home_care();
@@ -2838,7 +2820,6 @@ function save_data_pax_backend(action){
                 'request': JSON.stringify(request)
            },
            success: function(msg) {
-                console.log(msg);
                 if(msg.result.error_code == 0){
                     Swal.fire({
                       type: 'success',
@@ -2881,7 +2862,6 @@ function get_medical_information(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.error_code == 0){
                 medical_data_frontend = msg.response;
                 if(vendor == 'periksain'){
@@ -2984,7 +2964,6 @@ function update_service_charge(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 if(type == 'booking'){
                     price_arr_repricing = {};
@@ -3048,7 +3027,6 @@ function update_insentif_booker(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 try{
                     if(type == 'booking'){

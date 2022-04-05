@@ -11,7 +11,6 @@ function get_data_issued_offline(){
        },
        data: {},
        success: function(msg) {
-           console.log(msg);
            issued_offline_data = msg;
            text = '<option value="">Select</option>';
            for(i in issued_offline_data.transaction_type){
@@ -58,7 +57,6 @@ function issued_offline_page(){
        data: {
        },
        success: function(msg) {
-            console.log(msg);
             titles = msg.titles;
             countries = msg.countries;
             signin_rodextrip('');
@@ -683,7 +681,6 @@ function set_data_issued_offline(){
        },
        data: request,
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 document.getElementById('payment_acq').innerHTML = '';
                 update_booker();
@@ -800,7 +797,6 @@ function update_booker(){
        },
        data: request,
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 update_passenger();
             }else{
@@ -879,7 +875,6 @@ function update_passenger(){
            },
            data: request,
            success: function(msg){
-                console.log(msg);
                 if(msg.result.error_code == 0){
                     get_payment_acq('Issued', document.getElementById('booker_id').value, '', 'billing', signature, 'issued_offline','', '');
                     setTimeout(function() {
@@ -932,7 +927,6 @@ function commit_booking(){
        },
        data: data,
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                Swal.fire({
                  type: 'success',
@@ -1005,7 +999,6 @@ function get_booking_offline(data){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             try{
                 document.getElementById('button-home').hidden = false;
                 if(msg.result.error_code == 0){
@@ -2064,7 +2057,6 @@ function validate(data){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 get_booking_offline(data);
             }else{
@@ -2110,7 +2102,6 @@ function update_service_charge(){
             'pricing': JSON.parse(JSON.stringify(list_price))
         });
     }
-    console.log(upsell);
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
@@ -2123,7 +2114,6 @@ function update_service_charge(){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 price_arr_repricing = {};
                 pax_type_repricing = [];

@@ -48,7 +48,6 @@ var sorting_list2 = [
 function update_contact_cp(val){
     temp = 1;
     while(temp != adult+1){
-        console.log(document.getElementById('adult_cp'+temp.toString()).checked);
         if(document.getElementById('adult_cp'+temp.toString()).checked == true && val != temp){
             document.getElementById('adult_cp_hidden1_'+temp.toString()).hidden = true;
             document.getElementById('adult_cp_hidden2_'+temp.toString()).hidden = true;
@@ -71,7 +70,6 @@ function set_sub_category(category_id, current_sub_id=0){
 
     var temp_category = {};
     for(i in activity_categories){
-       console.log(parseInt(category_id));
        if(activity_categories[i].id == parseInt(category_id)){
            temp_category = activity_categories[i];
            break;
@@ -106,7 +104,6 @@ function set_city(country_id, current_city_id=0){
     var text = `<option value="" selected="">All Cities</option>`;
     var country = {};
     for(i in activity_country){
-       console.log(parseInt(country_id));
        if(activity_country[i].id == parseInt(country_id)){
            country = activity_country[i];
            break;
@@ -342,7 +339,6 @@ function activity_table_detail(){
    if(grand_total != 0)
        $test+= '\n‣ Grand Total : IDR '+ getrupiah(grand_total)+
                '\nPrices and availability may change at any time';
-   console.log(grand_total);
    if (additional_price)
    {
         text+= `<div class="row">
@@ -577,7 +573,6 @@ function activity_table_detail2(pagetype){
 
    $test+= '\n‣ Grand Total : IDR '+ getrupiah(grand_total)+
            '\nPrices and availability may change at any time';
-   console.log(grand_total);
    if (additional_price)
    {
         text+= `<div class="row">
@@ -598,7 +593,6 @@ function activity_table_detail2(pagetype){
    }
 
     try{
-        console.log(upsell_price);
         if(upsell_price != 0){
             text+=`<div class="row" style="padding-bottom:15px;">`
             text+=`
@@ -738,13 +732,11 @@ function check_detail(){
     $('.btn-next').prop('disabled', true);
 
     date = document.getElementById('activity_date').value.split(' ')[2]+'-'+month[document.getElementById('activity_date').value.split(' ')[1]]+'-'+document.getElementById('activity_date').value.split(' ')[0]
-    console.log(date);
     //check tiket
     if(activity_date.available == false)
         text+='Visit date not available, please pick other date!\n';
 
     //check pax
-    console.log(activity_type[activity_type_pick]);
     for (pax_check in activity_type[activity_type_pick].skus)
     {
         low_sku_id_check = String(activity_type[activity_type_pick].skus[pax_check].sku_id).toLowerCase();
@@ -758,8 +750,6 @@ function check_detail(){
         }
     }
 
-    console.log(pax);
-    console.log(activity_type[activity_type_pick].maxPax);
     if(pax > activity_type[activity_type_pick].maxPax)
         text+= 'Total Passenger must be below than '+activity_type[activity_type_pick].maxPax+'</br>\n';
     if(pax < activity_type[activity_type_pick].minPax && pax > 0)
@@ -786,11 +776,9 @@ function check_detail(){
                         text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'</br>\n';
                 }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 2){
                     for(j in activity_type[activity_type_pick].options.perBooking[i].items){
-                        console.log(document.getElementById('perbooking'+i+j).checked);
                         if(document.getElementById('perbooking'+i+j).checked==true)
                             check=1;
                     }
-                    console.log(check);
                     if(check==0)
                         text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'</br>\n';
                     check=0;
@@ -1761,8 +1749,6 @@ function input_type1_change_perpax(val, type, inputType){
     else if(type == 'senior')
         perpax = document.getElementById('senior_perpax'+val+'_'+inputType).value;
 
-    console.log(detail.perPax);
-    console.log(inputType);
     for(i in detail.perPax[inputType-1].items){
         if(perpax == detail.perPax[inputType-1].items[i].value){
             additional_price = additional_price - detail.perPax[inputType-1].price_pick + detail.perPax[inputType-1].items[i].price;
@@ -2067,7 +2053,6 @@ function filtering(type, check){
    }
 
    if(type == 'filter'){
-       console.log(data);
        sort(data, check);
    }else if(type == 'sort'){
        sort(activity_data, check);
@@ -2075,7 +2060,6 @@ function filtering(type, check){
 }
 
 function sort(activity_dat, check){
-    console.log(activity_dat);
     if (activity_dat.length == 0 && check != 0){
         document.getElementById("activity_ticket").innerHTML = '';
         text = '';
@@ -2104,7 +2088,6 @@ function sort(activity_dat, check){
         if(sorting_value != ''){
             sorting = sorting_value;
         }
-        console.log(sorting);
         for(var i = 0; i < activity_dat.length-1; i++) {
             for(var j = i+1; j < activity_dat.length; j++) {
                 if(sorting == '' || sorting == 'Name A-Z'){
@@ -2149,7 +2132,6 @@ function sort(activity_dat, check){
             }
         }
         activity_data_filter = activity_dat;
-        console.log(activity_dat);
         document.getElementById("activity_ticket").innerHTML = '';
         text = '';
         check_available = 0;

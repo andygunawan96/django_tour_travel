@@ -33,10 +33,8 @@ function get_event_config(type){
             'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         data_event = msg.result.response;
         if(type == 'home'){
-            console.log(data_event);
             category_event_drp = '';
             category_event_drp += `<option value="all" selected>All Category</option>`;
             for(i in data_event.category){
@@ -62,7 +60,6 @@ function get_event_config(type){
                     </div>`;
                 node.innerHTML = carrier_code_airline_checkbox;
                 // tak buang ngotori logger
-                // console.log(node);
                 document.getElementById("filter").appendChild(node);
             }
 
@@ -154,7 +151,6 @@ function event_page_passenger(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             event_option_code = msg.event_option_code;
             event_get_extra_question(event_option_code,'event_internal');
             render_object_from_value(event_option_code);
@@ -176,7 +172,6 @@ function event_page_review(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             adult = msg.adult;
             booker = msg.booker;
 
@@ -210,7 +205,6 @@ function event_get_booking(data){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             try{
                 //======================= Resv =========================
                 if(msg.result.error_code == 0){
@@ -882,7 +876,6 @@ function event_get_booking(data){
             }catch(err){console.log(err);}
             //======================= Other =========================
             add_repricing();
-            console.log($text);
                 }else{
                     //swal
                 }
@@ -912,7 +905,6 @@ function event_signin(data){
        },
        data: {},
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                signature = msg.result.response.signature;
                get_carriers_event();
@@ -952,7 +944,6 @@ function get_carriers_event(){
             'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            event_carriers = msg;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -976,8 +967,6 @@ function event_search(){
         'signature': signature
        },
        success: function(msg) {
-//           console.log('Result Event');
-//           console.log(msg);
            if(google_analytics != '')
                gtag('event', 'event_search', {});
            event_search_result = [];
@@ -1021,8 +1010,6 @@ function event_search_vendor(){
         'signature': $('#signature').val(),
        },
        success: function(msg) {
-           console.log('Result');
-           console.log(msg);
            try{
                 if(msg.result.error_code==0){
                     event_search_result = msg.result.response;
@@ -1060,7 +1047,6 @@ function event_options(id){
             'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         //show package
         text2='';
         var node2 = document.createElement("div");
@@ -1087,7 +1073,6 @@ function event_options(id){
 
         text='';
         var node = document.createElement("div");
-        console.log(msg.result.response)
         if(msg.result.response.length != 0){
             for(i in msg.result.response){
                 if(parseInt(msg.result.response[i].qty_available) >= 1){
@@ -1097,7 +1082,6 @@ function event_options(id){
                 }
             }
             for(i in msg.result.response){
-                console.log(msg.result.response);
                 content_pop_cancellation = '';
                 content_pop_timeslot = '';
                 text = ''
@@ -1555,12 +1539,9 @@ function event_get_extra_question(option_code, provider){
           'signature': signature
        },
        success: function(msg) {
-        //console.log(option_code);
-        //console.log(msg);
         if(msg.result.error_code == 0){
             text='';
             var node = document.createElement("div");
-            console.log(option_code);
 
             if(msg.result.response.length != 0){
                 extra_question_result = msg.result.response;
@@ -1807,7 +1788,6 @@ function event_issued_alert(val){
 }
 
 function event_create_booking(val,a){
-    console.log(a);
     getToken();
     $.ajax({
        type: "POST",
@@ -1850,7 +1830,6 @@ function event_create_booking(val,a){
             'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         if(google_analytics != '')
             gtag('event', 'event_hold_booking', {});
         if(msg.result.error_code == 0){
@@ -1973,7 +1952,6 @@ function event_issued(data){
                'booking': temp_data
            },
            success: function(msg) {
-               console.log(msg);
                if(google_analytics != '')
                    gtag('event', 'event_issued', {});
                if(msg.result.error_code == 0){
@@ -2041,7 +2019,6 @@ function event_issued(data){
                           cancelButtonColor: '#3085d6',
                           confirmButtonText: 'Top Up'
                         }).then((result) => {
-                            console.log(result);
                             if (result.value) {
                                 window.location.href = '/top_up';
                             }
@@ -2179,7 +2156,6 @@ function update_service_charge(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 if(type == 'booking'){
                     please_wait_transaction();
@@ -2234,7 +2210,6 @@ function update_insentif_booker(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 try{
                     if(type == 'booking'){
@@ -2303,7 +2278,6 @@ function check_all_result(){
 }
 
 function copy_data2(){
-    // console.log('Oi');
     var obj_name = document.getElementById('product_title').innerHTML;
     var value_idx = [];
     var value_loc = [];

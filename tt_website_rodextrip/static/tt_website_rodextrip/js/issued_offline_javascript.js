@@ -906,7 +906,6 @@ function date_issued_offline_onchange(val, type){
     min_date = '';
     if(type == 'departure'){
         min_date = $("#departure"+(val)).val();
-        console.log(min_date);
         if(min_date > $("#arrival"+(val).toString()).val()){
             $('input[name="arrival'+val+'"]').daterangepicker({
               singleDatePicker: true,
@@ -927,7 +926,6 @@ function date_issued_offline_onchange(val, type){
         }
     }else if(type == 'checkin'){
         min_date = $("#hotel_check_in"+(val)).val();
-        console.log(min_date);
         if(min_date > $("#hotel_check_out"+(val).toString()).val()){
             $('input[name="hotel_check_out'+val+'"]').daterangepicker({
               singleDatePicker: true,
@@ -1232,13 +1230,11 @@ function ProcessExcel(data) {
     var workbook = XLSX.read(data, {
         type: 'binary'
     });
-    console.log(workbook);
     //Fetch the name of First Sheet.
     var firstSheet = workbook.SheetNames[0];
 
     //Read all rows from First Sheet into an JSON array.
     var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[firstSheet]);
-    console.log(excelRows);
     //Create a HTML Table element.
     var table = document.createElement("table");
     table.border = "1";
@@ -1290,8 +1286,6 @@ function ProcessExcel(data) {
         }
 
     }
-    console.log(passengers_excel);
-    console.log(list_test);
     notes = '';
     counter_pax = 0;
     for(i in list_test){

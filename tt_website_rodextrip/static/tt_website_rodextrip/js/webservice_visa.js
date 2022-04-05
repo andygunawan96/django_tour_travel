@@ -11,7 +11,6 @@ function get_visa_config(type){
        },
        data: {},
        success: function(msg) {
-        console.log(msg);
         if(type == 'search')
             visa_signin('');
         visa_config = msg;
@@ -114,7 +113,6 @@ function get_carriers_visa(){
             'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            visa_carriers = msg;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -134,7 +132,6 @@ function visa_page_passenger(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg)
             passenger = msg.passenger;
             visa = msg.visa;
             visa_request = msg.visa_request;
@@ -158,7 +155,6 @@ function visa_page_review(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg)
             passenger = msg.passengers;
             visa_request = msg.visa_request;
             visa = msg.visa;
@@ -239,7 +235,6 @@ function search_visa(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             var node;
             try{
                 country = msg.result.response.country;
@@ -432,7 +427,6 @@ function get_availability(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 check = 0;
                 for(i in msg.result.response.availability){
@@ -471,7 +465,6 @@ function sell_visa(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error sell visa');
@@ -633,7 +626,6 @@ function update_passenger(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 visa_update_contact();
             }else{
@@ -661,7 +653,6 @@ function visa_update_contact(){
             'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
             if(msg.result.error_code == 0){
                 visa_commit_booking();
 //                document.getElementById("passengers").value = JSON.stringify(passenger);
@@ -737,7 +728,6 @@ function visa_commit_booking(){
        },
        data: data,
        success: function(msg) {
-            console.log(msg);
             if(google_analytics != '')
                 gtag('event', 'visa_hold_booking', {});
             if(msg.result.error_code == 0){
@@ -780,7 +770,6 @@ function visa_get_data(data){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             try{
                 document.getElementById('button-home').hidden = false;
                 document.getElementById('button-new-reservation').hidden = false;
@@ -1508,7 +1497,6 @@ function update_service_charge(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 try{
                     if(type == 'booking'){
@@ -1570,7 +1558,6 @@ function update_insentif_booker(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 try{
                     if(type == 'booking'){

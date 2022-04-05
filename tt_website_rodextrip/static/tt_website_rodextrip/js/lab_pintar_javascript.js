@@ -250,7 +250,6 @@ function get_area_global(){
     var found = false;
     for(i in zip_code_list['result']['response']){
         if(global_kecamatan in zip_code_list['result']['response'][i]){
-            console.log('found in kecamatan');
             global_area = i;
             found = true;
             break;
@@ -258,7 +257,6 @@ function get_area_global(){
         for(j in zip_code_list['result']['response'][i]){
             for(k in zip_code_list['result']['response'][i][j]){
                 if(global_zip_code == zip_code_list['result']['response'][i][j][k]){
-                    console.log('found in zip code');
                     global_area = i;
                     found = true;
                     break;
@@ -2186,7 +2184,6 @@ function onchange_title(val){
 }
 
 function change_kriteria(val){
-    console.log('here');
     if(document.getElementById('adult_kriteria_pasien'+val).value != ''){
         document.getElementById('detail_kriteria'+val).hidden = false;
         for(i in medical_config.result.response.kriteria_pasien){
@@ -2411,7 +2408,6 @@ function add_table_passenger_phc(type){
     set_passenger_number(counter_passenger);
     scrap_html = phc_html(medical_config.result.response.carrier_type[test_type].html).split('<div class="box-footer">')[0];
     scrap_html = scrap_html.split(`<div class="form-group" id="punya_ktp_`+counter_passenger+`" name='punya_ktp'>`);
-    console.log(scrap_html);
     scrap_html.splice(1, 0, `<select class="form-group" id="title_`+counter_passenger+`" name="title_`+counter_passenger+`"><option value="MR">MR</option><option value="MS">MS</option><option value="MS">MS</option><option value="MSTR">MSTR</option><option value="MISS">MISS</option></select>`);
 
     scrap_html = scrap_html[0] + scrap_html[1] + '<div class="form-group" id="punya_ktp_'+counter_passenger+'" name="punya_ktp">' + scrap_html[2];

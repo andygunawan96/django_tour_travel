@@ -41,7 +41,6 @@ function get_config_ppob(){
        },
        data: {},
        success: function(msg) {
-            console.log(msg);
 //            get_carriers_ppob();
             ppob_data = msg;
             text = '';
@@ -96,7 +95,6 @@ function get_carriers_ppob(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 carrier_ppob = msg.result.response;
             }
@@ -118,7 +116,6 @@ function get_carrier_providers_ppob(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 carrier_provider_ppob = msg.result.response;
             }
@@ -286,7 +283,6 @@ function search_ppob(){
         console.log(err); // error kalau ada element yg tidak ada
     }
     if(product_code != '' && customer_number != '' && error_log == ''){
-        console.log(carrier_provider_ppob);
         var search_provider_ppob = carrier_provider_ppob[product_code][0];
 
         $.ajax({
@@ -305,7 +301,6 @@ function search_ppob(){
                 'customer_email': customer_email
            },
            success: function(msg) {
-                console.log(msg);
                 bill_response = msg;
                 if(google_analytics != '')
                     gtag('event', 'bill_hold_booking', {});
@@ -399,7 +394,6 @@ function bills_get_booking(data){
             'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            bills_get_detail = msg;
            get_payment = false;
            try{
@@ -1279,7 +1273,6 @@ function resync_status(){
             'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if (msg.result.error_code == 0){
                 bills_get_booking(bills_get_detail.result.response.order_number)
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -1332,7 +1325,6 @@ function bills_issued(data){
                'signature': signature
            },
            success: function(msg) {
-               console.log(msg);
                if(google_analytics != '')
                    if(data.hasOwnProperty('member') == true)
                         gtag('event', 'bill_issued', {});
@@ -1378,7 +1370,6 @@ function bills_issued(data){
                           cancelButtonColor: '#3085d6',
                           confirmButtonText: 'Top Up'
                         }).then((result) => {
-                            console.log(result);
                             if (result.value) {
                                 window.location.href = '/top_up';
                             }

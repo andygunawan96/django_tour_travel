@@ -46,7 +46,6 @@ function get_config_ppob(){
        },
        data: {},
        success: function(msg) {
-            console.log(msg);
             get_carriers_ppob();
             ppob_data = msg;
             text = '';
@@ -103,7 +102,6 @@ function get_carriers_ppob(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 carrier_ppob = msg.result.response;
             }
@@ -125,7 +123,6 @@ function get_carrier_providers_ppob(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 carrier_provider_ppob = msg.result.response;
             }
@@ -147,7 +144,6 @@ function ppob_get_provider_list(type){
             'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            provider_list_data = msg;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -432,7 +428,6 @@ function search_ppob(){
         }
     }
     if(product_code != '' && customer_number != '' && error_log == ''){
-        console.log(carrier_provider_ppob);
         var search_provider_ppob = carrier_provider_ppob[product_code][0];
 
         $.ajax({
@@ -452,7 +447,6 @@ function search_ppob(){
                 'customer_email': customer_email
            },
            success: function(msg) {
-                console.log(msg);
                 if(google_analytics != '')
                     gtag('event', 'ppob_hold_booking', {});
                 bill_response = msg;
@@ -564,7 +558,6 @@ function ppob_get_booking(data){
             'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            bills_get_detail = msg;
            get_payment = false;
            hide_modal_waiting_transaction();
@@ -1652,7 +1645,6 @@ function cancel_btn(){
                'signature': signature
            },
            success: function(msg) {
-               console.log(msg);
                if(msg.result.error_code == 0){
                    //update ticket
                    window.location = "/ppob/booking/" + bills_get_detail.result.response.order_number;
@@ -1733,7 +1725,6 @@ function resync_status(){
             'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if (msg.result.error_code == 0){
                 ppob_get_booking(bills_get_detail.result.response.order_number)
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -1790,7 +1781,6 @@ function ppob_issued(data){
                'booking': temp_data
            },
            success: function(msg) {
-               console.log(msg);
                if(google_analytics != '')
                    gtag('event', 'ppob_issued', {});
                if(msg.result.error_code == 0){
@@ -1832,7 +1822,6 @@ function ppob_issued(data){
                           cancelButtonColor: '#3085d6',
                           confirmButtonText: 'Top Up'
                         }).then((result) => {
-                            console.log(result);
                             if (result.value) {
                                 window.location.href = '/top_up';
                             }
@@ -1932,7 +1921,6 @@ function update_service_charge(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 if(type == 'booking'){
                     price_arr_repricing = {};
@@ -1987,7 +1975,6 @@ function update_insentif_booker(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 try{
                     if(type == 'booking'){

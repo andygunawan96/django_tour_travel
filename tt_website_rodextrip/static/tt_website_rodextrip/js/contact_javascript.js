@@ -231,7 +231,6 @@ function save_contact(){
             console.log(err);
         }
     }
-    console.log(data);
     $.ajax({
        type: "POST",
        url: "/webservice/account",
