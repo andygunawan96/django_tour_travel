@@ -457,7 +457,8 @@ def get_cancellation_policy(request):
     try:
         if res['result']['error_code'] == 0:
             for rec in res['result']['response']['policies']:
-                rec['date'] = convert_string_to_date_to_string_front_end(rec['date'])
+                if rec.get('date'):
+                    rec['date'] = convert_string_to_date_to_string_front_end(rec['date'])
             set_session(request, 'hotel_cancellation_policy', res)
             request.session['hotel_cancellation_policy'] = res
 
