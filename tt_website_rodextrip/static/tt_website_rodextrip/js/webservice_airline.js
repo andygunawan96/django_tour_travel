@@ -12919,7 +12919,13 @@ function update_booking_after_sales_v2(input_pax_seat = false){
 function split_booking_request(){
     passengers = [];
     $('.split_booking:checkbox:checked').each(function( index ) {
-        passengers.push($('.split_booking:checkbox:checked')[index].id);
+        if($('.split_booking:checkbox:checked')[index].id){
+            counter_pax = $('.split_booking:checkbox:checked')[index].id.split('_')[1];
+
+            passengers.push('pax_' + pax_list[counter_pax].sequence.toString());
+            if(infant_list.length >= counter_pax)
+                passengers.push('pax_' + infant_list[counter_pax].sequence.toString());
+        }
     });
     if(passengers.length == 0){
         Swal.fire({
@@ -12978,16 +12984,30 @@ function split_booking_btn(){
     cabin_class = 1;
     text+=`
             <h5>Split Booking</h5>`;
+    pax_list = [];
+    infant_list = [];
     for(i in airline_get_detail.result.response.passengers){
+        if(airline_get_detail.result.response.passengers[i].pax_type == 'INF')
+            infant_list.push(airline_get_detail.result.response.passengers[i]);
+        else
+            pax_list.push(airline_get_detail.result.response.passengers[i]);
+    }
+    for(i in pax_list){
         text += `<div class="row">
                        <div class="col-lg-10 col-xs-10">
-                        `+airline_get_detail.result.response.passengers[i].title+` `+airline_get_detail.result.response.passengers[i].name+`
+                        `+pax_list[i].title+` `+pax_list[i].name;
+        if(infant_list.length > i)
+            text += ` - `+infant_list[i].title+` `+infant_list[i].name;
+        text += `
                        </div>
                        <div class="col-lg-2 col-xs-2" style="text-align:right;">
                         <input type="checkbox" class="split_booking" id="pax_`+i+`" name="pax_`+i+`"/>
                        </div>
                    </div>`;
     }
+//    for(i in airline_get_detail.result.response.passengers){
+//
+//    }
     text+=`
         <div class="col-lg-12" style="margin-top:10px;">
             <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="split_booking_request();" value="Split Booking">
