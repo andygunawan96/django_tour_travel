@@ -4539,7 +4539,7 @@ function get_payment_espay(order_number_full){
             if(msg.result.error_code == 0){
                 if(payment_acq2[payment_method][selected].name == 'OVO'){
                     if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'payment')
-                        window.location.href = '/' + type_render + '/booking/' + order_number_id
+                        window.location.href = '/' + type_render.replace('_review','').replace('_book_then_issued','') + '/booking/' + order_number_id; //fix karena di pakai untuk path next get booking
                     else
                         window.location.reload();
                 }else if(payment_acq2[payment_method][selected].save_url == true){
