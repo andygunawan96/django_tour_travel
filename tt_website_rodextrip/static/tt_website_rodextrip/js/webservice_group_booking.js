@@ -41,7 +41,6 @@ function group_booking_signin(data){
        data: {},
        success: function(msg) {
        try{
-           console.log(msg);
            if(msg.result.error_code == 0){
                group_booking_signature = msg.result.response.signature;
                signature = msg.result.response.signature;
@@ -67,7 +66,6 @@ function group_booking_signin(data){
                }
            }
        }catch(err){
-           console.log(err);
            Swal.fire({
                type: 'error',
                title: 'Oops...',
@@ -100,7 +98,6 @@ function group_booking_page(){
        data: {
        },
        success: function(msg) {
-            console.log(msg);
             titles = msg.titles;
             countries = msg.countries;
             pax_type_list = {'ADT': 'Adult','CHD': 'Child', 'INF': 'Infant'}
@@ -149,7 +146,6 @@ function group_booking_get_config(page=false){
        },
        success: function(msg) {
        try{
-           console.log(msg);
            if(msg.result.error_code == 0){
                 group_booking_config = msg.result.response;
 
@@ -283,7 +279,6 @@ function group_booking_commit_booking(page=false){
            data: data,
            success: function(msg) {
            try{
-               console.log(msg);
                if(msg.result.error_code == 0){
                     Swal.fire({
                       type: 'success',
@@ -406,7 +401,6 @@ function group_booking_get_booking(order_number){
        },
        success: function(msg) {
        try{
-           console.log(msg);
            hide_modal_waiting_transaction();
            document.getElementById('button-home').hidden = false;
            document.getElementById('button-home-mb').hidden = false;
@@ -1709,7 +1703,6 @@ function group_booking_get_booking(order_number){
                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                 <span style="font-size:13px; font-weight: bold;">`;
                                 try{
-                                    console.log(price.currency+` `+getrupiah(total_price));
                                     text_detail+= price.currency+` `+getrupiah(total_price);
                                 }catch(err){
                                     console.log(err);
@@ -2174,7 +2167,6 @@ function render_ticket(){
                                 price += pax_count * group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list[j].service_charges[k].amount;
                         }
                    }
-                   console.log(price);
                    text += group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list[0].currency+` `+getrupiah(price)+`</span>`;
                    text+=`
                         <label class="radio-label" style="padding:unset; width:100px;">
@@ -2257,14 +2249,11 @@ function render_ticket(){
                                             pax_count = group_booking_get_detail.result.response.request.pax.CHD;
                                         else if(group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list[j].pax_type == 'INF')
                                             pax_count = group_booking_get_detail.result.response.request.pax.INF;
-                                        console.log(pax_count);
                                         for(k in group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list[j].service_charges){
-                                            console.log(group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list[j].service_charges[k].amount);
                                             if(k != 'RAC')
                                                 price += pax_count * group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list[j].service_charges[k].amount;
                                         }
                                     }
-                                    console.log(price);
                                     text+=`
                                         <img src="/static/tt_website_rodextrip/img/icon/seat.png" style="height:16px; width:auto;"> <span id="choose_seat_span`+i+`">Choose Seat Class  - `+cabin_class_list[group_booking_get_detail.result.response.request.provider_type][group_booking_get_detail.result.response.request.cabin_class]+` - `+group_booking_get_detail.result.response.ticket_list[i].fare_list[0].price_list[0].currency+` `+getrupiah(price)+`</span>
                                     </button>
@@ -2391,7 +2380,6 @@ function get_all_booking_state_booked(){
        },
        success: function(msg) {
        try{
-           console.log(msg);
            if(msg.result.error_code == 0){
 
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -2610,7 +2598,6 @@ function group_booking_update_passenger(){
            data: data,
            success: function(msg) {
            try{
-               console.log(msg);
                if(msg.result.error_code == 0){
                     Swal.fire({
                       type: 'success',
@@ -2720,7 +2707,6 @@ function group_booking_update_booker(){
            data: data,
            success: function(msg) {
            try{
-               console.log(msg);
                if(msg.result.error_code == 0){
                     if(document.getElementById('booker_cp').checked){
                         group_booking_update_contact(data);
@@ -2847,7 +2833,6 @@ function group_booking_update_contact(req=false){
            data: data,
            success: function(msg) {
            try{
-               console.log(msg);
                if(msg.result.error_code == 0){
                     Swal.fire({
                       type: 'success',
@@ -2924,7 +2909,6 @@ function group_booking_issued_booking(){
            'voucher_code': voucher_code,
        },
        success: function(msg) {
-           console.log(msg);
            if(google_analytics != '')
                gtag('event', 'groupbooking_issued', {});
            if(msg.result.error_code == 0){
@@ -2979,7 +2963,6 @@ function group_booking_issued_booking(){
                       cancelButtonColor: '#3085d6',
                       confirmButtonText: 'Top Up'
                     }).then((result) => {
-                        console.log(result);
                         if (result.value) {
                             window.location.href = '/top_up';
                         }
@@ -3059,7 +3042,6 @@ function group_booking_pick_ticket(){
            },
            success: function(msg) {
            try{
-               console.log(msg);
                if(msg.result.error_code == 0){
                     Swal.fire({
                       type: 'success',
@@ -3118,7 +3100,6 @@ function change_state_back_to_confirm(){
        },
        success: function(msg) {
        try{
-           console.log(msg);
            if(msg.result.error_code == 0){
                 Swal.fire({
                   type: 'success',
@@ -3165,7 +3146,6 @@ function change_state_to_booked(){
        },
        success: function(msg) {
        try{
-           console.log(msg);
            if(msg.result.error_code == 0){
                 Swal.fire({
                   type: 'success',
@@ -3212,7 +3192,6 @@ function group_booking_can_sent(){
        },
        success: function(msg) {
        try{
-           console.log(msg);
            if(msg.result.error_code == 0){
                 //button book now
                 document.getElementById('book_btn_group_booking').style.display = 'block';
@@ -3779,13 +3758,11 @@ function ProcessExcel(data) {
     var workbook = XLSX.read(data, {
         type: 'binary'
     });
-    console.log(workbook);
     //Fetch the name of First Sheet.
     var firstSheet = workbook.SheetNames[0];
 
     //Read all rows from First Sheet into an JSON array.
     var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[firstSheet]);
-    console.log(excelRows);
     //Create a HTML Table element.
     var table = document.createElement("table");
     table.border = "1";
@@ -3815,7 +3792,6 @@ function ProcessExcel(data) {
             passengers_excel[passengers_excel.length-1].push(excelRows[i][j])
         }
     }
-    console.log(passengers_excel);
     notes = '';
     counter_pax = 0;
     for(i in passengers_excel){
@@ -3874,7 +3850,6 @@ function update_service_charge(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 try{
                     if(type == 'booking'){
@@ -3933,7 +3908,6 @@ function update_insentif_booker(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 try{
                     if(type == 'booking'){

@@ -98,7 +98,6 @@ function set_bus_search_value_to_true(){
 
 function bus_search_autocomplete(term,type){
     term = term.toLowerCase();
-    console.log(term);
     var choices = [];
     if(type == 'origin')
         choices = new_bus_destination;
@@ -797,7 +796,6 @@ function bus_get_detail(){
             }
         }
     }
-    console.log(journeys);
     bus_detail_text += `
     <div class="row">
         <div class="col-lg-12">
@@ -1003,7 +1001,6 @@ function bus_get_detail(){
             </div>`;
             bus_detail_text+=`
         </div>`;
-    console.log($text);
     document.getElementById('bus_detail').innerHTML = bus_detail_text;
 
     $('#loading-search-bus-choose').hide();
@@ -1699,7 +1696,6 @@ function select_passenger(val){
     document.getElementById('passenger'+val).style.background = color;
     document.getElementById('passenger'+val).style.color = 'white';
     for(i in pax[val-1].seat){
-        console.log('seat_journey'+parseInt(parseInt(i)+1));
         if(pax[val-1].seat[i].wagon != '')
             document.getElementById('seat_journey'+parseInt(parseInt(i)+1)).innerHTML = ', ' + pax[val-1].seat[i].wagon + ' ' + pax[val-1].seat[i].seat+pax[val-1].seat[i].column;
         else

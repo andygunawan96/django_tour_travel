@@ -81,7 +81,6 @@ function save_highlight(){
             console.log(err); // error kalau ada element yg tidak ada
         }
     }
-    console.log(data);
     $.ajax({
        type: "POST",
        url: "/webservice/account",

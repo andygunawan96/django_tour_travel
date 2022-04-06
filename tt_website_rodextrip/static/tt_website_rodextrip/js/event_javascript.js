@@ -155,7 +155,6 @@ function filtering(type, update){
     } else {
         temp_data = event_search_result;
     }
-    console.log(temp_data);
     sort(temp_data, 1);
 }
 
@@ -204,7 +203,6 @@ function sort(response, check_filter){
     var node = document.createElement("div");
     document.getElementById("event_ticket_objs").innerHTML = '';
     text='';
-    console.log(response);
     if(response.length != 0){
         count_available_event = 0;
         for(i in response){
@@ -216,7 +214,6 @@ function sort(response, check_filter){
             if (response[i].end_date) {
                 obj_end_date = Date.parse(response[i].end_date);
                 if (obj_end_date > Date.now()){
-                    //console.log('Blum Langsung');
                     if (response[i].option.length > 0){
                         available_prop = 1;
                     }
@@ -878,7 +875,6 @@ function render_object(val, new_int){
     var text='';
     var grand_total_option = 0;
     var total_commission = 0;
-    console.log(option_pick);
     for (i in option_pick){
         var option_name_pick = document.getElementById('option_name_'+option_pick[i]).innerHTML;
         var option_price_pick = document.getElementById('option_price_'+option_pick[i]).value;
@@ -1019,7 +1015,6 @@ function render_object_from_value(val){
         text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
     }
     try{
-        console.log(upsell_price);
         if(upsell_price != 0){
             text+=`
             <div class="row">
@@ -1353,8 +1348,6 @@ function hotel_review_price_total(prices){
     prices = prices.replace(/None/g, '[]');
 
     prices = JSON.parse(prices);
-    console.log('Delete Me Review:');
-    console.log(prices);
     var element_printed = '<h4>Price Detail</h4><hr/>';
 
     element_printed += 'Commission : IDR ' + getrupiah(1000) + '<br/>';
@@ -1365,7 +1358,6 @@ function hotel_review_price_total(prices){
 function update_contact_cp(val){
     temp = 1;
     while(temp != adult+1){
-        console.log(document.getElementById('adult_cp'+temp.toString()).checked);
         if(document.getElementById('adult_cp'+temp.toString()).checked == true && val != temp){
             document.getElementById('adult_cp_hidden1_'+temp.toString()).hidden = true;
             document.getElementById('adult_cp_hidden2_'+temp.toString()).hidden = true;
@@ -1384,7 +1376,6 @@ function update_contact_cp(val){
 }
 
 function render_extra_question(json_event_answer){
-    console.log(json_event_answer);
     var text='';
     text+=`<div class="row">`;
     for (i in json_event_answer){
@@ -1430,7 +1421,6 @@ $check_type_ps = 0;
 function go_to_owl_carousel_bottom(counter, co_i){
     text_img = '';
     var idx_img_bot = 1;
-    console.log(temp_response.hotel_ids[co_i]);
     text_img +=`
     <div class="owl-carousel-hotel-img-modal owl-theme" style="text-align:center;">`;
     if(temp_response.hotel_ids[co_i].images.length != 0){

@@ -3697,7 +3697,6 @@ function airline_pick_mc(type){
 //                            }
 //                        }
 //                    }
-                    console.log('price print ' + getrupiah(price));
                     total_discount = 0;
                     if(price == 0){
                         text+= 'Choose All Flight Schedule to view price</span>';
@@ -4026,7 +4025,6 @@ function airline_pick_mc(type){
         </div>`;
     }
     document.getElementById('airline_ticket_pick').innerHTML = text;
-    console.log(airline_pick_list);
     for(i in airline_pick_list){
         for(j in airline_pick_list[i].segments){
             for(k in airline_pick_list[i].segments[j].fares){
@@ -5068,7 +5066,6 @@ function airline_detail(type){
     if(type != 'reschedule'){
         try{
             document.getElementById('airline_detail').innerHTML = text;
-            console.log(price_itinerary_temp);
             for(i in price_itinerary_temp){
                 for(j in price_itinerary_temp[i].journeys){
                    if(price_itinerary_temp[i].journeys[j].hasOwnProperty('search_banner')){
@@ -6425,7 +6422,6 @@ function check_passport_expired_six_month(id){
     }
     if(document.getElementById(id).value != '' && document.getElementById(id).value != moment().subtract(-1, 'years').format('DD MMM YYYY') && id.includes('infant') == false){
         var duration = moment.duration(moment(document.getElementById(id).value).diff(last_departure_date));
-        console.log(duration);
         if(duration._data.months < 6 && duration._data.years == 0)
             Swal.fire({
               type: 'warning',

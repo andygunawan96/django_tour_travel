@@ -11,7 +11,6 @@
        data: {
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.error_code == 0 && msg.url != ''){
                 document.getElementById("plugin_live_youtube").innerHTML += `
                 <div id="live_show" class="target-click" style="display:none;"></div>

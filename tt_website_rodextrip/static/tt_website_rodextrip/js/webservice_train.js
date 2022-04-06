@@ -62,7 +62,6 @@ function train_redirect_signup(type){
            data: {},
            success: function(msg) {
            try{
-               console.log(msg);
                if(msg.result.error_code == 0){
                     train_signature = msg.result.response.signature;
                     new_login_signature = msg.result.response.signature;
@@ -78,7 +77,6 @@ function train_redirect_signup(type){
                                'signature': new_login_signature
                            },
                            success: function(msg) {
-                           console.log(msg);
                                if(msg.result.error_code == 0){
                                     signature = new_login_signature;
                                     document.getElementById('reload_page').innerHTML +=`
@@ -125,7 +123,6 @@ function get_train_data_search_page(){
        },
        data: {},
        success: function(msg) {
-        console.log(msg);
         train_request = msg.train_request;
         get_train_config('home');
         train_signin('');
@@ -147,7 +144,6 @@ function get_train_data_passenger_page(){
        },
        data: {},
        success: function(msg) {
-        console.log(msg);
         train_data = msg.response;
         train_carriers = msg.train_carriers;
         train_response = msg.response;
@@ -244,7 +240,6 @@ function get_train_data_review_page(){
        },
        data: {},
        success: function(msg) {
-        console.log(msg);
         train_data = msg.response;
         passengers = msg.passengers;
         passenger_with_booker = msg.passengers;
@@ -267,7 +262,6 @@ function train_signin(data, type=''){
        },
        data: {},
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;
                 get_carriers_train();
@@ -309,7 +303,6 @@ function get_train_config(){
             'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         new_train_destination = [];
         for(i in msg){
             new_train_destination.push(msg[i].code+' - '+ msg[i].name+` - `+msg[i].city+` - `+msg[i].country);
@@ -332,7 +325,6 @@ function get_carriers_train(){
             'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            train_carriers = msg;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -352,7 +344,6 @@ function train_get_config_provider(signature,type=''){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             counter_train_provider = 0;
             counter_train_search = 0;
             if(google_analytics != '')
@@ -360,7 +351,6 @@ function train_get_config_provider(signature,type=''){
             if(msg.result.error_code == 0){
                 provider_length = msg.result.response.providers.length;
                 provider_train = msg.result.response.providers;
-                console.log(type);
                 if(type == ''){
                     send_request_search();
                 }else if(type == 'reorder'){
@@ -434,7 +424,6 @@ function train_search(provider, signature, type){
             'provider': provider
        },
        success: function(msg) {
-           console.log(msg);
            counter_train_search++;
            try{
                 if(msg.result.error_code==0){
@@ -469,6 +458,11 @@ function train_search(provider, signature, type){
                               html: '<span style="color: red;">Error train search </span>' + errorThrown,
                             })
                         }else{
+                            Swal.fire({
+                              type: 'error',
+                              title: 'Oops!',
+                              html: '<span style="color: red;">Error Train not found </span>' + errorThrown,
+                            })
                             console.log('reorder here');
                         }
                     }
@@ -656,7 +650,6 @@ function train_create_booking(val, type=''){
        },
        data: data,
        success: function(msg) {
-       console.log(msg);
        if(google_analytics != ''){
            if(data.hasOwnProperty('member') == true)
                 gtag('event', 'train_issued', {});
@@ -741,7 +734,6 @@ function train_get_booking(data){
             'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         try{
             document.getElementById('button-home').hidden = false;
             document.getElementById('button-new-reservation').hidden = false;
@@ -1973,7 +1965,6 @@ function re_order_set_passengers(){
           'booker': JSON.stringify(train_get_detail.result.response.booker)
        },
        success: function(resJson) {
-            console.log(resJson);
             console.log('set passenger done')
             train_data_reorder = [];
             train_get_config_provider(signature,'reorder')
@@ -1985,9 +1976,7 @@ function re_order_set_passengers(){
 }
 
 function re_order_check_search(){
-    console.log(counter_train_provider);
     if(counter_train_provider == provider_train.length){
-        console.log(train_data_reorder);
         console.log('get data journey');
         re_order_find_journey();
     }
@@ -2035,7 +2024,6 @@ function re_order_set_journey(){
           "train_pick": JSON.stringify(journey)
        },
        success: function(msg) {
-            console.log(msg);
             console.log('set train pick done');
             //commit
             train_create_booking(0,'reorder')
@@ -2127,7 +2115,6 @@ function train_issued(data){
                'booking': temp_data
            },
            success: function(msg) {
-               console.log(msg);
                if(google_analytics != '')
                    gtag('event', 'train_issued', {});
                if(msg.result.error_code == 0){
@@ -2286,7 +2273,6 @@ function train_request_issued(req_order_number){
                'signature': signature
            },
            success: function(msg) {
-               console.log(msg);
                if(msg.result.error_code == 0){
                     price_arr_repricing = {};
                     pax_type_repricing = [];
@@ -2361,7 +2347,6 @@ function train_get_seat_map(){
             'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         if(msg.result.error_code==0){
             seat_map_response = msg.result.response;
             print_seat_map(0);
@@ -2403,7 +2388,6 @@ function train_cancel_booking(){
                 'signature': signature
            },
            success: function(msg) {
-           console.log(msg);
             if(msg.result.error_code == 0){
                price_arr_repricing = {};
                pax_type_repricing = [];
@@ -2482,7 +2466,6 @@ function train_manual_seat(){
 
        },
        success: function(msg) {
-       console.log(msg);
         if(msg.result.error_code == 0){
             check = 0;
             for(i in msg.result.response){
@@ -2606,7 +2589,6 @@ function update_service_charge(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 if(type == 'booking'){
                     price_arr_repricing = {};
@@ -2662,7 +2644,6 @@ function update_insentif_booker(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 try{
                     if(type == 'booking'){

@@ -144,7 +144,6 @@ function signin(){
             'keep_me_signin': keep_me_signin
            },
            success: function(msg) {
-            console.log(msg);
             try{
                 if(google_analytics != ''){
                     if(msg.result.response.co_agent_frontend_security.includes('b2c_limitation') == true)
@@ -242,7 +241,6 @@ function signin_booking(){
             'keep_me_signin': keep_me_signin
            },
            success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('login') == true && window.location.href.split('/').length == 6){
                 let timerInterval
                 Swal.fire({
@@ -391,7 +389,6 @@ function signin_btc(){
             'g-recaptcha-response': document.getElementById('g-recaptcha-response').value
            },
            success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 if(msg.result.response.co_agent_frontend_security.includes('login') == true){
                     try{
@@ -505,7 +502,6 @@ function reset_password_btc(){
                     'email': $('#username').val(),
                },
                success: function(msg) {
-                    console.log(msg);
                     if(msg.result.error_code == 0){
                         signature = msg.result.response.signature;
                         Swal.fire({
@@ -543,7 +539,6 @@ function reset_password_btc(){
                     'email': $('#username2').val(),
                },
                success: function(msg) {
-                    console.log(msg);
                     if(msg.result.error_code == 0){
                         signature = msg.result.response.signature;
                         Swal.fire({
@@ -590,7 +585,6 @@ function reset_password(){
                 'email':username,
            },
            success: function(msg) {
-                console.log(msg);
                 if(msg.result.error_code == 0){
                     signature = msg.result.response.signature;
 
@@ -660,7 +654,6 @@ function get_path_url_server(){ //DEPRECATED
        data: {
        },
        success: function(msg) {
-        console.log(msg);
         static_path_url_server = msg;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -700,7 +693,6 @@ function signup_b2c(){
                 "nationality_code": document.getElementById('b2c_nationality').value,
            },
            success: function(msg) {
-                console.log(msg);
                 if(msg.result.error_code == 0){
                     document.getElementById('b2c_first_name').value = '';
                     document.getElementById('b2c_last_name').value = '';
@@ -964,7 +956,6 @@ function create_new_passenger(){
                                 'signature': signature
                            },
                            success: function(msg) {
-                            console.log(msg);
                             if(msg.result.error_code==0){
                                 try{
                                     document.getElementById('create_new_passenger_btn').disabled = false;
@@ -1151,7 +1142,6 @@ function get_automatic_booker(cust_code){
             'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         if(msg.result.error_code == 0){
             if(msg.result.response.length > 0){
                 passenger_data = msg.result.response;
@@ -1210,7 +1200,6 @@ function get_customer_list(passenger, number, product){
                     'signature': signature
                },
                success: function(msg) {
-                console.log(msg);
                 if(msg.result.error_code==0){
                     var response = '';
                     var like_name_booker = name;
@@ -1538,7 +1527,6 @@ function get_customer_list(passenger, number, product){
                success: function(msg) {
                 if(check == 1)
                     passenger = '';
-                console.log(msg);
                 if(msg.result.error_code==0){
                     var response = '';
                     var like_name_paxs = document.getElementById('train_'+passenger+number+'_search').value;
@@ -2948,8 +2936,6 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     document.getElementById('senior_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
                     check_years_old(passenger_number,'senior');
             //        if(parseInt(document.getElementById('infant_years_old'+passenger_number).value) >= 17){
-            //            console.log(template);
-            //            console.log(product);
             //            if(product=='train'){//ganti
             ////                document.getElementById('adult_id_type'+passenger_number).value = passenger_data[sequence].identity_type;
             ////                document.getElementById('adult_id_number'+passenger_number).value = passenger_data[sequence].identity_number;
@@ -3035,7 +3021,6 @@ function copy_booker_to_passenger(val, type){
                     }
                 }
             }
-            console.log(found_selection);
             if(found_selection.length == 1 || need_identity == 'none'){
                 copy_booker(val,type, found_selection[0])
             }else{
@@ -4397,7 +4382,6 @@ function get_top_up_history(){
         'offset': agent_offside
        },
        success: function(msg) {
-        console.log(msg);
         if(msg.result.error_code == 0){
             if(msg.result.response.top_up.length == 80){
                 agent_offside++;
@@ -4472,7 +4456,6 @@ function top_up_payment(){
 
        },
        success: function(msg) {
-        console.log(msg);
         if(msg.result.error_code == 0){
             alert(msg.result.response.message);
         }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -4505,8 +4488,6 @@ function get_merchant_info(){
             "signature": signature
        },
        success: function(msg) {
-        console.log(msg);
-        console.log(JSON.stringify(msg));
         merchant_espay = msg;
         render_payment();
 //        text = '<h3>Payment</h3>';
@@ -4535,7 +4516,7 @@ function get_payment_espay(order_number_full){
         url_back.pop();
         url_back = url_back.join('/');
 //        window.location.href = '/' + type_render + '/booking/' + order_number_id;
-        window.location.href = '/payment/espay' + order_number_full; //redirect ke dari payment dengan nomor va
+        window.location.href = '/payment/espay/' + order_number_full; //redirect ke dari payment dengan nomor va
     }else
         url_back = window.location.href;
     $.ajax({
@@ -4555,7 +4536,6 @@ function get_payment_espay(order_number_full){
             'url_back': url_back
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 if(payment_acq2[payment_method][selected].name == 'OVO'){
                     if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'payment')
@@ -4665,7 +4645,6 @@ function add_passenger_cache(sequence){
             'passenger': JSON.stringify(passenger_data[sequence])
        },
        success: function(msg) {
-        console.log(msg);
         if(msg.result.error_code != 0){
             Swal.fire({
                type: 'error',
@@ -4697,7 +4676,6 @@ function del_passenger_cache(sequence){
             'index': sequence
        },
        success: function(msg) {
-        console.log(msg);
         if(msg.result.error_code == 0){
              Swal.fire({
                type: 'success',
@@ -4731,7 +4709,6 @@ function get_passenger_cache(type){
 
        },
        success: function(msg) {
-        console.log(msg);
         if(msg.result.error_code == 0){
             document.getElementById('passenger_chosen').innerHTML = '';
             passenger_data_cache = msg.result.response;
@@ -5026,9 +5003,7 @@ function get_passenger_cache(type){
                                             response+=`</select></div>`;
                                             check = 0;
                                             var passenger_sequence = '';
-                                            console.log(msg.result.response[i].seq_id);
                                             for(i in passenger_data_pick){
-                                                console.log(passenger_data_pick);
                                                 if(passenger_data_pick[i].seq_id == msg.result.response[i].seq_id){
                                                     check = 1;
                                                     var passenger_pick = passenger_data_pick[i].sequence.replace(/[^a-zA-Z ]/g,"");
@@ -5388,7 +5363,6 @@ function activate_corporate_mode(val){
         'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 let timerInterval
                 Swal.fire({
@@ -5443,7 +5417,6 @@ function deactivate_corporate_mode(){
         'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 window.location.href='/';
            }
@@ -5563,7 +5536,6 @@ function get_countries(){
        },
        data: {},
        success: function(msg) {
-        console.log(msg);
         if(msg.result.error_code == 0){
             country_cache = msg.result.response;
         }else{
@@ -5589,7 +5561,6 @@ function update_customer_cache_list(val){
             'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         data = document.getElementById('selection_type'+val).value.replace(/[0-9]/g, '');
         if(msg.result.error_code==0){
             passenger_data_cache = msg.result.response;
@@ -6073,7 +6044,6 @@ function close_upload_attachment(val,type){
 }
 
 function handleFileSelect_attachment(e) {
-    console.log(e);
     if(!e.target.files || !window.FileReader) return;
 
     selDiv_attachment.innerHTML = "";
@@ -6096,7 +6066,6 @@ function handleFileSelect_attachment(e) {
 }
 
 function handleFileSelect_attachment1(e) {
-    console.log(e);
     if(!e.target.files || !window.FileReader) return;
 
     selDiv_attachment1.innerHTML = "";
@@ -6119,7 +6088,6 @@ function handleFileSelect_attachment1(e) {
 }
 
 function handleFileSelect_attachment2(e) {
-    console.log(e);
     if(!e.target.files || !window.FileReader) return;
 
     selDiv_attachment2.innerHTML = "";
@@ -6142,7 +6110,6 @@ function handleFileSelect_attachment2(e) {
 }
 
 function handleFileSelect_attachment3(e) {
-    console.log(e);
     if(!e.target.files || !window.FileReader) return;
 
     selDiv_attachment3.innerHTML = "";
@@ -6165,7 +6132,6 @@ function handleFileSelect_attachment3(e) {
 }
 
 function handleFileSelect_attachment4(e) {
-    console.log(e);
     if(!e.target.files || !window.FileReader) return;
 
     selDiv_attachment4.innerHTML = "";
@@ -6188,7 +6154,6 @@ function handleFileSelect_attachment4(e) {
 }
 
 function handleFileSelect_attachment_edit(e) {
-    console.log(e);
     if(!e.target.files || !window.FileReader) return;
 
     selDiv_attachment_edit.innerHTML = "";
@@ -6211,7 +6176,6 @@ function handleFileSelect_attachment_edit(e) {
 }
 
 function handleFileSelect_attachment_edit1(e) {
-    console.log(e);
     if(!e.target.files || !window.FileReader) return;
 
     selDiv_attachment_edit1.innerHTML = "";
@@ -6234,7 +6198,6 @@ function handleFileSelect_attachment_edit1(e) {
 }
 
 function handleFileSelect_attachment_edit2(e) {
-    console.log(e);
     if(!e.target.files || !window.FileReader) return;
 
     selDiv_attachment2.innerHTML = "";
@@ -6257,7 +6220,6 @@ function handleFileSelect_attachment_edit2(e) {
 }
 
 function handleFileSelect_attachment_edit3(e) {
-    console.log(e);
     if(!e.target.files || !window.FileReader) return;
 
     selDiv_attachment3.innerHTML = "";
@@ -6280,7 +6242,6 @@ function handleFileSelect_attachment_edit3(e) {
 }
 
 function handleFileSelect_attachment_edit4(e) {
-    console.log(e);
     if(!e.target.files || !window.FileReader) return;
 
     selDiv_attachment_edit4.innerHTML = "";
@@ -6306,7 +6267,6 @@ function update_passenger_backend(){
     document.getElementById('update_passenger_customer').disabled = true;
     //check
     error_log = '';
-    console.log(document.getElementById('passenger_edit_nationality').value);
     if(document.getElementById('passenger_edit_nationality').value == ''){
         error_log+= 'Please fill Nationality!</br>\n';
         document.getElementById('passenger_edit_nationality').style['border-color'] = 'red';
@@ -6402,7 +6362,6 @@ function update_passenger_backend(){
     if(error_log == ''){
         var formData = new FormData($('#form_identity_passenger_edit').get(0));
         formData.append('signature', signature)
-        console.log(formData);
         getToken();
         $.ajax({
            type: "POST",
@@ -6412,7 +6371,6 @@ function update_passenger_backend(){
            },
            data: formData,
            success: function(msg) {
-                console.log(msg);
                 if(msg.result.error_code == 0){
                     identity_type_dict = {
                         'passport': 'files_attachment_edit1',
@@ -6480,7 +6438,6 @@ function update_passenger_backend(){
                         'seq_id': passenger_data_cache[passenger_cache_pick].seq_id,
                         'birth_date': passenger_data_cache[passenger_cache_pick].birth_date != '' ? passenger_data_cache[passenger_cache_pick].birth_date : document.getElementById('passenger_edit_birth_date').value
                     }
-                    console.log(JSON.stringify(update_passenger_dict));
                     $.ajax({
                        type: "POST",
                        url: "/webservice/agent",
@@ -6492,7 +6449,6 @@ function update_passenger_backend(){
                             'signature': signature
                        },
                        success: function(msg) {
-                            console.log(msg);
                             if(msg.result.error_code == 0){
                                 Swal.fire({
                                   type: 'success',
@@ -6557,7 +6513,6 @@ function update_cache_version_func(type){
             'signature': signature,
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 Swal.fire({
                      type: 'success',

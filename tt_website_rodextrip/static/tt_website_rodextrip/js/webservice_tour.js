@@ -18,7 +18,6 @@ function tour_redirect_signup(type){
            data: {},
            success: function(msg) {
            try{
-               console.log(msg);
                if(msg.result.error_code == 0){
                     tour_signature = msg.result.response.signature;
                     new_login_signature = msg.result.response.signature;
@@ -35,7 +34,6 @@ function tour_redirect_signup(type){
                                'signature': new_login_signature
                            },
                            success: function(msg) {
-                           console.log(msg);
                                if(msg.result.error_code == 0){
                                     if(type != 'get_details'){
                                         $.ajax({
@@ -49,7 +47,6 @@ function tour_redirect_signup(type){
                                               'signature': new_login_signature,
                                            },
                                            success: function(msg) {
-                                                console.log(msg);
                                                 if(msg.result.error_code == 0 && type != 'get_pricing'){
                                                     $.ajax({
                                                        type: "POST",
@@ -62,7 +59,6 @@ function tour_redirect_signup(type){
                                                             'signature': new_login_signature
                                                        },
                                                        success: function(msg) {
-                                                            console.log(msg);
                                                             if(type != 'sell_journeys' && msg.result.error_code == 0){
 
                                                             }else{
@@ -177,7 +173,6 @@ function tour_page_search(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             tour_request = msg.tour_request;
             tour_login('');
             get_dept_year();
@@ -201,7 +196,6 @@ function tour_page_review(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             all_pax = msg.all_pax;
 
             booker = msg.booker;
@@ -225,7 +219,6 @@ function get_carriers_tour(){
             'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            tour_carriers = msg;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -245,7 +238,6 @@ function get_tour_auto_complete(type){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             get_tour_config(type);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -266,7 +258,6 @@ function get_tour_config(type, val){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             tour_country = [];
             sub_category = {};
 
@@ -363,7 +354,6 @@ function tour_search(){
            'search_request': JSON.stringify(tour_request)
        },
        success: function(msg) {
-        console.log(msg);
         if(google_analytics != '')
             gtag('event', 'tour_search', {});
            var text = '';
@@ -533,7 +523,6 @@ function tour_get_details(tour_code){
            'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
            var prod_date_text = '';
            var country_text = '';
            var print_doc_text = '';
@@ -831,7 +820,6 @@ function tour_get_details(tour_code){
                     `;
                 }
 
-                console.log(tour_data);
                 for (n in tour_data.accommodations){
                     room_list_text += `<div class="col-lg-12 mb-3" style="border:1px solid #cdcdcd; padding: 15px;">
                         <b>Hotel: `+tour_data.accommodations[n].hotel+`</b> <br/>
@@ -977,7 +965,6 @@ function update_sell_tour(val){
            'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         if(msg.result.error_code == 0){
             update_contact_tour(val);
         }else{
@@ -1017,7 +1004,6 @@ function update_contact_tour(val){
            'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         if(msg.result.error_code == 0){
             update_passengers_tour(val);
         }else{
@@ -1069,7 +1055,6 @@ function update_passengers_tour(val){
            'signature': signature
        },
        success: function(msg) {
-        console.log(msg);
         if(msg.result.error_code == 0){
             if(val == 0){
                 document.getElementById("passengers").value = JSON.stringify({'booker':booker});
@@ -1155,7 +1140,6 @@ function commit_booking_tour(val)
        },
        data: data,
        success: function(msg) {
-           console.log(msg);
            if(google_analytics != ''){
                if(data.hasOwnProperty('member') == true)
                    gtag('event', 'tour_issued', {});
@@ -1277,7 +1261,6 @@ function get_payment_rules(tour_code, tour_line_code)
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            payment = msg.result.response.payment_rules;
 //           if (payment)
 //           {
@@ -1343,7 +1326,6 @@ function tour_issued_booking(order_number)
            'booking': temp_data
        },
        success: function(msg) {
-           console.log(msg);
            if(google_analytics != '')
                gtag('event', 'tour_issued', {});
            if(msg.result.error_code == 0){
@@ -1405,7 +1387,6 @@ function tour_issued_booking(order_number)
                       cancelButtonColor: '#3085d6',
                       confirmButtonText: 'Top Up'
                     }).then((result) => {
-                        console.log(result);
                         if (result.value) {
                             window.location.href = '/top_up';
                         }
@@ -1474,7 +1455,6 @@ function tour_request_issued(req_order_number){
                'signature': signature
            },
            success: function(msg) {
-               console.log(msg);
                if(msg.result.error_code == 0){
                     price_arr_repricing = {};
                     pax_type_repricing = [];
@@ -1587,7 +1567,6 @@ function update_service_charge(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 if(type == 'booking'){
                     price_arr_repricing = {};
@@ -1642,7 +1621,6 @@ function update_insentif_booker(type){
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 try{
                     if(type == 'booking'){
@@ -1689,7 +1667,6 @@ function tour_get_booking(order_number)
            'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                price_arr_repricing = {};
                pax_type_repricing = [];
@@ -2532,7 +2509,6 @@ function get_price_itinerary(request,type) {
        },
        data: get_price_req,
        success: function(msg) {
-            console.log(msg);
             last_session = 'sell_journeys'
             table_price_update(msg,type);
        },
@@ -2813,7 +2789,6 @@ function table_price_update(msg,type){
         price_txt +=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
     }
     try{
-        console.log(upsell_price);
         if(upsell_price != 0){
             price_txt+=`<div class="row" style="padding-bottom:15px;">`
             price_txt+=`
@@ -2924,7 +2899,6 @@ function get_price_itinerary_cache(type) {
 
        },
        success: function(msg) {
-            console.log(msg);
             table_price_update(msg,type);
 
        },
@@ -2937,7 +2911,6 @@ function get_price_itinerary_cache(type) {
 function tour_search_autocomplete(term,suggest){
     clearTimeout(tourAutoCompleteVar);
     term = term.toLowerCase();
-    console.log(term);
     check = 0;
     var priority = [];
 

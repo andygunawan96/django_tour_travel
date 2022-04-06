@@ -1,5 +1,4 @@
 function get_about_us(type){
-    console.log(type);
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -8,7 +7,6 @@ function get_about_us(type){
        },
        data: {},
        success: function(msg) {
-            console.log(msg);
             if(type == 'admin'){
             text = '';
                 counter = 0;

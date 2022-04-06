@@ -10,7 +10,6 @@ function mitra_keluarga_signin(data){
        data: {},
        success: function(msg) {
        try{
-           console.log(msg);
            if(msg.result.error_code == 0){
                mitra_keluarga_signature = msg.result.response.signature;
                signature = msg.result.response.signature;
@@ -72,7 +71,6 @@ function mitra_keluarga_page_passenger(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             titles = msg.titles;
             countries = msg.countries;
             get_list_report_footer();
@@ -95,7 +93,6 @@ function mitra_keluarga_page_review(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             passengers = msg.passenger;
             mitra_keluarga_get_cache_price();
        },
@@ -116,7 +113,6 @@ function get_config_mitra_keluarga(type){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 medical_config = msg;
                 if(type == 'home'){
@@ -196,7 +192,6 @@ function mitra_keluarga_get_availability(){
             'carrier_code': test_type
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 print_check_price++;
                 if(print_check_price == 2){
@@ -323,7 +318,6 @@ function mitra_keluarga_check_price(){
                 'carrier_code': test_type
            },
            success: function(msg) {
-                console.log(msg);
                 try{
                 if(msg.result.error_code == 0){
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
@@ -447,7 +441,6 @@ function mitra_keluarga_get_cache_price(){
             'signature': signature,
        },
        success: function(msg) {
-            console.log(msg);
             try{
             if(msg.result.error_code == 0){
                 var text = `
@@ -633,7 +626,6 @@ function confirm_order(){
            'signature': signature,
        },
        success: function(msg) {
-           console.log(msg);
            if(msg.result.error_code == 0){
                 //update ticket
                 document.getElementById('show_loading_booking_mitra_keluarga').hidden = false;
@@ -714,7 +706,6 @@ function mitra_keluarga_commit_booking(val){
        },
        data: data,
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
                     Swal.fire({

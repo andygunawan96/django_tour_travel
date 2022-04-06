@@ -8,7 +8,6 @@ function get_payment_partner(type){
        },
        data: {},
        success: function(msg) {
-            console.log(msg);
             if(type == 'admin'){
             text = '';
                 counter = 0;
