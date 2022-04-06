@@ -17,7 +17,7 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
        },
        success: function(msg) {
             payment_acq2 = {};
-            type_render = type.replace('_review','').replace('_book_then_issued',''); //fix karena di pakai untuk path next get booking
+            type_render = type
             val_render = val;
             try{
                 $("#show_loading_booking_airline").hide();
