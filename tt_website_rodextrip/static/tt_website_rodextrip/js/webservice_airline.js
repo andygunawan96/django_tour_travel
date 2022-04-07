@@ -7678,12 +7678,12 @@ function airline_issued(data){
                                         <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` DISC
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">IDR -`+getrupiah(parseInt(price.DISC))+`</span>
+                                        <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.DISC))+`</span>
                                     </div>
                                 </div>`;
 
-                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT - price.DISC);
-                            price_provider_show += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT - price.DISC);
+                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                            price_provider_show += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
                             commission += parseInt(price.RAC);
                         }
                         total_price_provider_show.push(price_provider_show);
@@ -7781,12 +7781,12 @@ function airline_issued(data){
                                         <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` DISC
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">IDR -`+getrupiah(parseInt(price.DISC))+`</span>
+                                        <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.DISC))+`</span>
                                     </div>
                                 </div>`;
 
-                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT - price.DISC);
-                            price_provider_show += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT - price.DISC);
+                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                            price_provider_show += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
                             commission += parseInt(price.RAC);
                         }
                         total_price_provider_show.push(price_provider_show)
@@ -12962,7 +12962,7 @@ function split_booking_request(){
                     'signature': signature,
                },
                success: function(msg) {
-                   airline_get_booking(airline_get_detail.result.response.order_number);
+                   airline_get_booking(msg.result.response.order_number);
                    hide_modal_waiting_transaction();
                },
                error: function(XMLHttpRequest, textStatus, errorThrown) {
