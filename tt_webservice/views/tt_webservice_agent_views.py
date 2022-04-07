@@ -183,6 +183,7 @@ def signin(request):
             else:
                 res_user['result']['error_code'] = 500
                 res_user['result']['error_msg'] = 'Permission Denied'
+                _logger.error('ERROR NO FRONTEND PERMISSION LOGIN' + json.dumps(res))
 
         else:
             _logger.error('ERROR SIGNIN_agent SOMETHING WHEN WRONG ' + json.dumps(res))
