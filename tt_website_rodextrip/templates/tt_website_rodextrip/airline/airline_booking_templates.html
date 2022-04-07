@@ -215,12 +215,6 @@
                     <button type="button" class="primary-btn-white for-show-mobile-inb mb-2" id="button-home-mb" onclick="window.location.href='/'" hidden>
                         <i class="fas fa-home"></i>
                     </button>
-                    <div id="reorder_div" class="for-show-website-inb mb-2 mr-1">
-
-                    </div>
-                    <div id="button-re-order-div">
-
-                    </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-8 col-xs-7" style="text-align:right;">
                     <button type="button" class="primary-btn-white mb-2" style="font-size:13px;" id="button-new-reservation" onclick="window.location.href='/'+window.location.href.split('/')[3]" hidden>
@@ -239,6 +233,12 @@
                         <div class="col-md-4" id="div_sync_status" style="text-align:right;" hidden>
                             <input type="button" class="primary-btn mb-3" id="button-sync-status" value="Sync Status" onclick="please_wait_transaction();airline_get_booking('{{order_number}}',true)">
                         </div>
+                    </div>
+                    <div id="reorder_div" class="mb-2">
+
+                    </div>
+                    <div id="button-re-order-div" class="mb-3">
+
                     </div>
                     <div class="col-lg-12" id="show_loading_booking_airline">
                         <div class="center-div">
@@ -306,9 +306,9 @@
                     </div>
                     {% endif %}
 
-                    <div style="background-color:white; text-align:center; padding:15px 10px; border:1px solid #cdcdcd;margin-top:15px;" id="ssr_request_after_sales" hidden>
+<!--                    <div style="background-color:white; text-align:center; padding:15px 10px; border:1px solid #cdcdcd;margin-top:15px;" id="ssr_request_after_sales" hidden>-->
 
-                    </div>
+<!--                    </div>-->
 
                     <div class="alert alert-danger" style="border:1px solid #cdcdcd;margin-top:15px;" id="cancel" hidden>
 
