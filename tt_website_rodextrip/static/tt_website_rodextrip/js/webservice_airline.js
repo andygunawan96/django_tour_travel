@@ -2757,15 +2757,15 @@ function get_price_itinerary_request(){
 //                                    $text +='Flight '+flight_count+'\n';
                                     text += `
                                     <div class="col-lg-12 mt-2">
-                                        <h6 style="background:`+color+`; padding:10px; cursor:pointer; color:`+text_color+`;" id="flight_title_up`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">
-                                            Flight `+flight_count+`:
+                                        <h6 style="background:`+color+`; padding:10px; cursor:pointer; color:`+text_color+`; display:none;" id="flight_title_up`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">
+                                            Flight `+flight_count+`
                                             `+resJson.result.response.price_itinerary_provider[i].journeys[j].origin+`
                                             <i class="fas fa-arrow-right"></i>
                                             `+resJson.result.response.price_itinerary_provider[i].journeys[j].destination+`
                                             ( `+resJson.result.response.price_itinerary_provider[i].journeys[j].departure_date.split(' - ')[0]+` )
                                             <i class="fas fa-caret-up" style="float:right; font-size:18px;"></i>
                                         </h6>
-                                        <h6 style="background:`+color+`; padding:10px; cursor:pointer; color:`+text_color+`; display:none;" id="flight_title_down`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">
+                                        <h6 style="background:`+color+`; padding:10px; cursor:pointer; color:`+text_color+`;" id="flight_title_down`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">
                                             Flight `+flight_count+`
                                             `+resJson.result.response.price_itinerary_provider[i].journeys[j].origin+`
                                             <i class="fas fa-arrow-right"></i>
@@ -2776,7 +2776,7 @@ function get_price_itinerary_request(){
                                     </div>`;
                                     $text +='Flight '+flight_count+'\n';
                                     text+=`
-                                    <div class="col-lg-12" style="padding:0px 15px 15px 15px;" id="flight_div_sh`+flight_count+`">
+                                    <div class="col-lg-12" style="padding:0px 15px 15px 15px; display:none;" id="flight_div_sh`+flight_count+`">
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div style="padding:15px; border:1px solid #cdcdcd;">`;
@@ -3400,8 +3400,8 @@ function get_fare_rules(){
                     if(msg.result.response.fare_rule_provider[i].hasOwnProperty('journeys') == true){
                         if(msg.result.response.fare_rule_provider[i].hasOwnProperty('rules') && msg.result.response.fare_rule_provider[i].rules.length != 0){
                             text_fare+=`
-                                <span id="span-tac-up`+count_fare+`" class="carrier_code_template" style="display:block; cursor:pointer; padding:15px; border:1px solid #cdcdcd; border-radius:7px;" onclick="show_hide_tac(`+count_fare+`);"> Show Term and Condition <i class="fas fa-chevron-down"></i></span>
-                                <span id="span-tac-down`+count_fare+`" class="carrier_code_template" style="display:none; cursor:pointer; padding:15px; border:1px solid #cdcdcd; border-radius:7px;" onclick="show_hide_tac(`+count_fare+`);"> Hide Term and Condition <i class="fas fa-chevron-up"></i></span>
+                                <span id="span-tac-up`+count_fare+`" class="carrier_code_template mt-3" style="display:block; cursor:pointer; padding:15px; border:1px solid #cdcdcd; border-radius:7px;" onclick="show_hide_tac(`+count_fare+`);"> Show Term and Condition <i class="fas fa-chevron-down"></i></span>
+                                <span id="span-tac-down`+count_fare+`" class="carrier_code_template mt-3" style="display:none; cursor:pointer; padding:15px; border:1px solid #cdcdcd; border-radius:7px;" onclick="show_hide_tac(`+count_fare+`);"> Hide Term and Condition <i class="fas fa-chevron-up"></i></span>
                                 <div id="div-tac`+count_fare+`" style="display:none; padding:15px; border:1px solid #cdcdcd;">`;
                             for(k in msg.result.response.fare_rule_provider[i].rules){
                                 if(msg.result.response.fare_rule_provider[i].rules[k] != ""){
@@ -3705,14 +3705,16 @@ function get_seat_map_response(){
                             text += `
                             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
                                 <button class="button-seat-pass" style="width:100%; margin-right:10px; margin-bottom:10px; padding:10px;" type="button" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`" onclick="show_seat_map('`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`', false)">
-                                    <span>`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`</span>
+                                    <span>`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`</span><br/>
+                                    <span style="font-weight:700">`+moment(seat_map.seat_availability_provider[i].segments[j].departure_date).format('DD MMM YYYY HH:mm')+`</span>
                                 </button>
                             </div>`;
                         }else
                         text += `
                         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
                             <button class="button-seat-pass" style="width:100%; margin-right:10px; margin-bottom:10px; padding:10px; color:black; background-color:white;" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`" type="button" onclick="show_seat_map('`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`', false)">
-                                <span>`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`</span>
+                                <span>`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`</span><br/>
+                                <span style="font-weight:700">`+moment(seat_map.seat_availability_provider[i].segments[j].departure_date).format('DD MMM YYYY HH:mm')+`</span>
                             </button>
                         </div>`;
                     }
@@ -3857,7 +3859,10 @@ function set_passenger_seat_map_airline(val){
     for(i in passengers[val].seat_list){
         text+=`
         <div class="col-lg-12">
-            <h6 style="padding-top:10px;"><i class="fas fa-plane"></i> `+passengers[val].seat_list[i].segment_code+`: `+passengers[val].seat_list[i].seat_pick+`</h6>
+            <h6 style="padding-top:10px;">
+                <img src="/static/tt_website_rodextrip/img/icon/seat.png" style="height:16px; width:auto;"/>
+                `+passengers[val].seat_list[i].segment_code+` (`+moment(passengers[val].seat_list[i].departure_date).format('DD MMM YYYY HH:mm')+`): `+passengers[val].seat_list[i].seat_pick+`
+            </h6>
             <div style="border:1px solid #cdcdcd; padding:15px; background:white; margin-bottom:10px;">
             <h6>Description: </h6>`;
         for(j in passengers[val].seat_list[i].description){
@@ -3919,7 +3924,10 @@ function set_first_passenger_seat_map_airline(val){
     for(i in passengers[val].seat_list){
         text+=`
         <div class="col-lg-12">
-            <h6 style="padding-top:10px;"><i class="fas fa-plane"></i> `+passengers[val].seat_list[i].segment_code+`: `+passengers[val].seat_list[i].seat_pick+`</h6>
+            <h6 style="padding-top:10px;">
+                <img src="/static/tt_website_rodextrip/img/icon/seat.png" style="height:16px; width:auto;"/>
+                `+passengers[val].seat_list[i].segment_code+` (`+moment(passengers[val].seat_list[i].departure_date).format('DD MMM YYYY HH:mm')+`) : `+passengers[val].seat_list[i].seat_pick+`
+            </h6>
             <div style="border:1px solid #cdcdcd; padding:15px; background:white; margin-bottom:10px;">
             <h6>Description: </h6>`;
         for(j in passengers[val].seat_list[i].description){
@@ -3932,7 +3940,7 @@ function set_first_passenger_seat_map_airline(val){
         <div class="col-lg-12">`;
         text+=`<span style="font-weight:bold; font-size:15px;">Price: `+passengers[val].seat_list[i].currency+` `+getrupiah(passengers[val].seat_list[i].price)+`</span>`;
         if(passengers[val].seat_list[i].seat_name != '')
-            text+= `<input class="button-seat-pass button-seat-pass-cancel" type="button" id="cancel_seat" style="width: 200px; background: `+color+`; padding: 10px; margin-right: 10px; text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;" onclick="set_cancel_seat(`+i+`);" value="Cancel Seat">`;
+            text+= `<br/><input class="button-seat-pass button-seat-pass-cancel" type="button" id="cancel_seat" style="width: 200px; background: `+color+`; padding: 10px; margin-right: 10px; text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;" onclick="set_cancel_seat(`+i+`);" value="Cancel Seat">`;
         text+=`</div><div class="col-lg-12"><hr/></div>`;
     }
     text+=`</div>`;
@@ -5570,17 +5578,17 @@ function airline_get_booking(data, sync=false){
                             document.getElementById('split_booking').hidden = false;
                             document.getElementById('split_booking').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="split_booking_btn();" value="Split Booking">`;
                        }
-                       document.getElementById('ssr_request_after_sales').innerHTML = '<h4>Request New</h4><hr>';
-                       if(check_seat){
-                            document.getElementById('ssr_request_after_sales').hidden = false;
-                            document.getElementById('ssr_request_after_sales').innerHTML += `
-                            <input class="primary-btn-ticket" style="margin-bottom:15px;" type="button" onclick="set_new_request_seat()" value="Seat"><br/>`;
-                       }
-                       if(check_ssr){
-                            document.getElementById('ssr_request_after_sales').hidden = false;
-                            document.getElementById('ssr_request_after_sales').innerHTML += `
-                            <input class="primary-btn-ticket" type="button" onclick="set_new_request_ssr()" value="Baggage, Meal, Medical">`;
-                       }
+//                       document.getElementById('ssr_request_after_sales').innerHTML = '<h4>Request New</h4><hr>';
+//                       if(check_seat){
+//                            document.getElementById('ssr_request_after_sales').hidden = false;
+//                            document.getElementById('ssr_request_after_sales').innerHTML += `
+//                            <input class="primary-btn-ticket" style="margin-bottom:15px;" type="button" onclick="set_new_request_seat()" value="Seat"><br/>`;
+//                       }
+//                       if(check_ssr){
+//                            document.getElementById('ssr_request_after_sales').hidden = false;
+//                            document.getElementById('ssr_request_after_sales').innerHTML += `
+//                            <input class="primary-btn-ticket" type="button" onclick="set_new_request_ssr()" value="Baggage, Meal, Medical">`;
+//                       }
                        if(check_ff){
                        }
                        if(check_cancel){
@@ -5602,7 +5610,7 @@ function airline_get_booking(data, sync=false){
 
                     document.getElementById('reorder_div').innerHTML = `
                     <button type="button" id="button-re-order" class="primary-btn-white" onclick="create_new_reservation();">
-                        Re Order <i class="fas fa-redo-alt"></i>
+                        <i class="fas fa-redo-alt"></i> Re Order
                     </button>`;
                 }
 
@@ -6123,14 +6131,7 @@ function airline_get_booking(data, sync=false){
                 <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
                     <h5> List of Passenger</h5>
                     <hr/>
-                    <table style="width:100%" id="list-of-passenger">
-                        <tr>
-                            <th style="width:5%;" class="list-of-passenger-left">No</th>
-                            <th style="width:30%;">Name</th>
-                            <th style="width:20%;">Birth Date</th>
-                            <th style="width:25%;">Ticket Number</th>
-                            <th style="width:20%;">Seat & SSR</th>
-                        </tr>`;
+                    <div class="row">`;
                         for(pax in msg.result.response.passengers){
                             ticket = '';
                             ff_request = '';
@@ -6148,12 +6149,15 @@ function airline_get_booking(data, sync=false){
 
                                 }
                             }
-                            text+=`<tr>
-                                <td class="list-of-passenger-left">`+(parseInt(pax)+1)+`</td>
-                                <td>`+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`</td>
-                                <td>`+msg.result.response.passengers[pax].birth_date+`</td>
-                                <td id="passenger_ticket_`+parseInt(pax)+`">`+ticket+`</td>
-                                <td>`+ff_request;
+
+                            text+=`
+                            <div class="col-lg-12">
+                                <h5>`+(parseInt(pax)+1)+`.
+                                `+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`
+                                </h5>
+                                Birth Date: <b>`+msg.result.response.passengers[pax].birth_date+`</b><br/>
+                                Ticket Number: <b>`+ticket+`</b><br/>
+                                `+ff_request;
                                 fee_dict = {}; //bikin ke dict agar bisa fees per segment / journey
                                       try{
                                             for(i in msg.result.response.passengers[pax].fees){
@@ -6194,8 +6198,21 @@ function airline_get_booking(data, sync=false){
                                           console.log(err); // error kalau ada element yg tidak ada
                                       }
                                       for(i in fee_dict){
-                                            text += `<label>`+fee_dict[i].origin+` - `+fee_dict[i].destination+`</label><br/>`;
+                                            text += `<label style="color:`+color+`;">`+fee_dict[i].origin+` - `+fee_dict[i].destination+`</label><br/>`;
                                             for(j in fee_dict[i].fees){
+                                                if(fee_dict[i].fees[j].fee_category == 'meal'){
+                                                    text+=`<i class="fas fa-utensils"></i> `;
+                                                }
+                                                else if(fee_dict[i].fees[j].fee_category == 'baggage'){
+                                                    text+=`<i class="fas fa-suitcase"></i> `;
+                                                }
+                                                else if(fee_dict[i].fees[j].fee_category == 'equipment'){
+                                                    text+=`<i class="fas fa-tools"></i> `;
+                                                }
+                                                else if(fee_dict[i].fees[j].fee_category == 'seat'){
+                                                    text+=`<img src="/static/tt_website_rodextrip/img/icon/seat.png" style="height:16px; width:auto;"/> `;
+                                                }
+
                                                 text += `<label>`;
                                                 if(fee_dict[i].fees[j].fee_name.toLowerCase().includes(fee_dict[i].fees[j].fee_category.toLowerCase()) == false)
                                                     text += fee_dict[i].fees[j].fee_category + ': ';
@@ -6204,12 +6221,37 @@ function airline_get_booking(data, sync=false){
                                       }
                                       msg.result.response.passengers[pax].fees_dict = fee_dict;
                                       text+=`
-                                    </div>
-                                </td>
-                            </tr>`;
+                                      <hr/>
+                            </div>`;
                         }
-
-                    text+=`</table>
+                    text+=`
+                    </div>
+                        <div class="row mt-3" id="ssr_request_after_sales">`;
+                           if(check_seat || check_ssr){
+                                text+=`
+                                <div class="col-lg-12">
+                                    <h6>Request New</h6>
+                                    <br/>
+                                </div>`;
+                           }
+                           if(check_ssr){
+                                text+=`
+                                <div class="col-lg-6 mb-3">
+                                    <button class="primary-btn-white" style="width:100%;" type="button" onclick="set_new_request_ssr()">
+                                        <i class="fas fa-plus"></i> Baggage, Meal, Medical
+                                    </button>
+                                </div>`;
+                           }
+                           if(check_seat){
+                                text+=`
+                                <div class="col-lg-6">
+                                    <button class="primary-btn-white" style="width:100%;" type="button" onclick="set_new_request_seat()">
+                                        <i class="fas fa-plus"></i> Seat
+                                    </button>
+                                </div>`;
+                           }
+                       text+=`
+                       </div>
                     </div>
                 </div>
 
@@ -7678,12 +7720,12 @@ function airline_issued(data){
                                         <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` DISC
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">IDR -`+getrupiah(parseInt(price.DISC))+`</span>
+                                        <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.DISC))+`</span>
                                     </div>
                                 </div>`;
 
-                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT - price.DISC);
-                            price_provider_show += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT - price.DISC);
+                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                            price_provider_show += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
                             commission += parseInt(price.RAC);
                         }
                         total_price_provider_show.push(price_provider_show);
@@ -7781,12 +7823,12 @@ function airline_issued(data){
                                         <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` DISC
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">IDR -`+getrupiah(parseInt(price.DISC))+`</span>
+                                        <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.DISC))+`</span>
                                     </div>
                                 </div>`;
 
-                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT - price.DISC);
-                            price_provider_show += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT - price.DISC);
+                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                            price_provider_show += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
                             commission += parseInt(price.RAC);
                         }
                         total_price_provider_show.push(price_provider_show)
@@ -12962,7 +13004,7 @@ function split_booking_request(){
                     'signature': signature,
                },
                success: function(msg) {
-                   airline_get_booking(airline_get_detail.result.response.order_number);
+                   airline_get_booking(msg.result.response.order_number);
                    hide_modal_waiting_transaction();
                },
                error: function(XMLHttpRequest, textStatus, errorThrown) {
