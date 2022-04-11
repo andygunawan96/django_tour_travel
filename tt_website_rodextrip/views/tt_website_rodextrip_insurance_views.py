@@ -126,6 +126,8 @@ def search(request):
                     'destination': request.POST['insurance_destination'],
                     'type': request.POST['radio_insurance_type'],
                     'plan_trip': request.POST['insurance_trip'],
+                    'provider': request.POST['insurance_provider'],
+                    'is_senior': True if request.POST.get('insurance_is_senior') else False,
                 })
             except Exception as e:
                 _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -247,75 +249,90 @@ def review(request):
                 # BIKIN buat pasangan ANAK 1 2 3, ahli waris
                 relation = []
                 ahli_waris = {}
-                if request.POST['adult_relation1_first_name' + str(i + 1)]:
-                    relation.append({
-                        "title": request.POST['adult_relation1_title' + str(i + 1)],
-                        "first_name": request.POST['adult_relation1_first_name' + str(i + 1)],
-                        "last_name": request.POST['adult_relation1_last_name' + str(i + 1)],
-                        "nationality": request.POST['adult_relation1_nationality' + str(i + 1) + '_id'],
-                        "birth_date": request.POST['adult_relation1_birth_date' + str(i + 1)],
-                        "identity_type": request.POST['adult_relation1_identity_type' + str(i + 1)],
-                        "identity_number": request.POST['adult_relation1_passport_number' + str(i + 1)],
-                        "identity_expdate": request.POST['adult_relation1_passport_expired_date' + str(i + 1)],
-                        "identity_country_of_issued_name": request.POST['adult_relation1_passport_country_of_issued' + str(i + 1) + '_id'],
-                        "relation": request.POST['adult_relation1_relation' + str(i + 1)],
-                    })
+                addons = ''
+                if request.session['insurance_pick']['provider'] == 'bcainsurance':
+                    if request.POST['adult_relation1_first_name' + str(i + 1)]:
+                        relation.append({
+                            "title": request.POST['adult_relation1_title' + str(i + 1)],
+                            "first_name": request.POST['adult_relation1_first_name' + str(i + 1)],
+                            "last_name": request.POST['adult_relation1_last_name' + str(i + 1)],
+                            "nationality": request.POST['adult_relation1_nationality' + str(i + 1) + '_id'],
+                            "birth_date": request.POST['adult_relation1_birth_date' + str(i + 1)],
+                            "identity_type": request.POST['adult_relation1_identity_type' + str(i + 1)],
+                            "identity_number": request.POST['adult_relation1_passport_number' + str(i + 1)],
+                            "identity_expdate": request.POST['adult_relation1_passport_expired_date' + str(i + 1)],
+                            "identity_country_of_issued_name": request.POST['adult_relation1_passport_country_of_issued' + str(i + 1) + '_id'],
+                            "relation": request.POST['adult_relation1_relation' + str(i + 1)],
+                        })
 
-                if request.POST['adult_relation2_first_name' + str(i + 1)]:
-                    relation.append({
-                        "title": request.POST['adult_relation2_title' + str(i + 1)],
-                        "first_name": request.POST['adult_relation2_first_name' + str(i + 1)],
-                        "last_name": request.POST['adult_relation2_last_name' + str(i + 1)],
-                        "nationality": request.POST['adult_relation2_nationality' + str(i + 1) + '_id'],
-                        "birth_date": request.POST['adult_relation2_birth_date' + str(i + 1)],
-                        "identity_type": request.POST['adult_relation2_identity_type' + str(i + 1)],
-                        "identity_number": request.POST['adult_relation2_passport_number' + str(i + 1)],
-                        "identity_expdate": request.POST['adult_relation2_passport_expired_date' + str(i + 1)],
-                        "identity_country_of_issued_name": request.POST['adult_relation2_passport_country_of_issued' + str(i + 1) + '_id'],
-                        "relation": request.POST['adult_relation2_relation' + str(i + 1)],
-                    })
+                    if request.POST['adult_relation2_first_name' + str(i + 1)]:
+                        relation.append({
+                            "title": request.POST['adult_relation2_title' + str(i + 1)],
+                            "first_name": request.POST['adult_relation2_first_name' + str(i + 1)],
+                            "last_name": request.POST['adult_relation2_last_name' + str(i + 1)],
+                            "nationality": request.POST['adult_relation2_nationality' + str(i + 1) + '_id'],
+                            "birth_date": request.POST['adult_relation2_birth_date' + str(i + 1)],
+                            "identity_type": request.POST['adult_relation2_identity_type' + str(i + 1)],
+                            "identity_number": request.POST['adult_relation2_passport_number' + str(i + 1)],
+                            "identity_expdate": request.POST['adult_relation2_passport_expired_date' + str(i + 1)],
+                            "identity_country_of_issued_name": request.POST['adult_relation2_passport_country_of_issued' + str(i + 1) + '_id'],
+                            "relation": request.POST['adult_relation2_relation' + str(i + 1)],
+                        })
 
-                if request.POST['adult_relation3_first_name' + str(i + 1)]:
-                    relation.append({
-                        "title": request.POST['adult_relation3_title' + str(i + 1)],
-                        "first_name": request.POST['adult_relation3_first_name' + str(i + 1)],
-                        "last_name": request.POST['adult_relation3_last_name' + str(i + 1)],
-                        "nationality": request.POST['adult_relation3_nationality' + str(i + 1) + '_id'],
-                        "birth_date": request.POST['adult_relation3_birth_date' + str(i + 1)],
-                        "identity_type": request.POST['adult_relation3_identity_type' + str(i + 1)],
-                        "identity_number": request.POST['adult_relation3_passport_number' + str(i + 1)],
-                        "identity_expdate": request.POST['adult_relation3_passport_expired_date' + str(i + 1)],
-                        "identity_country_of_issued_name": request.POST['adult_relation3_passport_country_of_issued' + str(i + 1) + '_id'],
-                        "relation": request.POST['adult_relation3_relation' + str(i + 1)],
-                    })
+                    if request.POST['adult_relation3_first_name' + str(i + 1)]:
+                        relation.append({
+                            "title": request.POST['adult_relation3_title' + str(i + 1)],
+                            "first_name": request.POST['adult_relation3_first_name' + str(i + 1)],
+                            "last_name": request.POST['adult_relation3_last_name' + str(i + 1)],
+                            "nationality": request.POST['adult_relation3_nationality' + str(i + 1) + '_id'],
+                            "birth_date": request.POST['adult_relation3_birth_date' + str(i + 1)],
+                            "identity_type": request.POST['adult_relation3_identity_type' + str(i + 1)],
+                            "identity_number": request.POST['adult_relation3_passport_number' + str(i + 1)],
+                            "identity_expdate": request.POST['adult_relation3_passport_expired_date' + str(i + 1)],
+                            "identity_country_of_issued_name": request.POST['adult_relation3_passport_country_of_issued' + str(i + 1) + '_id'],
+                            "relation": request.POST['adult_relation3_relation' + str(i + 1)],
+                        })
 
-                if request.POST['adult_relation4_first_name' + str(i + 1)]:
-                    relation.append({
-                        "title": request.POST['adult_relation4_title' + str(i + 1)],
-                        "first_name": request.POST['adult_relation4_first_name' + str(i + 1)],
-                        "last_name": request.POST['adult_relation4_last_name' + str(i + 1)],
-                        "nationality": request.POST['adult_relation4_nationality' + str(i + 1) + '_id'],
-                        "birth_date": request.POST['adult_relation4_birth_date' + str(i + 1)],
-                        "identity_type": request.POST['adult_relation4_identity_type' + str(i + 1)],
-                        "identity_number": request.POST['adult_relation4_passport_number' + str(i + 1)],
-                        "identity_expdate": request.POST['adult_relation4_passport_expired_date' + str(i + 1)],
-                        "identity_country_of_issued_name": request.POST['adult_relation4_passport_country_of_issued' + str(i + 1) + '_id'],
-                        "relation": request.POST['adult_relation4_relation' + str(i + 1)],
-                    })
-                if request.POST['adult_relation5_first_name' + str(i + 1)]:
-                    ahli_waris.update({
-                        "title": request.POST['adult_relation5_title' + str(i + 1)],
-                        "first_name": request.POST['adult_relation5_first_name' + str(i + 1)],
-                        "last_name": request.POST['adult_relation5_last_name' + str(i + 1)],
-                        "nationality": request.POST['adult_relation5_nationality' + str(i + 1) + '_id'],
-                        "birth_date": request.POST['adult_relation5_birth_date' + str(i + 1)],
-                        "identity_type": request.POST['adult_relation5_identity_type' + str(i + 1)],
-                        "identity_number": request.POST['adult_relation5_passport_number' + str(i + 1)],
-                        "identity_expdate": request.POST['adult_relation5_passport_expired_date' + str(i + 1)],
-                        "identity_country_of_issued_name": request.POST['adult_relation5_passport_country_of_issued' + str(i + 1) + '_id'],
-                        "relation": request.POST['adult_relation5_relation' + str(i + 1)],
-                    })
+                    if request.POST['adult_relation4_first_name' + str(i + 1)]:
+                        relation.append({
+                            "title": request.POST['adult_relation4_title' + str(i + 1)],
+                            "first_name": request.POST['adult_relation4_first_name' + str(i + 1)],
+                            "last_name": request.POST['adult_relation4_last_name' + str(i + 1)],
+                            "nationality": request.POST['adult_relation4_nationality' + str(i + 1) + '_id'],
+                            "birth_date": request.POST['adult_relation4_birth_date' + str(i + 1)],
+                            "identity_type": request.POST['adult_relation4_identity_type' + str(i + 1)],
+                            "identity_number": request.POST['adult_relation4_passport_number' + str(i + 1)],
+                            "identity_expdate": request.POST['adult_relation4_passport_expired_date' + str(i + 1)],
+                            "identity_country_of_issued_name": request.POST['adult_relation4_passport_country_of_issued' + str(i + 1) + '_id'],
+                            "relation": request.POST['adult_relation4_relation' + str(i + 1)],
+                        })
+                    if request.POST['adult_relation5_first_name' + str(i + 1)]:
+                        ahli_waris.update({
+                            "title": request.POST['adult_relation5_title' + str(i + 1)],
+                            "first_name": request.POST['adult_relation5_first_name' + str(i + 1)],
+                            "last_name": request.POST['adult_relation5_last_name' + str(i + 1)],
+                            "nationality": request.POST['adult_relation5_nationality' + str(i + 1) + '_id'],
+                            "birth_date": request.POST['adult_relation5_birth_date' + str(i + 1)],
+                            "identity_type": request.POST['adult_relation5_identity_type' + str(i + 1)],
+                            "identity_number": request.POST['adult_relation5_passport_number' + str(i + 1)],
+                            "identity_expdate": request.POST['adult_relation5_passport_expired_date' + str(i + 1)],
+                            "identity_country_of_issued_name": request.POST['adult_relation5_passport_country_of_issued' + str(i + 1) + '_id'],
+                            "relation": request.POST['adult_relation5_relation' + str(i + 1)],
+                        })
 
+                identity_number = ''
+                identity_type = ''
+                identity_expdate = ''
+                identity_country_of_issued = ''
+
+                if request.session['insurance_pick']['provider'] == 'bcainsurance':
+                    identity_number = request.POST['adult_passport_passport_number' + str(i + 1)]
+                    identity_type = request.POST['adult_passport_id_type' + str(i + 1)]
+                    identity_expdate = request.POST['adult_passport_passport_expired_date' + str(i + 1)]
+                    identity_country_of_issued = request.POST['adult_passport_passport_country_of_issued' + str(i + 1)]
+                elif request.session['insurance_pick']['provider'] == 'zurich':
+                    if request.POST['adult_additional_benefit' + str(i + 1)]:
+                        addons = json.loads(request.POST['adult_additional_benefit' + str(i + 1)])
                 adult.append({
                     "pax_type": "ADT",
                     "first_name": request.POST['adult_first_name' + str(i + 1)],
@@ -329,10 +346,10 @@ def review(request):
                     "identity_number": request.POST['adult_passport_number' + str(i + 1)],
                     "identity_type": request.POST['adult_id_type' + str(i + 1)],
 
-                    "identity_type2": request.POST['adult_passport_id_type' + str(i + 1)],
-                    "identity_expdate2": request.POST['adult_passport_passport_expired_date' + str(i + 1)],
-                    "identity_number2": request.POST['adult_passport_passport_number' + str(i + 1)],
-                    "identity_country_of_issued_name2": request.POST['adult_passport_passport_country_of_issued' + str(i + 1)],
+                    "identity_type2": identity_type,
+                    "identity_expdate2": identity_expdate,
+                    "identity_number2": identity_number,
+                    "identity_country_of_issued_name2": identity_country_of_issued,
 
                     "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
                     "email": request.POST['adult_email' + str(i + 1)],
@@ -343,6 +360,8 @@ def review(request):
                         "address": request.POST['adult_address' + str(i + 1)],
                         "postal_code": request.POST['adult_postal_code' + str(i + 1)],
                         "city": request.POST['adult_city' + str(i + 1)],
+                        "place_of_birth": request.POST['adult_place_of_birth' + str(i + 1)],
+                        "addons": addons
                     }
                 })
 

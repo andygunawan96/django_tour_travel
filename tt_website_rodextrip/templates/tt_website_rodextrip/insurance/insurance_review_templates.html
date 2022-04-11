@@ -245,7 +245,17 @@
                                         {% for pax in passenger.adult %}
                                         <tr>
                                             <td>{{forloop.counter}}</td>
-                                            <td>{{pax.title}}. {{pax.first_name}} {{pax.last_name}}</td>
+                                            <td>
+                                                {{pax.title}}. {{pax.first_name}} {{pax.last_name}}<br/>
+                                                {% for addons in pax.data_insurance.addons %}
+                                                    {% if forloop.counter == 1%}
+                                                    <b>Addons</b><br/>
+                                                    {% endif %}
+                                                    {% autoescape off %}
+                                                    {{addons.text_with_tag}}
+                                                    {% endautoescape %}
+                                                {% endfor %}
+                                            </td>
                                             <td>{{pax.birth_date}}</td>
                                         </tr>
                                         {% endfor %}
