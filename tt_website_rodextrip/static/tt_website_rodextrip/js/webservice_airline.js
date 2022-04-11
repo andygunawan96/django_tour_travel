@@ -2758,7 +2758,7 @@ function get_price_itinerary_request(){
                                     text += `
                                     <div class="col-lg-12 mt-2">
                                         <h6 style="background:`+color+`; padding:10px; cursor:pointer; color:`+text_color+`; display:none;" id="flight_title_up`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">
-                                            Flight `+flight_count+`
+                                            Flight `+flight_count+` -
                                             `+resJson.result.response.price_itinerary_provider[i].journeys[j].origin+`
                                             <i class="fas fa-arrow-right"></i>
                                             `+resJson.result.response.price_itinerary_provider[i].journeys[j].destination+`
@@ -2766,7 +2766,7 @@ function get_price_itinerary_request(){
                                             <i class="fas fa-caret-up" style="float:right; font-size:18px;"></i>
                                         </h6>
                                         <h6 style="background:`+color+`; padding:10px; cursor:pointer; color:`+text_color+`;" id="flight_title_down`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">
-                                            Flight `+flight_count+`
+                                            Flight `+flight_count+` -
                                             `+resJson.result.response.price_itinerary_provider[i].journeys[j].origin+`
                                             <i class="fas fa-arrow-right"></i>
                                             `+resJson.result.response.price_itinerary_provider[i].journeys[j].destination+`
@@ -3185,7 +3185,7 @@ function get_price_itinerary_request(){
 function render_price_in_get_price(text, $text, $text_share){
 
     text+=`
-    <div class="col-lg-12" id="rules`+rules+`" style="padding-bottom:15px;">
+    <div class="col-lg-12 mt-3" id="rules`+rules+`" style="padding-bottom:15px;">
         <span class="carrier_code_template"> Term and Condition </span><br/>
         <span style="font-size:16px; font-weight:bold;">PLEASE WAIT ... </span>
         <div class="sk-circle">
@@ -3400,8 +3400,8 @@ function get_fare_rules(){
                     if(msg.result.response.fare_rule_provider[i].hasOwnProperty('journeys') == true){
                         if(msg.result.response.fare_rule_provider[i].hasOwnProperty('rules') && msg.result.response.fare_rule_provider[i].rules.length != 0){
                             text_fare+=`
-                                <span id="span-tac-up`+count_fare+`" class="carrier_code_template mt-3" style="display:block; cursor:pointer; padding:15px; border:1px solid #cdcdcd; border-radius:7px;" onclick="show_hide_tac(`+count_fare+`);"> Show Term and Condition <i class="fas fa-chevron-down"></i></span>
-                                <span id="span-tac-down`+count_fare+`" class="carrier_code_template mt-3" style="display:none; cursor:pointer; padding:15px; border:1px solid #cdcdcd; border-radius:7px;" onclick="show_hide_tac(`+count_fare+`);"> Hide Term and Condition <i class="fas fa-chevron-up"></i></span>
+                                <span id="span-tac-up`+count_fare+`" class="carrier_code_template" style="display:block; cursor:pointer; padding:15px; border:1px solid #cdcdcd; border-radius:7px;" onclick="show_hide_tac(`+count_fare+`);"> Show Term and Condition <i class="fas fa-chevron-down"></i></span>
+                                <span id="span-tac-down`+count_fare+`" class="carrier_code_template" style="display:none; cursor:pointer; padding:15px; border:1px solid #cdcdcd; border-radius:7px;" onclick="show_hide_tac(`+count_fare+`);"> Hide Term and Condition <i class="fas fa-chevron-up"></i></span>
                                 <div id="div-tac`+count_fare+`" style="display:none; padding:15px; border:1px solid #cdcdcd;">`;
                             for(k in msg.result.response.fare_rule_provider[i].rules){
                                 if(msg.result.response.fare_rule_provider[i].rules[k] != ""){
@@ -5474,7 +5474,7 @@ function airline_get_booking(data, sync=false){
                                     col = 3;
                             }
                        }
-                       document.getElementById('ssr_request_after_sales').innerHTML = '<h4>Reissued</h4><hr>';
+                       //document.getElementById('ssr_request_after_sales').innerHTML = '<h4>Reissued</h4><hr>';
                        if(check_reschedule){
                             document.getElementById('reissued').hidden = false;
                             document.getElementById('reissued').innerHTML = `
@@ -5487,17 +5487,17 @@ function airline_get_booking(data, sync=false){
                             document.getElementById('split_booking').hidden = false;
                             document.getElementById('split_booking').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="split_booking_btn();" value="Split Booking">`;
                        }
-                       document.getElementById('ssr_request_after_sales').innerHTML = '<h4>Request</h4><hr>';
-                       if(check_seat){
-                            document.getElementById('ssr_request_after_sales').hidden = false;
-                            document.getElementById('ssr_request_after_sales').innerHTML += `
-                            <input class="primary-btn-ticket" style="margin-bottom:15px;" type="button" onclick="set_new_request_seat()" value="Seat"><br/>`;
-                       }
-                       if(check_ssr){
-                            document.getElementById('ssr_request_after_sales').hidden = false;
-                            document.getElementById('ssr_request_after_sales').innerHTML += `
-                            <input class="primary-btn-ticket" type="button" onclick="set_new_request_ssr()" value="Baggage, Meal, Medical">`;
-                       }
+//                       document.getElementById('ssr_request_after_sales').innerHTML = '<h4>Request</h4><hr>';
+//                       if(check_seat){
+//                            document.getElementById('ssr_request_after_sales').hidden = false;
+//                            document.getElementById('ssr_request_after_sales').innerHTML += `
+//                            <input class="primary-btn-ticket" style="margin-bottom:15px;" type="button" onclick="set_new_request_seat()" value="Seat"><br/>`;
+//                       }
+//                       if(check_ssr){
+//                            document.getElementById('ssr_request_after_sales').hidden = false;
+//                            document.getElementById('ssr_request_after_sales').innerHTML += `
+//                            <input class="primary-btn-ticket" type="button" onclick="set_new_request_ssr()" value="Baggage, Meal, Medical">`;
+//                       }
                        if(check_ff){
                        }
                        if(check_cancel){
@@ -5975,7 +5975,7 @@ function airline_get_booking(data, sync=false){
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div style="padding:10px; background-color:white;">
-                                    <h5> Reschedule Flight Detail <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png" alt="Reschedule Flight Detail"/></h5>
+                                    <h5> Flight Detail (Before Reschedule) <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png" alt="Reschedule Flight Detail"/></h5>
                                     <hr/>`;
                                 check = 0;
                                 for(i in msg.result.response.reschedule_list){
@@ -7597,7 +7597,7 @@ function airline_issued(data){
                        document.getElementById('airline_booking').innerHTML = '';
                        document.getElementById('airline_detail').innerHTML = '';
                        document.getElementById('payment_acq').innerHTML = '';
-                       document.getElementById('ssr_request_after_sales').hidden = true;
+                       //document.getElementById('ssr_request_after_sales').hidden = true;
                        document.getElementById('show_loading_booking_airline').style.display = 'block';
                        document.getElementById('show_loading_booking_airline').hidden = false;
                        document.getElementById('reissued').hidden = true;
@@ -7615,7 +7615,7 @@ function airline_issued(data){
                    document.getElementById('airline_booking').innerHTML = '';
                    document.getElementById('airline_detail').innerHTML = '';
                    document.getElementById('payment_acq').innerHTML = '';
-                   document.getElementById('ssr_request_after_sales').hidden = true;
+                   //document.getElementById('ssr_request_after_sales').hidden = true;
                    document.getElementById('show_loading_booking_airline').style.display = 'block';
                    document.getElementById('show_loading_booking_airline').hidden = false;
                    document.getElementById('reissued').hidden = true;
@@ -7917,7 +7917,7 @@ function airline_issued(data){
                 document.getElementById('airline_detail').innerHTML = '';
                 document.getElementById('payment_acq').innerHTML = '';
                 document.getElementById('voucher_div').style.display = 'none';
-                document.getElementById('ssr_request_after_sales').hidden = true;
+                //document.getElementById('ssr_request_after_sales').hidden = true;
                 document.getElementById('show_loading_booking_airline').style.display = 'block';
                 document.getElementById('show_loading_booking_airline').hidden = false;
                 document.getElementById('reissued').hidden = true;
@@ -7969,7 +7969,7 @@ function airline_request_issued(req_order_number){
                     document.getElementById('airline_detail').innerHTML = '';
                     document.getElementById('payment_acq').innerHTML = '';
                     document.getElementById('voucher_div').style.display = 'none';
-                    document.getElementById('ssr_request_after_sales').hidden = true;
+                    //document.getElementById('ssr_request_after_sales').hidden = true;
                     document.getElementById('show_loading_booking_airline').style.display = 'block';
                     document.getElementById('show_loading_booking_airline').hidden = false;
                     document.getElementById('reissued').hidden = true;
@@ -8014,7 +8014,7 @@ function airline_request_issued(req_order_number){
                 document.getElementById('airline_detail').innerHTML = '';
                 document.getElementById('payment_acq').innerHTML = '';
                 document.getElementById('voucher_div').style.display = 'none';
-                document.getElementById('ssr_request_after_sales').hidden = true;
+                //document.getElementById('ssr_request_after_sales').hidden = true;
                 document.getElementById('show_loading_booking_airline').style.display = 'block';
                 document.getElementById('show_loading_booking_airline').hidden = false;
                 document.getElementById('reissued').hidden = true;
@@ -8826,7 +8826,7 @@ function airline_reissued(){
                 document.getElementById('show_loading_booking_airline').style.display = 'block';
                 document.getElementById('show_loading_booking_airline').hidden = false;
                 document.getElementById('airline_detail').innerHTML = '';
-                document.getElementById('ssr_request_after_sales').hidden = true;
+                //document.getElementById('ssr_request_after_sales').hidden = true;
 
                 document.getElementById('reissued').innerHTML = `<input class="primary-btn-white" style="width:100%;" type="button" onclick="show_loading();please_wait_transaction();airline_get_booking('`+airline_get_detail.result.response.order_number+`')" value="Cancel Reissued">`;
                 flight_select = 0;
@@ -12504,7 +12504,7 @@ function airline_get_reschedule_availability_v2(){
                     document.getElementById('show_loading_booking_airline').style.display = 'block';
                     document.getElementById('show_loading_booking_airline').hidden = false;
                     document.getElementById('airline_detail').innerHTML = '';
-                    document.getElementById('ssr_request_after_sales').hidden = true;
+                    //document.getElementById('ssr_request_after_sales').hidden = true;
 
                     document.getElementById('reissued').innerHTML = `<input class="primary-btn-white" style="width:100%;" type="button" onclick="show_loading();please_wait_transaction();airline_get_booking('`+airline_get_detail.result.response.order_number+`')" value="Cancel Reissued">`;
                     flight_select = 0;
