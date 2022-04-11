@@ -41,7 +41,12 @@
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
                 <span style="text-transform: capitalize;">{% trans 'Insurance Search' %}</span><br/>
-                <span style="text-transform: capitalize;">{{insurance_request.origin}} → {{insurance_request.destination}}</span>
+                {% if insurance_request.provider == 'bcainsurance'%}
+                    <span style="text-transform: capitalize;">{{insurance_request.origin}} → {{insurance_request.destination}}</span>
+                {% else %}
+                    <!--zurich-->
+                    <span style="text-transform: capitalize;">{{insurance_request.destination}}</span>
+                {% endif %}
                 <br/>
             </div>
             <div class="col-lg-4" style="text-align:right;">

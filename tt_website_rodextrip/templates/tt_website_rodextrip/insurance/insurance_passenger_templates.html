@@ -446,6 +446,22 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
+
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Place Of Birth' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="adult_place_of_birth{{forloop.counter}}_id" style="width:100%;" id="adult_place_of_birth{{forloop.counter}}_id" placeholder="{% trans 'Place Of Birth' %}" onchange="auto_complete('adult_place_of_birth{{forloop.counter}}')" class="nice-select-default">
+
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="adult_place_of_birth{{forloop.counter}}" id="adult_place_of_birth{{forloop.counter}}" />
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Surabaya</label>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
@@ -455,10 +471,12 @@
                                         </div>
                                         <div class="col-lg-12" id="adult_identity_type{{forloop.counter}}" style="display:block;">
                                             <div class="row">
+                                                {% if response.provider == 'bcainsurance' %}
                                                 <div class="col-lg-12 mt-2 mb-2">
                                                     <hr/>
                                                     <h6 style="width:fit-content; border-bottom:2px solid {{color}};">KTP</h6>
                                                 </div>
+                                                {% endif %}
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <label style="color:red">*</label>
                                                     <label>{% trans 'Identity' %}</label>
@@ -466,6 +484,9 @@
                                                         <div class="form-select" id="default-select">
                                                             <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="change_identity_type(`adult_id_type{{forloop.counter}}`)">
                                                                 <option value="ktp">KTP/NIK</option>
+                                                                {% if response.provider == 'zurich' %}
+                                                                <option value="passport">Passport</option>
+                                                                {% endif %}
                                                             </select>
                                                         </div>
                                                     </div>
@@ -501,6 +522,7 @@
                                                         <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
                                                     </div>
                                                 </div>
+                                                {% if response.provider == 'bcainsurance' %}
                                                 <div class="col-lg-12 col-md-12 col-sm-12" {% if response.sector_type != 'International' %} hidden {% endif %}>
                                                     <div class="row">
                                                         <div class="col-lg-12 mt-2 mb-2">
@@ -555,6 +577,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                {% endif %}
                                                 <div class="col-lg-6 col-md-6 col-sm-6"></div>
                                             </div>
                                         </div>
@@ -625,7 +648,7 @@
                                             </div>
                                             <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
                                         </div>
-
+                                        {% if response.provider == 'bcainsurance' %}
                                         <div class="col-lg-12">
                                             <div id="adult_additional_data_for_insurance{{forloop.counter}}" style="display:none;">
                                                 <div class="row">
@@ -1192,6 +1215,82 @@
                                             </div>
                                             </div>
                                         </div>
+                                        {% elif response.provider == 'zurich' %}
+                                        <div class="col-lg-12">
+                                            <hr/>
+                                            <h6 style="width:fit-content; border-bottom:2px solid {{color}};">Additional Benefit</h6>
+                                            <br/>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_additional{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> <i class="fas fa-plus-square" style="color:'white';"></i></button>
+                                            <input type="hidden" id="adult_additional_benefit{{forloop.counter}}" name="adult_additional_benefit{{forloop.counter}}" />
+                                            <div id="adult_additional_benefit{{forloop.counter}}_div">
+
+                                            </div>
+                                            <div class="modal fade" id="myModal_additional{{forloop.counter}}" role="dialog">
+                                                {% with forloop.counter as pax_count %}
+                                                <div class="modal-dialog">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Additional Benefit Pax' %} - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
+                                                            <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body" style="text-align:left;">
+                                                            <table class="table table-bordered">
+                                                                <tr>
+                                                                    <th rowspan="2">No</th>
+                                                                    <th rowspan="2">Coverage</th>
+                                                                    <th colspan="2" style="text-align:center;">Benefit</th>
+                                                                    <th rowspan="2">Total Price</th>
+                                                                    <th rowspan="2"></th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>International</th>
+                                                                    <th>Domestic</th>
+                                                                </tr>
+                                                                {% for benefit in response.additional_benefit %}
+                                                                <tr>
+                                                                    <td>{{forloop.counter}}</td>
+                                                                    <td>
+                                                                        {% autoescape off %}
+                                                                        {{benefit.text_with_tag}}
+                                                                        {% endautoescape %}
+                                                                    </td>
+                                                                    <td>{%if benefit.detail.0 != null %}{{benefit.detail.0}}{% endif %}</td>
+                                                                    <td>{%if benefit.detail.1 != null %}{{benefit.detail.1}}{% endif %}</td>
+                                                                    <td>{{benefit.currency}} <script>document.write(getrupiah({{benefit.price}}))</script></td>
+                                                                    <td>
+                                                                        <label class="check_box_custom">
+                                                                            <span class="span-search-ticket" style="color:black;">Select</span>
+                                                                            <input type="checkbox" id="checkbox_add_benefit{{pax_count}}_{{forloop.counter}}" onchange="edit_additional_benefit()"/>
+                                                                            <span class="check_box_span_custom"></span>
+                                                                        </label>
+                                                                    </td>
+                                                                </tr>
+                                                                    {% for child_benefit in benefit.child %}
+                                                                <tr>
+                                                                    <td></td>
+                                                                    <td>
+                                                                        {% autoescape off %}
+                                                                        {{child_benefit.text_with_tag}}
+                                                                        {% endautoescape %}
+                                                                    </td>
+                                                                    <td>{%if child_benefit.detail.0 != null %}{{child_benefit.detail.0}}{% endif %}</td>
+                                                                    <td>{%if child_benefit.detail.1 != null %}{{child_benefit.detail.1}}{% endif %}</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                    {% endfor %}
+                                                                {% endfor %}
+                                                            </table>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">{% trans 'Close' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endwith %}
+                                            </div>
+                                        </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -1676,6 +1775,22 @@
                                                     </div>
                                                     <input type="hidden" name="adult_nationality{{forloop.counter}}" id="adult_nationality{{forloop.counter}}" />
                                                 </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <label style="color:red">*</label>
+                                                <label>{% trans 'Place Of Birth' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="adult_place_of_birth{{forloop.counter}}_id" style="width:100%;" id="adult_place_of_birth{{forloop.counter}}_id" placeholder="{% trans 'Place Of Birth' %}" onchange="auto_complete('adult_place_of_birth{{forloop.counter}}')" class="nice-select-default">
+
+                                                        </select>
+                                                    </div>
+                                                    <input type="hidden" name="adult_place_of_birth{{forloop.counter}}" id="adult_place_of_birth{{forloop.counter}}" />
+                                                </div>
+                                                <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Surabaya</label>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                 <label style="color:red">*</label>
@@ -2910,6 +3025,22 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
+
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Place Of Birth' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="adult_place_of_birth{{forloop.counter}}_id" style="width:100%;" id="adult_place_of_birth{{forloop.counter}}_id" placeholder="{% trans 'Place Of Birth' %}" onchange="auto_complete('adult_place_of_birth{{forloop.counter}}')" class="nice-select-default">
+
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="adult_place_of_birth{{forloop.counter}}" id="adult_place_of_birth{{forloop.counter}}" />
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Surabaya</label>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
@@ -4137,6 +4268,22 @@
                                             </div>
                                             <input type="hidden" name="adult_nationality{{forloop.counter}}" id="adult_nationality{{forloop.counter}}" />
                                         </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Place Of Birth' %}</label>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select">
+                                                <select class="form-control js-example-basic-single" name="adult_place_of_birth{{forloop.counter}}_id" style="width:100%;" id="adult_place_of_birth{{forloop.counter}}_id" placeholder="{% trans 'Place Of Birth' %}" onchange="auto_complete('adult_place_of_birth{{forloop.counter}}')" class="nice-select-default">
+
+                                                </select>
+                                            </div>
+                                            <input type="hidden" name="adult_place_of_birth{{forloop.counter}}" id="adult_place_of_birth{{forloop.counter}}" />
+                                        </div>
+                                        <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Surabaya</label>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                         <label style="color:red">*</label>
@@ -5369,6 +5516,22 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
+
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Place Of Birth' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="adult_place_of_birth{{forloop.counter}}_id" style="width:100%;" id="adult_place_of_birth{{forloop.counter}}_id" placeholder="{% trans 'Place Of Birth' %}" onchange="auto_complete('adult_place_of_birth{{forloop.counter}}')" class="nice-select-default">
+
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="adult_place_of_birth{{forloop.counter}}" id="adult_place_of_birth{{forloop.counter}}" />
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Surabaya</label>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
@@ -6598,6 +6761,22 @@
                                                 </div>
                                                 <input type="hidden" name="adult_nationality{{forloop.counter}}" id="adult_nationality{{forloop.counter}}" />
                                             </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Place Of Birth' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="adult_place_of_birth{{forloop.counter}}_id" style="width:100%;" id="adult_place_of_birth{{forloop.counter}}_id" placeholder="{% trans 'Place Of Birth' %}" onchange="auto_complete('adult_place_of_birth{{forloop.counter}}')" class="nice-select-default">
+
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="adult_place_of_birth{{forloop.counter}}" id="adult_place_of_birth{{forloop.counter}}" />
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Surabaya</label>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label style="color:red">*</label>
