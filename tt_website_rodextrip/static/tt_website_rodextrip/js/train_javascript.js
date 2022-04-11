@@ -623,8 +623,9 @@ function train_get_detail(){
     train_detail_text += `
     <div class="row">
         <div class="col-lg-12">
-            <h5>Price Detail</h5>
-            <br/>
+            <div class="alert alert-warning" role="alert">
+                <span style="font-weight:bold;"> Please check before going to the next page!</span>
+            </div>
         </div>
     </div>`;
     for(i in journeys){
@@ -637,68 +638,89 @@ function train_get_detail(){
         else{
             $text +=` - `+journeys[i].arrival_date[0] + ' ' + journeys[i].arrival_date[1] +`\n\n`;
         }
-
+        train_detail_text += `
+        <h6 style="cursor:pointer; background:`+color+`; color:`+text_color+`;padding:10px 15px; display:none;" id="train_title_up`+i+`" onclick="show_hide_train(`+i+`);">`;
         if(i == 0){
-            train_detail_text += `<h6>Departure</h6><br/>`;
+            train_detail_text += `Departure - `;
         }else{
-            train_detail_text += `<br/><h6>Return</h6><br/>`;
+            train_detail_text += `Return - `;
         }
         train_detail_text += `
-        <div class="row">
-        <div class="col-lg-12">`;
+        `+journeys[i].origin+`
+        <i class="fas fa-arrow-right"></i>
+        `+journeys[i].destination+`
+        <i class="fas fa-caret-up" style="float:right; font-size:18px;"></i>
+        </h6>
+        <h6 style="cursor:pointer; background:`+color+`; color:`+text_color+`; padding:10px 15px;" id="train_title_down`+i+`" onclick="show_hide_train(`+i+`);">`;
+        if(i == 0){
+            train_detail_text += `Departure - `;
+        }else{
+            train_detail_text += `Return - `;
+        }
+        train_detail_text += `
+        `+journeys[i].origin+`
+        <i class="fas fa-arrow-right"></i>
+        `+journeys[i].destination+`
+        <i class="fas fa-caret-down" style="float:right; font-size:18px;"></i>
+        </h6>
 
-        if(journeys[i].hasOwnProperty('search_banner')){
-           for(banner_counter in journeys[i].search_banner){
-               var max_banner_date = moment().subtract(parseInt(-1*journeys[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
-               var selected_banner_date = moment(journeys[i].departure_date[0]).format('YYYY-MM-DD');
+        <div class="col-lg-12" id="train_div_sh`+i+`" style="border:1px solid #cdcdcd; padding:10px 15px; display:none;">
+            <div class="row">
+                <div class="col-lg-12">`;
 
-               if(selected_banner_date >= max_banner_date){
-                   if(journeys[i].search_banner[banner_counter].active == true){
-                       train_detail_text+=`<label id="pop_search_banner_detail`+i+``+banner_counter+`" style="background:`+journeys[i].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+journeys[i].search_banner[banner_counter].name+`</label>`;
+                if(journeys[i].hasOwnProperty('search_banner')){
+                   for(banner_counter in journeys[i].search_banner){
+                       var max_banner_date = moment().subtract(parseInt(-1*journeys[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
+                       var selected_banner_date = moment(journeys[i].departure_date[0]).format('YYYY-MM-DD');
+
+                       if(selected_banner_date >= max_banner_date){
+                           if(journeys[i].search_banner[banner_counter].active == true){
+                               train_detail_text+=`<label id="pop_search_banner_detail`+i+``+banner_counter+`" style="background:`+journeys[i].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+journeys[i].search_banner[banner_counter].name+`</label>`;
+                           }
+                       }
                    }
-               }
-           }
-        }
+                }
 
-        train_detail_text += `
-        </div>
-            <div class="col-lg-12">`;
-//                if(i != 0){
-//                    train_detail_text += `<hr/>`;
-//                }
-            train_detail_text += `
-                <h6>`+journeys[i].carrier_name+` - `+journeys[i].carrier_number+`</h6>
-            </div>
-            <div class="col-lg-6 col-xs-6">
-                <table style="width:100%">
-                    <tr>
-                        <td><h6>`+journeys[i].departure_date[1]+`</h6></td>
-                        <td style="padding-left:15px;">
-                            <img src="/static/tt_website_rodextrip/img/icon/train-01.png" alt="Train" style="width:20px; height:20px;">
-                        </td>
-                        <td style="height:30px;padding:0 15px;width:100%">
-                            <div style="display:inline-block;position:relative;width:100%">
-                                <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                <div style="height:30px;min-width:25px;position:relative;width:0%"></div>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-                <span>`+journeys[i].departure_date[0]+`</span><br/>
-                <span style="font-weight:500;">`+journeys[i].origin_name+` (`+journeys[i].origin+`)</span>
-            </div>
+                train_detail_text += `
+                </div>
+                <div class="col-lg-12">`;
+    //                if(i != 0){
+    //                    train_detail_text += `<hr/>`;
+    //                }
+                train_detail_text += `
+                    <h6>`+journeys[i].carrier_name+` - `+journeys[i].carrier_number+`</h6>
+                </div>
+                <div class="col-lg-6 col-xs-6">
+                    <table style="width:100%">
+                        <tr>
+                            <td><h6>`+journeys[i].departure_date[1]+`</h6></td>
+                            <td style="padding-left:15px;">
+                                <img src="/static/tt_website_rodextrip/img/icon/train-01.png" alt="Train" style="width:20px; height:20px;">
+                            </td>
+                            <td style="height:30px;padding:0 15px;width:100%">
+                                <div style="display:inline-block;position:relative;width:100%">
+                                    <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                    <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                    <div style="height:30px;min-width:25px;position:relative;width:0%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <span>`+journeys[i].departure_date[0]+`</span><br/>
+                    <span style="font-weight:500;">`+journeys[i].origin_name+` (`+journeys[i].origin+`)</span>
+                </div>
 
-            <div class="col-lg-6 col-xs-6">
-                <table style="width:100%; margin-bottom:6px;">
-                    <tr>
-                        <td><h6>`+journeys[i].arrival_date[1]+`</h6></td>
-                        <td></td>
-                        <td style="height:30px;padding:0 15px;width:100%"></td>
-                    </tr>
-                </table>
-                <span>`+journeys[i].arrival_date[0]+`</span><br/>
-                <span style="font-weight:500;">`+journeys[i].destination_name+` (`+journeys[i].destination+`)</span>
+                <div class="col-lg-6 col-xs-6">
+                    <table style="width:100%; margin-bottom:6px;">
+                        <tr>
+                            <td><h6>`+journeys[i].arrival_date[1]+`</h6></td>
+                            <td></td>
+                            <td style="height:30px;padding:0 15px;width:100%"></td>
+                        </tr>
+                    </table>
+                    <span>`+journeys[i].arrival_date[0]+`</span><br/>
+                    <span style="font-weight:500;">`+journeys[i].destination_name+` (`+journeys[i].destination+`)</span>
+                </div>
             </div>
         </div>
         <br/>
@@ -755,13 +777,13 @@ function train_get_detail(){
 
             train_detail_text+=`
             <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                <span style="font-size:13px;">Convenience fee</span>
+                <span style="font-size:13px;">1x Convenience fee</span>
             </div>
             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                 <span style="font-size:13px;">`+price['currency']+` `+getrupiah(journeys[i].fares[0].service_charge_summary[0].total_tax)+`</span>
             </div>
-            <div class="col-lg-12">
-                <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
+            <div class="col-lg-12 mb-3">
+
             </div>
         </div>
         `;
@@ -966,61 +988,85 @@ function train_detail(){
     text += `
         <div class="row">
             <div class="col-lg-12">`;
+            text += `
+            <h6 style="cursor:pointer; color:`+color+`; display:none;" id="train_title_up`+i+`" onclick="show_hide_train(`+i+`);">`;
             if(i == 0){
-                text += `<h6>Departure</h6>`;
+                text += `Departure - `;
             }else{
-                text += `<br/><h6>Return</h6>`;
+                text += `Return - `;
             }
-            text+=`
+            text += `
+            `+train_data[i].origin+`
+            <i class="fas fa-arrow-right"></i>
+            `+train_data[i].destination+`
+            <i class="fas fa-caret-up" style="float:right; font-size:18px;"></i>
+            </h6>
+            <h6 style="cursor:pointer; color:`+color+`;" id="train_title_down`+i+`" onclick="show_hide_train(`+i+`);">`;
+            if(i == 0){
+                text += `Departure - `;
+            }else{
+                text += `Return - `;
+            }
+            text += `
+            `+train_data[i].origin+`
+            <i class="fas fa-arrow-right"></i>
+            `+train_data[i].destination+`
+            <i class="fas fa-caret-down" style="float:right; font-size:18px;"></i>
+            </h6>
             </div>
-            <div class="col-lg-12">`;
-            if(train_data[i].hasOwnProperty('search_banner')){
-               for(banner_counter in train_data[i].search_banner){
-                   var max_banner_date = moment().subtract(parseInt(-1*train_data[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
-                   var selected_banner_date = moment(train_data[i].departure_date[0]).format('YYYY-MM-DD');
 
-                   if(selected_banner_date >= max_banner_date){
-                       if(train_data[i].search_banner[banner_counter].active == true){
-                           text+=`<label id="pop_search_banner`+i+``+banner_counter+`" style="background:`+train_data[i].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+train_data[i].search_banner[banner_counter].name+`</label>`;
+            <div class="col-lg-12" id="train_div_sh`+i+`" style="padding:10px 15px; display:none;">
+                <div class="row">
+                    <div class="col-lg-12">`;
+                    if(train_data[i].hasOwnProperty('search_banner')){
+                       for(banner_counter in train_data[i].search_banner){
+                           var max_banner_date = moment().subtract(parseInt(-1*train_data[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
+                           var selected_banner_date = moment(train_data[i].departure_date[0]).format('YYYY-MM-DD');
+
+                           if(selected_banner_date >= max_banner_date){
+                               if(train_data[i].search_banner[banner_counter].active == true){
+                                   text+=`<label id="pop_search_banner`+i+``+banner_counter+`" style="background:`+train_data[i].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+train_data[i].search_banner[banner_counter].name+`</label>`;
+                               }
+                           }
                        }
-                   }
-               }
-            }
-            text+=`
-            </div>
-            <div class="col-lg-12">
-                <h6>`+train_data[i].carrier_name+`-`+train_data[i].carrier_number+`</h6>
-            </div>
-            <div class="col-lg-6 col-xs-6">
-                <table style="width:100%">
-                    <tr>
-                        <td><h6>`+train_data[i].departure_date[1]+`</h6></td>
-                        <td style="padding-left:15px;">
-                            <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;">
-                        </td>
-                        <td style="height:30px;padding:0 15px;width:100%">
-                            <div style="display:inline-block;position:relative;width:100%">
-                                <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                <div style="height:30px;min-width:25px;position:relative;width:0%"></div>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-                <span>`+train_data[i].departure_date[0]+`</span><br/>
-                <span style="font-weight:500;">`+train_data[i].origin_name+` (`+train_data[i].origin+`)</span>
-            </div>
+                    }
+                    text+=`
+                    </div>
+                    <div class="col-lg-12">
+                        <h6>`+train_data[i].carrier_name+`-`+train_data[i].carrier_number+`</h6>
+                    </div>
+                    <div class="col-lg-6 col-xs-6">
+                        <table style="width:100%">
+                            <tr>
+                                <td><h6>`+train_data[i].departure_date[1]+`</h6></td>
+                                <td style="padding-left:15px;">
+                                    <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;">
+                                </td>
+                                <td style="height:30px;padding:0 15px;width:100%">
+                                    <div style="display:inline-block;position:relative;width:100%">
+                                        <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                        <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                        <div style="height:30px;min-width:25px;position:relative;width:0%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <span>`+train_data[i].departure_date[0]+`</span><br/>
+                        <span style="font-weight:500;">`+train_data[i].origin_name+` (`+train_data[i].origin+`)</span>
+                    </div>
 
-            <div class="col-lg-6 col-xs-6">
-                <table style="width:100%; margin-bottom:6px;">
-                    <tr>
-                        <td><h6>`+train_data[i].arrival_date[1]+`</h6></td>
-                        <td></td>
-                        <td style="height:30px;padding:0 15px;width:100%"></td>
-                    </tr>
-                </table>
-                <span>`+train_data[i].arrival_date[0]+`</span><br/>
-                <span style="font-weight:500;">`+train_data[i].destination_name+` (`+train_data[i].destination+`)</span>
+                    <div class="col-lg-6 col-xs-6">
+                        <table style="width:100%; margin-bottom:6px;">
+                            <tr>
+                                <td><h6>`+train_data[i].arrival_date[1]+`</h6></td>
+                                <td></td>
+                                <td style="height:30px;padding:0 15px;width:100%"></td>
+                            </tr>
+                        </table>
+                        <span>`+train_data[i].arrival_date[0]+`</span><br/>
+                        <span style="font-weight:500;">`+train_data[i].destination_name+` (`+train_data[i].destination+`)</span>
+                    </div>
+                </div>
             </div>
         </div>
         <br/>
@@ -2836,3 +2882,20 @@ function change_date_next_prev(counter){
 //        }
 //    }
 //}
+
+function show_hide_train(id){
+    var general_up = document.getElementById('train_title_up'+id);
+    var general_down = document.getElementById('train_title_down'+id);
+    var general_show = document.getElementById('train_div_sh'+id);
+
+    if (general_down.style.display === "none") {
+        general_up.style.display = "none";
+        general_down.style.display = "block";
+        general_show.style.display = "none";
+    }
+    else {
+        general_up.style.display = "block";
+        general_down.style.display = "none";
+        general_show.style.display = "flex";
+    }
+}

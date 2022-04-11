@@ -4409,7 +4409,7 @@ function airline_detail(type){
                         text += `
                         <div class="col-lg-12 mt-1 mb-2">
                             <h6 style="cursor:pointer; color:`+color+`; display:none;" id="flight_title_up`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">
-                                Flight `+flight_count+`
+                                Flight `+flight_count+` -
                                 `+price_itinerary_temp[i].journeys[j].origin+`
                                 <i class="fas fa-arrow-right"></i>
                                 `+price_itinerary_temp[i].journeys[j].destination+`
@@ -4417,7 +4417,7 @@ function airline_detail(type){
                                 <i class="fas fa-caret-up" style="float:right; font-size:18px;"></i>
                             </h6>
                             <h6 class="mt-1 mb-2" style="cursor:pointer; color:`+color+`;" id="flight_title_down`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">
-                                Flight `+flight_count+`
+                                Flight `+flight_count+` -
                                 `+price_itinerary_temp[i].journeys[j].origin+`
                                 <i class="fas fa-arrow-right"></i>
                                 `+price_itinerary_temp[i].journeys[j].destination+`
