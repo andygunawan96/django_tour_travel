@@ -9392,3 +9392,13 @@ ul.progress_tabs li.current .image-rounded-icon{
         left: 46.9%;
     }
 }
+
+.table-layout{
+    table-layout: fixed;
+}
+
+@media (max-width: 575px) {
+    .table-layout{
+        table-layout: unset;
+    }
+}

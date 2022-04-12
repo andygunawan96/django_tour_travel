@@ -425,9 +425,6 @@ $(document).ready(function(){
     var quantity_adult_bus = parseInt($('#bus_adult').val());
     $('#show_total_pax_bus').text(quantity_adult_bus + " Adult");
 
-    var quantity_adult_insurance = parseInt($('#insurance_adult').val());
-    $('#show_total_pax_insurance').text(quantity_adult_insurance + " Customer");
-
     $('.right-plus-adult-bus').click(function(e){
         // Stop acting like a button
         e.preventDefault();
@@ -473,6 +470,9 @@ $(document).ready(function(){
             document.getElementById("right-plus-adult-bus").disabled = false;
         }
     });
+
+    var quantity_adult_insurance = parseInt($('#insurance_adult').val());
+    $('#show_total_pax_insurance').text(quantity_adult_insurance + " Customer");
 
     $('.right-plus-adult-insurance').click(function(e){
         // Stop acting like a button
