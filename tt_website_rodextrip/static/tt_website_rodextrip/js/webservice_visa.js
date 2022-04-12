@@ -390,7 +390,7 @@ function search_visa(){
                     node.innerHTML = text;
                     document.getElementById("visa_ticket").appendChild(node);
 
-                    $("#qty_pax_"+counter_visa).change(function(){
+                    $("#qty_pax_"+counter_visa).change(function(event){
                         var quantity = this.value;
                         if(quantity < 0){
                             quantity = 0;
@@ -399,6 +399,9 @@ function search_visa(){
                         }
                         this.value = quantity;
                         update_table('search');
+                        if (event.which == 13) {
+                            event.preventDefault();
+                        }
                     });
 
                 }

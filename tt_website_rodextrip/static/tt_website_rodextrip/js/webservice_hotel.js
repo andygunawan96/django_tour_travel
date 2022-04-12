@@ -784,7 +784,19 @@ function hotel_detail_request(checkin_date, checkout_date){
                         title_name_room = '';
                         //document.getElementById("div_name_room").innerHTML = '';
 
+                        total = 0;
+                        total_without_discount = 0;
                         for(j in result.prices[i].rooms){
+                            for(k in result.prices[i].rooms[j].nightly_prices){
+                                for(l in result.prices[i].rooms[j].nightly_prices[k].service_charges){
+                                    if(result.prices[i].rooms[j].nightly_prices[k].service_charges[l].charge_type != 'RAC'){
+                                        if(result.prices[i].rooms[j].nightly_prices[k].service_charges[l].charge_type != 'DISC'){
+                                            total_without_discount += result.prices[i].rooms[j].nightly_prices[k].service_charges[l].total;
+                                        }
+                                        total += result.prices[i].rooms[j].nightly_prices[k].service_charges[l].total;
+                                    }
+                                }
+                            }
                             if(result.prices[i].rooms[j].images.length != 0){
                                 for(k in result.prices[i].rooms[j].images){
                                     img_dict.push([result.prices[i].rooms[j].description, result.prices[i].rooms[j].images[k].url]);
@@ -793,6 +805,8 @@ function hotel_detail_request(checkin_date, checkout_date){
                             }
                             room_dict.push(result.prices[i].rooms[j].description);
                         }
+                        result.prices[i].total = total;
+                        result.prices[i].total_without_discount = total_without_discount;
                         document.getElementById("div_name_room").innerHTML += `<input type="hidden" id="name_room_htl`+i+`" name="name_room_htl`+i+`"/>`;
 
 
@@ -882,11 +896,16 @@ function hotel_detail_request(checkin_date, checkout_date){
                                 if(idx == 0){
                                     var total_room = document.getElementById("hotel_room").value;
                                     var total_night = document.getElementById("total_night_search").textContent;
-                                    if(result.prices[i].currency != 'IDR')
-                                        text+= '<span style="font-weight: bold; font-size:14px;"> '+ provider_htl + '</span><br/><span class="price_room" style="font-weight: bold; font-size:14px;">' + result.prices[i].currency + ' ' + result.prices[i].price_total +'</span><br/><span class="copy_total_rn carrier_code_template" style="font-size:12px;">(for '+total_room+' room, '+total_night+' night)</span><br/>';
-                                    else
-                                        text+= '<span style="font-weight: bold; font-size:14px;"> '+ provider_htl + '</span><br/><span class="price_room" style="font-weight: bold; font-size:14px;">' +  result.prices[i].currency + ' ' + getrupiah(result.prices[i].price_total)+'</span><br/><span class="copy_total_rn carrier_code_template" style="font-size:12px;">(for '+total_room+' room, '+total_night+' night)</span><br/>';
-
+                                    text += '<span style="font-weight: bold; font-size:14px;"> '+ provider_htl + '</span><br/>';
+                                    if(result.prices[i].currency != 'IDR'){
+                                        if(result.prices[i].total != result.prices[i].total_without_discount)
+                                            text+= '<span style="text-decoration: line-through;color:#cdcdcd;">' + result.prices[i].currency + ' ' + result.prices[i].total_without_discount +'</span><br/>';
+                                        text+= '<span class="price_room" style="font-weight: bold; font-size:14px;">' + result.prices[i].currency + ' ' + result.prices[i].total +'</span><br/><span class="copy_total_rn carrier_code_template" style="font-size:12px;">(for '+total_room+' room, '+total_night+' night)</span><br/>';
+                                    }else{
+                                        if(result.prices[i].total != result.prices[i].total_without_discount)
+                                            text+= '<span style="text-decoration: line-through;color:#cdcdcd;">' + result.prices[i].currency + ' ' + getrupiah(result.prices[i].total_without_discount) +'</span><br/>';
+                                        text+= '<span class="price_room" style="font-weight: bold; font-size:14px;">' +  result.prices[i].currency + ' ' + getrupiah(result.prices[i].total)+'</span><br/><span class="copy_total_rn carrier_code_template" style="font-size:12px;">(for '+total_room+' room, '+total_night+' night)</span><br/>';
+                                    }
                                     if (result.prices[i].availability == 'available'){
                                         text+=`<button class="primary-btn-custom" type="button" onclick="hotel_room_pick(`+i+`,`+j+`);" id="button`+i+`">Choose</button>`;
                                     } else {

@@ -398,7 +398,7 @@ function search_passport(provider){
                     node.innerHTML = text;
                     document.getElementById("passport_ticket").appendChild(node);
 
-                    $("#qty_pax_"+counter_passport).change(function(){
+                    $("#qty_pax_"+counter_passport).change(function(event){
                         var quantity = this.value;
                         if(quantity < 0){
                             quantity = 0;
@@ -407,6 +407,9 @@ function search_passport(provider){
                         }
                         this.value = quantity;
                         update_table('search');
+                        if (event.which == 13) {
+                            event.preventDefault();
+                        }
                     });
 
                 }
