@@ -5809,12 +5809,28 @@ function airline_get_booking(data, sync=false){
                                     text+=`
                                     <div class="row">
                                         <div class="col-lg-4">`;
+                                        //OPERATED BY
                                         try{
-                                            text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" title="`+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>`;
+                                            if(msg.result.response.provider_bookings[i].journeys[j].segments[k].hasOwnProperty('operating_airline_code') && msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code != msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code && msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code != '')
+                                                text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code].name+`" title="`+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code+`.png"/>`;
+                                            else
+                                                text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" title="`+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>`;
                                         }catch(err){
-                                            text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`" title="`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>`;
+                                            if(msg.result.response.provider_bookings[i].journeys[j].segments[k].hasOwnProperty('operating_airline_code') && msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code != msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code && msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code != '')
+                                                text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code+`" title="`+msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code+`.png"/>`;
+                                            else
+                                                text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`" title="`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>`;
                                         }
-                                        text+=`<h5>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_name+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number+`</h5>
+                                        text+=`<h5>`
+                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].hasOwnProperty('operating_airline_code') && msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code != msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code && msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code != '')
+                                            try{
+                                                text+=`Operated By `+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code].name+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
+                                            }catch(err){
+                                                text+=`Operated By `+msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
+                                            }
+                                        else
+                                            text += msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_name+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
+                                        text+=`</h5>
                                             <span>Class : `+cabin_class+` (`+msg.result.response.provider_bookings[i].journeys[j].segments[k].class_of_service+`)</span><br/>
                                         </div>
                                         <div class="col-lg-8" style="padding-top:10px;">`;
