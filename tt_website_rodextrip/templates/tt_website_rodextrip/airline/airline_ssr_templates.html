@@ -207,10 +207,12 @@
                                                 <br/>
                                                 {{values.origin}} - {{values.destination}}<br/>
                                                 {% for segment_values in values.segments %}
+                                                {% if forloop.counter == 1 %}
                                                 <script>
                                                 document.write(moment('{{segment_values.departure_date}}').format('DD MMM YYYY'));
                                                 </script>
                                                 <br/>
+                                                {% endif %}
                                                 {% endfor %}
                                             </span>
                                         </div>

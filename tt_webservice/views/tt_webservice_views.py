@@ -105,7 +105,7 @@ def read_cache_with_folder_path(file_name, time=300):
                 res = json.loads(data)
                 if res.get('data'):
                     delta_time = date_time - parse_load_cache(res['datetime'])
-                    if delta_time.seconds <= time or time == 90911:
+                    if delta_time.total_seconds() <= time or time == 90911:
                         return res['data']
                     else:
                         return False

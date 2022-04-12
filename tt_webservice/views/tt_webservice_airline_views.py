@@ -3463,7 +3463,7 @@ def get_reschedule_itinerary_v2(request):
         for idx, journey in enumerate(journey_booking):
             # NO COMBO
             if len(pnr_list) == len(journey_booking):
-                journeys.append({'segments': journey['segments']})
+                journeys.append({'segments': journey['segments'], 'journey_key': journey['journey_key']})
                 try:
                     schedules.append({'journeys': journeys, 'pnr': pnr_list[idx], 'passengers': passenger})
                     last_pnr = pnr_list[idx]
@@ -3619,7 +3619,7 @@ def sell_reschedule_v2(request):
         for idx, journey in enumerate(journey_booking):
             # NO COMBO
             if len(pnr_list) == len(journey_booking):
-                journeys.append({'segments': journey['segments']})
+                journeys.append({'segments': journey['segments'], 'journey_key': journey['journey_key']})
                 try:
                     schedules.append({'journeys': journeys, 'pnr': pnr_list[idx], 'passengers': passenger})
                     last_pnr = pnr_list[idx]

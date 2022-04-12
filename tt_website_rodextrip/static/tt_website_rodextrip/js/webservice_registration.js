@@ -446,39 +446,38 @@ function check_registration(){
 //        document.getElementById('city').style['border-color'] = 'red';
 //    }else{
 //        document.getElementById('city').style['border-color'] = '#EFEFEF';
-    }if(document.getElementById('tacagree').checked == false){
-        error_log+= 'You must agree to our terms and condition to continue!\n<br/>';
-        document.getElementById('tacagree').style['border-color'] = 'red';
-    }else{
-        document.getElementById('tacagree').style['border-color'] = '#EFEFEF';
     }
     //check pic
-    for(i=1;i<=counter_passenger;i++){
-        if(document.getElementById('first_name'+i).value == ''){
-            error_log+= 'Please fill first name for PIC '+i+'!\n<br/>';
-            document.getElementById('first_name'+i).style['border-color'] = 'red';
-        }else{
-            document.getElementById('first_name'+i).style['border-color'] = '#EFEFEF';
-        }if(document.getElementById('last_name'+i).value == ''){
-            error_log+= 'Please fill last name for PIC '+i+'!\n<br/>';
-            document.getElementById('last_name'+i).style['border-color'] = 'red';
-        }else{
-            document.getElementById('last_name'+i).style['border-color'] = '#EFEFEF';
+    if(counter_passenger != 0){
+        for(i=1;i<=counter_passenger;i++){
+            if(document.getElementById('first_name'+i).value == ''){
+                error_log+= 'Please fill first name for PIC '+i+'!\n<br/>';
+                document.getElementById('first_name'+i).style['border-color'] = 'red';
+            }else{
+                document.getElementById('first_name'+i).style['border-color'] = '#EFEFEF';
+            }if(document.getElementById('last_name'+i).value == ''){
+                error_log+= 'Please fill last name for PIC '+i+'!\n<br/>';
+                document.getElementById('last_name'+i).style['border-color'] = 'red';
+            }else{
+                document.getElementById('last_name'+i).style['border-color'] = '#EFEFEF';
+            }
+            //birth
+            //email
+            if(document.getElementById('mobile'+i).value == ''){
+                error_log+= 'Please fill mobile for PIC '+i+'!\n<br/>';
+                document.getElementById('mobile'+i).style['border-color'] = 'red';
+            }else{
+                document.getElementById('mobile'+i).style['border-color'] = '#EFEFEF';
+            }
+            if(document.getElementById('job_position'+i).value == ''){
+                error_log+= 'Please fill job position for PIC '+i+'!\n<br/>';
+                document.getElementById('job_position'+i).style['border-color'] = 'red';
+            }else{
+                document.getElementById('job_position'+i).style['border-color'] = '#EFEFEF';
+            }
         }
-        //birth
-        //email
-        if(document.getElementById('mobile'+i).value == ''){
-            error_log+= 'Please fill mobile for PIC '+i+'!\n<br/>';
-            document.getElementById('mobile'+i).style['border-color'] = 'red';
-        }else{
-            document.getElementById('mobile'+i).style['border-color'] = '#EFEFEF';
-        }
-        if(document.getElementById('job_position'+i).value == ''){
-            error_log+= 'Please fill job position for PIC '+i+'!\n<br/>';
-            document.getElementById('job_position'+i).style['border-color'] = 'red';
-        }else{
-            document.getElementById('job_position'+i).style['border-color'] = '#EFEFEF';
-        }
+    }else{
+        error_log += 'Please fill PIC, at least 1 Person!\n<br/>';
     }
     //check doc regis
     for(i=1;i<=counter_regis_doc;i++){
@@ -499,7 +498,12 @@ function check_registration(){
             }
         }
     }
-
+    if(document.getElementById('tacagree').checked == false){
+        error_log+= 'You must agree to our terms and condition to continue!\n<br/>';
+        document.getElementById('tacagree').style['border-color'] = 'red';
+    }else{
+        document.getElementById('tacagree').style['border-color'] = '#EFEFEF';
+    }
 
     if(error_log == ''){
         document.getElementById('agent_registration').submit();

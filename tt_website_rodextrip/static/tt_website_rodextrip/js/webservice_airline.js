@@ -6172,6 +6172,7 @@ function airline_get_booking(data, sync=false){
                                                                 found = true;
                                                                 fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].origin = msg.result.response.provider_bookings[j].journeys[k].origin;
                                                                 fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].destination = msg.result.response.provider_bookings[j].journeys[k].destination;
+                                                                fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].departure_date = msg.result.response.provider_bookings[j].journeys[k].departure_date;
                                                                 break;
                                                             }
                                                             for(l in msg.result.response.provider_bookings[j].journeys[k].segments){
@@ -6179,6 +6180,7 @@ function airline_get_booking(data, sync=false){
                                                                     found = true;
                                                                     fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].origin = msg.result.response.provider_bookings[j].journeys[k].segments[l].origin;
                                                                     fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].destination = msg.result.response.provider_bookings[j].journeys[k].segments[l].destination;
+                                                                    fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].departure_date = msg.result.response.provider_bookings[j].journeys[k].segments[l].departure_date;
                                                                     break;
                                                                 }
                                                             }
@@ -6198,7 +6200,7 @@ function airline_get_booking(data, sync=false){
                                           console.log(err); // error kalau ada element yg tidak ada
                                       }
                                       for(i in fee_dict){
-                                            text += `<label style="color:`+color+`;">`+fee_dict[i].origin+` - `+fee_dict[i].destination+`</label><br/>`;
+                                            text += `<label style="color:`+color+`;">`+fee_dict[i].origin+` - `+fee_dict[i].destination+` (`+fee_dict[i].departure_date+`)</label><br/>`;
                                             for(j in fee_dict[i].fees){
                                                 if(fee_dict[i].fees[j].fee_category == 'meal'){
                                                     text+=`<i class="fas fa-utensils"></i> `;
@@ -9890,7 +9892,7 @@ function get_price_itinerary_reissue(val){
         journey_booking_length += provider_list[i].journeys.length;
     }
     if(airline_pick_list.length == journey_booking_length){
-        journey.push({'segments': segment, 'provider': provider});
+        journey.push({'segments': segment, 'provider': provider, 'journey_key':all_journey_flight_list[airline_pick_list.length].journey_key});
         airline_pick_list.push(airline_data[val]);
         get_chosen_ticket();
         render_ticket_reissue();
@@ -9901,7 +9903,7 @@ function get_price_itinerary_reissue(val){
         //tampil getprice
     }else{
         flight_select++;
-        journey.push({'segments': segment, 'provider': provider});
+        journey.push({'segments': segment, 'provider': provider, 'journey_key':all_journey_flight_list[airline_pick_list.length].journey_key});
         airline_pick_list.push(airline_data[val]);
         get_chosen_ticket();
         airline_recommendations_list = [];
@@ -12965,7 +12967,7 @@ function split_booking_request(){
             counter_pax = $('.split_booking:checkbox:checked')[index].id.split('_')[1];
 
             passengers.push('pax_' + pax_list[counter_pax].sequence.toString());
-            if(infant_list.length >= counter_pax)
+            if(infant_list.length > counter_pax)
                 passengers.push('pax_' + infant_list[counter_pax].sequence.toString());
         }
     });
