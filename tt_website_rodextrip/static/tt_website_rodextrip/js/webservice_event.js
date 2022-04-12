@@ -865,7 +865,7 @@ function event_get_booking(data){
             document.getElementById('event_btn_printout').innerHTML = print_text;
             if(msg.result.response.hasOwnProperty('voucher_reference') && msg.result.response.voucher_reference != '' && msg.result.response.voucher_reference != false){
                 try{
-                    render_voucher(price.currency,disc, msg.result.response.state)
+                    render_voucher(price.currency,msg.result.response.voucher_discount, msg.result.response.state)
                 }catch(err){console.log(err);}
             }
             try{
