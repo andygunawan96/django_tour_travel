@@ -467,7 +467,7 @@ def commit_booking(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = url + 'booking/insurance'
-    res = send_request_api(request, url_request, headers, data, 'POST')
+    res = send_request_api(request, url_request, headers, data, 'POST',timeout=300)
     try:
         if res['result']['error_code'] == 0:
             _logger.info(json.dumps(request.session['visa_signature']))

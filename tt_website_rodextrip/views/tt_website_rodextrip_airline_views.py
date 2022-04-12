@@ -1145,6 +1145,11 @@ def review(request, signature):
                                         for list_ssr in journey_ssr['ssrs']:
                                             if request.POST[ssr_key + '_' +str(counter_ssr_availability_provider+1)+ '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
                                                 list_ssr['fee_code'] = list_ssr['ssr_code']
+                                                list_ssr.update({
+                                                    'origin': journey_ssr['origin'],
+                                                    'destination': journey_ssr['destination'],
+                                                    'departure_date': convert_string_to_date_to_string_front_end_with_time(journey_ssr['segments'][0]['departure_date']).split('  ')[0]
+                                                })
                                                 pax['ssr_list'].append(list_ssr)
                                                 break
                                     except:

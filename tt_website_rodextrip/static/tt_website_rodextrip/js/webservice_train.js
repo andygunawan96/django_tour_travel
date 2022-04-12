@@ -541,10 +541,15 @@ function datasearch2(train){
            train.schedules[i].journeys[j].arrival_date = train.schedules[i].journeys[j].arrival_date.split(' - ');
            for(k in train.schedules[i].journeys[j].fares){
                 for(l in train.schedules[i].journeys[j].fares[k].service_charge_summary){
-                    train.schedules[i].journeys[j].price = 0
+                    train.schedules[i].journeys[j].price = 0;
+                    train.schedules[i].journeys[j].without_discount_price = 0;
                     for(m in train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges){
-                        if(train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc' || train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax'){
-                            train.schedules[i].journeys[j].currency = train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].currency;
+                        if(train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].charge_code != 'rac'){
+                            if(train.schedules[i].journeys[j].hasOwnProperty('currency') == false)
+                                train.schedules[i].journeys[j].currency = train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].currency;
+                            if(train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].charge_code != 'disc'){
+                                train.schedules[i].journeys[j].without_discount_price += train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].amount;
+                            }
                             train.schedules[i].journeys[j].price += train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].amount;
                         }
                     }

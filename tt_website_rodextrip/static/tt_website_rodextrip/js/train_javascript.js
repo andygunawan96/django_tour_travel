@@ -2044,6 +2044,9 @@ function sort(value){
                         check = 0;
                         for(j in journeys){
                             if(journeys[j].sequence == data_filter[i].sequence){
+                                if(data_filter[i].price != data_filter[i].without_discount_price){
+                                    response += `<span class="basic_fare_field" style="text-decoration: line-through;color:#cdcdcd;">IDR `+getrupiah(data_filter[i].without_discount_price)+`</span><br/>`
+                                }
                                 response+=`
                             <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
                             <input class="primary-btn-custom-un" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`);"  id="train_choose`+i+`" disabled value="Chosen">`;
@@ -2051,25 +2054,23 @@ function sort(value){
                             }
                         }
                         if(check == 0){
+                            if(data_filter[i].price != data_filter[i].without_discount_price)
+                                response += `<span class="basic_fare_field" style="text-decoration: line-through;color:#cdcdcd;">IDR `+getrupiah(data_filter[i].without_discount_price)+`</span><br/>`;
+                            response += `<span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>`
                             if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
                                 response+=`
-                                <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
                                 <input class="primary-btn-custom" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`)"  id="train_choose`+i+`" value="Choose">`;
                             else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_three_hours == false)
                                 response+=`
-                                <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
                                 <input class="primary-btn-custom" style="background:#E5E5E5; color:`+color+`;border:1px solid black;" type="button" onclick="alert_message_swal('Sorry, you can choose 3 or more hours from now!');"  id="train_choose`+i+`" value="Choose">`;
                             else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_check_arrival_on_next_departure == false)
                                 response+=`
-                                <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
                                 <input class="primary-btn-custom" type="button" onclick="alert_message_swal('Sorry, arrival time you pick does not match with this journey!');"  id="train_choose`+i+`" value="Choose">`;
                             else if(data_filter[i].available_count < parseInt(passengers.adult))
                                 response+=`
-                                <span class="copy_price" style="font-size:16px; margin-right:10px;">IDR `+getrupiah(data_filter[i].price)+`</span>
                                 <input class="disabled-btn" type="button" id="train_choose`+i+`" value="Not Available" disabled>`
                             else if(data_filter[i].available_count <= 0)
                                 response+=`
-                                <span class="copy_price" style="font-size:16px; margin-right:10px;">IDR `+getrupiah(data_filter[i].price)+`</span>
                                 <input class="disabled-btn" type="button" id="train_choose`+i+`" value="Sold" disabled>`
                         }
                     if(data_filter[i].available_count<50)
@@ -2181,6 +2182,9 @@ function train_ticket_pick(){
                 <div class="col-lg-4">
                     <div style="float:right; margin-top:20px; margin-bottom:10px;">`;
                     check = 0;
+                    if(journeys[i].price != journeys[i].without_discount_price){
+                        response += `<span class="basic_fare_field" style="text-decoration: line-through;color:#cdcdcd;">IDR `+getrupiah(journeys[i].without_discount_price)+`</span><br/>`
+                    }
                     response+=`
                         <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(journeys[i].price)+`</span>
                         <input class="primary-btn-custom" type="button" onclick="change_train(`+i+`)"  id="train_choose`+i+`" value="Change">`;
