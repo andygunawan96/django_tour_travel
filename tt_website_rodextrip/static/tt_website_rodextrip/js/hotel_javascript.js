@@ -769,23 +769,23 @@ function sort(response, check_filter){
                                     if(address != '')
                                         address += ', '
                                     address+= response.hotel_ids[i].location.address + '<br/>';
-                                }if(response.hotel_ids[i].location.city != '' && response.hotel_ids[i].location.city != false){
+                                }if(response.hotel_ids[i].location.city != '' && response.hotel_ids[i].location.city != false && response.hotel_ids[i].location.city){
                                     if(address_detail != '')
                                         address_detail += ', '
                                     address_detail+= response.hotel_ids[i].location.city;
-                                }if(response.hotel_ids[i].location.state != '' && response.hotel_ids[i].location.state != false){
+                                }if(response.hotel_ids[i].location.state != '' && response.hotel_ids[i].location.state != false && response.hotel_ids[i].location.state){
                                     if(address_detail != '')
                                         address_detail += ', '
                                     address_detail+= ', '+ response.hotel_ids[i].location.state;
-                                }if(response.hotel_ids[i].location.district != '' && response.hotel_ids[i].location.district != false){
+                                }if(response.hotel_ids[i].location.district != '' && response.hotel_ids[i].location.district != false && response.hotel_ids[i].location.district){
                                     if(address_detail != '')
                                         address_detail += ', '
                                     address_detail+= ', '+ response.hotel_ids[i].location.district;
-                                }if(response.hotel_ids[i].location.kelurahan != '' && response.hotel_ids[i].location.kelurahan != false){
+                                }if(response.hotel_ids[i].location.kelurahan != '' && response.hotel_ids[i].location.kelurahan != false && response.hotel_ids[i].location.kelurahan){
                                     if(address_detail != '')
                                         address_detail += ', '
                                     address_detail+= ', '+ response.hotel_ids[i].location.kelurahan;
-                                }if(response.hotel_ids[i].location.zipcode != '' && response.hotel_ids[i].location.zipcode != false){
+                                }if(response.hotel_ids[i].location.zipcode != '' && response.hotel_ids[i].location.zipcode != false && response.hotel_ids[i].location.zipcode){
                                     if(address_detail != '')
                                         address_detail += ', '
                                     address_detail+= ', '+ response.hotel_ids[i].location.zipcode;
@@ -906,14 +906,38 @@ function sort(response, check_filter){
 //                                        }
 
                                             content_price_pop = ``;
+                                                price = 0;
+                                                price_without_discount = 0;
+                                                for(j in arr){
+                                                    for(k in arr[j][1].prices.rooms){
+                                                        for(l in arr[j][1].prices.rooms[k].nightly_prices){
+                                                            for(m in arr[j][1].prices.rooms[k].nightly_prices[l].service_charges){
+                                                                if(arr[j][1].prices.rooms[k].nightly_prices[l].service_charges[m].charge_type != 'RAC'){
+                                                                    if(arr[j][1].prices.rooms[k].nightly_prices[l].service_charges[m].charge_type != 'DISC'){
+                                                                        price_without_discount += arr[j][1].prices.rooms[k].nightly_prices[l].service_charges[m].total;
+                                                                    }
+                                                                    price += arr[j][1].prices.rooms[k].nightly_prices[l].service_charges[m].total;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    arr[j][1].price = price;
+                                                    arr[j][1].price_without_discount = price_without_discount;
+                                                }
+
+                                                //check disni tampilkan harga discount
                                             for(j in arr){
                                                 if(j == 0){
                                                     content_price_pop += `<i class="fas fa-thumbs-up" style="padding-left: 5px; color:`+color+`;"></i>`;
+                                                    if(arr[j][1].price != arr[j][1].price_without_discount)
+                                                        text += `<span class="basic_fare_field" style="text-decoration: line-through;color:#cdcdcd;" hidden>IDR ` + getrupiah(arr[j][1]['price_without_discount']) + `</span>`;
                                                     text += `<span class="price_hotel" hidden>IDR ` + getrupiah(arr[j][1]['price']) + `</span>`;
                                                 }
                                                 // else if(j > 2){
                                                 //     text += `<i class="fas fa-thumbs-down" style="color:`+color+`;"></i>`;
                                                 // }
+                                                if(arr[j][1].price != arr[j][1].price_without_discount)
+                                                    content_price_pop += `<span class="basic_fare_field" style="text-decoration: line-through;color:#cdcdcd;">IDR ` + getrupiah(arr[j][1]['price_without_discount']) + `</span>`;
                                                 content_price_pop +=`
                                                     <span style="font-size:16px; font-weight: 700;">IDR ` + getrupiah(arr[j][1]['price']) + `</span>
                                                     <span style="font-size:16px; font-weight: 700; color:`+color+`;">` + arr[j][0] +`</span><br/>`;
@@ -990,10 +1014,14 @@ function sort(response, check_filter){
                                     text += `
                                     </div>
                                     <div class="col-lg-12 search_hotel_button" style="text-align:right; position:absolute; bottom:0px; right:0px;">`;
-                                    if(arr.length != 0)
-                                    text+=`
+                                    if(arr.length != 0){
+                                        if(arr[0][1].price != arr[0][1].price_without_discount)
+                                            text += `<span class="basic_fare_field" style="text-decoration: line-through;color:#cdcdcd;">IDR ` + getrupiah(arr[0][1]['price_without_discount']) + `</span>
+                                            <span style="font-size:16px; font-weight: 700; color:white;">` + arr[0][0] +`</span><br/>`;
+                                        text+=`
                                         <span style="font-size:16px; font-weight: 700;">`+arr[0][1]['currency']+` ` + getrupiah(arr[0][1]['price']) + `</span>
                                         <span style="font-size:16px; font-weight: 700; color:`+color+`;">` + arr[0][0] +`</span>`;
+                                    }
                                         if(arr.length > 1){
                                             text+=`<br/><span style="color:`+color+`; font-size:13px; font-weight:700; text-align:left; cursor:pointer;" id="view_all`+i+`"> More Price<i class="fas fa-caret-down"></i></span>`;
                                         }

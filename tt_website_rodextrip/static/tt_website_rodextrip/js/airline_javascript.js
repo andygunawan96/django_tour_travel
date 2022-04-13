@@ -4409,7 +4409,7 @@ function airline_detail(type){
                         text += `
                         <div class="col-lg-12 mt-1 mb-2">
                             <h6 style="cursor:pointer; color:`+color+`; display:none;" id="flight_title_up`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">
-                                Flight `+flight_count+`
+                                Flight `+flight_count+` -
                                 `+price_itinerary_temp[i].journeys[j].origin+`
                                 <i class="fas fa-arrow-right"></i>
                                 `+price_itinerary_temp[i].journeys[j].destination+`
@@ -4417,7 +4417,7 @@ function airline_detail(type){
                                 <i class="fas fa-caret-up" style="float:right; font-size:18px;"></i>
                             </h6>
                             <h6 class="mt-1 mb-2" style="cursor:pointer; color:`+color+`;" id="flight_title_down`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">
-                                Flight `+flight_count+`
+                                Flight `+flight_count+` -
                                 `+price_itinerary_temp[i].journeys[j].origin+`
                                 <i class="fas fa-arrow-right"></i>
                                 `+price_itinerary_temp[i].journeys[j].destination+`
@@ -5944,7 +5944,7 @@ function check_passenger(adult, child, infant){
        }
        $('.loader-rodextrip').fadeIn();
        document.getElementById('time_limit_input').value = time_limit;
-       document.getElementById('airline_price_itinerary_request').value = JSON.stringify(airline_get_price_request);
+//       document.getElementById('airline_price_itinerary_request').value = JSON.stringify(airline_get_price_request);
        document.getElementById('airline_review').action = '/airline/review/' + signature;
        document.getElementById('airline_review').submit();
    }
@@ -6130,18 +6130,35 @@ function get_airline_review(){
                             if(passengers_ssr[i].ssr_list.length){
                                 text+=`<h6 style="color:`+color+`;">SSR</h6>`;
                             }
+                            fee_dict = {}
                             for(j in passengers_ssr[i].ssr_list){
-                                if(passengers_ssr[i].ssr_list[j].ssr_type == 'ML'){
-                                    text+=`<i class="fas fa-utensils"></i> `;
+                                if(fee_dict.hasOwnProperty(passengers_ssr[i].ssr_list[j].journey_code) == false){
+                                    fee_dict[passengers_ssr[i].ssr_list[j].journey_code] = {
+                                        "fees": [],
+                                        "origin": passengers_ssr[i].ssr_list[j].origin,
+                                        "destination": passengers_ssr[i].ssr_list[j].destination,
+                                        "departure_date": passengers_ssr[i].ssr_list[j].departure_date
+                                    };
                                 }
-                                else if(passengers_ssr[i].ssr_list[j].ssr_type == 'BGA'){
-                                    text+=`<i class="fas fa-suitcase"></i> `;
+                                fee_dict[passengers_ssr[i].ssr_list[j].journey_code].fees.push({
+                                    "ssr_type": passengers_ssr[i].ssr_list[j].ssr_type,
+                                    "name": passengers_ssr[i].ssr_list[j].name
+                                })
+                            }
+                            for(j in fee_dict){
+                                text += `<span style="font-weight:500;">`+fee_dict[j].origin+` - `+fee_dict[j].destination+` (`+fee_dict[j].departure_date+`)</span><br/>`;
+                                for(k in fee_dict[j].fees){
+                                    if(fee_dict[j].fees[k].ssr_type == 'ML'){
+                                        text+=`<i class="fas fa-utensils"></i> `;
+                                    }
+                                    else if(fee_dict[j].fees[k].ssr_type.includes('BG')){
+                                        text+=`<i class="fas fa-suitcase"></i> `;
+                                    }
+                                    else{
+                                        text+=`<i class="fas fa-tools"></i> `;
+                                    }
+                                    text+= `<span style="font-weight:500;">`+fee_dict[j].fees[k].name+`</span><br/>`;
                                 }
-                                else{
-                                    text+=`<i class="fas fa-tools"></i> `;
-                                }
-
-                                text+= `<span style="font-weight:500;">`+passengers_ssr[i].ssr_list[j].name+`</span><br/>`;
                             }
 
                             if(passengers_ssr[i].hasOwnProperty('seat_list')){

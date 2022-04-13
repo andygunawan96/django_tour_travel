@@ -1145,6 +1145,11 @@ def review(request, signature):
                                         for list_ssr in journey_ssr['ssrs']:
                                             if request.POST[ssr_key + '_' +str(counter_ssr_availability_provider+1)+ '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
                                                 list_ssr['fee_code'] = list_ssr['ssr_code']
+                                                list_ssr.update({
+                                                    'origin': journey_ssr['origin'],
+                                                    'destination': journey_ssr['destination'],
+                                                    'departure_date': convert_string_to_date_to_string_front_end_with_time(journey_ssr['segments'][0]['departure_date']).split('  ')[0]
+                                                })
                                                 pax['ssr_list'].append(list_ssr)
                                                 break
                                     except:
@@ -1496,12 +1501,16 @@ def review(request, signature):
                 for pax in passenger:
                     pax['ssr_list'] = []
             else:
-                #b2c login
+                # move from b2c to login user
                 try:
+                    set_session(request, 'airline_price_itinerary_%s' % signature,json.loads(request.POST['airline_price_itinerary']))
                     set_session(request, 'airline_get_price_request_%s' % signature,json.loads(request.POST['airline_price_itinerary_request']))
+                    set_session(request, 'airline_sell_journey_%s' % signature, json.loads(request.POST['airline_sell_journey_response']))
                     set_session(request, 'signature', request.POST['signature'])
                     set_session(request, 'airline_signature', request.POST['signature'])
-                    # set_session(request, 'airline_create_passengers', airline_create_passengers)
+                    set_session(request, 'airline_create_passengers_%s' % signature, json.loads(request.POST['airline_create_passengers']))
+                    set_session(request, 'airline_ssr_request_%s' % signature, json.loads(request.POST['airline_ssr_request']))
+                    set_session(request, 'airline_seat_request_%s' % signature, json.loads(request.POST['airline_seat_request']))
                 except Exception as e:
                     _logger.error('use airline get price request from cache')
                 passenger = request.session['airline_create_passengers_%s' % signature]['adult'] + request.session['airline_create_passengers_%s' % signature]['child']

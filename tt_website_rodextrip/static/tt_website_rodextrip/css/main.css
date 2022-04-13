@@ -6706,7 +6706,7 @@ input[type="radio"].activity, input[type="checkbox"].activity {
 
 .img-hotel-search {
     width: auto;
-    height: 202px;
+    height: 222px;
     background-size:cover;
     background-position:50% 50%;
     border-radius: 3px;
@@ -9390,5 +9390,15 @@ ul.progress_tabs li.current .image-rounded-icon{
 @media only screen and (min-width: 768px) and (max-width: 991px) {
     .image-change-route-vertical2{
         left: 46.9%;
+    }
+}
+
+.table-layout{
+    table-layout: fixed;
+}
+
+@media (max-width: 575px) {
+    .table-layout{
+        table-layout: unset;
     }
 }

@@ -420,9 +420,9 @@ function signin_btc(){
                     }else if(window.location.href.split('/').length == 4){
                         window.location.reload();
                     }else if(window.location.href.split('/')[3] == 'airline'){
-                        airline_redirect_signup(last_session);
+                        airline_redirect_signin(last_session);
                     }else if(window.location.href.split('/')[3] == 'train'){
-                        train_redirect_signup(last_session);
+                        train_redirect_signin(last_session);
                     }else if(window.location.href.split('/')[3] == 'activity'){
                         activity_redirect_signup(last_session);
                     }else if(window.location.href.split('/')[3] == 'tour'){

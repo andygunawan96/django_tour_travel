@@ -41,7 +41,12 @@
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
                 <span style="text-transform: capitalize;">{% trans 'Insurance Search' %}</span><br/>
-                <span style="text-transform: capitalize;">{{insurance_request.origin}} → {{insurance_request.destination}}</span>
+                {% if insurance_request.provider == 'bcainsurance'%}
+                    <span style="text-transform: capitalize;">{{insurance_request.origin}} → {{insurance_request.destination}}</span>
+                {% else %}
+                    <!--zurich-->
+                    <span style="text-transform: capitalize;">{{insurance_request.destination}}</span>
+                {% endif %}
                 <br/>
             </div>
             <div class="col-lg-4" style="text-align:right;">
@@ -59,14 +64,27 @@
         <div class="row">
             <div class="col-lg-12" style="padding:0;">
                 <div class="banner-right">
+                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
+                    <div class="col-lg-12" id="radio_insurance_search" style="padding:15px 15px 0px 15px; text-align:left;" onchange="onchange_provider_insurance();">
+                        <label class="radio-img">
+                            <input type="radio" name="insurance_provider" value="bcainsurance" {%if insurance_request.provider == 'bcainsurance' %} checked="checked" {% endif %}>
+                            <img src="/static/tt_website_rodextrip/images/icon/home-bcainsurance.png" alt="BCA Insurance" style="width:70px; height:70px; padding:0px;"><br/>
+                            <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">BCA<br/>Insurance</span></div>
+                        </label>
+                        <label class="radio-img">
+                            <input type="radio" name="insurance_provider" value="zurich" {%if insurance_request.provider == 'zurich' %} checked="checked" {% endif %}>
+                            <img src="/static/tt_website_rodextrip/images/icon/home-zurich.png" alt="Zurich" style="width:70px; height:70px; padding:0px;"><br/>
+                            <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/>&nbsp;</span></div>
+                        </label>
+                    </div>
                     <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
                         {% csrf_token %}
-                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
-                        <div class="row">
+                        <div id="insurance_div" class="row">
+                            {%if insurance_request.provider == 'bcainsurance' %}
                             <div class="col-lg-12" id="radio_insurance_search" style="padding:0px; text-align:left;margin-bottom:10px;">
                                 <label class="radio-button-custom crlabel">
                                     <span style="font-size:13px; color:{{text_color}};">{% trans 'Single Trip' %}</span>
-                                    <input type="radio" {%if insurance_request.type == 'Single Trip' %} checked="checked" {% endif %} checked="checked" name="radio_insurance_type" value="Single Trip">
+                                    <input type="radio" {%if insurance_request.type == 'Single Trip' %} checked="checked" {% endif %} name="radio_insurance_type" value="Single Trip">
                                     <span class="checkmark-radio crspan"></span>
                                 </label>
                                 <label class="radio-button-custom crlabel">
@@ -153,6 +171,90 @@
                                     </ul>
                                 </div>
                             </div>
+                            {%elif insurance_request.provider == 'zurich'%}
+                            <div class="col-lg-12" id="radio_insurance_search" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                <label class="radio-button-custom crlabel">
+                                    <span style="font-size:13px; color:{{text_color}};">Single Trip</span>
+                                    <input type="radio" checked="checked" name="radio_insurance_type" value="Single Trip">
+                                    <span class="checkmark-radio crspan"></span>
+                                </label>
+                            </div>
+                            <div class="col-lg-12 mb-2" style="padding:0px;">
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:{{text_color}};">Is Senior</span>
+                                    <input type="checkbox" id="insurance_is_senior" name="insurance_is_senior" {%if insurance_request.is_senior == True %} checked="checked" {% endif %}/>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="row">
+                                    <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
+                                    <div class="col-lg-12" style="padding-left:0px;" hidden>
+                                        <span class="span-search-ticket"><i class="fas fa-train"></i> From</span>
+                                        <div class="input-container-search-ticket">
+                                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{insurance_request.origin}}" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="z-index:5; padding-left:0px; padding-right:0px;">
+                                        <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
+                                        <div class="input-container-search-ticket">
+                                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{insurance_request.destination}}" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4" hidden>
+                                <div class="row">
+                                    <span class="span-search-ticket"><i class="fas fa-suitcase"></i> Plan Trip</span>
+                                    <div class="input-container-search-ticket btn-group">
+                                        <div class="form-select" id="default-select">
+                                            <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
+                                                <option value="LAINNYA" selected>LAINNYA</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4" style="padding:0px;" id="insurance_date_search">
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
+                                <div class="input-container-search-ticket">
+                                    <input type="text" class="form-control" value="{{insurance_request.date_start}} - {{insurance_request.date_end}}" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
+                                </div>
+                            </div>
+                            <div class="col-lg-4" style="padding:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
+                                <div class="input-container-search-ticket btn-group">
+                                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <div class="row" style="padding:10px;">
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                <div style="float:left;">
+                                                    <label>
+                                                        <span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>
+                                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12" style="text-align:right;">
+                                                <hr/>
+                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+                            {%endif%}
                         </div>
                         <br/>
 
@@ -951,6 +1053,21 @@
         </form>
     </div>
 </section>
+
+<div class="modal fade" id="myModalCoverage" role="dialog" data-keyboard="false">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Coverage' %}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="coverage_zurich" style="overflow:auto; max-height:500px;">
+
+            </div>
+        </div>
+    </div>
+</div>
 
 {% include 'tt_website_rodextrip/footer.html' %}
 

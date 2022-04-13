@@ -1559,7 +1559,7 @@ function ppob_get_booking(data){
                 add_repricing();
                 if(msg.result.response.hasOwnProperty('voucher_reference') && msg.result.response.voucher_reference != '' && msg.result.response.voucher_reference != false){
                     try{
-                        render_voucher(price.currency,disc, msg.result.response.state)
+                        render_voucher(price.currency,msg.result.response.voucher_discount, msg.result.response.state)
                     }catch(err){console.log(err);}
                 }
                 try{

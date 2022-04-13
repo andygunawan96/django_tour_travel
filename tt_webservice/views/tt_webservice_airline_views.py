@@ -376,13 +376,17 @@ def get_data_review_page(request):
     try:
         res = {}
         res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
-        res['airline_get_price_request'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
+        res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
+        res['airline_get_price_request'] = request.session['airline_get_price_request_%s' % request.POST['signature']]
         res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
         file = read_cache_with_folder_path("get_airline_carriers", 90911)
         if file:
             res['airline_carriers'] = file
         res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
         res['passengers_ssr'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
+        res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
+        res['airline_ssr_request'] = request.session['airline_ssr_request_%s' % request.POST['signature']] if request.session.get('airline_ssr_request_%s' % request.POST['signature']) else {}
+        res['airline_seat_request'] = request.session['airline_seat_request_%s' % request.POST['signature']] if request.session.get('airline_seat_request_%s' % request.POST['signature']) else {}
         res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
 
         if request.session.get('airline_get_ssr_%s' % request.POST['signature']):
@@ -850,17 +854,25 @@ def search2(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "search",
-            "signature": request.POST['signature']
+            "signature": request.POST['new_signature'] if request.POST.get('new_signature') else request.POST['signature']
         }
     except Exception as e:
         if request.POST.get('use_cache'):
+            ## change user
             data = request.session['airline_search_%s' % request.POST['signature']]
+            data.update({
+                "provider": request.POST['provider'],
+                "carrier_codes": json.loads(request.POST['carrier_code'])
+            })
             headers = {
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
                 "action": "search",
-                "signature": request.POST['signature']
+                "signature": request.POST['new_signature'] if request.POST.get('new_signature') else request.POST['signature']
             }
+            if request.POST.get('new_signature'):
+                set_session(request, 'airline_request_%s' % request.POST['new_signature'],request.session['airline_request'])
+                set_session(request, 'airline_search_%s' % request.POST['new_signature'], data)
         else:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     url_request = url + 'booking/airline'
@@ -3463,7 +3475,7 @@ def get_reschedule_itinerary_v2(request):
         for idx, journey in enumerate(journey_booking):
             # NO COMBO
             if len(pnr_list) == len(journey_booking):
-                journeys.append({'segments': journey['segments']})
+                journeys.append({'segments': journey['segments'], 'journey_key': journey['journey_key']})
                 try:
                     schedules.append({'journeys': journeys, 'pnr': pnr_list[idx], 'passengers': passenger})
                     last_pnr = pnr_list[idx]
@@ -3619,7 +3631,7 @@ def sell_reschedule_v2(request):
         for idx, journey in enumerate(journey_booking):
             # NO COMBO
             if len(pnr_list) == len(journey_booking):
-                journeys.append({'segments': journey['segments']})
+                journeys.append({'segments': journey['segments'], 'journey_key': journey['journey_key']})
                 try:
                     schedules.append({'journeys': journeys, 'pnr': pnr_list[idx], 'passengers': passenger})
                     last_pnr = pnr_list[idx]

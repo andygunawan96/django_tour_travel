@@ -88,6 +88,8 @@ def api_models(request):
             res = get_booking(request)
         elif req_data['action'] == 'issued':
             res = issued(request)
+        elif req_data['action'] == 'cancel':
+            res = cancel(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -148,10 +150,12 @@ def get_availability(request):
             'pax': int(request.session['insurance_request']['adult']),
             "origin": request.session['insurance_request']['origin'].split(' - ')[0],
             "destination": request.session['insurance_request']['destination'].split(' - ')[0],
+            "is_senior": request.session['insurance_request']['is_senior'],
             "international": international,
             "destination_area": destination_area,
             "type": request.session['insurance_request']['type'],
-            "plan_trip": request.session['insurance_request']['plan_trip']
+            "plan_trip": request.session['insurance_request']['plan_trip'],
+            "provider": request.session['insurance_request']['provider']
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -448,7 +452,8 @@ def commit_booking(request):
         data_insurance = {
             "carrier_code":request.session['insurance_pick']['carrier_code'],
             "carrier_name": request.session['insurance_pick']['carrier_name'],
-            "provider": request.session['insurance_pick']['provider']
+            "provider": request.session['insurance_pick']['provider'],
+            "sector_type": request.session['insurance_pick']['sector_type']
         }
         data = {
             "contacts": contacts,
@@ -462,7 +467,7 @@ def commit_booking(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = url + 'booking/insurance'
-    res = send_request_api(request, url_request, headers, data, 'POST')
+    res = send_request_api(request, url_request, headers, data, 'POST',timeout=300)
     try:
         if res['result']['error_code'] == 0:
             _logger.info(json.dumps(request.session['visa_signature']))
@@ -549,9 +554,34 @@ def issued(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("SUCCESS issued AIRLINE SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS issued INSURANCE SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR issued_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR issued_insurance INSURANCE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def cancel(request):
+    try:
+        data = {
+            'order_number': request.POST['order_number'],
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "cancel",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/insurance'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS cancel INSURANCE SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR cancel_insurance INSURANCE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
