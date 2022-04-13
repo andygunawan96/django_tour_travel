@@ -49,7 +49,7 @@ function can_book(departure, arrival){
 //    }
 //}
 
-function train_redirect_signup(type){
+function train_redirect_signin(type){
     if(type != 'signin'){
         getToken();
         $.ajax({
@@ -89,6 +89,10 @@ function train_redirect_signup(type){
                                     }catch(err){
                                         console.log(err); // error kalau ada element yg tidak ada
                                     }
+                                    var url = document.getElementById('reload_page').action.split('/');
+                                    url.pop();
+                                    url = url.join('/') + '/' + signature;
+                                    document.getElementById('reload_page').action = url;
                                     document.getElementById('reload_page').submit();
                                     $('#myModalSignin').modal('hide');
                                }

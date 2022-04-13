@@ -84,6 +84,9 @@ function insurance_get_config(page=false){
                         break;
                     }
                 }
+                zurich_insurance_destination = [];
+                origin_insurance_destination = [];
+                destination_insurance_destination = [];
                 for(i in insurance_config){
                     if(i == 'bcainsurance' && insurance_provider == 'bcainsurance'){
                         for(j in insurance_config[i].City)
