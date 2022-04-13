@@ -326,13 +326,26 @@ function insurance_get_availability(){
                                                     <div class="row details">
                                                         <div class="col-lg-12">
                                                             <span style="float:left; font-size:16px;font-weight:bold;">`+insurance_data[i][j].carrier_name+` </span><br/>
-                                                            <span style="float:left; font-size:12px;">Destination Area: `+insurance_data[i][j].data_name+`  </span> <span style="padding-left:3px; cursor:pointer; color:`+color+`;" id="`+i+sequence+`" ><i class="fas fa-info-circle" style="font-size:16px;"></i></span>
+                                                            <span style="float:left; font-size:12px;">Destination Area: `+insurance_data[i][j].data_name+`  </span>`;
+                                                            if(insurance_data[i][j].provider == 'bcainsurance'){
+                                                                text+=`
+                                                                <span style="padding-left:3px; cursor:pointer; color:`+color+`;" id="`+i+sequence+`" >
+                                                                    <i class="fas fa-info-circle" style="font-size:16px;"></i>
+                                                                </span>`;
+                                                            }
+                                                        text+=`
                                                         </div>
                                                         <div class="col-lg-12 mt-2">
-                                                            <span style="float:left; font-size:16px;font-weight:bold;">IDR `+getrupiah(insurance_data[i][j].total_price)+`  </span> <span>/`+insurance_request.adult+`pax</span>
-                                                            <button style="float:right; line-height:32px;" type="button" class="primary-btn" onclick="go_to_detail('`+i+`','`+sequence+`')">BUY</button>
+                                                            <span style="float:left; margin-right:2px;font-size:16px;font-weight:bold; color:`+color+`;">IDR `+getrupiah(insurance_data[i][j].total_price)+`</span>
+                                                            <span> / `+insurance_request.adult+` pax</span>
+                                                            <button style="line-height:32px; float:right;" type="button" class="primary-btn" onclick="go_to_detail('`+i+`','`+sequence+`')">BUY</button>
                                                         </div>
-                                                        <div class="col-lg-12">
+                                                        <div class="col-lg-12 mt-2">`;
+                                                            if(insurance_data[i][j].provider == 'zurich'){
+                                                                text += `
+                                                                <span style="float:left; margin-right:15px; font-size:14px;color:blue;font-weight:bold; cursor:pointer;" data-toggle="modal" data-target="#myModalCoverage"><u style="color:`+color+` !important">Coverage</u>  </span>`;
+                                                            }
+                                                        text+=`
                                                             <span style="float:left; font-size:14px;color:blue;font-weight:bold; cursor:pointer;" onclick="window.open('`+insurance_data[i][j].pdf+`');"><u style="color:`+color+` !important">Benefit</u>  </span>
                                                             <span style="float:right;font-size:10px;">`+i+`</button>
                                                         </div>
@@ -350,27 +363,31 @@ function insurance_get_availability(){
                     sequence = 0;
                     for(i in insurance_data){
                         for(j in insurance_data[i]){
-                            new jBox('Tooltip', {
-                                attach: '#'+i+sequence,
-                                target: '#'+i+sequence,
-                                theme: 'TooltipBorder',
-                                trigger: 'click',
-                                adjustTracker: true,
-                                closeOnClick: 'body',
-                                closeButton: 'box',
-                                animation: 'move',
-                                width:280,
-                                position: {
-                                  x: 'left',
-                                  y: 'top'
-                                },
-                                outside: 'y',
-                                pointer: 'left:20',
-                                offset: {
-                                  x: 25
-                                },
-                                content: insurance_data[i][j].info,
-                            });
+                            if(insurance_data[i][j].provider == 'bcainsurance'){
+                                new jBox('Tooltip', {
+                                    attach: '#'+i+sequence,
+                                    target: '#'+i+sequence,
+                                    theme: 'TooltipBorder',
+                                    trigger: 'click',
+                                    adjustTracker: true,
+                                    closeOnClick: 'body',
+                                    closeButton: 'box',
+                                    animation: 'move',
+                                    width:280,
+                                    position: {
+                                      x: 'left',
+                                      y: 'top'
+                                    },
+                                    outside: 'y',
+                                    pointer: 'left:20',
+                                    offset: {
+                                      x: 25
+                                    },
+                                    content: insurance_data[i][j].info,
+                                });
+                            }else if(insurance_data[i][j].provider == 'zurich'){
+                                document.getElementById('coverage_zurich').innerHTML = insurance_data[i][j].info;
+                            }
                             sequence++;
                         }
                     }
@@ -3148,7 +3165,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-6 col-md-6 col-sm-6 train-from" style="padding-left:0px;">
                         <span class="span-search-ticket"><i class="fas fa-train"></i> From</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
                         </div>
                     </div>
                     <div class="image-change-route-vertical2">
@@ -3161,7 +3178,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5; padding-right:0px;">
                         <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> To</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
                         </div>
                     </div>
                 </div>
@@ -3188,7 +3205,7 @@ function onchange_provider_insurance(){
                 <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
                 <div class="input-container-search-ticket btn-group">
                     <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                    <ul class="dropdown-menu" role="menu">
+                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
                         <div class="row" style="padding:10px;">
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
                                 <div style="float:left;">
@@ -3280,7 +3297,8 @@ function onchange_provider_insurance(){
         }
 
         $('#insurance_trip').niceSelect();
-    }else{
+    }
+    else{
         //zurich
         text +=`
             <div class="col-lg-12" id="radio_insurance_search" style="padding:0px; text-align:left;margin-bottom:10px;">
@@ -3290,36 +3308,31 @@ function onchange_provider_insurance(){
                     <span class="checkmark-radio crspan"></span>
                 </label>
             </div>
-            <div class="col-lg-12">
+            <div class="col-lg-12 mb-2" style="padding:0px;">
+                <label class="check_box_custom">
+                    <span class="span-search-ticket" style="color:`+text_color+`;">Is Senior</span>
+                    <input type="checkbox" id="insurance_is_senior" name="insurance_is_senior" />
+                    <span class="check_box_span_custom"></span>
+                </label>
+            </div>
+            <div class="col-lg-4">
                 <div class="row">
                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
-                    <div class="col-lg-6 col-md-6 col-sm-6 train-from" style="padding-left:0px;" hidden>
+                    <div class="col-lg-12" style="padding-left:0px;" hidden>
                         <span class="span-search-ticket"><i class="fas fa-train"></i> From</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
                         </div>
                     </div>
-                    <div class="image-change-route-vertical2" hidden>
-                        <span><a href="javascript:insurance_switch();" style="z-index:5; color:black;" id="insurance_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></span>
-                    </div>
-                    <div class="image-change-route-horizontal2" hidden>
-                        <span><a class="horizontal-arrow" href="javascript:insurance_switch();" style="z-index:5; color:{{text_color}} !important;" id="insurance_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></span>
-                    </div>
-
-                    <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5; padding-right:0px;">
-                        <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> To</span>
+                    <div class="col-lg-12" style="z-index:5; padding-left:0px; padding-right:0px;">
+                        <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
                         </div>
                     </div>
-                    <label class="check_box_custom" style="float:right;">
-                        <span class="span-search-ticket" style="color:`+text_color+`;">Is Senior</span>
-                        <input type="checkbox" id="insurance_is_senior" name="insurance_is_senior" />
-                        <span class="check_box_span_custom"></span>
-                    </label>
                 </div>
             </div>
-            <div class="col-lg-6" hidden>
+            <div class="col-lg-4" hidden>
                 <div class="row">
                     <span class="span-search-ticket"><i class="fas fa-suitcase"></i> Plan Trip</span>
                     <div class="input-container-search-ticket btn-group">
@@ -3331,17 +3344,17 @@ function onchange_provider_insurance(){
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px;" id="insurance_date_search">
+            <div class="col-lg-4" style="padding:0px;" id="insurance_date_search">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" id="insurance_date" name="insurance_date" placeholder="Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px;">
+            <div class="col-lg-4" style="padding:0px;">
                 <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
                 <div class="input-container-search-ticket btn-group">
                     <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                    <ul class="dropdown-menu" role="menu">
+                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
                         <div class="row" style="padding:10px;">
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
                                 <div style="float:left;">
@@ -3416,6 +3429,56 @@ function onchange_provider_insurance(){
         }
         $('#insurance_trip').niceSelect();
     }
+
+    var quantity_adult_insurance = parseInt($('#insurance_adult').val());
+    $('#show_total_pax_insurance').text(quantity_adult_insurance + " Customer");
+
+    $('.right-plus-adult-insurance').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#insurance_adult').val());
+
+        // If is not undefined
+        if(quantity < 4){
+            $('#insurance_adult').val(quantity + 1);
+            quantity_adult_insurance = quantity + 1;
+
+            $('#show_total_pax_insurance').text(quantity_adult_insurance + " Customer");
+        }
+
+        if (quantity_adult_insurance == 4){
+            document.getElementById("left-minus-adult-insurance").disabled = false;
+            document.getElementById("right-plus-adult-insurance").disabled = true;
+        }
+        else{
+            document.getElementById("left-minus-adult-insurance").disabled = false;
+        }
+    });
+    $('.left-minus-adult-insurance').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#insurance_adult').val());
+
+        // If is not undefined
+        // Increment
+        if(quantity > 1){
+            $('#insurance_adult').val(quantity - 1);
+            quantity_adult_insurance = quantity - 1;
+
+            $('#show_total_pax_insurance').text(quantity_adult_insurance + " Customer");
+        }
+
+        if (quantity_adult_insurance == 1){
+            document.getElementById("left-minus-adult-insurance").disabled = true;
+            document.getElementById("right-plus-adult-insurance").disabled = false;
+        }
+        else{
+            document.getElementById("right-plus-adult-insurance").disabled = false;
+        }
+    });
+
     insurance_get_config('home');
 }
 
@@ -3435,10 +3498,10 @@ function edit_additional_benefit(){
         }
         if(additional_benefit_list.length > 0){
             text = `
-                <table class="table table-bordered">
+                <table id="list-of-passenger" style="width:100%;">
                     <tr>
-                        <th>Coverage</th>
-                        <th>Price</th>
+                        <th style="width:65%;">Coverage</th>
+                        <th style="width:35%;">Price</th>
                     </tr>
             `;
             for(k in additional_benefit_list){
@@ -3450,10 +3513,11 @@ function edit_additional_benefit(){
                 `;
             }
             text += `</table>`;
-
-            document.getElementById('adult_additional_benefit'+pax_counter+'_div').innerHTML = text;
-            document.getElementById('adult_additional_benefit'+pax_counter).value = JSON.stringify(additional_benefit_list);
         }
+        document.getElementById('adult_additional_benefit'+pax_counter+'_div').innerHTML = text;
+        document.getElementById('adult_additional_benefit'+pax_counter).value = JSON.stringify(additional_benefit_list);
+        text = '';
+        additional_benefit_list = [];
     }
     //inner html additional price;
     text = `
