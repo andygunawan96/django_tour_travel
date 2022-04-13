@@ -194,12 +194,14 @@
                                 <h4>{{response.carrier_name}}</h4>
                                 <span>{{response.data_name}}</span>
                                 <br/>
-                                <span>
-                                    {% autoescape off %}
-                                        {{response.info}}
-                                    {% endautoescape %}
-                                </span>
-                                <br/>
+                                <div style="overflow:auto; max-height:500px;">
+                                    <span>
+                                        {% autoescape off %}
+                                            {{response.info}}
+                                        {% endautoescape %}
+                                    </span>
+                                    <br/>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -246,15 +248,22 @@
                                         <tr>
                                             <td>{{forloop.counter}}</td>
                                             <td>
-                                                {{pax.title}}. {{pax.first_name}} {{pax.last_name}}<br/>
-                                                {% for addons in pax.data_insurance.addons %}
-                                                    {% if forloop.counter == 1%}
-                                                    <b>Addons</b><br/>
-                                                    {% endif %}
-                                                    {% autoescape off %}
-                                                    {{addons.text_with_tag}}
-                                                    {% endautoescape %}
-                                                {% endfor %}
+                                                <b>{{pax.title}}. {{pax.first_name}} {{pax.last_name}}</b><br/></br>
+                                                {% if pax.data_insurance.addons|length != 0%}
+                                                    {% for addons in pax.data_insurance.addons %}
+                                                        {% if forloop.counter == 1%}
+                                                        <b>Additional Benefit</b><br/>
+                                                        {% else %}
+                                                        <hr/>
+                                                        {% endif %}
+                                                        {% autoescape off %}
+                                                        {{addons.text_with_tag}}
+                                                        {% endautoescape %}
+                                                    {% endfor %}
+                                                {% else %}
+                                                <b>Additional Benefit</b><br/>
+                                                <i>Not Selected</i>
+                                                {% endif %}
                                             </td>
                                             <td>{{pax.birth_date}}</td>
                                         </tr>
