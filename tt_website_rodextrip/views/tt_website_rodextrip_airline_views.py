@@ -1501,12 +1501,16 @@ def review(request, signature):
                 for pax in passenger:
                     pax['ssr_list'] = []
             else:
-                #b2c login
+                # move from b2c to login user
                 try:
+                    set_session(request, 'airline_price_itinerary_%s' % signature,json.loads(request.POST['airline_price_itinerary']))
                     set_session(request, 'airline_get_price_request_%s' % signature,json.loads(request.POST['airline_price_itinerary_request']))
+                    set_session(request, 'airline_sell_journey_%s' % signature, json.loads(request.POST['airline_sell_journey_response']))
                     set_session(request, 'signature', request.POST['signature'])
                     set_session(request, 'airline_signature', request.POST['signature'])
-                    # set_session(request, 'airline_create_passengers', airline_create_passengers)
+                    set_session(request, 'airline_create_passengers_%s' % signature, json.loads(request.POST['airline_create_passengers']))
+                    set_session(request, 'airline_ssr_request_%s' % signature, json.loads(request.POST['airline_ssr_request']))
+                    set_session(request, 'airline_seat_request_%s' % signature, json.loads(request.POST['airline_seat_request']))
                 except Exception as e:
                     _logger.error('use airline get price request from cache')
                 passenger = request.session['airline_create_passengers_%s' % signature]['adult'] + request.session['airline_create_passengers_%s' % signature]['child']
