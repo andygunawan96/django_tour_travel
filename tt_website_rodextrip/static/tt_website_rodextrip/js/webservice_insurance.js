@@ -1,6 +1,37 @@
 var origin_insurance_destination = [];
 var destination_insurance_destination = [];
 var zurich_insurance_destination = [];
+var sorting_value = 'Lowest Price';
+var myVar;
+var sorting_list = [
+    {
+        value:'Name A-Z',
+        status: false
+    },
+    {
+        value:'Name Z-A',
+        status: false
+    },
+    {
+        value:'Lowest Price',
+        status: false
+    },
+    {
+        value:'Highest Price',
+        status: false
+    }
+]
+
+var sorting_list2 = [
+    {
+        value:'Name',
+        status: false
+    },
+    {
+        value:'Price',
+        status: false
+    }
+]
 function insurance_signin(data){
     $.ajax({
        type: "POST",
@@ -312,88 +343,7 @@ function insurance_get_availability(){
                     </div>`;
                     document.getElementById('insurance_ticket').innerHTML += text;
                 }else{
-                    for(i in insurance_data){
-                        for(j in insurance_data[i]){
-                            text+=`
-                               <div class="col-lg-4 col-md-4 activity_box" style="min-height:unset;">
-                                    <div class="single-recent-blog-post item" style="border:1px solid #cdcdcd;">
-                                        <div class="single-destination relative">`;
-                                            if(insurance_data[i][j].provider == 'bcainsurance')
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website_rodextrip/images/insurance/`+insurance_data[i][j].MasterBenefitName.toLowerCase()+`-`+insurance_data[i][j].type_trip_name.toLowerCase()+`.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+i+`','`+sequence+`')">`;
-                                            else if(insurance_data[i][j].provider == 'zurich')
-                                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website_rodextrip/images/icon/home-zurich.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+i+`','`+sequence+`')">`;
-                                            text+=`
-                                            </div>
-                                            <div class="card card-effect-promotion" style="border:unset;">
-                                                <div class="card-body">
-                                                    <div class="row details">
-                                                        <div class="col-lg-12">
-                                                            <span style="float:left; font-size:16px;font-weight:bold;">`+insurance_data[i][j].carrier_name+` </span><br/>
-                                                            <span style="float:left; font-size:12px;">Destination Area: `+insurance_data[i][j].data_name+`  </span>`;
-                                                            if(insurance_data[i][j].provider == 'bcainsurance'){
-                                                                text+=`
-                                                                <span style="padding-left:3px; cursor:pointer; color:`+color+`;" id="`+i+sequence+`" >
-                                                                    <i class="fas fa-info-circle" style="font-size:16px;"></i>
-                                                                </span>`;
-                                                            }
-                                                        text+=`
-                                                        </div>
-                                                        <div class="col-lg-12 mt-2">
-                                                            <span style="float:left; margin-right:5px;font-size:16px;font-weight:bold; color:`+color+`;">IDR `+getrupiah(insurance_data[i][j].total_price)+`</span>
-                                                            <span> / `+insurance_request.adult+` pax</span>
-                                                            <button style="line-height:32px; float:right;" type="button" class="primary-btn" onclick="go_to_detail('`+i+`','`+sequence+`')">BUY</button>
-                                                        </div>
-                                                        <div class="col-lg-12 mt-2">`;
-                                                            if(insurance_data[i][j].provider == 'zurich'){
-                                                                text += `
-                                                                <span style="float:left; margin-right:15px; font-size:14px;color:blue;font-weight:bold; cursor:pointer;" data-toggle="modal" data-target="#myModalCoverage"><u style="color:`+color+` !important">Coverage</u>  </span>`;
-                                                            }
-                                                        text+=`
-                                                            <span style="float:left; font-size:14px;color:blue;font-weight:bold; cursor:pointer;" onclick="window.open('`+insurance_data[i][j].pdf+`');"><u style="color:`+color+` !important">Benefit</u>  </span>
-                                                            <span style="float:right;font-size:10px;">`+i+`</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>`;
-                                    text+=`
-                               </div>`;
-                           sequence++;
-                        }
-                    }
-                    document.getElementById('insurance_ticket').innerHTML += text;
-                    sequence = 0;
-                    for(i in insurance_data){
-                        for(j in insurance_data[i]){
-                            if(insurance_data[i][j].provider == 'bcainsurance'){
-                                new jBox('Tooltip', {
-                                    attach: '#'+i+sequence,
-                                    target: '#'+i+sequence,
-                                    theme: 'TooltipBorder',
-                                    trigger: 'click',
-                                    adjustTracker: true,
-                                    closeOnClick: 'body',
-                                    closeButton: 'box',
-                                    animation: 'move',
-                                    width:280,
-                                    position: {
-                                      x: 'left',
-                                      y: 'top'
-                                    },
-                                    outside: 'y',
-                                    pointer: 'left:20',
-                                    offset: {
-                                      x: 25
-                                    },
-                                    content: insurance_data[i][j].info,
-                                });
-                            }else if(insurance_data[i][j].provider == 'zurich'){
-                                document.getElementById('coverage_zurich').innerHTML = insurance_data[i][j].info;
-                            }
-                            sequence++;
-                        }
-                    }
+                    sort(insurance_data);
                 }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
@@ -432,6 +382,311 @@ function insurance_get_availability(){
           }
        },timeout: 180000
     });
+}
+
+function filter_name(name_num){
+    clearTimeout(myVar);
+    myVar = setTimeout(function() {
+        change_filter('insurance_name' + String(name_num));
+    }, 500);
+}
+
+function change_filter(type){
+    var check = 0;
+    if(type == 'insurance_name1'){
+        document.getElementById('insurance_filter_name2').value = document.getElementById('insurance_filter_name').value;
+    }
+    else if(type == 'insurance_name2'){
+        document.getElementById('insurance_filter_name').value = document.getElementById('insurance_filter_name2').value;
+    }
+    filtering('filter');
+}
+
+function filtering(type){
+    var temp_data = [];
+    var searched_name = $('#insurance_filter_name').val();
+    data = insurance_data;
+    insurance_filter = {}
+    if (searched_name){
+        for(i in data){
+            data[i].forEach((obj)=> {
+                var test = 1;
+                searched_name.toLowerCase().split(" ").forEach((search_str)=> {
+                    if (obj.carrier_name.toLowerCase().includes( search_str ) == false){
+                        test = 0;
+                    }
+                });
+                if(test == 1){
+                    temp_data.push(obj);
+                }
+            });
+            data = temp_data;
+            if(insurance_filter.hasOwnProperty(i) == false)
+                insurance_filter[i] = []
+            for(x in data){
+                insurance_filter[i].push(data[x]);
+            }
+            temp_data = [];
+        }
+   }else{
+        insurance_filter = data;
+   }
+   sort(insurance_filter);
+}
+
+
+function sort_button(value){
+    if(value == 'name'){
+       if(sorting_value == '' || sorting_value == 'Name A-Z'){
+           sorting_value = 'Name Z-A';
+           document.getElementById("img-sort-down-name").style.display = "none";
+           document.getElementById("img-sort-up-name").style.display = "block";
+       }else{
+           sorting_value = 'Name A-Z';
+           document.getElementById("img-sort-down-name").style.display = "block";
+           document.getElementById("img-sort-up-name").style.display = "none";
+       }
+   }else if(value == 'price'){
+       if(sorting_value == '' || sorting_value == 'Lowest Price'){
+           sorting_value = 'Highest Price';
+           document.getElementById("img-sort-down-price").style.display = "none";
+           document.getElementById("img-sort-up-price").style.display = "block";
+       }else{
+           sorting_value = 'Lowest Price';
+           document.getElementById("img-sort-down-price").style.display = "block";
+           document.getElementById("img-sort-up-price").style.display = "none";
+       }
+
+   }
+   filtering('filter');
+}
+
+function sort(data){
+    insurance_data_filter = data;
+    sorting = '';
+    var radios = document.getElementsByName('radio_sorting');
+    for (var j = 0, length = radios.length; j < length; j++) {
+        if (radios[j].checked) {
+            sorting = document.getElementById('radio_sorting2'+j).value;
+            break;
+        }
+    }
+    if(sorting_value != ''){
+        sorting = sorting_value;
+    }
+    console.log(sorting);
+    for(var x in insurance_data_filter){
+        for(var i = 0; i < insurance_data_filter[x].length-1; i++) {
+            for(var j = i+1; j < insurance_data_filter[x].length; j++) {
+                if(sorting == '' || sorting == 'Name A-Z'){
+                    if(insurance_data_filter[x][i].carrier_name > insurance_data_filter[x][j].carrier_name){
+                        var temp = insurance_data_filter[x][i];
+                        insurance_data_filter[x][i] = insurance_data_filter[x][j];
+                        insurance_data_filter[x][j] = temp;
+                    }
+                }
+                if(sorting == 'Name Z-A'){
+                    if(insurance_data_filter[x][i].carrier_name < insurance_data_filter[x][j].carrier_name){
+                        var temp = insurance_data_filter[x][i];
+                        insurance_data_filter[x][i] = insurance_data_filter[x][j];
+                        insurance_data_filter[x][j] = temp;
+                    }
+                }else if(sorting == 'Lowest Price'){
+                    if(insurance_data_filter[x][i].total_price > insurance_data_filter[x][j].total_price){
+                        var temp = insurance_data_filter[x][i];
+                        insurance_data_filter[x][i] = insurance_data_filter[x][j];
+                        insurance_data_filter[x][j] = temp;
+                    }
+                }else if(sorting == 'Highest Price'){
+                    if(insurance_data_filter[x][i].total_price < insurance_data_filter[x][j].total_price){
+                        var temp = insurance_data_filter[x][i];
+                        insurance_data_filter[x][i] = insurance_data_filter[x][j];
+                        insurance_data_filter[x][j] = temp;
+                    }
+                }
+            }
+        }
+    }
+    var sequence = 0;
+    var text = '';
+    for(i in insurance_data_filter){
+        for(j in insurance_data_filter[i]){
+            text+=`
+               <div class="col-lg-4 col-md-4 activity_box" style="min-height:unset;">
+                    <div class="single-recent-blog-post item" style="border:1px solid #cdcdcd;">
+                        <div class="single-destination relative">`;
+                            if(insurance_data_filter[i][j].provider == 'bcainsurance')
+                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website_rodextrip/images/insurance/`+insurance_data_filter[i][j].MasterBenefitName.toLowerCase()+`-`+insurance_data_filter[i][j].type_trip_name.toLowerCase()+`.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+i+`','`+sequence+`')">`;
+                            else if(insurance_data_filter[i][j].provider == 'zurich')
+                                text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website_rodextrip/images/icon/home-zurich.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+i+`','`+sequence+`')">`;
+                            text+=`
+                            </div>
+                            <div class="card card-effect-promotion" style="border:unset;">
+                                <div class="card-body">
+                                    <div class="row details">
+                                        <div class="col-lg-12">
+                                            <span style="float:left; font-size:16px;font-weight:bold;">`+insurance_data_filter[i][j].carrier_name+` </span><br/>
+                                            <span style="float:left; font-size:12px;">Destination Area: `+insurance_data_filter[i][j].data_name+`  </span>`;
+                                            if(insurance_data_filter[i][j].provider == 'bcainsurance'){
+                                                text+=`
+                                                <span style="padding-left:3px; cursor:pointer; color:`+color+`;" id="`+i+sequence+`" >
+                                                    <i class="fas fa-info-circle" style="font-size:16px;"></i>
+                                                </span>`;
+                                            }
+                                        text+=`
+                                        </div>
+                                        <div class="col-lg-12 mt-2">
+                                            <span style="float:left; margin-right:5px;font-size:16px;font-weight:bold; color:`+color+`;">IDR `+getrupiah(insurance_data_filter[i][j].total_price)+`</span>
+                                            <span> / `+insurance_request.adult+` pax</span>
+                                            <button style="line-height:32px; float:right;" type="button" class="primary-btn" onclick="go_to_detail('`+i+`','`+sequence+`')">BUY</button>
+                                        </div>
+                                        <div class="col-lg-12 mt-2">`;
+                                            if(insurance_data_filter[i][j].provider == 'zurich'){
+                                                text += `
+                                                <span style="float:left; margin-right:15px; font-size:14px;color:blue;font-weight:bold; cursor:pointer;" data-toggle="modal" data-target="#myModalCoverage"><u style="color:`+color+` !important">Coverage</u>  </span>`;
+                                            }
+                                        text+=`
+                                            <span style="float:left; font-size:14px;color:blue;font-weight:bold; cursor:pointer;" onclick="window.open('`+insurance_data_filter[i][j].pdf+`');"><u style="color:`+color+` !important">Benefit</u>  </span>
+                                            <span style="float:right;font-size:10px;">`+i+`</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                    text+=`
+               </div>`;
+           sequence++;
+        }
+    }
+    document.getElementById('insurance_ticket').innerHTML = text;
+    sequence = 0;
+    for(i in insurance_data_filter){
+        for(j in insurance_data_filter[i]){
+            if(insurance_data_filter[i][j].provider == 'bcainsurance'){
+                new jBox('Tooltip', {
+                    attach: '#'+i+sequence,
+                    target: '#'+i+sequence,
+                    theme: 'TooltipBorder',
+                    trigger: 'click',
+                    adjustTracker: true,
+                    closeOnClick: 'body',
+                    closeButton: 'box',
+                    animation: 'move',
+                    width:280,
+                    position: {
+                      x: 'left',
+                      y: 'top'
+                    },
+                    outside: 'y',
+                    pointer: 'left:20',
+                    offset: {
+                      x: 25
+                    },
+                    content: insurance_data_filter[i][j].info,
+                });
+            }else if(insurance_data_filter[i][j].provider == 'zurich'){
+                document.getElementById('coverage_zurich').innerHTML = insurance_data_filter[i][j].info;
+            }
+            sequence++;
+        }
+    }
+}
+
+
+function insurance_filter_render(){
+    var node = document.createElement("div");
+    text = '';
+    text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
+    <hr/>`;
+    if(template == 1){
+        text+=`<div class="banner-right">`;
+    }else if(template == 2){
+        text+=`
+        <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
+            <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
+    }else if(template == 3){
+        text+=`
+        <div class="header-right" style="background:unset; border:unset;">`;
+    }else if(template == 4 || template == 5 || template == 6){
+        text+=`
+        <div>`;
+    }
+    text+=`
+        <div class="form-wrap" style="padding:0px; text-align:left;">
+            <h6 class="filter_general" onclick="show_hide_general('activityName');">Insurance Name <i class="fas fa-chevron-down" id="activityName_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="activityName_generalUp" style="float:right; display:block;"></i></h6>
+            <div id="activityName_generalShow" style="display:inline-block; width:100%;">
+                <input type="text" style="margin-bottom:unset;" class="form-control" id="insurance_filter_name" placeholder="Insurance Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Insurance Name '" autocomplete="off" onkeyup="filter_name(1);"/>
+            </div>
+            <hr/>
+        </div>
+    </div>`;
+    if(template == 2){
+        text+=`</div>`;
+    }
+
+    node = document.createElement("div");
+    node.innerHTML = text;
+    document.getElementById("filter").appendChild(node);
+    node = document.createElement("div");
+
+    text='';
+    text+=`<span style="font-weight: bold; margin-right:10px;">Sort by: </span>`;
+
+    for(i in sorting_list2){
+        text+=`
+        <button class="primary-btn-sorting" id="radio_sorting`+i+`" name="radio_sorting" onclick="sort_button('`+sorting_list2[i].value.toLowerCase()+`');" value="`+sorting_list2[i].value+`">
+            <span id="img-sort-down-`+sorting_list2[i].value.toLowerCase()+`" style="display:block;"> `+sorting_list2[i].value+` <i class="fas fa-caret-down"></i></span>
+            <span id="img-sort-up-`+sorting_list2[i].value.toLowerCase()+`" style="display:none;"> `+sorting_list2[i].value+` <i class="fas fa-caret-up"></i></span>
+        </button>`;
+    }
+    node = document.createElement("div");
+    node.className = 'sorting-box';
+    node.innerHTML = text;
+    document.getElementById("sorting-flight").appendChild(node);
+
+    var node2 = document.createElement("div");
+    text = '';
+    text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
+            <hr/>
+            <h6 style="padding-bottom:10px;">Insurance Name</h6>`;
+            if(template == 1){
+                text+=`<div class="banner-right">`;
+            }else if(template == 2){
+                text+=`
+                <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
+                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
+            }
+            text+=`
+                <div class="form-wrap" style="padding:0px; text-align:left;">
+                    <input type="text" style="margin-bottom:unset;" class="form-control" id="insurance_filter_name2" placeholder="Insurance Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Insurance Name '" autocomplete="off" onkeyup="filter_name(2);"/>
+                </div>
+            </div>`;
+            if(template == 2){
+                text+=`</div>`;
+            }
+    text+=`
+        <hr/>`;
+
+    node2 = document.createElement("div");
+    node2.innerHTML = text;
+    document.getElementById("filter2").appendChild(node2);
+
+    text='';
+    text+=`<h4>Sorting</h4>
+            <hr/>`;
+
+    for(i in sorting_list){
+        text+=`
+        <label class="radio-button-custom">
+            <span class="span-search-ticket" style="color:black;">`+sorting_list[i].value+`</span>
+            <input type="radio" id="radio_sorting2`+i+`" name="radio_sorting" onclick="sort_button('`+sorting_list[i].value+`');" value="`+sorting_list[i].value+`">
+            <span class="checkmark-radio"></span>
+        </label></br>`;
+    }
+    node2 = document.createElement("div");
+    node2.innerHTML = text;
+    document.getElementById("sorting-flight2").appendChild(node2);
 }
 
 function go_to_detail(provider, sequence){
@@ -841,29 +1096,44 @@ function get_insurance_data_search_page(){
 
 function get_insurance_data_passenger_page(){
     $.ajax({
-       type: "POST",
-       url: "/webservice/insurance",
-       headers:{
+        type: "POST",
+        url: "/webservice/insurance",
+        headers:{
             'action': 'get_data_passenger_page',
-       },
-       data: {
+        },
+        data: {
             'signature': signature
-       },
-       success: function(msg) {
-           insurance_pick = msg.insurance_pick;
-           insurance_request = msg.insurance_request;
-           if(insurance_pick.type_trip_name == 'Family'){
+        },
+        success: function(msg) {
+            insurance_pick = msg.insurance_pick;
+            insurance_request = msg.insurance_request;
+            if(insurance_pick.type_trip_name == 'Family'){
                 for(i=0;i<adult;i++){
                     document.getElementById('adult_additional_data_for_insurance'+parseInt(parseInt(i)+1)).style.display = 'block';
                 }
-           }
-           insurance_get_config('passenger');
-           //harga kanan
-           price_detail();
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            }
+            insurance_get_config('passenger');
+            //harga kanan
+            price_detail();
+            var counter_additional = 0;
+            var counter_pax = 0;
+            if(insurance_pick.hasOwnProperty('additional_benefit')){
+                for(i in insurance_pick.additional_benefit){
+                    // autopick benefit covid
+                    if(insurance_pick.additional_benefit[i].text[0].toLowerCase().includes('covid')){
+                        counter_additional = parseInt(parseInt(i)+1).toString();
+                        for(j=0;j<adult;j++){
+                            counter_pax = parseInt(parseInt(j)+1).toString();
+                            document.getElementById('checkbox_add_benefit'+counter_pax+'_'+counter_additional).checked = 'checked';
+                        }
+                    }
+                }
+                edit_additional_benefit();
+            }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
 
-       },timeout: 60000
+        },timeout: 60000
     });
 }
 
