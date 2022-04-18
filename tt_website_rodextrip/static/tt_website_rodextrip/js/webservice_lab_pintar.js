@@ -352,16 +352,11 @@ function lab_pintar_check_price(){
                                     <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.total_price)+`</span></b>
                                 </div>
                             </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                        text+= print_commission(msg.result.response.total_commission,'show_commission')
+                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                         text+=`
-                            <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission">
-                                <div class="alert alert-success">
-                                    <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(msg.result.response.total_commission)+`</span><br>
-                                </div>
-                            </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                        text+=`
-                            <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>`;
+                            <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Hide YPM"><br/>`;
                     text += `</div>`;
 
                     if(msg.result.response.extra_cost == true){
@@ -471,16 +466,11 @@ function lab_pintar_get_cache_price(){
                             <b><span style="font-size:13px;">IDR `+getrupiah(msg.result.response.total_price)+`</span></b>
                         </div>
                     </div>`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                    text+= print_commission(msg.result.response.total_commission,'show_commission')
+                if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text+=`
-                        <div class="col-lg-12" style="text-align:center; display:none;padding-bottom:10px;" id="show_commission">
-                            <div class="alert alert-success">
-                                <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(msg.result.response.total_commission)+`</span><br>
-                            </div>
-                        </div>`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                    text+=`
-                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>`;
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Hide YPM"><br/>`;
                 text+=`
                     <div>
                         <center>
@@ -1518,6 +1508,14 @@ function lab_pintar_get_booking(order_number, sync=false){
                                             </div>
                                         </div>`;
                                         }
+                                        if(commission == 0){
+                                        text_detail+=`
+                                            <div class="row">
+                                                <div class="col-lg-12 col-xs-12" style="text-align:left;">
+                                                    <span style="font-size:13px; color:red;">* Please mark up the price first</span>
+                                                </div>
+                                            </div>`;
+                                        }
                                         text_detail+=`
                                     </div>
                                 </div>
@@ -2079,17 +2077,10 @@ function lab_pintar_issued_booking(data){
                             <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
                         </div>
                     </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                    text+=`
-                    <div class="row" id="show_commission_old" style="display:none;">
-                        <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                            <div class="alert alert-success">
-                                <span style="font-size:13px;">Your Commission: IDR `+getrupiah(parseInt(commission*-1))+`</span><br>
-                            </div>
-                        </div>
-                    </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Show Commission"/></div>`;
+                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                        text+= print_commission(commission*-1,'show_commission_old')
+                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Hide YPM"/></div>`;
                     text+=`</div>`;
                     document.getElementById('old_price').innerHTML = text;
 
@@ -2181,17 +2172,11 @@ function lab_pintar_issued_booking(data){
                             <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
                         </div>
                     </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                    text+=`
-                    <div class="row" id="show_commission_new" style="display:none;">
-                        <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                            <div class="alert alert-success">
-                                <span style="font-size:13px;">Your Commission: IDR `+getrupiah(parseInt(commission*-1))+`</span><br>
-                            </div>
-                        </div>
-                    </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Show Commission"/></div>`;
+                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                        text+= print_commission(commission*-1,'show_commission_new')
+
+                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Hide YPM"/></div>`;
                     text+=`</div>`;
                     document.getElementById('new_price').innerHTML = text;
 

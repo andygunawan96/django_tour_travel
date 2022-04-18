@@ -2831,26 +2831,19 @@ function table_price_update(msg,type){
                         price_txt+=`
                         </div>
                    </div>`;
-                   if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                       price_txt+=`
-                       <div class="row" id="show_commission" style="display:none;">
-                            <div class="col-lg-12" style="margin-top:10px; text-align:center;">
-                                <div class="alert alert-success">
-                                    <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(grand_commission)+`</span><br>
-                                </div>
-                            </div>
-                       </div>`;
+                   if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                       price_txt+= print_commission(grand_commission,'show_commission')
                    price_txt+=`
                    <div class="row" style="margin-top:10px; text-align:center;">
                        <div class="col-lg-12">
                            <input type="button" class="primary-btn-white" onclick="copy_data();" value="Copy" style="width:100%;"/>
                        </div>
                    </div>`;
-                   if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                   if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                        price_txt+=`
                        <div class="row" style="margin-top:10px; text-align:center;">
                            <div class="col-lg-12" style="padding-bottom:10px;">
-                                <input type="button" id="show_commission_button" class="primary-btn-white" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
+                                <input type="button" id="show_commission_button" class="primary-btn-white" value="Hide YPM" style="width:100%;" onclick="show_commission();"/>
                            </div>
                        </div>`;
 

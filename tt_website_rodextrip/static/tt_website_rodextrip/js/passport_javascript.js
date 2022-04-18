@@ -173,15 +173,9 @@ function update_table(type){
             }catch(err){
                 display = 'none';
             }
-            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-            text+=`
-                <div class="row" id="show_commission" style="display: `+display+`;">
-                    <div class="col-lg-12" style="text-align:center;">
-                        <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+passport[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
-                        </div>
-                    </div>
-                </div>`;
+            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                text+= print_commission(commission,'show_commission',passport[0].sale_price.currency)
+
             text+=`
                 <div class="row">
                     <div class="col-lg-12" style="padding-bottom:15px;">
@@ -204,26 +198,19 @@ function update_table(type){
                     text +=`</div>
 
                 </div>`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                text+=`
-                <div class="row" id="show_commission" style="display: `+display+`;">
-                    <div class="col-lg-12" style="text-align:center;">
-                        <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+passport[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
-                        </div>
-                    </div>
-                </div>`;
+                if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                    text+= print_commission(commission,'show_commission',passport[0].sale_price.currency)
                 text+=`
                 <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-lg-12">
                         <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data('search');" value="Copy">
                    </div>
                 </div>`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                 text+=`
                 <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-lg-12">
-                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"><br>
                    </div>
                 </div>`;
                 if(agent_security.includes('book_reservation') == true)
@@ -333,26 +320,19 @@ function update_table(type){
                 }
                 text +=`</div>
             </div>`;
-            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-            text+=`
-            <div class="row" id="show_commission" style="display: `+display+`;">
-                <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                    <div class="alert alert-success">
-                        <span style="font-size:13px; font-weight:bold;">Your Commission: `+passport.list_of_passport[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
-                    </div>
-                </div>
-            </div>`;
+            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                text+= print_commission(commission,'show_commission',passport.list_of_passport[0].sale_price.currency)
             text+=`
             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-lg-12">
                     <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data('passenger');" value="Copy">
                </div>
             </div>`;
-            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
             text+=`
             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-lg-12" style="padding-bottom:10px;">
-                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
+                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"><br>
                </div>
             </div>
             `;
@@ -543,26 +523,19 @@ function update_table(type){
                 }
                 text +=`</div>
             </div>`;
-            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-            text+=`
-            <div class="row" id="show_commission" style="display: `+display+`;">
-                <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                    <div class="alert alert-success">
-                        <span style="font-size:13px; font-weight:bold;">Your Commission: `+passport.list_of_passport[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
-                    </div>
-                </div>
-            </div>`;
+            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                text+= print_commission(commission,'show_commission',passport.list_of_passport[0].sale_price.currency)
             text+=`
             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-lg-12">
                     <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data('passenger');" value="Copy">
                </div>
             </div>`;
-            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+            if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
             text+=`
             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-lg-12" style="padding-bottom:10px;">
-                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
+                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"><br>
                </div>
             </div>
             `;
@@ -731,10 +704,10 @@ function update_table(type){
 function show_commission(){
     if(document.getElementById('show_commission').style.display == 'none'){
         document.getElementById('show_commission').style.display = 'block';
-        document.getElementById('show_commission_button').value = 'Hide Commission';
+        document.getElementById('show_commission_button').value = 'Hide PYM';
     }else{
         document.getElementById('show_commission').style.display = 'none';
-        document.getElementById('show_commission_button').value = 'Show Commission';
+        document.getElementById('show_commission_button').value = 'Show PYM';
     }
 }
 

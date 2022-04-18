@@ -882,7 +882,7 @@
                             <!--</div>-->
                             <!--</center>-->
                             <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
-                            <div class="col-lg-12" id="radio_insurance_search" style="padding:15px 15px 0px 15px; text-align:left;" onchange="onchange_provider_insurance();">
+                            <div class="col-lg-12" style="padding:15px 15px 0px 15px; text-align:left;" onchange="onchange_provider_insurance();">
                                 <label class="radio-img">
                                     <input type="radio" name="insurance_provider" value="bcainsurance" checked="checked">
                                     <img src="/static/tt_website_rodextrip/images/icon/bca_insurance.png" alt="BCA Insurance" style="width:70px; height:70px; padding:0px;"><br/>
@@ -2772,10 +2772,22 @@
 
                     {% if "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security%}
                     <div id="tab-insurance" class="tab-content">
+                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
+                        <div class="col-lg-12" style="text-align:left;" onchange="onchange_provider_insurance();">
+                            <label class="radio-img">
+                                <input type="radio" name="insurance_provider" value="bcainsurance" checked="checked">
+                                <img src="/static/tt_website_rodextrip/images/icon/bca_insurance.png" alt="BCA Insurance" style="width:70px; height:70px; padding:0px;"><br/>
+                                <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">BCA<br/>Insurance</span></div>
+                            </label>
+                            <label class="radio-img">
+                                <input type="radio" name="insurance_provider" value="zurich">
+                                <img src="/static/tt_website_rodextrip/images/icon/zurich.png" alt="Zurich" style="width:70px; height:70px; padding:0px;"><br/>
+                                <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/>&nbsp;</span></div>
+                            </label>
+                        </div>
                         <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
                             {% csrf_token %}
-                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
-                            <div class="row">
+                            <div class="row" id="insurance_div">
                                 <div class="col-lg-12" id="radio_insurance_search" style="text-align:left;margin-bottom:10px;">
                                     <label class="radio-button-custom crlabel">
                                         <span style="font-size:13px; color:{{text_color}};">{% trans 'Single Trip' %}</span>
@@ -2791,6 +2803,8 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="row">
+                                        <input id="insurance_provider" name="insurance_provider" value="bcainsurance" hidden>
+                                        <input id="checkbox" name="insurance_is_senior" value="" hidden>
                                         <div class="col-lg-6 col-md-6 col-sm-6 train-from">
                                             <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
                                             <div class="input-container-search-ticket">
@@ -2815,15 +2829,17 @@
                                 <div class="col-lg-6">
                                     <span class="span-search-ticket"><i class="fas fa-suitcase"></i> {% trans 'Plan Trip' %}</span>
                                     <div class="input-container-search-ticket btn-group">
-                                        <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
+                                        <div class="form-select" id="default-select">
+                                            <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
 
-                                        </select>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6" id="insurance_date_search">
                                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Date' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <input type="text" class="form-control" id="insurance_date" style="background:white;" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
+                                        <input type="text" class="form-control" style="background:white;" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -4170,10 +4186,22 @@
 
                         {% if "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security%}
                         <div id="tab-insurance" class="tab-content">
+                            <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
+                            <div class="col-lg-12" style="text-align:left;" onchange="onchange_provider_insurance();">
+                                <label class="radio-img">
+                                    <input type="radio" name="insurance_provider" value="bcainsurance" checked="checked">
+                                    <img src="/static/tt_website_rodextrip/images/icon/bca_insurance.png" alt="BCA Insurance" style="width:70px; height:70px; padding:0px;"><br/>
+                                    <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">BCA<br/>Insurance</span></div>
+                                </label>
+                                <label class="radio-img">
+                                    <input type="radio" name="insurance_provider" value="zurich">
+                                    <img src="/static/tt_website_rodextrip/images/icon/zurich.png" alt="Zurich" style="width:70px; height:70px; padding:0px;"><br/>
+                                    <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/>&nbsp;</span></div>
+                                </label>
+                            </div>
                             <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
                                 {% csrf_token %}
-                                <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
-                                <div class="row">
+                                <div class="row" id="insurance_div">
                                     <div class="col-lg-12" id="radio_insurance_search" style="text-align:left;margin-bottom:10px;">
                                         <label class="radio-button-custom crlabel">
                                             <span style="font-size:13px; color:{{text_color}};">{% trans 'Single Trip' %}</span>
@@ -4189,6 +4217,8 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="row">
+                                            <input id="insurance_provider" name="insurance_provider" value="bcainsurance" hidden>
+                                            <input id="checkbox" name="insurance_is_senior" value="" hidden>
                                             <div class="col-lg-6 col-md-6 col-sm-6 train-from">
                                                 <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
                                                 <div class="input-container-search-ticket">
@@ -4210,21 +4240,23 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12 mb-3">
+                                    <div class="col-lg-4">
                                         <span class="span-search-ticket"><i class="fas fa-suitcase"></i> {% trans 'Plan Trip' %}</span>
-                                        <div class="input-container-search-ticket btn-group">
-                                            <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
+                                        <div class="form-group">
+                                            <div class="default-select" id="default-select">
+                                                <select id="insurance_trip" name="insurance_trip" onchange="next_focus_element('insurance','plantrip')">
 
-                                            </select>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12" id="insurance_date_search">
+                                    <div class="col-lg-4" id="insurance_date_search">
                                         <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Date' %}</span>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" id="insurance_date" style="background:white;" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
+                                            <input type="text" class="form-control" style="background:white;" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-4">
                                         <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                                         <div class="input-container-search-ticket btn-group">
                                             <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
@@ -5632,10 +5664,22 @@
 
                                 {% if "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security%}
                                 <div id="tab-insurance" style="padding:15px 0px" class="tab-content">
+                                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
+                                    <div class="col-lg-12" style="text-align:left;" onchange="onchange_provider_insurance();">
+                                        <label class="radio-img">
+                                            <input type="radio" name="insurance_provider" value="bcainsurance" checked="checked">
+                                            <img src="/static/tt_website_rodextrip/images/icon/bca_insurance.png" alt="BCA Insurance" style="width:70px; height:70px; padding:0px;"><br/>
+                                            <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">BCA<br/>Insurance</span></div>
+                                        </label>
+                                        <label class="radio-img">
+                                            <input type="radio" name="insurance_provider" value="zurich">
+                                            <img src="/static/tt_website_rodextrip/images/icon/zurich.png" alt="Zurich" style="width:70px; height:70px; padding:0px;"><br/>
+                                            <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/>&nbsp;</span></div>
+                                        </label>
+                                    </div>
                                     <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
                                         {% csrf_token %}
-                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
-                                        <div class="row">
+                                        <div class="row" id="insurance_div">
                                             <div class="col-lg-12" id="radio_insurance_search" style="text-align:left;margin-bottom:10px;">
                                                 <label class="radio-button-custom crlabel">
                                                     <span style="font-size:13px; color:{{text_color}};">{% trans 'Single Trip' %}</span>
@@ -5651,6 +5695,8 @@
                                             </div>
                                             <div class="col-lg-8">
                                                 <div class="row">
+                                                    <input id="insurance_provider" name="insurance_provider" value="bcainsurance" hidden>
+                                                    <input id="checkbox" name="insurance_is_senior" value="" hidden>
                                                     <div class="col-lg-6 col-md-6 col-sm-6 train-from">
                                                         <span class="span-search-ticket">{% trans 'From' %}</span>
                                                         <div class="input-container-search-ticket">
@@ -5669,25 +5715,23 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4">
-                                                <div class="row">
-                                                    <span class="span-search-ticket"> {% trans 'Plan Trip' %}</span>
-                                                    <div class="input-container-search-ticket btn-group">
-                                                        <i class="fas fa-suitcase" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                                        <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
+                                            <div class="col-lg-4 mb-2">
+                                                <span class="span-search-ticket"> {% trans 'Plan Trip' %}</span>
+                                                <div class="input-container-search-ticket btn-group">
+                                                    <i class="fas fa-suitcase" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
 
-                                                        </select>
-                                                    </div>
+                                                    </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6" id="insurance_date_search">
+                                            <div class="col-lg-6" id="insurance_date_search">
                                                 <span class="span-search-ticket">{% trans 'Date' %}</span>
                                                 <div class="input-container-search-ticket">
                                                     <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                                     <input type="text" class="form-control" id="insurance_date" style="background:white;" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px;">
+                                            <div class="col-lg-6">
                                                 <span class="span-search-ticket">{% trans 'Passenger' %}</span>
                                                 <div class="input-container-search-ticket btn-group">
                                                     <i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
@@ -7070,10 +7114,22 @@
 
                                 {% if "insurance" in provider and "ticketing_insurance" in username.co_agent_frontend_security%}
                                 <div id="tab-insurance" class="tab-content">
+                                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
+                                    <div class="col-lg-12" style="text-align:left;" onchange="onchange_provider_insurance();">
+                                        <label class="radio-img">
+                                            <input type="radio" name="insurance_provider" value="bcainsurance" checked="checked">
+                                            <img src="/static/tt_website_rodextrip/images/icon/bca_insurance.png" alt="BCA Insurance" style="width:70px; height:70px; padding:0px;"><br/>
+                                            <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">BCA<br/>Insurance</span></div>
+                                        </label>
+                                        <label class="radio-img">
+                                            <input type="radio" name="insurance_provider" value="zurich">
+                                            <img src="/static/tt_website_rodextrip/images/icon/zurich.png" alt="Zurich" style="width:70px; height:70px; padding:0px;"><br/>
+                                            <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/>&nbsp;</span></div>
+                                        </label>
+                                    </div>
                                     <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
                                         {% csrf_token %}
-                                        <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
-                                        <div class="row">
+                                        <div class="row" id="insurance_div">
                                             <div class="col-lg-12" id="radio_insurance_search" style="text-align:left;margin-bottom:10px;">
                                                 <label class="radio-button-custom crlabel">
                                                     <span style="font-size:13px; color:{{text_color}};">{% trans 'Single Trip' %}</span>
@@ -7111,13 +7167,11 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                <div class="row">
-                                                    <span class="span-search-ticket"><i class="fas fa-suitcase"></i> {% trans 'Plan Trip' %}</span>
-                                                    <div class="input-container-search-ticket btn-group">
-                                                        <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
+                                                <span class="span-search-ticket"><i class="fas fa-suitcase"></i> {% trans 'Plan Trip' %}</span>
+                                                <div class="input-container-search-ticket btn-group">
+                                                    <select id="insurance_trip" name="insurance_trip" class="nice-select-default" onchange="next_focus_element('insurance','plantrip')">
 
-                                                        </select>
-                                                    </div>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6" id="insurance_date_search">
@@ -7126,7 +7180,7 @@
                                                     <input type="text" class="form-control" id="insurance_date" style="background:white;" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px;">
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
                                                 <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                                                 <div class="input-container-search-ticket btn-group">
                                                     <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
@@ -8939,11 +8993,23 @@
                     <i class="fas fa-arrow-circle-left"></i> Back
                 </button>
                 <hr style="border-bottom:2px solid {{text_color}};"/>
+                <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
+                <div class="col-lg-12" style="text-align:left;" onchange="onchange_provider_insurance();">
+                    <label class="radio-img">
+                        <input type="radio" name="insurance_provider" value="bcainsurance" checked="checked">
+                        <img src="/static/tt_website_rodextrip/images/icon/bca_insurance.png" alt="BCA Insurance" style="width:70px; height:70px; padding:0px;"><br/>
+                        <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">BCA<br/>Insurance</span></div>
+                    </label>
+                    <label class="radio-img">
+                        <input type="radio" name="insurance_provider" value="zurich">
+                        <img src="/static/tt_website_rodextrip/images/icon/zurich.png" alt="Zurich" style="width:70px; height:70px; padding:0px;"><br/>
+                        <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/>&nbsp;</span></div>
+                    </label>
+                </div>
                 <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
                     {% csrf_token %}
-                    <input type="hidden" name="g-recaptcha-response" id='recaptcha_insurance'>
-                    <div class="row">
-                        <div class="col-lg-12" id="radio_insurance_search" style="text-align:left;margin-bottom:10px;">
+                    <div class="row" id="insurance_div">
+                        <div class="col-lg-12" id="radio_insurance_search" style="text-align:left; margin-bottom:10px;">
                             <label class="radio-button-custom crlabel">
                                 <span style="font-size:13px; color:{{text_color}};">{% trans 'Single Trip' %}</span>
                                 <input type="radio" checked="checked" name="radio_insurance_type" value="Single Trip">
@@ -8958,7 +9024,9 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 train-from">
+                                <input id="insurance_provider" name="insurance_provider" value="bcainsurance" hidden>
+                                <input id="checkbox" name="insurance_is_senior" value="" hidden>
+                                <div class="col-lg-6 col-md-6">
                                     <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
                                     <div class="input-container-search-ticket">
                                         <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
@@ -8971,7 +9039,7 @@
                                     <span><a class="horizontal-arrow" href="javascript:insurance_switch();" style="z-index:5; color:{{text_color}} !important;" id="insurance_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></span>
                                 </div>
 
-                                <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
+                                <div class="col-lg-6 col-md-6" style="z-index:5;">
                                     <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> {% trans 'To' %}</span>
                                     <div class="input-container-search-ticket">
                                         <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="{% trans 'Destination' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
@@ -8979,21 +9047,23 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-4 mb-3">
                             <span class="span-search-ticket"><i class="fas fa-suitcase"></i> {% trans 'Plan Trip' %}</span>
-                            <div class="input-container-search-ticket btn-group">
-                                <select id="insurance_trip" name="insurance_trip" class="nice-select-default mb-2" onchange="next_focus_element('insurance','plantrip')">
+                            <div class="form-group">
+                                <div class="default-select" id="default-select">
+                                    <select id="insurance_trip" name="insurance_trip" onchange="next_focus_element('insurance','plantrip')">
 
-                                </select>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-12" id="insurance_date_search">
+                        <div class="col-lg-4" id="insurance_date_search">
                             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Date' %}</span>
                             <div class="input-container-search-ticket">
-                                <input type="text" class="form-control" id="insurance_date" style="background:white;" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
+                                <input type="text" class="form-control" style="background:white;" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-4">
                             <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
                             <div class="input-container-search-ticket btn-group">
                                 <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
@@ -9038,6 +9108,7 @@
                         </button>
                     </center>
                 </form>
+
             </div>
         </div>
     </div>

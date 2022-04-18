@@ -1425,16 +1425,11 @@ function hotel_issued_alert(val){
                 <div class="col-lg-6" style="text-align:right;">
                     <span style="font-weight:bold;">`+hotel_price.rooms[i].nightly_prices[j].currency+` `+ getrupiah(grand_total_price) +`</span>
                 </div>`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                    text+=`
-                    <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel_old">
-                        <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+hotel_price.rooms[i].nightly_prices[j].currency+` `+ getrupiah(hotel_price.commission*-1) +`</span><br>
-                        </div>
-                    </div>`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                    text+= print_commission(hotel_price.commission*-1,'show_commission_hotel_old', hotel_price.rooms[i].nightly_prices[j].currency)
+                if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text += `<div class="col-lg-12">
-                        <input class="primary-btn" id="show_commission_button_hotel_old" style="width:100%;" type="button" onclick="show_commission_hotel_price_change('old');" value="Show Commission"/>
+                        <input class="primary-btn" id="show_commission_button_hotel_old" style="width:100%;" type="button" onclick="show_commission_hotel_price_change('old');" value="Hide YPM"/>
                     </div>`;
                 text += `</div>`;
             }
@@ -1487,16 +1482,11 @@ function hotel_issued_alert(val){
                 <div class="col-lg-6" style="text-align:right;">
                     <span style="font-weight:bold;">`+temporary.rooms[i].currency+` `+ getrupiah(grand_total_price) +`</span>
                 </div>`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                    text+=`
-                    <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel_new">
-                        <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+temporary.rooms[i].currency+` `+ getrupiah(parseInt(temporary.commission*-1)) +`</span><br>
-                        </div>
-                    </div>`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                    text+= print_commission(temporary.commission*-1,'show_commission_hotel_new',temporary.rooms[i].currency)
+                if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text += `<div class="col-lg-12">
-                        <input class="primary-btn" id="show_commission_button_hotel_new" style="width:100%;" type="button" onclick="show_commission_hotel_price_change('new');" value="Show Commission"/>
+                        <input class="primary-btn" id="show_commission_button_hotel_new" style="width:100%;" type="button" onclick="show_commission_hotel_price_change('new');" value="Hide YPM"/>
                     </div>`;
                 text += `</div>`;
             }
@@ -1750,17 +1740,10 @@ function hotel_issued(data){
                             <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
                         </div>
                     </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                    text+=`
-                    <div class="row" id="show_commission_old" style="display:none;">
-                        <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                            <div class="alert alert-success">
-                                <span style="font-size:13px;">Your Commission: IDR `+getrupiah(parseInt(commission*-1))+`</span><br>
-                            </div>
-                        </div>
-                    </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Show Commission"/></div>`;
+                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                        text+= print_commission(commission*-1,'show_commission_old')
+                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Hide YPM"/></div>`;
                     text+=`</div>`;
                     document.getElementById('old_price').innerHTML = text;
 
@@ -1852,17 +1835,10 @@ function hotel_issued(data){
                             <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
                         </div>
                     </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                    text+=`
-                    <div class="row" id="show_commission_new" style="display:none;">
-                        <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                            <div class="alert alert-success">
-                                <span style="font-size:13px;">Your Commission: IDR `+getrupiah(parseInt(commission*-1))+`</span><br>
-                            </div>
-                        </div>
-                    </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Show Commission"/></div>`;
+                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                        text+= print_commission(commission*-1,'show_commission_new')
+                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Hide YPM"/></div>`;
                     text+=`</div>`;
                     document.getElementById('new_price').innerHTML = text;
 
@@ -2908,6 +2884,14 @@ function hotel_get_booking(data){
                                                 <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(booker_insentif)+`</span>
                                             </div>
                                         </div>`;
+                                        }
+                                        if(commission == 0){
+                                            text_detail+=`
+                                            <div class="row">
+                                                <div class="col-lg-12 col-xs-12" style="text-align:left;">
+                                                    <span style="font-size:13px; color:red;">* Please mark up the price first</span>
+                                                </div>
+                                            </div>`;
                                         }
                                     text_detail+=`</div>
                                 </div>
