@@ -74,7 +74,7 @@
                         <label class="radio-img">
                             <input type="radio" name="insurance_provider" value="zurich" {%if insurance_request.provider == 'zurich' %} checked="checked" {% endif %}>
                             <img src="/static/tt_website_rodextrip/images/icon/zurich.png" alt="Zurich" style="width:70px; height:70px; padding:0px;"><br/>
-                            <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/>&nbsp;</span></div>
+                            <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/></span><span style="font-size:9px; color:{{text_color}};">(Cover Covid-19)</span></div>
                         </label>
                     </div>
                     <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
@@ -308,7 +308,7 @@
                             <label class="radio-img">
                                 <input type="radio" name="insurance_provider" value="zurich" {%if insurance_request.provider == 'zurich' %} checked="checked" {% endif %}>
                                 <img src="/static/tt_website_rodextrip/images/icon/zurich.png" alt="Zurich" style="width:70px; height:70px; padding:0px;"><br/>
-                                <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/>&nbsp;</span></div>
+                                <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/></span><span style="font-size:9px; color:{{text_color}};">(Cover Covid-19)</span></div>
                             </label>
                         </div>
                         <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
@@ -534,7 +534,7 @@
                         <label class="radio-img">
                             <input type="radio" name="insurance_provider" value="zurich" {%if insurance_request.provider == 'zurich' %} checked="checked" {% endif %}>
                             <img src="/static/tt_website_rodextrip/images/icon/zurich.png" alt="Zurich" style="width:70px; height:70px; padding:0px;"><br/>
-                            <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/>&nbsp;</span></div>
+                            <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/></span><span style="font-size:9px; color:{{text_color}};">(Cover Covid-19)</span></div>
                         </label>
                     </div>
                     <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
@@ -762,7 +762,7 @@
                     <label class="radio-img">
                         <input type="radio" name="insurance_provider" value="zurich" {%if insurance_request.provider == 'zurich' %} checked="checked" {% endif %}>
                         <img src="/static/tt_website_rodextrip/images/icon/zurich.png" alt="Zurich" style="width:70px; height:70px; padding:0px;"><br/>
-                        <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/>&nbsp;</span></div>
+                        <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/></span><span style="font-size:9px; color:{{text_color}};">(Cover Covid-19)</span></div>
                     </label>
                 </div>
                 <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
@@ -995,7 +995,7 @@
                         <label class="radio-img">
                             <input type="radio" name="insurance_provider" value="zurich" {%if insurance_request.provider == 'zurich' %} checked="checked" {% endif %}>
                             <img src="/static/tt_website_rodextrip/images/icon/zurich.png" alt="Zurich" style="width:70px; height:70px; padding:0px;"><br/>
-                            <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/>&nbsp;</span></div>
+                            <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/></span><span style="font-size:9px; color:{{text_color}};">(Cover Covid-19)</span></div>
                         </label>
                     </div>
                     <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
@@ -1219,7 +1219,7 @@
                         <label class="radio-img">
                             <input type="radio" name="insurance_provider" value="zurich" {%if insurance_request.provider == 'zurich' %} checked="checked" {% endif %}>
                             <img src="/static/tt_website_rodextrip/images/icon/zurich.png" alt="Zurich" style="width:70px; height:70px; padding:0px;"><br/>
-                            <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/>&nbsp;</span></div>
+                            <div style="text-align:center;"><span style="font-size:13px; color:{{text_color}};">Zurich<br/></span><span style="font-size:9px; color:{{text_color}};">(Cover Covid-19)</span></div>
                         </label>
                     </div>
                     <form action="{% url 'tt_website_rodextrip:insurance_search'%}" method="POST" class="form-wrap" id="insurance_searchForm">
@@ -1441,61 +1441,61 @@
                     <span style="font-size:14px; font-weight:600;"><i class="fas fa-clock"></i> {% trans 'Elapsed Time' %}: <span class="count_time" id="elapse_time"> </span></span>
                 </div>
 
-<!--                <div class="modal fade" id="myModalFilter" role="dialog">-->
-<!--                    <div class="modal-dialog">-->
-<!--                        &lt;!&ndash; Modal content&ndash;&gt;-->
-<!--                        <div class="modal-content">-->
-<!--                            <div class="modal-header">-->
-<!--                                <h4 class="modal-title" style="color:{{text_color}};"> Filter</i></h4>-->
-<!--                                <button type="button" class="close" data-dismiss="modal">&times;</button>-->
-<!--                            </div>-->
-<!--                            <div class="modal-body">-->
-<!--                                <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;">-->
-<!--                                    <div class="col-lg-12">-->
-<!--                                        <div id="filter2">-->
+                <div class="modal fade" id="myModalFilter" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:{{text_color}};"> Filter</i></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;">
+                                    <div class="col-lg-12">
+                                        <div id="filter2">
 
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="modal fade" id="myModalSort" role="dialog">-->
-<!--                    <div class="modal-dialog">-->
-<!--                        &lt;!&ndash; Modal content&ndash;&gt;-->
-<!--                        <div class="modal-content">-->
-<!--                            <div class="modal-header">-->
-<!--                                <h4 class="modal-title" style="color:{{text_color}};"> Sort </i></h4>-->
-<!--                                <button type="button" class="close" data-dismiss="modal">&times;</button>-->
-<!--                            </div>-->
-<!--                            <div class="modal-body">-->
-<!--                                <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;">-->
-<!--                                    <div class="col-lg-12">-->
-<!--                                        <div id="sorting-flight2">-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="myModalSort" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:{{text_color}};"> Sort </i></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;">
+                                    <div class="col-lg-12">
+                                        <div id="sorting-flight2">
 
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-<!--                <div class="filter-search-flight" id="filter-search-flight">-->
-<!--                    <div style="background-color:white; padding:10px; margin-top:20px; border:1px solid #cdcdcd" id="filter">-->
+                <div class="filter-search-flight" id="filter-search-flight">
+                    <div style="background-color:white; padding:10px; margin-top:20px; border:1px solid #cdcdcd" id="filter">
 
-<!--                    </div>-->
-<!--                </div>-->
+                    </div>
+                </div>
             </div>
             <div class="col-lg-9">
-<!--                <div class="row sorting-search-flight" id="sorting-search-flight">-->
-<!--                    <div class="col-lg-12">-->
-<!--                        <div id="sorting-flight" style="margin-bottom:15px; margin-top:10px;">-->
+                <div class="row sorting-search-flight" id="sorting-search-flight">
+                    <div class="col-lg-12">
+                        <div id="sorting-flight" style="margin-bottom:15px; margin-top:10px;">
 
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
 
                     <div class="col-lg-12">
@@ -1557,6 +1557,7 @@
     $(document).ready(function () {
         breadcrumb_create("insurance", 2, 0);
         insurance_signin('');
+        insurance_filter_render();
         $('.js-example-basic-single').select2();
 
         var quantity_adult_insurance = parseInt($('#insurance_adult').val());
