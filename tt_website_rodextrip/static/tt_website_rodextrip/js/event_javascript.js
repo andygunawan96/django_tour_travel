@@ -1079,18 +1079,12 @@ function render_object_from_value(val){
         </div>
     </div>`;
 
-    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-        text+=`
-        <div class="row" id="show_commission_event" style="display:none;">
-            <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                <div class="alert alert-success">
-                    <span style="font-size:13px; font-weight:bold;">Your Commission: `+val[i].currency+` `+getrupiah(parseInt(total_commission)*-1)+`</span><br>
-                </div>
-            </div>
-        </div>`;
+    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+        text+= print_commission(total_commission*-1,'show_commission_event',val[i].currency)
+
         text+=`
         <div style="margin-bottom:5px;">
-            <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Show Commission"/>
+            <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Hide YPM"/>
         </div>`;
 
     text+=`<center>
@@ -1134,15 +1128,13 @@ function hotel_room_pick_button(total_commission){
                 <a href="mailto:?subject=This is the event price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
         }
     text +=`</div>`;
-    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+        text+=`<div class="col-lg-12">`
+        text+= print_commission(total_commission,'show_commission_event','IDR', 'commission_val')
+        text+=`</div>`
         text+=`
-        <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_event">
-            <div class="alert alert-success">
-                <span id="commission_val" style="font-size:13px; font-weight:bold;">Your Commission: ` + getrupiah(parseInt(total_commission)) + `</span><br>
-            </div>
-        </div>
         <div class="col-lg-12">
-            <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Show Commission"/>
+            <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Hide YPM"/>
         </div>`;
     text += `
     <div class="col-lg-12" style="padding-top:10px;">
@@ -1161,11 +1153,11 @@ function show_commission_event(){
     var scs = document.getElementById("show_commission_button_event");
     if (sc.style.display === "none"){
         sc.style.display = "block";
-        scs.value = "Hide Commission";
+        scs.value = "Hide YPM";
     }
     else{
         sc.style.display = "none";
-        scs.value = "Show Commission";
+        scs.value = "Show YPM";
     }
 }
 
@@ -1179,11 +1171,11 @@ function show_commission_hotel_price_change(type){
     }
     if (sc.style.display === "none"){
         sc.style.display = "block";
-        scs.value = "Hide Commission";
+        scs.value = "Hide YPM";
     }
     else{
         sc.style.display = "none";
-        scs.value = "Show Commission";
+        scs.value = "Show YPM";
     }
 }
 //Done

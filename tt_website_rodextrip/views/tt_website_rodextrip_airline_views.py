@@ -478,6 +478,138 @@ def passenger(request, signature):
     else:
         return no_session_logout(request)
 
+def passenger_aftersales(request, signature):
+    if 'user_account' in request.session._session and 'ticketing_airline' in request.session['user_account']['co_agent_frontend_security']:
+        try:
+            javascript_version = get_javascript_version()
+            cache_version = get_cache_version()
+            response = get_cache_data(cache_version)
+            airline_country = response['result']['response']['airline']['country']
+            phone_code = []
+            for i in airline_country:
+                if i['phone_code'] not in phone_code:
+                    phone_code.append(i['phone_code'])
+            phone_code = sorted(phone_code)
+            file = read_cache_with_folder_path("get_airline_carriers", 90911)
+            if file:
+                carrier = file
+
+            values = get_data_template(request)
+
+            # agent
+            adult_title = ['MR', 'MRS', 'MS']
+
+            infant_title = ['MSTR', 'MISS']
+
+            id_type = [['ktp', 'KTP'], ['sim', 'SIM'], ['pas', 'Passport']]
+
+            # agent
+
+            # get_balance(request)
+            # pax
+            adult = []
+            infant = []
+            child = []
+            pax = copy.deepcopy(request.session['airline_request_%s' % signature])
+            for i in range(int(pax['adult'])):
+                adult.append('')
+            for i in range(int(pax['child'])):
+                child.append('')
+            for i in range(int(pax['infant'])):
+                infant.append('')
+            if translation.LANGUAGE_SESSION_KEY in request.session:
+                del request.session[translation.LANGUAGE_SESSION_KEY]  # get language from browser
+            # CHECK INI
+            set_session(request, 'airline_price_itinerary_%s' % signature,
+                        json.loads(request.POST['airline_price_itinerary']))
+            set_session(request, 'airline_get_price_request_%s' % signature,
+                        json.loads(request.POST['airline_price_itinerary_request']))
+            try:
+                set_session(request, 'airline_sell_journey_%s' % signature,
+                            json.loads(request.POST['airline_sell_journey_response']))
+            except:
+                _logger.info('no sell journey input')
+            time_limit = get_timelimit_product(request, 'airline')
+            if time_limit == 0:
+                time_limit = int(request.POST['time_limit_input'])
+            set_session(request, 'time_limit', time_limit)
+            set_session(request, 'signature', signature)
+            set_session(request, 'airline_signature', signature)
+            # signature = request.POST['signature']
+        except Exception as e:
+            _logger.info(str(e) + traceback.format_exc())
+            # signature = request.session['airline_signature']
+        carrier_code = read_cache_with_folder_path("get_airline_carriers", 90911)
+        is_lionair = False
+        is_international = False
+        is_garuda = False
+        is_identity_required = False
+        is_birthdate_required = False
+        get_booking = request.session['airline_get_booking_response']
+        for provider_booking in get_booking['result']['response']['provider_bookings']:
+            for journey in provider_booking['journeys']:
+                if journey['origin_country'] != 'Indonesia' and is_international == False:
+                    is_international = True
+                    break
+                for segment in journey['segments']:
+                    if segment['origin_country'] != 'Indonesia' and is_international == False:
+                        is_international = True
+                    if carrier[segment['carrier_code']]['is_adult_birth_date_required']:
+                        is_birthdate_required = True
+                    if carrier_code[segment['carrier_code']]['required_identity_required_international']:
+                        is_identity_required = True
+                    if is_international == False:
+                        for leg in segment['legs']:
+                            if leg['origin_country'] != 'Indonesia':
+                                is_international = True
+                                break
+                    if is_international and is_birthdate_required and is_identity_required:
+                        break
+                if is_international and is_birthdate_required and is_identity_required:
+                    break
+
+        try:
+            _logger.info('AIRLINE PASSENGER')
+            values.update({
+                # 'ff_request': ff_request,
+                'ff_request': [],
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                'is_lionair': is_lionair,
+                'is_garuda': is_garuda,
+                'is_international': is_international,
+                'birth_date_required': is_birthdate_required,
+                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'countries': airline_country,
+                'phone_code': phone_code,
+                'is_identity_required': is_identity_required,
+                # 'airline_request': request.session['airline_request_%s' % signature],
+                # 'price': request.session['airline_sell_journey_%s' % signature],
+                # 'airline_get_price_request': request.session['airline_get_price_request_%s' % signature],
+                'airline_carriers': carrier,
+                # 'airline_pick': request.session['airline_sell_journey_%s' % signature]['sell_journey_provider'],
+                'adults': adult,
+                'childs': child,
+                'infants': infant,
+                'adult_title': adult_title,
+                'infant_title': infant_title,
+                'id_types': id_type,
+                'username': request.session['user_account'],
+                'javascript_version': javascript_version,
+                'signature': signature,
+                'time_limit': request.session['time_limit'],
+                'static_path_url_server': get_url_static_path(),
+                # 'co_uid': request.session['co_uid'],
+                # 'cookies': json.dumps(res['result']['cookies']),
+                # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+
+            })
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
+        return render(request, MODEL_NAME + '/airline/airline_passenger_after_sales_templates.html', values)
+    else:
+        return no_session_logout(request)
+
 def ssr(request, signature):
     if 'user_account' in request.session._session and 'ticketing_airline' in request.session['user_account']['co_agent_frontend_security']:
         try:

@@ -710,7 +710,7 @@ function get_airline_data_search_page(){
 
 }
 
-function get_airline_data_passenger_page(){
+function get_airline_data_passenger_page(type='default'){
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -721,19 +721,31 @@ function get_airline_data_passenger_page(){
             'signature': signature
        },
        success: function(msg) {
-           airline_pick = msg.airline_pick;
-           airline_get_price_request = msg.airline_get_price_request;
-           price_itinerary = msg.price_itinerary;
-           airline_carriers = msg.airline_carriers;
-           airline_request = msg.airline_request;
-           ff_request = msg.ff_request;
-           adult = airline_request.adult;
-           child = airline_request.child;
-           infant = airline_request.infant;
-           if(msg.hasOwnProperty('pax_cache')){
-                pax_cache_reorder = msg.pax_cache;
+           if(type == 'default'){
+               airline_pick = msg.airline_pick;
+               airline_get_price_request = msg.airline_get_price_request;
+               price_itinerary = msg.price_itinerary;
+               airline_carriers = msg.airline_carriers;
+               airline_request = msg.airline_request;
+               ff_request = msg.ff_request;
+               adult = airline_request.adult;
+               child = airline_request.child;
+               infant = airline_request.infant;
+               if(msg.hasOwnProperty('pax_cache')){
+                    pax_cache_reorder = msg.pax_cache;
+               }
+               airline_get_provider_list('passenger');
+           }else if(type == 'aftersales'){
+               airline_request = msg.airline_request;
+               adult = airline_request.adult;
+               child = airline_request.child;
+               infant = airline_request.infant;
+               airline_pick = msg.airline_pick;
+               if(msg.hasOwnProperty('pax_cache')){
+                    pax_cache_reorder = msg.pax_cache;
+               }
+               airline_do_passenger_js_load();
            }
-           airline_get_provider_list('passenger');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
 
@@ -741,8 +753,128 @@ function get_airline_data_passenger_page(){
     });
 }
 
+function airline_do_passenger_js_load(){
+    $(function() {
+        for (var i = 1; i <= adult; i++){
+            document.getElementById("train_adult"+i+"_search").addEventListener("keyup", function(event) {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    var adult_enter = "search_adult_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                    document.getElementById(adult_enter).click();
+                }
+            });
+
+            $('input[name="adult_birth_date'+i+'"]').daterangepicker({
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                startDate: moment().subtract(18, 'years'),
+                minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(100, 'years'),
+                maxDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(12, 'years'),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+            if(birth_date_required == false)
+                $('input[name="adult_birth_date'+i+'"]').val("");
+
+            $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                startDate: moment().subtract(-1,'years'),
+                minDate: moment().subtract(-1, 'days'),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+            $('input[name="adult_passport_expired_date'+i+'"]').val("");
+        }
+
+        for (var i = 1; i <= child; i++){
+            document.getElementById("train_child"+i+"_search").addEventListener("keyup", function(event) {
+              if (event.keyCode === 13) {
+                 event.preventDefault();
+                 var child_enter = "search_child_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                 document.getElementById(child_enter).click();
+              }
+            });
+
+
+            $('input[name="child_birth_date'+i+'"]').daterangepicker({
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                startDate: moment().subtract(5, 'years'),
+                minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(11, 'years').subtract(365, 'days'),
+                maxDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(2, 'years'),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+              //$('input[name="child_birth_date'+i+'"]').val("");
+
+            $('input[name="child_passport_expired_date'+i+'"]').daterangepicker({
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                startDate: moment().subtract(-1,'years'),
+                minDate: moment().subtract(-1, 'days'),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+            $('input[name="child_passport_expired_date'+i+'"]').val("");
+        }
+
+        for (var i = 1; i <= infant; i++){
+            document.getElementById("train_infant"+i+"_search").addEventListener("keyup", function(event) {
+              if (event.keyCode === 13) {
+                event.preventDefault();
+                var infant_enter = "search_infant_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                document.getElementById(infant_enter).click();
+              }
+            });
+
+            $('input[name="infant_birth_date'+i+'"]').daterangepicker({
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                startDate: moment().subtract(1, 'years'),
+                minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(1, 'years').subtract(364, 'days'),
+                maxDate: moment(),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+              //$('input[name="infant_birth_date'+i+'"]').val("");
+
+            $('input[name="infant_passport_expired_date'+i+'"]').daterangepicker({
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                startDate: moment().subtract(-1,'years'),
+                minDate: moment().subtract(-1, 'days'),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+            $('input[name="infant_passport_expired_date'+i+'"]').val("");
+          }
+        if (typeof pax_cache_reorder !== 'undefined'){
+            auto_input_pax_cache_reorder();
+        }
+   });
+}
+
 function auto_input_pax_cache_reorder(){
-    if(pax_cache_reorder.hasOwnProperty('booker')){
+    if(pax_cache_reorder.hasOwnProperty('booker') && document.getElementById('booker_id') != null){
         document.getElementById('booker_first_name').value = pax_cache_reorder.booker.first_name;
         document.getElementById('booker_last_name').value = pax_cache_reorder.booker.last_name;
         document.getElementById('booker_title').value = pax_cache_reorder.booker.title;
@@ -753,11 +885,10 @@ function auto_input_pax_cache_reorder(){
         $('#booker_phone_code_id').val(pax_cache_reorder.booker.calling_code).trigger('change');
         $('#booker_title').niceSelect('update');
         $('#booker_nationality_id').val(pax_cache_reorder.booker.nationality_code).trigger('change');
-
     }
     if(pax_cache_reorder.hasOwnProperty('adult')){
         for(x in pax_cache_reorder.adult){
-            if(x == 0){
+            if(x == 0 && document.getElementById('booker_id') != null){
                 if(pax_cache_reorder.adult[x].passenger_seq_id == pax_cache_reorder.booker.booker_seq_id){
                     document.getElementsByName('myRadios')[0].checked = true;
                     copy_booker_to_passenger('copy','airline');
@@ -1679,122 +1810,8 @@ function airline_get_provider_list(type, data=''){
                 $(function() {
                     airline_detail('');
                     document.getElementById('airline_sell_journey').value = JSON.stringify(price_itinerary);
-                    for (var i = 1; i <= adult; i++){
-                        document.getElementById("train_adult"+i+"_search").addEventListener("keyup", function(event) {
-                            if (event.keyCode === 13) {
-                                event.preventDefault();
-                                var adult_enter = "search_adult_"+event.target.id.toString().replace(/[^\d.]/g, '');
-                                document.getElementById(adult_enter).click();
-                            }
-                        });
-
-                        $('input[name="adult_birth_date'+i+'"]').daterangepicker({
-                            singleDatePicker: true,
-                            autoUpdateInput: true,
-                            startDate: moment().subtract(18, 'years'),
-                            minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(100, 'years'),
-                            maxDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(12, 'years'),
-                            showDropdowns: true,
-                            opens: 'center',
-                            locale: {
-                                format: 'DD MMM YYYY',
-                            }
-                        });
-                        if(birth_date_required == false)
-                            $('input[name="adult_birth_date'+i+'"]').val("");
-
-                        $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
-                            singleDatePicker: true,
-                            autoUpdateInput: true,
-                            startDate: moment().subtract(-1,'years'),
-                            minDate: moment().subtract(-1, 'days'),
-                            showDropdowns: true,
-                            opens: 'center',
-                            locale: {
-                                format: 'DD MMM YYYY',
-                            }
-                        });
-                        $('input[name="adult_passport_expired_date'+i+'"]').val("");
-                    }
-
-                    for (var i = 1; i <= child; i++){
-                        document.getElementById("train_child"+i+"_search").addEventListener("keyup", function(event) {
-                          if (event.keyCode === 13) {
-                             event.preventDefault();
-                             var child_enter = "search_child_"+event.target.id.toString().replace(/[^\d.]/g, '');
-                             document.getElementById(child_enter).click();
-                          }
-                        });
-
-
-                        $('input[name="child_birth_date'+i+'"]').daterangepicker({
-                            singleDatePicker: true,
-                            autoUpdateInput: true,
-                            startDate: moment().subtract(5, 'years'),
-                            minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(11, 'years').subtract(365, 'days'),
-                            maxDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(2, 'years'),
-                            showDropdowns: true,
-                            opens: 'center',
-                            locale: {
-                                format: 'DD MMM YYYY',
-                            }
-                        });
-                          //$('input[name="child_birth_date'+i+'"]').val("");
-
-                        $('input[name="child_passport_expired_date'+i+'"]').daterangepicker({
-                            singleDatePicker: true,
-                            autoUpdateInput: true,
-                            startDate: moment().subtract(-1,'years'),
-                            minDate: moment().subtract(-1, 'days'),
-                            showDropdowns: true,
-                            opens: 'center',
-                            locale: {
-                                format: 'DD MMM YYYY',
-                            }
-                        });
-                        $('input[name="child_passport_expired_date'+i+'"]').val("");
-                    }
-
-                    for (var i = 1; i <= infant; i++){
-                        document.getElementById("train_infant"+i+"_search").addEventListener("keyup", function(event) {
-                          if (event.keyCode === 13) {
-                            event.preventDefault();
-                            var infant_enter = "search_infant_"+event.target.id.toString().replace(/[^\d.]/g, '');
-                            document.getElementById(infant_enter).click();
-                          }
-                        });
-
-                        $('input[name="infant_birth_date'+i+'"]').daterangepicker({
-                            singleDatePicker: true,
-                            autoUpdateInput: true,
-                            startDate: moment().subtract(1, 'years'),
-                            minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(1, 'years').subtract(364, 'days'),
-                            maxDate: moment(),
-                            showDropdowns: true,
-                            opens: 'center',
-                            locale: {
-                                format: 'DD MMM YYYY',
-                            }
-                        });
-                          //$('input[name="infant_birth_date'+i+'"]').val("");
-
-                        $('input[name="infant_passport_expired_date'+i+'"]').daterangepicker({
-                            singleDatePicker: true,
-                            autoUpdateInput: true,
-                            startDate: moment().subtract(-1,'years'),
-                            minDate: moment().subtract(-1, 'days'),
-                            showDropdowns: true,
-                            opens: 'center',
-                            locale: {
-                                format: 'DD MMM YYYY',
-                            }
-                        });
-                        $('input[name="infant_passport_expired_date'+i+'"]').val("");
-                      }
-                    if (typeof pax_cache_reorder !== 'undefined'){
-                        auto_input_pax_cache_reorder();
-                    }
-                   });
+                    airline_do_passenger_js_load();
+                });
            }else if(type == 'search'){
                 get_carrier_providers('search');
            }else if(type == 'get_booking'){
@@ -3298,21 +3315,38 @@ function get_price_itinerary_request(){
                         <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
                 }
                 text_detail_next+=`</div>`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
                     text_detail_next+=`
-                        <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission">
+                        <div class="col-lg-12" style="display:block;" id="show_commission">
                             <div class="alert alert-success">
-                                <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(commission_price*-1)+`</span><br>
+                                <div style="text-align:center;">
+                                    <span style="font-size:13px; font-weight: bold;">YPM: IDR `+getrupiah(commission_price*-1)+`</span><br>
+                                </div>`;
+                    if(commission_price == 0){
+                        text_notes = '';
+                        for(x in journey){
+                            if(journey[x].provider.includes('lionair'))
+                                text_notes = '* Lion Air YPM is shown after booking';
+                        }
+                        if(text_notes == '')
+                            text_notes = '* Please mark up the price first'
+                        text_detail_next += `
+                                <div style="text-align:left;">
+                                    <span style="font-size:13px; font-weight: bold;color:red">`+text_notes+`</span><br>
+                                </div>`;
+                    }
+                    text_detail_next+=`
                             </div>
                         </div>`;
+                }
                 text_detail_next+=`
                     <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
                         <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy Flight Detail">
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                    text_detail_next+=`
-                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Hide PYM"><br/>
                     `;
                 text_detail_next += `</div>`;
                 if(agent_security.includes('book_reservation') == true)
@@ -5251,7 +5285,7 @@ function search_reorder(){
     re_order_set_airline_request();
 }
 
-function re_order_set_airline_request(){
+function re_order_set_airline_request(type='reorder'){
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -5264,7 +5298,7 @@ function re_order_set_airline_request(){
        },
        success: function(resJson) {
             console.log('set request done')
-            re_order_set_passengers();
+            re_order_set_passengers(type);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
 
@@ -5272,7 +5306,7 @@ function re_order_set_airline_request(){
     });
 }
 
-function re_order_set_passengers(){
+function re_order_set_passengers(type){
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -5286,17 +5320,24 @@ function re_order_set_passengers(){
        },
        success: function(resJson) {
             console.log('set passenger done')
-            airline_choose = 0;
-            try{
-                airline_data_reorder = [];
-                last_send = false;
-                for(i in provider_list_reorder){
-                    if(i == Object.keys(provider_list_reorder).length-1)
-                        last_send = true;
-                    airline_search(i,provider_list_reorder[i],last_send=false, true);
+            if(type == 'reorder'){
+                airline_send_request_count = 0;
+                try{
+                    airline_data_reorder = [];
+                    last_send = false;
+                    var counter = 0;
+                    for(i in provider_list_reorder){
+                        if(counter == Object.keys(provider_list_reorder).length-1)
+                            last_send = true;
+                        airline_search(i,provider_list_reorder[i],last_send=false, true);
+                    }
+                }catch(err){
+                    console.log(err);
                 }
-            }catch(err){
-                console.log(err);
+            }else{
+                //update pax
+                // goto page update pax
+                window.location.href = '/airline/passenger/aftersales/' + signature
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -5306,8 +5347,8 @@ function re_order_set_passengers(){
 }
 
 function re_order_check_search(){
-    airline_choose++;
-    if(airline_choose == Object.keys(provider_list_reorder).length){
+    airline_send_request_count++;
+    if(airline_send_request_count == Object.keys(provider_list_reorder).length){
         console.log('get data journey');
         re_order_find_journey();
     }
@@ -5382,11 +5423,16 @@ function re_order_get_price(){
                 re_order_get_fare_rules();
             }else{
                 Swal.fire({
-                    type: 'error',
-                    title: 'Oops!',
-                    html: 'Journey not available!',
+                  title: 'Sorry, this journey is not available, do you want to change with other journey?',
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes'
                 }).then((result) => {
-                    window.location.href = '/airline/search';
+                    if (result.value) {
+                        window.location.href = '/airline/search';
+                    }
                 })
             }
        },
@@ -5436,17 +5482,76 @@ function re_order_sell_journeys(){
                get_seat_availability('reorder');
            }else{
                Swal.fire({
-                    type: 'error',
-                    title: 'Oops!',
-                    html: 'Journey not available!',
+                  title: 'Sorry, this journey is not available, do you want to change with other journey?',
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes'
                }).then((result) => {
-                    window.location.href = '/airline/search';
+                    if (result.value) {
+                        window.location.href = '/airline/search';
+                    }
                })
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
 
        },timeout: 300000
+    });
+}
+
+function airline_after_sales_update_pax(){
+    adult = 0;
+    child = 0;
+    infant = 0;
+    passenger_list_copy = airline_get_detail.result.response.passengers;
+    for(i in passenger_list_copy){
+        if(passenger_list_copy[i].birth_date != '' && passenger_list_copy[i].birth_date != false){
+            old = parseInt(Math.abs(moment() - moment(passenger_list_copy[i].birth_date,'DD MMM YYYY'))/31536000000)
+            if(old > 12)
+                adult++;
+            else if(old>2)
+                child++;
+            else
+                infant++;
+        }else{
+            adult++;
+        }
+    }
+    airline_request = {
+        "departure": [airline_get_detail.result.response.provider_bookings[0].journeys[0].departure_date.split('  ')[0]],
+        "adult":adult,
+        "child":child,
+        "infant":infant,
+    };
+    airline_pick = airline_get_detail.result.response.provider_bookings;
+    for(i in airline_pick){
+        for(j in airline_pick[i].journeys){
+            airline_pick[i].journeys[j].departure_date = airline_pick[i].journeys[j].departure_date.replace('  ',' - ');
+        }
+    }
+
+    set_airline_pick();
+}
+
+function set_airline_pick(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'set_airline_pick',
+       },
+       data: {
+          'signature': signature,
+          'airline_pick': JSON.stringify(airline_pick),
+       },
+       success: function(resJson) {
+            re_order_set_airline_request('update_pax');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 120000
     });
 }
 
@@ -5701,6 +5806,7 @@ function airline_get_booking(data, sync=false){
                 }
                 col = 4;
                 is_reroute = false;
+                can_change_pax = false; //development pake true
                 if(msg.result.response.state == 'issued' || msg.result.response.state == 'rescheduled' || msg.result.response.state == 'reissue'){
                    //baru
                    try{
@@ -6414,7 +6520,19 @@ function airline_get_booking(data, sync=false){
                 </div>
 
                 <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
-                    <h5> List of Passenger</h5>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h5> List of Passenger</h5>
+                        </div>
+                        <div class="col-lg-6" style="text-align:right;">`;
+                        if(can_change_pax)
+                            text+=`
+                            <button type="button" class="primary-btn-white" id="button-sync-status" onclick="airline_after_sales_update_pax();">
+                                Update <i class="fas fa-wrench"></i>
+                            </button>`;
+                        text+=`
+                        </div>
+                    </div>
                     <hr/>
                     <div class="row">`;
                         for(pax in msg.result.response.passengers){
@@ -6900,7 +7018,7 @@ function airline_get_booking(data, sync=false){
                     </div>`;
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
                         text_detail+=`
-                        <div class="row" id="show_commission" style="display:none;">
+                        <div class="row" id="show_commission" style="display:block;">
                             <div class="col-lg-12 col-xs-12" style="text-align:center;">
                                 <div class="alert alert-success">
                                     <div class="row">
@@ -6947,6 +7065,13 @@ function airline_get_booking(data, sync=false){
                                         </div>
                                     </div>`;
                                     }
+                                    if(commission == 0){
+                                        text_detail+=`<div class="row">
+                                        <div class="col-lg-12 col-xs-12" style="text-align:left;">
+                                            <span style="font-size:13px; color:red;">* Please mark up the price first</span>
+                                        </div>
+                                    </div>`;
+                                    }
                                     text_detail+=`
                                 </div>
                             </div>
@@ -6959,10 +7084,10 @@ function airline_get_booking(data, sync=false){
                             <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
                         </center>
                     </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text_detail+=`
                     <div style="margin-bottom:5px;">
-                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Hide YPM"/>
                     </div>
                 </div>`;
                 }catch(err){
@@ -8032,17 +8157,28 @@ function airline_issued(data){
                             <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
                         </div>
                     </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                    text+=`
-                    <div class="row" id="show_commission_old" style="display:none;">
-                        <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+
+                        text+=`
+                    <div class="row" id="show_commission_old" style="display:block;">
+                        <div class="col-lg-12 col-xs-12" style="">
                             <div class="alert alert-success">
-                                <span style="font-size:13px;">Your Commission: IDR `+getrupiah(parseInt(commission*-1))+`</span><br>
+                                <div style="text-align:center;">
+                                    <span style="font-size:13px;">YPM: IDR `+getrupiah(parseInt(commission*-1))+`</span><br>
+                                </div>`;
+                        if(commission == 0){
+                            text += `
+                                <div style="text-align:left;">
+                                    <span style="font-size:13px;color:red">* Please mark up the price first</span><br>
+                                </div>`;
+                        }
+                        text+=`
                             </div>
                         </div>
                     </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Show Commission"/></div>`;
+                    }
+                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Hide YPM"/></div>`;
                     text+=`</div>`;
                     document.getElementById('old_price').innerHTML = text;
 
@@ -8134,17 +8270,22 @@ function airline_issued(data){
                             <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
                         </div>
                     </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text+=`
-                    <div class="row" id="show_commission_new" style="display:none;">
-                        <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                    <div class="row" id="show_commission_new" style="display:block;">
+                        <div class="col-lg-12 col-xs-12">
                             <div class="alert alert-success">
-                                <span style="font-size:13px;">Your Commission: IDR `+getrupiah(parseInt(commission*-1))+`</span><br>
+                                <div style="text-align:center;">
+                                    <span style="font-size:13px;">YPM: IDR `+getrupiah(parseInt(commission*-1))+`</span><br>
+                                </div>
+                                <div style="text-align:left;">
+                                    <span style="font-size:13px;color:red">* Please mark up the price first</span><br>
+                                </div>
                             </div>
                         </div>
                     </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Show Commission"/></div>`;
+                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Hide YPM"/></div>`;
                     text+=`</div>`;
                     document.getElementById('new_price').innerHTML = text;
 
@@ -8493,11 +8634,11 @@ function show_commission(val){
     }
     if (sc.style.display === "none"){
         sc.style.display = "block";
-        scs.value = "Hide Commission";
+        scs.value = "Hide YPM";
     }
     else{
         sc.style.display = "none";
-        scs.value = "Show Commission";
+        scs.value = "Show YPM";
     }
 }
 
@@ -11091,26 +11232,34 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
     text+=`
         </div>
     </div>`;
-    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         text+=`
-        <div class="row" id="show_commission" style="display:none;">
-            <div class="col-lg-12 col-xs-12" style="text-align:center;">
+        <div class="row" id="show_commission" style="display:block;">
+            <div class="col-lg-12 col-xs-12">
                 <div class="alert alert-success">
-                    <span style="font-size:13px; font-weight: bold;">Your Commission: `+currency+` `+getrupiah(commission*-1)+`</span><br>
+                    <div style="text-align:center;">
+                        <span style="font-size:13px; font-weight: bold;">YPM: `+currency+` `+getrupiah(commission*-1)+`</span><br>
+                    </div>`;
+        if(commission == 0)
+            text+=` <div style="text-align:left;">
+                        <span style="font-size:13px; color:red;">* Please mark up the price first</span><br>
+                    </div>`;
+        text+=`
                 </div>
             </div>
         </div>`;
+    }
     text+=`
         <div style="padding-bottom:10px;">
             <center>
                 <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/><br/>
             </center>
         </div>`;
-    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
         text+=`
         <div style="padding-bottom:10px;">
             <center>
-                <input type="button" class="primary-btn-white" style="width:100%;" onclick="show_commission('commission');" id="show_commission_button" value="Show Commission"/><br/>
+                <input type="button" class="primary-btn-white" style="width:100%;" onclick="show_commission('commission');" id="show_commission_button" value="Hide YPM"/><br/>
             </center>
         </div>`;
     text+=`</div>`;

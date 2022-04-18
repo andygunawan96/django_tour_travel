@@ -1790,6 +1790,14 @@ function group_booking_get_booking(order_number){
                                             </div>
                                         </div>`;
                                         }
+                                        if(commission == 0){
+                                            text_detail+=`
+                                            <div class="row">
+                                                <div class="col-lg-12 col-xs-12" style="text-align:left;">
+                                                    <span style="font-size:13px; color:red;">* Please mark up the price first</span>
+                                                </div>
+                                            </div>`;
+                                        }
                                         text_detail+=`
                                     </div>
                                 </div>
@@ -3804,11 +3812,11 @@ function show_commission(){
     var scs = document.getElementById("show_commission_button");
     if (sc.style.display === "none"){
         sc.style.display = "block";
-        scs.value = "Hide Commission";
+        scs.value = "Hide YPM";
     }
     else{
         sc.style.display = "none";
-        scs.value = "Show Commission";
+        scs.value = "Show YPM";
     }
 }
 

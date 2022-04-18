@@ -191,11 +191,11 @@ function show_commission(){
     var scs = document.getElementById("show_commission_button");
     if (sc.style.display === "none"){
         sc.style.display = "block";
-        scs.value = "Hide Commission";
+        scs.value = "Hide YPM";
     }
     else{
         sc.style.display = "none";
-        scs.value = "Show Commission";
+        scs.value = "Show YPM";
     }
 }
 

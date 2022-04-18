@@ -66,6 +66,8 @@ def api_models(request):
             res = login(request)
         elif req_data['action'] == 're_order_set_airline_request':
             res = re_order_set_airline_request(request)
+        elif req_data['action'] == 'set_airline_pick':
+            res = set_airline_pick(request)
         elif req_data['action'] == 're_order_set_passengers':
             res = re_order_set_passengers(request)
         elif req_data['action'] == 'get_data_search_page':
@@ -247,6 +249,13 @@ def re_order_set_airline_request(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return ERR.get_no_error_api()
 
+def set_airline_pick(request):
+    try:
+        set_session(request, 'airline_pick_%s' % request.POST['signature'], json.loads(request.POST['airline_pick']))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return ERR.get_no_error_api()
+
 def get_age(birthdate):
     today = date.today()
     age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
@@ -344,12 +353,12 @@ def get_data_search_page(request):
 def get_data_passenger_page(request):
     try:
         res = {}
-        res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
         res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
-        res['airline_get_price_request'] = request.session['airline_get_price_request_%s' % request.POST['signature']]
-        res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
         if request.session.get('airline_create_passengers_%s' % request.POST['signature']):
             res['pax_cache'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
+        res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
+        res['airline_get_price_request'] = request.session['airline_get_price_request_%s' % request.POST['signature']]
+        res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
         file = read_cache_with_folder_path("get_airline_carriers", 90911)
         if file:
             res['airline_carriers'] = file

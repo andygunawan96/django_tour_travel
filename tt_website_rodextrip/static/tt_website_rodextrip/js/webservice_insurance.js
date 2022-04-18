@@ -1085,11 +1085,11 @@ function price_detail(){
         if(insurance_pick.service_charges[i].charge_type == 'FARE'){
             price['fare'] += insurance_pick.service_charges[i].amount;
         }else if(insurance_pick.service_charges[i].charge_type == 'TAX'){
-            price['tax'] += insurance_pick.service_charges[i].amount;
+            price['tax'] += insurance_pick.service_charges[i].total;
         }else if(insurance_pick.service_charges[i].charge_type == 'RAC'){
-            price['rac'] += insurance_pick.service_charges[i].amount;
+            price['rac'] += insurance_pick.service_charges[i].total;
         }else if(insurance_pick.service_charges[i].charge_type == 'ROC'){
-            price['roc'] += insurance_pick.service_charges[i].amount;
+            price['roc'] += insurance_pick.service_charges[i].total;
         }
     }
     grandtotal = 0;
@@ -1104,16 +1104,16 @@ function price_detail(){
                 <span style="font-size:13px; font-weight:500;">`+price.pax_count+`x Customer Fare @`+price.currency +' '+getrupiah(Math.ceil(price.fare))+`</span><br/>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
-                <span style="font-size:13px; font-weight:500;">`+price.pax_count+`x Tax @`+price.currency+` `+getrupiah(Math.ceil(price.tax + price.roc))+`</span>
+                <span style="font-size:13px; font-weight:500;">1x Tax @`+price.currency+` `+getrupiah(Math.ceil(price.tax + price.roc))+`</span>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
-                <span style="font-size:13px; font-weight:500;">`+price.currency+` `+getrupiah(Math.ceil((price.fare+price.roc + price.tax) * price.pax_count))+`</span>
+                <span style="font-size:13px; font-weight:500;">`+price.currency+` `+getrupiah(Math.ceil((price.fare) * price.pax_count) + (price.roc + price.tax))+`</span>
             </div>
             <div class="col-lg-12">
                 <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
             </div>
         </div>`;
-    grandtotal = Math.ceil((price.fare+price.roc + price.tax) * price.pax_count);
+    grandtotal = Math.ceil((price.fare) * price.pax_count + (price.roc + price.tax));
     text += `
         <div class="row" style="padding:5px;" id="additionalprice_div">`;
     additional_price = 0;
@@ -1141,6 +1141,12 @@ function price_detail(){
                 <span style="font-size:13px; font-weight:500;">`+price.currency+` `+getrupiah(grandtotal+additional_price)+`</span><br/>
             </div>
         </div>`;
+
+    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+        text+=print_commission(price['rac']*-1,'show_commission')
+    }
+    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"/></div>`;
     document.getElementById('insurance_detail_table').innerHTML += text;
 }
 
@@ -2477,6 +2483,14 @@ function insurance_get_booking(data, sync=false){
                                         </div>
                                     </div>`;
                                     }
+                                    if(commission == 0){
+                                        text_detail+=`
+                                        <div class="row">
+                                            <div class="col-lg-12 col-xs-12" style="text-align:left;">
+                                                <span style="font-size:13px; color:red;">* Please mark up the price first</span>
+                                            </div>
+                                        </div>`;
+                                    }
                                     text_detail+=`
                                 </div>
                             </div>
@@ -2944,17 +2958,11 @@ function insurance_issued_booking(data){
                             <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
                         </div>
                     </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                    text+=`
-                    <div class="row" id="show_commission_old" style="display:none;">
-                        <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                            <div class="alert alert-success">
-                                <span style="font-size:13px;">Your Commission: IDR `+getrupiah(parseInt(commission*-1))+`</span><br>
-                            </div>
-                        </div>
-                    </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Show Commission"/></div>`;
+                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                        text+= print_commission(commission*-1,'show_commission_old')
+
+                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Hide YPM"/></div>`;
                     text+=`</div>`;
                     document.getElementById('old_price').innerHTML = text;
 
@@ -3046,17 +3054,10 @@ function insurance_issued_booking(data){
                             <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
                         </div>
                     </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                    text+=`
-                    <div class="row" id="show_commission_new" style="display:none;">
-                        <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                            <div class="alert alert-success">
-                                <span style="font-size:13px;">Your Commission: IDR `+getrupiah(parseInt(commission*-1))+`</span><br>
-                            </div>
-                        </div>
-                    </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Show Commission"/></div>`;
+                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                        text+= print_commission(commission*-1,'show_commission_new')
+                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Hide YPM"/></div>`;
                     text+=`</div>`;
                     document.getElementById('new_price').innerHTML = text;
 
@@ -3149,11 +3150,11 @@ function show_commission(){
     var scs = document.getElementById("show_commission_button");
     if (sc.style.display === "none"){
         sc.style.display = "block";
-        scs.value = "Hide Commission";
+        scs.value = "Hide YPM";
     }
     else{
         sc.style.display = "none";
-        scs.value = "Show Commission";
+        scs.value = "Show YPM";
     }
 }
 
