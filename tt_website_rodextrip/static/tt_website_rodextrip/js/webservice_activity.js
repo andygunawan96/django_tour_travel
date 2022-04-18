@@ -3795,6 +3795,14 @@ function activity_get_booking(data){
                                     </div>
                                 </div>`;
                                 }
+                                if(commission == 0){
+                                    text_detail+=`
+                                    <div class="row">
+                                        <div class="col-lg-12 col-xs-12" style="text-align:left;">
+                                            <span style="font-size:13px; color:red;">* Please mark up the price first</span>
+                                        </div>
+                                    </div>`;
+                                }
                                 price_text+=`
                             </div>
                         </div>

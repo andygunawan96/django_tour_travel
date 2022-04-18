@@ -87,7 +87,11 @@ function change_transaction_type(type){
         document.getElementById('show_line').hidden = false;
         $('#transaction_type').niceSelect();
         text = '';
+        text += `<div class="row" style="margin: 0;">`
+        if(document.getElementById('transaction_type').value == 'hotel')
+            text += `<span style="color:red">* </span>`;
         text += `<h4>`+document.getElementById('transaction_type').value.charAt(0).toUpperCase() + document.getElementById('transaction_type').value.slice(1).toLowerCase()+` Line(s)</h4><hr/>`;
+        text += `</div>`;
         text+=`
         <button class="primary-btn-ticket" type="button" onclick="add_table_of_line('`+document.getElementById('transaction_type').value+`');"><i class="fas fa-plus"></i> Add</button>
         <button class="primary-btn-ticket" type="button" onclick="delete_table_of_line()"><i class="fas fa-trash-alt"></i> Delete</button>
@@ -1154,11 +1158,11 @@ function show_commission(){
     var scs = document.getElementById("show_commission_button");
     if (sc.style.display === "none"){
         sc.style.display = "block";
-        scs.value = "Hide Commission";
+        scs.value = "Hide YPM";
     }
     else{
         sc.style.display = "none";
-        scs.value = "Show Commission";
+        scs.value = "Show YPM";
     }
 }
 

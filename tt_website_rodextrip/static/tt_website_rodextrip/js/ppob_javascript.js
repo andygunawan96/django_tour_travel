@@ -1580,26 +1580,19 @@ function bills_detail(){
             text+=`
             </div>
         </div>`;
-        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-            text+=`
-            <div class="row" id="show_commission" style="display:none;">
-                <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                    <div class="alert alert-success">
-                        <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(commission_price*-1)+`</span><br>
-                    </div>
-                </div>
-            </div>`;
+        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+            text+= print_commission(commission_price*-1,'show_commission')
         text+=`
         <div style="padding-bottom:10px;">
             <center>
                 <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
             </center>
         </div>`;
-        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
             text+=`
             <div style="padding-bottom:10px;">
                 <center>
-                    <input type="button" class="primary-btn-white" style="width:100%;" onclick="show_commission('commission');" id="show_commission_button" value="Show Commission"/><br/>
+                    <input type="button" class="primary-btn-white" style="width:100%;" onclick="show_commission('commission');" id="show_commission_button" value="Hide YPM"/><br/>
                 </center>
             </div>`;
         document.getElementById('airline_detail').innerHTML = text;
@@ -1651,11 +1644,11 @@ function show_commission(){
     var scs = document.getElementById("show_commission_button");
     if (sc.style.display === "none"){
         sc.style.display = "block";
-        scs.value = "Hide Commission";
+        scs.value = "Hide YPM";
     }
     else{
         sc.style.display = "none";
-        scs.value = "Show Commission";
+        scs.value = "Show YPM";
     }
 }
 

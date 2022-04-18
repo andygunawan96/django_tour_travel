@@ -381,15 +381,8 @@ function activity_table_detail(){
                 text+=`
                 </div>
            </div>`;
-           if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-               text+=`
-               <div class="row" id="show_commission" style="display:none;">
-                    <div class="col-lg-12" style="margin-top:10px; text-align:center;">
-                        <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(grand_commission)+`</span><br>
-                        </div>
-                    </div>
-               </div>`;
+           if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+               text+= print_commission(grand_commission,'show_commission')
            text+=`
 
            <div class="row" style="margin-top:10px; text-align:center;">
@@ -397,11 +390,11 @@ function activity_table_detail(){
                    <input type="button" class="primary-btn-white" onclick="copy_data();" value="Copy" style="width:100%;"/>
                </div>
            </div>`;
-           if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+           if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                text+=`
                <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-lg-12" style="padding-bottom:10px;">
-                        <input type="button" id="show_commission_button" class="primary-btn-white" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
+                        <input type="button" id="show_commission_button" class="primary-btn-white" value="Hide YPM" style="width:100%;" onclick="show_commission();"/>
                    </div>
                </div>`;
 
@@ -636,26 +629,19 @@ function activity_table_detail2(pagetype){
                 text+=`
                 </div>
            </div>`;
-           if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-               text+=`
-               <div class="row" id="show_commission" style="display:none;">
-                    <div class="col-lg-12 col-xs-12" style="margin-top:10px; text-align:center;">
-                        <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(grand_commission)+`</span><br>
-                        </div>
-                    </div>
-               </div>`;
+           if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+               text+= print_commission(grand_commission,'show_commission')
            text+=`
            <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-xs-12">
                      <input type="button" class="primary-btn-white" onclick="copy_data();" value="Copy" style="width:100%;"/>
                </div>
            </div></div></div>`;
-           if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+           if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                text+= `
                <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-xs-12" style="padding-bottom:10px;">
-                        <input type="button" id="show_commission_button" class="primary-btn-white" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
+                        <input type="button" id="show_commission_button" class="primary-btn-white" value="Hide YPM" style="width:100%;" onclick="show_commission();"/>
                    </div>
                </div>`;
    document.getElementById('activity_detail_table').innerHTML = text;
@@ -700,11 +686,11 @@ function show_commission(){
     var scs = document.getElementById("show_commission_button");
     if (sc.style.display === "none"){
         sc.style.display = "block";
-        scs.value = "Hide Commission";
+        scs.value = "Hide YPM";
     }
     else{
         sc.style.display = "none";
-        scs.value = "Show Commission";
+        scs.value = "Show YPM";
     }
 }
 

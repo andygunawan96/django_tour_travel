@@ -268,7 +268,7 @@ function check_issued_offline(){
     }
     request["booker_id"] = document.getElementById('booker_id').value;
     if(counter_line == 0)
-        error_log += 'Please fill line\n<br/>';
+        error_log += 'Please fill '+document.getElementById('transaction_type').value+' line\n<br/>';
     else{
         for(i=0; i < counter_line; i++){
             if(document.getElementById('pnr'+i).value == ''){
@@ -1872,6 +1872,14 @@ function get_booking_offline(data){
                                                 <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(booker_insentif)+`</span>
                                             </div>
                                         </div>`;
+                                        }
+                                        if(msg.result.response.commission == 0){
+                                            text_detail+=`
+                                            <div class="row">
+                                                <div class="col-lg-12 col-xs-12" style="text-align:left;">
+                                                    <span style="font-size:13px; color:red;">* Please mark up the price first</span>
+                                                </div>
+                                            </div>`;
                                         }
                                         text_detail+=`
                                     </div>

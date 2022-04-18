@@ -1424,3 +1424,34 @@ function get_vendor_balance(val){
        },timeout: 60000
     });
 }
+
+function print_commission(commission,id,currency='IDR',id_span=''){
+    var print_commission_text = '';
+    var data_commission = commission;
+    if(data_commission < 0)
+        data_commission = data_commission *-1;
+    print_commission_text+=`
+        <div class="row" id="`+id+`" style="display:block;">
+            <div class="col-lg-12 col-xs-12">
+                <div class="alert alert-success">
+                    <div style="text-align:center;">
+                        <span `;
+    if(id_span != '')
+        print_commission_text+='id="'+id_span+'" ';
+    if(data_commission != 0)
+        print_commission_text+=`style="font-size:13px;font-weight: bold;">YPM: `+currency+` `+getrupiah(parseInt(data_commission))+`</span>
+                    </div>`;
+    else
+        print_commission_text+=`style="font-size:13px;font-weight: bold;color:red;">YPM: `+currency+` `+getrupiah(parseInt(data_commission))+`</span>
+                    </div>`;
+            if(data_commission == 0)
+                print_commission_text+=`
+                    <div style="text-align:left;">
+                        <span style="font-size:13px;color:red;">* Please mark up the price first</span>
+                    </div>`;
+            print_commission_text+=`
+                </div>
+            </div>
+        </div>`;
+    return print_commission_text;
+}
