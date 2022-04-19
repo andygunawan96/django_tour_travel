@@ -3665,7 +3665,11 @@ function next_focus_element(product, from){
             }, 200);
         }else if(from == 'passenger'){
             setTimeout(function(){
-                $("#show_total_pax_insurance").click();
+                $("#insurance_searchForm").click();
+            }, 200);
+        }else if(from == 'date'){
+            setTimeout(function(){
+                $('#insurance_date').focus();
             }, 200);
         }
     }
@@ -3757,4 +3761,10 @@ function open_signup_modal(){
 function open_signin_close_signup_modal(){
     $('#myModalb2c').modal('hide');
     $('#mylogintemplate6').modal('show');
+}
+
+function please_wait_custom(product, text_value){
+    if(product == 'airline'){
+        document.getElementById("text_value_waiting").innerHTML = text_value;
+    }
 }

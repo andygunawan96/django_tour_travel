@@ -4056,7 +4056,7 @@ function onchange_provider_insurance(){
             </div>
             <div class="col-lg-12 mb-2" style="padding:0px;">
                 <label class="check_box_custom">
-                    <span class="span-search-ticket" style="color:`+text_color+`;">Is Senior</span>
+                    <span class="span-search-ticket" style="color:`+text_color+`;">Is Senior (for Age 70+)</span>
                     <input type="checkbox" id="insurance_is_senior" name="insurance_is_senior" />
                     <span class="check_box_span_custom"></span>
                 </label>
@@ -4073,7 +4073,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-12" style="z-index:5; padding-left:0px; padding-right:0px;">
                         <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
                         </div>
                     </div>
                 </div>
@@ -4141,7 +4141,7 @@ function onchange_provider_insurance(){
             </div>
             <div class="col-lg-12 mb-2">
                 <label class="check_box_custom">
-                    <span class="span-search-ticket" style="color:`+text_color+`;">Is Senior</span>
+                    <span class="span-search-ticket" style="color:`+text_color+`;">Is Senior (for Age 70+)</span>
                     <input type="checkbox" id="insurance_is_senior" name="insurance_is_senior" />
                     <span class="check_box_span_custom"></span>
                 </label>
@@ -4158,7 +4158,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-12" style="z-index:5;">
                         <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
                         </div>
                     </div>
                 </div>
@@ -4220,7 +4220,7 @@ function onchange_provider_insurance(){
             </div>
             <div class="col-lg-12 mb-2">
                 <label class="check_box_custom">
-                    <span class="span-search-ticket" style="color:`+text_color+`;">Is Senior</span>
+                    <span class="span-search-ticket" style="color:`+text_color+`;">Is Senior (for Age 70+)</span>
                     <input type="checkbox" id="insurance_is_senior" name="insurance_is_senior" />
                     <span class="check_box_span_custom"></span>
                 </label>
@@ -4237,7 +4237,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-12" style="z-index:5;">
                         <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
                         </div>
                     </div>
                 </div>
@@ -4299,7 +4299,7 @@ function onchange_provider_insurance(){
             </div>
             <div class="col-lg-12 mb-2">
                 <label class="check_box_custom">
-                    <span class="span-search-ticket" style="color:`+text_color+`;">Is Senior</span>
+                    <span class="span-search-ticket" style="color:`+text_color+`;">Is Senior (for Age 70+)</span>
                     <input type="checkbox" id="insurance_is_senior" name="insurance_is_senior" />
                     <span class="check_box_span_custom"></span>
                 </label>
@@ -4317,7 +4317,7 @@ function onchange_provider_insurance(){
                         <span class="span-search-ticket">Destination</span>
                         <div class="input-container-search-ticket">
                             <i class="fas fa-map-marked-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
                         </div>
                     </div>
                 </div>
@@ -4381,7 +4381,7 @@ function onchange_provider_insurance(){
             </div>
             <div class="col-lg-12 mb-2">
                 <label class="check_box_custom">
-                    <span class="span-search-ticket" style="color:`+text_color+`;">Is Senior</span>
+                    <span class="span-search-ticket" style="color:`+text_color+`;">Is Senior (for Age 70+)</span>
                     <input type="checkbox" id="insurance_is_senior" name="insurance_is_senior" />
                     <span class="check_box_span_custom"></span>
                 </label>
@@ -4398,7 +4398,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-12" style="z-index:5;">
                         <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
                         </div>
                     </div>
                 </div>
@@ -4460,7 +4460,7 @@ function onchange_provider_insurance(){
             </div>
             <div class="col-lg-12 mb-2">
                 <label class="check_box_custom">
-                    <span class="span-search-ticket" style="color:`+text_color+`;">Is Senior</span>
+                    <span class="span-search-ticket" style="color:`+text_color+`;">Is Senior (for Age 70+)</span>
                     <input type="checkbox" id="insurance_is_senior" name="insurance_is_senior" />
                     <span class="check_box_span_custom"></span>
                 </label>
@@ -4477,7 +4477,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-12" style="z-index:5;">
                         <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
                         </div>
                     </div>
                 </div>
