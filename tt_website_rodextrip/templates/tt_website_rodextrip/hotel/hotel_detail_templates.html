@@ -1680,7 +1680,7 @@
         {% if response.lat != '' and response.long != '' %}
         var web_url = 'http://www.google.com/maps/place/';
         web_url += {{response.lat}} + ',' + {{response.long}};
-        window.open(web_url,'_blank');
+        openInNewTab(web_url);
         {% else %}
         Swal.fire({
             type: 'warning',

@@ -998,7 +998,7 @@ function sentra_medika_get_booking(order_number, sync=false){
                             if(msg.result.response.test_address_map_link){
                                 document.getElementById('div_sync_status').hidden = false;
                                 document.getElementById('div_sync_status').innerHTML =`
-                                    <button type="button" class="primary-btn-white" id="button-sync-status" style="width:100%;" onclick="window.open('`+msg.result.response.test_address_map_link.test_address_map_link+`','_blank');">
+                                    <button type="button" class="primary-btn-white" id="button-sync-status" style="width:100%;" onclick="openInNewTab('`+msg.result.response.test_address_map_link.test_address_map_link+`');">
                                         Map <i class="fas fa-map-marker-alt"></i>
                                     </button>`;
                             }
@@ -2327,7 +2327,7 @@ function sentra_medika_get_result(data){
                    })
                 }
                 for(i in msg.result.response)
-                    window.open(msg.result.response[i],'_blank');
+                    openInNewTab(msg.result.response[i]);
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
            }else{
@@ -2409,7 +2409,7 @@ function get_transaction_by_analyst(){
                             <td>`+test_time+`</td>
                             <td>`+msg.result.response[i][j].state_description+`</td>
                             <td>`+msg.result.response[i][j].test_address+`</td>
-                            <td><input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Map" onclick="window.open('http://maps.google.com/?q=`+map+`','_blank');"></td>
+                            <td><input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Map" onclick="openInNewTab('http://maps.google.com/?q=`+map+`');"></td>
                             <td><button type='button' class="primary-btn-custom" onclick="goto_detail_reservation('`+msg.result.response[i][j].order_number+`')"><i class="fas fa-search"></button></td>
                         <tr/>`;
                         document.getElementById("table_reservation").appendChild(node);

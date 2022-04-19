@@ -1176,7 +1176,7 @@ function medical_get_booking(order_number, sync=false){
                         if(msg.result.response.test_address_map_link){
                             document.getElementById('div_sync_status').hidden = false;
                             document.getElementById('div_sync_status').innerHTML =`
-                                <button type="button" class="primary-btn-white" id="button-sync-status" onclick="window.open('`+msg.result.response.test_address_map_link.test_address_map_link+`','_blank');">
+                                <button type="button" class="primary-btn-white" id="button-sync-status" onclick="openInNewTab('`+msg.result.response.test_address_map_link.test_address_map_link+`');">
                                     Map <i class="fas fa-map-marker-alt"></i>
                                 </button>`;
                         }
@@ -1451,12 +1451,12 @@ function medical_get_booking(order_number, sync=false){
                                                 <td>`+pax.phone_number+`</td>
                                                 <td>`+msg.result.response.provider_bookings[i].tickets[j].ticket_number+`</td>`;
                                 if(msg.result.response.passengers[j].label_url){
-                                    text+= `<td><button class="primary-btn-ticket" type="button" onclick="window.open('`+msg.result.response.passengers[j].label_url+`','_blank');"><i class="fas fa-external-link-alt"></i> </button></td>`;
+                                    text+= `<td><button class="primary-btn-ticket" type="button" onclick="openInNewTab('`+msg.result.response.passengers[j].label_url+`');"><i class="fas fa-external-link-alt"></i> </button></td>`;
                                 }else{
                                     text+= `<td>-</td>`;
                                 }
                                 if(msg.result.response.passengers[j].result_url){
-                                    text+= `<td><button class="primary-btn-ticket" type="button" onclick="window.open('`+msg.result.response.passengers[j].result_url+`','_blank');"><i class="fas fa-external-link-alt"></i> </button></td>`;
+                                    text+= `<td><button class="primary-btn-ticket" type="button" onclick="openInNewTab('`+msg.result.response.passengers[j].result_url+`');"><i class="fas fa-external-link-alt"></i> </button></td>`;
                                 }else{
                                     text+= `<td>-</td>`;
                                 }
@@ -2550,7 +2550,7 @@ function medical_get_result(data){
                 pax_count = 0;
                 for(i in msg.result.response){
                     if(msg.result.response[i] != ''){
-                        window.open(msg.result.response[i],'_blank');
+                        openInNewTab(msg.result.response[i]);
                         pax_count++;
                     }
                 }
@@ -2643,7 +2643,7 @@ function get_transaction_by_analyst(){
                             <td>`+test_time+`</td>
                             <td>`+msg.result.response[i][j].state_description+`</td>
                             <td>`+msg.result.response[i][j].test_address+`</td>
-                            <td><input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Map" onclick="window.open('http://maps.google.com/?q=`+map+`','_blank');"></td>
+                            <td><input type="button" class="primary-btn" id="button-sync-status" style="width:100%;" value="Map" onclick="openInNewTab('http://maps.google.com/?q=`+map+`');"></td>
                             <td><button type='button' class="primary-btn-custom" onclick="goto_detail_reservation('`+msg.result.response[i][j].order_number+`')"><i class="fas fa-search"></button></td>
                         <tr/>`;
                         document.getElementById("table_reservation").appendChild(node);

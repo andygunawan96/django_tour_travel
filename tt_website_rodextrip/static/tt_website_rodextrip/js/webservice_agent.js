@@ -6757,3 +6757,10 @@ function change_identity_type(id){
         console.log(err); // di html tidak ada id id_type
     }
 }
+
+function openInNewTab(href) {
+    Object.assign(document.createElement('a'), {
+        target: '_blank',
+        href: href,
+    }).click();
+}

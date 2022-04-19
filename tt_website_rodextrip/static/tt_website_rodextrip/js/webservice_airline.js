@@ -5807,6 +5807,12 @@ function airline_get_booking(data, sync=false){
                 col = 4;
                 is_reroute = false;
                 can_change_pax = false; //development pake true
+                check_ssr = 0;
+                check_seat = 0;
+                check_cancel = 0;
+                check_reschedule = 0;
+                check_ff = 0;
+                check_split = 0;
                 if(msg.result.response.state == 'issued' || msg.result.response.state == 'rescheduled' || msg.result.response.state == 'reissue'){
                    //baru
                    try{
