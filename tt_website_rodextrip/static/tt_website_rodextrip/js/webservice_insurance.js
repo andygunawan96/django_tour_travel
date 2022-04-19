@@ -543,10 +543,10 @@ function sort(data){
                                         <div class="col-lg-12 mt-2">`;
                                             if(insurance_data_filter[i][j].provider == 'zurich'){
                                                 text += `
-                                                <span style="float:left; margin-right:15px; font-size:14px;color:blue;font-weight:bold; cursor:pointer;" data-toggle="modal" data-target="#myModalCoverage"><u style="color:`+color+` !important">Coverage</u>  </span>`;
+                                                <span style="float:left; margin-right:15px; font-size:14px;color:blue;font-weight:bold; cursor:pointer;" data-toggle="modal" data-target="#myModalCoverage" onclick="update_coverage_data(`+j+`)"><u style="color:`+color+` !important">Coverage</u>  </span>`;
                                             }
                                         text+=`
-                                            <span style="float:left; font-size:14px;color:blue;font-weight:bold; cursor:pointer;" onclick="window.open('`+insurance_data_filter[i][j].pdf+`');"><u style="color:`+color+` !important">Benefit</u>  </span>
+                                            <span style="float:left; font-size:14px;color:blue;font-weight:bold; cursor:pointer;" onclick="openInNewTab('`+insurance_data_filter[i][j].pdf+`');"><u style="color:`+color+` !important">Benefit</u>  </span>
                                             <span style="float:right;font-size:10px;">`+i+`</button>
                                         </div>
                                     </div>
@@ -585,12 +585,14 @@ function sort(data){
                     },
                     content: insurance_data_filter[i][j].info,
                 });
-            }else if(insurance_data_filter[i][j].provider == 'zurich'){
-                document.getElementById('coverage_zurich').innerHTML = insurance_data_filter[i][j].info;
             }
             sequence++;
         }
     }
+}
+
+function update_coverage_data(val){
+    document.getElementById('coverage_zurich').innerHTML = insurance_data_filter['zurich'][val].info;
 }
 
 
@@ -2204,14 +2206,7 @@ function insurance_get_booking(data, sync=false){
                             <h5>Your booking has been successfully Issued!</h5>
                         </div>`;
 
-                        //check permission klo ada button di update
-                        if(msg.result.response.test_address_map_link){
-                            document.getElementById('div_sync_status').hidden = false;
-                            document.getElementById('div_sync_status').innerHTML =`
-                                <button type="button" class="primary-btn-white" id="button-sync-status" style="width:100%;" onclick="window.open('`+msg.result.response.test_address_map_link.test_address_map_link+`','_blank');">
-                                    Map <i class="fas fa-map-marker-alt"></i>
-                                </button>`;
-                        }
+
                         //document.getElementById('display_prices').style.display = "none";
                         $text += 'Status: Issued\n';
                     }

@@ -1227,11 +1227,6 @@ function train_get_booking(data){
                                 }
                             }
                             else if(msg.result.response.state == 'issued'){
-    //                            text+=`
-    //                            <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-    //                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Print Invoice" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.train/`+msg.result.response.order_number+`/4','_blank');"/>
-    //                                <div class="ld ld-ring ld-cycle"></div>
-    //                            </a>`;
                                 text+=`
                                 <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
                                     <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
