@@ -140,7 +140,7 @@
                             <div class="col-xs-12 mb-3">
                                 <button class="primary-btn-ticket" type="button" onclick="add_table_of_passenger('open');"><i class="fas fa-plus"></i> Add</button>
                                 <!--<button class="primary-btn-ticket" type="button" onclick="delete_table_of_passenger();"><i class="fas fa-trash-alt"></i> Delete</button>-->
-                                <button class="primary-btn-ticket" type="button" onclick="window.open('{{ static_path }}js/xlsx/import_groupbooking_template.xlsx')"><i class="fas fa-file-download"></i> Download Format</button>
+                                <button class="primary-btn-ticket" type="button" onclick="openInNewTab('{{ static_path }}js/xlsx/import_groupbooking_template.xlsx')"><i class="fas fa-file-download"></i> Download Format</button>
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <input class="primary-btn-white mt-2" id="fileUpload" style="width:300px; line-height:36px;" type="file" accept=".xlsx">

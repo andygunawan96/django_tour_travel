@@ -2080,9 +2080,6 @@ function tour_get_booking(order_number)
                        text += `</div>
                                 <div class="col-lg-4" style="padding-bottom:10px;">`;
                        if(book_obj.state == 'issued'){
-        //                    text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.tour/`+book_obj.order_number+`/4')" style="width:100%;">
-        //                                Print Invoice
-        //                             </button>`;
                             text+=`
                                 <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
                                     <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>

@@ -1,5 +1,5 @@
 {% if wa_chat == 1 %}
-<button type="button" style="background-color:#43d62b;" id="mystickywhatsapp" class="mystickywhatsapp" class="primary-btn" data-toggle="modal" onclick="window.open(`https://wa.me/{{wa_number}}`,'_blank');">
+<button type="button" style="background-color:#43d62b;" id="mystickywhatsapp" class="mystickywhatsapp" class="primary-btn" data-toggle="modal" onclick="openInNewTab(`https://wa.me/{{wa_number}}`);">
     <i class="fab fa-whatsapp" style="font-size:32px;"></i>
 </button>
 <script>
