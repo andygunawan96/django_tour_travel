@@ -704,7 +704,7 @@ function update_table(type){
 function show_commission(){
     if(document.getElementById('show_commission').style.display == 'none'){
         document.getElementById('show_commission').style.display = 'block';
-        document.getElementById('show_commission_button').value = 'Hide PYM';
+        document.getElementById('show_commission_button').value = 'Hide YPM';
     }else{
         document.getElementById('show_commission').style.display = 'none';
         document.getElementById('show_commission_button').value = 'Show PYM';
