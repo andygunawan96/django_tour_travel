@@ -2415,55 +2415,58 @@ function insurance_get_booking(data, sync=false){
                                         break;
                                     }
                                 }
-                                text+=`
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <h5>`+(parseInt(j)+1)+`.
-                                        `+pax.title+` `+pax.name;
-                                            if(pax.verify)
-                                                text += '<i class="fas fa-check-square" style="color:blue"></i>'
-                                        text+=`
-                                        </h5>
-                                        No Polis: <b>`+msg.result.response.provider_bookings[i].tickets[j].ticket_number+`</b><br/>
-                                        Email: <b>`+pax.email+`</b><br/>
-                                        Phone Number: <b>`+pax.phone_number+`</b>
-                                    </div>
-
-                                    <div class="col-lg-12">`;
-                                    if(pax.insurance_data.hasOwnProperty('addons')){
-                                        if(pax.insurance_data.addons.length != 0){
-                                            text+=`<br/><h6>Additional Benefit</h6><br/>
-                                            <table style="width:100%;" id="list-of-passengers" class="list-of-passenger-class">
-                                                <tr>
-                                                    <th style="width:5%;" class="list-of-passenger-left">No</th>
-                                                    <th style="width:45%;">Additional Benefit</th>
-                                                    <th style="width:25%;">Price</th>
-                                                </tr>`;
-                                                for(k in pax.insurance_data.addons){
-                                                    text+=`
-                                                    <tr>
-                                                        <td>`+(parseInt(k)+1)+`</td>
-                                                        <td>
-                                                            `+pax.insurance_data.addons[k].text_with_tag+`
-                                                        </td>
-                                                        <td>`+pax.insurance_data.addons[k].currency+` `+getrupiah(pax.insurance_data.addons[k].price)+`</td>
-                                                    </tr>`;
-                                                }
-                                            text+=`</table>`;
-                                        }else{
+                                if(Object.keys(pax).length > 0){ // prevent data error ticket kelebihan
+                                    text+=`
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h5>`+(parseInt(j)+1)+`.
+                                            `+pax.title+` `+pax.name;
+                                                if(pax.verify)
+                                                    text += '<i class="fas fa-check-square" style="color:blue"></i>'
                                             text+=`
-                                                <br/>
-                                                <b>Additional Benefit</b><br/>
-                                                <i>Not Selected</i>`;
-                                        }
-                                    }
+                                            </h5>
+                                            No Polis: <b>`+msg.result.response.provider_bookings[i].tickets[j].ticket_number+`</b><br/>
+                                            Email: <b>`+pax.email+`</b><br/>
+                                            Phone Number: <b>`+pax.phone_number+`</b>
+                                        </div>
 
-                                    if(j != msg.result.response.provider_bookings[i].tickets.length -1){
-                                        text+=`<hr/>`;
-                                    }
-                                text+=`
-                                    </div>
-                                </div>`;
+                                        <div class="col-lg-12">`;
+                                        console.log(pax);
+                                        if(pax.insurance_data.hasOwnProperty('addons')){
+                                            if(pax.insurance_data.addons.length != 0){
+                                                text+=`<br/><h6>Additional Benefit</h6><br/>
+                                                <table style="width:100%;" id="list-of-passengers" class="list-of-passenger-class">
+                                                    <tr>
+                                                        <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                                        <th style="width:45%;">Additional Benefit</th>
+                                                        <th style="width:25%;">Price</th>
+                                                    </tr>`;
+                                                    for(k in pax.insurance_data.addons){
+                                                        text+=`
+                                                        <tr>
+                                                            <td>`+(parseInt(k)+1)+`</td>
+                                                            <td>
+                                                                `+pax.insurance_data.addons[k].text_with_tag+`
+                                                            </td>
+                                                            <td>`+pax.insurance_data.addons[k].currency+` `+getrupiah(pax.insurance_data.addons[k].price)+`</td>
+                                                        </tr>`;
+                                                    }
+                                                text+=`</table>`;
+                                            }else{
+                                                text+=`
+                                                    <br/>
+                                                    <b>Additional Benefit</b><br/>
+                                                    <i>Not Selected</i>`;
+                                            }
+                                        }
+
+                                        if(j != msg.result.response.provider_bookings[i].tickets.length -1){
+                                            text+=`<hr/>`;
+                                        }
+                                    text+=`
+                                        </div>
+                                    </div>`;
+                                }
                             }
                             text+=`</div>`;
                         }
@@ -2701,12 +2704,12 @@ function insurance_get_booking(data, sync=false){
                     </div>`;
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
                         text_detail+=`
-                        <div class="row" id="show_commission" style="display:none;">
+                        <div class="row" id="show_commission" style="display:block;">
                             <div class="col-lg-12 col-xs-12" style="text-align:center;">
                                 <div class="alert alert-success">
                                     <div class="row">
                                         <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                            <span style="font-size:13px; font-weight:bold;">Commission</span>
+                                            <span style="font-size:13px; font-weight:bold;">YPM</span>
                                         </div>
                                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                             <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span>
@@ -2771,7 +2774,7 @@ function insurance_get_booking(data, sync=false){
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text_detail+=`
                     <div>
-                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Hide Commission"/>
                     </div>`;
 
                     text_detail+=`

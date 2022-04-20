@@ -1173,9 +1173,23 @@ function get_customer_list(passenger, number, product){
         var minAge = '';
         var maxAge = '';
         if(passenger == 'booker')
+        {
             name = document.getElementById('train_booker_search').value;
+            search_type = 'cust_name';
+            if(document.getElementById('train_booker_search_type'))
+            {
+                search_type = document.getElementById('train_booker_search_type').value;
+            }
+        }
         else
+        {
             name = document.getElementById('train_contact_search').value;
+            search_type = 'cust_name';
+            if(document.getElementById('train_contact_search_type'))
+            {
+                search_type = document.getElementById('train_contact_search_type').value;
+            }
+        }
 
         try{
             minAge = document.getElementById('booker_min_age').value;
@@ -1192,6 +1206,7 @@ function get_customer_list(passenger, number, product){
                     'action': 'get_customer_list',
                },
                data: {
+                    'search_type': search_type,
                     'name': name,
                     'product': product,
                     'passenger_type': passenger,
@@ -1493,9 +1508,23 @@ function get_customer_list(passenger, number, product){
         $(".loading-pax-train").show();
         var name = '';
         if(passenger == 'passenger')
+        {
             name = document.getElementById('train_passenger_search').value;
+            search_type = 'cust_name';
+            if(document.getElementById('train_passenger_search_type'))
+            {
+                search_type = document.getElementById('train_passenger_search_type').value;
+            }
+        }
         else
+        {
             name = document.getElementById('train_'+passenger+number+'_search').value;
+            search_type = 'cust_name';
+            if(document.getElementById('train_'+passenger+number+'_search_type'))
+            {
+                search_type = document.getElementById('train_'+passenger+number+'_search_type').value;
+            }
+        }
         var minAge = '';
         var maxAge = '';
         try{
@@ -1517,6 +1546,7 @@ function get_customer_list(passenger, number, product){
                     'action': 'get_customer_list',
                },
                data: {
+                    'search_type': search_type,
                     'name': name,
                     'product': product,
                     'passenger_type': passenger,
@@ -1894,6 +1924,10 @@ function pick_passenger_copy(type, sequence, product, identity=''){
 //        document.getElementById('button_choose_'+sequence).innerHTML = 'Chosen';
         document.getElementById('search_result_passenger').innerHTML = '';
         document.getElementById('train_passenger_search').value = '';
+        if(document.getElementById('train_passenger_search_type'))
+        {
+            document.getElementById('train_passenger_search_type').value = 'cust_name';
+        }
     }else if(product == 'get_booking_vendor'){
         hide_result_booker_vendor();
         document.getElementById('hide_btn_click').hidden = true;
@@ -2226,6 +2260,10 @@ function pick_passenger_copy(type, sequence, product, identity=''){
             check = 0;
             if(check == 0){
                 document.getElementById('train_booker_search').value = '';
+                if(document.getElementById('train_booker_search_type'))
+                {
+                    document.getElementById('train_booker_search_type').value = 'cust_name';
+                }
                 try{
                     if(document.getElementsByName('myRadios')[0].checked == true){
                         clear_passenger('Adult',1);

@@ -641,12 +641,12 @@ function update_table(type){
             text+=`<div style="text-align:right; cursor:pointer; padding-bottom:10px;" onclick="show_repricing();"><i class="image-rounded-icon"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:30px; height:30px;" alt="Bank"/></i></div>`;
         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         text+=`
-        <div class="row" id="show_commission" style="display: `+display+`;">
+        <div class="row" id="show_commission" style="display: block;">
             <div class="col-lg-12" style="text-align:center;">
                 <div class="alert alert-success">
                     <div class="row">
                         <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                            <span style="font-size:13px; font-weight:bold;">Commission</span>
+                            <span style="font-size:13px; font-weight:bold;">YPM</span>
                         </div>
                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
                             <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(parseInt(commission))+`</span>
@@ -691,7 +691,7 @@ function update_table(type){
         text+=`
         <div class="row" style="margin-top:10px; text-align:center;">
            <div class="col-lg-12" style="padding-bottom:10px;">
-                <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
+                <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide Commission"><br>
            </div>
         </div>
         `;
