@@ -3631,7 +3631,7 @@ function render_price_in_get_price(text, $text, $text_share){
                         <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[price_counter].INF.fare * airline_request.infant))+`</span>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                        <span style="font-size:13px; font-weight:500;">Service Charge</span>
+                        <span style="font-size:13px; font-weight:500;">Tax</span>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                         <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.infant))+`</span>
