@@ -2359,12 +2359,12 @@ function tour_get_booking(order_number)
                      </div>`;
                      if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
                         price_text+=`
-                         <div class="row" id="show_commission" style="display:none;">
+                         <div class="row" id="show_commission" style="display:block;">
                             <div class="col-lg-12 col-xs-12" style="text-align:center;">
                                 <div class="alert alert-success">
                                     <div class="row">
                                         <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                            <span style="font-size:13px; font-weight:bold;">Commission</span>
+                                            <span style="font-size:13px; font-weight:bold;">YPM</span>
                                         </div>
                                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                             <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span>
@@ -2410,7 +2410,7 @@ function tour_get_booking(order_number)
                          price_text+=`
                          <div class="row" style="margin-top:10px; text-align:center;">
                            <div class="col-xs-12" style="padding-bottom:10px;">
-                                <input type="button" class="primary-btn-white" id="show_commission_button" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
+                                <input type="button" class="primary-btn-white" id="show_commission_button" value="Hide Commission" style="width:100%;" onclick="show_commission();"/>
                            </div>
                          </div>`;
                     $test+= '\n‣ Grand Total: IDR '+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';
