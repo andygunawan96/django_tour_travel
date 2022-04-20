@@ -117,6 +117,14 @@
                                                         <div class="row">
                                                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
                                                                 <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                <div class="form-select">
+                                                                    <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                       <option value="cust_name">By Customer Name</option>
+                                                                       <option value="cor_name">By Corporate Name</option>
+                                                                    </select>
+                                                                </div>
+                                                                {% endif %}
                                                                 <input type="hidden" id="booker_min_age" value="{{booker_min_age}}"/>
                                                                 <input type="hidden" id="booker_max_age" value="{{booker_max_age}}"/>
                                                             </div>
@@ -1459,6 +1467,14 @@
                                                         <div class="row">
                                                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
                                                                 <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                <div class="form-select">
+                                                                    <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                       <option value="cust_name">By Customer Name</option>
+                                                                       <option value="cor_name">By Corporate Name</option>
+                                                                    </select>
+                                                                </div>
+                                                                {% endif %}
                                                                 <input type="hidden" id="booker_min_age" value="{{booker_min_age}}"/>
                                                                 <input type="hidden" id="booker_max_age" value="{{booker_max_age}}"/>
                                                             </div>
@@ -2802,6 +2818,14 @@
                                                         <div class="row">
                                                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
                                                                 <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                <div class="form-select">
+                                                                    <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                       <option value="cust_name">By Customer Name</option>
+                                                                       <option value="cor_name">By Corporate Name</option>
+                                                                    </select>
+                                                                </div>
+                                                                {% endif %}
                                                                 <input type="hidden" id="booker_min_age" value="{{booker_min_age}}"/>
                                                                 <input type="hidden" id="booker_max_age" value="{{booker_max_age}}"/>
                                                             </div>
@@ -4143,6 +4167,14 @@
                                                     <div class="row">
                                                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
                                                             <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                            {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                            <div class="form-select">
+                                                                <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                   <option value="cust_name">By Customer Name</option>
+                                                                   <option value="cor_name">By Corporate Name</option>
+                                                                </select>
+                                                            </div>
+                                                            {% endif %}
                                                             <input type="hidden" id="booker_min_age" value="{{booker_min_age}}"/>
                                                             <input type="hidden" id="booker_max_age" value="{{booker_max_age}}"/>
                                                         </div>
@@ -5484,6 +5516,14 @@
                                                         <div class="row">
                                                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
                                                                 <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                <div class="form-select">
+                                                                    <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                       <option value="cust_name">By Customer Name</option>
+                                                                       <option value="cor_name">By Corporate Name</option>
+                                                                    </select>
+                                                                </div>
+                                                                {% endif %}
                                                                 <input type="hidden" id="booker_min_age" value="{{booker_min_age}}"/>
                                                                 <input type="hidden" id="booker_max_age" value="{{booker_max_age}}"/>
                                                             </div>
@@ -6826,6 +6866,14 @@
                                                         <div class="row">
                                                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
                                                                 <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                <div class="form-select">
+                                                                    <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                       <option value="cust_name">By Customer Name</option>
+                                                                       <option value="cor_name">By Corporate Name</option>
+                                                                    </select>
+                                                                </div>
+                                                                {% endif %}
                                                                 <input type="hidden" id="booker_min_age" value="{{booker_min_age}}"/>
                                                                 <input type="hidden" id="booker_max_age" value="{{booker_max_age}}"/>
                                                             </div>

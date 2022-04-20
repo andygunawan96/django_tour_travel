@@ -119,6 +119,14 @@
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Booker' %}</label>
                                         <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                        {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                        <div class="form-select">
+                                            <select id="train_booker_search_type" name="train_booker_search_type">
+                                               <option value="cust_name">By Customer Name</option>
+                                               <option value="cor_name">By Corporate Name</option>
+                                            </select>
+                                        </div>
+                                        {% endif %}
                                     </div>
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                         <button type="button" class="primary-btn" id="search_btn_click" onclick="search_btn_booker_get_booking_from_vendor();get_customer_list('booker','','get_booking_vendor');">{% trans 'Search' %}</button>
@@ -204,6 +212,14 @@
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Booker' %}</label>
                                         <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                        {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                        <div class="form-select">
+                                            <select id="train_booker_search_type" name="train_booker_search_type">
+                                               <option value="cust_name">By Customer Name</option>
+                                               <option value="cor_name">By Corporate Name</option>
+                                            </select>
+                                        </div>
+                                        {% endif %}
                                     </div>
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 mb-2">
                                         <button type="button" class="primary-btn" id="search_btn_click" onclick="search_btn_booker_get_booking_from_vendor();get_customer_list('booker','','get_booking_vendor');">{% trans 'Search' %}</button>
@@ -286,6 +302,14 @@
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Booker' %}</label>
                                         <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                        {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                        <div class="form-select">
+                                            <select id="train_booker_search_type" name="train_booker_search_type">
+                                               <option value="cust_name">By Customer Name</option>
+                                               <option value="cor_name">By Corporate Name</option>
+                                            </select>
+                                        </div>
+                                        {% endif %}
                                     </div>
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 mt-2">
                                         <button type="button" class="primary-btn" id="search_btn_click" onclick="search_btn_booker_get_booking_from_vendor();get_customer_list('booker','','get_booking_vendor');">{% trans 'Search' %}</button>
@@ -372,6 +396,14 @@
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Booker' %}</label>
                                         <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                        {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                        <div class="form-select">
+                                            <select id="train_booker_search_type" name="train_booker_search_type">
+                                               <option value="cust_name">By Customer Name</option>
+                                               <option value="cor_name">By Corporate Name</option>
+                                            </select>
+                                        </div>
+                                        {% endif %}
                                     </div>
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                         <button type="button" class="primary-btn" id="search_btn_click" onclick="search_btn_booker_get_booking_from_vendor();get_customer_list('booker','','get_booking_vendor');">{% trans 'Search' %}</button>
@@ -458,6 +490,14 @@
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Booker' %}</label>
                                         <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                        {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                        <div class="form-select">
+                                            <select id="train_booker_search_type" name="train_booker_search_type">
+                                               <option value="cust_name">By Customer Name</option>
+                                               <option value="cor_name">By Corporate Name</option>
+                                            </select>
+                                        </div>
+                                        {% endif %}
                                     </div>
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                         <button type="button" class="primary-btn" id="search_btn_click" onclick="search_btn_booker_get_booking_from_vendor();get_customer_list('booker','','get_booking_vendor');">{% trans 'Search' %}</button>
