@@ -868,7 +868,7 @@ def assign_seats(request):
                             "cabin_code": seat['wagon'],
                             "seat_row": int(seat['seat']),
                             "seat_column": seat['column'],
-                            "passenger_sequence": idx + 1
+                            "passenger_sequence": pax['sequence']
                         })
                         journeys.append({
                             "sequence": 1,
