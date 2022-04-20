@@ -1,5 +1,5 @@
 printout_state = 0;
-function get_printout(order_number,type,provider_type, timeout=60){
+function get_printout(order_number,mode,provider_type,type='',reschedule_number='',timeout=60){
     //type ticket, ticket_price, invoice, itinerary, voucher, visa_handling,
     if(printout_state == 0){
         printout_state = 1;
@@ -28,19 +28,25 @@ function get_printout(order_number,type,provider_type, timeout=60){
             console.log(err); // error kalau ada element yg tidak ada
         }
 
-        if(type == 'ticket'){
+        if(mode == 'ticket'){
             $('#button-choose-print').prop('disabled', true);
             $('#button-choose-print').addClass("running");
-        }else if(type == 'itinerary' || type == 'ticket_price'){
+        }else if(mode == 'itinerary' || mode == 'ticket_price'){
             $('#button-print-print').prop('disabled', true);
             $('#button-print-print').addClass("running");
-        }else if(type == 'ticket_original'){
+        }else if(mode == 'ticket_original'){
             $('#button-print-ori').prop('disabled', true);
             $('#button-print-ori').addClass("running");
-        }else if(type == 'invoice'){
+        }else if(mode == 'invoice' && type == 'reschedule'){
+            $('#button-print-reschedule-invoice').prop('disabled', true);
+            $('#button-issued-reschedule-invoice').addClass("running");
+        }else if(type == 'reschedule'){
+            $('#button-issued-reschedule').prop('disabled', true);
+            $('#button-issued-reschedule').addClass("running");
+        }else if(mode == 'invoice'){
             $('#button-issued-print').prop('disabled', true);
             $('#button-issued-print').addClass("running");
-        }else if(type == 'passport_cust' || type == 'visa_cust'){
+        }else if(mode == 'passport_cust' || mode == 'visa_cust'){
             $('#button-print-handling').prop('disabled', true);
             $('#button-print-handling').addClass("running");
         }
@@ -53,14 +59,16 @@ function get_printout(order_number,type,provider_type, timeout=60){
            },
            data: {
                 'order_number': order_number,
-                'mode': type,
+                'mode': mode,
                 'provider_type': provider_type,
                 'bill_name_to': bill_name_to,
                 'bill_address': bill_address,
                 'additional_information': additional_information,
                 'signature': signature,
                 'timeout': timeout,
-                'kwitansi_name': kwitansi_name
+                'kwitansi_name': kwitansi_name,
+                'type': type,
+                'reschedule_number': reschedule_number
            },
            success: function(msg) {
                 if(msg.result.error_code == 0){
@@ -76,39 +84,51 @@ function get_printout(order_number,type,provider_type, timeout=60){
                     })
                 }
                 printout_state = 0;
-                if(type == 'ticket'){
+                if(mode == 'ticket'){
                     $('#button-choose-print').prop('disabled', false);
                     $('#button-choose-print').removeClass("running");
-                }else if(type == 'itinerary' || type == 'ticket_price'){
+                }else if(type == 'reschedule' && mode == 'invoice'){
+                    $('#button-issued-reschedule-invoice').prop('disabled', false);
+                    $('#button-issued-reschedule-invoice').removeClass("running");
+                }else if(type == 'reschedule'){
+                    $('#button-issued-reschedule').prop('disabled', false);
+                    $('#button-issued-reschedule').removeClass("running");
+                }else if(mode == 'itinerary' || mode == 'ticket_price'){
                     $('#button-print-print').prop('disabled', false);
                     $('#button-print-print').removeClass("running");
-                }else if(type == 'ticket_original'){
+                }else if(mode == 'ticket_original'){
                     $('#button-print-ori').prop('disabled', false);
                     $('#button-print-ori').removeClass("running");
-                }else if(type == 'passport_cust' || type == 'visa_cust'){
+                }else if(mode == 'passport_cust' || mode == 'visa_cust'){
                     $('#button-print-handling').prop('disabled', false);
                     $('#button-print-handling').removeClass("running");
-                }else if(type == 'invoice'){
+                }else if(mode == 'invoice'){
                     $('#button-issued-print').prop('disabled', false);
                     $('#button-issued-print').removeClass("running");
                 }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error printout');
-
-                if(type == 'ticket'){
+                printout_state = 0;
+                if(mode == 'ticket'){
                     $('#button-choose-print').prop('disabled', false);
                     $('#button-choose-print').removeClass("running");
-                }else if(type == 'itinerary' || type == 'ticket_price'){
+                }else if(type == 'reschedule' && mode == 'invoice'){
+                    $('#button-issued-reschedule-invoice').prop('disabled', false);
+                    $('#button-issued-reschedule-invoice').removeClass("running");
+                }else if(type == 'reschedule'){
+                    $('#button-issued-reschedule').prop('disabled', false);
+                    $('#button-issued-reschedule').removeClass("running");
+                }else if(mode == 'itinerary' || mode == 'ticket_price'){
                     $('#button-print-print').prop('disabled', false);
                     $('#button-print-print').removeClass("running");
-                }else if(type == 'ticket_original'){
+                }else if(mode == 'ticket_original'){
                     $('#button-print-ori').prop('disabled', false);
                     $('#button-print-ori').removeClass("running");
-                }else if(type == 'passport_cust' || type == 'visa_cust'){
+                }else if(mode == 'passport_cust' || mode == 'visa_cust'){
                     $('#button-print-handling').prop('disabled', false);
                     $('#button-print-handling').removeClass("running");
-                }else if(type == 'invoice'){
+                }else if(mode == 'invoice'){
                     $('#button-issued-print').prop('disabled', false);
                     $('#button-issued-print').removeClass("running");
                 }
