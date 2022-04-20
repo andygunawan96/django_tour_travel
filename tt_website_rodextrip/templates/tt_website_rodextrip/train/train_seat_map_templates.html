@@ -25,7 +25,8 @@
             name: `{{passenger.name}}`,
             seat: [],
             seat_pick: [],
-            behaviors: {}
+            behaviors: {},
+            sequence: {{passenger.sequence}}
         })
         {% for seat in passenger.seat_list%}
             pax[pax.length-1].seat.push({
