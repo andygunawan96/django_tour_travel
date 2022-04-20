@@ -1677,12 +1677,12 @@ function medical_global_get_booking(order_number, sync=false){
                         </div>`;
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && window.location.pathname.includes('confirm_order') == false){
                             text_detail+=`
-                            <div class="row" id="show_commission" style="display:none;">
+                            <div class="row" id="show_commission" style="display:block;">
                                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
                                     <div class="alert alert-success">
                                         <div class="row">
                                             <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                                <span style="font-size:13px; font-weight:bold;">Commission</span>
+                                                <span style="font-size:13px; font-weight:bold;">YPM</span>
                                             </div>
                                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                                 <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span>
@@ -1747,7 +1747,7 @@ function medical_global_get_booking(order_number, sync=false){
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && window.location.pathname.includes('confirm_order') == false)
                         text_detail+=`
                         <div>
-                            <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
+                            <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Hide Commission"/>
                         </div>`;
                         if(window.location.pathname.includes('confirm_order') == false){
                         text_detail+=`
