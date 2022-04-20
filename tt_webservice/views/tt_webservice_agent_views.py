@@ -1112,6 +1112,7 @@ def get_automatic_booker(request):
         passenger = 'book'
 
         data = {
+            'search_type': 'cust_name',
             'name': '',
             'upper': upper,
             'lower': lower,
@@ -1224,6 +1225,7 @@ def get_customer_list(request):
                 lower = 0
 
         data = {
+            'search_type': request.POST.get('search_type', 'cust_name'),
             'name': request.POST['name'],
             'upper': upper,
             'lower': lower,
@@ -1318,6 +1320,7 @@ def update_customer_list(request):
         #check jos
         passenger = 'psg'
         data = {
+            'search_type': 'cust_name',
             'name': '',
             'upper': upper,
             'lower': lower,
