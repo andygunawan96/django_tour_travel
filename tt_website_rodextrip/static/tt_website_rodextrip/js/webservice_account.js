@@ -1,5 +1,5 @@
 offset_transaction = 0;
-
+page_transaction_history_ledger = 1
 function signin_rodextrip(type){
     $.ajax({
        type: "POST",
@@ -16,6 +16,8 @@ function signin_rodextrip(type){
                 get_transactions('reset');
             }else if(type == 'top_up_history'){
                 get_top_up();
+            }else if(type == 'history_transaction'){
+                get_transaction_history_ledger('','false');
             }else if(type == 'registration'){
                 agent_register_get_config();
                 get_promotions();
@@ -427,6 +429,87 @@ function get_transactions_notification(val){
     }else{
 
     }
+}
+
+function get_transaction_history_ledger(type,use_cache){
+    if(type == 'reset'){
+        page_transaction_history_ledger = 1;
+        document.getElementById('body_table_reservation').innerHTML = '';
+        $('#loading-search-reservation').show();
+    }
+    limit_transaction = 100;
+    load_more = false;
+    document.getElementById('button').disabled = true;
+    if(document.getElementById('start_date'))
+        start_date = moment(document.getElementById('start_date').value).format('YYYY-MM-DD');
+    if(document.getElementById('end_date'))
+        end_date = moment(document.getElementById('end_date').value).format('YYYY-MM-DD');
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'get_history_transaction_ledger',
+       },
+       data: {
+            'page': page_transaction_history_ledger,
+            'limit': limit_transaction,
+            'using_cache': use_cache,
+            'start_date': start_date,
+            'end_date': end_date,
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            text = '';
+            if(msg.result.error_code == 0){
+                for(i in msg.result.response){
+                text += '<tr>';
+                text += `<td>`;
+                if(msg.result.response[i].name)
+                    text += msg.result.response[i].name + '<br/>';
+                if(msg.result.response[i].pnr)
+                    text += "PNR: "+msg.result.response[i].pnr + '<br/>';
+                if(msg.result.response[i].name.includes(msg.result.response[i].ref) == false)
+                    text += "Reference: "+msg.result.response[i].ref + '<br/>';
+                if(msg.result.response[i].info)
+                    text += "Info: "+msg.result.response[i].info + '<br/>';
+                if(msg.result.response[i].date)
+                    text += "Date: "+moment(msg.result.response[i].date).format('DD MMM YYYY') + '<br/>';
+                text += `<td>`;
+                if(msg.result.response[i].currency && msg.result.response[i].debit > 0){
+                    text += `<span style="color:green">`;
+                    text += msg.result.response[i].currency+' ';
+                    text += '+'+getrupiah(msg.result.response[i].debit);
+                    text += `</span>`;
+                }
+                if(msg.result.response[i].currency && msg.result.response[i].credit > 0){
+                    text += `<span style="color:red">`;
+                    text += msg.result.response[i].currency+' ';
+                    text += '-'+getrupiah(msg.result.response[i].credit);
+                    text += `</span>`;
+                }
+                text+=`</td>`;
+                text += '</tr>';
+            }
+                if(msg.result.response.length == 0)
+                    document.getElementById('reservation_found').style.display = 'block';
+                else
+                    document.getElementById('reservation_found').style.display = 'none';
+            }else{
+                document.getElementById('reservation_found').style.display = 'block';
+            }
+            document.getElementById('body_table_reservation').innerHTML += text;
+            $('#loading-search-reservation').hide();
+            page_transaction_history_ledger++;
+            document.getElementById('button').disabled = false;
+            if(msg.result.response.length ==limit_transaction)
+                load_more = true;
+
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error transaction history ledger');
+       },timeout: 60000
+    });
 }
 
 function get_transactions(type){
