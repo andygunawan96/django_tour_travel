@@ -775,7 +775,7 @@ function add_table_of_line(type){
                     </div>
                 </div>
                 <div class="col-lg-12">
-                    <span>Description</span><br/>
+                    <span><label style="color:red">*</label>Description</span><br/>
                     <textarea style="height:100px;" id='hotel_description`+counter_line+`' class="form-control" name='hotel_description`+counter_line+`'></textarea>
                 </div>
             </div>
@@ -851,7 +851,7 @@ function add_table_of_line(type){
                     </div>
                 </div>
                 <div class="col-lg-8">
-                    <span>Description</span><br/>
+                    <span><label style="color:red">*</label>Description</span><br/>
                     <textarea style="height:100px;" id='activity_description`+counter_line+`' class="form-control" name='activity_description`+counter_line+`'></textarea>
                 </div>
             </div>
@@ -891,7 +891,7 @@ function add_table_of_line(type){
                     </div>
                 </div>
                 <div class="col-lg-12 col-md-12" style="text-align:left;">
-                    <span>Description</span><br/>
+                    <span><label style="color:red">*</label>Description</span><br/>
                     <textarea id="other_description`+counter_line+`" name="description" rows="6" cols="80" style="resize:none; width:100%; margin-bottom:15px;" class="form-control" placeholder="Leave any notes here"></textarea>
                 </div>
 
