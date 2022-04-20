@@ -897,6 +897,28 @@ def setting_footer_printout(request):
     else:
         return no_session_logout(request)
 
+def history_transaction_ledger(request):
+    if 'user_account' in request.session._session and request.session['user_account']['co_user_login'] != 'agent_b2c':
+        try:
+            javascript_version = get_javascript_version()
+            values = get_data_template(request)
+            if translation.LANGUAGE_SESSION_KEY in request.session:
+                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+            values.update({
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+                'username': request.session['user_account'],
+                'static_path_url_server': get_url_static_path(),
+                'javascript_version': javascript_version,
+                'signature': request.session['signature'],
+            })
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
+        return render(request, MODEL_NAME+'/backend/history_transaction_templates.html', values)
+    else:
+        return no_session_logout(request)
+
 def reservation(request):
     if 'user_account' in request.session._session and request.session['user_account']['co_user_login'] != 'agent_b2c':
         try:

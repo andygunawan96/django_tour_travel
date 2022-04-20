@@ -50,16 +50,22 @@ class time_class:
         self.get_time_balance_first_time = True
         self.get_time_transaction = name
         self.get_time_transaction_first_time = True
+        self.get_time_transaction_ledger = name
+        self.get_time_transaction_ledger_first_time = True
     def set_new_time_out(self, val):
         if val == 'balance':
             self.get_time_balance = datetime.now()
         elif val == 'transaction':
             self.get_time_transaction = datetime.now()
+        elif val == 'transaction_ledger':
+            self.get_time_transaction_ledger = datetime.now()
     def set_first_time(self,val):
         if val == 'balance':
             self.get_time_balance_first_time = False
         elif val == 'transaction':
             self.get_time_transaction_first_time = False
+        elif val == 'transaction_ledger':
+            self.get_time_transaction_ledger_first_time = False
 
 time_check = time_class(datetime.now())
 
@@ -77,6 +83,8 @@ def api_models(request):
             res = get_account(request)
         elif req_data['action'] == 'get_transactions':
             res = get_transactions(request)
+        elif req_data['action'] == 'get_history_transaction_ledger':
+            res = get_history_transaction_ledger(request)
         elif req_data['action'] == 'get_version':
             res = get_version(request)
         elif req_data['action'] == 'get_top_up_amount':
@@ -472,6 +480,67 @@ def get_transactions(request):
             _logger.info("get_transactions_account SUCCESS SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("get_transactions_account ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_history_transaction_ledger(request):
+    if request.POST['using_cache'] == 'false':
+        try:
+            data = {
+                'page': int(request.POST['page']),
+                'limit': int(request.POST['limit']),
+                'start_date': request.POST['start_date'],
+                'end_date': request.POST['end_date']
+            }
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "history_transaction_ledger_api",
+                "signature": request.POST['signature'],
+            }
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+
+        url_request = url + 'account'
+        res = send_request_api(request, url_request, headers, data, 'POST')
+        if int(request.POST['page']) == 1:
+            set_session(request, 'get_transactions_history_ledger_session', res)
+            request.session.modified = True
+        time_check.set_new_time_out('transaction')
+        time_check.set_first_time('transaction')
+    else:
+        date_time = datetime.now() - time_check.get_time_transaction_ledger
+        if date_time.seconds >= 300 or time_check.get_time_transaction_ledger_first_time == True:
+            try:
+                data = {
+                    'page': int(request.POST['page']),
+                    'limit': int(request.POST['limit']),
+                    'start_date': request.POST['start_date'],
+                    'end_date': request.POST['end_date']
+                }
+                headers = {
+                    "Accept": "application/json,text/html,application/xml",
+                    "Content-Type": "application/json",
+                    "action": "history_transaction_ledger_api",
+                    "signature": request.POST['signature'],
+                }
+                url_request = url + 'account'
+                res = send_request_api(request, url_request, headers, data, 'POST')
+                if int(request.POST['page']) == 1:
+                    set_session(request, 'get_transactions_history_ledger_session', res)
+                time_check.set_new_time_out('transaction')
+                time_check.set_first_time('transaction')
+            except Exception as e:
+                res = request.session['get_transactions_history_ledger_session']
+                _logger.error(str(e) + '\n' + traceback.format_exc())
+        else:
+            res = request.session['get_transactions_history_ledger_session']
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("get_transactions_history_ledger SUCCESS SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("get_transactions_history_ledger ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
