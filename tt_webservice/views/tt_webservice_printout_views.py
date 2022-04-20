@@ -90,6 +90,10 @@ def get_printout(request):
             data.update({
                 'json_printout': request.session.get('event_json_printout' + request.session['event_signature']) and request.session['event_json_printout' + request.session['event_signature']] or ''
             })
+        elif request.POST['type'] == 'reschedule':
+            data.update({
+                "reschedule_number": request.POST['reschedule_number']
+            })
         # if request.POST['bill_address'] != '':
         #     bill_address = request.POST['bill_address']
         #     bill_address = bill_address.split('\n')
