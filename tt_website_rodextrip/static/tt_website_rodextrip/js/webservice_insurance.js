@@ -2431,7 +2431,6 @@ function insurance_get_booking(data, sync=false){
                                         </div>
 
                                         <div class="col-lg-12">`;
-                                        console.log(pax);
                                         if(pax.insurance_data.hasOwnProperty('addons')){
                                             if(pax.insurance_data.addons.length != 0){
                                                 text+=`<br/><h6>Additional Benefit</h6><br/>
@@ -2774,7 +2773,7 @@ function insurance_get_booking(data, sync=false){
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text_detail+=`
                     <div>
-                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Hide Commission"/>
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Hide YPM"/>
                     </div>`;
 
                     text_detail+=`

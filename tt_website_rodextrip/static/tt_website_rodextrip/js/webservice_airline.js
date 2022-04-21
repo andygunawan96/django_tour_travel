@@ -12733,7 +12733,7 @@ function airline_get_booking_refund(data){
 //                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
 //                text_detail+=`
 //                <div style="margin-bottom:5px;">
-//                    <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Hide Commission"/>
+//                    <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Hide YPM"/>
 //                </div>
 //            </div>`;
 //            }catch(err){}
