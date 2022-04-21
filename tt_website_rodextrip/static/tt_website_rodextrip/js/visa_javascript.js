@@ -377,7 +377,7 @@ function update_table(type){
                 text+=`
                 <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-lg-12" style="padding-bottom:10px;">
-                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide Commission"><br>
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"><br>
                    </div>
                 </div>`;
     }else if(type == 'review'){
@@ -876,7 +876,7 @@ function update_table(type){
             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                 text_detail+=`
                 <div style="margin-bottom:5px;">
-                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Hide Commission"/>
+                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Hide YPM"/>
                 </div>`;
             text_detail+=`
         </div>`;
@@ -1055,7 +1055,7 @@ function update_table(type){
 //            text+=`
 //            <div class="row" style="margin-top:10px; text-align:center;">
 //               <div class="col-lg-12" style="padding-bottom:10px;">
-//                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide Commission"><br>
+//                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide YPM"><br>
 //               </div>
 //            </div>`;
 

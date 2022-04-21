@@ -36,7 +36,7 @@
 <div id="overlay-search-box" onclick="off_overlay()"></div>
 
 {%if template == 1%}
-<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
@@ -58,7 +58,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:3; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -182,7 +182,7 @@
                             </div>
                             <div class="col-lg-12 mb-2" style="padding:0px;">
                                 <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="color:{{text_color}};">Is Senior</span>
+                                    <span class="span-search-ticket" style="color:{{text_color}};">Is Senior (for Age 70+)</span>
                                     <input type="checkbox" id="insurance_is_senior" name="insurance_is_senior" {%if insurance_request.is_senior == True %} checked="checked" {% endif %}/>
                                     <span class="check_box_span_custom"></span>
                                 </label>
@@ -274,7 +274,7 @@
     </div>
 </section>
 {% elif template == 2 %}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
@@ -291,7 +291,7 @@
         </div>
     </div>
 </section>
-<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{background}}); padding-top:50px; padding-bottom:50px; z-index:5; position:relative; display:none;">
+<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{background}}); padding-top:50px; padding-bottom:50px; z-index:98; position:relative; display:none;">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -410,7 +410,7 @@
                                 </div>
                                 <div class="col-lg-12 mb-2">
                                     <label class="check_box_custom">
-                                        <span class="span-search-ticket" style="color:{{text_color}};">Is Senior</span>
+                                        <span class="span-search-ticket" style="color:{{text_color}};">Is Senior (for Age 70+)</span>
                                         <input type="checkbox" id="insurance_is_senior" name="insurance_is_senior" {%if insurance_request.is_senior == True %} checked="checked" {% endif %}/>
                                         <span class="check_box_span_custom"></span>
                                     </label>
@@ -518,7 +518,7 @@
         </div>
     </div>
 </section>
-<section class="banner-area relative" id="change_search_box" style="padding-top:50px; padding-bottom:40px; background-color: black; z-index:98; position:relative; display:none;">
+<section class="banner-area relative" id="change_search_box" style="padding-top:50px; padding-bottom:40px; background-color: black; z-index:97; position:relative; display:none;">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -640,7 +640,7 @@
                             </div>
                             <div class="col-lg-12 mb-2">
                                 <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="color:{{text_color}};">Is Senior</span>
+                                    <span class="span-search-ticket" style="color:{{text_color}};">Is Senior (for Age 70+)</span>
                                     <input type="checkbox" id="insurance_is_senior" name="insurance_is_senior" {%if insurance_request.is_senior == True %} checked="checked" {% endif %}/>
                                     <span class="check_box_span_custom"></span>
                                 </label>
@@ -730,7 +730,7 @@
     </div>
 </section>
 {%elif template == 4%}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
@@ -747,7 +747,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:3; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -870,7 +870,7 @@
                         </div>
                         <div class="col-lg-12 mb-2">
                             <label class="check_box_custom">
-                                <span class="span-search-ticket" style="color:{{text_color}};">Is Senior</span>
+                                <span class="span-search-ticket" style="color:{{text_color}};">Is Senior (for Age 70+)</span>
                                 <input type="checkbox" id="insurance_is_senior" name="insurance_is_senior" {%if insurance_request.is_senior == True %} checked="checked" {% endif %}/>
                                 <span class="check_box_span_custom"></span>
                             </label>
@@ -962,7 +962,7 @@
     </div>
 </section>
 {%elif template == 5%}
-<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
@@ -979,7 +979,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:3; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:98; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -1097,7 +1097,7 @@
                             </div>
                             <div class="col-lg-12 mb-2">
                                 <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="color:{{text_color}};">Is Senior</span>
+                                    <span class="span-search-ticket" style="color:{{text_color}};">Is Senior (for Age 70+)</span>
                                     <input type="checkbox" id="insurance_is_senior" name="insurance_is_senior" {%if insurance_request.is_senior == True %} checked="checked" {% endif %}/>
                                     <span class="check_box_span_custom"></span>
                                 </label>
@@ -1187,7 +1187,7 @@
     </div>
 </section>
 {%elif template == 6%}
-<section class="destinations-area change_search_area" style="padding:15px 0px 7px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:98;">
+<section class="destinations-area change_search_area" style="padding:15px 0px 7px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:99;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
@@ -1204,7 +1204,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" style="min-height:150px;padding-top:15px; padding-bottom:15px; background-image: url('{{background}}'); z-index:97; position:relative; display:none;">
+<section class="price-area" id="change_search_box" style="min-height:150px;padding-top:15px; padding-bottom:15px; background-image: url('{{background}}'); z-index:98; position:relative; display:none;">
     <div class="container" id="div-search-overlay">
         <div class="row">
             <div class="col-lg-12">
@@ -1321,7 +1321,7 @@
                             </div>
                             <div class="col-lg-12 mb-2">
                                 <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="color:{{text_color}};">Is Senior</span>
+                                    <span class="span-search-ticket" style="color:{{text_color}};">Is Senior (for Age 70+)</span>
                                     <input type="checkbox" id="insurance_is_senior" name="insurance_is_senior" {%if insurance_request.is_senior == True %} checked="checked" {% endif %}/>
                                     <span class="check_box_span_custom"></span>
                                 </label>

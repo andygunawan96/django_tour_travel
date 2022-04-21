@@ -3811,7 +3811,7 @@ function activity_get_booking(data){
                      price_text+=`
                      <div class="row" style="margin-top:10px; text-align:center;">
                        <div class="col-xs-12">
-                            <input type="button" class="primary-btn-white" id="show_commission_button" value="Hide Commission" style="width:100%;" onclick="show_commission();"/>
+                            <input type="button" class="primary-btn-white" id="show_commission_button" value="Hide YPM" style="width:100%;" onclick="show_commission();"/>
                        </div>
                      </div>`;
                 $test+= '\nGrand Total : IDR '+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';

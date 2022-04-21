@@ -829,7 +829,7 @@ function event_get_booking(data){
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
                     text_detail+=`
                         <div style="margin-bottom:5px;">
-                            <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Hide Commission"/>
+                            <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Hide YPM"/>
                         </div>
                     </div>`;
             }catch(err){console.log(err);}
