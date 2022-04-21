@@ -1747,7 +1747,7 @@ function medical_global_get_booking(order_number, sync=false){
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false && window.location.pathname.includes('confirm_order') == false)
                         text_detail+=`
                         <div>
-                            <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Hide Commission"/>
+                            <input class="primary-btn-white" id="show_commission_button" style="width:100%;margin-bottom:10px;" type="button" onclick="show_commission('commission');" value="Hide YPM"/>
                         </div>`;
                         if(window.location.pathname.includes('confirm_order') == false){
                         text_detail+=`
