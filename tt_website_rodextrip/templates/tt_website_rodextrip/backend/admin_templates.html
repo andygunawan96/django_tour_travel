@@ -98,6 +98,7 @@
                                             <li class="template_tab-link current" data-tab="nameimage-tab_template"><label style="color:{{text_color}};">{% trans 'Website Name, Logo and Background' %}</label></li>
                                             <li class="template_tab-link" data-tab="template-tab_template"><label style="color:{{text_color}};">{% trans 'Template & Color' %}</label></li>
                                             <li class="template_tab-link" data-tab="banner-tab_template"><label style="color:{{text_color}};">{% trans 'Banner' %}</label></li>
+                                            <li class="template_tab-link" data-tab="signupb2b-tab_template"><label style="color:{{text_color}};">{% trans 'Sign Up B2B' %}</label></li>
                                         </ul>
 
                                         <div id="nameimage-tab_template" class="template_tab-content current" style="padding:15px 15px 0px 15px; background:{{tab_color}}">
@@ -611,6 +612,51 @@
                                                         <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Image Promotion Banner' %}</h6>
                                                         <div id="promotion" style="padding:15px;">
 
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="signupb2b-tab_template" class="template_tab-content" style="padding:0px;">
+                                            <div style="background:{{tab_color}}">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12">
+                                                        <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Sign Up Agent Text' %}</h6>
+                                                        <input type="text" class="form-control" name="signup_btb_text" id="signup_btb_text" placeholder="{% trans 'Text' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Text '" value="{{signup_btb_text}}">
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Sign Up Agent Button Text' %}</h6>
+                                                        <input type="text" class="form-control" name="signup_btb_btn" id="signup_btb_btn" placeholder="{% trans 'Button Text' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Button Text '" value="{{signup_btb_btn}}">
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:center;">
+                                                        <div style="background:{{tab_color}}; padding:15px 0px;">
+                                                            <button type="button" class="primary-btn update_banner_btn" onclick="run_signup_admin();">{% trans 'Run' %}</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal fade" id="example_modal" role="dialog" data-keyboard="false">
+                                                        <div class="modal-dialog" style="max-width:1000px;">
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h6 class="modal-title" style="color:{{text_color}}"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</h6>
+                                                                    <button type="button" class="close" data-dismiss="modal" onclick="$('#example_modal').modal('hide');">&times;</button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-12">
+                                                                            <div id="b2c_signup" style="background-color:white; padding:20px; border:2px solid #cdcdcd;">
+                                                                                <h3 style="font-weight:bold; margin-bottom:15px;" id="signup_text_temp"></h3>
+                                                                                <button onclick="location.href='/registration'" type="button" class="primary-btn-ticket" style="color:{{text_color}}; font-size:15px; font-weight:700;" id="signup_btn_temp"></button>
+                                                                            </div>
+                                                                            <!--href="{% url 'tt_website_rodextrip:registration' %}-->
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="primary-btn" style="background-color:#cdcdcd; color:black;" data-dismiss="modal">{% trans 'Close' %}</button>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1432,6 +1478,7 @@
                                         <li class="template_tab-link current" data-tab="nameimage-tab_template"><label style="color:{{text_color}};">{% trans 'Website Name, Logo and Background' %}</label></li>
                                         <li class="template_tab-link" data-tab="template-tab_template"><label style="color:{{text_color}};">{% trans 'Template & Color' %}</label></li>
                                         <li class="template_tab-link" data-tab="banner-tab_template"><label style="color:{{text_color}};">{% trans 'Banner' %}</label></li>
+                                        <li class="template_tab-link" data-tab="signupb2b-tab_template"><label style="color:{{text_color}};">{% trans 'Sign Up B2B' %}</label></li>
                                     </ul>
 
                                     <div id="nameimage-tab_template" class="template_tab-content current" style="padding:15px 15px 0px 15px; background:{{tab_color}}">
@@ -1940,6 +1987,51 @@
                                                     <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Image Promotion Banner' %}</h6>
                                                     <div id="promotion" style="padding:15px;">
 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="signupb2b-tab_template" class="template_tab-content" style="padding:0px;">
+                                        <div style="background:{{tab_color}}">
+                                            <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                <div class="col-lg-12">
+                                                    <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Sign Up Agent Text' %}</h6>
+                                                    <input type="text" class="form-control" name="signup_btb_text" id="signup_btb_text" placeholder="{% trans 'Text' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Text '" value="{{signup_btb_text}}">
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Sign Up Agent Button Text' %}</h6>
+                                                    <input type="text" class="form-control" name="signup_btb_btn" id="signup_btb_btn" placeholder="{% trans 'Button Text' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Button Text '" value="{{signup_btb_btn}}">
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:center;">
+                                                    <div style="background:{{tab_color}}; padding:15px 0px;">
+                                                        <button type="button" class="primary-btn update_banner_btn" onclick="run_signup_admin();">{% trans 'Run' %}</button>
+                                                    </div>
+                                                </div>
+                                                <div class="modal fade" id="example_modal" role="dialog" data-keyboard="false">
+                                                    <div class="modal-dialog" style="max-width:1000px;">
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h6 class="modal-title" style="color:{{text_color}}"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</h6>
+                                                                <button type="button" class="close" data-dismiss="modal" onclick="$('#example_modal').modal('hide');">&times;</button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="row">
+                                                                    <div class="col-lg-12">
+                                                                        <div id="b2c_signup" style="background-color:white; padding:20px; border:2px solid #cdcdcd;">
+                                                                            <h3 style="font-weight:bold; margin-bottom:15px;" id="signup_text_temp"></h3>
+                                                                            <button onclick="location.href='/registration'" type="button" class="primary-btn-ticket" style="color:{{text_color}}; font-size:15px; font-weight:700;" id="signup_btn_temp"></button>
+                                                                        </div>
+                                                                        <!--href="{% url 'tt_website_rodextrip:registration' %}-->
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="primary-btn" style="background-color:#cdcdcd; color:black;" data-dismiss="modal">{% trans 'Close' %}</button>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -2746,6 +2838,7 @@
                                     <li class="template_tab-link current" data-tab="nameimage-tab_template"><label style="color:{{text_color}};">{% trans 'Website Name, Logo and Background' %}</label></li>
                                     <li class="template_tab-link" data-tab="template-tab_template"><label style="color:{{text_color}};">{% trans 'Template & Color' %}</label></li>
                                     <li class="template_tab-link" data-tab="banner-tab_template"><label style="color:{{text_color}};">{% trans 'Banner' %}</label></li>
+                                    <li class="template_tab-link" data-tab="signupb2b-tab_template"><label style="color:{{text_color}};">{% trans 'Sign Up B2B' %}</label></li>
                                 </ul>
 
                                 <div id="nameimage-tab_template" class="template_tab-content current" style="padding:15px 15px 0px 15px; background:{{tab_color}}">
@@ -3262,6 +3355,51 @@
                                                 <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Image Promotion Banner' %}</h6>
                                                 <div id="promotion" style="padding:15px;">
 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="signupb2b-tab_template" class="template_tab-content" style="padding:0px;">
+                                    <div style="background:{{tab_color}}">
+                                        <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                            <div class="col-lg-12">
+                                                <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Sign Up Agent Text' %}</h6>
+                                                <input type="text" class="form-control" name="signup_btb_text" id="signup_btb_text" placeholder="{% trans 'Text' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Text '" value="{{signup_btb_text}}">
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Sign Up Agent Button Text' %}</h6>
+                                                <input type="text" class="form-control" name="signup_btb_btn" id="signup_btb_btn" placeholder="{% trans 'Button Text' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Button Text '" value="{{signup_btb_btn}}">
+                                            </div>
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <div style="background:{{tab_color}}; padding:15px 0px;">
+                                                    <button type="button" class="primary-btn update_banner_btn" onclick="run_signup_admin();">{% trans 'Run' %}</button>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="example_modal" role="dialog" data-keyboard="false">
+                                                <div class="modal-dialog" style="max-width:1000px;">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h6 class="modal-title" style="color:{{text_color}}"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</h6>
+                                                            <button type="button" class="close" data-dismiss="modal" onclick="$('#example_modal').modal('hide');">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <div id="b2c_signup" style="background-color:white; padding:20px; border:2px solid #cdcdcd;">
+                                                                        <h3 style="font-weight:bold; margin-bottom:15px;" id="signup_text_temp"></h3>
+                                                                        <button onclick="location.href='/registration'" type="button" class="primary-btn-ticket" style="color:{{text_color}}; font-size:15px; font-weight:700;" id="signup_btn_temp"></button>
+                                                                    </div>
+                                                                    <!--href="{% url 'tt_website_rodextrip:registration' %}-->
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="primary-btn" style="background-color:#cdcdcd; color:black;" data-dismiss="modal">{% trans 'Close' %}</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -4068,6 +4206,7 @@
                                 <li class="template_tab-link current" data-tab="nameimage-tab_template"><label style="color:{{text_color}};">{% trans 'Website Name, Logo and Background' %}</label></li>
                                 <li class="template_tab-link" data-tab="template-tab_template"><label style="color:{{text_color}};">{% trans 'Template & Color' %}</label></li>
                                 <li class="template_tab-link" data-tab="banner-tab_template"><label style="color:{{text_color}};">{% trans 'Banner' %}</label></li>
+                                <li class="template_tab-link" data-tab="signupb2b-tab_template"><label style="color:{{text_color}};">{% trans 'Sign Up B2B' %}</label></li>
                             </ul>
 
                             <div id="nameimage-tab_template" class="template_tab-content current" style="padding:15px 15px 0px 15px; background:{{tab_color}}">
@@ -4483,106 +4622,151 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div id="banner-tab_template" class="template_tab-content" style="padding:0px 15px;">
-                            <div style="background:{{tab_color}}">
-                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
-                                    <div class="col-lg-12">
-                                        <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Big Banner' %}</h6>
-                                        <h6 style="color:{{text_color}};">Recommended Size: </h6>
-                                        <span style="color:{{text_color}}">Width: 1110px, Height: 360px</span><br/>
-                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">{% trans 'Upload Image' %}</button>
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="myModalBigBanner" role="dialog" data-keyboard="false">
-                                            <div class="modal-dialog">
+                            <div id="banner-tab_template" class="template_tab-content" style="padding:0px 15px;">
+                                <div style="background:{{tab_color}}">
+                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                        <div class="col-lg-12">
+                                            <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Big Banner' %}</h6>
+                                            <h6 style="color:{{text_color}};">Recommended Size: </h6>
+                                            <span style="color:{{text_color}}">Width: 1110px, Height: 360px</span><br/>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">{% trans 'Upload Image' %}</button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModalBigBanner" role="dialog" data-keyboard="false">
+                                                <div class="modal-dialog">
 
-                                                <!-- Modal content-->
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Big Banner' %}</h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <h6>Files:</h6> <input type="file" style="color:{{text_color}};" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*" onchange="file_validation_multiple('files_bigbanner');">
-                                                        <span id="size_files_bigbanner"></span><hr/>
-                                                        <div class="row" id="selectedFiles_bigbanner"></div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Big Banner' %}</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h6>Files:</h6> <input type="file" style="color:{{text_color}};" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*" onchange="file_validation_multiple('files_bigbanner');">
+                                                            <span id="size_files_bigbanner"></span><hr/>
+                                                            <div class="row" id="selectedFiles_bigbanner"></div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <br/><br/>
-                                        <h6 style="color:{{text_color}};">{% trans 'Image Big Banner' %}</h6>
-                                        <div id="big_banner" style="padding:15px;">
+                                            <br/><br/>
+                                            <h6 style="color:{{text_color}};">{% trans 'Image Big Banner' %}</h6>
+                                            <div id="big_banner" style="padding:15px;">
 
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12">
+                                            <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Small Banner' %}</h6>
+                                            <h6 style="color:{{text_color}};">Recommended Size: </h6>
+                                            <span style="color:{{text_color}}">Width: 500px, Height: 500px</span><br/>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">{% trans 'Upload Image' %}</button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModalSmallBanner" role="dialog" data-keyboard="false">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Small Banner' %}</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h6>Files:</h6> <input type="file" style="color:{{text_color}};" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*" onchange="file_validation_multiple('files_smallbanner');">
+                                                            <span id="size_files_smallbanner"></span><hr/>
+                                                            <div class="row" id="selectedFiles_smallbanner"></div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br/><br/>
+                                            <h6 style="color:{{text_color}};">{% trans 'Image Small Banner' %}</h6>
+                                            <div id="small_banner" style="padding:15px;">
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12">
+                                            <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Promotion Banner' %}</h6>
+                                            <h6 style="color:{{text_color}};">Recommended Size: </h6>
+                                            <span style="color:{{text_color}}">Width: 500px, Height: 500px</span><br/>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">{% trans 'Upload Image' %}</button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModalPromotionBanner" role="dialog" data-keyboard="false">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Promotion Banner' %}</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h6>Files:</h6> <input type="file" style="color:{{text_color}};" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*" onchange="file_validation_multiple('files_promotionbanner');">
+                                                            <span id="size_files_promotionbanner"></span><hr/>
+                                                            <div class="row" id="selectedFiles_promotionbanner"></div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br/><br/>
+                                            <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Image Promotion Banner' %}</h6>
+                                            <div id="promotion" style="padding:15px;">
+
+                                            </div>
                                         </div>
                                     </div>
-
-                                    <div class="col-lg-12">
-                                        <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Small Banner' %}</h6>
-                                        <h6 style="color:{{text_color}};">Recommended Size: </h6>
-                                        <span style="color:{{text_color}}">Width: 500px, Height: 500px</span><br/>
-                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">{% trans 'Upload Image' %}</button>
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="myModalSmallBanner" role="dialog" data-keyboard="false">
-                                            <div class="modal-dialog">
-
+                                </div>
+                            </div>
+                            <div id="signupb2b-tab_template" class="template_tab-content" style="padding:0px;">
+                                <div style="background:{{tab_color}}">
+                                    <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                        <div class="col-lg-12">
+                                            <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Sign Up Agent Text' %}</h6>
+                                            <input type="text" class="form-control" name="signup_btb_text" id="signup_btb_text" placeholder="{% trans 'Text' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Text '" value="{{signup_btb_text}}">
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Sign Up Agent Button Text' %}</h6>
+                                            <input type="text" class="form-control" name="signup_btb_btn" id="signup_btb_btn" placeholder="{% trans 'Button Text' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Button Text '" value="{{signup_btb_btn}}">
+                                        </div>
+                                        <div class="col-lg-12" style="text-align:center;">
+                                            <div style="background:{{tab_color}}; padding:15px 0px;">
+                                                <button type="button" class="primary-btn update_banner_btn" onclick="run_signup_admin();">{% trans 'Run' %}</button>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade" id="example_modal" role="dialog" data-keyboard="false">
+                                            <div class="modal-dialog" style="max-width:1000px;">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Small Banner' %}</h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h6 class="modal-title" style="color:{{text_color}}"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</h6>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="$('#example_modal').modal('hide');">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <h6>Files:</h6> <input type="file" style="color:{{text_color}};" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*" onchange="file_validation_multiple('files_smallbanner');">
-                                                        <span id="size_files_smallbanner"></span><hr/>
-                                                        <div class="row" id="selectedFiles_smallbanner"></div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <div id="b2c_signup" style="background-color:white; padding:20px; border:2px solid #cdcdcd;">
+                                                                    <h3 style="font-weight:bold; margin-bottom:15px;" id="signup_text_temp"></h3>
+                                                                    <button onclick="location.href='/registration'" type="button" class="primary-btn-ticket" style="color:{{text_color}}; font-size:15px; font-weight:700;" id="signup_btn_temp"></button>
+                                                                </div>
+                                                                <!--href="{% url 'tt_website_rodextrip:registration' %}-->
+                                                            </div>
+
+                                                        </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+                                                        <button type="button" class="primary-btn" style="background-color:#cdcdcd; color:black;" data-dismiss="modal">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <br/><br/>
-                                        <h6 style="color:{{text_color}};">{% trans 'Image Small Banner' %}</h6>
-                                        <div id="small_banner" style="padding:15px;">
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-12">
-                                        <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Promotion Banner' %}</h6>
-                                        <h6 style="color:{{text_color}};">Recommended Size: </h6>
-                                        <span style="color:{{text_color}}">Width: 500px, Height: 500px</span><br/>
-                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">{% trans 'Upload Image' %}</button>
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="myModalPromotionBanner" role="dialog" data-keyboard="false">
-                                            <div class="modal-dialog">
-
-                                                <!-- Modal content-->
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Promotion Banner' %}</h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <h6>Files:</h6> <input type="file" style="color:{{text_color}};" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*" onchange="file_validation_multiple('files_promotionbanner');">
-                                                        <span id="size_files_promotionbanner"></span><hr/>
-                                                        <div class="row" id="selectedFiles_promotionbanner"></div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <br/><br/>
-                                        <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Image Promotion Banner' %}</h6>
-                                        <div id="promotion" style="padding:15px;">
-
                                         </div>
                                     </div>
                                 </div>
@@ -5390,6 +5574,7 @@
                                         <li class="template_tab-link current" data-tab="nameimage-tab_template"><label style="color:{{text_color}};">{% trans 'Website Name, Logo and Background' %}</label></li>
                                         <li class="template_tab-link" data-tab="template-tab_template"><label style="color:{{text_color}};">{% trans 'Template & Color' %}</label></li>
                                         <li class="template_tab-link" data-tab="banner-tab_template"><label style="color:{{text_color}};">{% trans 'Banner' %}</label></li>
+                                        <li class="template_tab-link" data-tab="signupb2b-tab_template"><label style="color:{{text_color}};">{% trans 'Sign Up B2B' %}</label></li>
                                     </ul>
 
                                     <div id="nameimage-tab_template" class="template_tab-content current" style="padding:15px 15px 0px 15px; background:{{tab_color}}">
@@ -5908,6 +6093,51 @@
                                                     <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Image Promotion Banner' %}</h6>
                                                     <div id="promotion" style="padding:15px;">
 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="signupb2b-tab_template" class="template_tab-content" style="padding:0px;">
+                                        <div style="background:{{tab_color}}">
+                                            <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                <div class="col-lg-12">
+                                                    <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Sign Up Agent Text' %}</h6>
+                                                    <input type="text" class="form-control" name="signup_btb_text" id="signup_btb_text" placeholder="{% trans 'Text' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Text '" value="{{signup_btb_text}}">
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Sign Up Agent Button Text' %}</h6>
+                                                    <input type="text" class="form-control" name="signup_btb_btn" id="signup_btb_btn" placeholder="{% trans 'Button Text' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Button Text '" value="{{signup_btb_btn}}">
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:center;">
+                                                    <div style="background:{{tab_color}}; padding:15px 0px;">
+                                                        <button type="button" class="primary-btn update_banner_btn" onclick="run_signup_admin();">{% trans 'Run' %}</button>
+                                                    </div>
+                                                </div>
+                                                <div class="modal fade" id="example_modal" role="dialog" data-keyboard="false">
+                                                    <div class="modal-dialog" style="max-width:1000px;">
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h6 class="modal-title" style="color:{{text_color}}"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</h6>
+                                                                <button type="button" class="close" data-dismiss="modal" onclick="$('#example_modal').modal('hide');">&times;</button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="row">
+                                                                    <div class="col-lg-12">
+                                                                        <div id="b2c_signup" style="background-color:white; padding:20px; border:2px solid #cdcdcd;">
+                                                                            <h3 style="font-weight:bold; margin-bottom:15px;" id="signup_text_temp"></h3>
+                                                                            <button onclick="location.href='/registration'" type="button" class="primary-btn-ticket" style="color:{{text_color}}; font-size:15px; font-weight:700;" id="signup_btn_temp"></button>
+                                                                        </div>
+                                                                        <!--href="{% url 'tt_website_rodextrip:registration' %}-->
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="primary-btn" style="background-color:#cdcdcd; color:black;" data-dismiss="modal">{% trans 'Close' %}</button>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -6931,6 +7161,7 @@
                                         <li class="template_tab-link current" data-tab="nameimage-tab_template"><label style="color:{{text_color}};">{% trans 'Website Name, Logo and Background' %}</label></li>
                                         <li class="template_tab-link" data-tab="template-tab_template"><label style="color:{{text_color}};">{% trans 'Template & Color' %}</label></li>
                                         <li class="template_tab-link" data-tab="banner-tab_template"><label style="color:{{text_color}};">{% trans 'Banner' %}</label></li>
+                                        <li class="template_tab-link" data-tab="signupb2b-tab_template"><label style="color:{{text_color}};">{% trans 'Sign Up B2B' %}</label></li>
                                     </ul>
 
                                     <div id="nameimage-tab_template" class="template_tab-content current" style="padding:15px 15px 0px 15px; background:{{tab_color}}">
@@ -7444,6 +7675,51 @@
                                                     <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Image Promotion Banner' %}</h6>
                                                     <div id="promotion" style="padding:15px;">
 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="signupb2b-tab_template" class="template_tab-content" style="padding:0px;">
+                                        <div style="background:{{tab_color}}">
+                                            <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                <div class="col-lg-12">
+                                                    <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Sign Up Agent Text' %}</h6>
+                                                    <input type="text" class="form-control" name="signup_btb_text" id="signup_btb_text" placeholder="{% trans 'Text' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Text '" value="{{signup_btb_text}}">
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Sign Up Agent Button Text' %}</h6>
+                                                    <input type="text" class="form-control" name="signup_btb_btn" id="signup_btb_btn" placeholder="{% trans 'Button Text' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Button Text '" value="{{signup_btb_btn}}">
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:center;">
+                                                    <div style="background:{{tab_color}}; padding:15px 0px;">
+                                                        <button type="button" class="primary-btn update_banner_btn" onclick="run_signup_admin();">{% trans 'Run' %}</button>
+                                                    </div>
+                                                </div>
+                                                <div class="modal fade" id="example_modal" role="dialog" data-keyboard="false">
+                                                    <div class="modal-dialog" style="max-width:1000px;">
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h6 class="modal-title" style="color:{{text_color}}"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</h6>
+                                                                <button type="button" class="close" data-dismiss="modal" onclick="$('#example_modal').modal('hide');">&times;</button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="row">
+                                                                    <div class="col-lg-12">
+                                                                        <div id="b2c_signup" style="background-color:white; padding:20px; border:2px solid #cdcdcd;">
+                                                                            <h3 style="font-weight:bold; margin-bottom:15px;" id="signup_text_temp"></h3>
+                                                                            <button onclick="location.href='/registration'" type="button" class="primary-btn-ticket" style="color:{{text_color}}; font-size:15px; font-weight:700;" id="signup_btn_temp"></button>
+                                                                        </div>
+                                                                        <!--href="{% url 'tt_website_rodextrip:registration' %}-->
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="primary-btn" style="background-color:#cdcdcd; color:black;" data-dismiss="modal">{% trans 'Close' %}</button>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
