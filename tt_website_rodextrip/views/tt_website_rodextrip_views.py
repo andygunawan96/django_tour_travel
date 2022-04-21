@@ -777,6 +777,12 @@ def admin(request):
                     text += request.POST['secret_key']
                     write_cache_with_folder(text, "google_recaptcha")
 
+                    text = ''
+                    text += request.POST['signup_btb_text'] + '\n'
+                    text += request.POST['signup_btb_btn'] + '\n'
+                    write_cache_with_folder(text, "signup_b2b")
+
+
                     text = {}
                     text.update({
                         'name': request.POST['font'].split('.')[0],
@@ -1330,6 +1336,8 @@ def get_data_template(request, type='home', provider_type = []):
     app_id_one_signal = ''
     url_one_signal = ''
     authorization_one_signal = ''
+    signup_btb_text = 'Want to join us as an agent?'
+    signup_btb_btn = 'Sign Up agent Here'
     setting_login_page = 'website_name'
     font = {
         "name": '',
@@ -1383,6 +1391,15 @@ def get_data_template(request, type='home', provider_type = []):
                 url_one_signal = line
             elif idx == 2 and line != '':
                 authorization_one_signal = line
+
+    # signup b2b
+    file = read_cache_with_folder_path("signup_b2b", 90911)
+    if file:
+        for idx, line in enumerate(file.split('\n')):
+            if idx == 0 and line != '':
+                signup_btb_text = line
+            elif idx == 1 and line != '':
+                signup_btb_btn = line
 
     # google
     file = read_cache_with_folder_path("google_recaptcha", 90911)
@@ -1649,8 +1666,9 @@ def get_data_template(request, type='home', provider_type = []):
         'url_one_signal': url_one_signal,
         'authorization_one_signal': authorization_one_signal,
         'type_page': type,
-        'setting_login_page': setting_login_page
-
+        'setting_login_page': setting_login_page,
+        'signup_btb_text': signup_btb_text,
+        'signup_btb_btn': signup_btb_btn
     }
 
 

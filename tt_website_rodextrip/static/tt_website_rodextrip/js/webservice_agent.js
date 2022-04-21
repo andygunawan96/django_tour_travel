@@ -6802,3 +6802,9 @@ function openInNewTab(href) {
         href: href,
     }).click();
 }
+
+function run_signup_admin(){
+    document.getElementById('signup_text_temp').innerHTML = document.getElementById('signup_btb_text').value;
+    document.getElementById('signup_btn_temp').innerHTML = `<i class="fas fa-user-plus"></i> ` + document.getElementById('signup_btb_btn').value;
+    $('#example_modal').modal('show');
+}
