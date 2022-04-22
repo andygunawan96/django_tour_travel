@@ -278,7 +278,7 @@ def re_order_set_passengers(request):
         title = ''
         if data_booker['gender'] == 'male':
             title = 'MR'
-        elif data_booker['gender'] == 'female' and data_booker['martial_status'] == '':
+        elif data_booker['gender'] == 'female' and data_booker['marital_status'] == '':
             title = 'MS'
         else:
             title = 'MRS'
@@ -307,19 +307,7 @@ def re_order_set_passengers(request):
                     pax_type = 'ADT'
                 else:
                     pax_type = 'INF'
-            if pax['gender'] == 'male':
-                if pax_type == 'ADT':
-                    title = 'MR'
-                else:
-                    title = 'MSTR'
-            elif pax['gender'] == 'female':
-                if pax_type == 'ADT':
-                    if data_booker['martial_status'] == '':
-                        title = 'MS'
-                    else:
-                        title = 'MRS'
-                else:
-                    title = 'MISS'
+            title = pax['title']
 
             data_pax_dict = {
                 "pax_type": pax_type,
