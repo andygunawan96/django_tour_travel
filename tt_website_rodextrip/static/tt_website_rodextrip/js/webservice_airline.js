@@ -7151,7 +7151,7 @@ function airline_get_booking(data, sync=false){
                                 <div class="alert alert-success">
                                     <div class="row">
                                         <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                            <span style="font-size:13px; font-weight:bold;">Commission</span>
+                                            <span style="font-size:13px; font-weight:bold;">YPM</span>
                                         </div>
                                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                             <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span>
