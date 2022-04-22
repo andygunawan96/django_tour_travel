@@ -472,7 +472,9 @@ function get_transaction_history_ledger(type,use_cache){
                 if(msg.result.response[i].name.includes(msg.result.response[i].ref) == false)
                     text += "Reference: "+msg.result.response[i].ref + '<br/>';
                 if(msg.result.response[i].info)
-                    text += "Info: "+msg.result.response[i].info + '<br/>';
+                    text += "Info: <br/>"+msg.result.response[i].info + '<br/>';
+                if(Object.keys(msg.result.response[i].booker).length > 0)
+                    text += "Booker: "+msg.result.response[i].booker.name + '<br/>';
                 if(msg.result.response[i].date)
                     text += "Date: "+moment(msg.result.response[i].date).format('DD MMM YYYY') + '<br/>';
                 text += `<td>`;
