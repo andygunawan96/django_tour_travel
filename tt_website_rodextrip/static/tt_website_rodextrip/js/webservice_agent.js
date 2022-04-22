@@ -1243,7 +1243,10 @@ function get_customer_list(passenger, number, product){
                                     <div class="col-lg-12">
                                         <div class="row">
                                             <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">`;
-                                                if(msg.result.response[i].title == "MR"){
+                                                if(msg.result.response[i].face_image.length > 0)
+                                                    response+=`<img src="`+msg.result.response[i].face_image[0]+`" alt="User" class="picture_passenger_agent">`;
+
+                                                else if(msg.result.response[i].title == "MR"){
                                                     response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" alt="User MR" class="picture_passenger_agent">`;
                                                 }
                                                 else if(msg.result.response[i].title == "MRS"){
@@ -1738,7 +1741,7 @@ function get_customer_list(passenger, number, product){
                                                 print_behavior = false;
                                                 response_behavior=`<br/><b>Behaviors:</b><br/>`;
                                                 for(j in msg.result.response[i].behaviors){
-                                                    if(j.toLowerCase() == product){
+                                                    if(j.toLowerCase() == product || product == 'cache'){
                                                         print_behavior = true;
                                                         response_behavior+=`<b>`+j+`</b><br/>`;
                                                         for(k in msg.result.response[i].behaviors[j]){
@@ -4735,7 +4738,7 @@ function del_passenger_cache(sequence){
     });
 }
 
-function get_passenger_cache(type){
+function get_passenger_cache(type,update_cache=false){
     type = "chosen";
     $.ajax({
        type: "POST",
@@ -4744,7 +4747,8 @@ function get_passenger_cache(type){
             'action': 'get_passenger_cache',
        },
        data: {
-
+            'update_cache': update_cache,
+            'passenger_sequence': typeof passenger_cache_pick !== 'undefined'  ? passenger_cache_pick : 0
        },
        success: function(msg) {
         if(msg.result.error_code == 0){
@@ -5056,21 +5060,26 @@ function get_passenger_cache(type){
                                         }
                                         if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
                                             print_behavior = false;
-                                            response_behavior=`<br/><b>Behaviors:</b><br/>`;
+                                            response_behavior=`
+                                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                    <br/><b>Behaviors:</b><br/>`;
                                             for(j in msg.result.response[i].behaviors){
-                                                if(j.toLowerCase() == product){
-                                                    print_behavior = true;
-                                                    response_behavior+=`<b>`+j+`</b><br/>`;
-                                                    for(k in msg.result.response[i].behaviors[j]){
-                                                        response_behavior+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b>`;
-                                                        if(msg.result.response[i].behaviors[j][k].remark != '' && msg.result.response[i].behaviors[j][k].remark != false)
-                                                            response_behavior +=` - `+msg.result.response[i].behaviors[j][k].remark;
-                                                        response_behavior+=`</span><br/>`;
-                                                    }
+
+                                                print_behavior = true;
+                                                response_behavior+=`<b>`+j+`</b><br/>`;
+                                                for(k in msg.result.response[i].behaviors[j]){
+                                                    response_behavior+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b>`;
+                                                    if(msg.result.response[i].behaviors[j][k].remark != '' && msg.result.response[i].behaviors[j][k].remark != false)
+                                                        response_behavior +=` - `+msg.result.response[i].behaviors[j][k].remark;
+                                                    response_behavior+=`</span><br/>`;
                                                 }
                                             }
-                                            if(print_behavior)
+                                            if(print_behavior){
+                                                response_behavior += `</div></div></div>`;
                                                 response+= response_behavior;
+                                            }
                                             response += `</div>`;
                                         }
                                         response+=`
@@ -5118,11 +5127,11 @@ function get_passenger_cache(type){
                         </div>`;
                     }
                     if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'passenger' || window.location.href.split('/')[window.location.href.split('/').length-2] == 'passenger' || window.location.href.split('/')[window.location.href.split('/').length-1] == 'issued_offline'){
-                        response+=`<div class="col-xs-6 mt-3"><button type="button" class="primary-btn" style="width:100%" id="move_btn" onclick="reset_pax_cache();">Reset</button></div>`;
-                    }
-
-                    if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'passenger' || window.location.href.split('/')[window.location.href.split('/').length-2] == 'passenger' || window.location.href.split('/')[window.location.href.split('/').length-1] == 'issued_offline'){
-                        response+=`<div class="col-xs-6 mt-3"><button type="button" class="primary-btn" style="width:100%" id="move_btn" onclick="move_pax_cache();">Move all</button></div>`;
+                        response+=`
+                        <div class="row">
+                            <div class="col-xs-6 mt-3"><button type="button" class="primary-btn" style="width:100%" id="move_btn" onclick="reset_pax_cache();">Reset</button></div>
+                            <div class="col-xs-6 mt-3"><button type="button" class="primary-btn" style="width:100%" id="move_btn" onclick="move_pax_cache();">Move all</button></div>
+                        </div>`;
                     }
 
                     response+=`</div>`;
@@ -5185,7 +5194,30 @@ function reset_pax_cache(){
 function edit_passenger_cache(val){
     passenger_data_edit_phone = 0;
     passenger_cache_pick = val;
-    document.getElementById('passenger_edit_title').innerHTML = passenger_data_cache[val].title;
+    //avatar
+    if(passenger_data_cache[val].face_image.length > 0){
+        text = '';
+        text += `
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                    <img src="`+passenger_data_cache[val].face_image[0]+`" alt="User" class="picture_passenger_agent">
+                </div>
+            </div>
+        `;
+        document.getElementById('div_avatar').innerHTML = text
+        document.getElementById('div_avatar').hidden = false;
+    }else{
+        document.getElementById('div_avatar').hidden = true;
+    }
+    document.getElementById('passenger_edit_title').value = passenger_data_cache[val].title;
+    if(agent_security.includes('p_cache_3') == false){
+        document.getElementById('passenger_edit_title').readOnly = true;
+        for(i in document.getElementById('passenger_edit_title').options){
+            if(document.getElementById('passenger_edit_title').options[i].selected != true)
+                document.getElementById('passenger_edit_title').options[i].disabled = true;
+        }
+    }
+    $('#passenger_edit_title').niceSelect('update');
     if(agent_security.includes('p_cache_3') == true){
         document.getElementById('passenger_first_name_div').innerHTML = `<input type="text" onchange="capitalizeInput('passenger_edit_first_name');" class="form-control" name="passenger_edit_first_name" id="passenger_edit_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '" value='`+passenger_data_cache[val].first_name+`'>`;
         document.getElementById('passenger_last_name_div').innerHTML = `<input type="text" onchange="capitalizeInput('passenger_edit_last_name');" class="form-control" name="passenger_edit_last_name" id="passenger_edit_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '" value='`+passenger_data_cache[val].last_name+`'>`;
@@ -5195,7 +5227,10 @@ function edit_passenger_cache(val){
     }
     if(passenger_data_cache[val].birth_date != ''){
         $('input[name="passenger_edit_birth_date"]').val(passenger_data_cache[val].birth_date);
-        document.getElementById('passenger_edit_birth_date').disabled = true;
+        if(agent_security.includes('p_cache_3') == true)
+            document.getElementById('passenger_edit_birth_date').disabled = false;
+        else
+            document.getElementById('passenger_edit_birth_date').disabled = true;
     }else{
         $('input[name="passenger_edit_birth_date"]').val("");
         document.getElementById('passenger_edit_birth_date').disabled = false;
@@ -5290,16 +5325,20 @@ function edit_passenger_cache(val){
                         </label>
                     </div>
                 </div>
-        </div>`;
+            </div>`;
     document.getElementById('attachment').innerHTML = text;
+    var draw_image_identity_text = '';
     for(i in passenger_data_cache[val].identities){
-        text = '';
         if(i == 'passport'){
+            text = '';
+            draw_image_identity_text = '';
             document.getElementById('passenger_edit_identity_number1').value = passenger_data_cache[val].identities[i].identity_number;
             document.getElementById('passenger_edit_identity_expired_date1').value = passenger_data_cache[val].identities[i].identity_expdate;
             document.getElementById('select2-passenger_edit_identity_country_of_issued1_id-container').innerHTML = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
             document.getElementById('passenger_edit_identity_country_of_issued1').value = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
             for(j in passenger_data_cache[val].identities[i].identity_images){
+                if(j == 0)
+                    draw_image_identity_text += `<div class="row">`;
                 text+= `
                     <div style="height:220px;margin-bottom:25px;margin-right:10px;">
                         <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
@@ -5313,15 +5352,30 @@ function edit_passenger_cache(val){
                                 </label>
                             </div>
                         </div>
+                    </div>`;
+                draw_image_identity_text += `
+                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                    <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="Passport" class="picture_passenger_agent">
                 </div>`;
             }
+            if(draw_image_identity_text != ''){
+                document.getElementById('div_avatar_passport').innerHTML = draw_image_identity_text;
+                document.getElementById('div_avatar_passport').hidden = false;
+            }else{
+                document.getElementById('div_avatar_passport').hidden = true;
+            }
+
             document.getElementById('attachment1').innerHTML = text;
         }else if(i == 'ktp'){
+            text = '';
+            draw_image_identity_text = '';
             document.getElementById('passenger_edit_identity_number2').value = passenger_data_cache[val].identities[i].identity_number;
             document.getElementById('passenger_edit_identity_expired_date2').value = passenger_data_cache[val].identities[i].identity_expdate;
             document.getElementById('select2-passenger_edit_identity_country_of_issued2_id-container').innerHTML = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
             document.getElementById('passenger_edit_identity_country_of_issued2').value = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
-            for(j in passenger_data_cache[val].identities[i].identity_images)
+            for(j in passenger_data_cache[val].identities[i].identity_images){
+                if(j == 0)
+                    draw_image_identity_text += `<div class="row">`;
                 text+= `
                     <div style="height:220px;margin-bottom:25px;margin-right:10px;">
                         <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
@@ -5336,13 +5390,28 @@ function edit_passenger_cache(val){
                             </div>
                         </div>
                 </div>`;
+                draw_image_identity_text += `
+                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                    <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="KTP" class="picture_passenger_agent">
+                </div>`;
+            }
+            if(draw_image_identity_text != ''){
+                document.getElementById('div_avatar_ktp').innerHTML = draw_image_identity_text;
+                document.getElementById('div_avatar_ktp').hidden = false;
+            }else{
+                document.getElementById('div_avatar_ktp').hidden = true;
+            }
             document.getElementById('attachment2').innerHTML = text;
         }else if(i == 'sim'){
+            text = '';
+            draw_image_identity_text = '';
             document.getElementById('passenger_edit_identity_number3').value = passenger_data_cache[val].identities[i].identity_number;
             document.getElementById('passenger_edit_identity_expired_date3').value = passenger_data_cache[val].identities[i].identity_expdate;
             document.getElementById('select2-passenger_edit_identity_country_of_issued3_id-container').innerHTML = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
             document.getElementById('passenger_edit_identity_country_of_issued3').value = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
-            for(j in passenger_data_cache[val].identities.identity_images)
+            for(j in passenger_data_cache[val].identities.identity_images){
+                if(j == 0)
+                    draw_image_identity_text += `<div class="row">`;
                 text+= `
                     <div style="height:220px;margin-bottom:25px;margin-right:10px;">
                         <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
@@ -5357,14 +5426,28 @@ function edit_passenger_cache(val){
                             </div>
                         </div>
                 </div>`;
-
+                draw_image_identity_text += `
+                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                    <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="SIM" class="picture_passenger_agent">
+                </div>`;
+            }
+            if(draw_image_identity_text != ''){
+                document.getElementById('div_avatar_sim').innerHTML = draw_image_identity_text;
+                document.getElementById('div_avatar_sim').hidden = false;
+            }else{
+                document.getElementById('div_avatar_sim').hidden = true;
+            }
             document.getElementById('attachment3').innerHTML = text;
         }else if(i == 'other'){
+            text = '';
+            draw_image_identity_text = '';
             document.getElementById('passenger_edit_identity_number4').value = passenger_data_cache[val].identities[i].identity_number;
             document.getElementById('passenger_edit_identity_expired_date4').value = passenger_data_cache[val].identities[i].identity_expdate;
             document.getElementById('select2-passenger_edit_identity_country_of_issued4_id-container').innerHTML = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
             document.getElementById('passenger_edit_identity_country_of_issued4').value = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
-            for(j in passenger_data_cache[val].identities.identity_images)
+            for(j in passenger_data_cache[val].identities.identity_images){
+                if(j == 0)
+                    draw_image_identity_text += `<div class="row">`;
                 text+= `
                     <div style="height:220px;margin-bottom:25px;margin-right:10px;">
                         <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
@@ -5379,6 +5462,17 @@ function edit_passenger_cache(val){
                             </div>
                         </div>
                 </div>`;
+                draw_image_identity_text += `
+                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                    <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="SIM" class="picture_passenger_agent">
+                </div>`;
+            }
+            if(draw_image_identity_text != ''){
+                document.getElementById('div_avatar_other').innerHTML = draw_image_identity_text;
+                document.getElementById('div_avatar_other').hidden = false;
+            }else{
+                document.getElementById('div_avatar_other').hidden = true;
+            }
             document.getElementById('attachment4').innerHTML = text;
         }
     }
@@ -6465,16 +6559,37 @@ function update_passenger_backend(){
                             };
                         }
                     }
+                    first_name = ''
+                    last_name = '';
+                    birth_date = '';
+                    title = '';
+                    if(agent_security.includes('p_cache_3')){
+                        //punya permission save sesuai yg di edit
+                        birth_date = document.getElementById('passenger_edit_birth_date').value;
+                        first_name = document.getElementById('passenger_edit_first_name').value;
+                        last_name = document.getElementById('passenger_edit_last_name').value;
+                        title = document.getElementById('passenger_edit_title').value;
+                    }else{
+                        // tanpa permission save sesuai yg ada di backend
+                        first_name = passenger_data_cache[passenger_cache_pick].first_name;
+                        last_name = passenger_data_cache[passenger_cache_pick].last_name;
+                        title = passenger_data_cache[passenger_cache_pick].title;
+                        if(passenger_data_cache[passenger_cache_pick].birth_date == '')
+                            birth_date = document.getElementById('passenger_edit_birth_date').value;
+                        else
+                            birth_date = passenger_data_cache[passenger_cache_pick].birth_date
+                    }
                     update_passenger_dict = {
-                        'first_name': document.getElementById('passenger_edit_first_name').value,
-                        'last_name': document.getElementById('passenger_edit_last_name').value,
+                        'first_name': first_name,
+                        'last_name': last_name,
                         'nationality_name': document.getElementById('passenger_edit_nationality').value,
                         'email': document.getElementById('passenger_edit_email').value,
                         'phone': phone,
                         'identity': identity,
                         'image': img_list,
                         'seq_id': passenger_data_cache[passenger_cache_pick].seq_id,
-                        'birth_date': passenger_data_cache[passenger_cache_pick].birth_date != '' ? passenger_data_cache[passenger_cache_pick].birth_date : document.getElementById('passenger_edit_birth_date').value
+                        'birth_date': birth_date,
+                        'title': title
                     }
                     $.ajax({
                        type: "POST",
@@ -6495,7 +6610,7 @@ function update_passenger_backend(){
                                 })
                                 document.getElementById('passenger_chosen').hidden = false;
                                 document.getElementById('passenger_update').hidden = true;
-                                get_passenger_cache('chosen');
+                                get_passenger_cache('chosen',true);
                                 document.getElementById('update_passenger_customer').disabled = false;
                                 //document.getElementById('form_admin').submit();
                             }else{
