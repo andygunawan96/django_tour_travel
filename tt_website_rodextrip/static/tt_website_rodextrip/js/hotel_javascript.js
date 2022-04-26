@@ -930,14 +930,14 @@ function sort(response, check_filter){
                                                 if(j == 0){
                                                     content_price_pop += `<i class="fas fa-thumbs-up" style="padding-left: 5px; color:`+color+`;"></i>`;
                                                     if(arr[j][1].price != arr[j][1].price_without_discount)
-                                                        text += `<span class="basic_fare_field" style="text-decoration: line-through;color:#cdcdcd;" hidden>IDR ` + getrupiah(arr[j][1]['price_without_discount']) + `</span>`;
+                                                        text += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;" hidden>IDR ` + getrupiah(arr[j][1]['price_without_discount']) + `</span>`;
                                                     text += `<span class="price_hotel" hidden>IDR ` + getrupiah(arr[j][1]['price']) + `</span>`;
                                                 }
                                                 // else if(j > 2){
                                                 //     text += `<i class="fas fa-thumbs-down" style="color:`+color+`;"></i>`;
                                                 // }
                                                 if(arr[j][1].price != arr[j][1].price_without_discount)
-                                                    content_price_pop += `<span class="basic_fare_field" style="text-decoration: line-through;color:#cdcdcd;">IDR ` + getrupiah(arr[j][1]['price_without_discount']) + `</span>`;
+                                                    content_price_pop += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">IDR ` + getrupiah(arr[j][1]['price_without_discount']) + `</span>`;
                                                 content_price_pop +=`
                                                     <span style="font-size:16px; font-weight: 700;">IDR ` + getrupiah(arr[j][1]['price']) + `</span>
                                                     <span style="font-size:16px; font-weight: 700; color:`+color+`;">` + arr[j][0] +`</span><br/>`;
@@ -1016,7 +1016,7 @@ function sort(response, check_filter){
                                     <div class="col-lg-12 search_hotel_button" style="text-align:right; position:absolute; bottom:0px; right:0px;">`;
                                     if(arr.length != 0){
                                         if(arr[0][1].price != arr[0][1].price_without_discount)
-                                            text += `<span class="basic_fare_field" style="text-decoration: line-through;color:#cdcdcd;">IDR ` + getrupiah(arr[0][1]['price_without_discount']) + `</span>
+                                            text += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">IDR ` + getrupiah(arr[0][1]['price_without_discount']) + `</span>
                                             <span style="font-size:16px; font-weight: 700; color:white;">` + arr[0][0] +`</span><br/>`;
                                         text+=`
                                         <span style="font-size:16px; font-weight: 700;">`+arr[0][1]['currency']+` ` + getrupiah(arr[0][1]['price']) + `</span>

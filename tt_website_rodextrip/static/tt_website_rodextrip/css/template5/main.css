@@ -8641,3 +8641,37 @@ ul.progress_tabs li.current .image-rounded-icon{
 .section_bg{
     background:white;
 }
+
+
+.table-layout{
+    table-layout: fixed;
+}
+
+@media (max-width: 575px) {
+    .table-layout{
+        table-layout: unset;
+    }
+}
+
+.cross_price {
+    position: relative;
+    display: inline-block;
+}
+.cross_price::before, .cross::after {
+    content: '';
+    width: 100%;
+    position: absolute;
+    right: 0;
+    top: 50%;
+}
+.cross_price::before {
+    border-bottom: 1px solid #929292;
+    -webkit-transform: skewY(-10deg);
+    transform: skewY(-10deg);
+}
+/*
+.cross_price::after {
+    border-bottom: 2px solid blue;
+    -webkit-transform: skewY(10deg);
+    transform: skewY(10deg);
+}*/

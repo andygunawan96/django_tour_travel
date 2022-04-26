@@ -40,11 +40,12 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
-                <span style="text-transform: capitalize;">{% trans 'Insurance Search' %}</span><br/>
                 {% if insurance_request.provider == 'bcainsurance'%}
+                    <span style="text-transform: capitalize;">{% trans 'BCA Insurance' %} ({{insurance_request.type}}) - {{insurance_request.date_start}} - {{insurance_request.date_end}}</span><br/>
                     <span style="text-transform: capitalize;">{{insurance_request.origin}} → {{insurance_request.destination}}</span>
                 {% else %}
                     <!--zurich-->
+                    <span style="text-transform: capitalize;">{% trans 'Zurich' %} - {{insurance_request.date_start}} - {{insurance_request.date_end}}</span><br/>
                     <span style="text-transform: capitalize;">{{insurance_request.destination}}</span>
                 {% endif %}
                 <br/>
@@ -278,8 +279,14 @@
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
-                <span style="text-transform: capitalize;">{% trans 'Insurance Search' %}</span><br/>
-                <span style="text-transform: capitalize;">{{insurance_request.origin}} → {{insurance_request.destination}}</span>
+                {% if insurance_request.provider == 'bcainsurance'%}
+                    <span style="text-transform: capitalize;">{% trans 'BCA Insurance' %} ({{insurance_request.type}}) - {{insurance_request.date_start}} - {{insurance_request.date_end}}</span><br/>
+                    <span style="text-transform: capitalize;">{{insurance_request.origin}} → {{insurance_request.destination}}</span>
+                {% else %}
+                    <!--zurich-->
+                    <span style="text-transform: capitalize;">{% trans 'Zurich' %} - {{insurance_request.date_start}} - {{insurance_request.date_end}}</span><br/>
+                    <span style="text-transform: capitalize;">{{insurance_request.destination}}</span>
+                {% endif %}
                 <br/>
             </div>
             <div class="col-lg-4" style="text-align:right;">
@@ -505,8 +512,14 @@
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
-                <span style="text-transform: capitalize;">{% trans 'Insurance Search' %}</span><br/>
-                <span style="text-transform: capitalize;">{{insurance_request.origin}} → {{insurance_request.destination}}</span>
+                {% if insurance_request.provider == 'bcainsurance'%}
+                    <span style="text-transform: capitalize;">{% trans 'BCA Insurance' %} ({{insurance_request.type}}) - {{insurance_request.date_start}} - {{insurance_request.date_end}}</span><br/>
+                    <span style="text-transform: capitalize;">{{insurance_request.origin}} → {{insurance_request.destination}}</span>
+                {% else %}
+                    <!--zurich-->
+                    <span style="text-transform: capitalize;">{% trans 'Zurich' %} - {{insurance_request.date_start}} - {{insurance_request.date_end}}</span><br/>
+                    <span style="text-transform: capitalize;">{{insurance_request.destination}}</span>
+                {% endif %}
                 <br/>
             </div>
             <div class="col-lg-4" style="text-align:right;">
@@ -734,8 +747,14 @@
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
-                <span style="text-transform: capitalize;">{% trans 'Insurance Search' %}</span><br/>
-                <span style="text-transform: capitalize;">{{insurance_request.origin}} → {{insurance_request.destination}}</span>
+                {% if insurance_request.provider == 'bcainsurance'%}
+                    <span style="text-transform: capitalize;">{% trans 'BCA Insurance' %} ({{insurance_request.type}}) - {{insurance_request.date_start}} - {{insurance_request.date_end}}</span><br/>
+                    <span style="text-transform: capitalize;">{{insurance_request.origin}} → {{insurance_request.destination}}</span>
+                {% else %}
+                    <!--zurich-->
+                    <span style="text-transform: capitalize;">{% trans 'Zurich' %} - {{insurance_request.date_start}} - {{insurance_request.date_end}}</span><br/>
+                    <span style="text-transform: capitalize;">{{insurance_request.destination}}</span>
+                {% endif %}
                 <br/>
             </div>
             <div class="col-lg-4" style="text-align:right;">
@@ -966,8 +985,14 @@
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
-                <span style="text-transform: capitalize;">{% trans 'Insurance Search' %}</span><br/>
-                <span style="text-transform: capitalize;">{{insurance_request.origin}} → {{insurance_request.destination}}</span>
+                {% if insurance_request.provider == 'bcainsurance'%}
+                    <span style="text-transform: capitalize;">{% trans 'BCA Insurance' %} ({{insurance_request.type}}) - {{insurance_request.date_start}} - {{insurance_request.date_end}}</span><br/>
+                    <span style="text-transform: capitalize;">{{insurance_request.origin}} → {{insurance_request.destination}}</span>
+                {% else %}
+                    <!--zurich-->
+                    <span style="text-transform: capitalize;">{% trans 'Zurich' %} - {{insurance_request.date_start}} - {{insurance_request.date_end}}</span><br/>
+                    <span style="text-transform: capitalize;">{{insurance_request.destination}}</span>
+                {% endif %}
                 <br/>
             </div>
             <div class="col-lg-4" style="text-align:right;">
@@ -1191,8 +1216,14 @@
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
-                <span style="text-transform: capitalize;">{% trans 'Insurance Search' %}</span><br/>
-                <span style="text-transform: capitalize;">{{insurance_request.origin}} → {{insurance_request.destination}}</span>
+                {% if insurance_request.provider == 'bcainsurance'%}
+                    <span style="text-transform: capitalize;">{% trans 'BCA Insurance' %} ({{insurance_request.type}}) - {{insurance_request.date_start}} - {{insurance_request.date_end}}</span><br/>
+                    <span style="text-transform: capitalize;">{{insurance_request.origin}} → {{insurance_request.destination}}</span>
+                {% else %}
+                    <!--zurich-->
+                    <span style="text-transform: capitalize;">{% trans 'Zurich' %} - {{insurance_request.date_start}} - {{insurance_request.date_end}}</span><br/>
+                    <span style="text-transform: capitalize;">{{insurance_request.destination}}</span>
+                {% endif %}
                 <br/>
             </div>
             <div class="col-lg-4" style="text-align:right;">

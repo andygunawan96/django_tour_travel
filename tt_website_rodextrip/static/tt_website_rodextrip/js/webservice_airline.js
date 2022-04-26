@@ -5299,12 +5299,12 @@ function re_order_set_airline_request(type='reorder'){
        },
        success: function(resJson) {
             setTimeout(function(){
-                please_wait_custom('airline','Set Request <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Set Passenger, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
+                please_wait_custom('Set Request <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Set Passenger, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
                 re_order_set_passengers(type);
             }, 1000);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            please_wait_custom('airline','Set Request Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
+            please_wait_custom('Set Request Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
             $('.next-loading-reorder').removeClass("running");
             $('.next-loading-reorder').prop('disabled', false);
             $('.issued_booking_btn').prop('disabled', false);
@@ -5330,7 +5330,7 @@ function re_order_set_passengers(type){
        },
        success: function(resJson) {
             if(type == 'reorder'){
-                please_wait_custom('airline','Set Passenger <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Select Data Journey, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
+                please_wait_custom('Set Passenger <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Select Data Journey, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
                 airline_send_request_count = 0;
                 try{
                     airline_data_reorder = [];
@@ -5343,7 +5343,7 @@ function re_order_set_passengers(type){
                     }
                 }catch(err){
                     console.log(err);
-                    please_wait_custom('airline','Set Passenger Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
+                    please_wait_custom('Set Passenger Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
                     $('.next-loading-reorder').removeClass("running");
                     $('.next-loading-reorder').prop('disabled', false);
                     $('.issued_booking_btn').prop('disabled', false);
@@ -5359,7 +5359,7 @@ function re_order_set_passengers(type){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            please_wait_custom('airline','Set Passenger Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
+            please_wait_custom('Set Passenger Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
             $('.next-loading-reorder').removeClass("running");
             $('.next-loading-reorder').prop('disabled', false);
             $('.issued_booking_btn').prop('disabled', false);
@@ -5417,7 +5417,7 @@ function re_order_find_journey(){
         }
     }
     if(error_log != ''){
-        please_wait_custom('airline','Select Data Journey Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
+        please_wait_custom('Select Data Journey Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
         $('.next-loading-reorder').removeClass("running");
         $('.next-loading-reorder').prop('disabled', false);
         $('.issued_booking_btn').prop('disabled', false);
@@ -5433,7 +5433,7 @@ function re_order_find_journey(){
        });
     }else{
         setTimeout(function(){
-            please_wait_custom('airline','Select Data Journey <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Get Price, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
+            please_wait_custom('Select Data Journey <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Get Price, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
             re_order_get_price();
         }, 1000);
     }
@@ -5457,11 +5457,11 @@ function re_order_get_price(){
                 get_price_airline_response = msg;
                 data_request = get_price_airline_response.result.request;
                 setTimeout(function(){
-                    please_wait_custom('airline','Get Price <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Sell Journey, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
+                    please_wait_custom('Get Price <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Sell Journey, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
                     re_order_get_fare_rules();
                 }, 1000);
             }else{
-                please_wait_custom('airline','Get Price Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
+                please_wait_custom('Get Price Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
                 $('.next-loading-reorder').removeClass("running");
                 $('.next-loading-reorder').prop('disabled', false);
                 $('.issued_booking_btn').prop('disabled', false);
@@ -5525,11 +5525,11 @@ function re_order_sell_journeys(){
            if(msg.result.error_code == 0){
                 document.getElementById('airline_sell_journey_response').value = JSON.stringify(msg.result.response);
                 setTimeout(function(){
-                   please_wait_custom('airline','Sell Journey <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Redirect page, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
+                   please_wait_custom('Sell Journey <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Redirect page, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
                    get_seat_availability('reorder');
                 }, 1000);
            }else{
-                please_wait_custom('airline','Sell Journey Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
+                please_wait_custom('Sell Journey Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
                 $('.next-loading-reorder').removeClass("running");
                 $('.next-loading-reorder').prop('disabled', false);
                 $('.issued_booking_btn').prop('disabled', false);
@@ -5553,7 +5553,7 @@ function re_order_sell_journeys(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            please_wait_custom('airline','Sell Journey Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
+            please_wait_custom('Sell Journey Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
             $('.next-loading-reorder').removeClass("running");
             $('.next-loading-reorder').prop('disabled', false);
             $('.issued_booking_btn').prop('disabled', false);

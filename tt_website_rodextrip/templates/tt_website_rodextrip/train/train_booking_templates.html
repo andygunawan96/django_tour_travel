@@ -56,6 +56,8 @@
 {% include 'tt_website_rodextrip/notification.html' %}
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
 <title id="title_search">{{name}} {% trans 'Train' %} - {% trans 'Booking' %}</title>
+{% include 'tt_website_rodextrip/waiting_transaction_modal.html' %}
+
 {%if template == 1%}
 <header id="header" class="header_breadcrumb">
     {% if 'co_customer_parent_type_name' in username and 'corp_limitation' not in username.co_agent_frontend_security %}
@@ -121,7 +123,7 @@
     </div>
 </header>
 {% endif %}
-{% include 'tt_website_rodextrip/waiting_transaction_modal.html' %}
+
 {% include 'tt_website_rodextrip/header_signin.html' %}
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
@@ -135,12 +137,6 @@
                 <button type="button" class="primary-btn-white for-show-mobile-inb mb-2" id="button-home-mb" onclick="window.location.href='/'" hidden>
                     <i class="fas fa-home"></i>
                 </button>
-                <div id="reorder_div" class="for-show-website-inb mb-2 mr-1">
-
-                </div>
-                <div id="button-re-order-div">
-
-                </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-8 col-xs-7" style="text-align:right;">
                 <button type="button" class="primary-btn-white mb-2" id="button-new-reservation" style="font-size:13px;" onclick="window.location.href='/'+window.location.href.split('/')[3]" hidden>
@@ -155,6 +151,13 @@
             <h3>{% trans 'Please Review Your Booking' %}</h3>
             <h4>{% trans 'Prices may changes at any time' %}</h4>
             <br/>
+            <div id="reorder_div" class="mb-2 mr-1">
+
+            </div>
+            <div id="button-re-order-div" class="mb-3">
+
+            </div>
+
         </div>
         <div class="col-lg-12" id="show_loading_booking_train">
             <div class="center-div">

@@ -2025,12 +2025,12 @@ function sort(value){
                                 <i class="fas fa-clock"></i><span class="copy_duration" style="font-weight:500;"> `+data_filter[i].elapsed_time.split(':')[0]+`h `+data_filter[i].elapsed_time.split(':')[1]+`m</span><br><span class="copy_transit" style="font-weight:500;">Duration</span>
                             </div>
                         </div>
-                        <div style="float:right; margin-top:20px; margin-bottom:10px;">`;
+                        <div style="float:right; margin-top:20px; margin-bottom:10px; text-align:right;">`;
                         check = 0;
                         for(j in journeys){
                             if(journeys[j].sequence == data_filter[i].sequence){
                                 if(data_filter[i].price != data_filter[i].without_discount_price){
-                                    response += `<span class="basic_fare_field" style="text-decoration: line-through;color:#cdcdcd;">IDR `+getrupiah(data_filter[i].without_discount_price)+`</span><br/>`
+                                    response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">IDR `+getrupiah(data_filter[i].without_discount_price)+`</span><br/>`
                                 }
                                 response+=`
                             <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
@@ -2040,8 +2040,8 @@ function sort(value){
                         }
                         if(check == 0){
                             if(data_filter[i].price != data_filter[i].without_discount_price)
-                                response += `<span class="basic_fare_field" style="text-decoration: line-through;color:#cdcdcd;">IDR `+getrupiah(data_filter[i].without_discount_price)+`</span><br/>`;
-                            response += `<span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>`
+                                response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">IDR `+getrupiah(data_filter[i].without_discount_price)+`</span><br/>`;
+                            response += `<span class="copy_price" style="font-size:16px; font-weight: bold; color:`+color+`;">IDR `+getrupiah(data_filter[i].price)+`</span><br/>`;
                             if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
                                 response+=`
                                 <input class="primary-btn-custom" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`)"  id="train_choose`+i+`" value="Choose">`;
@@ -2168,7 +2168,7 @@ function train_ticket_pick(){
                     <div style="float:right; margin-top:20px; margin-bottom:10px;">`;
                     check = 0;
                     if(journeys[i].price != journeys[i].without_discount_price){
-                        response += `<span class="basic_fare_field" style="text-decoration: line-through;color:#cdcdcd;">IDR `+getrupiah(journeys[i].without_discount_price)+`</span><br/>`
+                        response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">IDR `+getrupiah(journeys[i].without_discount_price)+`</span><br/>`
                     }
                     response+=`
                         <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(journeys[i].price)+`</span>

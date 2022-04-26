@@ -3763,8 +3763,43 @@ function open_signin_close_signup_modal(){
     $('#mylogintemplate6').modal('show');
 }
 
-function please_wait_custom(product, text_value){
+function please_wait_custom(text_value){
+    document.getElementById("text_value_waiting").innerHTML = text_value;
+}
+
+function show_loading_reorder(product){
+    $('.next-loading-reorder').addClass("running");
+    $('.next-loading-reorder').prop('disabled', true);
+    $('.issued_booking_btn').prop('disabled', true);
+    $('#button-sync-status').prop('disabled', true);
+
+    custom_waiting = '';
     if(product == 'airline'){
-        document.getElementById("text_value_waiting").innerHTML = text_value;
+        custom_waiting += `
+        <div id="waitFlightSearch" style="display:block;">
+            <div class="center-div-t">
+                <div>
+                    <img src="/static/tt_website_rodextrip/img/loading-screen-white.gif" style="height:30px; width:30px;"/>
+                </div>
+            </div>
+            <div style="text-align:center">
+                <span style="font-size:20px; font-weight:bold; color:`+text_color+`;" id="text_value_waiting">Set Request, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/></span>
+            </div>
+        </div>`;
+    }else if(product == 'train'){
+        custom_waiting += `
+        <div id="waitFlightSearch" style="display:block;">
+            <div class="center-div-t">
+                <div>
+                    <img src="/static/tt_website_rodextrip/img/loading-screen-white.gif" style="height:30px; width:30px;"/>
+                </div>
+            </div>
+            <div style="text-align:center">
+                <span style="font-size:20px; font-weight:bold; color:`+text_color+`;" id="text_value_waiting">Set Passenger, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/></span>
+            </div>
+        </div>`;
     }
+    document.getElementById("viewWaitingTransaction").innerHTML = custom_waiting;
+    $("#waitingTransaction").modal('show');
+
 }
