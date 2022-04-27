@@ -1642,7 +1642,7 @@ function check_passenger(adult, infant){
        }
        $('.loader-rodextrip').fadeIn();
        document.getElementById('time_limit_input').value = time_limit;
-       document.getElementById('train_review').submit();
+       upload_image();
    }
    else{
        $('.loader-rodextrip').fadeOut();

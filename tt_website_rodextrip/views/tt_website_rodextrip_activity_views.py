@@ -153,7 +153,6 @@ def search(request):
     else:
         return no_session_logout(request)
 
-
 def detail(request, activity_uuid):
     if 'user_account' in request.session._session:
         try:
@@ -226,7 +225,6 @@ def detail(request, activity_uuid):
         return render(request, MODEL_NAME+'/activity/activity_detail_templates.html', values)
     else:
         return no_session_logout(request)
-
 
 def passenger(request):
     if 'user_account' in request.session._session:
@@ -515,7 +513,6 @@ def passenger(request):
     else:
         return no_session_logout(request)
 
-
 def review(request):
     if 'user_account' in request.session._session:
         try:
@@ -547,6 +544,11 @@ def review(request):
                     time_limit = int(request.POST['time_limit_input'])
                 set_session(request, 'time_limit', time_limit)
 
+                try:
+                    img_list_data = json.loads(request.POST['image_list_data'])
+                except:
+                    img_list_data = []
+
                 booker = {
                     'title': request.POST['booker_title'],
                     'first_name': request.POST['booker_first_name'],
@@ -561,6 +563,7 @@ def review(request):
                 perpax_list = []
                 perpax_list_temp = []
                 for i in range(int(request.session['activity_request']['adult_passenger_count'])):
+                    img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'adult' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                     adult.append({
                         "first_name": request.POST['adult_first_name'+str(i+1)],
                         "last_name": request.POST['adult_last_name'+str(i+1)],
@@ -572,6 +575,7 @@ def review(request):
                         "identity_number": request.POST.get('adult_passport_number' + str(i + 1)) and request.POST['adult_passport_number' + str(i + 1)] or '',
                         "identity_expdate": request.POST.get('adult_passport_expired_date' + str(i + 1)) and request.POST['adult_passport_expired_date' + str(i + 1)] or '',
                         "identity_country_of_issued_name": request.POST.get('adult_country_of_issued' + str(i + 1)) and request.POST['adult_country_of_issued' + str(i + 1)] or '',
+                        "identity_image": img_identity_data,
                         "passenger_seq_id": request.POST['adult_id'+str(i+1)],
                         "identity_type": "passport",
                         "sku_id": request.POST['adult_sku_id'+str(i+1)],
@@ -822,7 +826,7 @@ def review(request):
 
                 #senior
                 for i in range(int(request.session['activity_request']['senior_passenger_count'])):
-
+                    img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'senior' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                     senior.append({
                         "first_name": request.POST['senior_first_name'+str(i+1)],
                         "last_name": request.POST['senior_last_name'+str(i+1)],
@@ -834,6 +838,7 @@ def review(request):
                         "identity_number": request.POST.get('senior_passport_number' + str(i + 1)) and request.POST['senior_passport_number' + str(i + 1)] or '',
                         "identity_expdate": request.POST.get('senior_passport_expired_date' + str(i + 1)) and request.POST['senior_passport_expired_date' + str(i + 1)] or '',
                         "identity_country_of_issued_name": request.POST.get('senior_country_of_issued' + str(i + 1)) and request.POST['senior_country_of_issued' + str(i + 1)] or '',
+                        "identity_image": img_identity_data,
                         "passenger_seq_id": request.POST['senior_id'+str(i+1)],
                         "identity_type": "passport",
                         "sku_id": request.POST['senior_sku_id' + str(i + 1)],
@@ -1008,6 +1013,7 @@ def review(request):
 
                 #child
                 for i in range(int(request.session['activity_request']['child_passenger_count'])):
+                    img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'child' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                     child.append({
                         "first_name": request.POST['child_first_name'+str(i+1)],
                         "last_name": request.POST['child_last_name'+str(i+1)],
@@ -1019,6 +1025,7 @@ def review(request):
                         "identity_number": request.POST.get('child_passport_number' + str(i + 1)) and request.POST['child_passport_number' + str(i + 1)] or '',
                         "identity_expdate": request.POST.get('child_passport_expired_date' + str(i + 1)) and request.POST['child_passport_expired_date' + str(i + 1)] or '',
                         "identity_country_of_issued_name": request.POST.get('child_country_of_issued' + str(i + 1)) and request.POST['child_country_of_issued' + str(i + 1)] or '',
+                        "identity_image": img_identity_data,
                         "passenger_seq_id": request.POST['child_id'+str(i+1)],
                         "identity_type": "passport",
                         "sku_id": request.POST['child_sku_id' + str(i + 1)],
@@ -1194,6 +1201,7 @@ def review(request):
 
                 #infant
                 for i in range(int(request.session['activity_request']['infant_passenger_count'])):
+                    img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'infant' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                     infant.append({
                         "first_name": request.POST['infant_first_name'+str(i+1)],
                         "last_name": request.POST['infant_last_name'+str(i+1)],
@@ -1205,6 +1213,7 @@ def review(request):
                         "identity_number": request.POST.get('infant_passport_number' + str(i + 1)) and request.POST['infant_passport_number' + str(i + 1)] or '',
                         "identity_expdate": request.POST.get('infant_passport_expired_date' + str(i + 1)) and request.POST['infant_passport_expired_date' + str(i + 1)] or '',
                         "identity_country_of_issued_name": request.POST.get('infant_country_of_issued' + str(i + 1)) and request.POST['infant_country_of_issued' + str(i + 1)] or '',
+                        "identity_image": img_identity_data,
                         "passenger_seq_id": request.POST['infant_id'+str(i+1)],
                         "identity_type": "passport",
                         "sku_id": request.POST['infant_sku_id' + str(i + 1)],

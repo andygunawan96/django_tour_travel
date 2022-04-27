@@ -3229,6 +3229,27 @@ function group_booking_can_sent(){
     });
 }
 
+function onchange_title(val){
+    if(document.getElementById('adult_pax_type'+val).value == 'ADT' && document.getElementById('adult_title'+val).value != 'MR' ||
+       document.getElementById('adult_pax_type'+val).value == 'ADT' && document.getElementById('adult_title'+val).value != 'MRS' ||
+       document.getElementById('adult_pax_type'+val).value == 'ADT' && document.getElementById('adult_title'+val).value != 'MS' ||
+       document.getElementById('adult_pax_type'+val).value == 'ADT' && document.getElementById('adult_title'+val).value != ''){
+        text = '';
+        text += '<option value="">Select Title</option><option value="MR">MR</option><option value="MRS">MRS</option><option value="MS">MS</option>';
+        document.getElementById('adult_title'+val).innerHTML = text;
+        $('#adult_title'+val).niceSelect('update');
+    }else if(document.getElementById('adult_pax_type'+val).value != 'ADT' && document.getElementById('adult_title'+val).value == 'MR' ||
+       document.getElementById('adult_pax_type'+val).value != 'ADT' && document.getElementById('adult_title'+val).value == 'MRS' ||
+       document.getElementById('adult_pax_type'+val).value != 'ADT' && document.getElementById('adult_title'+val).value == 'MS' ||
+       document.getElementById('adult_pax_type'+val).value != 'ADT' && document.getElementById('adult_title'+val).value == ''){
+        text = '';
+        text += '<option value="">Select Title</option><option value="MSTR">MSTR</option><option value="MISS">MISS</option>';
+        document.getElementById('adult_title'+val).innerHTML = text;
+        $('#adult_title'+val).niceSelect('update');
+    }
+
+}
+
 function add_table_of_passenger(type, data){
     text= '';
     set_passenger_number(counter_passenger);
@@ -3339,6 +3360,8 @@ function add_table_of_passenger(type, data){
                                         <div class="row">
                                             <div class="col-lg-12" style="background-color:white;" id="adult_paxs`+parseInt(counter_passenger+1)+`">
                                                 <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar`+parseInt(counter_passenger+1)+`" hidden>
+                                                    </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
                                                         <label style="color:red">*</label>
                                                         <label>Pax Type</label>`;
@@ -3357,9 +3380,9 @@ function add_table_of_passenger(type, data){
                                                         }
                                                         text+=`<div class="form-select-2">`;
                                                         if(template == 4){
-                                                            text+=`<select class="nice-select-default rounded" id="adult_pax_type`+parseInt(counter_passenger+1)+`" name="adult_pax_type`+parseInt(counter_passenger+1)+`">`;
+                                                            text+=`<select class="nice-select-default rounded" id="adult_pax_type`+parseInt(counter_passenger+1)+`" name="adult_pax_type`+parseInt(counter_passenger+1)+`" onchange="onchange_title(`+parseInt(counter_passenger+1)+`)">`;
                                                         }else{
-                                                            text+=`<select id="adult_pax_type`+parseInt(counter_passenger+1)+`" name="adult_pax_type`+parseInt(counter_passenger+1)+`">`;
+                                                            text+=`<select id="adult_pax_type`+parseInt(counter_passenger+1)+`" name="adult_pax_type`+parseInt(counter_passenger+1)+`" onchange="onchange_title(`+parseInt(counter_passenger+1)+`)">`;
                                                         }
                                                                 for(i in pax_type_list){
                                                                     text+= `<option value="`+i+`"`;
@@ -3455,7 +3478,41 @@ function add_table_of_passenger(type, data){
                                                             <input type="hidden" class="form-control" name="adult_years_old`+parseInt(counter_passenger+1)+`" id="adult_years_old`+parseInt(counter_passenger+1)+`">
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar_identity`+parseInt(counter_passenger+1)+`" hidden>
+                                                    </div>`;
+
+//                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+//                                                        <span>Identity Photo</span><br>
+//                                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_adult`+parseInt(counter_passenger+1)+`">Upload Image</button>
+//                                                        <!-- Modal -->
+//                                                        <div class="modal fade" id="myModal_attachment_identity_adult`+parseInt(counter_passenger+1)+`" data-keyboard="false">
+//                                                            <div class="modal-dialog">
+//
+//                                                                <!-- Modal content-->
+//                                                                <div class="modal-content">
+//                                                                    <div class="modal-header">
+//                                                                        <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+//                                                                        <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult`+parseInt(counter_passenger+1)+`').modal('hide');">×</button>
+//                                                                    </div>
+//                                                                    <div class="modal-body">
+//
+//                                                                        Files: <input type="file" id="adult_files_attachment_identity`+parseInt(counter_passenger+1)+`" name="adult_files_attachment_identity`+parseInt(counter_passenger+1)+`" accept="image/*"><br>
+//
+//                                                                        <div id="selectedFiles_adult_files_identity`+parseInt(counter_passenger+1)+`"></div>
+//                                                                        <div id="adult_attachment_identity`+parseInt(counter_passenger+1)+`">
+//
+//                                                                        </div>
+//                                                                    </div>
+//                                                                    <div class="modal-footer">
+//                                                                        <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_adult`+parseInt(counter_passenger+1)+`').modal('hide');">Close</button>
+//                                                                    </div>
+//                                                                </div>
+//                                                            </div>
+//                                                        </div>
+//                                                    </div>
+//                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+//                                                    </div>
+                                                    text+=`<div class="col-lg-6 col-md-6 col-sm-6">
                                                         <label style="color:red">*</label>
                                                         <label>ID Type</label>`;
                                                         if(template == 1){
@@ -3695,6 +3752,7 @@ function add_table_of_passenger(type, data){
         $('#adult_identity_type'+parseInt(counter_passenger+1)).niceSelect();
         auto_complete(`adult_nationality`+parseInt(counter_passenger+1));
         counter_passenger++;
+//        document.addEventListener("DOMContentLoaded", init_upload('adult',counter_passenger), false);
     }else{
         Swal.fire({
           type: 'warning',

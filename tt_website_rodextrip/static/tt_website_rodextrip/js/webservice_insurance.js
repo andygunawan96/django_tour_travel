@@ -115,6 +115,7 @@ function insurance_get_config(page=false){
                         break;
                     }
                 }
+                var choice = '';
                 zurich_insurance_destination = [];
                 origin_insurance_destination = [];
                 destination_insurance_destination = [];
@@ -217,43 +218,56 @@ function insurance_get_config(page=false){
                 }
 
                 if(page == 'passenger'){
-                    var choice = '<option value=""></option>';
+                    var choice_adult = '<option value=""></option>';
+                    var choice_child = '<option value=""></option>';
+                    var choice_all = '<option value=""></option>';
                     var choice_city = '<option value="">City</option>';
                     var choice_place_of_birth = '<option value="">Place of Birth</option>';
                     for(i in insurance_config){
                         if(i == 'bcainsurance'){
                             for(j in insurance_config[i]['Table Relation']){
-                                choice += '<option value="'+j+'">'+j+'</option>';
-                            }
-                        }
-                    }
-                    for(i in insurance_config){
-                        if(i == 'bcainsurance'){
-                            for(j in insurance_config[i]['City']['Domestic']){
-                                choice_city += '<option value="'+insurance_config[i]['City']['Domestic'][j]+'">'+insurance_config[i]['City']['Domestic'][j]+'</option>';
-                                choice_place_of_birth += '<option value="'+insurance_config[i]['City']['Domestic'][j]+'">'+insurance_config[i]['City']['Domestic'][j]+'</option>';
+                                if(j.toLowerCase().includes('anak')){
+                                    choice_child += '<option value="'+j+'">'+j+'</option>';
+                                    choice_all += '<option value="'+j+'">'+j+'</option>';
+                                }else if(j.toLowerCase().includes('saudara') == false){
+                                    choice_adult += '<option value="'+j+'">'+j+'</option>';
+                                    choice_all += '<option value="'+j+'">'+j+'</option>';
+                                }else{
+                                    choice_child += '<option value="'+j+'">'+j+'</option>';
+                                    choice_adult += '<option value="'+j+'">'+j+'</option>';
+                                    choice_all += '<option value="'+j+'">'+j+'</option>';
+                                }
                             }
                         }
                     }
                     for(var i=1;i<=parseInt(insurance_request.adult);i++){
+                        var counter = 1;
                         if(insurance_pick.provider == 'bcainsurance'){
                             if(insurance_pick.type_trip_name == 'Family'){
-                                document.getElementById('adult_relation1_relation'+i).innerHTML += choice;
-                                document.getElementById('adult_relation2_relation'+i).innerHTML += choice;
-                                document.getElementById('adult_relation3_relation'+i).innerHTML += choice;
-                                document.getElementById('adult_relation4_relation'+i).innerHTML += choice;
-                                $('#adult_relation1_relation'+i).niceSelect('update');
-                                $('#adult_relation2_relation'+i).niceSelect('update');
-                                $('#adult_relation3_relation'+i).niceSelect('update');
-                                $('#adult_relation4_relation'+i).niceSelect('update');
+                                for(var j=1;j<=parseInt(insurance_request.family.adult);j++){
+                                    document.getElementById('adult_relation'+counter+'_relation'+i).innerHTML += choice_adult;
+                                    $('#adult_relation'+counter+'_relation'+i).niceSelect('update');
+                                    document.getElementById('adult_additional_data_for_insurance'+i+'_'+counter).style.display = 'block';
+                                    counter++;
+                                }
+                                for(var j=1;j<=parseInt(insurance_request.family.child);j++){
+                                    document.getElementById('adult_relation'+counter+'_relation'+i).innerHTML += choice_child;
+                                    $('#adult_relation'+counter+'_relation'+i).niceSelect('update');
+                                    document.getElementById('adult_additional_data_for_insurance'+i+'_'+counter).style.display = 'block';
+                                    counter++;
+                                }
+
+//                                document.getElementById('adult_relation2_relation'+i).innerHTML += choice;
+//                                document.getElementById('adult_relation3_relation'+i).innerHTML += choice;
+//                                document.getElementById('adult_relation4_relation'+i).innerHTML += choice;
+//                                $('#adult_relation1_relation'+i).niceSelect('update');
+//                                $('#adult_relation2_relation'+i).niceSelect('update');
+//                                $('#adult_relation3_relation'+i).niceSelect('update');
+//                                $('#adult_relation4_relation'+i).niceSelect('update');
                             }
-                            document.getElementById('adult_relation5_relation'+i).innerHTML += choice;
+                            document.getElementById('adult_relation5_relation'+i).innerHTML += choice_all;
                             $('#adult_relation5_relation'+i).niceSelect('update');
                         }
-                        document.getElementById('adult_city'+i+'_id').innerHTML += choice_city;
-                        $('#adult_city'+i+'_id').select2();
-                        document.getElementById('adult_place_of_birth'+i+'_id').innerHTML += choice_place_of_birth;
-                        $('#adult_place_of_birth'+i+'_id').select2();
                     }
                 }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -536,9 +550,15 @@ function sort(data){
                                         text+=`
                                         </div>
                                         <div class="col-lg-12 mt-2">
-                                            <span style="float:left; margin-right:5px;font-size:16px;font-weight:bold; color:`+color+`;">IDR `+getrupiah(insurance_data_filter[i][j].total_price)+`</span>
-                                            <span> / `+insurance_request.adult+` pax</span>
-                                            <button style="line-height:32px; float:right;" type="button" class="primary-btn" onclick="go_to_detail('`+i+`','`+sequence+`')">BUY</button>
+                                            <span style="float:left; margin-right:5px;font-size:16px;font-weight:bold; color:`+color+`;">IDR `+getrupiah(insurance_data_filter[i][j].total_price)+`</span>`;
+                                        if(insurance_data_filter[i][j].type_trip_name == 'Individual')
+                                            text+=`
+                                                <span> / Pax</span>`;
+                                        else
+                                            text+=`
+                                                <span> / Family</span>`;
+                                        text+=`
+                                            <button style="line-height:32px; float:right;" type="button" class="primary-btn" onclick="modal_policy('`+i+`','`+sequence+`')">BUY</button>
                                         </div>
                                         <div class="col-lg-12 mt-2">`;
                                             if(insurance_data_filter[i][j].provider == 'zurich'){
@@ -691,11 +711,112 @@ function insurance_filter_render(){
     document.getElementById("sorting-flight2").appendChild(node2);
 }
 
-function go_to_detail(provider, sequence){
+function go_to_detail(res){
     document.getElementById('time_limit_input').value = time_limit;
     document.getElementById('signature_data').value = signature;
-    document.getElementById('data_insurance').value = JSON.stringify(insurance_data[provider][sequence]);
+    document.getElementById('pax').value = document.getElementById('total_pax').value;
+    document.getElementById('adult').value = document.getElementById('total_adult') ? document.getElementById('total_adult').value : '1';
+    document.getElementById('child').value = document.getElementById('total_child') ? document.getElementById('total_child').value : '0';
+    document.getElementById('data_insurance').value = JSON.stringify(res);
     document.getElementById('insurance_next').submit();
+}
+
+function modal_policy(provider,sequence){
+    provider_choose = provider;
+    sequence_choose = sequence;
+    text = '';
+    if(insurance_data[provider][sequence]['type_trip_name'] == 'Individual'){
+        text += `<div class="col-lg-4"></div>
+                 <div class="col-lg-4">
+                    <label>Total Pax</label>
+                    <div class="input-container-search-ticket">
+                        <input type="number" max="5" min="1" value="1" class="form-control" id="total_pax" name="total_pax" placeholder="Total Pax " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Pax '">
+                    </div>`;
+        text+= `    <button style="line-height:32px; float:center;" type="button" class="primary-btn" onclick="insurance_sell('`+provider_choose+`','`+sequence_choose+`')">BUY</button>`;
+        text+=`
+                 </div>
+                 <div class="col-lg-4"></div>`;
+    }else{
+        text += `<div class="col-lg-2"></div>
+                 <div class="col-lg-8">
+                    <div class="row">
+                         <div class="col-lg-6">
+                            <label>Adult</label>
+                            <input type="hidden" value="1" class="form-control" name="total_pax" id="total_pax" placeholder="Total Pax " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Pax '">
+                            <div class="input-container-search-ticket">
+                                <input type="number" max="2" min="1" class="form-control" id="total_adult" placeholder="Total Adult " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Adult '">
+                            </div>
+                         </div>
+                         <div class="col-lg-6">
+                            <label>Child</label>
+                            <div class="input-container-search-ticket">
+                                <input type="number" max="3" min="0" class="form-control" id="total_child" name="total_child" placeholder="Total Child " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Child '">
+                            </div>
+                         </div>
+                         <div class="col-lg-12">
+                            <button style="line-height:32px; float:center;" type="button" class="primary-btn" onclick="insurance_sell('`+provider_choose+`','`+sequence_choose+`')">BUY</button>
+                         </div>
+                    </div>
+                 </div>
+                 <div class="col-lg-2"></div>`;
+    }
+    document.getElementById('modal_policy_body').innerHTML = text;
+    $('#myModalPolicy').modal('show');
+}
+
+function insurance_sell(provider, sequence){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/insurance",
+       headers:{
+            'action': 'sell_insurance',
+       },
+       data: {
+            'signature': signature,
+            'total_policy': document.getElementById('total_pax').value,
+            'insurance_pick': JSON.stringify(insurance_data[provider][sequence])
+       },
+       success: function(msg) {
+       try{
+            console.log(msg);
+           if(msg.result.error_code == 0){
+                go_to_detail(msg.result.response)
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+               })
+               try{
+                $("#show_loading_booking_insurance").hide();
+               }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+               }
+           }
+       }catch(err){
+            console.log(err);
+           Swal.fire({
+               type: 'error',
+               title: 'Oops...',
+               text: 'Something went wrong, please try again or check your internet connection',
+           })
+           $('.loader-rodextrip').fadeOut();
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error insurance sell');
+          $("#barFlightSearch").hide();
+          $("#waitFlightSearch").hide();
+          $('.loader-rodextrip').fadeOut();
+          try{
+            $("#show_loading_booking_insurance").hide();
+          }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+          }
+       },timeout: 60000
+    });
 }
 
 function insurance_get_token(){
@@ -706,7 +827,6 @@ function insurance_get_token(){
        headers:{
             'action': 'get_token',
        },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
@@ -1119,10 +1239,12 @@ function get_insurance_data_passenger_page(){
             price_detail();
             var counter_additional = 0;
             var counter_pax = 0;
+            var add_benefit = false;
             if(insurance_pick.hasOwnProperty('additional_benefit')){
                 for(i in insurance_pick.additional_benefit){
                     // autopick benefit covid
                     if(insurance_pick.additional_benefit[i].text[0].toLowerCase().includes('covid')){
+                        add_benefit = true;
                         counter_additional = parseInt(parseInt(i)+1).toString();
                         for(j=0;j<adult;j++){
                             counter_pax = parseInt(parseInt(j)+1).toString();
@@ -1130,7 +1252,8 @@ function get_insurance_data_passenger_page(){
                         }
                     }
                 }
-                edit_additional_benefit();
+                if(add_benefit)
+                    edit_additional_benefit();
             }
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1544,17 +1667,13 @@ function check_passenger(){
            $("#adult_nationality"+i).each(function() {
              $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
            });
-       }if(document.getElementById('adult_place_of_birth'+i+'_id').value == ''){
+       }if(document.getElementById('adult_place_of_birth'+i).value == ''){
            error_log+= 'Please fill place of birth for passenger adult '+i+'!</br>\n';
            //document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
-           $("#adult_place_of_birth"+i+'_id').each(function() {
-             $(this).siblings(".select2-container").css('border', '1px solid red');
-           });
+           document.getElementById('adult_place_of_birth'+i).style['border-color'] = 'red';
        }else{
            //document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
-           $("#adult_place_of_birth"+i+"_id").each(function() {
-             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-           });
+           document.getElementById('adult_place_of_birth'+i).style['border-color'] = '#EFEFEF';
        }
         //KTP
         if(document.getElementById('adult_identity_type'+i).style.display == 'block'){
@@ -1650,283 +1769,350 @@ function check_passenger(){
            document.getElementById('adult_postal_code'+i).style['border-color'] = '#EFEFEF';
         }
 
-        if(document.getElementById('adult_city'+i).value == '' || document.getElementById('adult_city'+i).value == 'City'){
-           error_log+= 'Please fill city for passenger adult '+i+'!</br>\n';
-           $("#adult_city"+i+"_id").each(function() {
-             $(this).siblings(".select2-container").css('border', '1px solid red');
-           });
+        if(document.getElementById('adult_city'+i).value == ''){
+            error_log+= 'Please fill city for passenger adult '+i+'!</br>\n';
+            document.getElementById('adult_city'+i).style['border-color'] = 'red';
         }else{
-           $("#adult_city"+i+"_id").each(function() {
-             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-           });
+            document.getElementById('adult_city'+i).style['border-color'] = '#EFEFEF';
         }
 
         //PAKET FAMILY
         if(insurance_pick.type_trip_name == 'Family'){
-            if(check_name(document.getElementById('adult_relation1_title'+i).value,
-                document.getElementById('adult_relation1_first_name'+i).value,
-                document.getElementById('adult_relation1_last_name'+i).value,
-                length_name) == false){
-               error_log+= 'Total of spouse '+i+' name maximum '+length_name+' characters!</br>\n';
-               document.getElementById('adult_relation1_first_name'+i).style['border-color'] = 'red';
-               document.getElementById('adult_relation1_last_name'+i).style['border-color'] = 'red';
-            }else{
-               document.getElementById('adult_relation1_first_name'+i).style['border-color'] = '#EFEFEF';
-               document.getElementById('adult_relation1_last_name'+i).style['border-color'] = '#EFEFEF';
-            }if(document.getElementById('adult_relation1_first_name'+i).value == '' || check_word(document.getElementById('adult_relation1_first_name'+i).value) == false){
-               if(document.getElementById('adult_relation1_first_name'+i).value == '')
-                   error_log+= 'Please input first name of spouse customer '+i+'!</br>\n';
-               else if(check_word(document.getElementById('adult_relation1_first_name'+i).value) == false)
-                   error_log+= 'Please use alpha characters first name of spouse customer '+i+'!</br>\n';
-               document.getElementById('adult_relation1_first_name'+i).style['border-color'] = 'red';
-            }else{
-               document.getElementById('adult_relation1_first_name'+i).style['border-color'] = '#EFEFEF';
+            var counter = 1;
+            for(var j=1;j<=parseInt(insurance_request.family.adult);j++){
+                if(check_name(document.getElementById('adult_relation'+counter+'_title'+i).value,
+                    document.getElementById('adult_relation'+counter+'_first_name'+i).value,
+                    document.getElementById('adult_relation'+counter+'_last_name'+i).value,
+                    length_name) == false){
+                   error_log+= 'Total of relation '+counter+' name maximum '+length_name+' characters!</br>\n';
+                   document.getElementById('adult_relation'+counter+'_first_name'+i).style['border-color'] = 'red';
+                   document.getElementById('adult_relation'+counter+'_last_name'+i).style['border-color'] = 'red';
+                }else{
+                   document.getElementById('adult_relation'+counter+'_first_name'+i).style['border-color'] = '#EFEFEF';
+                   document.getElementById('adult_relation'+counter+'_last_name'+i).style['border-color'] = '#EFEFEF';
+                }if(document.getElementById('adult_relation'+counter+'_first_name'+i).value == '' || check_word(document.getElementById('adult_relation'+counter+'_first_name'+i).value) == false){
+                   if(document.getElementById('adult_relation'+counter+'_first_name'+i).value == '')
+                       error_log+= 'Please input first name of relation '+counter+'!</br>\n';
+                   else if(check_word(document.getElementById('adult_relation'+counter+'_first_name'+i).value) == false)
+                       error_log+= 'Please use alpha characters first name of relation '+counter+'!</br>\n';
+                   document.getElementById('adult_relation'+counter+'_first_name'+i).style['border-color'] = 'red';
+                }else{
+                   document.getElementById('adult_relation'+counter+'_first_name'+i).style['border-color'] = '#EFEFEF';
+                }
+
+                if(document.getElementById('adult_relation'+counter+'_relation'+i).value == '' && document.getElementById('adult_relation'+counter+'_first_name'+i).value != ''){
+                    error_log+= 'Please fill relation '+counter+'!</br>\n';
+                    $("#adult_relation"+counter+"_relation"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
+                }else{
+                    $("#adult_relation"+counter+"_relation"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+                    });
+                }
+
+                //PASSPORT
+                if(insurance_pick.sector_type == 'International'){
+                   if(document.getElementById('adult_relation'+counter+'_identity_type'+i).value == 'passport'){
+                       if(document.getElementById('adult_relation'+counter+'_identity_type'+i).value == 'passport' && check_passport(document.getElementById('adult_relation'+counter+'_passport_number'+i).value) == false){
+                           error_log+= 'Please fill id number, passport only contain more than 6 digits for relation '+counter+'!</br>\n';
+                           document.getElementById('adult_relation'+counter+'_passport_number'+i).style['border-color'] = 'red';
+                       }else{
+                           document.getElementById('adult_relation'+counter+'_passport_number'+i).style['border-color'] = '#EFEFEF';
+                       }
+                       if(document.getElementById('adult_relation'+counter+'_passport_expired_date'+i).value == ''){
+                           error_log+= 'Please fill passport expired date for relation '+counter+'!</br>\n';
+                           document.getElementById('adult_relation'+counter+'_expired_date'+i).style['border-color'] = 'red';
+                       }else{
+                           duration = moment.duration(moment(document.getElementById('adult_relation'+counter+'_passport_expired_date'+i).value).diff(last_departure_date));
+                           //CHECK EXPIRED
+                           if(duration._milliseconds < 0 ){
+                                error_log+= 'Please update passport expired date for relation '+counter+'!</br>\n';
+                                document.getElementById('adult_relation'+counter+'_passport_expired_date'+i).style['border-color'] = 'red';
+                           }else
+                                document.getElementById('adult_relation'+counter+'_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                       }if(document.getElementById('adult_relation'+counter+'_passport_country_of_issued'+i).value == '' || document.getElementById('adult_relation'+counter+'_passport_country_of_issued'+i).value == 'Country of Issued'){
+                           error_log+= 'Please fill country of issued for relation '+counter+'!</br>\n';
+                           $("#adult_relation"+counter+"_passport_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid red');
+                           });
+                       }else{
+                           $("#adult_relation"+counter+"_passport_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                           });
+                       }
+                   }
+                }
+                counter++;
+            }
+            for(var j=1;j<=parseInt(insurance_request.family.child);j++){
+                if(check_name(document.getElementById('adult_relation'+counter+'_title'+i).value,
+                    document.getElementById('adult_relation'+counter+'_first_name'+i).value,
+                    document.getElementById('adult_relation'+counter+'_last_name'+i).value,
+                    length_name) == false){
+                   error_log+= 'Total of relation '+counter+' name maximum '+length_name+' characters!</br>\n';
+                   document.getElementById('adult_relation'+counter+'_first_name'+i).style['border-color'] = 'red';
+                   document.getElementById('adult_relation'+counter+'_last_name'+i).style['border-color'] = 'red';
+                }else{
+                   document.getElementById('adult_relation'+counter+'_first_name'+i).style['border-color'] = '#EFEFEF';
+                   document.getElementById('adult_relation'+counter+'_last_name'+i).style['border-color'] = '#EFEFEF';
+                }if(document.getElementById('adult_relation'+counter+'_first_name'+i).value == '' || check_word(document.getElementById('adult_relation'+counter+'_first_name'+i).value) == false){
+                   if(document.getElementById('adult_relation'+counter+'_first_name'+i).value == '')
+                       error_log+= 'Please input first name of relation '+counter+'!</br>\n';
+                   else if(check_word(document.getElementById('adult_relation'+counter+'_first_name'+i).value) == false)
+                       error_log+= 'Please use alpha characters first name of relation '+counter+'!</br>\n';
+                   document.getElementById('adult_relation'+counter+'_first_name'+i).style['border-color'] = 'red';
+                }else{
+                   document.getElementById('adult_relation'+counter+'_first_name'+i).style['border-color'] = '#EFEFEF';
+                }
+
+                if(document.getElementById('adult_relation'+counter+'_relation'+i).value == '' && document.getElementById('adult_relation'+counter+'_first_name'+i).value != ''){
+                    error_log+= 'Please fill relation '+counter+'!</br>\n';
+                    $("#adult_relation"+counter+"_relation"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
+                }else{
+                    $("#adult_relation"+counter+"_relation"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+                    });
+                }
+
+                //PASSPORT
+                if(insurance_pick.sector_type == 'International'){
+                   if(document.getElementById('adult_relation'+counter+'_identity_type'+i).value == 'passport'){
+                       if(document.getElementById('adult_relation'+counter+'_identity_type'+i).value == 'passport' && check_passport(document.getElementById('adult_relation'+counter+'_passport_number'+i).value) == false){
+                           error_log+= 'Please fill id number, passport only contain more than 6 digits for relation '+counter+'!</br>\n';
+                           document.getElementById('adult_relation'+counter+'_passport_number'+i).style['border-color'] = 'red';
+                       }else{
+                           document.getElementById('adult_relation'+counter+'_passport_number'+i).style['border-color'] = '#EFEFEF';
+                       }
+                       if(document.getElementById('adult_relation'+counter+'_passport_expired_date'+i).value == ''){
+                           error_log+= 'Please fill passport expired date for relation '+counter+'!</br>\n';
+                           document.getElementById('adult_relation'+counter+'_expired_date'+i).style['border-color'] = 'red';
+                       }else{
+                           duration = moment.duration(moment(document.getElementById('adult_relation'+counter+'_passport_expired_date'+i).value).diff(last_departure_date));
+                           //CHECK EXPIRED
+                           if(duration._milliseconds < 0 ){
+                                error_log+= 'Please update passport expired date for relation '+counter+'!</br>\n';
+                                document.getElementById('adult_relation'+counter+'_passport_expired_date'+i).style['border-color'] = 'red';
+                           }else
+                                document.getElementById('adult_relation'+counter+'_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+                       }if(document.getElementById('adult_relation'+counter+'_passport_country_of_issued'+i).value == '' || document.getElementById('adult_relation'+counter+'_passport_country_of_issued'+i).value == 'Country of Issued'){
+                           error_log+= 'Please fill country of issued for relation '+counter+'!</br>\n';
+                           $("#adult_relation"+counter+"_passport_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid red');
+                           });
+                       }else{
+                           $("#adult_relation"+counter+"_passport_country_of_issued"+i+"_id").each(function() {
+                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                           });
+                       }
+                   }
+                }
+                counter++;
             }
 
-            if(document.getElementById('adult_relation1_relation'+i).value == '' && document.getElementById('adult_relation1_first_name'+i).value != ''){
-                error_log+= 'Please fill first relation for passenger adult '+i+'!</br>\n';
-                $("#adult_relation1_relation"+i).each(function() {
-                    $(this).parent().find('.nice-select').css('border', '1px solid red');
-                });
-            }else{
-                $("#adult_relation1_relation"+i).each(function() {
-                    $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
-                });
-            }
-
-            //PASSPORT
-            if(insurance_pick.sector_type == 'International'){
-               if(document.getElementById('adult_relation1_identity_type'+i).value == 'passport'){
-                   if(document.getElementById('adult_relation1_identity_type'+i).value == 'passport' && check_passport(document.getElementById('adult_relation1_passport_number'+i).value) == false){
-                       error_log+= 'Please fill id number, passport only contain more than 6 digits for spouse customer'+i+'!</br>\n';
-                       document.getElementById('adult_relation1_passport_number'+i).style['border-color'] = 'red';
-                   }else{
-                       document.getElementById('adult_relation1_passport_number'+i).style['border-color'] = '#EFEFEF';
-                   }
-                   if(document.getElementById('adult_relation1_passport_expired_date'+i).value == ''){
-                       error_log+= 'Please fill passport expired date for spouse customer '+i+'!</br>\n';
-                       document.getElementById('adult_relation1_expired_date'+i).style['border-color'] = 'red';
-                   }else{
-                       duration = moment.duration(moment(document.getElementById('adult_relation1_passport_expired_date'+i).value).diff(last_departure_date));
-                       //CHECK EXPIRED
-                       if(duration._milliseconds < 0 ){
-                            error_log+= 'Please update passport expired date for spouse customer '+i+'!</br>\n';
-                            document.getElementById('adult_relation1_passport_expired_date'+i).style['border-color'] = 'red';
-                       }else
-                            document.getElementById('adult_relation1_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                   }if(document.getElementById('adult_relation1_passport_country_of_issued'+i).value == '' || document.getElementById('adult_relation1_passport_country_of_issued'+i).value == 'Country of Issued'){
-                       error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                       $("#adult_relation1_passport_country_of_issued"+i+"_id").each(function() {
-                         $(this).siblings(".select2-container").css('border', '1px solid red');
-                       });
-                   }else{
-                       $("#adult_relation1_passport_country_of_issued"+i+"_id").each(function() {
-                         $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-                       });
-                   }
-               }
-            }
 
             //ANAK 1 CAN BE NOT FILLED
 
-            if(document.getElementById('adult_relation2_title'+i).value != '' && document.getElementById('adult_relation2_first_name'+i).value != '' && document.getElementById('adult_relation2_last_name'+i).value != ''){
-                if(check_name(document.getElementById('adult_relation2_title'+i).value,
-                    document.getElementById('adult_relation2_first_name'+i).value,
-                    document.getElementById('adult_relation2_last_name'+i).value,
-                    length_name) == false){
-                   error_log+= 'Total of child 1 for customer '+i+' name maximum '+length_name+' characters!</br>\n';
-                   document.getElementById('adult_relation2_first_name'+i).style['border-color'] = 'red';
-                   document.getElementById('adult_relation2_last_name'+i).style['border-color'] = 'red';
-                }else{
-                   document.getElementById('adult_relation2_first_name'+i).style['border-color'] = '#EFEFEF';
-                   document.getElementById('adult_relation2_last_name'+i).style['border-color'] = '#EFEFEF';
-                }if(document.getElementById('adult_relation2_first_name'+i).value == '' || check_word(document.getElementById('adult_relation2_first_name'+i).value) == false){
-                   if(document.getElementById('adult_relation2_first_name'+i).value == '')
-                       error_log+= 'Please input first name of child 1 for customer '+i+'!</br>\n';
-                   else if(check_word(document.getElementById('adult_relation2_first_name'+i).value) == false)
-                       error_log+= 'Please use alpha characters first name of child 1 for customer '+i+'!</br>\n';
-                   document.getElementById('adult_relation2_first_name'+i).style['border-color'] = 'red';
-                }else{
-                   document.getElementById('adult_relation2_first_name'+i).style['border-color'] = '#EFEFEF';
-                }
-
-                if(document.getElementById('adult_relation2_relation'+i).value == ''){
-                    error_log+= 'Please fill second relation for passenger adult '+i+'!</br>\n';
-                    $("#adult_relation2_relation"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid red');
-                    });
-                }else{
-                    $("#adult_relation2_relation"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
-                    });
-                }
-
-                //PASSPORT
-                if(insurance_pick.sector_type == 'International'){
-                   if(document.getElementById('adult_relation2_identity_type'+i).value == 'passport'){
-                       if(document.getElementById('adult_relation2_identity_type'+i).value == 'passport' && check_passport(document.getElementById('adult_relation2_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, passport only contain more than 6 digits for spouse customer'+i+'!</br>\n';
-                           document.getElementById('adult_relation2_passport_number'+i).style['border-color'] = 'red';
-                       }else{
-                           document.getElementById('adult_relation2_passport_number'+i).style['border-color'] = '#EFEFEF';
-                       }
-                       if(document.getElementById('adult_relation2_passport_expired_date'+i).value == ''){
-                           error_log+= 'Please fill passport expired date for spouse customer '+i+'!</br>\n';
-                           document.getElementById('adult_relation2_passport_expired_date'+i).style['border-color'] = 'red';
-                       }else{
-                           duration = moment.duration(moment(document.getElementById('adult_relation2_passport_expired_date'+i).value).diff(last_departure_date));
-                           //CHECK EXPIRED
-                           if(duration._milliseconds < 0 ){
-                                error_log+= 'Please update passport expired date for spouse customer '+i+'!</br>\n';
-                                document.getElementById('adult_relation2_passport_expired_date'+i).style['border-color'] = 'red';
-                           }else
-                                document.getElementById('adult_relation2_expired_date'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('adult_relation2_passport_country_of_issued'+i).value == '' || document.getElementById('adult_relation2_passport_country_of_issued'+i).value == 'Country of Issued'){
-                           error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                           $("#adult_relation5_passport_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid red');
-                           });
-                       }else{
-                           $("#adult_relation2_passport_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-                           });
-                       }
-                   }
-                }
-            }
-
-                //ANAK 2 IF FIRST NAME KOSONG LEWAT
-            if(document.getElementById('adult_relation3_title'+i).value != '' && document.getElementById('adult_relation3_first_name'+i).value != '' && document.getElementById('adult_relation3_last_name'+i).value != ''){
-                if(check_name(document.getElementById('adult_relation3_title'+i).value,
-                    document.getElementById('adult_relation3_first_name'+i).value,
-                    document.getElementById('adult_relation3_last_name'+i).value,
-                    length_name) == false){
-                   error_log+= 'Total of child 2 for customer '+i+' name maximum '+length_name+' characters!</br>\n';
-                   document.getElementById('adult_relation3_first_name'+i).style['border-color'] = 'red';
-                   document.getElementById('adult_relation3_last_name'+i).style['border-color'] = 'red';
-                }else{
-                   document.getElementById('adult_relation3_first_name'+i).style['border-color'] = '#EFEFEF';
-                   document.getElementById('adult_relation3_last_name'+i).style['border-color'] = '#EFEFEF';
-                }if(document.getElementById('adult_relation3_first_name'+i).value == '' || check_word(document.getElementById('adult_relation3_first_name'+i).value) == false){
-                   if(document.getElementById('adult_relation3_first_name'+i).value == '')
-                       error_log+= 'Please input first name of child 2 for customer '+i+'!</br>\n';
-                   else if(check_word(document.getElementById('adult_relation3_first_name'+i).value) == false)
-                       error_log+= 'Please use alpha characters first name of child 2 for customer '+i+'!</br>\n';
-                   document.getElementById('adult_relation3_first_name'+i).style['border-color'] = 'red';
-                }else{
-                   document.getElementById('adult_relation3_first_name'+i).style['border-color'] = '#EFEFEF';
-                }
-
-                if(document.getElementById('adult_relation3_relation'+i).value == ''){
-                    error_log+= 'Please fill third relation for passenger adult '+i+'!</br>\n';
-                    $("#adult_relation3_relation"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid red');
-                    });
-                }else{
-                    $("#adult_relation3_relation"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
-                    });
-                }
-                //PASSPORT
-                if(insurance_pick.sector_type == 'International'){
-                   if(document.getElementById('adult_relation3_identity_type'+i).value == 'passport'){
-                       if(document.getElementById('adult_relation3_identity_type'+i).value == 'passport' && check_passport(document.getElementById('adult_relation3_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, passport only contain more than 6 digits for spouse customer'+i+'!</br>\n';
-                           document.getElementById('adult_relation3_passport_number'+i).style['border-color'] = 'red';
-                       }else{
-                           document.getElementById('adult_relation3_passport_number'+i).style['border-color'] = '#EFEFEF';
-                       }
-                       if(document.getElementById('adult_relation3_passport_expired_date'+i).value == ''){
-                           error_log+= 'Please fill passport expired date for spouse customer '+i+'!</br>\n';
-                           document.getElementById('adult_relation3_passport_expired_date'+i).style['border-color'] = 'red';
-                       }else{
-                           duration = moment.duration(moment(document.getElementById('adult_relation3_passport_expired_date'+i).value).diff(last_departure_date));
-                           //CHECK EXPIRED
-                           if(duration._milliseconds < 0 ){
-                                error_log+= 'Please update passport expired date for spouse customer '+i+'!</br>\n';
-                                document.getElementById('adult_relation3_passport_expired_date'+i).style['border-color'] = 'red';
-                           }else
-                                document.getElementById('adult_relation3_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('adult_relation3_passport_country_of_issued'+i).value == '' || document.getElementById('adult_relation3_passport_country_of_issued'+i).value == 'Country of Issued'){
-                           error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                           $("#adult_relation5_passport_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid red');
-                           });
-                       }else{
-                           $("#adult_relation5_passport_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-                           });
-                       }
-                   }
-                }
-            }
-
-            //ANAK 3 IF FIRST NAME KOSONG LEWAT
-            if(document.getElementById('adult_relation4_title'+i).value != '' && document.getElementById('adult_relation4_first_name'+i).value != '' && document.getElementById('adult_relation4_last_name'+i).value != ''){
-                if(check_name(document.getElementById('adult_relation4_title'+i).value,
-                    document.getElementById('adult_relation4_first_name'+i).value,
-                    document.getElementById('adult_relation4_last_name'+i).value,
-                    length_name) == false){
-                   error_log+= 'Total of child 3 for customer '+i+' name maximum '+length_name+' characters!</br>\n';
-                   document.getElementById('adult_relation4_first_name'+i).style['border-color'] = 'red';
-                   document.getElementById('adult_relation4_last_name'+i).style['border-color'] = 'red';
-                }else{
-                   document.getElementById('adult_relation4_first_name'+i).style['border-color'] = '#EFEFEF';
-                   document.getElementById('adult_relation4_last_name'+i).style['border-color'] = '#EFEFEF';
-                }if(document.getElementById('adult_relation4_first_name'+i).value == '' || check_word(document.getElementById('adult_relation4_first_name'+i).value) == false){
-                   if(document.getElementById('adult_relation4_first_name'+i).value == '')
-                       error_log+= 'Please input first name of child 3 for customer '+i+'!</br>\n';
-                   else if(check_word(document.getElementById('adult_relation4_first_name'+i).value) == false)
-                       error_log+= 'Please use alpha characters first name of child 3 for customer '+i+'!</br>\n';
-                   document.getElementById('adult_relation4_first_name'+i).style['border-color'] = 'red';
-                }else{
-                   document.getElementById('adult_relation4_first_name'+i).style['border-color'] = '#EFEFEF';
-                }
-
-                if(document.getElementById('adult_relation4_relation'+i).value == ''){
-                    error_log+= 'Please fill fourth relation for passenger adult '+i+'!</br>\n';
-                    $("#adult_relation4_relation"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid red');
-                    });
-                }else{
-                    $("#adult_relation1_relation"+i).each(function() {
-                        $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
-                    });
-                }
-                //PASSPORT
-                if(insurance_pick.sector_type == 'International'){
-                   if(document.getElementById('adult_relation4_identity_type'+i).value == 'passport'){
-                       if(document.getElementById('adult_relation4_identity_type'+i).value == 'passport' && check_passport(document.getElementById('adult_relation4_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, passport only contain more than 6 digits for spouse customer'+i+'!</br>\n';
-                           document.getElementById('adult_relation4_passport_number'+i).style['border-color'] = 'red';
-                       }else{
-                           document.getElementById('adult_relation4_passport_number'+i).style['border-color'] = '#EFEFEF';
-                       }
-                       if(document.getElementById('adult_relation4_passport_expired_date'+i).value == ''){
-                           error_log+= 'Please fill passport expired date for spouse customer '+i+'!</br>\n';
-                           document.getElementById('adult_relation4_passport_expired_date'+i).style['border-color'] = 'red';
-                       }else{
-                           duration = moment.duration(moment(document.getElementById('adult_relation4_expired_date'+i).value).diff(last_departure_date));
-                           //CHECK EXPIRED
-                           if(duration._milliseconds < 0 ){
-                                error_log+= 'Please update passport expired date for spouse customer '+i+'!</br>\n';
-                                document.getElementById('adult_relation4_passport_expired_date'+i).style['border-color'] = 'red';
-                           }else
-                                document.getElementById('adult_relation4_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('adult_relation4_passport_country_of_issued'+i).value == '' || document.getElementById('adult_relation4_passport_country_of_issued'+i).value == 'Country of Issued'){
-                           error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                           $("#adult_relation5_passport_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid red');
-                           });
-                       }else{
-                           $("#adult_relation5_passport_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-                           });
-                       }
-                   }
-                }
-
-            }
+//            if(document.getElementById('adult_relation2_title'+i).value != '' && document.getElementById('adult_relation2_first_name'+i).value != '' && document.getElementById('adult_relation2_last_name'+i).value != ''){
+//                if(check_name(document.getElementById('adult_relation2_title'+i).value,
+//                    document.getElementById('adult_relation2_first_name'+i).value,
+//                    document.getElementById('adult_relation2_last_name'+i).value,
+//                    length_name) == false){
+//                   error_log+= 'Total of child 1 for customer '+i+' name maximum '+length_name+' characters!</br>\n';
+//                   document.getElementById('adult_relation2_first_name'+i).style['border-color'] = 'red';
+//                   document.getElementById('adult_relation2_last_name'+i).style['border-color'] = 'red';
+//                }else{
+//                   document.getElementById('adult_relation2_first_name'+i).style['border-color'] = '#EFEFEF';
+//                   document.getElementById('adult_relation2_last_name'+i).style['border-color'] = '#EFEFEF';
+//                }if(document.getElementById('adult_relation2_first_name'+i).value == '' || check_word(document.getElementById('adult_relation2_first_name'+i).value) == false){
+//                   if(document.getElementById('adult_relation2_first_name'+i).value == '')
+//                       error_log+= 'Please input first name of child 1 for customer '+i+'!</br>\n';
+//                   else if(check_word(document.getElementById('adult_relation2_first_name'+i).value) == false)
+//                       error_log+= 'Please use alpha characters first name of child 1 for customer '+i+'!</br>\n';
+//                   document.getElementById('adult_relation2_first_name'+i).style['border-color'] = 'red';
+//                }else{
+//                   document.getElementById('adult_relation2_first_name'+i).style['border-color'] = '#EFEFEF';
+//                }
+//
+//                if(document.getElementById('adult_relation2_relation'+i).value == ''){
+//                    error_log+= 'Please fill second relation for passenger adult '+i+'!</br>\n';
+//                    $("#adult_relation2_relation"+i).each(function() {
+//                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+//                    });
+//                }else{
+//                    $("#adult_relation2_relation"+i).each(function() {
+//                        $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+//                    });
+//                }
+//
+//                //PASSPORT
+//                if(insurance_pick.sector_type == 'International'){
+//                   if(document.getElementById('adult_relation2_identity_type'+i).value == 'passport'){
+//                       if(document.getElementById('adult_relation2_identity_type'+i).value == 'passport' && check_passport(document.getElementById('adult_relation2_passport_number'+i).value) == false){
+//                           error_log+= 'Please fill id number, passport only contain more than 6 digits for spouse customer'+i+'!</br>\n';
+//                           document.getElementById('adult_relation2_passport_number'+i).style['border-color'] = 'red';
+//                       }else{
+//                           document.getElementById('adult_relation2_passport_number'+i).style['border-color'] = '#EFEFEF';
+//                       }
+//                       if(document.getElementById('adult_relation2_passport_expired_date'+i).value == ''){
+//                           error_log+= 'Please fill passport expired date for spouse customer '+i+'!</br>\n';
+//                           document.getElementById('adult_relation2_passport_expired_date'+i).style['border-color'] = 'red';
+//                       }else{
+//                           duration = moment.duration(moment(document.getElementById('adult_relation2_passport_expired_date'+i).value).diff(last_departure_date));
+//                           //CHECK EXPIRED
+//                           if(duration._milliseconds < 0 ){
+//                                error_log+= 'Please update passport expired date for spouse customer '+i+'!</br>\n';
+//                                document.getElementById('adult_relation2_passport_expired_date'+i).style['border-color'] = 'red';
+//                           }else
+//                                document.getElementById('adult_relation2_expired_date'+i).style['border-color'] = '#EFEFEF';
+//                       }if(document.getElementById('adult_relation2_passport_country_of_issued'+i).value == '' || document.getElementById('adult_relation2_passport_country_of_issued'+i).value == 'Country of Issued'){
+//                           error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
+//                           $("#adult_relation5_passport_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid red');
+//                           });
+//                       }else{
+//                           $("#adult_relation2_passport_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+//                           });
+//                       }
+//                   }
+//                }
+//            }
+//
+//                //ANAK 2 IF FIRST NAME KOSONG LEWAT
+//            if(document.getElementById('adult_relation3_title'+i).value != '' && document.getElementById('adult_relation3_first_name'+i).value != '' && document.getElementById('adult_relation3_last_name'+i).value != ''){
+//                if(check_name(document.getElementById('adult_relation3_title'+i).value,
+//                    document.getElementById('adult_relation3_first_name'+i).value,
+//                    document.getElementById('adult_relation3_last_name'+i).value,
+//                    length_name) == false){
+//                   error_log+= 'Total of child 2 for customer '+i+' name maximum '+length_name+' characters!</br>\n';
+//                   document.getElementById('adult_relation3_first_name'+i).style['border-color'] = 'red';
+//                   document.getElementById('adult_relation3_last_name'+i).style['border-color'] = 'red';
+//                }else{
+//                   document.getElementById('adult_relation3_first_name'+i).style['border-color'] = '#EFEFEF';
+//                   document.getElementById('adult_relation3_last_name'+i).style['border-color'] = '#EFEFEF';
+//                }if(document.getElementById('adult_relation3_first_name'+i).value == '' || check_word(document.getElementById('adult_relation3_first_name'+i).value) == false){
+//                   if(document.getElementById('adult_relation3_first_name'+i).value == '')
+//                       error_log+= 'Please input first name of child 2 for customer '+i+'!</br>\n';
+//                   else if(check_word(document.getElementById('adult_relation3_first_name'+i).value) == false)
+//                       error_log+= 'Please use alpha characters first name of child 2 for customer '+i+'!</br>\n';
+//                   document.getElementById('adult_relation3_first_name'+i).style['border-color'] = 'red';
+//                }else{
+//                   document.getElementById('adult_relation3_first_name'+i).style['border-color'] = '#EFEFEF';
+//                }
+//
+//                if(document.getElementById('adult_relation3_relation'+i).value == ''){
+//                    error_log+= 'Please fill third relation for passenger adult '+i+'!</br>\n';
+//                    $("#adult_relation3_relation"+i).each(function() {
+//                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+//                    });
+//                }else{
+//                    $("#adult_relation3_relation"+i).each(function() {
+//                        $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+//                    });
+//                }
+//                //PASSPORT
+//                if(insurance_pick.sector_type == 'International'){
+//                   if(document.getElementById('adult_relation3_identity_type'+i).value == 'passport'){
+//                       if(document.getElementById('adult_relation3_identity_type'+i).value == 'passport' && check_passport(document.getElementById('adult_relation3_passport_number'+i).value) == false){
+//                           error_log+= 'Please fill id number, passport only contain more than 6 digits for spouse customer'+i+'!</br>\n';
+//                           document.getElementById('adult_relation3_passport_number'+i).style['border-color'] = 'red';
+//                       }else{
+//                           document.getElementById('adult_relation3_passport_number'+i).style['border-color'] = '#EFEFEF';
+//                       }
+//                       if(document.getElementById('adult_relation3_passport_expired_date'+i).value == ''){
+//                           error_log+= 'Please fill passport expired date for spouse customer '+i+'!</br>\n';
+//                           document.getElementById('adult_relation3_passport_expired_date'+i).style['border-color'] = 'red';
+//                       }else{
+//                           duration = moment.duration(moment(document.getElementById('adult_relation3_passport_expired_date'+i).value).diff(last_departure_date));
+//                           //CHECK EXPIRED
+//                           if(duration._milliseconds < 0 ){
+//                                error_log+= 'Please update passport expired date for spouse customer '+i+'!</br>\n';
+//                                document.getElementById('adult_relation3_passport_expired_date'+i).style['border-color'] = 'red';
+//                           }else
+//                                document.getElementById('adult_relation3_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+//                       }if(document.getElementById('adult_relation3_passport_country_of_issued'+i).value == '' || document.getElementById('adult_relation3_passport_country_of_issued'+i).value == 'Country of Issued'){
+//                           error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
+//                           $("#adult_relation5_passport_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid red');
+//                           });
+//                       }else{
+//                           $("#adult_relation5_passport_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+//                           });
+//                       }
+//                   }
+//                }
+//            }
+//
+//            //ANAK 3 IF FIRST NAME KOSONG LEWAT
+//            if(document.getElementById('adult_relation4_title'+i).value != '' && document.getElementById('adult_relation4_first_name'+i).value != '' && document.getElementById('adult_relation4_last_name'+i).value != ''){
+//                if(check_name(document.getElementById('adult_relation4_title'+i).value,
+//                    document.getElementById('adult_relation4_first_name'+i).value,
+//                    document.getElementById('adult_relation4_last_name'+i).value,
+//                    length_name) == false){
+//                   error_log+= 'Total of child 3 for customer '+i+' name maximum '+length_name+' characters!</br>\n';
+//                   document.getElementById('adult_relation4_first_name'+i).style['border-color'] = 'red';
+//                   document.getElementById('adult_relation4_last_name'+i).style['border-color'] = 'red';
+//                }else{
+//                   document.getElementById('adult_relation4_first_name'+i).style['border-color'] = '#EFEFEF';
+//                   document.getElementById('adult_relation4_last_name'+i).style['border-color'] = '#EFEFEF';
+//                }if(document.getElementById('adult_relation4_first_name'+i).value == '' || check_word(document.getElementById('adult_relation4_first_name'+i).value) == false){
+//                   if(document.getElementById('adult_relation4_first_name'+i).value == '')
+//                       error_log+= 'Please input first name of child 3 for customer '+i+'!</br>\n';
+//                   else if(check_word(document.getElementById('adult_relation4_first_name'+i).value) == false)
+//                       error_log+= 'Please use alpha characters first name of child 3 for customer '+i+'!</br>\n';
+//                   document.getElementById('adult_relation4_first_name'+i).style['border-color'] = 'red';
+//                }else{
+//                   document.getElementById('adult_relation4_first_name'+i).style['border-color'] = '#EFEFEF';
+//                }
+//
+//                if(document.getElementById('adult_relation4_relation'+i).value == ''){
+//                    error_log+= 'Please fill fourth relation for passenger adult '+i+'!</br>\n';
+//                    $("#adult_relation4_relation"+i).each(function() {
+//                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+//                    });
+//                }else{
+//                    $("#adult_relation1_relation"+i).each(function() {
+//                        $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+//                    });
+//                }
+//                //PASSPORT
+//                if(insurance_pick.sector_type == 'International'){
+//                   if(document.getElementById('adult_relation4_identity_type'+i).value == 'passport'){
+//                       if(document.getElementById('adult_relation4_identity_type'+i).value == 'passport' && check_passport(document.getElementById('adult_relation4_passport_number'+i).value) == false){
+//                           error_log+= 'Please fill id number, passport only contain more than 6 digits for spouse customer'+i+'!</br>\n';
+//                           document.getElementById('adult_relation4_passport_number'+i).style['border-color'] = 'red';
+//                       }else{
+//                           document.getElementById('adult_relation4_passport_number'+i).style['border-color'] = '#EFEFEF';
+//                       }
+//                       if(document.getElementById('adult_relation4_passport_expired_date'+i).value == ''){
+//                           error_log+= 'Please fill passport expired date for spouse customer '+i+'!</br>\n';
+//                           document.getElementById('adult_relation4_passport_expired_date'+i).style['border-color'] = 'red';
+//                       }else{
+//                           duration = moment.duration(moment(document.getElementById('adult_relation4_expired_date'+i).value).diff(last_departure_date));
+//                           //CHECK EXPIRED
+//                           if(duration._milliseconds < 0 ){
+//                                error_log+= 'Please update passport expired date for spouse customer '+i+'!</br>\n';
+//                                document.getElementById('adult_relation4_passport_expired_date'+i).style['border-color'] = 'red';
+//                           }else
+//                                document.getElementById('adult_relation4_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+//                       }if(document.getElementById('adult_relation4_passport_country_of_issued'+i).value == '' || document.getElementById('adult_relation4_passport_country_of_issued'+i).value == 'Country of Issued'){
+//                           error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
+//                           $("#adult_relation5_passport_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid red');
+//                           });
+//                       }else{
+//                           $("#adult_relation5_passport_country_of_issued"+i+"_id").each(function() {
+//                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+//                           });
+//                       }
+//                   }
+//                }
+//
+//            }
 
         }
 
@@ -2004,7 +2190,7 @@ function check_passenger(){
        }
        $('.loader-rodextrip').fadeIn();
        document.getElementById('time_limit_input').value = time_limit;
-       document.getElementById('insurance_review').submit();
+       upload_image();
    }
    else{
        $('.loader-rodextrip').fadeOut();
@@ -3490,45 +3676,46 @@ function onchange_provider_insurance(){
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px;" id="insurance_date_search">
+            <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px;" id="insurance_date_search">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" id="insurance_date" name="insurance_date" placeholder="Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                 </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px;">
-                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                <div class="input-container-search-ticket btn-group">
-                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
-                        <div class="row" style="padding:10px;">
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                <div style="float:left;">
-                                    <label>
-                                        <span style="color:black; font-size:13px;">Customer<br/></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
-                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12" style="text-align:right;">
-                                <hr/>
-                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                            </div>
-                        </div>
-                    </ul>
-                </div>
             </div>`;
+
+//            <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px;">
+//                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
+//                <div class="input-container-search-ticket btn-group">
+//                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+//                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
+//                        <div class="row" style="padding:10px;">
+//                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+//                                <div style="float:left;">
+//                                    <label>
+//                                        <span style="color:black; font-size:13px;">Customer<br/></span>
+//                                    </label>
+//                                </div>
+//                            </div>
+//                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+//                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+//                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+//                                        <i class="fas fa-minus"></i>
+//                                    </button>
+//                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
+//                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+//                                        <i class="fas fa-plus"></i>
+//                                    </button>
+//                                </div>
+//                            </div>
+//
+//                            <div class="col-lg-12" style="text-align:right;">
+//                                <hr/>
+//                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
+//                            </div>
+//                        </div>
+//                    </ul>
+//                </div>
+//            </div>`;
         }
         else if(template == 2){
         text +=`
@@ -3576,45 +3763,46 @@ function onchange_provider_insurance(){
 
                 </select>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6" id="insurance_date_search">
+            <div class="col-lg-12 col-md-12 col-sm-12" id="insurance_date_search">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" style="background:white;" id="insurance_date" name="insurance_date" placeholder="Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                 </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                <div class="input-container-search-ticket btn-group">
-                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
-                        <div class="row" style="padding:10px;">
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                <div style="float:left;">
-                                    <label>
-                                        <span style="color:black; font-size:13px;">Customer<br/></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
-                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12" style="text-align:right;">
-                                <hr/>
-                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                            </div>
-                        </div>
-                    </ul>
-                </div>
             </div>`;
+
+//            <div class="col-lg-6 col-md-6 col-sm-6">
+//                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
+//                <div class="input-container-search-ticket btn-group">
+//                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+//                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
+//                        <div class="row" style="padding:10px;">
+//                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+//                                <div style="float:left;">
+//                                    <label>
+//                                        <span style="color:black; font-size:13px;">Customer<br/></span>
+//                                    </label>
+//                                </div>
+//                            </div>
+//                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+//                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+//                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+//                                        <i class="fas fa-minus"></i>
+//                                    </button>
+//                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
+//                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+//                                        <i class="fas fa-plus"></i>
+//                                    </button>
+//                                </div>
+//                            </div>
+//
+//                            <div class="col-lg-12" style="text-align:right;">
+//                                <hr/>
+//                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
+//                            </div>
+//                        </div>
+//                    </ul>
+//                </div>
+//            </div>`;
         }
         else if(template == 3){
         text +=`
@@ -3753,48 +3941,49 @@ function onchange_provider_insurance(){
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6" id="insurance_date_search">
+            <div class="col-lg-12 col-md-12 col-sm-12" id="insurance_date_search">
                 <span class="span-search-ticket">Date</span>
                 <div class="input-container-search-ticket">
                     <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
                     <input type="text" class="form-control" style="background:white;" id="insurance_date" name="insurance_date" placeholder="Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                 </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <span class="span-search-ticket">Passenger</span>
-                <div class="input-container-search-ticket btn-group">
-                    <i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
-
-                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
-                        <div class="row" style="padding:10px;">
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                <div style="float:left;">
-                                    <label>
-                                        <span style="color:black; font-size:13px;">Customer<br/></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
-                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12" style="text-align:right;">
-                                <hr/>
-                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                            </div>
-                        </div>
-                    </ul>
-                </div>
             </div>`;
+
+//            <div class="col-lg-6 col-md-6 col-sm-6">
+//                <span class="span-search-ticket">Passenger</span>
+//                <div class="input-container-search-ticket btn-group">
+//                    <i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
+//
+//                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+//                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
+//                        <div class="row" style="padding:10px;">
+//                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+//                                <div style="float:left;">
+//                                    <label>
+//                                        <span style="color:black; font-size:13px;">Customer<br/></span>
+//                                    </label>
+//                                </div>
+//                            </div>
+//                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+//                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+//                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+//                                        <i class="fas fa-minus"></i>
+//                                    </button>
+//                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
+//                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+//                                        <i class="fas fa-plus"></i>
+//                                    </button>
+//                                </div>
+//                            </div>
+//
+//                            <div class="col-lg-12" style="text-align:right;">
+//                                <hr/>
+//                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
+//                            </div>
+//                        </div>
+//                    </ul>
+//                </div>
+//            </div>`;
         }
         else if(template == 5){
         text +=`
@@ -3846,45 +4035,46 @@ function onchange_provider_insurance(){
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6" id="insurance_date_search">
+            <div class="col-lg-12 col-md-12 col-sm-12" id="insurance_date_search">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" style="background:white;" id="insurance_date" name="insurance_date" placeholder="Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                 </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                <div class="input-container-search-ticket btn-group">
-                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
-                        <div class="row" style="padding:10px;">
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                <div style="float:left;">
-                                    <label>
-                                        <span style="color:black; font-size:13px;">Customer<br/></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
-                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12" style="text-align:right;">
-                                <hr/>
-                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                            </div>
-                        </div>
-                    </ul>
-                </div>
             </div>`;
+
+//            <div class="col-lg-6 col-md-6 col-sm-6">
+//                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
+//                <div class="input-container-search-ticket btn-group">
+//                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+//                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
+//                        <div class="row" style="padding:10px;">
+//                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+//                                <div style="float:left;">
+//                                    <label>
+//                                        <span style="color:black; font-size:13px;">Customer<br/></span>
+//                                    </label>
+//                                </div>
+//                            </div>
+//                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+//                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+//                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+//                                        <i class="fas fa-minus"></i>
+//                                    </button>
+//                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
+//                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+//                                        <i class="fas fa-plus"></i>
+//                                    </button>
+//                                </div>
+//                            </div>
+//
+//                            <div class="col-lg-12" style="text-align:right;">
+//                                <hr/>
+//                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
+//                            </div>
+//                        </div>
+//                    </ul>
+//                </div>
+//            </div>`;
         }
         else if(template == 6){
         text +=`
@@ -4058,7 +4248,7 @@ function onchange_provider_insurance(){
                     <span class="check_box_span_custom"></span>
                 </label>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <div class="row">
                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                     <div class="col-lg-12" style="padding-left:0px;" hidden>
@@ -4087,45 +4277,46 @@ function onchange_provider_insurance(){
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4" style="padding:0px;" id="insurance_date_search">
+            <div class="col-lg-6" style="padding:0px;" id="insurance_date_search">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" id="insurance_date" name="insurance_date" placeholder="Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                 </div>
-            </div>
-            <div class="col-lg-4" style="padding:0px;">
-                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                <div class="input-container-search-ticket btn-group">
-                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
-                        <div class="row" style="padding:10px;">
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                <div style="float:left;">
-                                    <label>
-                                        <span style="color:black; font-size:13px;">Customer<br/></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
-                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12" style="text-align:right;">
-                                <hr/>
-                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                            </div>
-                        </div>
-                    </ul>
-                </div>
             </div>`;
+
+//            <div class="col-lg-4" style="padding:0px;">
+//                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
+//                <div class="input-container-search-ticket btn-group">
+//                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+//                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
+//                        <div class="row" style="padding:10px;">
+//                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+//                                <div style="float:left;">
+//                                    <label>
+//                                        <span style="color:black; font-size:13px;">Customer<br/></span>
+//                                    </label>
+//                                </div>
+//                            </div>
+//                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+//                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+//                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+//                                        <i class="fas fa-minus"></i>
+//                                    </button>
+//                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
+//                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+//                                        <i class="fas fa-plus"></i>
+//                                    </button>
+//                                </div>
+//                            </div>
+//
+//                            <div class="col-lg-12" style="text-align:right;">
+//                                <hr/>
+//                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
+//                            </div>
+//                        </div>
+//                    </ul>
+//                </div>
+//            </div>`;
         }
         else if(template == 2){
         text +=`
@@ -4143,7 +4334,7 @@ function onchange_provider_insurance(){
                     <span class="check_box_span_custom"></span>
                 </label>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <div class="row">
                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                     <div class="col-lg-12" style="padding-left:0px;" hidden>
@@ -4166,45 +4357,46 @@ function onchange_provider_insurance(){
                     <option value="LAINNYA" selected>LAINNYA</option>
                 </select>
             </div>
-            <div class="col-lg-4" id="insurance_date_search">
+            <div class="col-lg-6" id="insurance_date_search">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" style="background:white;" id="insurance_date" name="insurance_date" placeholder="Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                 </div>
-            </div>
-            <div class="col-lg-4">
-                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                <div class="input-container-search-ticket btn-group">
-                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
-                        <div class="row" style="padding:10px;">
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                <div style="float:left;">
-                                    <label>
-                                        <span style="color:black; font-size:13px;">Customer<br/></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
-                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12" style="text-align:right;">
-                                <hr/>
-                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                            </div>
-                        </div>
-                    </ul>
-                </div>
             </div>`;
+
+//            <div class="col-lg-4">
+//                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
+//                <div class="input-container-search-ticket btn-group">
+//                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+//                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
+//                        <div class="row" style="padding:10px;">
+//                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+//                                <div style="float:left;">
+//                                    <label>
+//                                        <span style="color:black; font-size:13px;">Customer<br/></span>
+//                                    </label>
+//                                </div>
+//                            </div>
+//                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+//                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+//                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+//                                        <i class="fas fa-minus"></i>
+//                                    </button>
+//                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
+//                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+//                                        <i class="fas fa-plus"></i>
+//                                    </button>
+//                                </div>
+//                            </div>
+//
+//                            <div class="col-lg-12" style="text-align:right;">
+//                                <hr/>
+//                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
+//                            </div>
+//                        </div>
+//                    </ul>
+//                </div>
+//            </div>`;
         }
         else if(template == 3){
         text +=`
@@ -4222,7 +4414,7 @@ function onchange_provider_insurance(){
                     <span class="check_box_span_custom"></span>
                 </label>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <div class="row">
                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                     <div class="col-lg-12" style="padding-left:0px;" hidden>
@@ -4245,45 +4437,46 @@ function onchange_provider_insurance(){
                     <option value="LAINNYA" selected>LAINNYA</option>
                 </select>
             </div>
-            <div class="col-lg-4" id="insurance_date_search">
+            <div class="col-lg-6" id="insurance_date_search">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" style="background:white;" id="insurance_date" name="insurance_date" placeholder="Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                 </div>
-            </div>
-            <div class="col-lg-4">
-                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                <div class="input-container-search-ticket btn-group">
-                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
-                        <div class="row" style="padding:10px;">
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                <div style="float:left;">
-                                    <label>
-                                        <span style="color:black; font-size:13px;">Customer<br/></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
-                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12" style="text-align:right;">
-                                <hr/>
-                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                            </div>
-                        </div>
-                    </ul>
-                </div>
             </div>`;
+
+//            <div class="col-lg-4">
+//                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
+//                <div class="input-container-search-ticket btn-group">
+//                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+//                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
+//                        <div class="row" style="padding:10px;">
+//                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+//                                <div style="float:left;">
+//                                    <label>
+//                                        <span style="color:black; font-size:13px;">Customer<br/></span>
+//                                    </label>
+//                                </div>
+//                            </div>
+//                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+//                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+//                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+//                                        <i class="fas fa-minus"></i>
+//                                    </button>
+//                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
+//                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+//                                        <i class="fas fa-plus"></i>
+//                                    </button>
+//                                </div>
+//                            </div>
+//
+//                            <div class="col-lg-12" style="text-align:right;">
+//                                <hr/>
+//                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
+//                            </div>
+//                        </div>
+//                    </ul>
+//                </div>
+//            </div>`;
         }
         else if(template == 4){
         text +=`
@@ -4301,7 +4494,7 @@ function onchange_provider_insurance(){
                     <span class="check_box_span_custom"></span>
                 </label>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <div class="row">
                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                     <div class="col-lg-12" style="padding-left:0px;" hidden>
@@ -4325,47 +4518,48 @@ function onchange_provider_insurance(){
                     <option value="LAINNYA" selected>LAINNYA</option>
                 </select>
             </div>
-            <div class="col-lg-4" id="insurance_date_search">
+            <div class="col-lg-6" id="insurance_date_search">
                 <span class="span-search-ticket">Date</span>
                 <div class="input-container-search-ticket">
                     <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
                     <input type="text" class="form-control" style="background:white;" id="insurance_date" name="insurance_date" placeholder="Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                 </div>
-            </div>
-            <div class="col-lg-4">
-                <span class="span-search-ticket">Passenger</span>
-                <div class="input-container-search-ticket btn-group">
-                    <i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
-                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
-                        <div class="row" style="padding:10px;">
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                <div style="float:left;">
-                                    <label>
-                                        <span style="color:black; font-size:13px;">Customer<br/></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
-                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12" style="text-align:right;">
-                                <hr/>
-                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                            </div>
-                        </div>
-                    </ul>
-                </div>
             </div>`;
+
+//            <div class="col-lg-4">
+//                <span class="span-search-ticket">Passenger</span>
+//                <div class="input-container-search-ticket btn-group">
+//                    <i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
+//                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+//                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
+//                        <div class="row" style="padding:10px;">
+//                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+//                                <div style="float:left;">
+//                                    <label>
+//                                        <span style="color:black; font-size:13px;">Customer<br/></span>
+//                                    </label>
+//                                </div>
+//                            </div>
+//                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+//                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+//                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+//                                        <i class="fas fa-minus"></i>
+//                                    </button>
+//                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
+//                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+//                                        <i class="fas fa-plus"></i>
+//                                    </button>
+//                                </div>
+//                            </div>
+//
+//                            <div class="col-lg-12" style="text-align:right;">
+//                                <hr/>
+//                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
+//                            </div>
+//                        </div>
+//                    </ul>
+//                </div>
+//            </div>`;
         }
         else if(template == 5){
         text +=`
@@ -4383,7 +4577,7 @@ function onchange_provider_insurance(){
                     <span class="check_box_span_custom"></span>
                 </label>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <div class="row">
                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                     <div class="col-lg-12" style="padding-left:0px;" hidden>
@@ -4406,45 +4600,46 @@ function onchange_provider_insurance(){
                     <option value="LAINNYA" selected>LAINNYA</option>
                 </select>
             </div>
-            <div class="col-lg-4" id="insurance_date_search">
+            <div class="col-lg-6" id="insurance_date_search">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" style="background:white;" id="insurance_date" name="insurance_date" placeholder="Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                 </div>
-            </div>
-            <div class="col-lg-4">
-                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                <div class="input-container-search-ticket btn-group">
-                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
-                        <div class="row" style="padding:10px;">
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                <div style="float:left;">
-                                    <label>
-                                        <span style="color:black; font-size:13px;">Customer<br/></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
-                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12" style="text-align:right;">
-                                <hr/>
-                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                            </div>
-                        </div>
-                    </ul>
-                </div>
             </div>`;
+
+//            <div class="col-lg-4">
+//                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
+//                <div class="input-container-search-ticket btn-group">
+//                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+//                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
+//                        <div class="row" style="padding:10px;">
+//                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+//                                <div style="float:left;">
+//                                    <label>
+//                                        <span style="color:black; font-size:13px;">Customer<br/></span>
+//                                    </label>
+//                                </div>
+//                            </div>
+//                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+//                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+//                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+//                                        <i class="fas fa-minus"></i>
+//                                    </button>
+//                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
+//                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+//                                        <i class="fas fa-plus"></i>
+//                                    </button>
+//                                </div>
+//                            </div>
+//
+//                            <div class="col-lg-12" style="text-align:right;">
+//                                <hr/>
+//                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
+//                            </div>
+//                        </div>
+//                    </ul>
+//                </div>
+//            </div>`;
         }
         else if(template == 6){
         text +=`
@@ -4462,7 +4657,7 @@ function onchange_provider_insurance(){
                     <span class="check_box_span_custom"></span>
                 </label>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <div class="row">
                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                     <div class="col-lg-12" style="padding-left:0px;" hidden>
@@ -4485,45 +4680,46 @@ function onchange_provider_insurance(){
                     <option value="LAINNYA" selected>LAINNYA</option>
                 </select>
             </div>
-            <div class="col-lg-4" id="insurance_date_search">
+            <div class="col-lg-6" id="insurance_date_search">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" style="background:white;" id="insurance_date" name="insurance_date" placeholder="Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                 </div>
-            </div>
-            <div class="col-lg-4">
-                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                <div class="input-container-search-ticket btn-group">
-                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
-                        <div class="row" style="padding:10px;">
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                <div style="float:left;">
-                                    <label>
-                                        <span style="color:black; font-size:13px;">Customer<br/></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
-                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12" style="text-align:right;">
-                                <hr/>
-                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                            </div>
-                        </div>
-                    </ul>
-                </div>
             </div>`;
+
+//            <div class="col-lg-4">
+//                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
+//                <div class="input-container-search-ticket btn-group">
+//                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+//                    <ul class="dropdown-menu" role="menu" style="overflow-y:unset;">
+//                        <div class="row" style="padding:10px;">
+//                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+//                                <div style="float:left;">
+//                                    <label>
+//                                        <span style="color:black; font-size:13px;">Customer<br/></span>
+//                                    </label>
+//                                </div>
+//                            </div>
+//                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+//                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+//                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
+//                                        <i class="fas fa-minus"></i>
+//                                    </button>
+//                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="1" min="1" readonly>
+//                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
+//                                        <i class="fas fa-plus"></i>
+//                                    </button>
+//                                </div>
+//                            </div>
+//
+//                            <div class="col-lg-12" style="text-align:right;">
+//                                <hr/>
+//                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
+//                            </div>
+//                        </div>
+//                    </ul>
+//                </div>
+//            </div>`;
         }
         document.getElementById('insurance_div').innerHTML = text;
         //load js ulang
@@ -4677,4 +4873,50 @@ function edit_additional_benefit(){
         </div>`;
     document.getElementById('additionalprice_div').innerHTML = text;
 
+}
+
+function upload_image(){
+    var formData = new FormData($('#insurance_review').get(0));
+    formData.append('signature', signature)
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'update_image_passenger',
+       },
+       data: formData,
+       success: function(msg) {
+            if(msg.result.error_code == 0){
+                img_list = msg.result.response;
+                //adult
+                for(var i=0;i<adult;i++){
+                    index = i+1;
+                    //list gambar identity
+                    for(var j=0;j<100;j++){
+                        try{
+                            if(document.getElementById('adult_identity'+index+'_'+j+'_delete').checked == true)
+                                img_list.push([document.getElementById('adult_identity'+index+'_'+j+'_image_seq_id').value, 2, "adult_files_attachment_identity1"]);
+                        }catch(err){
+                            //gambar habis
+                            break;
+                        }
+                    }
+
+                }
+
+                document.getElementById('image_list_data').value = JSON.stringify(img_list)
+                document.getElementById('insurance_review').submit();
+            }else{
+                //swal error image tidak terupload
+                document.getElementById('insurance_review').submit();
+            }
+       },
+       contentType:false,
+       processData:false,
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update passenger');
+            document.getElementById('update_passenger_customer').disabled = false;
+       }
+    });
 }

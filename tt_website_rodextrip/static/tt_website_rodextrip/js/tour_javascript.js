@@ -972,7 +972,7 @@ function check_passenger(adult, child, infant){
             document.getElementById('infant_passport_expired_date'+i).disabled = false;
        }
        document.getElementById('time_limit_input').value = time_limit;
-       document.getElementById('tour_review').submit();
+       upload_image();
    }
    else
    {

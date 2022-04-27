@@ -1540,3 +1540,44 @@ function print_commission(commission,id,currency='IDR',id_span=''){
         </div>`;
     return print_commission_text;
 }
+
+var passenger_dict = {};
+function init_upload(passenger_type, passenger_number) {
+    if(passenger_type in passenger_dict == false){
+        passenger_dict[passenger_type] = [];
+    }
+    document.querySelector('#'+passenger_type+'_files_attachment_identity'+passenger_number).addEventListener('change', FileSelect_attachment.bind(event, passenger_type, passenger_dict[passenger_type].length, 'identity'), false);
+    passenger_dict[passenger_type].push(['', document.querySelector('#selectedFiles_'+passenger_type+'_files_identity'+passenger_number) ? document.querySelector('#selectedFiles_'+passenger_type+'_files_identity'+passenger_number) : '']);
+
+}
+
+function FileSelect_attachment(passenger_type, passenger_number, type,e) {
+    if(!e.target.files || !window.FileReader) return;
+    if(type == 'identity')
+        passenger_dict[passenger_type][passenger_number][1].innerHTML = "";
+    else
+        passenger_dict[passenger_type][passenger_number][0].innerHTML = "";
+    var files = e.target.files;
+    var filesArr = Array.prototype.slice.call(files);
+    filesArr.forEach(function(f) {
+        if(!f.type.match("image.*")) {
+            return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var html = "<img style='width:20vh;border-radius:20vh;padding-bottom:5px;' src=\"" + e.target.result + "\">" + f.name + "<br clear=\"left\"/>";
+            if(type == 'identity'){
+                if(passenger_dict[passenger_type][passenger_number][1].innerHTML == '')
+                    html = '<h5>Selected File</h5>' + html;
+                passenger_dict[passenger_type][passenger_number][1].innerHTML += html;
+            }else{
+                if(passenger_dict[passenger_type][passenger_number][0].innerHTML == '')
+                    html = '<h5>Selected File</h5>' + html;
+                passenger_dict[passenger_type][passenger_number][0].innerHTML += html;
+            }
+        }
+        reader.readAsDataURL(f);
+
+    });
+}

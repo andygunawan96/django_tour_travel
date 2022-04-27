@@ -413,12 +413,14 @@ def update_passengers(request):
                 "identity_expdate": pax.pop('identity_expdate'),
                 "identity_number": pax.pop('identity_number'),
                 "identity_type": pax.pop('identity_type'),
+                "identity_image": pax.pop('identity_image'),
             }
         else:
             pax.pop('identity_country_of_issued_name')
             pax.pop('identity_expdate')
             pax.pop('identity_number')
             pax.pop('identity_type')
+            pax.pop('identity_image')
         passenger.append(pax)
 
     for pax in request.session['activity_review_booking']['senior']:
@@ -450,12 +452,14 @@ def update_passengers(request):
                 "identity_expdate": pax.pop('identity_expdate'),
                 "identity_number": pax.pop('identity_number'),
                 "identity_type": pax.pop('identity_type'),
+                "identity_image": pax.pop('identity_image'),
             }
         else:
             pax.pop('identity_country_of_issued_name')
             pax.pop('identity_expdate')
             pax.pop('identity_number')
             pax.pop('identity_type')
+            pax.pop('identity_image')
         passenger.append(pax)
 
     for pax in request.session['activity_review_booking']['child']:
@@ -487,12 +491,14 @@ def update_passengers(request):
                 "identity_expdate": pax.pop('identity_expdate'),
                 "identity_number": pax.pop('identity_number'),
                 "identity_type": pax.pop('identity_type'),
+                "identity_image": pax.pop('identity_image'),
             }
         else:
             pax.pop('identity_country_of_issued_name')
             pax.pop('identity_expdate')
             pax.pop('identity_number')
             pax.pop('identity_type')
+            pax.pop('identity_image')
         passenger.append(pax)
 
     for pax in request.session['activity_review_booking']['infant']:
@@ -524,12 +530,14 @@ def update_passengers(request):
                 "identity_expdate": pax.pop('identity_expdate'),
                 "identity_number": pax.pop('identity_number'),
                 "identity_type": pax.pop('identity_type'),
+                "identity_image": pax.pop('identity_image'),
             }
         else:
             pax.pop('identity_country_of_issued_name')
             pax.pop('identity_expdate')
             pax.pop('identity_number')
             pax.pop('identity_type')
+            pax.pop('identity_image')
         passenger.append(pax)
 
     data = {
