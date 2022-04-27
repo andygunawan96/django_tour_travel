@@ -82,6 +82,8 @@ def api_models(request):
             res = get_config(request)
         elif req_data['action'] == 'check_benefit_data':
             res = check_benefit_data(request)
+        elif req_data['action'] == 'sell_insurance':
+            res = sell_insurance(request)
         elif req_data['action'] == 'commit_booking':
             res = commit_booking(request)
         elif req_data['action'] == 'get_booking':
@@ -303,7 +305,7 @@ def get_data_search_page(request):
 def get_data_passenger_page(request):
     try:
         res = {}
-        res['insurance_request'] = request.session.get('insurance_request')
+        res['insurance_request'] = request.session.get('insurance_request_with_passenger')
         res['insurance_pick'] = request.session.get('insurance_pick')
 
     except Exception as e:
@@ -313,7 +315,7 @@ def get_data_passenger_page(request):
 def get_data_review_page(request):
     try:
         res = {}
-        res['insurance_request'] = request.session.get('insurance_request')
+        res['insurance_request'] = request.session.get('insurance_request_with_passenger')
         res['insurance_pick'] = request.session.get('insurance_pick')
         res['insurance_passenger'] = request.session.get('insurance_create_passengers')
 
@@ -340,6 +342,39 @@ def check_benefit_data(request):
     try:
         if res['result']['error_code'] == 0:
             _logger.info(json.dumps(request.session['visa_signature']))
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+
+    return res
+
+def sell_insurance(request):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "sell_insurance",
+            "signature": request.POST['signature'],
+        }
+        insurance_pick = json.loads(request.POST['insurance_pick'])
+        data_insurance = {
+            "carrier_code": insurance_pick['carrier_code'],
+            "carrier_name": insurance_pick['carrier_name'],
+            "provider": insurance_pick['provider'],
+            "sector_type": insurance_pick['sector_type']
+        }
+        data = {
+            "data": data_insurance,
+            'provider': insurance_pick['provider'],
+            'pax': int(request.POST['total_policy'])
+        }
+
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    url_request = url + 'booking/insurance'
+    res = send_request_api(request, url_request, headers, data, 'POST',timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info(json.dumps(request.session['insurance_signature']))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -438,6 +473,7 @@ def commit_booking(request):
                         "identity_expdate": pax.pop('identity_expdate'),
                         "identity_number": pax.pop('identity_number'),
                         "identity_type": pax.pop('identity_type'),
+                        "identity_image": pax.pop('identity_image'),
                     }
                     if pax['identity_country_of_issued_name2']:
                         pax['identity_passport'] = {
@@ -449,16 +485,9 @@ def commit_booking(request):
                         }
 
                     passenger.append(pax)
-        data_insurance = {
-            "carrier_code":request.session['insurance_pick']['carrier_code'],
-            "carrier_name": request.session['insurance_pick']['carrier_name'],
-            "provider": request.session['insurance_pick']['provider'],
-            "sector_type": request.session['insurance_pick']['sector_type']
-        }
         data = {
             "contacts": contacts,
             "passengers": passenger,
-            "data": data_insurance,
             "booker": booker,
             'voucher': {},
             'provider': request.session['insurance_pick']['provider']
@@ -470,7 +499,7 @@ def commit_booking(request):
     res = send_request_api(request, url_request, headers, data, 'POST',timeout=300)
     try:
         if res['result']['error_code'] == 0:
-            _logger.info(json.dumps(request.session['visa_signature']))
+            _logger.info(json.dumps(request.session['insurance_signature']))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 

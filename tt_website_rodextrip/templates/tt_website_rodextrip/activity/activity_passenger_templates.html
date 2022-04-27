@@ -80,6 +80,7 @@
         <div class="banner-right">
             <form id="activity_review" class="form-wrap" action="{% url 'tt_website_rodextrip:activity_review'%}" method="POST" style="padding:0; text-align:unset;" enctype="multipart/form-data">
                 {% csrf_token %}
+                <input type="hidden" id="image_list_data" name="image_list_data" />
                 <input type="hidden" id="additional_price" name="additional_price">
                 <div class="row">
                     <div class="col-lg-8" style="margin-top:10px;">
@@ -91,6 +92,8 @@
                                             <h4>{% trans 'Booker Information' %}</h4>
                                             <hr/>
                                             <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="booker_div_avatar" hidden>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
@@ -123,20 +126,26 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7">
-                                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                                                <div class="form-select">
-                                                                    <select id="train_booker_search_type" name="train_booker_search_type">
-                                                                       <option value="cust_name">By Customer Name</option>
-                                                                       <option value="cor_name">By Corporate Name</option>
-                                                                    </select>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="cor_name">By Corporate Name</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
+                                                                    {% endif %}
                                                                 </div>
-                                                                {% endif %}
                                                                 <input type="hidden" id="booker_min_age" value="{{booker_min_age}}"/>
                                                                 <input type="hidden" id="booker_max_age" value="{{booker_max_age}}"/>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5">
+                                                            <div class="col-lg-3 col-md-3">
                                                                 <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
@@ -292,13 +301,13 @@
                                     <label>{% trans 'Do you book this ticket for you' %}?</label><br/>
                                     <label class="radio-button-custom">
                                         {% trans 'Yes' %}
-                                        <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','tour');" value="yes"/>
+                                        <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','activity');" value="yes"/>
                                         <span class="checkmark-radio"></span>
                                     </label>
 
                                     <label class="radio-button-custom">
                                         {% trans 'No' %}
-                                        <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('change','tour');" value="no" checked="checked"/>
+                                        <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('change','activity');" value="no" checked="checked"/>
                                         <span class="checkmark-radio"></span>
                                     </label>
                                     <br/>
@@ -390,6 +399,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar{{forloop.counter}}" hidden>
+                                        </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
@@ -471,6 +482,41 @@
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar_identity{{forloop.counter}}" hidden>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <span>Identity Photo</span><br>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_adult{{forloop.counter}}">Upload Image</button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModal_attachment_identity_adult{{forloop.counter}}" data-keyboard="false">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">×</button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            Files: <input type="file" id="adult_files_attachment_identity{{forloop.counter}}" name="adult_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                            <div id="selectedFiles_adult_files_identity{{forloop.counter}}"></div>
+                                                            <div id="adult_attachment_identity{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        </div>
+
                                         <div class="col-lg-6">
                                             <label>{% trans 'Passport Number' %}</label>
                                             <div class="input-container-search-ticket">
@@ -666,6 +712,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="senior_div_avatar{{forloop.counter}}" hidden>
+                                        </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
@@ -746,6 +794,39 @@
                                                 <input type="text" class="form-control date-picker-birth" name="senior_birth_date{{forloop.counter}}" id="senior_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'senior')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="senior_years_old{{forloop.counter}}" id="senior_years_old{{forloop.counter}}">
                                             </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="senior_div_avatar_identity{{forloop.counter}}" hidden>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <span>Identity Photo</span><br>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_senior{{forloop.counter}}">Upload Image</button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModal_attachment_identity_senior{{forloop.counter}}" data-keyboard="false">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_senior{{forloop.counter}}').modal('hide');">×</button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            Files: <input type="file" id="senior_files_attachment_identity{{forloop.counter}}" name="senior_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                            <div id="selectedFiles_senior_files_identity{{forloop.counter}}"></div>
+                                                            <div id="senior_attachment_identity{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_senior{{forloop.counter}}').modal('hide');">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                         </div>
                                         <div class="col-lg-6">
                                             <br/>
@@ -944,6 +1025,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar{{forloop.counter}}" hidden>
+                                        </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
@@ -1016,6 +1099,39 @@
                                                 </div>
                                                 <input type="hidden" name="child_nationality{{forloop.counter}}" id="child_nationality{{forloop.counter}}" />
                                             </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <span>Identity Photo</span><br>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image</button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                            <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
+                                                            <div id="child_attachment_identity{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                         </div>
                                         <div class="col-lg-6">
                                             <label style="color:red">*</label>
@@ -1194,6 +1310,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar{{forloop.counter}}" hidden>
+                                        </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
@@ -1275,6 +1393,39 @@
                                                 <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'infant')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="infant_years_old{{forloop.counter}}" id="infant_years_old{{forloop.counter}}">
                                             </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar_identity{{forloop.counter}}" hidden>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <span>Identity Photo</span><br>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_infant{{forloop.counter}}">Upload Image</button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModal_attachment_identity_infant{{forloop.counter}}" data-keyboard="false">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            Files: <input type="file" id="infant_files_attachment_identity{{forloop.counter}}" name="infant_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                            <div id="selectedFiles_infant_files_identity{{forloop.counter}}"></div>
+                                                            <div id="infant_attachment_identity{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                         </div>
                                         <div class="col-lg-6">
                                             <br/>
@@ -1414,6 +1565,7 @@
             <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset;">
                 <form id="activity_review" class="form-wrap" action="{% url 'tt_website_rodextrip:activity_review'%}" method="POST" style="padding:0; text-align:unset;" enctype="multipart/form-data">
                     {% csrf_token %}
+                    <input type="hidden" id="image_list_data" name="image_list_data" />
                     <input type="hidden" id="additional_price" name="additional_price">
                     <div class="row">
                         <div class="col-lg-8" style="margin-top:10px;">
@@ -1425,6 +1577,8 @@
                                                 <h4>{% trans 'Booker Information' %}</h4>
                                                 <hr/>
                                                 <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12" id="booker_div_avatar" hidden>
                                             </div>
                                             <div class="col-lg-6" style="text-align:left;">
                                                 <!--                                            <label>Booker Type :</label><br/>-->
@@ -1457,18 +1611,24 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                    <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                                                    {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                                                    <div class="form-select">
-                                                                        <select id="train_booker_search_type" name="train_booker_search_type">
-                                                                           <option value="cust_name">By Customer Name</option>
-                                                                           <option value="cor_name">By Corporate Name</option>
-                                                                        </select>
+                                                                <div class="col-lg-9 col-md-9">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                                            {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                            <div class="form-select">
+                                                                                <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                                    <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="cor_name">By Corporate Name</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                        </div>
                                                                     </div>
-                                                                    {% endif %}
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5">
+                                                                <div class="col-lg-3 col-md-3">
                                                                     <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                     <input type="hidden" id="booker_min_age" value="{{booker_min_age}}"/>
                                                                     <input type="hidden" id="booker_max_age" value="{{booker_max_age}}"/>
@@ -1622,13 +1782,13 @@
                                         <label>{% trans 'Do you book this ticket for you' %}?</label><br/>
                                         <label class="radio-button-custom">
                                             {% trans 'Yes' %}
-                                            <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','tour');" value="yes"/>
+                                            <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','activity');" value="yes"/>
                                             <span class="checkmark-radio"></span>
                                         </label>
 
                                         <label class="radio-button-custom">
                                             {% trans 'No' %}
-                                            <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('change','tour');" value="no" checked="checked"/>
+                                            <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('change','activty');" value="no" checked="checked"/>
                                             <span class="checkmark-radio"></span>
                                         </label>
                                         <br/>
@@ -1720,6 +1880,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar{{forloop.counter}}" hidden>
+                                            </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'Title' %}</label>
@@ -1796,6 +1958,39 @@
                                                     <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'adult')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly style="background:white;">
                                                     <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                                 </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar_identity{{forloop.counter}}" hidden>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <span>Identity Photo</span><br>
+                                                <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_adult{{forloop.counter}}">Upload Image</button>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="myModal_attachment_identity_adult{{forloop.counter}}" data-keyboard="false">
+                                                    <div class="modal-dialog">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">×</button>
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                Files: <input type="file" id="adult_files_attachment_identity{{forloop.counter}}" name="adult_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                <div id="selectedFiles_adult_files_identity{{forloop.counter}}"></div>
+                                                                <div id="adult_attachment_identity{{forloop.counter}}">
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
                                             </div>
                                             <div class="col-lg-6">
                                                 <label>{% trans 'Passport Number' %}</label>
@@ -1988,6 +2183,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12" id="senior_div_avatar{{forloop.counter}}" hidden>
+                                            </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'Title' %}</label>
@@ -2065,6 +2262,39 @@
                                                     <input type="hidden" class="form-control" name="senior_years_old{{forloop.counter}}" id="senior_years_old{{forloop.counter}}">
                                                 </div>
                                             </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12" id="senior_div_avatar_identity{{forloop.counter}}" hidden>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <span>Identity Photo</span><br>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_senior{{forloop.counter}}">Upload Image</button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModal_attachment_identity_senior{{forloop.counter}}" data-keyboard="false">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_senior{{forloop.counter}}').modal('hide');">×</button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            Files: <input type="file" id="senior_files_attachment_identity{{forloop.counter}}" name="senior_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                            <div id="selectedFiles_senior_files_identity{{forloop.counter}}"></div>
+                                                            <div id="senior_attachment_identity{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_senior{{forloop.counter}}').modal('hide');">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        </div>
                                             <div class="col-lg-6">
                                                 <br/>
                                                 <label>{% trans 'Passport Number' %}</label>
@@ -2258,6 +2488,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar{{forloop.counter}}" hidden>
+                                            </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'Title' %}</label>
@@ -2334,6 +2566,39 @@
                                                     <input type="text" style="background:white;" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'child')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                     <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                                 </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <span>Identity Photo</span><br>
+                                                <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image</button>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
+                                                    <div class="modal-dialog">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
+                                                                <div id="child_attachment_identity{{forloop.counter}}">
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
                                             </div>
                                             <div class="col-lg-6">
                                                 <br/>
@@ -2500,6 +2765,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar{{forloop.counter}}" hidden>
+                                            </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'Title' %}</label>
@@ -2576,6 +2843,39 @@
                                                     <input type="text" style="background:white;" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'infant')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                     <input type="hidden" class="form-control" name="infant_years_old{{forloop.counter}}" id="infant_years_old{{forloop.counter}}">
                                                 </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar_identity{{forloop.counter}}" hidden>
+                                        </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <span>Identity Photo</span><br>
+                                                <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_infant{{forloop.counter}}">Upload Image</button>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="myModal_attachment_identity_infant{{forloop.counter}}" data-keyboard="false">
+                                                    <div class="modal-dialog">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                Files: <input type="file" id="infant_files_attachment_identity{{forloop.counter}}" name="infant_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                <div id="selectedFiles_infant_files_identity{{forloop.counter}}"></div>
+                                                                <div id="infant_attachment_identity{{forloop.counter}}">
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
                                             </div>
                                             <div class="col-lg-6">
                                                 <br/>
@@ -2713,6 +3013,7 @@
         <div class="header-right" style="background:unset; border:unset;">
             <form id="activity_review" class="form-wrap" action="{% url 'tt_website_rodextrip:activity_review'%}" method="POST" style="padding:0; text-align:unset;" enctype="multipart/form-data">
                 {% csrf_token %}
+                <input type="hidden" id="image_list_data" name="image_list_data" />
                 <input type="hidden" id="additional_price" name="additional_price">
                 <div class="row">
                     <div class="col-lg-8" style="margin-top:10px;">
@@ -2724,6 +3025,8 @@
                                             <h4>{% trans 'Booker Information' %}</h4>
                                             <hr/>
                                             <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="booker_div_avatar" hidden>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
@@ -2756,20 +3059,28 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                                                <div class="form-select">
-                                                                    <select id="train_booker_search_type" name="train_booker_search_type">
-                                                                       <option value="cust_name">By Customer Name</option>
-                                                                       <option value="cor_name">By Corporate Name</option>
-                                                                    </select>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-group">
+                                                                            <div class="default-select" id="default-select">
+                                                                                <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                                    <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="cor_name">By Corporate Name</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    {% endif %}
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
                                                                 </div>
-                                                                {% endif %}
                                                                 <input type="hidden" id="booker_min_age" value="{{booker_min_age}}"/>
                                                                 <input type="hidden" id="booker_max_age" value="{{booker_max_age}}"/>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
+                                                            <div class="col-lg-3 col-md-3">
                                                                 <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
@@ -2927,13 +3238,13 @@
                                     <label>{% trans 'Do you book this ticket for you' %}?</label><br/>
                                     <label class="radio-button-custom">
                                         {% trans 'Yes' %}
-                                        <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','tour');" value="yes"/>
+                                        <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','activity');" value="yes"/>
                                         <span class="checkmark-radio"></span>
                                     </label>
 
                                     <label class="radio-button-custom">
                                         {% trans 'No' %}
-                                        <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('change','tour');" value="no" checked="checked"/>
+                                        <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('change','activity');" value="no" checked="checked"/>
                                         <span class="checkmark-radio"></span>
                                     </label>
                                     <br/>
@@ -3025,6 +3336,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar{{forloop.counter}}" hidden>
+                                        </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
@@ -3107,6 +3420,39 @@
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'adult')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar_identity{{forloop.counter}}" hidden>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <span>Identity Photo</span><br>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_adult{{forloop.counter}}">Upload Image</button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModal_attachment_identity_adult{{forloop.counter}}" data-keyboard="false">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">×</button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            Files: <input type="file" id="adult_files_attachment_identity{{forloop.counter}}" name="adult_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                            <div id="selectedFiles_adult_files_identity{{forloop.counter}}"></div>
+                                                            <div id="adult_attachment_identity{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                         </div>
                                         <div class="col-lg-6">
                                             <label>{% trans 'Passport Number' %}</label>
@@ -3307,6 +3653,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12" id="senior_div_avatar{{forloop.counter}}" hidden>
+                                                </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                                     <label style="color:red">*</label>
                                                     <label>{% trans 'Title' %}</label>
@@ -3389,6 +3737,39 @@
                                                         <input type="text" style="background:white;" class="form-control date-picker-birth" name="senior_birth_date{{forloop.counter}}" id="senior_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'senior')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                         <input type="hidden" class="form-control" name="senior_years_old{{forloop.counter}}" id="senior_years_old{{forloop.counter}}">
                                                     </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12" id="senior_div_avatar_identity{{forloop.counter}}" hidden>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <span>Identity Photo</span><br>
+                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_senior{{forloop.counter}}">Upload Image</button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="myModal_attachment_identity_senior{{forloop.counter}}" data-keyboard="false">
+                                                        <div class="modal-dialog">
+
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                    <button type="button" class="close" onclick="$('#myModal_attachment_identity_senior{{forloop.counter}}').modal('hide');">×</button>
+                                                                </div>
+                                                                <div class="modal-body">
+
+                                                                    Files: <input type="file" id="senior_files_attachment_identity{{forloop.counter}}" name="senior_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                    <div id="selectedFiles_senior_files_identity{{forloop.counter}}"></div>
+                                                                    <div id="senior_attachment_identity{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_senior{{forloop.counter}}').modal('hide');">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <br/>
@@ -3591,6 +3972,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar{{forloop.counter}}" hidden>
+                                                        </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                                             <label style="color:red">*</label>
                                                             <label>{% trans 'Title' %}</label>
@@ -3673,6 +4056,39 @@
                                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'child')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                                 <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                                             </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                            <span>Identity Photo</span><br>
+                                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image</button>
+                                                            <!-- Modal -->
+                                                            <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
+                                                                <div class="modal-dialog">
+
+                                                                    <!-- Modal content-->
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+
+                                                                            Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                            <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
+                                                                            <div id="child_attachment_identity{{forloop.counter}}">
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <br/>
@@ -3848,6 +4264,8 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar{{forloop.counter}}" hidden>
+                                                                </div>
                                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                                                     <label style="color:red">*</label>
                                                                     <label>{% trans 'Title' %}</label>
@@ -3931,6 +4349,39 @@
                                                                         <input type="text" style="background:white;" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'infant')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                                         <input type="hidden" class="form-control" name="infant_years_old{{forloop.counter}}" id="infant_years_old{{forloop.counter}}">
                                                                     </div>
+                                                                </div>
+                                                                <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar_identity{{forloop.counter}}" hidden>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                    <span>Identity Photo</span><br>
+                                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_infant{{forloop.counter}}">Upload Image</button>
+                                                                    <!-- Modal -->
+                                                                    <div class="modal fade" id="myModal_attachment_identity_infant{{forloop.counter}}" data-keyboard="false">
+                                                                        <div class="modal-dialog">
+
+                                                                            <!-- Modal content-->
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                                    <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+
+                                                                                    Files: <input type="file" id="infant_files_attachment_identity{{forloop.counter}}" name="infant_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                                    <div id="selectedFiles_infant_files_identity{{forloop.counter}}"></div>
+                                                                                    <div id="infant_attachment_identity{{forloop.counter}}">
+
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">Close</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6">
                                                                 </div>
                                                                 <div class="col-lg-6">
                                                                     <br/>
@@ -4068,6 +4519,7 @@
     <div class="container">
         <form id="activity_review" class="form-wrap" action="{% url 'tt_website_rodextrip:activity_review'%}" method="POST" style="padding:0; text-align:unset;" enctype="multipart/form-data">
             {% csrf_token %}
+            <input type="hidden" id="image_list_data" name="image_list_data" />
             <input type="hidden" id="additional_price" name="additional_price">
             <div class="row">
                 <div class="col-lg-8" style="margin-top:10px;">
@@ -4079,6 +4531,8 @@
                                         <h4>{% trans 'Booker Information' %}</h4>
                                         <hr/>
                                         <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12" id="booker_div_avatar" hidden>
                                     </div>
                                     <div class="col-lg-6" style="text-align:left;">
                                         <!--                                            <label>Booker Type :</label><br/>-->
@@ -4111,20 +4565,28 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="row">
-                                                        <div class="col-lg-7 col-md-7 col-sm-7">
-                                                            <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                                            {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                                            <div class="form-select">
-                                                                <select id="train_booker_search_type" name="train_booker_search_type">
-                                                                   <option value="cust_name">By Customer Name</option>
-                                                                   <option value="cor_name">By Corporate Name</option>
-                                                                </select>
+                                                        <div class="col-lg-9 col-md-9">
+                                                            <div class="row">
+                                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                                    <div class="input-container-search-ticket btn-group">
+                                                                        <div class="form-select" id="default-select">
+                                                                            <select class="nice-select-default" id="train_booker_search_type" name="train_booker_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="cor_name">By Corporate Name</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {% endif %}
+                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                    <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                </div>
                                                             </div>
-                                                            {% endif %}
                                                             <input type="hidden" id="booker_min_age" value="{{booker_min_age}}"/>
                                                             <input type="hidden" id="booker_max_age" value="{{booker_max_age}}"/>
                                                         </div>
-                                                        <div class="col-lg-5 col-md-5 col-sm-5">
+                                                        <div class="col-lg-3 col-md-3">
                                                             <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                         </div>
                                                     </div>
@@ -4280,13 +4742,13 @@
                                 <label>{% trans 'Do you book this ticket for you' %}?</label><br/>
                                 <label class="radio-button-custom">
                                     {% trans 'Yes' %}
-                                    <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','tour');" value="yes"/>
+                                    <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','activity');" value="yes"/>
                                     <span class="checkmark-radio"></span>
                                 </label>
 
                                 <label class="radio-button-custom">
                                     {% trans 'No' %}
-                                    <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('change','tour');" value="no" checked="checked"/>
+                                    <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('change','activity');" value="no" checked="checked"/>
                                     <span class="checkmark-radio"></span>
                                 </label>
                                 <br/>
@@ -4378,6 +4840,8 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar{{forloop.counter}}" hidden>
+                                    </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Title' %}</label>
@@ -4458,6 +4922,39 @@
                                             <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'adult')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                             <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                         </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar_identity{{forloop.counter}}" hidden>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <span>Identity Photo</span><br>
+                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_adult{{forloop.counter}}">Upload Image</button>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="myModal_attachment_identity_adult{{forloop.counter}}" data-keyboard="false">
+                                            <div class="modal-dialog">
+
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                        <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">×</button>
+                                                    </div>
+                                                    <div class="modal-body">
+
+                                                        Files: <input type="file" id="adult_files_attachment_identity{{forloop.counter}}" name="adult_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                        <div id="selectedFiles_adult_files_identity{{forloop.counter}}"></div>
+                                                        <div id="adult_attachment_identity{{forloop.counter}}">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
                                     </div>
                                     <div class="col-lg-6">
                                         <label>{% trans 'Passport Number' %}</label>
@@ -4654,6 +5151,8 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12" id="senior_div_avatar{{forloop.counter}}" hidden>
+                                    </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Title' %}</label>
@@ -4734,6 +5233,39 @@
                                             <input type="text" class="form-control date-picker-birth" name="senior_birth_date{{forloop.counter}}" id="senior_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'senior')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                             <input type="hidden" class="form-control" name="senior_years_old{{forloop.counter}}" id="senior_years_old{{forloop.counter}}">
                                         </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12" id="senior_div_avatar_identity{{forloop.counter}}" hidden>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <span>Identity Photo</span><br>
+                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_senior{{forloop.counter}}">Upload Image</button>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="myModal_attachment_identity_senior{{forloop.counter}}" data-keyboard="false">
+                                            <div class="modal-dialog">
+
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                        <button type="button" class="close" onclick="$('#myModal_attachment_identity_senior{{forloop.counter}}').modal('hide');">×</button>
+                                                    </div>
+                                                    <div class="modal-body">
+
+                                                        Files: <input type="file" id="senior_files_attachment_identity{{forloop.counter}}" name="senior_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                        <div id="selectedFiles_senior_files_identity{{forloop.counter}}"></div>
+                                                        <div id="senior_attachment_identity{{forloop.counter}}">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_senior{{forloop.counter}}').modal('hide');">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
                                     </div>
                                     <div class="col-lg-6">
                                         <br/>
@@ -4932,6 +5464,8 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar{{forloop.counter}}" hidden>
+                                    </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Title' %}</label>
@@ -5012,6 +5546,39 @@
                                             <input type="text" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'child')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                             <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                         </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <span>Identity Photo</span><br>
+                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image</button>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
+                                            <div class="modal-dialog">
+
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                        <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
+                                                    </div>
+                                                    <div class="modal-body">
+
+                                                        Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                        <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
+                                                        <div id="child_attachment_identity{{forloop.counter}}">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
                                     </div>
                                     <div class="col-lg-6">
                                         <br/>
@@ -5182,6 +5749,8 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar{{forloop.counter}}" hidden>
+                                    </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Title' %}</label>
@@ -5263,6 +5832,39 @@
                                             <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'infant')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                             <input type="hidden" class="form-control" name="infant_years_old{{forloop.counter}}" id="infant_years_old{{forloop.counter}}">
                                         </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar_identity{{forloop.counter}}" hidden>
+                                        </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <span>Identity Photo</span><br>
+                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_infant{{forloop.counter}}">Upload Image</button>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="myModal_attachment_identity_infant{{forloop.counter}}" data-keyboard="false">
+                                            <div class="modal-dialog">
+
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                        <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
+                                                    </div>
+                                                    <div class="modal-body">
+
+                                                        Files: <input type="file" id="infant_files_attachment_identity{{forloop.counter}}" name="infant_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                        <div id="selectedFiles_infant_files_identity{{forloop.counter}}"></div>
+                                                        <div id="infant_attachment_identity{{forloop.counter}}">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
                                     </div>
                                     <div class="col-lg-6">
                                         <br/>
@@ -5398,6 +6000,7 @@
         <div class="banner-right">
             <form id="activity_review" class="form-wrap" action="{% url 'tt_website_rodextrip:activity_review'%}" method="POST" style="padding:0; text-align:unset;" enctype="multipart/form-data">
                 {% csrf_token %}
+                <input type="hidden" id="image_list_data" name="image_list_data" />
                 <input type="hidden" id="additional_price" name="additional_price">
                 <div class="row">
                     <div class="col-lg-8" style="margin-top:10px;">
@@ -5409,6 +6012,8 @@
                                             <h4>{% trans 'Booker Information' %}</h4>
                                             <hr/>
                                             <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="booker_div_avatar" hidden>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
@@ -5441,20 +6046,26 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                                                <div class="form-select">
-                                                                    <select id="train_booker_search_type" name="train_booker_search_type">
-                                                                       <option value="cust_name">By Customer Name</option>
-                                                                       <option value="cor_name">By Corporate Name</option>
-                                                                    </select>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                                        <div class="form-select">
+                                                                            <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="cor_name">By Corporate Name</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    {% endif %}
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
                                                                 </div>
-                                                                {% endif %}
                                                                 <input type="hidden" id="booker_min_age" value="{{booker_min_age}}"/>
                                                                 <input type="hidden" id="booker_max_age" value="{{booker_max_age}}"/>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
+                                                            <div class="col-lg-3 col-md-3">
                                                                 <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
@@ -5608,13 +6219,13 @@
                                     <label>{% trans 'Do you book this ticket for you' %}?</label><br/>
                                     <label class="radio-button-custom">
                                         {% trans 'Yes' %}
-                                        <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','tour');" value="yes"/>
+                                        <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','activity');" value="yes"/>
                                         <span class="checkmark-radio"></span>
                                     </label>
 
                                     <label class="radio-button-custom">
                                         {% trans 'No' %}
-                                        <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('change','tour');" value="no" checked="checked"/>
+                                        <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('change','activity');" value="no" checked="checked"/>
                                         <span class="checkmark-radio"></span>
                                     </label>
                                     <br/>
@@ -5706,6 +6317,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar{{forloop.counter}}" hidden>
+                                        </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
@@ -5786,6 +6399,39 @@
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'adult')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar_identity{{forloop.counter}}" hidden>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <span>Identity Photo</span><br>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_adult{{forloop.counter}}">Upload Image</button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModal_attachment_identity_adult{{forloop.counter}}" data-keyboard="false">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">×</button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            Files: <input type="file" id="adult_files_attachment_identity{{forloop.counter}}" name="adult_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                            <div id="selectedFiles_adult_files_identity{{forloop.counter}}"></div>
+                                                            <div id="adult_attachment_identity{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                         </div>
                                         <div class="col-lg-6">
                                             <label>{% trans 'Passport Number' %}</label>
@@ -5982,6 +6628,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="senior_div_avatar{{forloop.counter}}" hidden>
+                                        </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
@@ -6062,6 +6710,39 @@
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="senior_birth_date{{forloop.counter}}" id="senior_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'senior')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="senior_years_old{{forloop.counter}}" id="senior_years_old{{forloop.counter}}">
                                             </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="senior_div_avatar_identity{{forloop.counter}}" hidden>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <span>Identity Photo</span><br>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_senior{{forloop.counter}}">Upload Image</button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModal_attachment_identity_senior{{forloop.counter}}" data-keyboard="false">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_senior{{forloop.counter}}').modal('hide');">×</button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            Files: <input type="file" id="senior_files_attachment_identity{{forloop.counter}}" name="senior_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                            <div id="selectedFiles_senior_files_identity{{forloop.counter}}"></div>
+                                                            <div id="senior_attachment_identity{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_senior{{forloop.counter}}').modal('hide');">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                         </div>
                                         <div class="col-lg-6">
                                             <br/>
@@ -6260,6 +6941,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar{{forloop.counter}}" hidden>
+                                        </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
@@ -6340,6 +7023,39 @@
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'child')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                             </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <span>Identity Photo</span><br>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image</button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                            <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
+                                                            <div id="child_attachment_identity{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                         </div>
                                         <div class="col-lg-6">
                                             <br/>
@@ -6510,6 +7226,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar{{forloop.counter}}" hidden>
+                                        </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
@@ -6591,6 +7309,39 @@
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'infant')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="infant_years_old{{forloop.counter}}" id="infant_years_old{{forloop.counter}}">
                                             </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar_identity{{forloop.counter}}" hidden>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <span>Identity Photo</span><br>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_infant{{forloop.counter}}">Upload Image</button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModal_attachment_identity_infant{{forloop.counter}}" data-keyboard="false">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            Files: <input type="file" id="infant_files_attachment_identity{{forloop.counter}}" name="infant_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                            <div id="selectedFiles_infant_files_identity{{forloop.counter}}"></div>
+                                                            <div id="infant_attachment_identity{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                         </div>
                                         <div class="col-lg-6">
                                             <br/>
@@ -6732,6 +7483,7 @@
         <div class="banner-right">
             <form id="activity_review" class="form-wrap" action="{% url 'tt_website_rodextrip:activity_review'%}" method="POST" style="padding:0; text-align:unset;" enctype="multipart/form-data">
                 {% csrf_token %}
+                <input type="hidden" id="image_list_data" name="image_list_data" />
                 <input type="hidden" id="additional_price" name="additional_price">
                 <div class="row">
                     <div class="col-lg-8" style="margin-top:10px;">
@@ -6743,6 +7495,8 @@
                                             <h4>{% trans 'Booker Information' %}</h4>
                                             <hr/>
                                             <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="booker_div_avatar" hidden>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
@@ -6775,20 +7529,26 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                                                <div class="form-select">
-                                                                    <select id="train_booker_search_type" name="train_booker_search_type">
-                                                                       <option value="cust_name">By Customer Name</option>
-                                                                       <option value="cor_name">By Corporate Name</option>
-                                                                    </select>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="cor_name">By Corporate Name</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    {% endif %}
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
                                                                 </div>
-                                                                {% endif %}
                                                                 <input type="hidden" id="booker_min_age" value="{{booker_min_age}}"/>
                                                                 <input type="hidden" id="booker_max_age" value="{{booker_max_age}}"/>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
+                                                            <div class="col-lg-3 col-md-3">
                                                                 <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
@@ -6944,13 +7704,13 @@
                                     <label>{% trans 'Do you book this ticket for you' %}?</label><br/>
                                     <label class="radio-button-custom">
                                         {% trans 'Yes' %}
-                                        <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','tour');" value="yes"/>
+                                        <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('copy','activity');" value="yes"/>
                                         <span class="checkmark-radio"></span>
                                     </label>
 
                                     <label class="radio-button-custom">
                                         {% trans 'No' %}
-                                        <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('change','tour');" value="no" checked="checked"/>
+                                        <input type="radio" name="myRadios" onchange="copy_booker_to_passenger('change','activity');" value="no" checked="checked"/>
                                         <span class="checkmark-radio"></span>
                                     </label>
                                     <br/>
@@ -7042,6 +7802,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar{{forloop.counter}}" hidden>
+                                        </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
@@ -7122,6 +7884,39 @@
                                                 <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'adult')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar_identity{{forloop.counter}}" hidden>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <span>Identity Photo</span><br>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_adult{{forloop.counter}}">Upload Image</button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModal_attachment_identity_adult{{forloop.counter}}" data-keyboard="false">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">×</button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            Files: <input type="file" id="adult_files_attachment_identity{{forloop.counter}}" name="adult_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                            <div id="selectedFiles_adult_files_identity{{forloop.counter}}"></div>
+                                                            <div id="adult_attachment_identity{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                         </div>
                                         <div class="col-lg-6">
                                             <label>{% trans 'Passport Number' %}</label>
@@ -7318,6 +8113,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="senior_div_avatar{{forloop.counter}}" hidden>
+                                        </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
@@ -7398,6 +8195,39 @@
                                                 <input type="text" class="form-control date-picker-birth" name="senior_birth_date{{forloop.counter}}" id="senior_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'senior')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="senior_years_old{{forloop.counter}}" id="senior_years_old{{forloop.counter}}">
                                             </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="senior_div_avatar_identity{{forloop.counter}}" hidden>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <span>Identity Photo</span><br>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_senior{{forloop.counter}}">Upload Image</button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModal_attachment_identity_senior{{forloop.counter}}" data-keyboard="false">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_senior{{forloop.counter}}').modal('hide');">×</button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            Files: <input type="file" id="senior_files_attachment_identity{{forloop.counter}}" name="senior_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                            <div id="selectedFiles_senior_files_identity{{forloop.counter}}"></div>
+                                                            <div id="senior_attachment_identity{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_senior{{forloop.counter}}').modal('hide');">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                         </div>
                                         <div class="col-lg-6">
                                             <br/>
@@ -7596,6 +8426,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar{{forloop.counter}}" hidden>
+                                        </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
@@ -7676,6 +8508,39 @@
                                                 <input type="text" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'child')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                             </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <span>Identity Photo</span><br>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image</button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                            <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
+                                                            <div id="child_attachment_identity{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                         </div>
                                         <div class="col-lg-6">
                                             <br/>
@@ -7846,6 +8711,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar{{forloop.counter}}" hidden>
+                                        </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
@@ -7927,6 +8794,39 @@
                                                 <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'infant')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="infant_years_old{{forloop.counter}}" id="infant_years_old{{forloop.counter}}">
                                             </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar_identity{{forloop.counter}}" hidden>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <span>Identity Photo</span><br>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_infant{{forloop.counter}}">Upload Image</button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModal_attachment_identity_infant{{forloop.counter}}" data-keyboard="false">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            Files: <input type="file" id="infant_files_attachment_identity{{forloop.counter}}" name="infant_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                            <div id="selectedFiles_infant_files_identity{{forloop.counter}}"></div>
+                                                            <div id="infant_attachment_identity{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                         </div>
                                         <div class="col-lg-6">
                                             <br/>
@@ -8043,30 +8943,34 @@
 <script>
     activity_passenger_page();
     $( document ).ready(function() {
-      breadcrumb_create("activity", 4, 0);
-      $('.js-example-basic-single').niceSelect('destroy');
-      $('.js-example-basic-single').select2();
-      auto_complete('booker_nationality');
-      auto_complete('booker_phone_code');
+        breadcrumb_create("activity", 4, 0);
+        $('.js-example-basic-single').niceSelect('destroy');
+        $('.js-example-basic-single').select2();
+        auto_complete('booker_nationality');
+        auto_complete('booker_phone_code');
 
-      {% for adult in adults%}
-          auto_complete('adult_nationality{{forloop.counter}}');
-          //auto_complete('adult_country_of_issued{{forloop.counter}}');
-          auto_complete('adult_phone_code{{forloop.counter}}');
-      {% endfor %}
-      {% for child in childs%}
-          auto_complete('child_nationality{{forloop.counter}}');
-          //auto_complete('child_country_of_issued{{forloop.counter}}');
-      {% endfor %}
-      {% for senior in seniors%}
-          auto_complete('senior_nationality{{forloop.counter}}');
-          //auto_complete('senior_country_of_issued{{forloop.counter}}');
-          auto_complete('senior_phone_code{{forloop.counter}}');
-      {% endfor %}
-      {% for infant in infants%}
-          auto_complete('infant_nationality{{forloop.counter}}');
-          //auto_complete('infant_country_of_issued{{forloop.counter}}');
-      {% endfor %}
+        {% for adult in adults%}
+        document.addEventListener("DOMContentLoaded", init_upload('adult','{{forloop.counter}}'), false);
+        auto_complete('adult_nationality{{forloop.counter}}');
+        //auto_complete('adult_country_of_issued{{forloop.counter}}');
+        auto_complete('adult_phone_code{{forloop.counter}}');
+        {% endfor %}
+        {% for child in childs%}
+        document.addEventListener("DOMContentLoaded", init_upload('child','{{forloop.counter}}'), false);
+        auto_complete('child_nationality{{forloop.counter}}');
+        //auto_complete('child_country_of_issued{{forloop.counter}}');
+        {% endfor %}
+        {% for senior in seniors%}
+        document.addEventListener("DOMContentLoaded", init_upload('senior','{{forloop.counter}}'), false);
+        auto_complete('senior_nationality{{forloop.counter}}');
+        //auto_complete('senior_country_of_issued{{forloop.counter}}');
+        auto_complete('senior_phone_code{{forloop.counter}}');
+        {% endfor %}
+        {% for infant in infants%}
+        document.addEventListener("DOMContentLoaded", init_upload('infant','{{forloop.counter}}'), false);
+        auto_complete('infant_nationality{{forloop.counter}}');
+        //auto_complete('infant_country_of_issued{{forloop.counter}}');
+        {% endfor %}
     });
 
     $(function() {

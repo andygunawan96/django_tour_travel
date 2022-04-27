@@ -119,7 +119,7 @@ def search(request):
             values = get_data_template(request, 'search')
             try:
                 set_session(request, 'insurance_request', {
-                    'adult': request.POST['insurance_adult'],
+                    'adult': 1,
                     'date_start': request.POST['insurance_date'].split(' - ')[0],
                     'date_end': request.POST['insurance_date'].split(' - ')[1],
                     'origin': request.POST['insurance_origin'],
@@ -186,6 +186,15 @@ def passenger(request):
                 set_session(request, 'time_limit', time_limit)
                 set_session(request, 'insurance_pick', json.loads(request.POST['data_insurance']))
                 set_session(request, 'insurance_signature', request.POST['signature_data'])
+                insurance_request_with_passenger = copy.deepcopy(request.session['insurance_request'])
+                insurance_request_with_passenger.update({
+                    "adult": int(request.POST['pax']),
+                    "family": {
+                        "adult": int(request.POST['adult']) - 1,
+                        "child": int(request.POST['child'])
+                    }
+                })
+                set_session(request, 'insurance_request_with_passenger', insurance_request_with_passenger)
             except:
                 pass
 
@@ -195,7 +204,7 @@ def passenger(request):
 
             #pax
             adult = []
-            for i in range(int(request.session['insurance_request']['adult'])):
+            for i in range(int(request.session['insurance_request_with_passenger']['adult'])):
                 adult.append('')
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -208,7 +217,7 @@ def passenger(request):
                 'adults': adult,
                 'adults_count': len(adult),
                 'adult_title': adult_title,
-                'insurance_request': request.session['insurance_request'],
+                'insurance_request': request.session['insurance_request_with_passenger'],
                 'id_types': id_type,
                 'time_limit': request.session['time_limit'],
                 'response': request.session['insurance_pick'],
@@ -233,6 +242,10 @@ def review(request):
             response = get_cache_data(cache_version)
 
             values = get_data_template(request)
+            try:
+                img_list_data = json.loads(request.POST['image_list_data'])
+            except:
+                img_list_data = []
             adult = []
             contact = []
             booker = {
@@ -245,7 +258,7 @@ def review(request):
                 'nationality_name': request.POST['booker_nationality'],
                 'booker_seq_id': request.POST['booker_id']
             }
-            for i in range(int(request.session['insurance_request']['adult'])):
+            for i in range(int(request.session['insurance_request_with_passenger']['adult'])):
                 # BIKIN buat pasangan ANAK 1 2 3, ahli waris
                 relation = []
                 ahli_waris = {}
@@ -333,6 +346,8 @@ def review(request):
                 elif request.session['insurance_pick']['provider'] == 'zurich':
                     if request.POST['adult_additional_benefit' + str(i + 1)]:
                         addons = json.loads(request.POST['adult_additional_benefit' + str(i + 1)])
+
+                img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'adult' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                 adult.append({
                     "pax_type": "ADT",
                     "first_name": request.POST['adult_first_name' + str(i + 1)],
@@ -345,6 +360,7 @@ def review(request):
                     "identity_expdate": request.POST['adult_passport_expired_date' + str(i + 1)],
                     "identity_number": request.POST['adult_passport_number' + str(i + 1)],
                     "identity_type": request.POST['adult_id_type' + str(i + 1)],
+                    "identity_image": img_identity_data,
 
                     "identity_type2": identity_type,
                     "identity_expdate2": identity_expdate,
@@ -467,7 +483,7 @@ def review(request):
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'time_limit': time_limit,
                 'id_types': id_type,
-                'insurance_request': request.session['insurance_request'],
+                'insurance_request': request.session['insurance_request_with_passenger'],
                 'response': request.session['insurance_pick'],
                 'upsell': request.session.get(
                     'insurance_upsell_' + request.session['insurance_signature']) and request.session.get(

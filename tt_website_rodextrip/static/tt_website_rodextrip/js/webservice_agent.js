@@ -1243,7 +1243,10 @@ function get_customer_list(passenger, number, product){
                                     <div class="col-lg-12">
                                         <div class="row">
                                             <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">`;
-                                                if(msg.result.response[i].title == "MR"){
+                                                if(msg.result.response[i].face_image.length > 0)
+                                                    response+=`<img src="`+msg.result.response[i].face_image[0]+`" alt="User" class="picture_passenger_agent">`;
+
+                                                else if(msg.result.response[i].title == "MR"){
                                                     response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" alt="User MR" class="picture_passenger_agent">`;
                                                 }
                                                 else if(msg.result.response[i].title == "MRS"){
@@ -1322,6 +1325,16 @@ function get_customer_list(passenger, number, product){
                                                     response+=`<br/> <span><i class="fas fa-id-card"></i> <i>KTP: </i><b>`+msg.result.response[i].identities.ktp.identity_number+`</b></span>`;
                                                 if(msg.result.response[i].identities.hasOwnProperty('sim') == true)
                                                     response+=`<br/> <span><i class="fas fa-id-badge"></i> <i>SIM: </i><b>`+msg.result.response[i].identities.sim.identity_number+`</b></span>`;
+
+                                                //edit cenius
+                                                response+=`<div style="display:none">`;
+                                                for(j in msg.result.response[i].identities){
+                                                    for(k in msg.result.response[i].identities[j].identity_images){
+                                                        response += `<img src="`+msg.result.response[i].identities[j].identity_images[k][0]+`" alt="User" class="picture_passenger_agent">`
+                                                    }
+                                                }
+                                                response+=`</div>`;
+
                                                 if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
                                                     print_behavior = false;
                                                     response_behavior=`<br/><b>Behaviors:</b><br/>`;
@@ -1724,6 +1737,15 @@ function get_customer_list(passenger, number, product){
                                                     response += `<option value="sim - `+msg.result.response[i].identities.sim.identity_number+`">SIM - `+msg.result.response[i].identities.sim.identity_number+`</option>`;
 
                                                 response+=`</select>`;
+                                                //edit cenius
+                                                response+=`<div style="display:none">`;
+                                                for(j in msg.result.response[i].identities){
+                                                    for(k in msg.result.response[i].identities[j].identity_images){
+                                                        response += `<img src="`+msg.result.response[i].identities[j].identity_images[k][0]+`" alt="User" class="picture_passenger_agent">`
+                                                    }
+                                                }
+                                                response+=`</div>`;
+
                                                 if(template == 1 || template == 5 || template == 6){
                                                     response+=`</div></div>`;
                                                 }else if(template == 2){
@@ -1738,7 +1760,7 @@ function get_customer_list(passenger, number, product){
                                                 print_behavior = false;
                                                 response_behavior=`<br/><b>Behaviors:</b><br/>`;
                                                 for(j in msg.result.response[i].behaviors){
-                                                    if(j.toLowerCase() == product){
+                                                    if(j.toLowerCase() == product || product == 'cache'){
                                                         print_behavior = true;
                                                         response_behavior+=`<b>`+j+`</b><br/>`;
                                                         for(k in msg.result.response[i].behaviors[j]){
@@ -2080,6 +2102,25 @@ function pick_passenger_copy(type, sequence, product, identity=''){
 //                    break;
 //                }
 //            }
+
+            if(passenger_data[sequence].face_image.length > 0){
+                text = '';
+                text += `
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                            <img src="`+passenger_data[sequence].face_image[0]+`" alt="User" class="picture_passenger_agent">
+                        </div>
+                    </div>
+                `;
+                if(document.getElementById('adult_div_avatar'+passenger_number)){
+                    document.getElementById('adult_div_avatar'+passenger_number).innerHTML = text
+                    document.getElementById('adult_div_avatar'+passenger_number).hidden = false;
+                }
+            }else{
+                if(document.getElementById('adult_div_avatar'+passenger_number))
+                    document.getElementById('adult_div_avatar'+passenger_number).hidden = true;
+            }
+
             for(i in document.getElementById('adult_title'+passenger_number).options){
                 document.getElementById('adult_title'+passenger_number).options[i].disabled = false;
             }
@@ -2110,12 +2151,58 @@ function pick_passenger_copy(type, sequence, product, identity=''){
             }
             document.getElementById('adult_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
             if(passenger_data[sequence].identities.hasOwnProperty('passport') == true){
+                if(document.getElementById('adult_identity_type'+passenger_number)){
+                    document.getElementById('adult_identity_type'+passenger_number).value = 'passport';
+                    $('#adult_identity_type'+passenger_number).niceSelect('update');
+                }
                 document.getElementById('adult_identity_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
                 if(passenger_data[sequence].identities.passport.identity_country_of_issued_name != '' && passenger_data[sequence].identities.passport.identity_country_of_issued_name != undefined){
                     document.getElementById('select2-adult_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
                     document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
                     auto_complete('adult_country_of_issued'+passenger_number);
                     document.getElementById('adult_country_of_issued'+passenger_number).readOnly = true;
+                    if(passenger_data[sequence].identities['passport'].identity_images.length > 0){
+                        text = '';
+                        text += `
+                            <div class="row">`;
+                                for(j in passenger_data[sequence].identities['passport'].identity_images.slice(0,3))
+                                text+=`
+                                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                                    <img src="`+passenger_data[sequence].identities['passport'].identity_images[j][0]+`" alt="User" class="picture_passenger_agent">
+                                </div>`;
+                                text+=`
+                            </div>
+                        `;
+                        if(document.getElementById('adult_attachment_identity'+passenger_number)){
+                            text_attachment= '';
+                            for(j in passenger_data[sequence].identities['passport'].identity_images){
+                                text_attachment += `
+                                    <div style="height:220px;margin-bottom:25px;margin-right:10px;">
+                                        <img src="`+passenger_data[sequence].identities['passport'].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data[sequence].identities['passport'].identity_images[j][1]+`" style="height:220px;width:auto" />
+
+                                        <div class="row" style="justify-content:space-around">
+                                            <div class="checkbox" style="display: block;">
+                                                <label class="check_box_custom">
+                                                    <span style="font-size:13px;">Delete</span>
+                                                    <input type="checkbox" value="" id="adult_identity`+passenger_number+`_`+j+`_delete" name="adult_identity`+passenger_number+`_delete">
+                                                    <input type="hidden" value="`+passenger_data[sequence].identities['passport'].identity_images[j][1]+`" id="adult_identity`+passenger_number+`_`+j+`_image_seq_id" name="adult_identity`+passenger_number+`_`+j+`_image_seq_id">
+                                                    <span class="check_box_span_custom"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                            }
+                            document.getElementById('adult_attachment_identity'+passenger_number).innerHTML = text_attachment;
+                        }
+
+                        if(document.getElementById('adult_div_avatar_identity'+passenger_number)){
+                            document.getElementById('adult_div_avatar_identity'+passenger_number).innerHTML = text
+                            document.getElementById('adult_div_avatar_identity'+passenger_number).hidden = false;
+                        }
+                    }else{
+                        if(document.getElementById('adult_div_avatar_identity'+passenger_number))
+                            document.getElementById('adult_div_avatar_identity'+passenger_number).hidden = true;
+                    }
                 }
                 if(passenger_data[sequence].identities.passport.identity_expdate != '' && passenger_data[sequence].identities.passport.identity_expdate != undefined){
                     document.getElementById('adult_identity_expired_date'+passenger_number).value = passenger_data[sequence].identities.passport.identity_expdate;
@@ -2189,6 +2276,48 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                                             auto_complete(type+'_country_of_issued'+passenger_number);
                                         }
                                     }catch(err){console.log(err)}
+                                    if(passenger_data[sequence].identities[i].identity_images.length > 0){
+                                        text = '';
+                                        text += `
+                                            <div class="row">`;
+                                                for(j in passenger_data[sequence].identities[i].identity_images.slice(0,3))
+                                                text+=`
+                                                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                                                    <img src="`+passenger_data[sequence].identities[i].identity_images[j][0]+`" alt="User" class="picture_passenger_agent">
+                                                </div>`;
+                                                text+=`
+                                            </div>
+                                        `;
+                                        if(document.getElementById(type+'_attachment_identity'+passenger_number)){
+                                            text_attachment= '';
+                                            for(j in passenger_data[sequence].identities[i].identity_images){
+                                                text_attachment += `
+                                                    <div style="height:220px;margin-bottom:25px;margin-right:10px;">
+                                                        <img src="`+passenger_data[sequence].identities[i].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data[sequence].identities[i].identity_images[j][1]+`" style="height:220px;width:auto" />
+
+                                                        <div class="row" style="justify-content:space-around">
+                                                            <div class="checkbox" style="display: block;">
+                                                                <label class="check_box_custom">
+                                                                    <span style="font-size:13px;">Delete</span>
+                                                                    <input type="checkbox" value="" id="`+type+`_identity`+passenger_number+`_`+j+`_delete" name="`+type+`_identity`+passenger_number+`_delete">
+                                                                    <input type="hidden" value="`+passenger_data[sequence].identities[i].identity_images[j][1]+`" id="`+type+`_identity`+passenger_number+`_`+j+`_image_seq_id" name="`+type+`_identity`+passenger_number+`_`+j+`_image_seq_id">
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+                                            }
+                                            document.getElementById(type+'_attachment_identity'+passenger_number).innerHTML = text_attachment;
+                                        }
+
+                                        if(document.getElementById(type+'_div_avatar_identity'+passenger_number)){
+                                            document.getElementById(type+'_div_avatar_identity'+passenger_number).innerHTML = text
+                                            document.getElementById(type+'_div_avatar_identity'+passenger_number).hidden = false;
+                                        }
+                                    }else{
+                                        if(document.getElementById(type+'_div_avatar_identity'+passenger_number))
+                                            document.getElementById(type+'_div_avatar_identity'+passenger_number).hidden = true;
+                                    }
                                     //notif passport krng dari 6 bulan
                                     if(expired != null){
                                         if(expired > -180){
@@ -2220,6 +2349,10 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                         var expired = date2.diff(date1, 'days');
                         if(expired < -180){
                             identity_check = false;
+                            if(document.getElementById(type+'_identity_type'+passenger_number)){
+                                document.getElementById(type+'_identity_type'+passenger_number).value = 'passport';
+                                $('#'+type+'_identity_type'+passenger_number).niceSelect('update');
+                            }
                             document.getElementById(type+'_passport_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
                             if(passenger_data[sequence].identities.passport.identity_country_of_issued_name != '' && passenger_data[sequence].identities.passport.identity_country_of_issued_name != undefined){
                                 document.getElementById('select2-'+type+'_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
@@ -2228,6 +2361,46 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                             }
                             if(passenger_data[sequence].identities.passport.identity_expdate != '' && passenger_data[sequence].identities.passport.identity_expdate != undefined){
                                 document.getElementById(type+'_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities.passport.identity_expdate;
+                            }
+                            if(passenger_data[sequence].identities['passport'].identity_images.length > 0){
+                                text = '';
+                                text += `
+                                    <div class="row">`;
+                                        for(j in passenger_data[sequence].identities['passport'].identity_images.slice(0,3))
+                                        text+=`
+                                        <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                                            <img src="`+passenger_data[sequence].identities['passport'].identity_images[j][0]+`" alt="User" class="picture_passenger_agent">
+                                        </div>`;
+                                        text+=`
+                                    </div>`;
+                                if(document.getElementById(type+'_attachment_identity'+passenger_number)){
+                                    text_attachment= '';
+                                    for(j in passenger_data[sequence].identities['passport'].identity_images){
+                                        text_attachment += `
+                                            <div style="height:220px;margin-bottom:25px;margin-right:10px;">
+                                                <img src="`+passenger_data[sequence].identities['passport'].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data[sequence].identities['passport'].identity_images[j][1]+`" style="height:220px;width:auto" />
+
+                                                <div class="row" style="justify-content:space-around">
+                                                    <div class="checkbox" style="display: block;">
+                                                        <label class="check_box_custom">
+                                                            <span style="font-size:13px;">Delete</span>
+                                                            <input type="checkbox" value="" id="`+type+`_identity`+passenger_number+`_delete" name="`+type+`_identity`+passenger_number+`_delete">
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>`;
+                                    }
+                                    document.getElementById(type+'_attachment_identity'+passenger_number).innerHTML = text_attachment;
+                                }
+
+                                if(document.getElementById(type+'_div_avatar_identity'+passenger_number)){
+                                    document.getElementById(type+'_div_avatar_identity'+passenger_number).innerHTML = text
+                                    document.getElementById(type+'_div_avatar_identity'+passenger_number).hidden = false;
+                                }
+                            }else{
+                                if(document.getElementById(type+'_div_avatar_identity'+passenger_number))
+                                    document.getElementById(type+'_div_avatar_identity'+passenger_number).hidden = true;
                             }
                         }
                     }catch(err){
@@ -2279,6 +2452,25 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                         break;
                     }
                 }
+                data_booker = passenger_data[sequence];
+                if(passenger_data[sequence].face_image.length > 0){
+                    text = '';
+                    text += `
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                                <img src="`+passenger_data[sequence].face_image[0]+`" alt="User" class="picture_passenger_agent">
+                            </div>
+                        </div>
+                    `;
+                    if(document.getElementById('booker_div_avatar')){
+                        document.getElementById('booker_div_avatar').innerHTML = text
+                        document.getElementById('booker_div_avatar').hidden = false;
+                    }
+                }else{
+                    if(document.getElementById('booker_div_avatar'))
+                        document.getElementById('booker_div_avatar').hidden = true;
+                }
+
                 document.getElementById('booker_title').value = passenger_data[sequence].title;
                 for(i in document.getElementById('booker_title').options){
                     document.getElementById('booker_title').options[i].disabled = false;
@@ -2577,6 +2769,23 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                             break;
                         }
                     }
+                    if(passenger_data[sequence].face_image.length > 0){
+                        text = '';
+                        text += `
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                                    <img src="`+passenger_data[sequence].face_image[0]+`" alt="User" class="picture_passenger_agent">
+                                </div>
+                            </div>
+                        `;
+                        if(document.getElementById('adult_div_avatar'+passenger_number)){
+                            document.getElementById('adult_div_avatar'+passenger_number).innerHTML = text
+                            document.getElementById('adult_div_avatar'+passenger_number).hidden = false;
+                        }
+                    }else{
+                        if(document.getElementById('adult_div_avatar'+passenger_number))
+                            document.getElementById('adult_div_avatar'+passenger_number).hidden = true;
+                    }
                     document.getElementById('adult_title'+passenger_number).value = passenger_data[sequence].title;
                     for(i in document.getElementById('adult_title'+passenger_number).options){
                         document.getElementById('adult_title'+passenger_number).options[i].disabled = false;
@@ -2762,6 +2971,23 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                             break;
                         }
                     }
+                    if(passenger_data[sequence].face_image.length > 0){
+                        text = '';
+                        text += `
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                                    <img src="`+passenger_data[sequence].face_image[0]+`" alt="User" class="picture_passenger_agent">
+                                </div>
+                            </div>
+                        `;
+                        if(document.getElementById('child_div_avatar'+passenger_number)){
+                            document.getElementById('child_div_avatar'+passenger_number).innerHTML = text
+                            document.getElementById('child_div_avatar'+passenger_number).hidden = false;
+                        }
+                    }else{
+                        if(document.getElementById('child_div_avatar'+passenger_number))
+                            document.getElementById('child_div_avatar'+passenger_number).hidden = true;
+                    }
                     document.getElementById('child_title'+passenger_number).value = passenger_data[sequence].title;
                     for(i in document.getElementById('child_title'+passenger_number).options){
                         document.getElementById('child_title'+passenger_number).options[i].disabled = false;
@@ -2857,6 +3083,23 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                             break;
                         }
                     }
+                    if(passenger_data[sequence].face_image.length > 0){
+                        text = '';
+                        text += `
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                                    <img src="`+passenger_data[sequence].face_image[0]+`" alt="User" class="picture_passenger_agent">
+                                </div>
+                            </div>
+                        `;
+                        if(document.getElementById('infant_div_avatar'+passenger_number)){
+                            document.getElementById('infant_div_avatar'+passenger_number).innerHTML = text
+                            document.getElementById('infant_div_avatar'+passenger_number).hidden = false;
+                        }
+                    }else{
+                        if(document.getElementById('infant_div_avatar'+passenger_number))
+                            document.getElementById('infant_div_avatar'+passenger_number).hidden = true;
+                    }
                     document.getElementById('infant_title'+passenger_number).value = passenger_data[sequence].title;
                     for(i in document.getElementById('infant_title'+passenger_number).options){
                         document.getElementById('infant_title'+passenger_number).options[i].disabled = false;
@@ -2947,7 +3190,23 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                             break;
                         }
                     }
-
+                    if(passenger_data[sequence].face_image.length > 0){
+                        text = '';
+                        text += `
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                                    <img src="`+passenger_data[sequence].face_image[0]+`" alt="User" class="picture_passenger_agent">
+                                </div>
+                            </div>
+                        `;
+                        if(document.getElementById('senior_div_avatar'+passenger_number)){
+                            document.getElementById('senior_div_avatar'+passenger_number).innerHTML = text
+                            document.getElementById('senior_div_avatar'+passenger_number).hidden = false;
+                        }
+                    }else{
+                        if(document.getElementById('senior_div_avatar'+passenger_number))
+                            document.getElementById('senior_div_avatar'+passenger_number).hidden = true;
+                    }
                     document.getElementById('senior_title'+passenger_number).value = passenger_data[sequence].title;
                     for(i in document.getElementById('senior_title'+passenger_number).options){
                         document.getElementById('senior_title'+passenger_number).options[i].disabled = false;
@@ -3105,6 +3364,23 @@ function copy_booker(val,type,identity){
         }catch(err){
             console.log(err); //kalau tidak ada penanda identity required di html
         }
+        if(typeof data_booker !== 'undefined' && data_booker.face_image.length > 0){
+            text = '';
+            text += `
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                        <img src="`+data_booker.face_image[0]+`" alt="User" class="picture_passenger_agent">
+                    </div>
+                </div>
+            `;
+            if(document.getElementById('adult_div_avatar1')){
+                document.getElementById('adult_div_avatar1').innerHTML = text
+                document.getElementById('adult_div_avatar1').hidden = false;
+            }
+        }else{
+            if(document.getElementById('adult_div_avatar1'))
+                document.getElementById('adult_div_avatar1').hidden = true;
+        }
         if(need_identity != 'none'){
             for(i in data_identity){
                 data = data_identity[i].split(',');
@@ -3116,7 +3392,7 @@ function copy_booker(val,type,identity){
                 }else{
                     // KTP
                 }
-                var radios = [];
+//                var radios = []; //kalau ada tidak masuk if(typeof radios !== 'undefined') karena radios di define
                 try{
                     radios = document.getElementById('adult_id_type1').options;
                 }catch(err){console.log(err)}
@@ -3129,6 +3405,48 @@ function copy_booker(val,type,identity){
                         if(expired == null || expired < -1){
                             if (radios[j].value == data[0] && identity == '' || radios[j].value == data[0] && identity == data[0]) {
                                 if(data[0] != ''){
+                                    if(typeof data_booker !== 'undefined' && data_booker.identities.hasOwnProperty(identity) && data_booker.identities[identity].identity_images.length > 0){
+                                        text = '';
+                                        text += `
+                                            <div class="row">`;
+                                                for(k in data_booker.identities[identity].identity_images.slice(0,3))
+                                                text+=`
+                                                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                                                    <img src="`+data_booker.identities[identity].identity_images[k][0]+`" alt="User" class="picture_passenger_agent">
+                                                </div>`;
+                                                text+=`
+                                            </div>
+                                        `;
+                                        if(document.getElementById('adult_attachment_identity1')){
+                                            text_attachment= '';
+                                            for(k in data_booker.identities[identity].identity_images){
+                                                text_attachment += `
+                                                    <div style="height:220px;margin-bottom:25px;margin-right:10px;">
+                                                        <img src="`+data_booker.identities[identity].identity_images[k][0]+`" alt="Passenger" value="`+data_booker.identities[identity].identity_images[k][1]+`" style="height:220px;width:auto" />
+
+                                                        <div class="row" style="justify-content:space-around">
+                                                            <div class="checkbox" style="display: block;">
+                                                                <label class="check_box_custom">
+                                                                    <span style="font-size:13px;">Delete</span>
+                                                                    <input type="checkbox" value="" id="adult_identity1_`+k+`_delete" name="adult_identity1_`+k+`_delete">
+                                                                    <input type="hidden" value="`+data_booker.identities[identity].identity_images[k][1]+`" id="adult_identity1_`+k+`_image_seq_id" name="adult_identity1_`+k+`_image_seq_id">
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+                                            }
+                                            document.getElementById('adult_attachment_identity1').innerHTML = text_attachment;
+                                        }
+
+                                        if(document.getElementById('adult_div_avatar_identity1')){
+                                            document.getElementById('adult_div_avatar_identity1').innerHTML = text
+                                            document.getElementById('adult_div_avatar_identity1').hidden = false;
+                                        }
+                                    }else{
+                                        if(document.getElementById('adult_div_avatar_identity1'))
+                                            document.getElementById('adult_div_avatar_identity1').hidden = true;
+                                    }
                                     identity_check = false;
                                     if(document.getElementById('adult_id_type1'))
                                         document.getElementById('adult_id_type1').value = data[0];
@@ -3181,6 +3499,49 @@ function copy_booker(val,type,identity){
                             document.getElementById('select2-adult_country_of_issued1_id-container').innerHTML = data[2];
                             document.getElementById('adult_country_of_issued1').value = data[2];
                         }
+                        if(typeof data_booker !== undefined && data_booker.identities.hasOwnProperty(data[0]) && data_booker.identities[data[0]].identity_images.length > 0){
+                            text = '';
+                            text += `
+                                <div class="row">`;
+                                    for(k in data_booker.identities[data[0]].identity_images.slice(0,3))
+                                    text+=`
+                                    <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                                        <img src="`+data_booker.identities[data[0]].identity_images[k][0]+`" alt="User" class="picture_passenger_agent">
+                                    </div>`;
+                                    text+=`
+                                </div>
+                            `;
+                            if(document.getElementById('adult_attachment_identity1')){
+                                text_attachment= '';
+                                for(k in data_booker.identities[data[0]].identity_images){
+                                    text_attachment += `
+                                        <div style="height:220px;margin-bottom:25px;margin-right:10px;">
+                                            <img src="`+data_booker.identities[data[0]].identity_images[k][0]+`" alt="Passenger" value="`+data_booker.identities[data[0]].identity_images[k][1]+`" style="height:220px;width:auto" />
+
+                                            <div class="row" style="justify-content:space-around">
+                                                <div class="checkbox" style="display: block;">
+                                                    <label class="check_box_custom">
+                                                        <span style="font-size:13px;">Delete</span>
+                                                        <input type="checkbox" value="" id="adult_identity1_`+k+`_delete" name="adult_identity1_`+k+`_delete">
+                                                        <input type="hidden" value="`+data_booker.identities[data[0]].identity_images[k][1]+`" id="adult_identity1_`+k+`_image_seq_id" name="adult_identity1_`+k+`_image_seq_id">
+                                                        <span class="check_box_span_custom"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>`;
+                                }
+                                document.getElementById('adult_attachment_identity1').innerHTML = text_attachment;
+                            }
+
+                            if(document.getElementById('adult_div_avatar_identity1')){
+                                document.getElementById('adult_div_avatar_identity1').innerHTML = text
+                                document.getElementById('adult_div_avatar_identity1').hidden = false;
+                            }
+                        }else{
+                            if(document.getElementById('adult_div_avatar_identity1'))
+                                document.getElementById('adult_div_avatar_identity1').hidden = true;
+                        }
+
                     }catch(err){
                         console.log(err); //error kalau tidak ada field identity std
                     }
@@ -3197,6 +3558,10 @@ function copy_booker(val,type,identity){
                 }catch(err){
                     console.log(err);
                 }
+                if(document.getElementById('adult_id_type1'))
+                    document.getElementById('adult_id_type1').value = identity;
+                else if(document.getElementById('adult_identity_type1'))
+                    document.getElementById('adult_identity_type1').value = identity;
             }else{
                 try{
                     document.getElementById('adult_identity_msg_error1').innerHTML = '';
@@ -3204,10 +3569,13 @@ function copy_booker(val,type,identity){
                     console.log(err);
                 }
                 //identity copy
-                if(document.getElementById('adult_id_type1'))
+                if(document.getElementById('adult_id_type1')){
                     change_identity_type(`adult_id_type1`);
-                else if(document.getElementById('adult_identity_type1'))
+                    $('#adult_id_type1').niceSelect('update');
+                }else if(document.getElementById('adult_identity_type1')){
                     change_identity_type(`adult_identity_type1`);
+                    $('#adult_identity_type1').niceSelect('update');
+                }
             }
         }
         if(type == 'issued_offline'){
@@ -3538,6 +3906,20 @@ function copy_booker(val,type,identity){
             })
         }
     }else{
+        //kosongi avatar
+        if(document.getElementById('adult_div_avatar1')){
+            document.getElementById('adult_div_avatar1').innerHTML = '';
+            document.getElementById('adult_div_avatar1').hidden = true;
+        }
+        //kosongi identity
+        if(document.getElementById('adult_attachment_identity1')){
+            document.getElementById('adult_attachment_identity1').innerHTML = '';
+        }
+        if(document.getElementById('adult_div_avatar_identity1')){
+            document.getElementById('adult_div_avatar_identity1').innerHTML = ''
+            document.getElementById('adult_div_avatar_identity1').hidden = true;
+        }
+
 
         for(i in passenger_data_pick){
             if(passenger_data_pick[i].sequence == 'adult1'){
@@ -3644,6 +4026,14 @@ function clear_passenger(type, sequence){
             document.getElementById('booker_title').options[i].disabled = false;
         }
         $('#booker_title').niceSelect('update');
+        //kosongi avatar
+        if(document.getElementById('booker_attachment')){
+            document.getElementById('booker_attachment').innerHTML = '';
+        }
+        if(document.getElementById('booker_div_avatar')){
+            document.getElementById('booker_div_avatar').innerHTML = '';
+            document.getElementById('booker_div_avatar').hidden = true;
+        }
         document.getElementById('booker_first_name').value = '';
         document.getElementById('booker_first_name').readOnly = false;
         document.getElementById('booker_last_name').value = '';
@@ -3682,6 +4072,22 @@ function clear_passenger(type, sequence){
                 document.getElementById('adult_behaviors'+sequence).value = '';
                 //belum semua product di tambahkan
             }catch(err){console.log(err);}
+            //kosongi avatar
+            if(document.getElementById('adult_attachment'+sequence)){
+                document.getElementById('adult_attachment'+sequence).innerHTML = '';
+            }
+            if(document.getElementById('adult_div_avatar'+sequence)){
+                document.getElementById('adult_div_avatar'+sequence).innerHTML = '';
+                document.getElementById('adult_div_avatar'+sequence).hidden = true;
+            }
+            //kosongi identity
+            if(document.getElementById('adult_attachment_identity'+sequence)){
+                document.getElementById('adult_attachment_identity'+sequence).innerHTML = '';
+            }
+            if(document.getElementById('adult_div_avatar_identity'+sequence)){
+                document.getElementById('adult_div_avatar_identity'+sequence).innerHTML = ''
+                document.getElementById('adult_div_avatar_identity'+sequence).hidden = true;
+            }
             document.getElementById('adult_phone_code'+sequence).value = '62';
             document.getElementById('select2-adult_phone_code'+sequence+'_id-container').value = '62';
             document.getElementById('select2-adult_phone_code'+sequence+'_id-container').readOnly = false;
@@ -3699,8 +4105,12 @@ function clear_passenger(type, sequence){
             initial_date = moment().subtract(18, 'years').format('DD MMM YYYY');
             document.getElementById('adult_birth_date'+sequence).value = initial_date;
             document.getElementById('adult_birth_date'+sequence).disabled = false;
-            document.getElementById('adult_id_type'+sequence).value = '';
-            $('#adult_id_type'+sequence).niceSelect('update');
+            try{
+                document.getElementById('adult_id_type'+sequence).value = '';
+                $('#adult_id_type'+sequence).niceSelect('update');
+            }catch(err){
+                console.log(err);
+            }
             document.getElementById('adult_passport_number'+sequence).value = '';
             document.getElementById('adult_passport_number'+sequence).readOnly = false;
             document.getElementById('adult_passport_expired_date'+sequence).value = '';
@@ -3721,6 +4131,22 @@ function clear_passenger(type, sequence){
             }
         }
         try{
+            //kosongi avatar
+            if(document.getElementById('infant_attachment'+sequence)){
+                document.getElementById('infant_attachment'+sequence).innerHTML = '';
+            }
+            if(document.getElementById('infant_div_avatar'+sequence)){
+                document.getElementById('infant_div_avatar'+sequence).innerHTML = '';
+                document.getElementById('infant_div_avatar'+sequence).hidden = true;
+            }
+            //kosongi identity
+            if(document.getElementById('infant_attachment_identity'+sequence)){
+                document.getElementById('infant_attachment_identity'+sequence).innerHTML = '';
+            }
+            if(document.getElementById('infant_div_avatar_identity'+sequence)){
+                document.getElementById('infant_div_avatar_identity'+sequence).innerHTML = ''
+                document.getElementById('infant_div_avatar_identity'+sequence).hidden = true;
+            }
             document.getElementById('infant_title'+sequence).value = 'MSTR';
             for(i in document.getElementById('infant_title'+sequence).options){
                 document.getElementById('infant_title'+sequence).options[i].disabled = false;
@@ -3758,6 +4184,22 @@ function clear_passenger(type, sequence){
                 break;
             }
         }
+        //kosongi avatar
+        if(document.getElementById('senior_attachment'+sequence)){
+            document.getElementById('senior_attachment'+sequence).innerHTML = '';
+        }
+        if(document.getElementById('senior_div_avatar'+sequence)){
+            document.getElementById('senior_div_avatar'+sequence).innerHTML = '';
+            document.getElementById('senior_div_avatar'+sequence).hidden = true;
+        }
+        //kosongi identity
+        if(document.getElementById('senior_attachment_identity'+sequence)){
+            document.getElementById('senior_attachment_identity'+sequence).innerHTML = '';
+        }
+        if(document.getElementById('senior_div_avatar_identity'+sequence)){
+            document.getElementById('senior_div_avatar_identity'+sequence).innerHTML = ''
+            document.getElementById('senior_div_avatar_identity'+sequence).hidden = true;
+        }
         document.getElementById('senior_title'+sequence).value = 'MR';
         for(i in document.getElementById('senior_title'+sequence).options){
             document.getElementById('senior_title'+sequence).options[i].disabled = false;
@@ -3791,6 +4233,22 @@ function clear_passenger(type, sequence){
                 passenger_data_pick.splice(i,1);
                 break;
             }
+        }
+        //kosongi avatar
+        if(document.getElementById('child_attachment'+sequence)){
+            document.getElementById('child_attachment'+sequence).innerHTML = '';
+        }
+        if(document.getElementById('child_div_avatar'+sequence)){
+            document.getElementById('child_div_avatar'+sequence).innerHTML = '';
+            document.getElementById('child_div_avatar'+sequence).hidden = true;
+        }
+        //kosongi identity
+        if(document.getElementById('child_attachment_identity'+sequence)){
+            document.getElementById('child_attachment_identity'+sequence).innerHTML = '';
+        }
+        if(document.getElementById('child_div_avatar_identity'+sequence)){
+            document.getElementById('child_div_avatar_identity'+sequence).innerHTML = ''
+            document.getElementById('child_div_avatar_identity'+sequence).hidden = true;
         }
         document.getElementById('child_title'+sequence).value = 'MSTR';
         for(i in document.getElementById('child_title'+sequence).options){
@@ -3836,6 +4294,22 @@ function clear_passenger(type, sequence){
                     }
                 }
                 try{
+                    //kosongi avatar
+                    if(document.getElementById('adult_attachment'+sequence)){
+                        document.getElementById('adult_attachment'+sequence).innerHTML = '';
+                    }
+                    if(document.getElementById('adult_div_avatar'+sequence)){
+                        document.getElementById('adult_div_avatar'+sequence).innerHTML = '';
+                        document.getElementById('adult_div_avatar'+sequence).hidden = true;
+                    }
+                    //kosongi identity
+                    if(document.getElementById('adult_attachment_identity'+sequence)){
+                        document.getElementById('adult_attachment_identity'+sequence).innerHTML = '';
+                    }
+                    if(document.getElementById('adult_div_avatar_identity'+sequence)){
+                        document.getElementById('adult_div_avatar_identity'+sequence).innerHTML = ''
+                        document.getElementById('adult_div_avatar_identity'+sequence).hidden = true;
+                    }
                     //common
                     document.getElementById('adult_title'+sequence).value = '';
                     for(i in document.getElementById('adult_title'+sequence).options){
@@ -4735,7 +5209,7 @@ function del_passenger_cache(sequence){
     });
 }
 
-function get_passenger_cache(type){
+function get_passenger_cache(type,update_cache=false){
     type = "chosen";
     $.ajax({
        type: "POST",
@@ -4744,7 +5218,8 @@ function get_passenger_cache(type){
             'action': 'get_passenger_cache',
        },
        data: {
-
+            'update_cache': update_cache,
+            'passenger_sequence': typeof passenger_cache_pick !== 'undefined'  ? passenger_cache_pick : 0
        },
        success: function(msg) {
         if(msg.result.error_code == 0){
@@ -4926,6 +5401,16 @@ function get_passenger_cache(type){
                                                     response += `<option value="sim - `+msg.result.response[i].identities.sim.identity_number+`">SIM - `+msg.result.response[i].identities.sim.identity_number+`</option>`;
 
                                                 response+=`</select>`;
+
+                                                //edit cenius
+                                                response+=`<div style="display:none">`;
+                                                for(j in msg.result.response[i].identities){
+                                                    for(k in msg.result.response[i].identities[j].identity_images){
+                                                        response += `<img src="`+msg.result.response[i].identities[j].identity_images[k][0]+`" alt="User" class="picture_passenger_agent">`
+                                                    }
+                                                }
+                                                response+=`</div>`;
+
                                                 if(template == 1 || template == 5 || template == 6){
                                                     response+=`</div></div>`;
                                                 }else if(template == 2){
@@ -5056,21 +5541,26 @@ function get_passenger_cache(type){
                                         }
                                         if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
                                             print_behavior = false;
-                                            response_behavior=`<br/><b>Behaviors:</b><br/>`;
+                                            response_behavior=`
+                                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                    <br/><b>Behaviors:</b><br/>`;
                                             for(j in msg.result.response[i].behaviors){
-                                                if(j.toLowerCase() == product){
-                                                    print_behavior = true;
-                                                    response_behavior+=`<b>`+j+`</b><br/>`;
-                                                    for(k in msg.result.response[i].behaviors[j]){
-                                                        response_behavior+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b>`;
-                                                        if(msg.result.response[i].behaviors[j][k].remark != '' && msg.result.response[i].behaviors[j][k].remark != false)
-                                                            response_behavior +=` - `+msg.result.response[i].behaviors[j][k].remark;
-                                                        response_behavior+=`</span><br/>`;
-                                                    }
+
+                                                print_behavior = true;
+                                                response_behavior+=`<b>`+j+`</b><br/>`;
+                                                for(k in msg.result.response[i].behaviors[j]){
+                                                    response_behavior+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b>`;
+                                                    if(msg.result.response[i].behaviors[j][k].remark != '' && msg.result.response[i].behaviors[j][k].remark != false)
+                                                        response_behavior +=` - `+msg.result.response[i].behaviors[j][k].remark;
+                                                    response_behavior+=`</span><br/>`;
                                                 }
                                             }
-                                            if(print_behavior)
+                                            if(print_behavior){
+                                                response_behavior += `</div></div></div>`;
                                                 response+= response_behavior;
+                                            }
                                             response += `</div>`;
                                         }
                                         response+=`
@@ -5118,11 +5608,11 @@ function get_passenger_cache(type){
                         </div>`;
                     }
                     if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'passenger' || window.location.href.split('/')[window.location.href.split('/').length-2] == 'passenger' || window.location.href.split('/')[window.location.href.split('/').length-1] == 'issued_offline'){
-                        response+=`<div class="col-xs-6 mt-3"><button type="button" class="primary-btn" style="width:100%" id="move_btn" onclick="reset_pax_cache();">Reset</button></div>`;
-                    }
-
-                    if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'passenger' || window.location.href.split('/')[window.location.href.split('/').length-2] == 'passenger' || window.location.href.split('/')[window.location.href.split('/').length-1] == 'issued_offline'){
-                        response+=`<div class="col-xs-6 mt-3"><button type="button" class="primary-btn" style="width:100%" id="move_btn" onclick="move_pax_cache();">Move all</button></div>`;
+                        response+=`
+                        <div class="row">
+                            <div class="col-xs-6 mt-3"><button type="button" class="primary-btn" style="width:100%" id="move_btn" onclick="reset_pax_cache();">Reset</button></div>
+                            <div class="col-xs-6 mt-3"><button type="button" class="primary-btn" style="width:100%" id="move_btn" onclick="move_pax_cache();">Move all</button></div>
+                        </div>`;
                     }
 
                     response+=`</div>`;
@@ -5183,9 +5673,84 @@ function reset_pax_cache(){
 }
 
 function edit_passenger_cache(val){
+
+    //clear data
+    document.getElementById('div_avatar_passport').innerHTML = '';
+    document.getElementById('attachment1').innerHTML = '';
+    document.getElementById('selectedFiles_attachment_edit1').innerHTML = '';
+    document.getElementById('files_attachment_edit1').value = ''
+    if(!/safari/i.test(navigator.userAgent)){
+      document.getElementById('files_attachment_edit1').type = ''
+      document.getElementById('files_attachment_edit1').type = 'file'
+    }
+    document.getElementById('passenger_edit_identity_number1').value = '';
+    $("passenger_edit_identity_expired_date1").val("");
+    $('#passenger_edit_identity_country_of_issued1_id').val('').trigger('change');
+
+    document.getElementById('div_avatar_ktp').innerHTML = '';
+    document.getElementById('attachment2').innerHTML = '';
+    document.getElementById('selectedFiles_attachment_edit2').innerHTML = '';
+    document.getElementById('files_attachment_edit2').value = ''
+    if(!/safari/i.test(navigator.userAgent)){
+      document.getElementById('files_attachment_edit2').type = ''
+      document.getElementById('files_attachment_edit2').type = 'file'
+    }
+    document.getElementById('passenger_edit_identity_number2').value = '';
+    $("passenger_edit_identity_expired_date2").val("");
+    $('#passenger_edit_identity_country_of_issued2_id').val('').trigger('change');
+
+    document.getElementById('div_avatar_sim').innerHTML = '';
+    document.getElementById('attachment3').innerHTML = '';
+    document.getElementById('selectedFiles_attachment_edit3').innerHTML = '';
+    document.getElementById('files_attachment_edit3').value = ''
+    if(!/safari/i.test(navigator.userAgent)){
+      document.getElementById('files_attachment_edit3').type = ''
+      document.getElementById('files_attachment_edit3').type = 'file'
+    }
+    document.getElementById('passenger_edit_identity_number3').value = '';
+    $("passenger_edit_identity_expired_date3").val("");
+    $('#passenger_edit_identity_country_of_issued3_id').val('').trigger('change');
+
+    document.getElementById('div_avatar_other').innerHTML = '';
+    document.getElementById('attachment4').innerHTML = '';
+    document.getElementById('selectedFiles_attachment_edit4').innerHTML = '';
+    document.getElementById('files_attachment_edit4').value = ''
+    if(!/safari/i.test(navigator.userAgent)){
+      document.getElementById('files_attachment_edit4').type = ''
+      document.getElementById('files_attachment_edit4').type = 'file'
+    }
+    document.getElementById('passenger_edit_identity_number4').value = '';
+    $("passenger_edit_identity_expired_date4").val("");
+    $('#passenger_edit_identity_country_of_issued4_id').val('').trigger('change');
+
+    document.getElementById('passenger_edit_phone_table').innerHTML = '';
+
     passenger_data_edit_phone = 0;
     passenger_cache_pick = val;
-    document.getElementById('passenger_edit_title').innerHTML = passenger_data_cache[val].title;
+    //avatar
+    if(passenger_data_cache[val].face_image.length > 0){
+        text = '';
+        text += `
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                    <img src="`+passenger_data_cache[val].face_image[0]+`" alt="User" class="picture_passenger_agent">
+                </div>
+            </div>
+        `;
+        document.getElementById('div_avatar').innerHTML = text
+        document.getElementById('div_avatar').hidden = false;
+    }else{
+        document.getElementById('div_avatar').hidden = true;
+    }
+    document.getElementById('passenger_edit_title').value = passenger_data_cache[val].title;
+    if(agent_security.includes('p_cache_3') == false){
+        document.getElementById('passenger_edit_title').readOnly = true;
+        for(i in document.getElementById('passenger_edit_title').options){
+            if(document.getElementById('passenger_edit_title').options[i].selected != true)
+                document.getElementById('passenger_edit_title').options[i].disabled = true;
+        }
+    }
+    $('#passenger_edit_title').niceSelect('update');
     if(agent_security.includes('p_cache_3') == true){
         document.getElementById('passenger_first_name_div').innerHTML = `<input type="text" onchange="capitalizeInput('passenger_edit_first_name');" class="form-control" name="passenger_edit_first_name" id="passenger_edit_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '" value='`+passenger_data_cache[val].first_name+`'>`;
         document.getElementById('passenger_last_name_div').innerHTML = `<input type="text" onchange="capitalizeInput('passenger_edit_last_name');" class="form-control" name="passenger_edit_last_name" id="passenger_edit_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '" value='`+passenger_data_cache[val].last_name+`'>`;
@@ -5195,7 +5760,10 @@ function edit_passenger_cache(val){
     }
     if(passenger_data_cache[val].birth_date != ''){
         $('input[name="passenger_edit_birth_date"]').val(passenger_data_cache[val].birth_date);
-        document.getElementById('passenger_edit_birth_date').disabled = true;
+        if(agent_security.includes('p_cache_3') == true)
+            document.getElementById('passenger_edit_birth_date').disabled = false;
+        else
+            document.getElementById('passenger_edit_birth_date').disabled = true;
     }else{
         $('input[name="passenger_edit_birth_date"]').val("");
         document.getElementById('passenger_edit_birth_date').disabled = false;
@@ -5290,16 +5858,20 @@ function edit_passenger_cache(val){
                         </label>
                     </div>
                 </div>
-        </div>`;
+            </div>`;
     document.getElementById('attachment').innerHTML = text;
+    var draw_image_identity_text = '';
     for(i in passenger_data_cache[val].identities){
-        text = '';
         if(i == 'passport'){
+            text = '';
+            draw_image_identity_text = '';
             document.getElementById('passenger_edit_identity_number1').value = passenger_data_cache[val].identities[i].identity_number;
             document.getElementById('passenger_edit_identity_expired_date1').value = passenger_data_cache[val].identities[i].identity_expdate;
             document.getElementById('select2-passenger_edit_identity_country_of_issued1_id-container').innerHTML = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
             document.getElementById('passenger_edit_identity_country_of_issued1').value = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
             for(j in passenger_data_cache[val].identities[i].identity_images){
+                if(j == 0)
+                    draw_image_identity_text += `<div class="row">`;
                 text+= `
                     <div style="height:220px;margin-bottom:25px;margin-right:10px;">
                         <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
@@ -5313,15 +5885,30 @@ function edit_passenger_cache(val){
                                 </label>
                             </div>
                         </div>
+                    </div>`;
+                draw_image_identity_text += `
+                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                    <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="Passport" class="picture_passenger_agent">
                 </div>`;
             }
+            if(draw_image_identity_text != ''){
+                document.getElementById('div_avatar_passport').innerHTML = draw_image_identity_text;
+                document.getElementById('div_avatar_passport').hidden = false;
+            }else{
+                document.getElementById('div_avatar_passport').hidden = true;
+            }
+
             document.getElementById('attachment1').innerHTML = text;
         }else if(i == 'ktp'){
+            text = '';
+            draw_image_identity_text = '';
             document.getElementById('passenger_edit_identity_number2').value = passenger_data_cache[val].identities[i].identity_number;
             document.getElementById('passenger_edit_identity_expired_date2').value = passenger_data_cache[val].identities[i].identity_expdate;
             document.getElementById('select2-passenger_edit_identity_country_of_issued2_id-container').innerHTML = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
             document.getElementById('passenger_edit_identity_country_of_issued2').value = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
-            for(j in passenger_data_cache[val].identities[i].identity_images)
+            for(j in passenger_data_cache[val].identities[i].identity_images){
+                if(j == 0)
+                    draw_image_identity_text += `<div class="row">`;
                 text+= `
                     <div style="height:220px;margin-bottom:25px;margin-right:10px;">
                         <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
@@ -5336,13 +5923,28 @@ function edit_passenger_cache(val){
                             </div>
                         </div>
                 </div>`;
+                draw_image_identity_text += `
+                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                    <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="KTP" class="picture_passenger_agent">
+                </div>`;
+            }
+            if(draw_image_identity_text != ''){
+                document.getElementById('div_avatar_ktp').innerHTML = draw_image_identity_text;
+                document.getElementById('div_avatar_ktp').hidden = false;
+            }else{
+                document.getElementById('div_avatar_ktp').hidden = true;
+            }
             document.getElementById('attachment2').innerHTML = text;
         }else if(i == 'sim'){
+            text = '';
+            draw_image_identity_text = '';
             document.getElementById('passenger_edit_identity_number3').value = passenger_data_cache[val].identities[i].identity_number;
             document.getElementById('passenger_edit_identity_expired_date3').value = passenger_data_cache[val].identities[i].identity_expdate;
             document.getElementById('select2-passenger_edit_identity_country_of_issued3_id-container').innerHTML = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
             document.getElementById('passenger_edit_identity_country_of_issued3').value = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
-            for(j in passenger_data_cache[val].identities.identity_images)
+            for(j in passenger_data_cache[val].identities.identity_images){
+                if(j == 0)
+                    draw_image_identity_text += `<div class="row">`;
                 text+= `
                     <div style="height:220px;margin-bottom:25px;margin-right:10px;">
                         <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
@@ -5357,14 +5959,28 @@ function edit_passenger_cache(val){
                             </div>
                         </div>
                 </div>`;
-
+                draw_image_identity_text += `
+                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                    <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="SIM" class="picture_passenger_agent">
+                </div>`;
+            }
+            if(draw_image_identity_text != ''){
+                document.getElementById('div_avatar_sim').innerHTML = draw_image_identity_text;
+                document.getElementById('div_avatar_sim').hidden = false;
+            }else{
+                document.getElementById('div_avatar_sim').hidden = true;
+            }
             document.getElementById('attachment3').innerHTML = text;
         }else if(i == 'other'){
+            text = '';
+            draw_image_identity_text = '';
             document.getElementById('passenger_edit_identity_number4').value = passenger_data_cache[val].identities[i].identity_number;
             document.getElementById('passenger_edit_identity_expired_date4').value = passenger_data_cache[val].identities[i].identity_expdate;
             document.getElementById('select2-passenger_edit_identity_country_of_issued4_id-container').innerHTML = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
             document.getElementById('passenger_edit_identity_country_of_issued4').value = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
-            for(j in passenger_data_cache[val].identities.identity_images)
+            for(j in passenger_data_cache[val].identities.identity_images){
+                if(j == 0)
+                    draw_image_identity_text += `<div class="row">`;
                 text+= `
                     <div style="height:220px;margin-bottom:25px;margin-right:10px;">
                         <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
@@ -5379,6 +5995,17 @@ function edit_passenger_cache(val){
                             </div>
                         </div>
                 </div>`;
+                draw_image_identity_text += `
+                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                    <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="SIM" class="picture_passenger_agent">
+                </div>`;
+            }
+            if(draw_image_identity_text != ''){
+                document.getElementById('div_avatar_other').innerHTML = draw_image_identity_text;
+                document.getElementById('div_avatar_other').hidden = false;
+            }else{
+                document.getElementById('div_avatar_other').hidden = true;
+            }
             document.getElementById('attachment4').innerHTML = text;
         }
     }
@@ -5791,6 +6418,24 @@ function pick_passenger_cache_copy(val, identity){
         document.getElementById(passenger_pick+'_birth_date'+passenger_pick_number).value = passenger_data_cache[val].birth_date;
         document.getElementById(passenger_pick+'_birth_date'+passenger_pick_number).readOnly = true;
         if(passenger_pick == 'booker'){
+            //avatar
+            if(passenger_data_cache[val].face_image.length > 0){
+                text = '';
+                text += `
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                            <img src="`+passenger_data_cache[val].face_image[0]+`" alt="User" class="picture_passenger_agent">
+                        </div>
+                    </div>
+                `;
+                if(document.getElementById('booker_div_avatar')){
+                    document.getElementById('booker_div_avatar').innerHTML = text
+                    document.getElementById('booker_div_avatar').hidden = false;
+                }
+            }else{
+                if(document.getElementById('booker_div_avatar'))
+                    document.getElementById('booker_div_avatar').hidden = true;
+            }
             var temp_data = '';
             var index = 0;
             for(i in passenger_data_cache[val].identities){
@@ -5801,6 +6446,24 @@ function pick_passenger_cache_copy(val, identity){
             }
             document.getElementById(passenger_pick+'_id_number').value = temp_data;
         }else{
+            //avatar
+            if(passenger_data_cache[val].face_image.length > 0){
+                text = '';
+                text += `
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                            <img src="`+passenger_data_cache[val].face_image[0]+`" alt="User" class="picture_passenger_agent">
+                        </div>
+                    </div>
+                `;
+                if(document.getElementById(passenger_pick+'_div_avatar'+passenger_pick_number)){
+                    document.getElementById(passenger_pick+'_div_avatar'+passenger_pick_number).innerHTML = text
+                    document.getElementById(passenger_pick+'_div_avatar'+passenger_pick_number).hidden = false;
+                }
+            }else{
+                if(document.getElementById(passenger_pick+'_div_avatar'+passenger_pick_number))
+                    document.getElementById(passenger_pick+'_div_avatar'+passenger_pick_number).hidden = true;
+            }
             var index = 0;
             var temp_data = '';
             for(i in passenger_data_cache[val].identities){
@@ -5864,6 +6527,48 @@ function pick_passenger_cache_copy(val, identity){
                                             }
                                         }
                                         $('#'+passenger_pick+'_id_type'+passenger_pick_number).niceSelect('update');
+                                        if(passenger_data_cache[val].identities[data[0]].identity_images.length > 0){
+                                            text = '';
+                                            text += `
+                                                <div class="row">`;
+                                                    for(k in passenger_data_cache[val].identities[data[0]].identity_images.slice(0,3))
+                                                    text+=`
+                                                    <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                                                        <img src="`+passenger_data_cache[val].identities[data[0]].identity_images[k][0]+`" alt="User" class="picture_passenger_agent">
+                                                    </div>`;
+                                                    text+=`
+                                                </div>
+                                            `;
+                                            if(document.getElementById(passenger_pick+'_attachment_identity'+passenger_number)){
+                                                text_attachment= '';
+                                                for(k in passenger_data_cache[val].identities[data[0]].identity_images){
+                                                    text_attachment += `
+                                                        <div style="height:220px;margin-bottom:25px;margin-right:10px;">
+                                                            <img src="`+passenger_data_cache[val].identities[data[0]].identity_images[k][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities[data[0]].identity_images[k][1]+`" style="height:220px;width:auto" />
+
+                                                            <div class="row" style="justify-content:space-around">
+                                                                <div class="checkbox" style="display: block;">
+                                                                    <label class="check_box_custom">
+                                                                        <span style="font-size:13px;">Delete</span>
+                                                                        <input type="checkbox" value="" id="`+passenger_pick+`_identity`+passenger_pick_number+`_`+k+`_delete" name="`+passenger_pick+`_identity`+passenger_pick_number+`_delete">
+                                                                        <input type="hidden" value="`+passenger_data_cache[val].identities[data[0]].identity_images[k][1]+`" id="`+passenger_pick+`_identity`+passenger_pick_number+`_`+k+`_image_seq_id" name="`+passenger_pick+`_identity`+passenger_pick_number+`_`+k+`_image_seq_id">
+                                                                        <span class="check_box_span_custom"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>`;
+                                                }
+                                                document.getElementById(passenger_pick+'_attachment_identity'+passenger_pick_number).innerHTML = text_attachment;
+                                            }
+
+                                            if(document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number)){
+                                                document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number).innerHTML = text
+                                                document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number).hidden = false;
+                                            }
+                                        }else{
+                                            if(document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number))
+                                                document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number).hidden = true;
+                                        }
                                         //notif passport krng dari 6 bulan
                                         if(expired != null){
                                             if(expired > -180){
@@ -5893,6 +6598,48 @@ function pick_passenger_cache_copy(val, identity){
                             if(data[2] != ''){
                                 document.getElementById('select2-'+passenger_pick+'_country_of_issued'+passenger_pick_number+'_id-container').innerHTML = data[2];
                                 document.getElementById(passenger_pick+'_country_of_issued'+passenger_pick_number).value = data[2];
+                            }
+                            if(passenger_data_cache[val].identities['passport'].identity_images.length > 0){
+                                text = '';
+                                text += `
+                                    <div class="row">`;
+                                        for(k in passenger_data_cache[val].identities['passport'].identity_images.slice(0,3))
+                                        text+=`
+                                        <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                                            <img src="`+passenger_data_cache[val].identities[identity].identity_images[k][0]+`" alt="User" class="picture_passenger_agent">
+                                        </div>`;
+                                        text+=`
+                                    </div>
+                                `;
+                                if(document.getElementById(type+'_attachment_identity'+passenger_number)){
+                                    text_attachment= '';
+                                    for(k in passenger_data_cache[val].identities['passport'].identity_images){
+                                        text_attachment += `
+                                            <div style="height:220px;margin-bottom:25px;margin-right:10px;">
+                                                <img src="`+passenger_data_cache[val].identities['passport'].identity_images[k][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities['passport'].identity_images[k][1]+`" style="height:220px;width:auto" />
+
+                                                <div class="row" style="justify-content:space-around">
+                                                    <div class="checkbox" style="display: block;">
+                                                        <label class="check_box_custom">
+                                                            <span style="font-size:13px;">Delete</span>
+                                                            <input type="checkbox" value="" id="`+passenger_pick+`_identity`+passenger_pick_number+`_`+k+`_delete" name="`+passenger_pick+`_identity`+passenger_pick_number+`_delete">
+                                                            <input type="hidden" value="`+passenger_data_cache[val].identities['passport'].identity_images[k][1]+`" id="`+passenger_pick+`_identity`+passenger_pick_number+`_`+k+`_image_seq_id" name="`+passenger_pick+`_identity`+passenger_pick_number+`_`+k+`_image_seq_id">
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>`;
+                                    }
+                                    document.getElementById(passenger_pick+'_attachment_identity'+passenger_pick_number).innerHTML = text_attachment;
+                                }
+
+                                if(document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number)){
+                                    document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number).innerHTML = text
+                                    document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number).hidden = false;
+                                }
+                            }else{
+                                if(document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number))
+                                    document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number).hidden = true;
                             }
                         }catch(err){
                             console.log(err); //error kalau tidak ada field identity std
@@ -6465,16 +7212,37 @@ function update_passenger_backend(){
                             };
                         }
                     }
+                    first_name = ''
+                    last_name = '';
+                    birth_date = '';
+                    title = '';
+                    if(agent_security.includes('p_cache_3')){
+                        //punya permission save sesuai yg di edit
+                        birth_date = document.getElementById('passenger_edit_birth_date').value;
+                        first_name = document.getElementById('passenger_edit_first_name').value;
+                        last_name = document.getElementById('passenger_edit_last_name').value;
+                        title = document.getElementById('passenger_edit_title').value;
+                    }else{
+                        // tanpa permission save sesuai yg ada di backend
+                        first_name = passenger_data_cache[passenger_cache_pick].first_name;
+                        last_name = passenger_data_cache[passenger_cache_pick].last_name;
+                        title = passenger_data_cache[passenger_cache_pick].title;
+                        if(passenger_data_cache[passenger_cache_pick].birth_date == '')
+                            birth_date = document.getElementById('passenger_edit_birth_date').value;
+                        else
+                            birth_date = passenger_data_cache[passenger_cache_pick].birth_date
+                    }
                     update_passenger_dict = {
-                        'first_name': document.getElementById('passenger_edit_first_name').value,
-                        'last_name': document.getElementById('passenger_edit_last_name').value,
+                        'first_name': first_name,
+                        'last_name': last_name,
                         'nationality_name': document.getElementById('passenger_edit_nationality').value,
                         'email': document.getElementById('passenger_edit_email').value,
                         'phone': phone,
                         'identity': identity,
                         'image': img_list,
                         'seq_id': passenger_data_cache[passenger_cache_pick].seq_id,
-                        'birth_date': passenger_data_cache[passenger_cache_pick].birth_date != '' ? passenger_data_cache[passenger_cache_pick].birth_date : document.getElementById('passenger_edit_birth_date').value
+                        'birth_date': birth_date,
+                        'title': title
                     }
                     $.ajax({
                        type: "POST",
@@ -6495,7 +7263,7 @@ function update_passenger_backend(){
                                 })
                                 document.getElementById('passenger_chosen').hidden = false;
                                 document.getElementById('passenger_update').hidden = true;
-                                get_passenger_cache('chosen');
+                                get_passenger_cache('chosen',true);
                                 document.getElementById('update_passenger_customer').disabled = false;
                                 //document.getElementById('form_admin').submit();
                             }else{

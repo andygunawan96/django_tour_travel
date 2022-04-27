@@ -2433,9 +2433,9 @@ function sort(){
                                                             <div class="col-xs-12">`;
                                                             if(airline[i].available_count != 0){
                                                                 if(airline[i].available_count > 9){
-                                                                    text += `<img src="/static/tt_website_rodextrip/img/icon/seat.png" style="height:16px; width:auto;"/><span>`+airline[i].available_count+` seats available</span>`;
+                                                                    text += `<img src="/static/tt_website_rodextrip/img/icon/seat.png" style="height:16px; width:auto;"/><span id='airline_seat_left`+i+`'>`+airline[i].available_count+` seats available</span>`;
                                                                 }else{
-                                                                    text += `<img src="/static/tt_website_rodextrip/img/icon/seat.png" style="height:16px; width:auto;"/><span style="color:#fc2617;">`+airline[i].available_count+` seats left </span>`;
+                                                                    text += `<img src="/static/tt_website_rodextrip/img/icon/seat.png" style="height:16px; width:auto;"/><span id='airline_seat_left`+i+`' style="color:#fc2617;">`+airline[i].available_count+` seats left </span>`;
                                                                 }
                                                                 //if(choose_airline != null && choose_airline == airline[i].sequence && airline_request.direction != 'MC')
                                                                 //text+=`<input type='button' style="margin:10px;" id="departjourney`+i+`" class="primary-btn-custom-un choose_selection_ticket_airlines_depart" value="Chosen" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
@@ -2469,7 +2469,7 @@ function sort(){
 
                                    text+=`</div>
                                    <div class="col-lg-6 col-md-6 col-sm-6 mt-2" style="text-align:right;">`;
-                                       text+=`<span id="fare_no_discount`+i+`" class="basic_fare_field" style="text-decoration: line-through;color:#cdcdcd;"></span><br/>`;
+                                       text+=`<span id="fare_no_discount`+i+`" class="basic_fare_field cross_price" style="font-size:14px; color:#929292;"></span><br/>`;
                                        text+=`<span id="fare`+i+`" class="basic_fare_field copy_price price_template"></span><br/>`;
 
                                        if(provider_list_data.hasOwnProperty(airline[i].provider) == true && provider_list_data[airline[i].provider].description != '')
@@ -3710,7 +3710,7 @@ function airline_pick_mc(type){
                             }
                         }
                         if(total_discount != 0){
-                            text += `<br/><span id="fare_no_discount_detail_pick`+airline_pick_list[i].airline_pick_sequence+`" class="basic_fare_field" style="text-decoration: line-through;color:#cdcdcd;">`+currency+` `+getrupiah(price)+`</span><br/>`
+                            text += `<br/><span id="fare_no_discount_detail_pick`+airline_pick_list[i].airline_pick_sequence+`" class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">`+currency+` `+getrupiah(price)+`</span><br/>`
                         }
                         text+= `<span id="fare_detail_pick`+airline_pick_list[i].airline_pick_sequence+`" class="basic_fare_field price_template" style="font-size:16px;font-weight: bold; color:`+color+`; padding:10px 0px;">`+currency+' '+getrupiah(price-total_discount) + '</span>';
                     }
@@ -5959,8 +5959,8 @@ function check_passenger(adult, child, infant){
        $('.loader-rodextrip').fadeIn();
        document.getElementById('time_limit_input').value = time_limit;
 //       document.getElementById('airline_price_itinerary_request').value = JSON.stringify(airline_get_price_request);
-       document.getElementById('airline_review').action = '/airline/review/' + signature;
-       document.getElementById('airline_review').submit();
+       upload_image();
+
    }
    else{
        $('.loader-rodextrip').fadeOut();
@@ -7464,27 +7464,3 @@ function choose_airline_groupbooking(text){
     $('#show_provider_airline').text(text);
 }
 
-function show_loading_reorder(product){
-    $('.next-loading-reorder').addClass("running");
-    $('.next-loading-reorder').prop('disabled', true);
-    $('.issued_booking_btn').prop('disabled', true);
-    $('#button-sync-status').prop('disabled', true);
-
-    custom_waiting = '';
-    if(product == 'airline'){
-        custom_waiting += `
-        <div id="waitFlightSearch" style="display:block;">
-            <div class="center-div-t">
-                <div>
-                    <img src="/static/tt_website_rodextrip/img/loading-screen-white.gif" style="height:30px; width:30px;"/>
-                </div>
-            </div>
-            <div style="text-align:center">
-                <span style="font-size:20px; font-weight:bold; color:`+text_color+`;" id="text_value_waiting">Set Request, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/></span>
-            </div>
-        </div>`;
-    }
-    document.getElementById("viewWaitingTransaction").innerHTML = custom_waiting;
-    $("#waitingTransaction").modal('show');
-
-}

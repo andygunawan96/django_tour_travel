@@ -97,18 +97,24 @@
                     <div class="banner-right">
                         <div class="form-wrap" style="padding:unset; text-align:unset;">
                             <div class="row">
-                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                    <input class="form-control" type="text" id="train_passenger_search" placeholder="{% trans 'Search' %}"/>
-                                    {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                    <div class="form-select">
-                                        <select id="train_passenger_search_type" name="train_passenger_search_type">
-                                           <option value="cust_name">By Customer Name</option>
-                                           <option value="cor_name">By Corporate Name</option>
-                                        </select>
+                                <div class="col-lg-9 col-md-9">
+                                    <div class="row">
+                                        {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <div class="form-select">
+                                                <select id="train_passenger_search_type" name="train_passenger_search_type">
+                                                    <option value="cust_name">By Customer Name</option>
+                                                    <option value="cor_name">By Corporate Name</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <input class="form-control" type="text" id="train_passenger_search" placeholder="{% trans 'Search' %}"/>
+                                        </div>
+                                        {% endif %}
                                     </div>
-                                    {% endif %}
                                 </div>
-                                <div class="col-lg-5 col-md-5 col-sm-5">
+                                <div class="col-lg-3 col-md-3">
                                     <button type="button" class="primary-btn" id="passenger_btn_click" onclick="get_customer_list('passenger','','cache')">{% trans 'Search' %}</button>
                                 </div>
                             </div>
@@ -119,18 +125,24 @@
                         <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset;">
                             <div class="form-wrap" style="padding:unset; text-align:unset;">
                                 <div class="row">
-                                    <div class="col-lg-7 col-md-7 col-sm-7">
-                                        <input class="form-control" type="text" id="train_passenger_search" placeholder="{% trans 'Search' %}"/>
-                                        {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                        <div class="form-select">
-                                            <select id="train_passenger_search_type" name="train_passenger_search_type">
-                                               <option value="cust_name">By Customer Name</option>
-                                               <option value="cor_name">By Corporate Name</option>
-                                            </select>
+                                    <div class="col-lg-9 col-md-9">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                <div class="form-select">
+                                                    <select id="train_passenger_search_type" name="train_passenger_search_type">
+                                                        <option value="cust_name">By Customer Name</option>
+                                                        <option value="cor_name">By Corporate Name</option>
+                                                    </select>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <input class="form-control" type="text" id="train_passenger_search" placeholder="{% trans 'Search' %}"/>
+                                            </div>
                                         </div>
-                                        {% endif %}
                                     </div>
-                                    <div class="col-lg-5 col-md-5 col-sm-5">
+                                    <div class="col-lg-3 col-md-3">
                                         <button type="button" class="primary-btn" id="passenger_btn_click" onclick="get_customer_list('passenger','','cache')">{% trans 'Search' %}</button>
                                     </div>
                                 </div>
@@ -141,18 +153,26 @@
                     <div class="header-right" style="background-color:unset; border:unset;">
                         <div class="form-wrap" style="padding:unset; text-align:unset;">
                             <div class="row">
-                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                    <input class="form-control" type="text" id="train_passenger_search" placeholder="{% trans 'Search' %}"/>
-                                    {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                    <div class="form-select">
-                                        <select id="train_passenger_search_type" name="train_passenger_search_type">
-                                           <option value="cust_name">By Customer Name</option>
-                                           <option value="cor_name">By Corporate Name</option>
-                                        </select>
+                                <div class="col-lg-9 col-md-9">
+                                    <div class="row">
+                                        {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <div class="form-group">
+                                                <div class="default-select" id="default-select">
+                                                    <select id="train_passenger_search_type" name="train_passenger_search_type">
+                                                        <option value="cust_name">By Customer Name</option>
+                                                        <option value="cor_name">By Corporate Name</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <input class="form-control" type="text" id="train_passenger_search" placeholder="{% trans 'Search' %}"/>
+                                        </div>
                                     </div>
-                                    {% endif %}
                                 </div>
-                                <div class="col-lg-5 col-md-5 col-sm-5">
+                                <div class="col-lg-3 col-md-3">
                                     <button type="button" class="primary-btn" id="passenger_btn_click" onclick="get_customer_list('passenger','','cache')">{% trans 'Search' %}</button>
                                 </div>
                             </div>
@@ -160,18 +180,26 @@
                     </div>
                     {%elif template == 4%}
                     <div class="row">
-                        <div class="col-lg-7 col-md-7 col-sm-7">
-                            <input class="form-control" type="text" id="train_passenger_search" placeholder="{% trans 'Search' %}"/>
-                            {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                            <div class="form-select">
-                                <select id="train_passenger_search_type" name="train_passenger_search_type">
-                                   <option value="cust_name">By Customer Name</option>
-                                   <option value="cor_name">By Corporate Name</option>
-                                </select>
+                        <div class="col-lg-9 col-md-9">
+                            <div class="row">
+                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                    <div class="input-container-search-ticket btn-group">
+                                        <div class="form-select" id="default-select">
+                                            <select class="nice-select-default" id="train_passenger_search_type" name="train_passenger_search_type">
+                                                <option value="cust_name">By Customer Name</option>
+                                                <option value="cor_name">By Corporate Name</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <input class="form-control" type="text" id="train_passenger_search" placeholder="{% trans 'Search' %}"/>
+                                </div>
                             </div>
-                            {% endif %}
                         </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5">
+                        <div class="col-lg-3 col-md-3">
                             <button type="button" class="primary-btn" id="passenger_btn_click" onclick="get_customer_list('passenger','','cache')">{% trans 'Search' %}</button>
                         </div>
                     </div>
@@ -179,18 +207,24 @@
                     <div class="banner-right">
                         <div class="form-wrap" style="padding:unset; text-align:unset;">
                             <div class="row">
-                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                    <input class="form-control" type="text" id="train_passenger_search" placeholder="{% trans 'Search' %}"/>
-                                    {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                    <div class="form-select">
-                                        <select id="train_passenger_search_type" name="train_passenger_search_type">
-                                           <option value="cust_name">By Customer Name</option>
-                                           <option value="cor_name">By Corporate Name</option>
-                                        </select>
+                                <div class="col-lg-9 col-md-9">
+                                    <div class="row">
+                                        {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                        <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                            <div class="form-select">
+                                                <select id="train_passenger_search_type" name="train_passenger_search_type">
+                                                    <option value="cust_name">By Customer Name</option>
+                                                    <option value="cor_name">By Corporate Name</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <input class="form-control" type="text" id="train_passenger_search" placeholder="{% trans 'Search' %}"/>
+                                        </div>
                                     </div>
-                                    {% endif %}
                                 </div>
-                                <div class="col-lg-5 col-md-5 col-sm-5">
+                                <div class="col-lg-3 col-md-3">
                                     <button type="button" class="primary-btn" id="passenger_btn_click" onclick="get_customer_list('passenger','','cache')">{% trans 'Search' %}</button>
                                 </div>
                             </div>
@@ -200,18 +234,24 @@
                     <div class="banner-right">
                         <div class="form-wrap" style="padding:unset; text-align:unset;">
                             <div class="row">
-                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                    <input class="form-control" type="text" id="train_passenger_search" placeholder="{% trans 'Search' %}"/>
-                                    {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                    <div class="form-select">
-                                        <select id="train_passenger_search_type" name="train_passenger_search_type">
-                                           <option value="cust_name">By Customer Name</option>
-                                           <option value="cor_name">By Corporate Name</option>
-                                        </select>
+                                <div class="col-lg-9 col-md-9">
+                                    <div class="row">
+                                        {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <div class="form-select">
+                                                <select id="train_passenger_search_type" name="train_passenger_search_type">
+                                                    <option value="cust_name">By Customer Name</option>
+                                                    <option value="cor_name">By Corporate Name</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <input class="form-control" type="text" id="train_passenger_search" placeholder="{% trans 'Search' %}"/>
+                                        </div>
                                     </div>
-                                    {% endif %}
                                 </div>
-                                <div class="col-lg-5 col-md-5 col-sm-5">
+                                <div class="col-lg-3 col-md-3">
                                     <button type="button" class="primary-btn" id="passenger_btn_click" onclick="get_customer_list('passenger','','cache')">{% trans 'Search' %}</button>
                                 </div>
                             </div>
@@ -2592,11 +2632,19 @@
                 <div class="col-lg-12 banner-right" id="passenger_update" style="overflow:auto;height:70vh;background-color:white; padding:10px; border:1px solid #cdcdcd;" hidden>
                     <form action="" style="padding:15px; text-align:left;" method="POST" class="form-wrap" id="form_identity_passenger_edit" enctype="multipart/form-data">
                         <div class="row">
+                            <div class="col-lg-12 col-xs-12" id="div_avatar" hidden>
+                            </div>
                             <div class="col-lg-6 col-xs-6">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Title' %}</label><br>
-                                <div class="form-control" style="background:#cdcdcd;">
-                                    <span id="passenger_edit_title">title</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select-2">
+                                        <select id="passenger_edit_title" name="passenger_edit_title" class="nice-select-default">
+                                            {% for title in titles%}
+                                            <option>{{title}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
@@ -2635,7 +2683,7 @@
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Birth Date' %}</label><br>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                    <input type="text" class="form-control date-picker-birth" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -2689,6 +2737,8 @@
                                     <div id="passport-tab_edit" class="edit_tab-content current" style="padding:20px 0px 15px 0px;">
                                         <div class="col-lg-12">
                                             <div class="row">
+                                                <div class="col-lg-12 col-xs-12" id="div_avatar_passport" hidden>
+                                                </div>
                                                 <!--                                                    <div class="col-sm-3">-->
                                                 <!--                                                        <label>Identity Type</label><br/>-->
                                                 <!--                                                        <label>PASSPORT</label>-->
@@ -2754,6 +2804,8 @@
                                     <div id="ktp-tab_edit" class="edit_tab-content" style="padding:20px 0px 10px 0px;">
                                         <div class="col-sm-12">
                                             <div class="row">
+                                                <div class="col-lg-12 col-xs-12" id="div_avatar_ktp" hidden>
+                                                </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
@@ -2815,6 +2867,8 @@
                                     <div id="sim-tab_edit" class="edit_tab-content" style="padding:20px 0px 10px 0px;">
                                         <div class="col-lg-12">
                                             <div class="row">
+                                                <div class="col-lg-12 col-xs-12" id="div_avatar_sim" hidden>
+                                                </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
@@ -2876,6 +2930,8 @@
                                     <div id="other-tab_edit" class="edit_tab-content" style="padding:20px 0px 10px 0px;">
                                         <div class="col-lg-12">
                                             <div class="row">
+                                                <div class="col-lg-12 col-xs-12" id="div_avatar_other" hidden>
+                                                </div>
                                                 <div class="col-lg-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
@@ -2954,11 +3010,19 @@
                         <div class="hotel-search-form" style="background-color:unset; box-shadow:unset; padding:unset;">
                             <form action="" style="padding:15px; text-align:left;" method="POST" class="form-wrap" id="form_identity_passenger_edit" enctype="multipart/form-data">
                                 <div class="row">
+                                    <div class="col-lg-12 col-xs-12" id="div_avatar" hidden>
+                                    </div>
                                     <div class="col-lg-6 col-xs-6">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Title' %}</label><br>
-                                        <div class="form-control" style="background:#cdcdcd;">
-                                            <span id="passenger_edit_title">title</span>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select-2">
+                                                <select id="passenger_edit_title" name="passenger_edit_title" class="nice-select-default">
+                                                    {% for title in titles%}
+                                                    <option>{{title}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
@@ -2994,8 +3058,8 @@
                                     <div class="col-lg-6">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Birth Date' %}</label><br>
-                                        <div class="form-control" style="background:#cdcdcd;">
-                                            <span id="passenger_edit_birth_date"></span>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control date-picker-birth" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -3048,6 +3112,8 @@
                                             <div id="passport-tab_edit" class="edit_tab-content current" style="padding:15px 0px 15px 0px;">
                                                 <div class="col-lg-12">
                                                     <div class="row">
+                                                        <div class="col-lg-12 col-xs-12" id="div_avatar_passport" hidden>
+                                                        </div>
                                                         <!--                                                    <div class="col-sm-3">-->
                                                         <!--                                                        <label>Identity Type</label><br/>-->
                                                         <!--                                                        <label>PASSPORT</label>-->
@@ -3111,6 +3177,8 @@
                                             <div id="ktp-tab_edit" class="edit_tab-content" style="padding:15px 0px 15px 0px;">
                                                 <div class="col-sm-12">
                                                     <div class="row">
+                                                        <div class="col-lg-12 col-xs-12" id="div_avatar_ktp" hidden>
+                                                        </div>
                                                         <div class="col-sm-6">
                                                             <span>{% trans 'Identity Number' %}</span><br/>
                                                             <div class="input-container-search-ticket">
@@ -3170,6 +3238,8 @@
                                             <div id="sim-tab_edit" class="edit_tab-content" style="padding:15px 0px 15px 0px;">
                                                 <div class="col-lg-12">
                                                     <div class="row">
+                                                        <div class="col-lg-12 col-xs-12" id="div_avatar_sim" hidden>
+                                                        </div>
                                                         <div class="col-sm-6">
                                                             <span>{% trans 'Identity Number' %}</span><br/>
                                                             <div class="input-container-search-ticket">
@@ -3229,6 +3299,8 @@
                                             <div id="other-tab_edit" class="edit_tab-content" style="padding:15px 0px 15px 0px;">
                                                 <div class="col-lg-12">
                                                     <div class="row">
+                                                        <div class="col-lg-12 col-xs-12" id="div_avatar_other" hidden>
+                                                        </div>
                                                         <div class="col-lg-6">
                                                             <span>{% trans 'Identity Number' %}</span><br/>
                                                             <div class="input-container-search-ticket">
@@ -3305,11 +3377,19 @@
                 <div class="col-lg-12 header-right" id="passenger_update" style="overflow:auto;height:70vh;background-color:white; padding:10px; border:1px solid #cdcdcd;" hidden>
                     <form action="" style="padding:15px; text-align:left;" method="POST" class="form-wrap" id="form_identity_passenger_edit" enctype="multipart/form-data">
                         <div class="row">
+                            <div class="col-lg-12 col-xs-12" id="div_avatar" hidden>
+                            </div>
                             <div class="col-lg-6 col-xs-6">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Title' %}</label><br>
-                                <div class="form-control" style="background:#cdcdcd;">
-                                    <span id="passenger_edit_title">title</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select-2">
+                                        <select id="passenger_edit_title" name="passenger_edit_title" class="nice-select-default">
+                                            {% for title in titles%}
+                                            <option>{{title}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
@@ -3345,8 +3425,8 @@
                             <div class="col-lg-6">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Birth Date' %}</label><br>
-                                <div class="form-control" style="background:#cdcdcd;">
-                                    <span id="passenger_edit_birth_date"></span>
+                                <div class="input-container-search-ticket">
+                                    <input type="text" class="form-control date-picker-birth" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -3399,6 +3479,8 @@
                                     <div id="passport-tab_edit" class="edit_tab-content current" style="padding:15px 0px 15px 0px;">
                                         <div class="col-lg-12">
                                             <div class="row">
+                                                <div class="col-lg-12 col-xs-12" id="div_avatar_passport" hidden>
+                                                </div>
                                                 <!--                                                    <div class="col-sm-3">-->
                                                 <!--                                                        <label>Identity Type</label><br/>-->
                                                 <!--                                                        <label>PASSPORT</label>-->
@@ -3462,6 +3544,8 @@
                                     <div id="ktp-tab_edit" class="edit_tab-content" style="padding:15px 0px 15px 0px;">
                                         <div class="col-sm-12">
                                             <div class="row">
+                                                <div class="col-lg-12 col-xs-12" id="div_avatar_ktp" hidden>
+                                                </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
@@ -3521,6 +3605,8 @@
                                     <div id="sim-tab_edit" class="edit_tab-content" style="padding:15px 0px 15px 0px;">
                                         <div class="col-lg-12">
                                             <div class="row">
+                                                <div class="col-lg-12 col-xs-12" id="div_avatar_sim" hidden>
+                                                </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
@@ -3580,6 +3666,8 @@
                                     <div id="other-tab_edit" class="edit_tab-content" style="padding:15px 0px 15px 0px;">
                                         <div class="col-lg-12">
                                             <div class="row">
+                                                <div class="col-lg-12 col-xs-12" id="div_avatar_other" hidden>
+                                                </div>
                                                 <div class="col-lg-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
@@ -3654,11 +3742,19 @@
                 <div class="col-lg-12 header-right" id="passenger_update" style="overflow:auto;height:70vh;background-color:white; padding:10px; border:1px solid #cdcdcd;" hidden>
                     <form action="" style="padding:15px; text-align:left;" method="POST" class="form-wrap" id="form_identity_passenger_edit" enctype="multipart/form-data">
                         <div class="row">
+                            <div class="col-lg-12 col-xs-12" id="div_avatar" hidden>
+                            </div>
                             <div class="col-lg-6 col-xs-6">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Title' %}</label><br>
-                                <div class="form-control" style="background:#cdcdcd; line-height:28px;">
-                                    <span id="passenger_edit_title">title</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select-2">
+                                        <select id="passenger_edit_title" name="passenger_edit_title" class="nice-select-default">
+                                            {% for title in titles%}
+                                            <option>{{title}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
@@ -3694,8 +3790,8 @@
                             <div class="col-lg-6">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Birth Date' %}</label><br>
-                                <div class="form-control" style="background:#cdcdcd; line-height:28px;">
-                                    <span id="passenger_edit_birth_date"></span>
+                                <div class="input-container-search-ticket">
+                                    <input type="text" class="form-control date-picker-birth" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -3748,6 +3844,8 @@
                                     <div id="passport-tab_edit" class="edit_tab-content current" style="padding:15px 0px 15px 0px;">
                                         <div class="col-lg-12">
                                             <div class="row">
+                                                <div class="col-lg-12 col-xs-12" id="div_avatar_passport" hidden>
+                                                </div>
                                                 <!--                                                    <div class="col-sm-3">-->
                                                 <!--                                                        <label>Identity Type</label><br/>-->
                                                 <!--                                                        <label>PASSPORT</label>-->
@@ -3811,6 +3909,8 @@
                                     <div id="ktp-tab_edit" class="edit_tab-content" style="padding:15px 0px 15px 0px;">
                                         <div class="col-sm-12">
                                             <div class="row">
+                                                <div class="col-lg-12 col-xs-12" id="div_avatar_ktp" hidden>
+                                                </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
@@ -3870,6 +3970,8 @@
                                     <div id="sim-tab_edit" class="edit_tab-content" style="padding:15px 0px 15px 0px;">
                                         <div class="col-lg-12">
                                             <div class="row">
+                                                <div class="col-lg-12 col-xs-12" id="div_avatar_sim" hidden>
+                                                </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
@@ -3929,6 +4031,8 @@
                                     <div id="other-tab_edit" class="edit_tab-content" style="padding:15px 0px 15px 0px;">
                                         <div class="col-lg-12">
                                             <div class="row">
+                                                <div class="col-lg-12 col-xs-12" id="div_avatar_other" hidden>
+                                                </div>
                                                 <div class="col-lg-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
@@ -4003,11 +4107,19 @@
                 <div class="col-lg-12 banner-right" id="passenger_update" style="overflow:auto;height:70vh;background-color:white; padding:10px; border:1px solid #cdcdcd;" hidden>
                     <form action="" style="padding:15px; text-align:left;" method="POST" class="form-wrap" id="form_identity_passenger_edit" enctype="multipart/form-data">
                         <div class="row">
+                            <div class="col-lg-12 col-xs-12" id="div_avatar" hidden>
+                            </div>
                             <div class="col-lg-6 col-xs-6">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Title' %}</label><br>
-                                <div class="form-control" style="background:#cdcdcd;">
-                                    <span id="passenger_edit_title">title</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select-2">
+                                        <select id="passenger_edit_title" name="passenger_edit_title" class="nice-select-default">
+                                            {% for title in titles%}
+                                            <option>{{title}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
@@ -4045,8 +4157,8 @@
                             <div class="col-lg-6">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Birth Date' %}</label><br>
-                                <div class="form-control" style="background:#cdcdcd;">
-                                    <span id="passenger_edit_birth_date"></span>
+                                <div class="input-container-search-ticket">
+                                    <input type="text" class="form-control date-picker-birth" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -4100,6 +4212,8 @@
                                     <div id="passport-tab_edit" class="edit_tab-content current" style="padding:20px 0px 15px 0px;">
                                         <div class="col-lg-12">
                                             <div class="row">
+                                                <div class="col-lg-12 col-xs-12" id="div_avatar_passport" hidden>
+                                                </div>
                                                 <!--                                                    <div class="col-sm-3">-->
                                                 <!--                                                        <label>Identity Type</label><br/>-->
                                                 <!--                                                        <label>PASSPORT</label>-->
@@ -4165,6 +4279,8 @@
                                     <div id="ktp-tab_edit" class="edit_tab-content" style="padding:20px 0px 10px 0px;">
                                         <div class="col-sm-12">
                                             <div class="row">
+                                                <div class="col-lg-12 col-xs-12" id="div_avatar_ktp" hidden>
+                                                </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
@@ -4226,6 +4342,8 @@
                                     <div id="sim-tab_edit" class="edit_tab-content" style="padding:20px 0px 10px 0px;">
                                         <div class="col-lg-12">
                                             <div class="row">
+                                                <div class="col-lg-12 col-xs-12" id="div_avatar_sim" hidden>
+                                                </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
@@ -4287,6 +4405,8 @@
                                     <div id="other-tab_edit" class="edit_tab-content" style="padding:20px 0px 10px 0px;">
                                         <div class="col-lg-12">
                                             <div class="row">
+                                                <div class="col-lg-12 col-xs-12" id="div_avatar_other" hidden>
+                                                </div>
                                                 <div class="col-lg-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
@@ -4363,11 +4483,19 @@
                 <div class="col-lg-12 banner-right" id="passenger_update" style="overflow:auto;height:70vh;background-color:white; padding:10px; border:1px solid #cdcdcd;" hidden>
                     <form action="" style="padding:15px; text-align:left;" method="POST" class="form-wrap" id="form_identity_passenger_edit" enctype="multipart/form-data">
                         <div class="row">
+                            <div class="col-lg-12 col-xs-12" id="div_avatar" hidden>
+                            </div>
                             <div class="col-lg-6 col-xs-6">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Title' %}</label><br>
-                                <div class="form-control" style="background:#cdcdcd;">
-                                    <span id="passenger_edit_title">title</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select-2">
+                                        <select id="passenger_edit_title" name="passenger_edit_title" class="nice-select-default">
+                                            {% for title in titles%}
+                                            <option>{{title}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
@@ -4405,8 +4533,8 @@
                             <div class="col-lg-6">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Birth Date' %}</label><br>
-                                <div class="form-control" style="background:#cdcdcd;">
-                                    <span id="passenger_edit_birth_date"></span>
+                                <div class="input-container-search-ticket">
+                                    <input type="text" class="form-control date-picker-birth" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -4460,6 +4588,8 @@
                                     <div id="passport-tab_edit" class="edit_tab-content current" style="padding:20px 0px 15px 0px;">
                                         <div class="col-lg-12">
                                             <div class="row">
+                                                <div class="col-lg-12 col-xs-12" id="div_avatar_passport" hidden>
+                                                </div>
                                                 <!--                                                    <div class="col-sm-3">-->
                                                 <!--                                                        <label>Identity Type</label><br/>-->
                                                 <!--                                                        <label>PASSPORT</label>-->
@@ -4525,6 +4655,8 @@
                                     <div id="ktp-tab_edit" class="edit_tab-content" style="padding:20px 0px 10px 0px;">
                                         <div class="col-sm-12">
                                             <div class="row">
+                                                <div class="col-lg-12 col-xs-12" id="div_avatar_ktp" hidden>
+                                                </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
@@ -4586,6 +4718,8 @@
                                     <div id="sim-tab_edit" class="edit_tab-content" style="padding:20px 0px 10px 0px;">
                                         <div class="col-lg-12">
                                             <div class="row">
+                                                <div class="col-lg-12 col-xs-12" id="div_avatar_sim" hidden>
+                                                </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
@@ -4647,6 +4781,8 @@
                                     <div id="other-tab_edit" class="edit_tab-content" style="padding:20px 0px 10px 0px;">
                                         <div class="col-lg-12">
                                             <div class="row">
+                                                <div class="col-lg-12 col-xs-12" id="div_avatar_other" hidden>
+                                                </div>
                                                 <div class="col-lg-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">

@@ -1586,7 +1586,8 @@ function check_passenger(adult, senior, child, infant){
        }
        document.getElementById('time_limit_input').value = time_limit;
        document.getElementById('additional_price').value = additional_price;
-       document.getElementById('activity_review').submit();
+       upload_image();
+
    }
    else{
        document.getElementById('show_error_log').innerHTML = error_log;

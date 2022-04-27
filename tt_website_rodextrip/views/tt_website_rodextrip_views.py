@@ -130,7 +130,6 @@ def index(request):
                 if 'login' not in request.session['user_account']['co_agent_frontend_security']:
                     values.update({
                         'static_path': path_util.get_static_path(MODEL_NAME),
-                        'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                         'countries': airline_country,
                         'phone_code': phone_code,
                         'static_path_url_server': get_url_static_path(),
@@ -1668,7 +1667,8 @@ def get_data_template(request, type='home', provider_type = []):
         'type_page': type,
         'setting_login_page': setting_login_page,
         'signup_btb_text': signup_btb_text,
-        'signup_btb_btn': signup_btb_btn
+        'signup_btb_btn': signup_btb_btn,
+        'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
     }
 
 

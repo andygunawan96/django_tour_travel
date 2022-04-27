@@ -1766,6 +1766,14 @@ def del_passenger_cache(request):
 
 def get_passenger_cache(request):
     if 'cache_passengers' in request.session._session:
+        if request.POST.get('update_cache'):
+            if request.POST['update_cache'] == 'true':
+                response = get_data_customer_update_cache(request, request.session['cache_passengers'][int(request.POST['passenger_sequence'])]['seq_id'])
+                if response['result']['error_code'] == 0:
+                    passenger_cache = request.session['cache_passengers']
+                    request.session['cache_passengers'][int(request.POST['passenger_sequence'])] = response['result']['response'][0]
+                    set_session(request, 'cache_passengers', passenger_cache)
+            pass
         res = {
             'result': {
                 'error_msg': '',
@@ -1783,4 +1791,88 @@ def get_passenger_cache(request):
             }
         }
         return res
-#BACKEND GA PAKE
+
+def get_data_customer_update_cache(request, seq_id):
+    try:
+        upper = 200
+        lower = 0
+        passenger = 'psg'
+
+        data = {
+            'search_type': '',
+            'name': '',
+            'upper': upper,
+            'lower': lower,
+            'type': passenger,
+            'email': '',
+            'cust_code': seq_id
+        }
+
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_customer_list",
+            "signature": request.session['signature']
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'content'
+    res = send_request_api(request, url_request, headers, data, 'POST')
+    try:
+        if res['result']['error_code'] == 0:
+            counter = 0
+            for pax in res['result']['response']:
+                try:
+                    if pax['gender'] == 'female' and pax['marital_status'] == 'married':
+                        title = 'MRS'
+                    elif pax['gender'] == 'female':
+                        title = 'MS'
+                    else:
+                        title = 'MR'
+                    pax.update({
+                        'sequence': counter,
+                        'title': title
+                    })
+                    if pax['birth_date'] != '':
+                        pax.update({
+                            'birth_date': '%s %s %s' % (
+                                pax['birth_date'].split('-')[2], month[pax['birth_date'].split('-')[1]],
+                                pax['birth_date'].split('-')[0]),
+                        })
+                    if pax['identities'].get('passport'):
+                        pax['identities']['passport'].update({
+                            'identity_expdate': '%s %s %s' % (
+                                pax['identities']['passport']['identity_expdate'].split('-')[2], month[pax['identities']['passport']['identity_expdate'].split('-')[1]],
+                                pax['identities']['passport']['identity_expdate'].split('-')[0]),
+                        })
+                    if pax['identities'].get('ktp'):
+                        if pax['identities']['ktp']['identity_expdate'] != '':
+                            pax['identities']['ktp'].update({
+                                'identity_expdate': '%s %s %s' % (
+                                    pax['identities']['ktp']['identity_expdate'].split('-')[2], month[pax['identities']['ktp']['identity_expdate'].split('-')[1]],
+                                    pax['identities']['ktp']['identity_expdate'].split('-')[0]),
+                            })
+                    if pax['identities'].get('sim'):
+                        if pax['identities']['sim']['identity_expdate'] != '':
+                            pax['identities']['sim'].update({
+                                'identity_expdate': '%s %s %s' % (
+                                    pax['identities']['sim']['identity_expdate'].split('-')[2], month[pax['identities']['sim']['identity_expdate'].split('-')[1]],
+                                    pax['identities']['sim']['identity_expdate'].split('-')[0]),
+                            })
+                    if pax['identities'].get('other'):
+                        if pax['identities']['other']['identity_expdate'] != '':
+                            pax['identities']['other'].update({
+                                'identity_expdate': '%s %s %s' % (
+                                    pax['identities']['other']['identity_expdate'].split('-')[2], month[pax['identities']['other']['identity_expdate'].split('-')[1]],
+                                    pax['identities']['other']['identity_expdate'].split('-')[0]),
+                            })
+                    counter += 1
+                except Exception as e:
+                    _logger.error(str(e) + traceback.format_exc())
+            _logger.info("GET CUSTOMER LIST SUCCESS SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("get_customer_list_agent ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res

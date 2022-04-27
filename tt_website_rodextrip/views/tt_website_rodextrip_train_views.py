@@ -264,6 +264,11 @@ def review(request, signature):
             adult = []
             infant = []
             contact = []
+            try:
+                img_list_data = json.loads(request.POST['image_list_data'])
+            except:
+                img_list_data = []
+
             booker = {
                 'title': request.POST['booker_title'],
                 'first_name': request.POST['booker_first_name'],
@@ -275,6 +280,7 @@ def review(request, signature):
                 'booker_seq_id': request.POST['booker_id']
             }
             for i in range(int(request.session['train_request']['adult'])):
+                img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'adult' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                 adult.append({
                     "pax_type": "ADT",
                     "first_name": request.POST['adult_first_name' + str(i + 1)],
@@ -286,7 +292,8 @@ def review(request, signature):
                     "identity_expdate": request.POST['adult_passport_expired_date' + str(i + 1)],
                     "identity_number": request.POST['adult_passport_number' + str(i + 1)],
                     "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
-                    "identity_type": request.POST['adult_id_type' + str(i + 1)]
+                    "identity_type": request.POST['adult_id_type' + str(i + 1)],
+                    "identity_image": img_identity_data,
                 })
 
                 if i == 0:
@@ -357,6 +364,7 @@ def review(request, signature):
                 })
 
             for i in range(int(request.session['train_request']['infant'])):
+                img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'infant' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                 infant.append({
                     "pax_type": "INF",
                     "first_name": request.POST['infant_first_name' + str(i + 1)],
@@ -368,7 +376,8 @@ def review(request, signature):
                     "identity_country_of_issued_name": request.POST['infant_country_of_issued' + str(i + 1)],
                     "identity_expdate": request.POST['infant_passport_expired_date' + str(i + 1)],
                     "identity_number": request.POST['infant_passport_number' + str(i + 1)],
-                    "identity_type": request.POST['infant_id_type' + str(i + 1)]
+                    "identity_type": request.POST['infant_id_type' + str(i + 1)],
+                    "identity_image": img_identity_data,
                 })
             set_session(request, 'train_create_passengers', {
                 'booker': booker,

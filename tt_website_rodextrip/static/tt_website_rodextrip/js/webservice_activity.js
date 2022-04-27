@@ -3979,3 +3979,93 @@ function get_unique_list_data(data){
   }
   return unique;
 }
+
+function upload_image(){
+    var formData = new FormData($('#activity_review').get(0));
+    formData.append('signature', signature)
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'update_image_passenger',
+       },
+       data: formData,
+       success: function(msg) {
+            if(msg.result.error_code == 0){
+                img_list = msg.result.response;
+
+                //adult
+                for(var i=0;i<adult;i++){
+                    index = i+1;
+                    //list gambar identity
+                    for(var j=0;j<100;j++){
+                        try{
+                            if(document.getElementById('adult_identity'+index+'_'+j+'_delete').checked == true)
+                                img_list.push([document.getElementById('adult_identity'+index+'_'+j+'_image_seq_id').value, 2, "adult_files_attachment_identity1"]);
+                        }catch(err){
+                            //gambar habis
+                            break;
+                        }
+                    }
+
+                }
+                //child
+                for(var i=0;i<child;i++){
+                    index = i+1;
+                    //list gambar identity
+                    for(var j=0;j<100;j++){
+                        try{
+                            if(document.getElementById('child_identity'+index+'_'+j+'_delete').checked == true)
+                                img_list.push([document.getElementById('child_identity'+index+'_'+j+'_image_seq_id').value, 2, 'child_files_attachment_identity1']);
+                        }catch(err){
+                            //gambar habis
+                            break;
+                        }
+                    }
+
+                }
+                //infant
+                for(var i=0;i<infant;i++){
+                    index = i+1;
+                    //list gambar identity
+                    for(var j=0;j<100;j++){
+                        try{
+                            if(document.getElementById('infant_identity'+index+'_'+j+'_delete').checked == true)
+                                img_list.push([document.getElementById('infant_identity'+index+'_'+j+'_image_seq_id').value, 2, 'infant_files_attachment_identity1']);
+                        }catch(err){
+                            //gambar habis
+                            break;
+                        }
+                    }
+                }
+                //senior
+                for(var i=0;i<senior;i++){
+                    index = i+1;
+                    //list gambar identity
+                    for(var j=0;j<100;j++){
+                        try{
+                            if(document.getElementById('senior_identity'+index+'_'+j+'_delete').checked == true)
+                                img_list.push([document.getElementById('senior_identity'+index+'_'+j+'_image_seq_id').value, 2, 'senior_files_attachment_identity1']);
+                        }catch(err){
+                            //gambar habis
+                            break;
+                        }
+                    }
+                }
+                document.getElementById('image_list_data').value = JSON.stringify(img_list)
+                document.getElementById('activity_review').submit();
+                //document.getElementById('form_admin').submit();
+            }else{
+                //swal error image tidak terupload
+                document.getElementById('activity_review').submit();
+            }
+       },
+       contentType:false,
+       processData:false,
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update passenger');
+            document.getElementById('update_passenger_customer').disabled = false;
+       }
+    });
+}

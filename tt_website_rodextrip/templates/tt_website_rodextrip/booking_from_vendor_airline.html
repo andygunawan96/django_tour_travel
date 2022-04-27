@@ -67,7 +67,7 @@
                                     <input type="text" class="form-control" name="pnr2" id="pnr2" placeholder="{% trans 'PNR' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR '">
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-xs-6">
+                            <div class="col-lg-6">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Provider' %}</label>
                                 <div class="input-container-search-ticket">
@@ -114,19 +114,26 @@
                                 <!--</div>-->
                             <!--</div>-->
                             <div class="col-lg-12" id="search_booker_booking_from_vendor">
+                                <hr/>
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Booker' %}</label>
-                                        <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                        {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                        <div class="form-select">
-                                            <select id="train_booker_search_type" name="train_booker_search_type">
-                                               <option value="cust_name">By Customer Name</option>
-                                               <option value="cor_name">By Corporate Name</option>
-                                            </select>
+                                        <div class="row">
+                                            {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <div class="form-select">
+                                                    <select id="train_booker_search_type" name="train_booker_search_type">
+                                                        <option value="cust_name">By Customer Name</option>
+                                                        <option value="cor_name">By Corporate Name</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                            </div>
                                         </div>
-                                        {% endif %}
                                     </div>
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                         <button type="button" class="primary-btn" id="search_btn_click" onclick="search_btn_booker_get_booking_from_vendor();get_customer_list('booker','','get_booking_vendor');">{% trans 'Search' %}</button>
@@ -138,14 +145,17 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="search_result_booker_vendor" style="width:100%;">
+                            <div id="search_result_booker_vendor" style="padding:15px; width:100%; max-height:400px; overflow:auto;">
 
                             </div>
                         </div>
-                        <div class="col-lg-12" style="margin-top:15px; text-align:center;">
-                            <input type="button" id="retrieve_booking_from_vendor" class="primary-btn" onclick="get_retrieve_booking_from_vendor();" value="Check PNR"/>
-                        </div>
-                        <div class="col-lg-12" style="margin-top:15px; text-align:center;" id="result_get_booking_from_vendor">
+                        <div class="row">
+                            <div class="col-lg-12" style="margin-top:15px; text-align:center;">
+                                <hr/>
+                                <input type="button" id="retrieve_booking_from_vendor" class="primary-btn" onclick="get_retrieve_booking_from_vendor();" value="Check PNR"/>
+                            </div>
+                            <div class="col-lg-12" style="margin-top:15px; text-align:center;" id="result_get_booking_from_vendor">
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -160,7 +170,7 @@
                                     <input type="text" class="form-control" name="pnr2" id="pnr2" placeholder="{% trans 'PNR' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR '">
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-xs-6">
+                            <div class="col-lg-6">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Provider' %}</label>
                                 <div class="input-container-search-ticket">
@@ -209,17 +219,24 @@
                             <div class="col-lg-12" id="search_booker_booking_from_vendor">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                        <hr/>
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Booker' %}</label>
-                                        <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                        {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                        <div class="form-select">
-                                            <select id="train_booker_search_type" name="train_booker_search_type">
-                                               <option value="cust_name">By Customer Name</option>
-                                               <option value="cor_name">By Corporate Name</option>
-                                            </select>
+                                        <div class="row">
+                                            {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                            <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                <div class="form-select">
+                                                    <select id="train_booker_search_type" name="train_booker_search_type">
+                                                        <option value="cust_name">By Customer Name</option>
+                                                        <option value="cor_name">By Corporate Name</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                            </div>
                                         </div>
-                                        {% endif %}
                                     </div>
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 mb-2">
                                         <button type="button" class="primary-btn" id="search_btn_click" onclick="search_btn_booker_get_booking_from_vendor();get_customer_list('booker','','get_booking_vendor');">{% trans 'Search' %}</button>
@@ -231,15 +248,18 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="search_result_booker_vendor" style="width:100%;">
+                            <div id="search_result_booker_vendor" style="padding:15px; width:100%; max-height:400px; overflow:auto;">
 
                             </div>
 
                         </div>
-                        <div class="col-lg-12" style="margin-top:15px; text-align:center;">
-                            <input type="button" id="retrieve_booking_from_vendor" class="primary-btn" onclick="get_retrieve_booking_from_vendor();" value="Check PNR"/>
-                        </div>
-                        <div class="col-lg-12" style="margin-top:15px; text-align:center;" id="result_get_booking_from_vendor">
+                        <div class="row">
+                            <div class="col-lg-12" style="margin-top:15px; text-align:center;">
+                                <hr/>
+                                <input type="button" id="retrieve_booking_from_vendor" class="primary-btn" onclick="get_retrieve_booking_from_vendor();" value="Check PNR"/>
+                            </div>
+                            <div class="col-lg-12" style="margin-top:15px; text-align:center;" id="result_get_booking_from_vendor">
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -254,7 +274,7 @@
                                     <input type="text" class="form-control" name="pnr2" id="pnr2" placeholder="{% trans 'PNR' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR '">
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-xs-6">
+                            <div class="col-lg-6">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Provider' %}</label>
                                 <div class="input-container-search-ticket">
@@ -299,17 +319,26 @@
                             <div class="col-lg-12" id="search_booker_booking_from_vendor">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <hr/>
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Booker' %}</label>
-                                        <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                        {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                        <div class="form-select">
-                                            <select id="train_booker_search_type" name="train_booker_search_type">
-                                               <option value="cust_name">By Customer Name</option>
-                                               <option value="cor_name">By Corporate Name</option>
-                                            </select>
+                                        <div class="row">
+                                            {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="default-select" id="default-select">
+                                                        <select id="train_booker_search_type" name="train_booker_search_type">
+                                                            <option value="cust_name">By Customer Name</option>
+                                                            <option value="cor_name">By Corporate Name</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                            </div>
                                         </div>
-                                        {% endif %}
                                     </div>
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 mt-2">
                                         <button type="button" class="primary-btn" id="search_btn_click" onclick="search_btn_booker_get_booking_from_vendor();get_customer_list('booker','','get_booking_vendor');">{% trans 'Search' %}</button>
@@ -321,15 +350,18 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="search_result_booker_vendor" style="width:100%;">
+                            <div id="search_result_booker_vendor" style="padding:15px; width:100%; max-height:400px; overflow:auto;">
 
                             </div>
 
                         </div>
-                        <div class="col-lg-12" style="margin-top:15px; text-align:center;">
-                            <input type="button" id="retrieve_booking_from_vendor" class="primary-btn" onclick="get_retrieve_booking_from_vendor();" value="Check PNR"/>
-                        </div>
-                        <div class="col-lg-12" style="margin-top:15px; text-align:center;" id="result_get_booking_from_vendor">
+                        <div class="row">
+                            <div class="col-lg-12" style="margin-top:15px; text-align:center;">
+                                <hr/>
+                                <input type="button" id="retrieve_booking_from_vendor" class="primary-btn" onclick="get_retrieve_booking_from_vendor();" value="Check PNR"/>
+                            </div>
+                            <div class="col-lg-12" style="margin-top:15px; text-align:center;" id="result_get_booking_from_vendor">
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -344,11 +376,11 @@
                                     <input type="text" class="form-control" name="pnr2" id="pnr2" placeholder="{% trans 'PNR' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR '">
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-xs-6">
+                            <div class="col-lg-6">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Provider' %}</label>
-                                <div class="input-container-search-ticket">
-                                    <div class="form-select-2">
+                                <div class="input-container-search-ticket btn-group">
+                                    <div class="form-select" id="default-select">
                                         <select id="provider_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default">
 
                                         </select>
@@ -393,17 +425,26 @@
                             <div class="col-lg-12" id="search_booker_booking_from_vendor">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <hr/>
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Booker' %}</label>
-                                        <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                        {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                        <div class="form-select">
-                                            <select id="train_booker_search_type" name="train_booker_search_type">
-                                               <option value="cust_name">By Customer Name</option>
-                                               <option value="cor_name">By Corporate Name</option>
-                                            </select>
+                                        <div class="row">
+                                            {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                            <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                <div class="input-container-search-ticket btn-group">
+                                                    <div class="form-select" id="default-select">
+                                                        <select class="nice-select-default" id="train_booker_search_type" name="train_booker_search_type">
+                                                            <option value="cust_name">By Customer Name</option>
+                                                            <option value="cor_name">By Corporate Name</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                            </div>
                                         </div>
-                                        {% endif %}
                                     </div>
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                         <button type="button" class="primary-btn" id="search_btn_click" onclick="search_btn_booker_get_booking_from_vendor();get_customer_list('booker','','get_booking_vendor');">{% trans 'Search' %}</button>
@@ -415,15 +456,18 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="search_result_booker_vendor" style="width:100%;">
+                            <div id="search_result_booker_vendor" style="padding:15px; width:100%; max-height:400px; overflow:auto;">
 
                             </div>
 
                         </div>
-                        <div class="col-lg-12" style="margin-top:15px; text-align:center;">
-                            <input type="button" id="retrieve_booking_from_vendor" class="primary-btn" onclick="get_retrieve_booking_from_vendor();" value="Check PNR"/>
-                        </div>
-                        <div class="col-lg-12" style="margin-top:15px; text-align:center;" id="result_get_booking_from_vendor">
+                        <div class="row">
+                            <div class="col-lg-12" style="margin-top:15px; text-align:center;">
+                                <hr/>
+                                <input type="button" id="retrieve_booking_from_vendor" class="primary-btn" onclick="get_retrieve_booking_from_vendor();" value="Check PNR"/>
+                            </div>
+                            <div class="col-lg-12" style="margin-top:15px; text-align:center;" id="result_get_booking_from_vendor">
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -438,12 +482,12 @@
                                     <input type="text" class="form-control" name="pnr2" id="pnr2" placeholder="{% trans 'PNR' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR '">
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-xs-6">
+                            <div class="col-lg-6">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Provider' %}</label>
-                                <div class="input-container-search-ticket">
+                                <div class="input-container-search-ticket btn-group">
                                     <div class="form-select">
-                                        <select id="provider_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default">
+                                        <select id="provider_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default" style="width:100%;">
 
                                         </select>
                                     </div>
@@ -487,17 +531,24 @@
                             <div class="col-lg-12" id="search_booker_booking_from_vendor">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <hr/>
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Booker' %}</label>
-                                        <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                        {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                        <div class="form-select">
-                                            <select id="train_booker_search_type" name="train_booker_search_type">
-                                               <option value="cust_name">By Customer Name</option>
-                                               <option value="cor_name">By Corporate Name</option>
-                                            </select>
+                                        <div class="row">
+                                            {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                            <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                <div class="form-select">
+                                                    <select id="train_booker_search_type" name="train_booker_search_type">
+                                                        <option value="cust_name">By Customer Name</option>
+                                                        <option value="cor_name">By Corporate Name</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                            </div>
                                         </div>
-                                        {% endif %}
                                     </div>
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                         <button type="button" class="primary-btn" id="search_btn_click" onclick="search_btn_booker_get_booking_from_vendor();get_customer_list('booker','','get_booking_vendor');">{% trans 'Search' %}</button>
@@ -509,15 +560,119 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="search_result_booker_vendor" style="width:100%;">
+                            <div id="search_result_booker_vendor" style="padding:15px; width:100%; max-height:400px; overflow:auto;">
 
                             </div>
 
                         </div>
                         <div class="col-lg-12" style="margin-top:15px; text-align:center;">
+                            <hr/>
                             <input type="button" id="retrieve_booking_from_vendor" class="primary-btn" onclick="get_retrieve_booking_from_vendor();" value="Check PNR"/>
                         </div>
                         <div class="col-lg-12" style="margin-top:15px; text-align:center;" id="result_get_booking_from_vendor">
+                        </div>
+                    </form>
+                </div>
+                {% elif template == 6 %}
+                <div class="col-lg-12 banner-right" style="overflow:auto;background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                    <form action="" class="form-wrap" style="padding:15px; text-align:left;" method="POST" id="get_booking_from_vendor" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label style="color:red">*</label>
+                                <label>{% trans 'PNR' %}</label>
+                                <div class="input-container-search-ticket">
+                                    <input type="text" class="form-control" name="pnr2" id="pnr2" placeholder="{% trans 'PNR' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR '">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <label style="color:red">*</label>
+                                <label>{% trans 'Provider' %}</label>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select-2">
+                                        <select id="provider_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6" id="booker_div" hidden>
+                                <label style="color:red">*</label>
+                                <label>{% trans 'Booker' %}</label>
+                                <div class="row">
+                                    <div class="col-lg-10">
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control" name="pnr" id="booker_vendor" placeholder="{% trans 'Booker' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker '" disabled/>
+                                            <input type="hidden" class="form-control" name="pnr" id="booker_vendor_id"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" id="clear_booker_booking_div" hidden>
+                                        <button type="button" class="primary-btn" id="clear_booker_booking_from_vendor_id" onclick="clear_booker_booking_from_vendor();" style="float:right;" hidden><i class="fas fa-times"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-xs-6" hidden id="cus_parent_div">
+                                <label style="color:red">*</label>
+                                <label>{% trans 'Customer Parent' %}</label>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select-2">
+                                        <select id="customer_parent_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div class="col-lg-6 col-md-6 col-sm-6">-->
+                                <!--<div class="input-container-search-ticket">-->
+                                    <!--<label class="check_box_custom">-->
+                                        <!--<span class="span-search-ticket" style="color:black;">Bypass PNR</span>-->
+                                        <!--<input type="checkbox" id="duplicate_pnr" name="duplicate_pnr" />-->
+                                        <!--<span class="check_box_span_custom"></span>-->
+                                    <!--</label>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <div class="col-lg-12" id="search_booker_booking_from_vendor">
+                                <hr/>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <label style="color:red">*</label>
+                                        <label>{% trans 'Booker' %}</label>
+                                        <div class="row">
+                                            {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <div class="form-select">
+                                                    <select id="train_booker_search_type" name="train_booker_search_type">
+                                                        <option value="cust_name">By Customer Name</option>
+                                                        <option value="cor_name">By Corporate Name</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <button type="button" class="primary-btn" id="search_btn_click" onclick="search_btn_booker_get_booking_from_vendor();get_customer_list('booker','','get_booking_vendor');">{% trans 'Search' %}</button>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <button type="button" class="primary-btn" id="hide_btn_click" onclick="hide_result_booker_vendor();" style="float:right;" hidden>{% trans 'Hide' %}</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="search_result_booker_vendor" style="padding:15px; width:100%; max-height:400px; overflow:auto;">
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12" style="margin-top:15px; text-align:center;">
+                                <hr/>
+                                <input type="button" id="retrieve_booking_from_vendor" class="primary-btn" onclick="get_retrieve_booking_from_vendor();" value="Check PNR"/>
+                            </div>
+                            <div class="col-lg-12" style="margin-top:15px; text-align:center;" id="result_get_booking_from_vendor">
+                            </div>
                         </div>
                     </form>
                 </div>

@@ -88,6 +88,8 @@
                                             <hr/>
                                             <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="booker_div_avatar" hidden>
+                                        </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
                                             <!--                                            <label class="radio-button-custom">-->
@@ -119,18 +121,24 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                                                <div class="form-select">
-                                                                    <select id="train_booker_search_type" name="train_booker_search_type">
-                                                                       <option value="cust_name">By Customer Name</option>
-                                                                       <option value="cor_name">By Corporate Name</option>
-                                                                    </select>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="cor_name">By Corporate Name</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
+                                                                    {% endif %}
                                                                 </div>
-                                                                {% endif %}
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
+                                                            <div class="col-lg-3 col-md-3">
                                                                 <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
@@ -379,6 +387,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar{{forloop.counter}}" hidden>
+                                        </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/>{%endif%}
                                             {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
@@ -394,6 +404,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:30px;">
+                                            {% if forloop.counter <= 1 %}<label style="color:white;">Required Guest</label><br/>{%endif%}
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -787,6 +798,8 @@
                                                 <hr/>
                                                 <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                             </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12" id="booker_div_avatar" hidden>
+                                            </div>
                                             <div class="col-lg-6" style="text-align:left;">
                                                 <!--                                            <label>Booker Type :</label><br/>-->
                                                 <!--                                            <label class="radio-button-custom">-->
@@ -818,18 +831,24 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                    <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                                                    {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                                                    <div class="form-select">
-                                                                        <select id="train_booker_search_type" name="train_booker_search_type">
-                                                                           <option value="cust_name">By Customer Name</option>
-                                                                           <option value="cor_name">By Corporate Name</option>
-                                                                        </select>
+                                                                <div class="col-lg-9 col-md-9">
+                                                                    <div class="row">
+                                                                        {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                                            <div class="form-select">
+                                                                                <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                                    <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="cor_name">By Corporate Name</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                        </div>
+                                                                        {% endif %}
                                                                     </div>
-                                                                    {% endif %}
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5">
+                                                                <div class="col-lg-3 col-md-3">
                                                                     <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                 </div>
                                                             </div>
@@ -1074,6 +1093,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar{{forloop.counter}}" hidden>
+                                            </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                                 {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/>{%endif%}
                                                 {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
@@ -1087,6 +1108,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:30px;">
+                                                {% if forloop.counter <= 1 %}<label style="color:white;">Required Guest</label><br/>{%endif%}
                                                 <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                                 <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                                     <div class="modal-dialog">
@@ -1471,6 +1493,8 @@
                                             <hr/>
                                             <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="booker_div_avatar" hidden>
+                                        </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
                                             <!--                                            <label class="radio-button-custom">-->
@@ -1502,18 +1526,26 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                                                <div class="form-select">
-                                                                    <select id="train_booker_search_type" name="train_booker_search_type">
-                                                                       <option value="cust_name">By Customer Name</option>
-                                                                       <option value="cor_name">By Corporate Name</option>
-                                                                    </select>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-group">
+                                                                            <div class="default-select" id="default-select">
+                                                                                <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                                    <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="cor_name">By Corporate Name</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    {% endif %}
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
                                                                 </div>
-                                                                {% endif %}
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
+                                                            <div class="col-lg-3 col-md-3">
                                                                 <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
@@ -1758,6 +1790,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar{{forloop.counter}}" hidden>
+                                        </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/>{%endif%}
                                             {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
@@ -1771,6 +1805,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:30px;">
+                                            {% if forloop.counter <= 1 %}<label style="color:white;">Required Guest</label><br/>{%endif%}
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -2159,6 +2194,8 @@
                                         <hr/>
                                         <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                     </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12" id="booker_div_avatar" hidden>
+                                    </div>
                                     <div class="col-lg-6" style="text-align:left;">
                                         <!--                                            <label>Booker Type :</label><br/>-->
                                         <!--                                            <label class="radio-button-custom">-->
@@ -2190,18 +2227,26 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="row">
-                                                        <div class="col-lg-7 col-md-7 col-sm-7">
-                                                            <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                                            {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                                            <div class="form-select">
-                                                                <select id="train_booker_search_type" name="train_booker_search_type">
-                                                                   <option value="cust_name">By Customer Name</option>
-                                                                   <option value="cor_name">By Corporate Name</option>
-                                                                </select>
+                                                        <div class="col-lg-9 col-md-9">
+                                                            <div class="row">
+                                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                                    <div class="input-container-search-ticket btn-group">
+                                                                        <div class="form-select" id="default-select">
+                                                                            <select class="nice-select-default" id="train_booker_search_type" name="train_booker_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="cor_name">By Corporate Name</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {% endif %}
+                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                    <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                </div>
                                                             </div>
-                                                            {% endif %}
                                                         </div>
-                                                        <div class="col-lg-5 col-md-5 col-sm-5">
+                                                        <div class="col-lg-3 col-md-3">
                                                             <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                         </div>
                                                     </div>
@@ -2451,6 +2496,8 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar{{forloop.counter}}" hidden>
+                                    </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                         {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/>{%endif%}
                                         {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
@@ -2466,6 +2513,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:30px;">
+                                        {% if forloop.counter <= 1 %}<label style="color:white;">Required Guest</label><br/>{%endif%}
                                         <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                         <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                             <div class="modal-dialog">
@@ -2856,6 +2904,8 @@
                                             <hr/>
                                             <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="booker_div_avatar" hidden>
+                                        </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
                                             <!--                                            <label class="radio-button-custom">-->
@@ -2887,18 +2937,24 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                                                <div class="form-select">
-                                                                    <select id="train_booker_search_type" name="train_booker_search_type">
-                                                                       <option value="cust_name">By Customer Name</option>
-                                                                       <option value="cor_name">By Corporate Name</option>
-                                                                    </select>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                                        <div class="form-select">
+                                                                            <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="cor_name">By Corporate Name</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    {% endif %}
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
                                                                 </div>
-                                                                {% endif %}
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
+                                                            <div class="col-lg-3 col-md-3">
                                                                 <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
@@ -3148,6 +3204,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar{{forloop.counter}}" hidden>
+                                        </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/>{%endif%}
                                             {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
@@ -3163,6 +3221,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:30px;">
+                                            {% if forloop.counter <= 1 %}<label style="color:white;">Required Guest</label><br/>{%endif%}
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -3556,6 +3615,8 @@
                                             <hr/>
                                             <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="booker_div_avatar" hidden>
+                                        </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <!--                                            <label>Booker Type :</label><br/>-->
                                             <!--                                            <label class="radio-button-custom">-->
@@ -3587,18 +3648,24 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                                                <div class="form-select">
-                                                                    <select id="train_booker_search_type" name="train_booker_search_type">
-                                                                       <option value="cust_name">By Customer Name</option>
-                                                                       <option value="cor_name">By Corporate Name</option>
-                                                                    </select>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="cor_name">By Corporate Name</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    {% endif %}
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
                                                                 </div>
-                                                                {% endif %}
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
+                                                            <div class="col-lg-3 col-md-3">
                                                                 <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
@@ -3846,6 +3913,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar{{forloop.counter}}" hidden>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
                                             {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/> {%endif%}

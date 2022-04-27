@@ -976,6 +976,10 @@ function add_table_of_passenger(type){
                     </div>`;
 
                     text_div_paxs+=`
+                    <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar{{forloop.counter}}" hidden>
+                    </div>`;
+
+                    text_div_paxs+=`
                     <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
                         <label style="color:red !important">*</label>
                         <label>Gender</label>`;
@@ -1082,6 +1086,10 @@ function add_table_of_passenger(type){
                             <input type="text" style="background:white !important;" class="form-control date-picker-birth" name="adult_birth_date`+parseInt(counter_passenger+1)+`" id="adult_birth_date`+parseInt(counter_passenger+1)+`" onchange="check_years_old(`+parseInt(counter_passenger+1)+`)" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                             <input type="hidden" class="form-control" name="adult_years_old`+parseInt(counter_passenger+1)+`" id="adult_years_old`+parseInt(counter_passenger+1)+`">
                         </div>
+                    </div>`;
+
+                    text_div_paxs+=`
+                    <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar_identity`+parseInt(counter_passenger+1)+`" hidden>
                     </div>`;
 
                     text_div_paxs+=`

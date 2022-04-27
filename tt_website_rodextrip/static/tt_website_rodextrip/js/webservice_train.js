@@ -1878,9 +1878,11 @@ function create_new_reservation(){
 
 
     //button
-    text += `<button type="button" class="primary-btn mb-3" id="button-home" style="width:100%;margin-top:15px;" onclick="train_reorder();">
-                Re Order
-            </button>`
+    text += `
+    <button type="button" class="next-loading-reorder primary-btn mb-3 ld-ext-right" id="button-reorder" style="width:100%;margin-top:15px;" onclick="show_loading_reorder('train'); train_reorder();">
+        Re Order
+        <div class="ld ld-ring ld-cycle"></div>
+    </button>`;
 
     document.getElementById('button-re-order-div').innerHTML = text;
     document.getElementById('reorder_div').hidden = true;
@@ -1977,20 +1979,31 @@ function re_order_set_passengers(){
           'booker': JSON.stringify(train_get_detail.result.response.booker)
        },
        success: function(resJson) {
-            console.log('set passenger done')
-            train_data_reorder = [];
-            train_get_config_provider(signature,'reorder')
+            setTimeout(function(){
+                please_wait_custom('Set Passenger <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Search Schedule, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
+                train_data_reorder = [];
+                train_get_config_provider(signature,'reorder')
+            }, 1000);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-
+            please_wait_custom('Set Passenger Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
+            $('.next-loading-reorder').removeClass("running");
+            $('.next-loading-reorder').prop('disabled', false);
+            $('.issued_booking_btn').prop('disabled', false);
+            $('#button-sync-status').prop('disabled', false);
+            setTimeout(function(){
+                $("#waitingTransaction").modal('hide');
+            }, 2000);
        },timeout: 120000
     });
 }
 
 function re_order_check_search(){
     if(counter_train_provider == provider_train.length){
-        console.log('get data journey');
-        re_order_find_journey();
+        setTimeout(function(){
+            please_wait_custom('Search Schedule <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Select Data Journey, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
+            re_order_find_journey();
+        }, 1000);
     }
 }
 
@@ -2021,7 +2034,10 @@ function re_order_find_journey(){
        });
     }else{
         console.log('select data journey');
-        re_order_set_journey();
+        setTimeout(function(){
+            please_wait_custom('Select Data Journey <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Set Pick Train, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
+            re_order_set_journey();
+        }, 1000);
     }
 }
 
@@ -2036,9 +2052,10 @@ function re_order_set_journey(){
           "train_pick": JSON.stringify(journey)
        },
        success: function(msg) {
-            console.log('set train pick done');
-            //commit
-            train_create_booking(0,'reorder')
+            setTimeout(function(){
+                please_wait_custom('Set Pick Train <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Redirect page, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
+                train_create_booking(0,'reorder')
+            }, 1000);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
 
@@ -2685,4 +2702,65 @@ function update_insentif_booker(type){
        },timeout: 60000
     });
 
+}
+
+function upload_image(){
+    var formData = new FormData($('#train_review').get(0));
+    formData.append('signature', signature)
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'update_image_passenger',
+       },
+       data: formData,
+       success: function(msg) {
+            if(msg.result.error_code == 0){
+                img_list = msg.result.response;
+                //adult
+                for(var i=0;i<adult;i++){
+                    index = i+1;
+                    //list gambar identity
+                    for(var j=0;j<100;j++){
+                        try{
+                            if(document.getElementById('adult_identity'+index+'_'+j+'_delete').checked == true)
+                                img_list.push([document.getElementById('adult_identity'+index+'_'+j+'_image_seq_id').value, 2, "adult_files_attachment_identity1"]);
+                        }catch(err){
+                            //gambar habis
+                            break;
+                        }
+                    }
+
+                }
+                //infant
+                for(var i=0;i<infant;i++){
+                    index = i+1;
+                    //list gambar identity
+                    for(var j=0;j<100;j++){
+                        try{
+                            if(document.getElementById('infant_identity'+index+'_'+j+'_delete').checked == true)
+                                img_list.push([document.getElementById('infant_identity'+index+'_'+j+'_image_seq_id').value, 2, 'infant_files_attachment_identity1']);
+                        }catch(err){
+                            //gambar habis
+                            break;
+                        }
+                    }
+
+                }
+                document.getElementById('image_list_data').value = JSON.stringify(img_list)
+                document.getElementById('train_review').submit();
+                //document.getElementById('form_admin').submit();
+            }else{
+                //swal error image tidak terupload
+                document.getElementById('train_review').submit();
+            }
+       },
+       contentType:false,
+       processData:false,
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error update passenger');
+            document.getElementById('update_passenger_customer').disabled = false;
+       }
+    });
 }

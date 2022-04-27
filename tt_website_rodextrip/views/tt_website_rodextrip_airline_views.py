@@ -1349,6 +1349,10 @@ def review(request, signature):
                 infant = []
                 contact = []
                 nationality = ''
+                try:
+                    img_list_data = json.loads(request.POST['image_list_data'])
+                except:
+                    img_list_data = []
                 if country.get(request.POST['booker_nationality']):
                     nationality = country[request.POST['booker_nationality']]
                 else:
@@ -1366,7 +1370,7 @@ def review(request, signature):
                     'mobile': request.POST['booker_phone'],
                     'nationality_name': request.POST['booker_nationality'],
                     'nationality_code': nationality,
-                    'booker_seq_id': request.POST['booker_id']
+                    'booker_seq_id': request.POST['booker_id'],
                 }
                 for i in range(int(request.session['airline_request_%s' % signature]['adult'])):
                     ff_number = []
@@ -1419,6 +1423,7 @@ def review(request, signature):
                                     country[passport_country_of_issued] = country['code']
                                     country_of_issued_code = country['code']
                                     break
+                    img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'adult' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
 
                     adult.append({
                         "pax_type": "ADT",
@@ -1436,6 +1441,7 @@ def review(request, signature):
                         "identity_type": request.POST['adult_id_type' + str(i + 1)],
                         "ff_numbers": ff_number,
                         "behaviors": json.loads(request.POST['adult_behaviors' + str(i + 1)]) if request.POST.get('adult_behaviors' + str(i + 1)) else {},
+                        "identity_image": img_identity_data
                     })
 
                     if i == 0:
@@ -1557,6 +1563,7 @@ def review(request, signature):
                                     country_of_issued_code = country['code']
                                     break
 
+                    img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'child' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                     child.append({
                         "pax_type": "CHD",
                         "first_name": request.POST['child_first_name' + str(i + 1)],
@@ -1573,6 +1580,7 @@ def review(request, signature):
                         "identity_type": request.POST['child_id_type' + str(i + 1)],
                         "ff_numbers": ff_number,
                         "behaviors": json.loads(request.POST['child_behaviors' + str(i + 1)]) if request.POST.get('child_behaviors' + str(i + 1)) else {},
+                        "identity_image": img_identity_data
                     })
 
                 for i in range(int(request.session['airline_request_%s' % signature]['infant'])):
@@ -1603,6 +1611,7 @@ def review(request, signature):
                                     country[passport_country_of_issued] = country['code']
                                     country_of_issued_code = country['code']
                                     break
+                    img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'infant' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                     infant.append({
                         "pax_type": "INF",
                         "first_name": request.POST['infant_first_name' + str(i + 1)],
@@ -1618,6 +1627,7 @@ def review(request, signature):
                         "passenger_seq_id": request.POST['infant_id' + str(i + 1)],
                         "identity_type": request.POST['infant_id_type' + str(i + 1)],
                         "behaviors": json.loads(request.POST['infant_behaviors' + str(i + 1)]) if request.POST.get('infant_behaviors' + str(i + 1)) else {},
+                        "identity_image": img_identity_data
                     })
                 airline_create_passengers = {
                     'booker': booker,
