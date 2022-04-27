@@ -123,20 +123,26 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7">
-                                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                                                <div class="form-select">
-                                                                    <select id="train_booker_search_type" name="train_booker_search_type">
-                                                                       <option value="cust_name">By Customer Name</option>
-                                                                       <option value="cor_name">By Corporate Name</option>
-                                                                    </select>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="cor_name">By Corporate Name</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
+                                                                    {% endif %}
                                                                 </div>
-                                                                {% endif %}
                                                                 <input type="hidden" id="booker_min_age" value="{{booker_min_age}}"/>
                                                                 <input type="hidden" id="booker_max_age" value="{{booker_max_age}}"/>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5">
+                                                            <div class="col-lg-3 col-md-3">
                                                                 <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
@@ -1457,18 +1463,24 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                    <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                                                    {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                                                    <div class="form-select">
-                                                                        <select id="train_booker_search_type" name="train_booker_search_type">
-                                                                           <option value="cust_name">By Customer Name</option>
-                                                                           <option value="cor_name">By Corporate Name</option>
-                                                                        </select>
+                                                                <div class="col-lg-9 col-md-9">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                                            {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                            <div class="form-select">
+                                                                                <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                                    <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="cor_name">By Corporate Name</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                        </div>
                                                                     </div>
-                                                                    {% endif %}
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5">
+                                                                <div class="col-lg-3 col-md-3">
                                                                     <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                     <input type="hidden" id="booker_min_age" value="{{booker_min_age}}"/>
                                                                     <input type="hidden" id="booker_max_age" value="{{booker_max_age}}"/>
@@ -2756,20 +2768,28 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                                                <div class="form-select">
-                                                                    <select id="train_booker_search_type" name="train_booker_search_type">
-                                                                       <option value="cust_name">By Customer Name</option>
-                                                                       <option value="cor_name">By Corporate Name</option>
-                                                                    </select>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-group">
+                                                                            <div class="default-select" id="default-select">
+                                                                                <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                                    <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="cor_name">By Corporate Name</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    {% endif %}
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
                                                                 </div>
-                                                                {% endif %}
                                                                 <input type="hidden" id="booker_min_age" value="{{booker_min_age}}"/>
                                                                 <input type="hidden" id="booker_max_age" value="{{booker_max_age}}"/>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
+                                                            <div class="col-lg-3 col-md-3">
                                                                 <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
@@ -4111,20 +4131,28 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="row">
-                                                        <div class="col-lg-7 col-md-7 col-sm-7">
-                                                            <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                                            {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                                            <div class="form-select">
-                                                                <select id="train_booker_search_type" name="train_booker_search_type">
-                                                                   <option value="cust_name">By Customer Name</option>
-                                                                   <option value="cor_name">By Corporate Name</option>
-                                                                </select>
+                                                        <div class="col-lg-9 col-md-9">
+                                                            <div class="row">
+                                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                                    <div class="input-container-search-ticket btn-group">
+                                                                        <div class="form-select" id="default-select">
+                                                                            <select class="nice-select-default" id="train_booker_search_type" name="train_booker_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="cor_name">By Corporate Name</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {% endif %}
+                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                    <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                </div>
                                                             </div>
-                                                            {% endif %}
                                                             <input type="hidden" id="booker_min_age" value="{{booker_min_age}}"/>
                                                             <input type="hidden" id="booker_max_age" value="{{booker_max_age}}"/>
                                                         </div>
-                                                        <div class="col-lg-5 col-md-5 col-sm-5">
+                                                        <div class="col-lg-3 col-md-3">
                                                             <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                         </div>
                                                     </div>
@@ -5441,20 +5469,26 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                                                <div class="form-select">
-                                                                    <select id="train_booker_search_type" name="train_booker_search_type">
-                                                                       <option value="cust_name">By Customer Name</option>
-                                                                       <option value="cor_name">By Corporate Name</option>
-                                                                    </select>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                                        <div class="form-select">
+                                                                            <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="cor_name">By Corporate Name</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    {% endif %}
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
                                                                 </div>
-                                                                {% endif %}
                                                                 <input type="hidden" id="booker_min_age" value="{{booker_min_age}}"/>
                                                                 <input type="hidden" id="booker_max_age" value="{{booker_max_age}}"/>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
+                                                            <div class="col-lg-3 col-md-3">
                                                                 <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
@@ -6775,20 +6809,26 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                                                <div class="form-select">
-                                                                    <select id="train_booker_search_type" name="train_booker_search_type">
-                                                                       <option value="cust_name">By Customer Name</option>
-                                                                       <option value="cor_name">By Corporate Name</option>
-                                                                    </select>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="cor_name">By Corporate Name</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    {% endif %}
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
                                                                 </div>
-                                                                {% endif %}
                                                                 <input type="hidden" id="booker_min_age" value="{{booker_min_age}}"/>
                                                                 <input type="hidden" id="booker_max_age" value="{{booker_max_age}}"/>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
+                                                            <div class="col-lg-3 col-md-3">
                                                                 <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
