@@ -2433,9 +2433,9 @@ function sort(){
                                                             <div class="col-xs-12">`;
                                                             if(airline[i].available_count != 0){
                                                                 if(airline[i].available_count > 9){
-                                                                    text += `<img src="/static/tt_website_rodextrip/img/icon/seat.png" style="height:16px; width:auto;"/><span>`+airline[i].available_count+` seats available</span>`;
+                                                                    text += `<img src="/static/tt_website_rodextrip/img/icon/seat.png" style="height:16px; width:auto;"/><span id='airline_seat_left`+i+`'>`+airline[i].available_count+` seats available</span>`;
                                                                 }else{
-                                                                    text += `<img src="/static/tt_website_rodextrip/img/icon/seat.png" style="height:16px; width:auto;"/><span style="color:#fc2617;">`+airline[i].available_count+` seats left </span>`;
+                                                                    text += `<img src="/static/tt_website_rodextrip/img/icon/seat.png" style="height:16px; width:auto;"/><span id='airline_seat_left`+i+`' style="color:#fc2617;">`+airline[i].available_count+` seats left </span>`;
                                                                 }
                                                                 //if(choose_airline != null && choose_airline == airline[i].sequence && airline_request.direction != 'MC')
                                                                 //text+=`<input type='button' style="margin:10px;" id="departjourney`+i+`" class="primary-btn-custom-un choose_selection_ticket_airlines_depart" value="Chosen" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;

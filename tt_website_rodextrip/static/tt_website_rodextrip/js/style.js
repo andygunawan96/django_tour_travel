@@ -1275,9 +1275,9 @@ $(document).ready(function(){
 
         if(quantity < 9){
             $('#hotel_room').val(quantity + 1);
-            $('#hotel_adult').val((quantity+1)*2);
+            $('#hotel_adult').val(((quantity+1)*2) > 9 ? 9 : ((quantity+1)*2));
             quantity_room_hotel = quantity + 1;
-            quantity_adult_hotel = (quantity+1)*2;
+            quantity_adult_hotel = ((quantity+1)*2) > 9 ? 9 : ((quantity+1)*2);
 
             $('#show_total_pax_hotel').text(quantity_room_hotel + " Room, " + quantity_adult_hotel + " Adult, " +quantity_child_hotel + " Child");
         }
@@ -1308,9 +1308,9 @@ $(document).ready(function(){
 
         if(quantity > 1){
             $('#hotel_room').val(quantity - 1);
-            $('#hotel_adult').val((quantity-1)*2);
+            $('#hotel_adult').val(((quantity-1)*2) > 9 ? 9 : ((quantity-1)*2));
             quantity_room_hotel = quantity - 1;
-            quantity_adult_hotel = (quantity-1)*2;
+            quantity_adult_hotel = ((quantity-1)*2) > 9 ? 9 : ((quantity-1)*2);
 
             if(quantity_room_hotel < quantity_child_hotel){
                quantity_child_hotel = quantity_room_hotel;
@@ -1349,7 +1349,7 @@ $(document).ready(function(){
         var quantity = parseInt($('#hotel_adult').val());
 
         // If is not undefined
-        if(quantity < 18){
+        if(quantity < 9){
             $('#hotel_adult').val(quantity + 1);
             quantity_adult_hotel = quantity + 1;
 
@@ -1360,7 +1360,7 @@ $(document).ready(function(){
             document.getElementById("left-minus-adult-hotel").disabled = false;
             document.getElementById("right-plus-adult-hotel").disabled = false;
         }
-        else if(quantity_adult_hotel == 18){
+        else if(quantity_adult_hotel == 9){
             document.getElementById("left-minus-adult-hotel").disabled = false;
             document.getElementById("right-plus-adult-hotel").disabled = true;
         }

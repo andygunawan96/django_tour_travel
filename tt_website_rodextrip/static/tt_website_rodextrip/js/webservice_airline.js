@@ -2329,7 +2329,10 @@ function datasearch2(airline){
            airline.schedules[i].journeys[j].total_price = price;
            if(available_count == 100)
                available_count = 0;
-           airline.schedules[i].journeys[j].available_count = available_count;
+           if(can_book_schedule)
+                airline.schedules[i].journeys[j].available_count = available_count;
+           else
+                airline.schedules[i].journeys[j].available_count = 0;
            airline.schedules[i].journeys[j].can_book = can_book_schedule;
            airline.schedules[i].journeys[j].can_book_check_arrival_on_next_departure = true;
            airline.schedules[i].journeys[j].currency = currency;
@@ -2352,6 +2355,7 @@ function datasearch2(airline){
 function change_fare(journey, segment, fares){
     price = 0;
     price_discount = 0;
+    seat_left = 100;
     var change_radios = document.getElementsByName('journey'+journey+'segment'+segment+'fare');
     for (var j = 0, length = change_radios.length; j < length; j++) {
         if (change_radios[j].checked) {
@@ -2386,7 +2390,8 @@ function change_fare(journey, segment, fares){
         //hitung ulang price
 
         for(j in airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary){
-
+            if(seat_left > airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].available_count)
+                seat_left = airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].available_count;
             if(airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].pax_type == 'ADT'){
                 for(k in airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].service_charges){
                     if(airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].charge_type != 'RAC'){
@@ -2401,7 +2406,11 @@ function change_fare(journey, segment, fares){
             }
         }
     }
-
+    if(document.getElementById('airline_seat_left'+journey))
+        if(seat_left > 9)
+            document.getElementById('airline_seat_left'+journey).innerHTML = seat_left + ' seats available';
+        else
+            document.getElementById('airline_seat_left'+journey).innerHTML = seat_left + ' seats left';
     if(isNaN(parseInt(price)) == false){
         document.getElementById('fare'+journey).innerHTML = 'IDR ' + getrupiah(price_discount.toString());
         if(price != price_discount)

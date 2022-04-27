@@ -5673,6 +5673,58 @@ function reset_pax_cache(){
 }
 
 function edit_passenger_cache(val){
+
+    //clear data
+    document.getElementById('div_avatar_passport').innerHTML = '';
+    document.getElementById('attachment1').innerHTML = '';
+    document.getElementById('selectedFiles_attachment_edit1').innerHTML = '';
+    document.getElementById('files_attachment_edit1').value = ''
+    if(!/safari/i.test(navigator.userAgent)){
+      document.getElementById('files_attachment_edit1').type = ''
+      document.getElementById('files_attachment_edit1').type = 'file'
+    }
+    document.getElementById('passenger_edit_identity_number1').value = '';
+    $("passenger_edit_identity_expired_date1").val("");
+    $('#passenger_edit_identity_country_of_issued1_id').val('').trigger('change');
+
+    document.getElementById('div_avatar_ktp').innerHTML = '';
+    document.getElementById('attachment2').innerHTML = '';
+    document.getElementById('selectedFiles_attachment_edit2').innerHTML = '';
+    document.getElementById('files_attachment_edit2').value = ''
+    if(!/safari/i.test(navigator.userAgent)){
+      document.getElementById('files_attachment_edit2').type = ''
+      document.getElementById('files_attachment_edit2').type = 'file'
+    }
+    document.getElementById('passenger_edit_identity_number2').value = '';
+    $("passenger_edit_identity_expired_date2").val("");
+    $('#passenger_edit_identity_country_of_issued2_id').val('').trigger('change');
+
+    document.getElementById('div_avatar_sim').innerHTML = '';
+    document.getElementById('attachment3').innerHTML = '';
+    document.getElementById('selectedFiles_attachment_edit3').innerHTML = '';
+    document.getElementById('files_attachment_edit3').value = ''
+    if(!/safari/i.test(navigator.userAgent)){
+      document.getElementById('files_attachment_edit3').type = ''
+      document.getElementById('files_attachment_edit3').type = 'file'
+    }
+    document.getElementById('passenger_edit_identity_number3').value = '';
+    $("passenger_edit_identity_expired_date3").val("");
+    $('#passenger_edit_identity_country_of_issued3_id').val('').trigger('change');
+
+    document.getElementById('div_avatar_other').innerHTML = '';
+    document.getElementById('attachment4').innerHTML = '';
+    document.getElementById('selectedFiles_attachment_edit4').innerHTML = '';
+    document.getElementById('files_attachment_edit4').value = ''
+    if(!/safari/i.test(navigator.userAgent)){
+      document.getElementById('files_attachment_edit4').type = ''
+      document.getElementById('files_attachment_edit4').type = 'file'
+    }
+    document.getElementById('passenger_edit_identity_number4').value = '';
+    $("passenger_edit_identity_expired_date4").val("");
+    $('#passenger_edit_identity_country_of_issued4_id').val('').trigger('change');
+
+    document.getElementById('passenger_edit_phone_table').innerHTML = '';
+
     passenger_data_edit_phone = 0;
     passenger_cache_pick = val;
     //avatar
@@ -6475,31 +6527,31 @@ function pick_passenger_cache_copy(val, identity){
                                             }
                                         }
                                         $('#'+passenger_pick+'_id_type'+passenger_pick_number).niceSelect('update');
-                                        if(passenger_data_cache[val].identities[identity].identity_images.length > 0){
+                                        if(passenger_data_cache[val].identities[data[0]].identity_images.length > 0){
                                             text = '';
                                             text += `
                                                 <div class="row">`;
-                                                    for(j in passenger_data_cache[val].identities[identity].identity_images.slice(0,3))
+                                                    for(k in passenger_data_cache[val].identities[data[0]].identity_images.slice(0,3))
                                                     text+=`
                                                     <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
-                                                        <img src="`+passenger_data_cache[val].identities[identity].identity_images[j][0]+`" alt="User" class="picture_passenger_agent">
+                                                        <img src="`+passenger_data_cache[val].identities[data[0]].identity_images[k][0]+`" alt="User" class="picture_passenger_agent">
                                                     </div>`;
                                                     text+=`
                                                 </div>
                                             `;
-                                            if(document.getElementById(type+'_attachment_identity'+passenger_number)){
+                                            if(document.getElementById(passenger_pick+'_attachment_identity'+passenger_number)){
                                                 text_attachment= '';
-                                                for(j in passenger_data_cache[val].identities[identity].identity_images){
+                                                for(k in passenger_data_cache[val].identities[data[0]].identity_images){
                                                     text_attachment += `
                                                         <div style="height:220px;margin-bottom:25px;margin-right:10px;">
-                                                            <img src="`+passenger_data_cache[val].identities[identity].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities[identity].identity_images[j][1]+`" style="height:220px;width:auto" />
+                                                            <img src="`+passenger_data_cache[val].identities[data[0]].identity_images[k][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities[data[0]].identity_images[k][1]+`" style="height:220px;width:auto" />
 
                                                             <div class="row" style="justify-content:space-around">
                                                                 <div class="checkbox" style="display: block;">
                                                                     <label class="check_box_custom">
                                                                         <span style="font-size:13px;">Delete</span>
-                                                                        <input type="checkbox" value="" id="`+passenger_pick+`_identity`+passenger_pick_number+`_`+j+`_delete" name="`+passenger_pick+`_identity`+passenger_pick_number+`_delete">
-                                                                        <input type="hidden" value="`+passenger_data_cache[val].identities[identity].identity_images[j][1]+`" id="`+passenger_pick+`_identity`+passenger_pick_number+`_`+j+`_image_seq_id" name="`+passenger_pick+`_identity`+passenger_pick_number+`_`+j+`_image_seq_id">
+                                                                        <input type="checkbox" value="" id="`+passenger_pick+`_identity`+passenger_pick_number+`_`+k+`_delete" name="`+passenger_pick+`_identity`+passenger_pick_number+`_delete">
+                                                                        <input type="hidden" value="`+passenger_data_cache[val].identities[data[0]].identity_images[k][1]+`" id="`+passenger_pick+`_identity`+passenger_pick_number+`_`+k+`_image_seq_id" name="`+passenger_pick+`_identity`+passenger_pick_number+`_`+k+`_image_seq_id">
                                                                         <span class="check_box_span_custom"></span>
                                                                     </label>
                                                                 </div>
@@ -6551,27 +6603,27 @@ function pick_passenger_cache_copy(val, identity){
                                 text = '';
                                 text += `
                                     <div class="row">`;
-                                        for(j in passenger_data_cache[val].identities['passport'].identity_images.slice(0,3))
+                                        for(k in passenger_data_cache[val].identities['passport'].identity_images.slice(0,3))
                                         text+=`
                                         <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
-                                            <img src="`+passenger_data_cache[val].identities[identity].identity_images[j][0]+`" alt="User" class="picture_passenger_agent">
+                                            <img src="`+passenger_data_cache[val].identities[identity].identity_images[k][0]+`" alt="User" class="picture_passenger_agent">
                                         </div>`;
                                         text+=`
                                     </div>
                                 `;
                                 if(document.getElementById(type+'_attachment_identity'+passenger_number)){
                                     text_attachment= '';
-                                    for(j in passenger_data_cache[val].identities['passport'].identity_images){
+                                    for(k in passenger_data_cache[val].identities['passport'].identity_images){
                                         text_attachment += `
                                             <div style="height:220px;margin-bottom:25px;margin-right:10px;">
-                                                <img src="`+passenger_data_cache[val].identities[identity].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities[identity].identity_images[j][1]+`" style="height:220px;width:auto" />
+                                                <img src="`+passenger_data_cache[val].identities['passport'].identity_images[k][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities['passport'].identity_images[k][1]+`" style="height:220px;width:auto" />
 
                                                 <div class="row" style="justify-content:space-around">
                                                     <div class="checkbox" style="display: block;">
                                                         <label class="check_box_custom">
                                                             <span style="font-size:13px;">Delete</span>
-                                                            <input type="checkbox" value="" id="`+passenger_pick+`_identity`+passenger_pick_number+`_`+j+`_delete" name="`+passenger_pick+`_identity`+passenger_pick_number+`_delete">
-                                                            <input type="hidden" value="`+passenger_data_cache[val].identities[identity].identity_images[j][1]+`" id="`+passenger_pick+`_identity`+passenger_pick_number+`_`+j+`_image_seq_id" name="`+passenger_pick+`_identity`+passenger_pick_number+`_`+j+`_image_seq_id">
+                                                            <input type="checkbox" value="" id="`+passenger_pick+`_identity`+passenger_pick_number+`_`+k+`_delete" name="`+passenger_pick+`_identity`+passenger_pick_number+`_delete">
+                                                            <input type="hidden" value="`+passenger_data_cache[val].identities['passport'].identity_images[k][1]+`" id="`+passenger_pick+`_identity`+passenger_pick_number+`_`+k+`_image_seq_id" name="`+passenger_pick+`_identity`+passenger_pick_number+`_`+k+`_image_seq_id">
                                                             <span class="check_box_span_custom"></span>
                                                         </label>
                                                     </div>
