@@ -473,6 +473,11 @@ def review(request):
             contact = []
             printout_paxs = []
 
+            try:
+                img_list_data = json.loads(request.POST['image_list_data'])
+            except:
+                img_list_data = []
+
             booker = {
                 'title': request.POST['booker_title'],
                 'first_name': request.POST['booker_first_name'],
@@ -486,6 +491,7 @@ def review(request):
 
             temp_pax_id = 0
             for i in range(int(request.session['tour_booking_data']['adult'])):
+                img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'adult' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                 adult.append({
                     "temp_pax_id": temp_pax_id,
                     "first_name": request.POST['adult_first_name' + str(i + 1)],
@@ -498,12 +504,14 @@ def review(request):
                     "identity_number": request.POST.get('adult_passport_number' + str(i + 1)) and request.POST['adult_passport_number' + str(i + 1)] or '',
                     "identity_expdate": request.POST.get('adult_passport_expired_date' + str(i + 1)) and request.POST['adult_passport_expired_date' + str(i + 1)] or '',
                     "identity_country_of_issued_name": request.POST.get('adult_country_of_issued' + str(i + 1)) and request.POST['adult_country_of_issued' + str(i + 1)] or '',
+                    "identity_image": img_identity_data,
                     "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
                     "identity_type": "passport",
                     "calling_code": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone_code' + str(i + 1)],
                     "mobile": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ',
                     "email": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ',
                     "is_cp": request.POST.get('adult_cp' + str(i + 1)),
+
                 })
                 printout_paxs.append({
                     "name": request.POST['adult_title' + str(i + 1)] + ' ' + request.POST['adult_first_name' + str(i + 1)] + ' ' + request.POST['adult_last_name' + str(i + 1)],
@@ -582,6 +590,7 @@ def review(request):
                 })
 
             for i in range(int(request.session['tour_booking_data']['child'])):
+                img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'child' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                 child.append({
                     "temp_pax_id": temp_pax_id,
                     "first_name": request.POST['child_first_name'+str(i+1)],
@@ -594,6 +603,7 @@ def review(request):
                     "identity_number": request.POST.get('child_passport_number' + str(i + 1)) and request.POST['child_passport_number' + str(i + 1)] or '',
                     "identity_expdate": request.POST.get('child_passport_expired_date' + str(i + 1)) and request.POST['child_passport_expired_date' + str(i + 1)] or '',
                     "identity_country_of_issued_name": request.POST.get('child_country_of_issued' + str(i + 1)) and request.POST['child_country_of_issued' + str(i + 1)] or '',
+                    "identity_image": img_identity_data,
                     "passenger_seq_id": request.POST['child_id'+str(i+1)],
                     "identity_type": "passport",
                 })
@@ -607,6 +617,7 @@ def review(request):
                 temp_pax_id += 1
 
             for i in range(int(request.session['tour_booking_data']['infant'])):
+                img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'infant' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
                 infant.append({
                     "temp_pax_id": temp_pax_id,
                     "first_name": request.POST['infant_first_name'+str(i+1)],
@@ -619,6 +630,7 @@ def review(request):
                     "identity_number": request.POST.get('infant_passport_number' + str(i + 1)) and request.POST['infant_passport_number' + str(i + 1)] or '',
                     "identity_expdate": request.POST.get('infant_passport_expired_date' + str(i + 1)) and request.POST['infant_passport_expired_date' + str(i + 1)] or '',
                     "identity_country_of_issued_name": request.POST.get('infant_country_of_issued' + str(i + 1)) and request.POST['infant_country_of_issued' + str(i + 1)] or '',
+                    "identity_image": img_identity_data,
                     "passenger_seq_id": request.POST['infant_id'+str(i+1)],
                     "identity_type": "passport",
                 })

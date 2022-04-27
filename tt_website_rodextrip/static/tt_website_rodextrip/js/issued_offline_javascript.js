@@ -197,6 +197,8 @@ function add_table_of_passenger(type){
                                                 <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
 
                                                 </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar`+parseInt(counter_passenger+1)+`" hidden>
+                                                </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
                                                     <label style="color:red">*</label>
                                                     <label>Title</label>`;
@@ -277,7 +279,41 @@ function add_table_of_passenger(type){
                                                         <input type="hidden" class="form-control" name="adult_years_old`+parseInt(counter_passenger+1)+`" id="adult_years_old`+parseInt(counter_passenger+1)+`">
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar_identity`+parseInt(counter_passenger+1)+`" hidden>
+                                                    </div>`;
+
+//                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+//                                                        <span>Identity Photo</span><br>
+//                                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_adult`+parseInt(counter_passenger+1)+`">Upload Image</button>
+//                                                        <!-- Modal -->
+//                                                        <div class="modal fade" id="myModal_attachment_identity_adult`+parseInt(counter_passenger+1)+`" data-keyboard="false">
+//                                                            <div class="modal-dialog">
+//
+//                                                                <!-- Modal content-->
+//                                                                <div class="modal-content">
+//                                                                    <div class="modal-header">
+//                                                                        <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+//                                                                        <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult`+parseInt(counter_passenger+1)+`').modal('hide');">×</button>
+//                                                                    </div>
+//                                                                    <div class="modal-body">
+//
+//                                                                        Files: <input type="file" id="adult_files_attachment_identity`+parseInt(counter_passenger+1)+`" name="adult_files_attachment_identity`+parseInt(counter_passenger+1)+`" accept="image/*"><br>
+//
+//                                                                        <div id="selectedFiles_adult_files_identity`+parseInt(counter_passenger+1)+`"></div>
+//                                                                        <div id="adult_attachment_identity`+parseInt(counter_passenger+1)+`">
+//
+//                                                                        </div>
+//                                                                    </div>
+//                                                                    <div class="modal-footer">
+//                                                                        <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_adult`+parseInt(counter_passenger+1)+`').modal('hide');">Close</button>
+//                                                                    </div>
+//                                                                </div>
+//                                                            </div>
+//                                                        </div>
+//                                                    </div>
+//                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+//                                                    </div>
+                                                    text+=`<div class="col-lg-6 col-md-6 col-sm-6">
                                                     <label>ID Type</label>`;
                                                     if(template == 1){
                                                         text+=`<div class="input-container-search-ticket">`;

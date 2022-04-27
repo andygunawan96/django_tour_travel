@@ -324,6 +324,7 @@ def re_order_set_passengers(request):
                 "passenger_seq_id": pax['seq_id'],
                 "identity_type": pax['identity_type'],
                 "behaviors": pax['behaviors'],
+                "identity_image": [],
             }
             if pax_type == 'ADT':
                 adult.append(data_pax_dict)
@@ -526,6 +527,7 @@ def commit_booking(request):
                         "identity_expdate": pax.pop('identity_expdate'),
                         "identity_number": pax.pop('identity_number'),
                         "identity_type": pax.pop('identity_type'),
+                        "identity_image": pax.pop('identity_image'),
                     }
                     passenger.append(pax)
         data = {

@@ -475,6 +475,7 @@ def commit_booking(request):
                                 "identity_expdate": pax.pop('identity_expdate'),
                                 "identity_number": pax.pop('identity_number'),
                                 "identity_type": pax.pop('identity_type'),
+                                "identity_image": pax.pop('identity_image'),
                             }
                         else:
                             pax['identity'] = {}
@@ -483,6 +484,7 @@ def commit_booking(request):
                         pax.pop('identity_expdate')
                         pax.pop('identity_number')
                         pax.pop('identity_type')
+                        pax.pop('identity_image')
                     passenger.append(pax)
 
         schedules = request.session['bus_booking']

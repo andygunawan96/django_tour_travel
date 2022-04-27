@@ -457,6 +457,7 @@ def update_passengers(request):
                             "identity_expdate": pax.pop('identity_expdate'),
                             "identity_number": pax.pop('identity_number'),
                             "identity_type": pax.pop('identity_type'),
+                            "identity_image": pax.pop('identity_image'),
                         }
 
                     else:
@@ -464,6 +465,7 @@ def update_passengers(request):
                         pax.pop('identity_expdate')
                         pax.pop('identity_number')
                         pax.pop('identity_type')
+                        pax.pop('identity_image')
                     pax['master_visa_Id'] = master_visa_id[len(passengers)]['id']
                     pax['required'] = master_visa_id[len(passengers)]['required']
                     pax['notes'] = master_visa_id[len(passengers)]['notes']

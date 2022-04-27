@@ -98,6 +98,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="row">
+                                    <input id="insurance_provider" name="insurance_provider" value="bcainsurance" hidden>
                                     <div class="col-lg-6 col-md-6 col-sm-6 train-from" style="padding-left:0px;">
                                         <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
                                         <div class="input-container-search-ticket">
@@ -131,7 +132,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px;" id="insurance_date_search">
+                            <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px;" id="insurance_date_search">
                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Date' %}</span>
                                 <div class="input-container-search-ticket">
                                     <input type="text" class="form-control" value="{{insurance_request.date_start}} - {{insurance_request.date_end}}" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
@@ -139,39 +140,39 @@
                                 <input type="hidden" class="form-control" name="insurance_departure_temp" id="insurance_departure_temp" value="{{insurance_request.date_start}}" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                 <input type="hidden" class="form-control" name="insurance_return_temp" id="insurance_return_temp" value="{{insurance_request.date_end}}" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
-                                <div class="input-container-search-ticket btn-group">
-                                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <div class="row" style="padding:10px;">
-                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                <div style="float:left;">
-                                                    <label>
-                                                        <span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
-                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>
-                                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
+                            <!--<div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px;">-->
+                                <!--<span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>-->
+                                <!--<div class="input-container-search-ticket btn-group">-->
+                                    <!--<button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>-->
+                                    <!--<ul class="dropdown-menu" role="menu">-->
+                                        <!--<div class="row" style="padding:10px;">-->
+                                            <!--<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">-->
+                                                <!--<div style="float:left;">-->
+                                                    <!--<label>-->
+                                                        <!--<span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>-->
+                                                    <!--</label>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">-->
+                                                <!--<div style="float:right; display:flex; padding:5px 0px 5px 5px;">-->
+                                                    <!--<button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>-->
+                                                        <!--<i class="fas fa-minus"></i>-->
+                                                    <!--</button>-->
+                                                    <!--<input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>-->
+                                                    <!--<button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">-->
+                                                        <!--<i class="fas fa-plus"></i>-->
+                                                    <!--</button>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
 
-                                            <div class="col-lg-12" style="text-align:right;">
-                                                <hr/>
-                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                                            </div>
-                                        </div>
-                                    </ul>
-                                </div>
-                            </div>
+                                            <!--<div class="col-lg-12" style="text-align:right;">-->
+                                                <!--<hr/>-->
+                                                <!--<button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</ul>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             {%elif insurance_request.provider == 'zurich'%}
                             <div class="col-lg-12" id="radio_insurance_search" style="padding:0px; text-align:left;margin-bottom:10px;">
                                 <label class="radio-button-custom crlabel">
@@ -188,7 +189,7 @@
                                     <span class="check_box_span_custom"></span>
                                 </label>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-6">
                                 <div class="row">
                                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                                     <div class="col-lg-12" style="padding-left:0px;" hidden>
@@ -217,45 +218,45 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4" style="padding:0px;" id="insurance_date_search">
+                            <div class="col-lg-6" style="padding:0px;" id="insurance_date_search">
                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                                 <div class="input-container-search-ticket">
                                     <input type="text" class="form-control" value="{{insurance_request.date_start}} - {{insurance_request.date_end}}" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                                 </div>
                             </div>
-                            <div class="col-lg-4" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                                <div class="input-container-search-ticket btn-group">
-                                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <div class="row" style="padding:10px;">
-                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                <div style="float:left;">
-                                                    <label>
-                                                        <span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
-                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>
-                                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
+                            <!--<div class="col-lg-4" style="padding:0px;">-->
+                                <!--<span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>-->
+                                <!--<div class="input-container-search-ticket btn-group">-->
+                                    <!--<button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>-->
+                                    <!--<ul class="dropdown-menu" role="menu">-->
+                                        <!--<div class="row" style="padding:10px;">-->
+                                            <!--<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">-->
+                                                <!--<div style="float:left;">-->
+                                                    <!--<label>-->
+                                                        <!--<span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>-->
+                                                    <!--</label>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">-->
+                                                <!--<div style="float:right; display:flex; padding:5px 0px 5px 5px;">-->
+                                                    <!--<button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>-->
+                                                        <!--<i class="fas fa-minus"></i>-->
+                                                    <!--</button>-->
+                                                    <!--<input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>-->
+                                                    <!--<button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">-->
+                                                        <!--<i class="fas fa-plus"></i>-->
+                                                    <!--</button>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
 
-                                            <div class="col-lg-12" style="text-align:right;">
-                                                <hr/>
-                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                                            </div>
-                                        </div>
-                                    </ul>
-                                </div>
-                            </div>
+                                            <!--<div class="col-lg-12" style="text-align:right;">-->
+                                                <!--<hr/>-->
+                                                <!--<button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</ul>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             {%endif%}
                         </div>
                         <br/>
@@ -338,6 +339,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="row">
+                                        <input id="insurance_provider" name="insurance_provider" value="bcainsurance" hidden>
                                         <div class="col-lg-6 col-md-6 col-sm-6 train-from">
                                             <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
                                             <div class="input-container-search-ticket">
@@ -365,7 +367,7 @@
 
                                     </select>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6" id="insurance_date_search">
+                                <div class="col-lg-12 col-md-12 col-sm-12" id="insurance_date_search">
                                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Date' %}</span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control" style="background:white;" value="{{insurance_request.date_start}} - {{insurance_request.date_end}}" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
@@ -373,39 +375,39 @@
                                     <input type="hidden" class="form-control" name="insurance_departure_temp" id="insurance_departure_temp" value="{{insurance_request.date_start}}" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                     <input type="hidden" class="form-control" name="insurance_return_temp" id="insurance_return_temp" value="{{insurance_request.date_end}}" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
-                                    <div class="input-container-search-ticket btn-group">
-                                        <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <div class="row" style="padding:10px;">
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                    <div style="float:left;">
-                                                        <label>
-                                                            <span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                        <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                                            <i class="fas fa-minus"></i>
-                                                        </button>
-                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>
-                                                        <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                                            <i class="fas fa-plus"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
+                                <!--<div class="col-lg-6 col-md-6 col-sm-6">-->
+                                    <!--<span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>-->
+                                    <!--<div class="input-container-search-ticket btn-group">-->
+                                        <!--<button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>-->
+                                        <!--<ul class="dropdown-menu" role="menu">-->
+                                            <!--<div class="row" style="padding:10px;">-->
+                                                <!--<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">-->
+                                                    <!--<div style="float:left;">-->
+                                                        <!--<label>-->
+                                                            <!--<span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>-->
+                                                        <!--</label>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                                <!--<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">-->
+                                                    <!--<div style="float:right; display:flex; padding:5px 0px 5px 5px;">-->
+                                                        <!--<button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>-->
+                                                            <!--<i class="fas fa-minus"></i>-->
+                                                        <!--</button>-->
+                                                        <!--<input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>-->
+                                                        <!--<button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">-->
+                                                            <!--<i class="fas fa-plus"></i>-->
+                                                        <!--</button>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
 
-                                                <div class="col-lg-12" style="text-align:right;">
-                                                    <hr/>
-                                                    <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                                                </div>
-                                            </div>
-                                        </ul>
-                                    </div>
-                                </div>
+                                                <!--<div class="col-lg-12" style="text-align:right;">-->
+                                                    <!--<hr/>-->
+                                                    <!--<button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</ul>-->
+                                    <!--</div>-->
+                                <!--</div>-->
                                 {%elif insurance_request.provider == 'zurich'%}
                                 <div class="col-lg-12" id="radio_insurance_search" style="text-align:left;margin-bottom:10px;">
                                     <label class="radio-button-custom crlabel">
@@ -422,7 +424,7 @@
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <div class="row">
                                         <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                                         <div class="col-lg-12" hidden>
@@ -449,45 +451,45 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4" id="insurance_date_search">
+                                <div class="col-lg-6" id="insurance_date_search">
                                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control" style="background:white;" value="{{insurance_request.date_start}} - {{insurance_request.date_end}}" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
-                                    <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                                    <div class="input-container-search-ticket btn-group">
-                                        <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <div class="row" style="padding:10px;">
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                    <div style="float:left;">
-                                                        <label>
-                                                            <span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                        <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                                            <i class="fas fa-minus"></i>
-                                                        </button>
-                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>
-                                                        <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                                            <i class="fas fa-plus"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
+                                <!--<div class="col-lg-4">-->
+                                    <!--<span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>-->
+                                    <!--<div class="input-container-search-ticket btn-group">-->
+                                        <!--<button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>-->
+                                        <!--<ul class="dropdown-menu" role="menu">-->
+                                            <!--<div class="row" style="padding:10px;">-->
+                                                <!--<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">-->
+                                                    <!--<div style="float:left;">-->
+                                                        <!--<label>-->
+                                                            <!--<span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>-->
+                                                        <!--</label>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                                <!--<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">-->
+                                                    <!--<div style="float:right; display:flex; padding:5px 0px 5px 5px;">-->
+                                                        <!--<button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>-->
+                                                            <!--<i class="fas fa-minus"></i>-->
+                                                        <!--</button>-->
+                                                        <!--<input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>-->
+                                                        <!--<button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">-->
+                                                            <!--<i class="fas fa-plus"></i>-->
+                                                        <!--</button>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
 
-                                                <div class="col-lg-12" style="text-align:right;">
-                                                    <hr/>
-                                                    <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                                                </div>
-                                            </div>
-                                        </ul>
-                                    </div>
-                                </div>
+                                                <!--<div class="col-lg-12" style="text-align:right;">-->
+                                                    <!--<hr/>-->
+                                                    <!--<button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</ul>-->
+                                    <!--</div>-->
+                                <!--</div>-->
                                 {%endif%}
                             </div>
                             <br/>
@@ -570,6 +572,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="row">
+                                    <input id="insurance_provider" name="insurance_provider" value="bcainsurance" hidden>
                                     <div class="col-lg-6 col-md-6 col-sm-6 train-from">
                                         <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
                                         <div class="input-container-search-ticket">
@@ -601,7 +604,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6" id="insurance_date_search">
+                            <div class="col-lg-12" id="insurance_date_search">
                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Date' %}</span>
                                 <div class="input-container-search-ticket">
                                     <input type="text" class="form-control" style="background:white;" value="{{insurance_request.date_start}} - {{insurance_request.date_end}}" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
@@ -609,39 +612,39 @@
                                 <input type="hidden" class="form-control" name="insurance_departure_temp" id="insurance_departure_temp" value="{{insurance_request.date_start}}" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                 <input type="hidden" class="form-control" name="insurance_return_temp" id="insurance_return_temp" value="{{insurance_request.date_end}}" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">
                             </div>
-                            <div class="col-lg-6">
-                                <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
-                                <div class="input-container-search-ticket btn-group">
-                                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <div class="row" style="padding:10px;">
-                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                <div style="float:left;">
-                                                    <label>
-                                                        <span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
-                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>
-                                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
+                            <!--<div class="col-lg-6">-->
+                                <!--<span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>-->
+                                <!--<div class="input-container-search-ticket btn-group">-->
+                                    <!--<button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>-->
+                                    <!--<ul class="dropdown-menu" role="menu">-->
+                                        <!--<div class="row" style="padding:10px;">-->
+                                            <!--<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">-->
+                                                <!--<div style="float:left;">-->
+                                                    <!--<label>-->
+                                                        <!--<span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>-->
+                                                    <!--</label>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">-->
+                                                <!--<div style="float:right; display:flex; padding:5px 0px 5px 5px;">-->
+                                                    <!--<button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>-->
+                                                        <!--<i class="fas fa-minus"></i>-->
+                                                    <!--</button>-->
+                                                    <!--<input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>-->
+                                                    <!--<button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">-->
+                                                        <!--<i class="fas fa-plus"></i>-->
+                                                    <!--</button>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
 
-                                            <div class="col-lg-12" style="text-align:right;">
-                                                <hr/>
-                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                                            </div>
-                                        </div>
-                                    </ul>
-                                </div>
-                            </div>
+                                            <!--<div class="col-lg-12" style="text-align:right;">-->
+                                                <!--<hr/>-->
+                                                <!--<button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</ul>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             {%elif insurance_request.provider == 'zurich'%}
                             <div class="col-lg-12" id="radio_insurance_search" style="text-align:left;margin-bottom:10px;">
                                 <label class="radio-button-custom crlabel">
@@ -658,7 +661,7 @@
                                     <span class="check_box_span_custom"></span>
                                 </label>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-6">
                                 <div class="row">
                                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                                     <div class="col-lg-12" hidden>
@@ -685,45 +688,45 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4" id="insurance_date_search">
+                            <div class="col-lg-6" id="insurance_date_search">
                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                                 <div class="input-container-search-ticket">
                                     <input type="text" class="form-control" style="background:white;" value="{{insurance_request.date_start}} - {{insurance_request.date_end}}" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
-                                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                                <div class="input-container-search-ticket btn-group">
-                                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <div class="row" style="padding:10px;">
-                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                <div style="float:left;">
-                                                    <label>
-                                                        <span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
-                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>
-                                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
+                            <!--<div class="col-lg-4">-->
+                                <!--<span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>-->
+                                <!--<div class="input-container-search-ticket btn-group">-->
+                                    <!--<button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>-->
+                                    <!--<ul class="dropdown-menu" role="menu">-->
+                                        <!--<div class="row" style="padding:10px;">-->
+                                            <!--<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">-->
+                                                <!--<div style="float:left;">-->
+                                                    <!--<label>-->
+                                                        <!--<span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>-->
+                                                    <!--</label>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">-->
+                                                <!--<div style="float:right; display:flex; padding:5px 0px 5px 5px;">-->
+                                                    <!--<button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>-->
+                                                        <!--<i class="fas fa-minus"></i>-->
+                                                    <!--</button>-->
+                                                    <!--<input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>-->
+                                                    <!--<button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">-->
+                                                        <!--<i class="fas fa-plus"></i>-->
+                                                    <!--</button>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
 
-                                            <div class="col-lg-12" style="text-align:right;">
-                                                <hr/>
-                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                                            </div>
-                                        </div>
-                                    </ul>
-                                </div>
-                            </div>
+                                            <!--<div class="col-lg-12" style="text-align:right;">-->
+                                                <!--<hr/>-->
+                                                <!--<button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</ul>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             {%endif%}
                         </div>
                         <br/>
@@ -834,7 +837,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6" id="insurance_date_search">
+                        <div class="col-lg-12 col-md-12 col-sm-12" id="insurance_date_search">
                             <span class="span-search-ticket">{% trans 'Date' %}</span>
                             <div class="input-container-search-ticket">
                                 <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
@@ -844,40 +847,40 @@
                             <input type="hidden" class="form-control" name="insurance_return_temp" id="insurance_return_temp" value="{{insurance_request.date_end}}" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">
                         </div>
 
-                        <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px;">
-                            <span class="span-search-ticket">{% trans 'Passenger' %}</span>
-                            <div class="input-container-search-ticket btn-group">
-                                <i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <div class="row" style="padding:10px;">
-                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                            <div style="float:left;">
-                                                <label>
-                                                    <span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                                    <i class="fas fa-minus"></i>
-                                                </button>
-                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>
-                                                <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                            </div>
-                                        </div>
+                        <!--<div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px;">-->
+                            <!--<span class="span-search-ticket">{% trans 'Passenger' %}</span>-->
+                            <!--<div class="input-container-search-ticket btn-group">-->
+                                <!--<i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>-->
+                                <!--<button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>-->
+                                <!--<ul class="dropdown-menu" role="menu">-->
+                                    <!--<div class="row" style="padding:10px;">-->
+                                        <!--<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">-->
+                                            <!--<div style="float:left;">-->
+                                                <!--<label>-->
+                                                    <!--<span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>-->
+                                                <!--</label>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">-->
+                                            <!--<div style="float:right; display:flex; padding:5px 0px 5px 5px;">-->
+                                                <!--<button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>-->
+                                                    <!--<i class="fas fa-minus"></i>-->
+                                                <!--</button>-->
+                                                <!--<input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>-->
+                                                <!--<button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">-->
+                                                    <!--<i class="fas fa-plus"></i>-->
+                                                <!--</button>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
 
-                                        <div class="col-lg-12" style="text-align:right;">
-                                            <hr/>
-                                            <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                                        </div>
-                                    </div>
-                                </ul>
-                            </div>
-                        </div>
+                                        <!--<div class="col-lg-12" style="text-align:right;">-->
+                                            <!--<hr/>-->
+                                            <!--<button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                        <!--</div>-->
                         {%elif insurance_request.provider == 'zurich'%}
                         <div class="col-lg-12" id="radio_insurance_search" style="text-align:left;margin-bottom:10px;">
                             <label class="radio-button-custom crlabel">
@@ -894,7 +897,7 @@
                                 <span class="check_box_span_custom"></span>
                             </label>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-6">
                             <div class="row">
                                 <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                                 <div class="col-lg-12" hidden>
@@ -922,47 +925,47 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4" id="insurance_date_search">
+                        <div class="col-lg-6" id="insurance_date_search">
                             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                             <div class="input-container-search-ticket">
                                 <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                 <input type="text" class="form-control" style="background:white;" value="{{insurance_request.date_start}} - {{insurance_request.date_end}}" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                            <div class="input-container-search-ticket btn-group">
-                                <i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <div class="row" style="padding:10px;">
-                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                            <div style="float:left;">
-                                                <label>
-                                                    <span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                                    <i class="fas fa-minus"></i>
-                                                </button>
-                                                <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>
-                                                <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                            </div>
-                                        </div>
+                        <!--<div class="col-lg-4">-->
+                            <!--<span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>-->
+                            <!--<div class="input-container-search-ticket btn-group">-->
+                                <!--<i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>-->
+                                <!--<button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>-->
+                                <!--<ul class="dropdown-menu" role="menu">-->
+                                    <!--<div class="row" style="padding:10px;">-->
+                                        <!--<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">-->
+                                            <!--<div style="float:left;">-->
+                                                <!--<label>-->
+                                                    <!--<span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>-->
+                                                <!--</label>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">-->
+                                            <!--<div style="float:right; display:flex; padding:5px 0px 5px 5px;">-->
+                                                <!--<button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>-->
+                                                    <!--<i class="fas fa-minus"></i>-->
+                                                <!--</button>-->
+                                                <!--<input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>-->
+                                                <!--<button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">-->
+                                                    <!--<i class="fas fa-plus"></i>-->
+                                                <!--</button>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
 
-                                        <div class="col-lg-12" style="text-align:right;">
-                                            <hr/>
-                                            <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                                        </div>
-                                    </div>
-                                </ul>
-                            </div>
-                        </div>
+                                        <!--<div class="col-lg-12" style="text-align:right;">-->
+                                            <!--<hr/>-->
+                                            <!--<button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                        <!--</div>-->
                         {%endif%}
                     </div>
                     <br/>
@@ -1043,6 +1046,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="row">
+                                    <input id="insurance_provider" name="insurance_provider" value="bcainsurance" hidden>
                                     <div class="col-lg-6 col-md-6 col-sm-6 train-from">
                                         <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
                                         <div class="input-container-search-ticket">
@@ -1070,7 +1074,7 @@
 
                                 </select>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6" id="insurance_date_search">
+                            <div class="col-lg-12 col-md-12 col-sm-12" id="insurance_date_search">
                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Date' %}</span>
                                 <div class="input-container-search-ticket">
                                     <input type="text" class="form-control" style="background:white;" value="{{insurance_request.date_start}} - {{insurance_request.date_end}}" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
@@ -1078,39 +1082,39 @@
                                 <input type="hidden" class="form-control" name="insurance_departure_temp" id="insurance_departure_temp" value="{{insurance_request.date_start}}" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                 <input type="hidden" class="form-control" name="insurance_return_temp" id="insurance_return_temp" value="{{insurance_request.date_end}}" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
-                                <div class="input-container-search-ticket btn-group">
-                                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <div class="row" style="padding:10px;">
-                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                <div style="float:left;">
-                                                    <label>
-                                                        <span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
-                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>
-                                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
+                            <!--<div class="col-lg-6 col-md-6 col-sm-6">-->
+                                <!--<span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>-->
+                                <!--<div class="input-container-search-ticket btn-group">-->
+                                    <!--<button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>-->
+                                    <!--<ul class="dropdown-menu" role="menu">-->
+                                        <!--<div class="row" style="padding:10px;">-->
+                                            <!--<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">-->
+                                                <!--<div style="float:left;">-->
+                                                    <!--<label>-->
+                                                        <!--<span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>-->
+                                                    <!--</label>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">-->
+                                                <!--<div style="float:right; display:flex; padding:5px 0px 5px 5px;">-->
+                                                    <!--<button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>-->
+                                                        <!--<i class="fas fa-minus"></i>-->
+                                                    <!--</button>-->
+                                                    <!--<input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>-->
+                                                    <!--<button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">-->
+                                                        <!--<i class="fas fa-plus"></i>-->
+                                                    <!--</button>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
 
-                                            <div class="col-lg-12" style="text-align:right;">
-                                                <hr/>
-                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                                            </div>
-                                        </div>
-                                    </ul>
-                                </div>
-                            </div>
+                                            <!--<div class="col-lg-12" style="text-align:right;">-->
+                                                <!--<hr/>-->
+                                                <!--<button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</ul>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             {%elif insurance_request.provider == 'zurich'%}
                             <div class="col-lg-12" id="radio_insurance_search" style="text-align:left;margin-bottom:10px;">
                                 <label class="radio-button-custom crlabel">
@@ -1127,7 +1131,7 @@
                                     <span class="check_box_span_custom"></span>
                                 </label>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-6">
                                 <div class="row">
                                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                                     <div class="col-lg-12" hidden>
@@ -1154,45 +1158,45 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4" id="insurance_date_search">
+                            <div class="col-lg-6" id="insurance_date_search">
                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                                 <div class="input-container-search-ticket">
                                     <input type="text" class="form-control" style="background:white;" value="{{insurance_request.date_start}} - {{insurance_request.date_end}}" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
-                                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                                <div class="input-container-search-ticket btn-group">
-                                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <div class="row" style="padding:10px;">
-                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                <div style="float:left;">
-                                                    <label>
-                                                        <span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
-                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>
-                                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
+                            <!--<div class="col-lg-4">-->
+                                <!--<span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>-->
+                                <!--<div class="input-container-search-ticket btn-group">-->
+                                    <!--<button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>-->
+                                    <!--<ul class="dropdown-menu" role="menu">-->
+                                        <!--<div class="row" style="padding:10px;">-->
+                                            <!--<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">-->
+                                                <!--<div style="float:left;">-->
+                                                    <!--<label>-->
+                                                        <!--<span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>-->
+                                                    <!--</label>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">-->
+                                                <!--<div style="float:right; display:flex; padding:5px 0px 5px 5px;">-->
+                                                    <!--<button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>-->
+                                                        <!--<i class="fas fa-minus"></i>-->
+                                                    <!--</button>-->
+                                                    <!--<input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>-->
+                                                    <!--<button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">-->
+                                                        <!--<i class="fas fa-plus"></i>-->
+                                                    <!--</button>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
 
-                                            <div class="col-lg-12" style="text-align:right;">
-                                                <hr/>
-                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                                            </div>
-                                        </div>
-                                    </ul>
-                                </div>
-                            </div>
+                                            <!--<div class="col-lg-12" style="text-align:right;">-->
+                                                <!--<hr/>-->
+                                                <!--<button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</ul>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             {%endif%}
                         </div>
                         <br/>
@@ -1273,6 +1277,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="row">
+                                    <input id="insurance_provider" name="insurance_provider" value="bcainsurance" hidden>
                                     <div class="col-lg-6 col-md-6">
                                         <span class="span-search-ticket"><i class="fas fa-train"></i> {% trans 'From' %}</span>
                                         <div class="input-container-search-ticket">
@@ -1300,7 +1305,7 @@
 
                                 </select>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6" id="insurance_date_search">
+                            <div class="col-lg-12 col-md-12 col-sm-12" id="insurance_date_search">
                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Date' %}</span>
                                 <div class="input-container-search-ticket">
                                     <input type="text" class="form-control" style="background:white;" value="{{insurance_request.date_start}} - {{insurance_request.date_end}}" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
@@ -1308,39 +1313,39 @@
                                 <input type="hidden" class="form-control" name="insurance_departure_temp" id="insurance_departure_temp" value="{{insurance_request.date_start}}" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                 <input type="hidden" class="form-control" name="insurance_return_temp" id="insurance_return_temp" value="{{insurance_request.date_end}}" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>
-                                <div class="input-container-search-ticket btn-group">
-                                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <div class="row" style="padding:10px;">
-                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                <div style="float:left;">
-                                                    <label>
-                                                        <span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
-                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>
-                                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
+                            <!--<div class="col-lg-6 col-md-6 col-sm-6">-->
+                                <!--<span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Passenger' %}</span>-->
+                                <!--<div class="input-container-search-ticket btn-group">-->
+                                    <!--<button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>-->
+                                    <!--<ul class="dropdown-menu" role="menu">-->
+                                        <!--<div class="row" style="padding:10px;">-->
+                                            <!--<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">-->
+                                                <!--<div style="float:left;">-->
+                                                    <!--<label>-->
+                                                        <!--<span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>-->
+                                                    <!--</label>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">-->
+                                                <!--<div style="float:right; display:flex; padding:5px 0px 5px 5px;">-->
+                                                    <!--<button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>-->
+                                                        <!--<i class="fas fa-minus"></i>-->
+                                                    <!--</button>-->
+                                                    <!--<input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>-->
+                                                    <!--<button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">-->
+                                                        <!--<i class="fas fa-plus"></i>-->
+                                                    <!--</button>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
 
-                                            <div class="col-lg-12" style="text-align:right;">
-                                                <hr/>
-                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                                            </div>
-                                        </div>
-                                    </ul>
-                                </div>
-                            </div>
+                                            <!--<div class="col-lg-12" style="text-align:right;">-->
+                                                <!--<hr/>-->
+                                                <!--<button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</ul>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             {%elif insurance_request.provider == 'zurich'%}
                             <div class="col-lg-12" id="radio_insurance_search" style="text-align:left;margin-bottom:10px;">
                                 <label class="radio-button-custom crlabel">
@@ -1357,7 +1362,7 @@
                                     <span class="check_box_span_custom"></span>
                                 </label>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-6">
                                 <div class="row">
                                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                                     <div class="col-lg-12" hidden>
@@ -1384,45 +1389,45 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4" id="insurance_date_search">
+                            <div class="col-lg-6" id="insurance_date_search">
                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                                 <div class="input-container-search-ticket">
                                     <input type="text" class="form-control" style="background:white;" value="{{insurance_request.date_start}} - {{insurance_request.date_end}}" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
-                                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                                <div class="input-container-search-ticket btn-group">
-                                    <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <div class="row" style="padding:10px;">
-                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                <div style="float:left;">
-                                                    <label>
-                                                        <span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                    <button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
-                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>
-                                                    <button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
+                            <!--<div class="col-lg-4">-->
+                                <!--<span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>-->
+                                <!--<div class="input-container-search-ticket btn-group">-->
+                                    <!--<button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>-->
+                                    <!--<ul class="dropdown-menu" role="menu">-->
+                                        <!--<div class="row" style="padding:10px;">-->
+                                            <!--<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">-->
+                                                <!--<div style="float:left;">-->
+                                                    <!--<label>-->
+                                                        <!--<span style="color:black; font-size:13px;">{% trans 'Customer' %}<br/></span>-->
+                                                    <!--</label>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">-->
+                                                <!--<div style="float:right; display:flex; padding:5px 0px 5px 5px;">-->
+                                                    <!--<button type="button" class="left-minus-adult-insurance btn-custom-circle" id="left-minus-adult-insurance" data-type="minus" data-field="" disabled>-->
+                                                        <!--<i class="fas fa-minus"></i>-->
+                                                    <!--</button>-->
+                                                    <!--<input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="insurance_adult" name="insurance_adult" value="{{insurance_request.adult}}" min="1" readonly>-->
+                                                    <!--<button type="button" class="right-plus-adult-insurance btn-custom-circle" id="right-plus-adult-insurance" data-type="plus" data-field="">-->
+                                                        <!--<i class="fas fa-plus"></i>-->
+                                                    <!--</button>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
 
-                                            <div class="col-lg-12" style="text-align:right;">
-                                                <hr/>
-                                                <button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>
-                                            </div>
-                                        </div>
-                                    </ul>
-                                </div>
-                            </div>
+                                            <!--<div class="col-lg-12" style="text-align:right;">-->
+                                                <!--<hr/>-->
+                                                <!--<button class="primary-btn" type="button" style="line-height:34px;" onclick="next_focus_element('insurance','passenger');">Done</button>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</ul>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             {%endif%}
                         </div>
                         <br/>
@@ -1470,6 +1475,23 @@
                     <span style="font-size:14px; font-weight:600;"><i class="fas fa-stopwatch"></i> {% trans 'Session Time' %}: <span class="count_time" id="session_time"> </span></span>
                     <hr/>
                     <span style="font-size:14px; font-weight:600;"><i class="fas fa-clock"></i> {% trans 'Elapsed Time' %}: <span class="count_time" id="elapse_time"> </span></span>
+                </div>
+
+                <div class="modal fade" id="myModalPolicy" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:{{text_color}};"> Policy</i></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;" id="modal_policy_body">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal fade" id="myModalFilter" role="dialog">
@@ -1562,6 +1584,9 @@
             <input type="hidden" id="data_insurance" name="data_insurance"/>
             <input type="hidden" id="time_limit_input" name="time_limit_input" />
             <input type="hidden" id="signature_data" name="signature_data" />
+            <input type="hidden" id="pax" name="pax" />
+            <input type="hidden" id="adult" name="adult" />
+            <input type="hidden" id="child" name="child" />
         </form>
     </div>
 </section>
@@ -1591,7 +1616,7 @@
         insurance_filter_render();
         $('.js-example-basic-single').select2();
 
-        var quantity_adult_insurance = parseInt($('#insurance_adult').val());
+        /*var quantity_adult_insurance = parseInt($('#insurance_adult').val());
         if(quantity_adult_insurance == 1 ){
           document.getElementById("left-minus-adult-insurance").disabled = true;
           document.getElementById("right-plus-adult-insurance").disabled = false;
@@ -1599,7 +1624,7 @@
         else{
           document.getElementById("left-minus-adult-insurance").disabled = false;
           document.getElementById("right-plus-adult-insurance").disabled = false;
-        }
+        }*/
 
         var request_type_temp = $('#insurance_request_type').val();
         if(request_type_temp == 'Single Trip'){
