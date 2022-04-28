@@ -3374,7 +3374,7 @@ function activity_get_booking(data){
                    if(msg.result.response.state == 'issued'){
                         if (msg.result.response.voucher_url.length > 0)
                         {
-                            text += `<button class="primary-btn hold-seat-booking-train next-loading-ticket ld-ext-right" type="button" onclick="openInNewTab('`+msg.result.response.voucher_url[0]+`');" style="width:100%;">
+                            text += `<button class="primary-btn hold-seat-booking-train next-loading-ticket ld-ext-right" type="button" onclick="print_activity_ticket();" style="width:100%;">
                                         Print Voucher
                                         <div class="ld ld-ring ld-cycle"></div>
                                      </button>`;
@@ -3904,7 +3904,10 @@ function activity_get_voucher(order_number){
         $('.next-loading-ticket').removeClass("running");
         $('.next-loading-ticket').prop('disabled', false);
         if(msg.result.error_code == 0){
-            openInNewTab(msg.result.response[0].name);
+            for(i in msg.result.response)
+            {
+                openInNewTab(msg.result.response[i].name);
+            }
         }else{
             Swal.fire({
               type: 'error',
