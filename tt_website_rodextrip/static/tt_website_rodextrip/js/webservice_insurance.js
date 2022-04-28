@@ -538,9 +538,9 @@ function sort(data){
                             <div class="card card-effect-promotion" style="border:unset;">
                                 <div class="card-body">
                                     <div class="row details">
-                                        <div class="col-lg-12">
+                                        <div class="col-lg-12" style="height:105px;">
                                             <span style="float:left; font-size:16px;font-weight:bold;">`+insurance_data_filter[i][j].carrier_name+` </span><br/>
-                                            <span style="float:left; font-size:12px;">Destination Area: `+insurance_data_filter[i][j].data_name+`  </span>`;
+                                            <span style="float:left; margin-bottom:10px; font-size:12px;">Destination Area: `+insurance_data_filter[i][j].data_name+`  </span>`;
                                             if(insurance_data_filter[i][j].provider == 'bcainsurance'){
                                                 text+=`
                                                 <span style="padding-left:3px; cursor:pointer; color:`+color+`;" id="`+i+sequence+`" >
@@ -549,8 +549,8 @@ function sort(data){
                                             }
                                         text+=`
                                         </div>
-                                        <div class="col-lg-12 mt-2">
-                                            <span style="float:left; margin-right:5px;font-size:16px;font-weight:bold; color:`+color+`;">IDR `+getrupiah(insurance_data_filter[i][j].total_price)+`</span>`;
+                                        <div class="col-lg-12">
+                                            <span style="float:right; margin-right:5px;"><span style="font-size:16px;font-weight:bold; color:`+color+`;">IDR `+getrupiah(insurance_data_filter[i][j].total_price)+`</span>`;
                                         if(insurance_data_filter[i][j].type_trip_name == 'Individual')
                                             text+=`
                                                 <span> / Pax</span>`;
@@ -558,9 +558,11 @@ function sort(data){
                                             text+=`
                                                 <span> / Family</span>`;
                                         text+=`
-                                            <button style="line-height:32px; float:right;" type="button" class="primary-btn" onclick="modal_policy('`+i+`','`+sequence+`')">BUY</button>
+                                            </span>
+                                            <br/>
+                                            <button style="line-height:32px; width:100%;" type="button" class="primary-btn" onclick="modal_policy('`+i+`','`+sequence+`')">BUY</button>
                                         </div>
-                                        <div class="col-lg-12 mt-2">`;
+                                        <div class="col-lg-12 mt-3">`;
                                             if(insurance_data_filter[i][j].provider == 'zurich'){
                                                 text += `
                                                 <span style="float:left; margin-right:15px; font-size:14px;color:blue;font-weight:bold; cursor:pointer;" data-toggle="modal" data-target="#myModalCoverage" onclick="update_coverage_data(`+j+`)"><u style="color:`+color+` !important">Coverage</u>  </span>`;
@@ -726,45 +728,96 @@ function modal_policy(provider,sequence){
     sequence_choose = sequence;
     text = '';
     if(insurance_data[provider][sequence]['type_trip_name'] == 'Individual'){
-        text += `<div class="col-lg-4"></div>
-                 <div class="col-lg-4">
+        text += `
+                 <div class="col-lg-7 col-md-7 col-sm-7">
                     <label>Total Pax</label>
                     <div class="input-container-search-ticket">
                         <input type="number" max="5" min="1" value="1" class="form-control" id="total_pax" name="total_pax" placeholder="Total Pax " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Pax '">
-                    </div>`;
-        text+= `    <button style="line-height:32px; float:center;" type="button" class="primary-btn" onclick="insurance_sell('`+provider_choose+`','`+sequence_choose+`')">BUY</button>`;
-        text+=`
-                 </div>
-                 <div class="col-lg-4"></div>`;
+                    </div>
+                </div>`;
+        text+= `<div class="col-lg-5 col-md-5 col-sm-5">
+                    <button style="width:100%; float:center; margin-top:25px;" type="button" id="insurance_buy_btn" class="primary-btn" onclick="insurance_sell('`+provider_choose+`','`+sequence_choose+`')">BUY</button>
+                </div>`;
     }else{
-        text += `<div class="col-lg-2"></div>
-                 <div class="col-lg-8">
+        text += `
+                 <div class="col-lg-12">
                     <div class="row">
-                         <div class="col-lg-6">
+                         <div class="col-lg-4">
                             <label>Adult</label>
                             <input type="hidden" value="1" class="form-control" name="total_pax" id="total_pax" placeholder="Total Pax " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Pax '">
                             <div class="input-container-search-ticket">
-                                <input type="number" max="2" min="1" class="form-control" id="total_adult" placeholder="Total Adult " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Adult '">
+                                <input type="number" max="2" min="1" value="1" class="form-control" id="total_adult" placeholder="Total Adult " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Adult '">
                             </div>
                          </div>
-                         <div class="col-lg-6">
+                         <div class="col-lg-4">
                             <label>Child</label>
                             <div class="input-container-search-ticket">
-                                <input type="number" max="3" min="0" class="form-control" id="total_child" name="total_child" placeholder="Total Child " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Child '">
+                                <input type="number" max="3" min="0" value="0" class="form-control" id="total_child" name="total_child" placeholder="Total Child " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Child '">
                             </div>
                          </div>
-                         <div class="col-lg-12">
-                            <button style="line-height:32px; float:center;" type="button" class="primary-btn" onclick="insurance_sell('`+provider_choose+`','`+sequence_choose+`')">BUY</button>
+                         <div class="col-lg-4">
+                            <button style="width:100%; float:center; margin-top:25px;" type="button" id="insurance_buy_btn" class="primary-btn" onclick="insurance_sell('`+provider_choose+`','`+sequence_choose+`')">BUY</button>
                          </div>
                     </div>
-                 </div>
-                 <div class="col-lg-2"></div>`;
+                 </div>`;
     }
     document.getElementById('modal_policy_body').innerHTML = text;
+
     $('#myModalPolicy').modal('show');
+
+    if(insurance_data[provider][sequence]['type_trip_name'] == 'Individual'){
+        $("#total_pax").change(function(){
+            var quantity = parseInt($('#total_pax').val());
+
+            if(quantity < 1 || isNaN(quantity)){
+                quantity = 1;
+                $('#total_pax').val(quantity);
+            }
+            else if(quantity > 5){
+                quantity = 5;
+                $('#total_pax').val(quantity);
+            }
+        });
+    }else{
+        $("#total_adult").change(function(){
+            var quantity = parseInt($('#total_adult').val());
+
+            if(quantity < 1 || isNaN(quantity)){
+                quantity = 1;
+                $('#total_adult').val(quantity);
+            }
+            else if(quantity > 2){
+                quantity = 2;
+                $('#total_adult').val(quantity);
+            }
+        });
+        $("#total_child").change(function(){
+            var quantity = parseInt($('#total_child').val());
+
+            if(quantity < 0 || isNaN(quantity)){
+                quantity = 0;
+                $('#total_child').val(quantity);
+            }
+            else if(quantity > 3){
+                quantity = 3;
+                $('#total_child').val(quantity);
+            }
+        });
+    }
+
 }
 
 function insurance_sell(provider, sequence){
+    if(insurance_data[provider][sequence]['type_trip_name'] == 'Individual'){
+        document.getElementById("total_pax").disabled = true;
+        document.getElementById("insurance_buy_btn").disabled = true;
+    }
+    else{
+        document.getElementById("total_adult").disabled = true;
+        document.getElementById("total_child").disabled = true;
+        document.getElementById("insurance_buy_btn").disabled = true;
+    }
+
     $.ajax({
        type: "POST",
        url: "/webservice/insurance",
@@ -784,6 +837,16 @@ function insurance_sell(provider, sequence){
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
            }else{
+                if(insurance_data[provider][sequence]['type_trip_name'] == 'Individual'){
+                    document.getElementById("total_pax").disabled = false;
+                    document.getElementById("insurance_buy_btn").disabled = false;
+                }
+                else{
+                    document.getElementById("total_adult").disabled = false;
+                    document.getElementById("total_child").disabled = false;
+                    document.getElementById("insurance_buy_btn").disabled = false;
+                }
+
                Swal.fire({
                   type: 'error',
                   title: 'Oops!',
@@ -797,6 +860,16 @@ function insurance_sell(provider, sequence){
            }
        }catch(err){
             console.log(err);
+            if(insurance_data[provider][sequence]['type_trip_name'] == 'Individual'){
+                document.getElementById("total_pax").disabled = false;
+                document.getElementById("insurance_buy_btn").disabled = false;
+            }
+            else{
+                document.getElementById("total_adult").disabled = false;
+                document.getElementById("total_child").disabled = false;
+                document.getElementById("insurance_buy_btn").disabled = false;
+            }
+
            Swal.fire({
                type: 'error',
                title: 'Oops...',
@@ -807,14 +880,24 @@ function insurance_sell(provider, sequence){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
           error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error insurance sell');
-          $("#barFlightSearch").hide();
-          $("#waitFlightSearch").hide();
-          $('.loader-rodextrip').fadeOut();
-          try{
-            $("#show_loading_booking_insurance").hide();
-          }catch(err){
-            console.log(err); // error kalau ada element yg tidak ada
-          }
+            if(insurance_data[provider][sequence]['type_trip_name'] == 'Individual'){
+                document.getElementById("total_pax").disabled = false;
+                document.getElementById("insurance_buy_btn").disabled = false;
+            }
+            else{
+                document.getElementById("total_adult").disabled = false;
+                document.getElementById("total_child").disabled = false;
+                document.getElementById("insurance_buy_btn").disabled = false;
+            }
+
+           $("#barFlightSearch").hide();
+           $("#waitFlightSearch").hide();
+           $('.loader-rodextrip').fadeOut();
+           try{
+             $("#show_loading_booking_insurance").hide();
+           }catch(err){
+             console.log(err); // error kalau ada element yg tidak ada
+           }
        },timeout: 60000
     });
 }
@@ -1623,7 +1706,6 @@ function check_passenger(){
    last_departure_date = insurance_request.date_start;
    //adult
    for(i=1;i<=adult;i++){
-
        if(check_name(document.getElementById('adult_title'+i).value,
             document.getElementById('adult_first_name'+i).value,
             document.getElementById('adult_last_name'+i).value,
@@ -3646,7 +3728,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-6 col-md-6 col-sm-6 train-from" style="padding-left:0px;">
                         <span class="span-search-ticket"><i class="fas fa-train"></i> From</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin (City)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
                         </div>
                     </div>
                     <div class="image-change-route-vertical2">
@@ -3659,7 +3741,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5; padding-right:0px;">
                         <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> To</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (City or Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
                         </div>
                     </div>
                 </div>
@@ -3739,7 +3821,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-6 col-md-6 col-sm-6 train-from">
                         <span class="span-search-ticket"><i class="fas fa-train"></i> From</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin (City)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
                         </div>
                     </div>
                     <div class="image-change-route-vertical2">
@@ -3752,7 +3834,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
                         <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> To</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (City or Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
                         </div>
                     </div>
                 </div>
@@ -3826,7 +3908,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-6 col-md-6 col-sm-6 train-from">
                         <span class="span-search-ticket"><i class="fas fa-train"></i> From</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin (City)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
                         </div>
                     </div>
                     <div class="image-change-route-vertical2">
@@ -3839,7 +3921,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
                         <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> To</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (City or Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
                         </div>
                     </div>
                 </div>
@@ -3917,7 +3999,7 @@ function onchange_provider_insurance(){
                         <span class="span-search-ticket"> From</span>
                         <div class="input-container-search-ticket">
                             <i class="fas fa-map-marked-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
-                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin (City)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
@@ -3926,7 +4008,7 @@ function onchange_provider_insurance(){
                         <span class="span-search-ticket"> To</span>
                         <div class="input-container-search-ticket">
                             <i class="fas fa-map-marked-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (City or Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
                         </div>
                     </div>
                 </div>
@@ -4007,7 +4089,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-6 col-md-6 col-sm-6 train-from">
                         <span class="span-search-ticket"><i class="fas fa-train"></i> From</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin (City)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
                         </div>
                     </div>
                     <div class="image-change-route-vertical2">
@@ -4020,7 +4102,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
                         <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> To</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (City or Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
                         </div>
                     </div>
                 </div>
@@ -4098,7 +4180,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-6 col-md-6">
                         <span class="span-search-ticket"><i class="fas fa-train"></i> From</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin (City)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
                         </div>
                     </div>
                     <div class="image-change-route-vertical2">
@@ -4111,7 +4193,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-6 col-md-6" style="z-index:5;">
                         <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> To</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (City or Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();">
                         </div>
                     </div>
                 </div>
@@ -4260,7 +4342,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-12" style="z-index:5; padding-left:0px; padding-right:0px;">
                         <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
                         </div>
                     </div>
                 </div>
@@ -4346,7 +4428,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-12" style="z-index:5;">
                         <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
                         </div>
                     </div>
                 </div>
@@ -4426,7 +4508,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-12" style="z-index:5;">
                         <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
                         </div>
                     </div>
                 </div>
@@ -4507,7 +4589,7 @@ function onchange_provider_insurance(){
                         <span class="span-search-ticket">Destination</span>
                         <div class="input-container-search-ticket">
                             <i class="fas fa-map-marked-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
                         </div>
                     </div>
                 </div>
@@ -4589,7 +4671,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-12" style="z-index:5;">
                         <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
                         </div>
                     </div>
                 </div>
@@ -4669,7 +4751,7 @@ function onchange_provider_insurance(){
                     <div class="col-lg-12" style="z-index:5;">
                         <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
                         <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
+                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
                         </div>
                     </div>
                 </div>

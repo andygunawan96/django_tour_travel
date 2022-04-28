@@ -1027,7 +1027,7 @@ $(document).ready(function(){
         var quantity_infant = parseInt($('#infant_flight_gb').val());
         var count_max_qty_adt = 50-quantity_child;
 
-        if(quantity < 10){
+        if(quantity < 10 || isNaN(quantity)){
             quantity = 10;
             $('#adult_flight_gb').val(quantity);
             document.getElementById("left-minus-adult-flight_gb").disabled = true;
