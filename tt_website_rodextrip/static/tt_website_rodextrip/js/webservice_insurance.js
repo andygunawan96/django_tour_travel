@@ -218,17 +218,30 @@ function insurance_get_config(page=false){
                 }
 
                 if(page == 'passenger'){
-                    var choice_adult = '<option value=""></option>';
-                    var choice_child = '<option value=""></option>';
-                    var choice_all = '<option value=""></option>';
+                    var choice_adult = '<option value="">Select Relation</option>';
+                    var choice_child = '<option value="">Select Relation</option>';
+                    var choice_all = '<option value="">Select Relation</option>';
                     var choice_city = '<option value="">City</option>';
                     var choice_place_of_birth = '<option value="">Place of Birth</option>';
+                    var choice_identity = '<option value="">Choose Identity Type</option>';
+                    var choice_title_adult = '<option value="MR">MR</option><option value="MRS">MRS</option><option value="MS">MS</option>';
+                    var choice_title_child = '<option value="MSTR">MSTR</option><option value="MISS">MISS</option>';
+
+                    if(insurance_pick.provider == 'zurich')
+                        choice_identity+=`<option value="ktp">KTP/NIK</option>`;
+                    choice_identity+=`<option value="passport">Passport</option>`;
                     for(i in insurance_config){
-                        if(i == 'bcainsurance'){
+                        if(i == insurance_pick.provider){
                             for(j in insurance_config[i]['Table Relation']){
                                 if(j.toLowerCase().includes('anak')){
                                     choice_child += '<option value="'+j+'">'+j+'</option>';
                                     choice_all += '<option value="'+j+'">'+j+'</option>';
+                                }else if(insurance_config[i]['Table Relation'][j].toLowerCase().includes('child')){
+                                    choice_child += '<option value="'+j+'">'+insurance_config[i]['Table Relation'][j]+'</option>';
+                                    choice_all += '<option value="'+j+'">'+insurance_config[i]['Table Relation'][j]+'</option>';
+                                }else if(insurance_config[i]['Table Relation'][j].toLowerCase().includes('spouse')){
+                                    choice_adult += '<option value="'+j+'">'+insurance_config[i]['Table Relation'][j]+'</option>';
+                                    choice_all += '<option value="'+j+'">'+insurance_config[i]['Table Relation'][j]+'</option>';
                                 }else if(j.toLowerCase().includes('saudara') == false){
                                     choice_adult += '<option value="'+j+'">'+j+'</option>';
                                     choice_all += '<option value="'+j+'">'+j+'</option>';
@@ -240,33 +253,38 @@ function insurance_get_config(page=false){
                             }
                         }
                     }
+                    console.log(choice_all);
+                    console.log(choice_child);
+                    console.log(choice_adult);
                     for(var i=1;i<=parseInt(insurance_request.adult);i++){
                         var counter = 1;
-                        if(insurance_pick.provider == 'bcainsurance'){
+                        for(var j=1;j<=parseInt(insurance_request.family.adult);j++){
                             if(insurance_pick.type_trip_name == 'Family'){
-                                for(var j=1;j<=parseInt(insurance_request.family.adult);j++){
-                                    document.getElementById('adult_relation'+counter+'_relation'+i).innerHTML += choice_adult;
-                                    $('#adult_relation'+counter+'_relation'+i).niceSelect('update');
-                                    document.getElementById('adult_additional_data_for_insurance'+i+'_'+counter).style.display = 'block';
-                                    counter++;
-                                }
-                                for(var j=1;j<=parseInt(insurance_request.family.child);j++){
-                                    document.getElementById('adult_relation'+counter+'_relation'+i).innerHTML += choice_child;
-                                    $('#adult_relation'+counter+'_relation'+i).niceSelect('update');
-                                    document.getElementById('adult_additional_data_for_insurance'+i+'_'+counter).style.display = 'block';
-                                    counter++;
-                                }
-
-//                                document.getElementById('adult_relation2_relation'+i).innerHTML += choice;
-//                                document.getElementById('adult_relation3_relation'+i).innerHTML += choice;
-//                                document.getElementById('adult_relation4_relation'+i).innerHTML += choice;
-//                                $('#adult_relation1_relation'+i).niceSelect('update');
-//                                $('#adult_relation2_relation'+i).niceSelect('update');
-//                                $('#adult_relation3_relation'+i).niceSelect('update');
-//                                $('#adult_relation4_relation'+i).niceSelect('update');
+                                document.getElementById('adult_relation'+i+'_relation'+counter).innerHTML += choice_adult;
+                                $('#adult_relation'+i+'_relation'+counter).niceSelect('update');
                             }
-                            document.getElementById('adult_relation5_relation'+i).innerHTML += choice_all;
-                            $('#adult_relation5_relation'+i).niceSelect('update');
+                            document.getElementById('adult_relation'+i+'_title'+counter).innerHTML = choice_title_adult;
+                            $('#adult_relation'+i+'_title'+counter).niceSelect('update');
+                            document.getElementById('adult_additional_data_for_insurance'+i+'_'+counter).style.display = 'block';
+                            document.getElementById('adult_relation'+i+'_identity_type'+counter).innerHTML = choice_identity;
+                            $('#adult_relation'+i+'_identity_type'+counter).niceSelect('update');
+                            counter++;
+                        }
+                        for(var j=1;j<=parseInt(insurance_request.family.child);j++){
+                            if(insurance_pick.type_trip_name == 'Family'){
+                                document.getElementById('adult_relation'+i+'_relation'+counter).innerHTML += choice_child;
+                                $('#adult_relation'+i+'_relation'+counter).niceSelect('update');
+                            }
+                            document.getElementById('adult_relation'+i+'_title'+counter).innerHTML = choice_title_child;
+                            $('#adult_relation'+i+'_title'+counter).niceSelect('update');
+                            document.getElementById('adult_additional_data_for_insurance'+i+'_'+counter).style.display = 'block';
+                            document.getElementById('adult_relation'+i+'_identity_type'+counter).innerHTML = choice_identity;
+                            $('#adult_relation'+i+'_identity_type'+counter).niceSelect('update');
+                            counter++;
+                        }
+                        if(insurance_pick.provider == 'bcainsurance'){
+                            document.getElementById('adult_relation_beneficiary_relation'+i).innerHTML += choice_all;
+                            $('#adult_relation_beneficiary_relation'+i).niceSelect('update');
                         }
                     }
                 }
@@ -556,7 +574,7 @@ function sort(data){
                                                 <span> / Pax</span>`;
                                         else
                                             text+=`
-                                                <span> / Family</span>`;
+                                                <span> / Package</span>`;
                                         text+=`
                                             </span>
                                             <br/>
@@ -727,12 +745,18 @@ function modal_policy(provider,sequence){
     provider_choose = provider;
     sequence_choose = sequence;
     text = '';
+    minPax = insurance_data[provider][sequence].minPax;
+    maxPax = insurance_data[provider][sequence].maxPax;
+    minAdult = insurance_data[provider][sequence].minAdult;
+    maxAdult = insurance_data[provider][sequence].maxAdult;
+    minChild = insurance_data[provider][sequence].minChild;
+    maxChild = insurance_data[provider][sequence].maxChild;
     if(insurance_data[provider][sequence]['type_trip_name'] == 'Individual'){
         text += `
                  <div class="col-lg-7 col-md-7 col-sm-7">
                     <label>Total Pax</label>
                     <div class="input-container-search-ticket">
-                        <input type="number" max="5" min="1" value="1" class="form-control" id="total_pax" name="total_pax" placeholder="Total Pax " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Pax '">
+                        <input type="number" max="`+maxPax+`" min="`+minPax+`" value="`+minPax+`" class="form-control" id="total_pax" name="total_pax" placeholder="Total Pax " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Pax '">
                     </div>
                 </div>`;
         text+= `<div class="col-lg-5 col-md-5 col-sm-5">
@@ -742,19 +766,31 @@ function modal_policy(provider,sequence){
         text += `
                  <div class="col-lg-12">
                     <div class="row">
+                        <input type="hidden" value="1" class="form-control" name="total_pax" id="total_pax" placeholder="Total Pax " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Pax '">`;
+        if(maxChild != 0)
+            text+=`
                          <div class="col-lg-4">
                             <label>Adult</label>
-                            <input type="hidden" value="1" class="form-control" name="total_pax" id="total_pax" placeholder="Total Pax " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Pax '">
                             <div class="input-container-search-ticket">
-                                <input type="number" max="2" min="1" value="1" class="form-control" id="total_adult" placeholder="Total Adult " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Adult '">
+                                <input type="number" max="`+maxAdult+`" min="`+minAdult+`" value="1" class="form-control" id="total_adult" placeholder="Total Adult " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Adult '">
                             </div>
                          </div>
                          <div class="col-lg-4">
                             <label>Child</label>
                             <div class="input-container-search-ticket">
-                                <input type="number" max="3" min="0" value="0" class="form-control" id="total_child" name="total_child" placeholder="Total Child " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Child '">
+                                <input type="number" max="`+maxChild+`" min="`+minChild+`" value="0" class="form-control" id="total_child" name="total_child" placeholder="Total Child " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Child '">
                             </div>
-                         </div>
+                         </div>`;
+        else
+            text+=`
+                         <div class="col-lg-8">
+                            <label>Adult</label>
+                            <div class="input-container-search-ticket">
+                                <input type="number" max="`+maxAdult+`" min="`+minAdult+`" value="1" class="form-control" id="total_adult" placeholder="Total Adult " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Adult '">
+                                <input type="hidden" max="`+maxChild+`" min="`+minChild+`" value="0" class="form-control" id="total_child" name="total_child" placeholder="Total Child " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Child '">
+                            </div>
+                         </div>`;
+        text+=`
                          <div class="col-lg-4">
                             <button style="width:100%; float:center; margin-top:25px;" type="button" id="insurance_buy_btn" class="primary-btn" onclick="insurance_sell('`+provider_choose+`','`+sequence_choose+`')">BUY</button>
                          </div>
@@ -769,38 +805,48 @@ function modal_policy(provider,sequence){
         $("#total_pax").change(function(){
             var quantity = parseInt($('#total_pax').val());
 
-            if(quantity < 1 || isNaN(quantity)){
+            if(quantity < minPax || isNaN(quantity)){
                 quantity = 1;
                 $('#total_pax').val(quantity);
             }
-            else if(quantity > 5){
+            else if(quantity > maxPax){
                 quantity = 5;
                 $('#total_pax').val(quantity);
             }
         });
     }else{
         $("#total_adult").change(function(){
-            var quantity = parseInt($('#total_adult').val());
+            var quantity_adult = parseInt($('#total_adult').val());
+            var quantity_child = parseInt($('#total_child').val());
+            if(quantity_adult < minAdult || isNaN(quantity_adult)){
+                quantity_adult = minAdult;
+                $('#total_adult').val(quantity_adult);
+            }
+            else if(quantity_adult > maxAdult){
+                quantity_adult = maxAdult;
+                $('#total_adult').val(quantity_adult);
+            }
 
-            if(quantity < 1 || isNaN(quantity)){
-                quantity = 1;
-                $('#total_adult').val(quantity);
+            if(quantity_adult + quantity_child > maxPax){
+                $('#total_child').val(maxPax-quantity_adult);
             }
-            else if(quantity > 2){
-                quantity = 2;
-                $('#total_adult').val(quantity);
-            }
+
         });
         $("#total_child").change(function(){
-            var quantity = parseInt($('#total_child').val());
+            var quantity_adult = parseInt($('#total_adult').val());
+            var quantity_child = parseInt($('#total_child').val());
 
-            if(quantity < 0 || isNaN(quantity)){
-                quantity = 0;
-                $('#total_child').val(quantity);
+            if(quantity_child < minChild || isNaN(quantity_child)){
+                quantity_child = minChild;
+                $('#total_child').val(quantity_child);
             }
-            else if(quantity > 3){
-                quantity = 3;
-                $('#total_child').val(quantity);
+            else if(quantity_child > maxChild){
+                quantity_child = maxChild;
+                $('#total_child').val(quantity_child);
+            }
+
+            if(quantity_adult + quantity_child > maxPax){
+                $('#total_adult').val(maxPax-quantity_child);
             }
         });
     }
@@ -1312,10 +1358,8 @@ function get_insurance_data_passenger_page(){
         success: function(msg) {
             insurance_pick = msg.insurance_pick;
             insurance_request = msg.insurance_request;
-            if(insurance_pick.type_trip_name == 'Family'){
-                for(i=0;i<adult;i++){
-                    document.getElementById('adult_additional_data_for_insurance'+parseInt(parseInt(i)+1)).style.display = 'block';
-                }
+            for(i=0;i<adult;i++){
+                document.getElementById('adult_additional_data_for_insurance'+parseInt(parseInt(i)+1)).style.display = 'block';
             }
             insurance_get_config('passenger');
             //harga kanan
@@ -1706,135 +1750,132 @@ function check_passenger(){
    last_departure_date = insurance_request.date_start;
    //adult
    for(i=1;i<=adult;i++){
-       if(check_name(document.getElementById('adult_title'+i).value,
+        if(check_name(document.getElementById('adult_title'+i).value,
             document.getElementById('adult_first_name'+i).value,
             document.getElementById('adult_last_name'+i).value,
             length_name) == false){
-           error_log+= 'Total of adult '+i+' name maximum '+length_name+' characters!</br>\n';
-           document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
-           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
-           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('adult_first_name'+i).value == '' || check_word(document.getElementById('adult_first_name'+i).value) == false){
-           if(document.getElementById('adult_first_name'+i).value == '')
-               error_log+= 'Please input first name of adult passenger '+i+'!</br>\n';
-           else if(check_word(document.getElementById('adult_first_name'+i).value) == false)
-               error_log+= 'Please use alpha characters first name of adult passenger '+i+'!</br>\n';
-           document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
-       }
-       //check lastname
-       if(check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value) != ''){
-           error_log += 'Please '+check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value)+' adult passenger '+i+'!</br>\n';
-           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
-       }
-       if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
-           error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
-           document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
-       }
-       if(document.getElementById('adult_nationality'+i).value == ''){
-           error_log+= 'Please fill nationality for passenger adult '+i+'!</br>\n';
-           //document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
-           $("#adult_nationality"+i).each(function() {
-             $(this).siblings(".select2-container").css('border', '1px solid red');
-           });
-       }else{
-           //document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
-           $("#adult_nationality"+i).each(function() {
-             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-           });
-       }if(document.getElementById('adult_place_of_birth'+i).value == ''){
-           error_log+= 'Please fill place of birth for passenger adult '+i+'!</br>\n';
-           //document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
-           document.getElementById('adult_place_of_birth'+i).style['border-color'] = 'red';
-       }else{
-           //document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
-           document.getElementById('adult_place_of_birth'+i).style['border-color'] = '#EFEFEF';
-       }
+            error_log+= 'Total of adult '+i+' name maximum '+length_name+' characters!</br>\n';
+            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
+            document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+        }else{
+            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
+            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+        }if(document.getElementById('adult_first_name'+i).value == '' || check_word(document.getElementById('adult_first_name'+i).value) == false){
+            if(document.getElementById('adult_first_name'+i).value == '')
+                error_log+= 'Please input first name of adult passenger '+i+'!</br>\n';
+            else if(check_word(document.getElementById('adult_first_name'+i).value) == false)
+                error_log+= 'Please use alpha characters first name of adult passenger '+i+'!</br>\n';
+            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
+        }else{
+            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
+        }
+        //check lastname
+        if(check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value) != ''){
+            error_log += 'Please '+check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value)+' adult passenger '+i+'!</br>\n';
+            document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+        }else{
+            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+        }if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
+            error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
+            document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
+        }else{
+            document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
+        }if(document.getElementById('adult_nationality'+i).value == ''){
+            error_log+= 'Please fill nationality for passenger adult '+i+'!</br>\n';
+            //document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
+            $("#adult_nationality"+i).each(function() {
+                $(this).siblings(".select2-container").css('border', '1px solid red');
+            });
+        }else{
+            //document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
+            $("#adult_nationality"+i).each(function() {
+                $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+            });
+        }if(document.getElementById('adult_place_of_birth'+i).value == ''){
+            error_log+= 'Please fill place of birth for passenger adult '+i+'!</br>\n';
+            //document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
+            document.getElementById('adult_place_of_birth'+i).style['border-color'] = 'red';
+        }else{
+            //document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
+            document.getElementById('adult_place_of_birth'+i).style['border-color'] = '#EFEFEF';
+        }
         //KTP
         if(document.getElementById('adult_identity_type'+i).style.display == 'block'){
-           if(document.getElementById('adult_id_type'+i).value == 'ktp'){
+            if(document.getElementById('adult_id_type'+i).value == 'ktp'){
                 if(check_ktp(document.getElementById('adult_passport_number'+i).value) == false){
-                   error_log+= 'Please fill id number, nik only contain 16 digits for passenger adult '+i+'!</br>\n';
-                   document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
+                    error_log+= 'Please fill id number, nik only contain 16 digits for passenger adult '+i+'!</br>\n';
+                    document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                 }else{
-                   document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+                    document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
                 }if(document.getElementById('adult_country_of_issued'+i).value == '' || document.getElementById('adult_country_of_issued'+i).value == 'Country of Issued'){
-                   error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                   $("#adult_country_of_issued"+i+"_id").each(function() {
-                     $(this).siblings(".select2-container").css('border', '1px solid red');
-                   });
+                    error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
+                    $("#adult_country_of_issued"+i+"_id").each(function() {
+                        $(this).siblings(".select2-container").css('border', '1px solid red');
+                    });
                 }else{
-                   $("#adult_country_of_issued"+i+"_id").each(function() {
-                     $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-                   });
+                    $("#adult_country_of_issued"+i+"_id").each(function() {
+                        $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                    });
                 }
-           }else if(document.getElementById('adult_id_type'+i).value == 'passport'){
+            }else if(document.getElementById('adult_id_type'+i).value == 'passport'){
                 if(check_passport(document.getElementById('adult_passport_number'+i).value) == false){
-                   error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger adult '+i+'!</br>\n';
-                   document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
+                    error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger adult '+i+'!</br>\n';
+                    document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
                 }else{
-                   document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+                    document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
                 }if(document.getElementById('adult_passport_expired_date'+i).value == ''){
-                   error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
-                   document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
+                    error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
+                    document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
                 }else{
-                   duration = moment.duration(moment(document.getElementById('adult_passport_expired_date'+i).value).diff(last_departure_date));
-                   //CHECK EXPIRED
-                   if(duration._milliseconds < 0 ){
+                    duration = moment.duration(moment(document.getElementById('adult_passport_expired_date'+i).value).diff(last_departure_date));
+                    //CHECK EXPIRED
+                    if(duration._milliseconds < 0 ){
                         error_log+= 'Please update passport expired date for passenger adult '+i+'!</br>\n';
                         document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
-                   }else
+                    }else
                         document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
                 }if(document.getElementById('adult_country_of_issued'+i).value == '' || document.getElementById('adult_country_of_issued'+i).value == 'Country of Issued'){
-                   error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                   $("#adult_country_of_issued"+i+"_id").each(function() {
-                     $(this).siblings(".select2-container").css('border', '1px solid red');
-                   });
+                    error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
+                    $("#adult_country_of_issued"+i+"_id").each(function() {
+                        $(this).siblings(".select2-container").css('border', '1px solid red');
+                    });
                 }else{
-                   $("#adult_country_of_issued"+i+"_id").each(function() {
-                     $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-                   });
+                    $("#adult_country_of_issued"+i+"_id").each(function() {
+                        $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                    });
                 }
-           }
+            }
         }
         //PASSPORT
         if(insurance_pick.sector_type == 'International' && insurance_pick.provider == 'bcainsurance'){
-           if(document.getElementById('adult_passport_id_type'+i).value == 'passport'){
-               if(document.getElementById('adult_passport_id_type'+i).value == 'passport' && check_passport(document.getElementById('adult_passport_passport_number'+i).value) == false){
-                   error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger adult '+i+'!</br>\n';
-                   document.getElementById('adult_passport_passport_number'+i).style['border-color'] = 'red';
-               }else{
-                   document.getElementById('adult_passport_passport_number'+i).style['border-color'] = '#EFEFEF';
-               }
-               if(document.getElementById('adult_passport_passport_expired_date'+i).value == ''){
-                   error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
-                   document.getElementById('adult_passport_passport_expired_date'+i).style['border-color'] = 'red';
-               }else{
-                   duration = moment.duration(moment(document.getElementById('adult_passport_passport_expired_date'+i).value).diff(last_departure_date));
-                   //CHECK EXPIRED
-                   if(duration._milliseconds < 0 ){
+            if(document.getElementById('adult_passport_id_type'+i).value == 'passport'){
+                if(document.getElementById('adult_passport_id_type'+i).value == 'passport' && check_passport(document.getElementById('adult_passport_passport_number'+i).value) == false){
+                    error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger adult '+i+'!</br>\n';
+                    document.getElementById('adult_passport_passport_number'+i).style['border-color'] = 'red';
+                }else{
+                    document.getElementById('adult_passport_passport_number'+i).style['border-color'] = '#EFEFEF';
+                }if(document.getElementById('adult_passport_passport_expired_date'+i).value == ''){
+                    error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
+                    document.getElementById('adult_passport_passport_expired_date'+i).style['border-color'] = 'red';
+                }else{
+                    duration = moment.duration(moment(document.getElementById('adult_passport_passport_expired_date'+i).value).diff(last_departure_date));
+                    //CHECK EXPIRED
+                    if(duration._milliseconds < 0 ){
                         error_log+= 'Please update passport expired date for passenger adult '+i+'!</br>\n';
                         document.getElementById('adult_passport_passport_expired_date'+i).style['border-color'] = 'red';
-                   }else
+                    }else
                         document.getElementById('adult_passport_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-               }if(document.getElementById('adult_passport_passport_country_of_issued'+i).value == '' || document.getElementById('adult_passport_passport_country_of_issued'+i).value == 'Country of Issued'){
-                   error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-                   $("#adult_passport_passport_country_of_issued"+i+"_id").each(function() {
-                     $(this).siblings(".select2-container").css('border', '1px solid red');
-                   });
+                }if(document.getElementById('adult_passport_passport_country_of_issued'+i).value == '' || document.getElementById('adult_passport_passport_country_of_issued'+i).value == 'Country of Issued'){
+                    error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
+                    $("#adult_passport_passport_country_of_issued"+i+"_id").each(function() {
+                        $(this).siblings(".select2-container").css('border', '1px solid red');
+                    });
                }else{
-                   $("#adult_passport_passport_country_of_issued"+i+"_id").each(function() {
-                     $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-                   });
+                    $("#adult_passport_passport_country_of_issued"+i+"_id").each(function() {
+                        $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                    });
                }
-           }
+            }
         }
 
         if(document.getElementById('adult_address'+i).value == ''){
@@ -1859,140 +1900,219 @@ function check_passenger(){
         }
 
         //PAKET FAMILY
-        if(insurance_pick.type_trip_name == 'Family'){
-            var counter = 1;
-            for(var j=1;j<=parseInt(insurance_request.family.adult);j++){
-                if(check_name(document.getElementById('adult_relation'+counter+'_title'+i).value,
-                    document.getElementById('adult_relation'+counter+'_first_name'+i).value,
-                    document.getElementById('adult_relation'+counter+'_last_name'+i).value,
-                    length_name) == false){
-                   error_log+= 'Total of relation '+counter+' name maximum '+length_name+' characters!</br>\n';
-                   document.getElementById('adult_relation'+counter+'_first_name'+i).style['border-color'] = 'red';
-                   document.getElementById('adult_relation'+counter+'_last_name'+i).style['border-color'] = 'red';
-                }else{
-                   document.getElementById('adult_relation'+counter+'_first_name'+i).style['border-color'] = '#EFEFEF';
-                   document.getElementById('adult_relation'+counter+'_last_name'+i).style['border-color'] = '#EFEFEF';
-                }if(document.getElementById('adult_relation'+counter+'_first_name'+i).value == '' || check_word(document.getElementById('adult_relation'+counter+'_first_name'+i).value) == false){
-                   if(document.getElementById('adult_relation'+counter+'_first_name'+i).value == '')
-                       error_log+= 'Please input first name of relation '+counter+'!</br>\n';
-                   else if(check_word(document.getElementById('adult_relation'+counter+'_first_name'+i).value) == false)
-                       error_log+= 'Please use alpha characters first name of relation '+counter+'!</br>\n';
-                   document.getElementById('adult_relation'+counter+'_first_name'+i).style['border-color'] = 'red';
-                }else{
-                   document.getElementById('adult_relation'+counter+'_first_name'+i).style['border-color'] = '#EFEFEF';
-                }
+        var counter = 1;
+        for(var j=1;j<=parseInt(insurance_request.family.adult);j++){
+            if(check_name(document.getElementById('adult_relation'+i+'_title'+counter).value,
+                document.getElementById('adult_relation'+i+'_first_name'+counter).value,
+                document.getElementById('adult_relation'+i+'_last_name'+counter).value,
+                length_name) == false){
+               error_log+= 'Total of relation '+counter+' name maximum '+length_name+' characters!</br>\n';
+               document.getElementById('adult_relation'+i+'_first_name'+counter).style['border-color'] = 'red';
+               document.getElementById('adult_relation'+i+'_last_name'+counter).style['border-color'] = 'red';
+            }else{
+               document.getElementById('adult_relation'+i+'_first_name'+counter).style['border-color'] = '#EFEFEF';
+               document.getElementById('adult_relation'+i+'_last_name'+counter).style['border-color'] = '#EFEFEF';
+            }if(document.getElementById('adult_relation'+i+'_first_name'+counter).value == '' || check_word(document.getElementById('adult_relation'+i+'_first_name'+counter).value) == false){
+               if(document.getElementById('adult_relation'+i+'_first_name'+counter).value == '')
+                   error_log+= 'Please input first name of relation '+counter+'!</br>\n';
+               else if(check_word(document.getElementById('adult_relation'+i+'_first_name'+counter).value) == false)
+                   error_log+= 'Please use alpha characters first name of relation '+counter+'!</br>\n';
+               document.getElementById('adult_relation'+i+'_first_name'+counter).style['border-color'] = 'red';
+            }else{
+               document.getElementById('adult_relation'+i+'_first_name'+counter).style['border-color'] = '#EFEFEF';
+            }
 
-                if(document.getElementById('adult_relation'+counter+'_relation'+i).value == '' && document.getElementById('adult_relation'+counter+'_first_name'+i).value != ''){
+            if(insurance_pick.type_trip_name == 'Family'){
+                if(document.getElementById('adult_relation'+i+'_relation'+counter).value == ''){
                     error_log+= 'Please fill relation '+counter+'!</br>\n';
-                    $("#adult_relation"+counter+"_relation"+i).each(function() {
+                    $("#adult_relation"+i+"_relation"+counter).each(function() {
                         $(this).parent().find('.nice-select').css('border', '1px solid red');
                     });
                 }else{
-                    $("#adult_relation"+counter+"_relation"+i).each(function() {
+                    $("#adult_relation"+i+"_relation"+counter).each(function() {
                         $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
                     });
                 }
-
-                //PASSPORT
-                if(insurance_pick.sector_type == 'International'){
-                   if(document.getElementById('adult_relation'+counter+'_identity_type'+i).value == 'passport'){
-                       if(document.getElementById('adult_relation'+counter+'_identity_type'+i).value == 'passport' && check_passport(document.getElementById('adult_relation'+counter+'_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, passport only contain more than 6 digits for relation '+counter+'!</br>\n';
-                           document.getElementById('adult_relation'+counter+'_passport_number'+i).style['border-color'] = 'red';
-                       }else{
-                           document.getElementById('adult_relation'+counter+'_passport_number'+i).style['border-color'] = '#EFEFEF';
-                       }
-                       if(document.getElementById('adult_relation'+counter+'_passport_expired_date'+i).value == ''){
-                           error_log+= 'Please fill passport expired date for relation '+counter+'!</br>\n';
-                           document.getElementById('adult_relation'+counter+'_expired_date'+i).style['border-color'] = 'red';
-                       }else{
-                           duration = moment.duration(moment(document.getElementById('adult_relation'+counter+'_passport_expired_date'+i).value).diff(last_departure_date));
-                           //CHECK EXPIRED
-                           if(duration._milliseconds < 0 ){
-                                error_log+= 'Please update passport expired date for relation '+counter+'!</br>\n';
-                                document.getElementById('adult_relation'+counter+'_passport_expired_date'+i).style['border-color'] = 'red';
-                           }else
-                                document.getElementById('adult_relation'+counter+'_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('adult_relation'+counter+'_passport_country_of_issued'+i).value == '' || document.getElementById('adult_relation'+counter+'_passport_country_of_issued'+i).value == 'Country of Issued'){
-                           error_log+= 'Please fill country of issued for relation '+counter+'!</br>\n';
-                           $("#adult_relation"+counter+"_passport_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid red');
-                           });
-                       }else{
-                           $("#adult_relation"+counter+"_passport_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-                           });
-                       }
-                   }
-                }
-                counter++;
             }
-            for(var j=1;j<=parseInt(insurance_request.family.child);j++){
-                if(check_name(document.getElementById('adult_relation'+counter+'_title'+i).value,
-                    document.getElementById('adult_relation'+counter+'_first_name'+i).value,
-                    document.getElementById('adult_relation'+counter+'_last_name'+i).value,
-                    length_name) == false){
-                   error_log+= 'Total of relation '+counter+' name maximum '+length_name+' characters!</br>\n';
-                   document.getElementById('adult_relation'+counter+'_first_name'+i).style['border-color'] = 'red';
-                   document.getElementById('adult_relation'+counter+'_last_name'+i).style['border-color'] = 'red';
-                }else{
-                   document.getElementById('adult_relation'+counter+'_first_name'+i).style['border-color'] = '#EFEFEF';
-                   document.getElementById('adult_relation'+counter+'_last_name'+i).style['border-color'] = '#EFEFEF';
-                }if(document.getElementById('adult_relation'+counter+'_first_name'+i).value == '' || check_word(document.getElementById('adult_relation'+counter+'_first_name'+i).value) == false){
-                   if(document.getElementById('adult_relation'+counter+'_first_name'+i).value == '')
-                       error_log+= 'Please input first name of relation '+counter+'!</br>\n';
-                   else if(check_word(document.getElementById('adult_relation'+counter+'_first_name'+i).value) == false)
-                       error_log+= 'Please use alpha characters first name of relation '+counter+'!</br>\n';
-                   document.getElementById('adult_relation'+counter+'_first_name'+i).style['border-color'] = 'red';
-                }else{
-                   document.getElementById('adult_relation'+counter+'_first_name'+i).style['border-color'] = '#EFEFEF';
-                }
 
-                if(document.getElementById('adult_relation'+counter+'_relation'+i).value == '' && document.getElementById('adult_relation'+counter+'_first_name'+i).value != ''){
+            if(check_date(document.getElementById('adult_relation'+i+'_birth_date'+counter).value)==false){
+                error_log+= 'Birth date wrong for relation '+counter+'!</br>\n';
+                document.getElementById('adult_relation'+i+'_birth_date'+counter).style['border-color'] = 'red';
+            }else{
+                document.getElementById('adult_relation'+i+'_birth_date'+counter).style['border-color'] = '#EFEFEF';
+            }
+
+            if(document.getElementById('adult_relation'+i+'_place_of_birth'+counter).value == ''){
+                error_log+= 'Please fill place of birth for relation '+counter+'!</br>\n';
+                document.getElementById('adult_relation'+i+'_place_of_birth'+counter).style['border-color'] = 'red';
+            }else{
+                document.getElementById('adult_relation'+i+'_place_of_birth'+counter).style['border-color'] = '#EFEFEF';
+            }
+
+            //check identity
+            if(document.getElementById('adult_relation'+i+'_identity_type'+counter).value == ''){
+                error_log+= 'Please choose identity for relation '+counter+'!</br>\n';
+                $("#adult_relation"+i+'_identity_type'+counter).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                });
+            }else if(document.getElementById('adult_relation'+i+'_identity_type'+counter).value == 'passport'){
+               if(document.getElementById('adult_relation'+i+'_identity_type'+counter).value == 'passport' && check_passport(document.getElementById('adult_relation'+i+'_passport_number'+counter).value) == false){
+                   error_log+= 'Please fill id number, passport only contain more than 6 digits for relation '+counter+'!</br>\n';
+                   document.getElementById('adult_relation'+i+'_passport_number'+counter).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('adult_relation'+i+'_passport_number'+counter).style['border-color'] = '#EFEFEF';
+               }
+               if(document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).value == ''){
+                   error_log+= 'Please fill passport expired date for relation '+counter+'!</br>\n';
+                   document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).style['border-color'] = 'red';
+               }else{
+                   duration = moment.duration(moment(document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).value).diff(last_departure_date));
+                   //CHECK EXPIRED
+                   if(duration._milliseconds < 0 ){
+                        error_log+= 'Please update passport expired date for relation '+counter+'!</br>\n';
+                        document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).style['border-color'] = 'red';
+                   }else
+                        document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).style['border-color'] = '#EFEFEF';
+               }if(document.getElementById('adult_relation'+i+'_passport_country_of_issued'+counter).value == '' || document.getElementById('adult_relation'+i+'_passport_country_of_issued'+counter).value == 'Country of Issued'){
+                   error_log+= 'Please fill country of issued for relation '+counter+'!</br>\n';
+                   $("#adult_relation"+i+"_passport_country_of_issued"+counter+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid red');
+                   });
+               }else{
+                   $("#adult_relation"+i+"_passport_country_of_issued"+counter+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                   });
+               }
+            }else if(document.getElementById('adult_relation'+i+'_identity_type'+counter).value == 'ktp'){
+                document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).style['border-color'] = '#EFEFEF';
+                $("#adult_relation"+i+'_identity_type'+counter).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '0px solid red');
+                });
+                document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).style['border-color'] = '#cdcdcd';
+                if(check_ktp(document.getElementById('adult_relation'+i+'_passport_number'+counter).value) == false){
+                   error_log+= 'Please fill id number, nik only contain 16 digits for relation '+counter+'!</br>\n';
+                   document.getElementById('adult_relation'+i+'_passport_number'+counter).style['border-color'] = 'red';
+                }else{
+                   document.getElementById('adult_relation'+i+'_passport_number'+counter).style['border-color'] = '#EFEFEF';
+                }if(document.getElementById('adult_relation'+i+'_passport_country_of_issued'+counter).value == '' || document.getElementById('adult_relation'+i+'_passport_country_of_issued'+counter).value == 'Country of Issued'){
+                   error_log+= 'Please fill country of issued for relation '+counter+'!</br>\n';
+                   $('#adult_relation'+i+'_passport_country_of_issued'+counter+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid red');
+                   });
+                }else{
+                   $('#adult_relation'+i+'_passport_country_of_issued'+counter+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                   });
+                }
+            }
+            counter++;
+        }
+        for(var j=1;j<=parseInt(insurance_request.family.child);j++){
+            if(check_name(document.getElementById('adult_relation'+i+'_title'+counter).value,
+                document.getElementById('adult_relation'+i+'_first_name'+counter).value,
+                document.getElementById('adult_relation'+i+'_last_name'+counter).value,
+                length_name) == false){
+               error_log+= 'Total of relation '+counter+' name maximum '+length_name+' characters!</br>\n';
+               document.getElementById('adult_relation'+i+'_first_name'+counter).style['border-color'] = 'red';
+               document.getElementById('adult_relation'+i+'_last_name'+counter).style['border-color'] = 'red';
+            }else{
+               document.getElementById('adult_relation'+i+'_first_name'+counter).style['border-color'] = '#EFEFEF';
+               document.getElementById('adult_relation'+i+'_last_name'+counter).style['border-color'] = '#EFEFEF';
+            }if(document.getElementById('adult_relation'+i+'_first_name'+counter).value == '' || check_word(document.getElementById('adult_relation'+i+'_first_name'+counter).value) == false){
+               if(document.getElementById('adult_relation'+i+'_first_name'+counter).value == '')
+                   error_log+= 'Please input first name of relation '+counter+'!</br>\n';
+               else if(check_word(document.getElementById('adult_relation'+i+'_first_name'+counter).value) == false)
+                   error_log+= 'Please use alpha characters first name of relation '+counter+'!</br>\n';
+               document.getElementById('adult_relation'+i+'_first_name'+counter).style['border-color'] = 'red';
+            }else{
+               document.getElementById('adult_relation'+i+'_first_name'+counter).style['border-color'] = '#EFEFEF';
+            }
+
+            if(insurance_pick.type_trip_name == 'Family'){
+                if(document.getElementById('adult_relation'+i+'_relation'+counter).value == ''){
                     error_log+= 'Please fill relation '+counter+'!</br>\n';
-                    $("#adult_relation"+counter+"_relation"+i).each(function() {
+                    $("#adult_relation"+i+"_relation"+counter).each(function() {
                         $(this).parent().find('.nice-select').css('border', '1px solid red');
                     });
                 }else{
-                    $("#adult_relation"+counter+"_relation"+i).each(function() {
+                    $("#adult_relation"+i+"_relation"+counter).each(function() {
                         $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
                     });
                 }
-
-                //PASSPORT
-                if(insurance_pick.sector_type == 'International'){
-                   if(document.getElementById('adult_relation'+counter+'_identity_type'+i).value == 'passport'){
-                       if(document.getElementById('adult_relation'+counter+'_identity_type'+i).value == 'passport' && check_passport(document.getElementById('adult_relation'+counter+'_passport_number'+i).value) == false){
-                           error_log+= 'Please fill id number, passport only contain more than 6 digits for relation '+counter+'!</br>\n';
-                           document.getElementById('adult_relation'+counter+'_passport_number'+i).style['border-color'] = 'red';
-                       }else{
-                           document.getElementById('adult_relation'+counter+'_passport_number'+i).style['border-color'] = '#EFEFEF';
-                       }
-                       if(document.getElementById('adult_relation'+counter+'_passport_expired_date'+i).value == ''){
-                           error_log+= 'Please fill passport expired date for relation '+counter+'!</br>\n';
-                           document.getElementById('adult_relation'+counter+'_expired_date'+i).style['border-color'] = 'red';
-                       }else{
-                           duration = moment.duration(moment(document.getElementById('adult_relation'+counter+'_passport_expired_date'+i).value).diff(last_departure_date));
-                           //CHECK EXPIRED
-                           if(duration._milliseconds < 0 ){
-                                error_log+= 'Please update passport expired date for relation '+counter+'!</br>\n';
-                                document.getElementById('adult_relation'+counter+'_passport_expired_date'+i).style['border-color'] = 'red';
-                           }else
-                                document.getElementById('adult_relation'+counter+'_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('adult_relation'+counter+'_passport_country_of_issued'+i).value == '' || document.getElementById('adult_relation'+counter+'_passport_country_of_issued'+i).value == 'Country of Issued'){
-                           error_log+= 'Please fill country of issued for relation '+counter+'!</br>\n';
-                           $("#adult_relation"+counter+"_passport_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid red');
-                           });
-                       }else{
-                           $("#adult_relation"+counter+"_passport_country_of_issued"+i+"_id").each(function() {
-                             $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
-                           });
-                       }
-                   }
-                }
-                counter++;
             }
+
+            if(check_date(document.getElementById('adult_relation'+i+'_birth_date'+counter).value)==false){
+                error_log+= 'Birth date wrong for relation '+counter+'!</br>\n';
+                document.getElementById('adult_relation'+i+'_birth_date'+counter).style['border-color'] = 'red';
+            }else{
+                document.getElementById('adult_relation'+i+'_birth_date'+counter).style['border-color'] = '#EFEFEF';
+            }
+
+            if(document.getElementById('adult_relation'+i+'_place_of_birth'+counter).value == ''){
+                error_log+= 'Please fill place of birth for relation '+counter+'!</br>\n';
+                document.getElementById('adult_relation'+i+'_place_of_birth'+counter).style['border-color'] = 'red';
+            }else{
+                document.getElementById('adult_relation'+i+'_place_of_birth'+counter).style['border-color'] = '#EFEFEF';
+            }
+
+            //check identity
+            if(document.getElementById('adult_relation'+i+'_identity_type'+counter).value == ''){
+                error_log+= 'Please choose identity for relation '+counter+'!</br>\n';
+                $("#adult_relation"+i+'_identity_type'+counter).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                });
+            }else if(document.getElementById('adult_relation'+i+'_identity_type'+counter).value == 'passport'){
+               if(document.getElementById('adult_relation'+i+'_identity_type'+counter).value == 'passport' && check_passport(document.getElementById('adult_relation'+i+'_passport_number'+counter).value) == false){
+                   error_log+= 'Please fill id number, passport only contain more than 6 digits for relation '+counter+'!</br>\n';
+                   document.getElementById('adult_relation'+i+'_passport_number'+counter).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('adult_relation'+i+'_passport_number'+counter).style['border-color'] = '#EFEFEF';
+               }
+               if(document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).value == ''){
+                   error_log+= 'Please fill passport expired date for relation '+counter+'!</br>\n';
+                   document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).style['border-color'] = 'red';
+               }else{
+                   duration = moment.duration(moment(document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).value).diff(last_departure_date));
+                   //CHECK EXPIRED
+                   if(duration._milliseconds < 0 ){
+                        error_log+= 'Please update passport expired date for relation '+counter+'!</br>\n';
+                        document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).style['border-color'] = 'red';
+                   }else
+                        document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).style['border-color'] = '#EFEFEF';
+               }if(document.getElementById('adult_relation'+i+'_passport_country_of_issued'+counter).value == '' || document.getElementById('adult_relation'+i+'_passport_country_of_issued'+counter).value == 'Country of Issued'){
+                   error_log+= 'Please fill country of issued for relation '+counter+'!</br>\n';
+                   $("#adult_relation"+i+"_passport_country_of_issued"+counter+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid red');
+                   });
+               }else{
+                   $("#adult_relation"+i+"_passport_country_of_issued"+counter+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                   });
+               }
+            }else if(document.getElementById('adult_relation'+i+'_identity_type'+counter).value == 'ktp'){
+                document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).style['border-color'] = '#EFEFEF';
+                $("#adult_relation"+i+'_identity_type'+counter).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '0px solid red');
+                });
+                document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).style['border-color'] = '#cdcdcd';
+                if(check_ktp(document.getElementById('adult_relation'+i+'_passport_number'+counter).value) == false){
+                   error_log+= 'Please fill id number, nik only contain 16 digits for relation '+counter+'!</br>\n';
+                   document.getElementById('adult_relation'+i+'_passport_number'+counter).style['border-color'] = 'red';
+                }else{
+                   document.getElementById('adult_relation'+i+'_passport_number'+counter).style['border-color'] = '#EFEFEF';
+                }if(document.getElementById('adult_relation'+i+'_passport_country_of_issued'+counter).value == '' || document.getElementById('adult_relation'+i+'_passport_country_of_issued'+counter).value == 'Country of Issued'){
+                   error_log+= 'Please fill country of issued for relation '+counter+'!</br>\n';
+                   $('#adult_relation'+i+'_passport_country_of_issued'+counter+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid red');
+                   });
+                }else{
+                   $('#adult_relation'+i+'_passport_country_of_issued'+counter+"_id").each(function() {
+                     $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
+                   });
+                }
+            }
+            counter++;
+        }
 
 
             //ANAK 1 CAN BE NOT FILLED
@@ -2196,55 +2316,53 @@ function check_passenger(){
 //
 //            }
 
-        }
-
         if(insurance_pick.provider == 'bcainsurance'){
             //AHLI WARIS WAJIB ISI
-            if(check_name(document.getElementById('adult_relation5_title'+i).value,
-                document.getElementById('adult_relation5_first_name'+i).value,
-                document.getElementById('adult_relation5_last_name'+i).value,
+            if(check_name(document.getElementById('adult_relation_beneficiary_title'+i).value,
+                document.getElementById('adult_relation_beneficiary_first_name'+i).value,
+                document.getElementById('adult_relation_beneficiary_last_name'+i).value,
                 length_name) == false){
                error_log+= 'Total of beneficiary for customer '+i+' name maximum '+length_name+' characters!</br>\n';
-               document.getElementById('adult_relation5_first_name'+i).style['border-color'] = 'red';
-               document.getElementById('adult_relation5_last_name'+i).style['border-color'] = 'red';
+               document.getElementById('adult_relation_beneficiary_first_name'+i).style['border-color'] = 'red';
+               document.getElementById('adult_relation_beneficiary_last_name'+i).style['border-color'] = 'red';
             }else{
-               document.getElementById('adult_relation5_first_name'+i).style['border-color'] = '#EFEFEF';
-               document.getElementById('adult_relation5_last_name'+i).style['border-color'] = '#EFEFEF';
-            }if(document.getElementById('adult_relation5_first_name'+i).value == '' || check_word(document.getElementById('adult_relation5_first_name'+i).value) == false){
-               if(document.getElementById('adult_relation5_first_name'+i).value == '')
+               document.getElementById('adult_relation_beneficiary_first_name'+i).style['border-color'] = '#EFEFEF';
+               document.getElementById('adult_relation_beneficiary_last_name'+i).style['border-color'] = '#EFEFEF';
+            }if(document.getElementById('adult_relation_beneficiary_first_name'+i).value == '' || check_word(document.getElementById('adult_relation_beneficiary_first_name'+i).value) == false){
+               if(document.getElementById('adult_relation_beneficiary_first_name'+i).value == '')
                    error_log+= 'Please input first name of beneficiary for customer '+i+'!</br>\n';
-               else if(check_word(document.getElementById('adult_relation5_first_name'+i).value) == false)
+               else if(check_word(document.getElementById('adult_relation_beneficiary_first_name'+i).value) == false)
                    error_log+= 'Please use alpha characters first name of beneficiary for customer '+i+'!</br>\n';
-               document.getElementById('adult_relation5_first_name'+i).style['border-color'] = 'red';
+               document.getElementById('adult_relation_beneficiary_first_name'+i).style['border-color'] = 'red';
             }else{
-               document.getElementById('adult_relation5_first_name'+i).style['border-color'] = '#EFEFEF';
+               document.getElementById('adult_relation_beneficiary_first_name'+i).style['border-color'] = '#EFEFEF';
             }
 
-            if(document.getElementById('adult_relation5_relation'+i).value == ''){
+            if(document.getElementById('adult_relation_beneficiary_relation'+i).value == ''){
                 error_log+= 'Please fill beneficiary relation for passenger adult '+i+'!</br>\n';
-                $("#adult_relation5_relation"+i).each(function() {
+                $("#adult_relation_beneficiary_relation"+i).each(function() {
                     $(this).parent().find('.nice-select').css('border', '1px solid red');
                 });
             }else{
-                $("#adult_relation5_relation"+i).each(function() {
+                $("#adult_relation_beneficiary_relation"+i).each(function() {
                     $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
                 });
             }
 
             //CHECK KTP
-            if(document.getElementById('adult_relation5_identity_type'+i).value == 'ktp'){
-                if(check_ktp(document.getElementById('adult_relation5_passport_number'+i).value) == false){
+            if(document.getElementById('adult_relation_beneficiary_identity_type'+i).value == 'ktp'){
+                if(check_ktp(document.getElementById('adult_relation_beneficiary_passport_number'+i).value) == false){
                    error_log+= 'Please fill id number, nik only contain 16 digits for beneficiary customer '+i+'!</br>\n';
-                   document.getElementById('adult_relation5_passport_number'+i).style['border-color'] = 'red';
+                   document.getElementById('adult_relation_beneficiary_passport_number'+i).style['border-color'] = 'red';
                 }else{
-                   document.getElementById('adult_relation5_passport_number'+i).style['border-color'] = '#EFEFEF';
-                }if(document.getElementById('adult_relation5_passport_country_of_issued'+i+'_id').value == '' || document.getElementById('adult_relation5_passport_country_of_issued'+i+'_id').value == 'Country of Issued'){
+                   document.getElementById('adult_relation_beneficiary_passport_number'+i).style['border-color'] = '#EFEFEF';
+                }if(document.getElementById('adult_relation_beneficiary_passport_country_of_issued'+i+'_id').value == '' || document.getElementById('adult_relation_beneficiary_passport_country_of_issued'+i+'_id').value == 'Country of Issued'){
                    error_log+= 'Please fill country of issued for beneficiary customer '+i+'!</br>\n';
-                   $("#adult_relation5_passport_country_of_issued"+i+"_id").each(function() {
+                   $("#adult_relation_beneficiary_passport_country_of_issued"+i+"_id").each(function() {
                      $(this).siblings(".select2-container").css('border', '1px solid red');
                    });
                 }else{
-                   $("#adult_relation5_passport_country_of_issued"+i+"_id").each(function() {
+                   $("#adult_relation_beneficiary_passport_country_of_issued"+i+"_id").each(function() {
                      $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
                    });
                 }
