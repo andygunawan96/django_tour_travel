@@ -6224,9 +6224,6 @@ function airline_get_booking(data, sync=false){
                             if(provider_list_data.hasOwnProperty(msg.result.response.provider_bookings[i].provider) && provider_list_data[msg.result.response.provider_bookings[i].provider].description != '')
                                 text +=`
                                             <h5>`+provider_list_data[msg.result.response.provider_bookings[i].provider].description+`</h5>`;
-                            else
-                                text +=`
-                                            <h5>`+msg.result.response.provider_bookings[i].provider+`</h5>`;
                             text+=`
                                         </div>
                                     </div>`;
