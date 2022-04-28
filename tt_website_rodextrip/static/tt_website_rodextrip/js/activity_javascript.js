@@ -269,6 +269,13 @@ function share_data(){
     $text_share = window.encodeURIComponent($test);
 }
 
+function print_activity_ticket(){
+    for(i in act_get_booking.result.response.voucher_url)
+    {
+        openInNewTab(act_get_booking.result.response.voucher_url[i]);
+    }
+}
+
 function activity_table_detail(){
    var grand_total = 0;
    var grand_commission = 0;
