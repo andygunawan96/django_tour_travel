@@ -3333,9 +3333,23 @@ function get_price_itinerary_request(){
                                 </div>`;
                     if(commission_price == 0){
                         text_notes = '';
-                        for(x in journey){
-                            if(journey[x].provider.includes('lionair'))
-                                text_notes = '* Lion Air YPM is shown after booking';
+                        for(x in get_price_airline_response.result.response.price_itinerary_provider){
+                            for(y in get_price_airline_response.result.response.price_itinerary_provider[x].journeys){
+                                for(z in get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments){
+                                    if(get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('JT') ||
+                                       get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('IW') ||
+                                       get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('ID') ||
+                                       get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('IU') ||
+                                       get_price_airline_response.result.response.price_itinerary_provider[x].journeys[y].segments[z].carrier_code.includes('OD'))
+                                       text_notes = '* Lion Air YPM is shown after booking';
+                                    if(text_notes != '')
+                                        break;
+                                }
+                                if(text_notes != '')
+                                    break;
+                            }
+                            if(text_notes != '')
+                                break;
                         }
                         if(text_notes == '')
                             text_notes = '* Please mark up the price first'
