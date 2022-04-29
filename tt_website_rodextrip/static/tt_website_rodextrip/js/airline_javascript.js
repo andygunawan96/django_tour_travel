@@ -4908,15 +4908,29 @@ function airline_detail(type){
                         </div>`;
             text_notes = '';
             for(x in airline_pick){
-                if(airline_pick[x].provider.includes('lionair'))
-                    text_notes = '* Lion Air YPM is shown after booking';
+                for(y in airline_pick[x].journeys){
+                    for(z in airline_pick[x].journeys[y].segments){
+                        if(airline_pick[x].journeys[y].segments[z].carrier_code.includes('JT') ||
+                           airline_pick[x].journeys[y].segments[z].carrier_code.includes('IW') ||
+                           airline_pick[x].journeys[y].segments[z].carrier_code.includes('ID') ||
+                           airline_pick[x].journeys[y].segments[z].carrier_code.includes('IU') ||
+                           airline_pick[x].journeys[y].segments[z].carrier_code.includes('OD'))
+                           text_notes = '* Lion Air YPM is shown after booking';
+                        if(text_notes != '')
+                            break;
+                    }
+                    if(text_notes != '')
+                        break;
+                }
+                if(text_notes != '')
+                    break;
             }
             if(text_notes == '')
                 text_notes = '* Please mark up the price first'
             if(commission_price == 0)
                 text +=`
                         <div style="text-align:left;">
-                            <span style="font-size:13px;color:red">`+text_notes+`</span>
+                            <span style="font-size:13px;font-weight: bold;color:red">`+text_notes+`</span>
                         </div>`;
             text+=`</div>
                 </div>
