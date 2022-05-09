@@ -2363,7 +2363,7 @@ function prepare_booking(value){
         document.getElementById("passengers").value = JSON.stringify({'booker':booker});
         document.getElementById("signature").value = signature;
         document.getElementById("provider").value = 'activity';
-        document.getElementById("type").value = 'activity_review';
+        document.getElementById("type").value = 'activity';
         document.getElementById("voucher_code").value = voucher_code;
         document.getElementById("discount").value = JSON.stringify(discount_voucher);
         document.getElementById("session_time_input").value = time_limit;
@@ -3712,9 +3712,13 @@ function activity_get_booking(data){
                            <span style="font-weight:bold">IDR `+getrupiah(Math.ceil(total_price))+`</span>
                       </div>
                  </div>`;
-                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
-                    price_text+=`
-                 <div style="text-align:right; padding-bottom:10px; margin-top:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                 if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+                    price_text+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                 else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                    price_text+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                    document.getElementById('repricing_type').innerHTML = '<option value="booker">Booker</option>';
+                    $('#repricing_type').niceSelect('update');
+                    reset_repricing();
                  }
                  if(msg.result.response.state == 'booked')
                  price_text+=`<div class="row">
@@ -3816,6 +3820,8 @@ function activity_get_booking(data){
                      </div>`;
                 $test+= '\nGrand Total : IDR '+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';
                 document.getElementById('activity_detail_table').innerHTML = price_text;
+                document.getElementById('activity_detail').style.display = 'block';
+
                 add_repricing();
 
                 if(msg.result.response.state == 'booked')
