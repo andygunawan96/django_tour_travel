@@ -13172,14 +13172,6 @@ function airline_get_reschedule_itinerary_v2(){
            hide_modal_waiting_transaction();
            document.getElementById('show_loading_booking_airline').hidden = false;
            if(msg.result.error_code == 0){
-               for(i in journey){
-                   try{
-                       document.getElementById('changejourney_pick'+parseInt(1+parseInt(i))).disabled = false; //sudah sell tidak bisa
-                       document.getElementById('changejourney_pick'+parseInt(1+parseInt(i))).onclick = '';
-                   }catch(err){
-                       console.log(err); // error kalau ada element yg tidak ada
-                   }
-               }
                airline_response = [];
                airline_route = [];
                check_seat = 0;
@@ -13207,7 +13199,7 @@ function airline_get_reschedule_itinerary_v2(){
                for(i=0;i<airline_response.length;i++){
 
                }
-               get_price_itinerary_reissue_request(airline_response, msg.result.response.total_admin_fee, msg.result.response.sell_reschedule_provider);
+               get_price_itinerary_reissue_request(airline_response, msg.result.response.total_admin_fee, msg.result.response.reschedule_itinerary_provider);
                document.getElementById('airline_detail').innerHTML += `
                 <div class="col-lg-12" style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;" id="sell_reschedule_div">
                     <input type="button" class="primary-btn" style="width:100%;" onclick="sell_reschedule_v2();" value="Proceed">
