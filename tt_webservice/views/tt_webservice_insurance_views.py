@@ -145,7 +145,7 @@ def get_availability(request):
         international = False
         if request.session['insurance_request']['destination'].split(' - ')[1] != 'Domestic':
             international = True
-        destination_area = request.session['insurance_request']['destination'].split(' - ')[1]
+        destination_area = request.session['insurance_request']['destination_area']
         data = {
             "date_start": datetime.strptime(request.session['insurance_request']['date_start'],'%d %b %Y').strftime('%Y-%m-%d'),
             "date_end": datetime.strptime(request.session['insurance_request']['date_end'],'%d %b %Y').strftime('%Y-%m-%d'),

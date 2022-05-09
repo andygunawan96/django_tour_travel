@@ -394,7 +394,7 @@
                                             </div>
                                         </div>
 
-                                        {% if response.provider == 'zurich' %}
+                                        {% if response.provider == 'zurich' and response.additional_benefit|length > 0 %}
                                         <div class="col-lg-12">
                                             <hr/>
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_additional{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});">
@@ -1459,7 +1459,7 @@
                                             </div>
                                         </div>
 
-                                        {% if response.provider == 'zurich' %}
+                                        {% if response.provider == 'zurich' and response.additional_benefit|length > 0 %}
                                         <div class="col-lg-12">
                                             <hr/>
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_additional{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});">
@@ -2527,7 +2527,7 @@
                                             </div>
                                         </div>
 
-                                        {% if response.provider == 'zurich' %}
+                                        {% if response.provider == 'zurich' and response.additional_benefit|length > 0 %}
                                         <div class="col-lg-12">
                                             <hr/>
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_additional{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});">
@@ -3593,7 +3593,7 @@
                                         </div>
                                     </div>
 
-                                    {% if response.provider == 'zurich' %}
+                                    {% if response.provider == 'zurich' and response.additional_benefit|length > 0 %}
                                     <div class="col-lg-12">
                                         <hr/>
                                         <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_additional{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});">
@@ -4655,7 +4655,7 @@
                                             </div>
                                         </div>
 
-                                        {% if response.provider == 'zurich' %}
+                                        {% if response.provider == 'zurich' and response.additional_benefit|length > 0 %}
                                         <div class="col-lg-12">
                                             <hr/>
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_additional{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});">
@@ -5720,7 +5720,7 @@
                                             </div>
                                         </div>
 
-                                        {% if response.provider == 'zurich' %}
+                                        {% if response.provider == 'zurich' and response.additional_benefit|length > 0 %}
                                         <div class="col-lg-12">
                                             <hr/>
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_additional{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});">

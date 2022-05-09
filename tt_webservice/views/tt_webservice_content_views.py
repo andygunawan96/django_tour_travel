@@ -194,7 +194,7 @@ def update_image_passenger(request):
             for img in request.FILES.getlist(i):
                 imgData.append({
                     'filename': img.name,
-                    'file_reference': img.name,
+                    'file_reference': request.POST.get(i.replace('files','description'), img.name), #ganti file reference
                     'file': base64.b64encode(img.file.read()).decode('ascii'),
                     'type': i
                 })

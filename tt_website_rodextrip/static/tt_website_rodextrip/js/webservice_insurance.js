@@ -116,7 +116,6 @@ function insurance_get_config(page=false){
                     }
                 }
                 var choice = '';
-                zurich_insurance_destination = [];
                 origin_insurance_destination = [];
                 destination_insurance_destination = [];
                 for(i in insurance_config){
@@ -128,12 +127,7 @@ function insurance_get_config(page=false){
                                 destination_insurance_destination.push(insurance_config[i].City[j][k] + ' - ' + j);
                             }
                         break;
-                    }else if(i == 'zurich'){
-                        for(j in insurance_config[i].listCountry){
-                            zurich_insurance_destination.push(insurance_config[i].listCountry[j].Text + ' - ' + insurance_config[i].listCountry[j].Value)
-                        }
                     }
-
                 }
                 if(page == 'home'){
                     for(i in insurance_config){
@@ -187,6 +181,21 @@ function insurance_get_config(page=false){
                     }
                     document.getElementById('insurance_trip').innerHTML += choice;
                     $('#insurance_trip').niceSelect('update');
+                    choice = '';
+                    if(insurance_request.provider == 'zurich'){
+                        for(i in insurance_config['zurich']['region']){
+                            if(insurance_request.destination_area == i){
+                                choice +=`<option value="`+i+`" selected>`+i.substr(0,1).toUpperCase()+i.substr(1,i.length).toLowerCase()+`</option>`;
+                            }else{
+                                choice +=`<option value="`+i+`">`+i.substr(0,1).toUpperCase()+i.substr(1,i.length).toLowerCase()+`</option>`;
+                            }
+                        }
+                        document.getElementById('insurance_destination_area').innerHTML = choice;
+                        console.log(choice);
+                        $('#insurance_destination_area').niceSelect('update');
+                    }
+
+
                     setTimeout(function(){
                         try{
                             new jBox('Tooltip', {
@@ -564,6 +573,16 @@ function sort(data){
                                                 <span style="padding-left:3px; cursor:pointer; color:`+color+`;" id="`+i+sequence+`" >
                                                     <i class="fas fa-info-circle" style="font-size:16px;"></i>
                                                 </span>`;
+                                            }else{
+                                                //edit cenius
+                                                cover_covid = false;
+                                                for(k in insurance_data_filter[i][j].additional_benefit){
+                                                    if(insurance_data_filter[i][j].additional_benefit[k].text[0].toLowerCase().includes('covid-19') || insurance_data_filter[i][j].additional_benefit[k].text[1].toLowerCase().includes('covid-19'))
+                                                        cover_covid = true;
+                                                }
+                                                if(cover_covid){
+                                                    text += `<br/><span style="padding-left:3px;">Cover Covid-19  </span>`;
+                                                }
                                             }
                                         text+=`
                                         </div>
@@ -4448,7 +4467,24 @@ function onchange_provider_insurance(){
                     <span class="check_box_span_custom"></span>
                 </label>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-4">
+                <div class="row">
+                    <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
+                    <div class="input-container-search-ticket btn-group">
+                        <div class="form-select" id="default-select">
+                            <select id="insurance_destination_area" name="insurance_destination_area" class="nice-select-default" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">`;
+            for(i in insurance_config['zurich']['region']){
+
+                text +=`
+                                <option value="`+i+`">`+i.substr(0,1).toUpperCase()+i.substr(1,i.length).toLowerCase()+`</option>`;
+            }
+            text += `
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
                 <div class="row">
                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                     <div class="col-lg-12" style="padding-left:0px;" hidden>
@@ -4477,7 +4513,7 @@ function onchange_provider_insurance(){
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6" style="padding:0px;" id="insurance_date_search">
+            <div class="col-lg-4" style="padding:0px;" id="insurance_date_search">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" id="insurance_date" name="insurance_date" placeholder="Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
@@ -4534,7 +4570,23 @@ function onchange_provider_insurance(){
                     <span class="check_box_span_custom"></span>
                 </label>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-4">
+                <div class="row">
+                    <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
+                    <div class="input-container-search-ticket btn-group">
+                        <div class="form-select" id="default-select">
+                            <select id="insurance_destination_area" name="insurance_destination_area" class="nice-select-default" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">`;
+            for(i in insurance_config['zurich']['region']){
+                text +=`
+                                <option value="`+i+`">`+i.substr(0,1).toUpperCase()+i.substr(1,i.length).toLowerCase()+`</option>`;
+            }
+            text += `
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
                 <div class="row">
                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                     <div class="col-lg-12" style="padding-left:0px;" hidden>
@@ -4557,7 +4609,7 @@ function onchange_provider_insurance(){
                     <option value="LAINNYA" selected>LAINNYA</option>
                 </select>
             </div>
-            <div class="col-lg-6" id="insurance_date_search">
+            <div class="col-lg-4" id="insurance_date_search">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" style="background:white;" id="insurance_date" name="insurance_date" placeholder="Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
@@ -4614,7 +4666,23 @@ function onchange_provider_insurance(){
                     <span class="check_box_span_custom"></span>
                 </label>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-4">
+                <div class="row">
+                    <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
+                    <div class="input-container-search-ticket btn-group">
+                        <div class="form-select" id="default-select">
+                            <select id="insurance_destination_area" name="insurance_destination_area" class="nice-select-default" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">`;
+            for(i in insurance_config['zurich']['region']){
+                text +=`
+                                <option value="`+i+`">`+i.substr(0,1).toUpperCase()+i.substr(1,i.length).toLowerCase()+`</option>`;
+            }
+            text += `
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
                 <div class="row">
                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                     <div class="col-lg-12" style="padding-left:0px;" hidden>
@@ -4637,7 +4705,7 @@ function onchange_provider_insurance(){
                     <option value="LAINNYA" selected>LAINNYA</option>
                 </select>
             </div>
-            <div class="col-lg-6" id="insurance_date_search">
+            <div class="col-lg-4" id="insurance_date_search">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" style="background:white;" id="insurance_date" name="insurance_date" placeholder="Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
@@ -4694,7 +4762,23 @@ function onchange_provider_insurance(){
                     <span class="check_box_span_custom"></span>
                 </label>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-4">
+                <div class="row">
+                    <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
+                    <div class="input-container-search-ticket btn-group">
+                        <div class="form-select" id="default-select">
+                            <select id="insurance_destination_area" name="insurance_destination_area" class="nice-select-default" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">`;
+            for(i in insurance_config['zurich']['region']){
+                text +=`
+                                <option value="`+i+`">`+i.substr(0,1).toUpperCase()+i.substr(1,i.length).toLowerCase()+`</option>`;
+            }
+            text += `
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
                 <div class="row">
                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                     <div class="col-lg-12" style="padding-left:0px;" hidden>
@@ -4718,7 +4802,7 @@ function onchange_provider_insurance(){
                     <option value="LAINNYA" selected>LAINNYA</option>
                 </select>
             </div>
-            <div class="col-lg-6" id="insurance_date_search">
+            <div class="col-lg-4" id="insurance_date_search">
                 <span class="span-search-ticket">Date</span>
                 <div class="input-container-search-ticket">
                     <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
@@ -4777,7 +4861,23 @@ function onchange_provider_insurance(){
                     <span class="check_box_span_custom"></span>
                 </label>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-4">
+                <div class="row">
+                    <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
+                    <div class="input-container-search-ticket btn-group">
+                        <div class="form-select" id="default-select">
+                            <select id="insurance_destination_area" name="insurance_destination_area" class="nice-select-default" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">`;
+            for(i in insurance_config['zurich']['region']){
+                text +=`
+                                <option value="`+i+`">`+i.substr(0,1).toUpperCase()+i.substr(1,i.length).toLowerCase()+`</option>`;
+            }
+            text += `
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
                 <div class="row">
                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                     <div class="col-lg-12" style="padding-left:0px;" hidden>
@@ -4800,7 +4900,7 @@ function onchange_provider_insurance(){
                     <option value="LAINNYA" selected>LAINNYA</option>
                 </select>
             </div>
-            <div class="col-lg-6" id="insurance_date_search">
+            <div class="col-lg-4" id="insurance_date_search">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" style="background:white;" id="insurance_date" name="insurance_date" placeholder="Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
@@ -4857,7 +4957,23 @@ function onchange_provider_insurance(){
                     <span class="check_box_span_custom"></span>
                 </label>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-4">
+                <div class="row">
+                    <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
+                    <div class="input-container-search-ticket btn-group">
+                        <div class="form-select" id="default-select">
+                            <select id="insurance_destination_area" name="insurance_destination_area" class="nice-select-default" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">`;
+            for(i in insurance_config['zurich']['region']){
+                text +=`
+                                <option value="`+i+`">`+i.substr(0,1).toUpperCase()+i.substr(1,i.length).toLowerCase()+`</option>`;
+            }
+            text += `
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
                 <div class="row">
                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                     <div class="col-lg-12" style="padding-left:0px;" hidden>
@@ -4880,7 +4996,7 @@ function onchange_provider_insurance(){
                     <option value="LAINNYA" selected>LAINNYA</option>
                 </select>
             </div>
-            <div class="col-lg-6" id="insurance_date_search">
+            <div class="col-lg-4" id="insurance_date_search">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" style="background:white;" id="insurance_date" name="insurance_date" placeholder="Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
@@ -4922,15 +5038,21 @@ function onchange_provider_insurance(){
 //            </div>`;
         }
         document.getElementById('insurance_div').innerHTML = text;
+        //do something for autocomplete
+        //edit cenius
+        auto_complete_zurich();
+
         //load js ulang
-        document.getElementById("insurance_origin").value = "Surabaya - Domestic"
+        document.getElementById("insurance_origin").value = "Surabaya - Domestic";
+        $('#insurance_destination_area').niceSelect();
+
         var insurance_destination = new autoComplete({
             selector: '#insurance_destination',
             minChars: 1,
             cache: false,
             delay:0,
             source: function(term, suggest){
-                if(term.split(' - ').length == 4)
+                if(term.split(' - ').length == 2)
                     term = ''
                 if(term.length > 1)
                     suggest(insurance_search_autocomplete(term,'destination'));
@@ -5018,6 +5140,21 @@ function onchange_provider_insurance(){
     });
 
     insurance_get_config('home');
+}
+
+function auto_complete_zurich(){
+    console.log(document.getElementById('insurance_destination_area').value);
+    if(document.getElementById('insurance_destination_area').value != ''){
+        country_list = insurance_config['zurich']['region'][document.getElementById('insurance_destination_area').value]['Countries'].split(',');
+        zurich_insurance_destination = [];
+        for(i in country_list){
+            zurich_insurance_destination.push(insurance_config['zurich'].listCountryCode[country_list[i]].Text + ' - ' + insurance_config['zurich'].listCountryCode[country_list[i]].Value)
+        }
+        //default kosong kalau destination tidak dalam destination_area
+        if(document.getElementById('insurance_destination').value != '')
+            if(zurich_insurance_destination.includes(document.getElementById('insurance_destination').value) == false)
+                document.getElementById('insurance_destination').value = '';
+    }
 }
 
 function edit_additional_benefit(){
