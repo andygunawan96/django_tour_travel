@@ -7164,8 +7164,10 @@ function update_passenger_backend(){
                         'other': 'files_attachment_edit4'
                     }
                     img_list = [];
-                    for(i in msg.result.response)
+                    for(i in msg.result.response){
+                        //ambil description edit cenius
                         img_list.push([msg.result.response[i][0], 4, msg.result.response[i][2]])
+                    }
                     try{
                         if(document.getElementById('avatar_delete').checked == true)
                             img_list.push([passenger_data_cache[passenger_cache_pick].face_image[0][1], 2, 'files_attachment']);

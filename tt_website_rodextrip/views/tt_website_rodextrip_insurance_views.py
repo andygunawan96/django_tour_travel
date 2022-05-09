@@ -124,6 +124,7 @@ def search(request):
                     'date_end': request.POST['insurance_date'].split(' - ')[1],
                     'origin': request.POST['insurance_origin'],
                     'destination': request.POST['insurance_destination'],
+                    'destination_area': request.POST['insurance_destination'].split(' - ')[1] if request.POST['insurance_provider'] == 'bcainsurance' else request.POST['insurance_destination_area'],
                     'type': request.POST['radio_insurance_type'],
                     'plan_trip': request.POST['insurance_trip'],
                     'provider': request.POST['insurance_provider'],
