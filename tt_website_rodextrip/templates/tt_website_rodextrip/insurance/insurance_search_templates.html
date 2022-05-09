@@ -189,7 +189,18 @@
                                     <span class="check_box_span_custom"></span>
                                 </label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
+                                <div class="row">
+                                    <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
+                                    <div class="input-container-search-ticket btn-group">
+                                        <div class="form-select" id="default-select">
+                                            <select id="insurance_destination_area" name="insurance_destination_area" class="nice-select-default" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
                                 <div class="row">
                                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                                     <div class="col-lg-12" style="padding-left:0px;" hidden>
@@ -218,7 +229,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6" style="padding:0px;" id="insurance_date_search">
+                            <div class="col-lg-4" style="padding:0px;" id="insurance_date_search">
                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                                 <div class="input-container-search-ticket">
                                     <input type="text" class="form-control" value="{{insurance_request.date_start}} - {{insurance_request.date_end}}" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
@@ -424,7 +435,18 @@
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
+                                    <div class="row">
+                                        <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
+                                        <div class="input-container-search-ticket btn-group">
+                                            <div class="form-select" id="default-select">
+                                                <select id="insurance_destination_area" name="insurance_destination_area" class="nice-select-default" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
                                     <div class="row">
                                         <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                                         <div class="col-lg-12" hidden>
@@ -451,7 +473,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6" id="insurance_date_search">
+                                <div class="col-lg-4" id="insurance_date_search">
                                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control" style="background:white;" value="{{insurance_request.date_start}} - {{insurance_request.date_end}}" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
@@ -661,7 +683,18 @@
                                     <span class="check_box_span_custom"></span>
                                 </label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
+                                <div class="row">
+                                    <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
+                                    <div class="input-container-search-ticket btn-group">
+                                        <div class="form-select" id="default-select">
+                                            <select id="insurance_destination_area" name="insurance_destination_area" class="nice-select-default" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
                                 <div class="row">
                                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                                     <div class="col-lg-12" hidden>
@@ -688,7 +721,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6" id="insurance_date_search">
+                            <div class="col-lg-4" id="insurance_date_search">
                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                                 <div class="input-container-search-ticket">
                                     <input type="text" class="form-control" style="background:white;" value="{{insurance_request.date_start}} - {{insurance_request.date_end}}" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
@@ -897,7 +930,18 @@
                                 <span class="check_box_span_custom"></span>
                             </label>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
+                            <div class="row">
+                                <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
+                                <div class="input-container-search-ticket btn-group">
+                                    <div class="form-select" id="default-select">
+                                        <select id="insurance_destination_area" name="insurance_destination_area" class="nice-select-default" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
                             <div class="row">
                                 <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                                 <div class="col-lg-12" hidden>
@@ -925,7 +969,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6" id="insurance_date_search">
+                        <div class="col-lg-4" id="insurance_date_search">
                             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                             <div class="input-container-search-ticket">
                                 <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
@@ -1131,7 +1175,18 @@
                                     <span class="check_box_span_custom"></span>
                                 </label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
+                                <div class="row">
+                                    <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
+                                    <div class="input-container-search-ticket btn-group">
+                                        <div class="form-select" id="default-select">
+                                            <select id="insurance_destination_area" name="insurance_destination_area" class="nice-select-default" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
                                 <div class="row">
                                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                                     <div class="col-lg-12" hidden>
@@ -1158,7 +1213,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6" id="insurance_date_search">
+                            <div class="col-lg-4" id="insurance_date_search">
                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                                 <div class="input-container-search-ticket">
                                     <input type="text" class="form-control" style="background:white;" value="{{insurance_request.date_start}} - {{insurance_request.date_end}}" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
@@ -1362,7 +1417,18 @@
                                     <span class="check_box_span_custom"></span>
                                 </label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
+                                <div class="row">
+                                    <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
+                                    <div class="input-container-search-ticket btn-group">
+                                        <div class="form-select" id="default-select">
+                                            <select id="insurance_destination_area" name="insurance_destination_area" class="nice-select-default" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
                                 <div class="row">
                                     <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
                                     <div class="col-lg-12" hidden>
@@ -1389,7 +1455,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6" id="insurance_date_search">
+                            <div class="col-lg-4" id="insurance_date_search">
                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                                 <div class="input-container-search-ticket">
                                     <input type="text" class="form-control" style="background:white;" value="{{insurance_request.date_start}} - {{insurance_request.date_end}}" id="insurance_date" name="insurance_date" placeholder="{% trans 'Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
