@@ -5355,7 +5355,13 @@ function check_passenger(adult, child, infant){
                error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
            }else{
-               document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
+               duration = moment.duration(moment(document.getElementById('adult_birth_date'+i).value).diff(last_departure_date));
+               if(duration._data.years <= -12 == false){ //check age
+                    error_log+= 'Age wrong for passenger adult '+i+' minimum 12 years old!</br>\n';
+                    document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
+               }else{
+                    document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
+               }
            }
        }if(document.getElementById('adult_nationality'+i).value == ''){
            error_log+= 'Please fill nationality for passenger adult '+i+'!</br>\n';
@@ -5570,7 +5576,13 @@ function check_passenger(adult, child, infant){
            error_log+= 'Birth date wrong for passenger child '+i+'!</br>\n';
            document.getElementById('child_birth_date'+i).style['border-color'] = 'red';
        }else{
-           document.getElementById('child_birth_date'+i).style['border-color'] = '#EFEFEF';
+           duration = moment.duration(moment(document.getElementById('child_birth_date'+i).value).diff(last_departure_date));
+           if(duration._data.years <= -2 && duration._data.years > -12 == false){ //check age
+                error_log+= 'Age wrong for passenger child '+i+', minimum 2 years old and maximum 11 years old!</br>\n';
+                document.getElementById('child_birth_date'+i).style['border-color'] = 'red';
+           }else{
+                document.getElementById('child_birth_date'+i).style['border-color'] = '#EFEFEF';
+           }
        }if(document.getElementById('child_nationality'+i).value == ''){
            error_log+= 'Please fill nationality for passenger child '+i+'!</br>\n';
            document.getElementById('child_nationality'+i).style['border-color'] = 'red';
@@ -5795,7 +5807,13 @@ function check_passenger(adult, child, infant){
            error_log+= 'Birth date wrong for passenger infant '+i+'!</br>\n';
            document.getElementById('infant_birth_date'+i).style['border-color'] = 'red';
        }else{
-           document.getElementById('infant_birth_date'+i).style['border-color'] = '#EFEFEF';
+           duration = moment.duration(moment(document.getElementById('infant_birth_date'+i).value).diff(last_departure_date));
+           if(duration._data.years > -2 == false){ //check age
+                error_log+= 'Age wrong for passenger child '+i+' maximum 2 years old!</br>\n';
+                document.getElementById('infant_birth_date'+i).style['border-color'] = 'red';
+           }else{
+                document.getElementById('infant_birth_date'+i).style['border-color'] = '#EFEFEF';
+           }
        }if(document.getElementById('infant_nationality'+i).value == ''){
            error_log+= 'Please fill nationality for passenger infant '+i+'!</br>\n';
            document.getElementById('infant_nationality'+i).style['border-color'] = 'red';
