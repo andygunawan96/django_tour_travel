@@ -6729,8 +6729,11 @@ function airline_get_booking(data, sync=false){
                                 <h5>`+(parseInt(pax)+1)+`.
                                 `+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`
                                 </h5>
-                                Birth Date: <b>`+msg.result.response.passengers[pax].birth_date+`</b><br/>
-                                Ticket Number: <b>`+ticket+`</b><br/>
+                                Birth Date: <b>`+msg.result.response.passengers[pax].birth_date+`</b><br/>`;
+                            if(msg.result.response.passengers[pax].identity_type != ''){
+                                text+= msg.result.response.passengers[pax].identity_type.substr(0,1).toUpperCase()+msg.result.response.passengers[pax].identity_type.substr(1,msg.result.response.passengers[pax].identity_type.length)+`: <b>`+msg.result.response.passengers[pax].identity_number+`</b><br/>`;
+                            }
+                            text+=`Ticket Number: <b>`+ticket+`</b><br/>
                                 `+ff_request;
                                 fee_dict = {}; //bikin ke dict agar bisa fees per segment / journey
                                       try{
