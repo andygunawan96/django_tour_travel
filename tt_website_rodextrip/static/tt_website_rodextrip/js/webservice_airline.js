@@ -9605,15 +9605,17 @@ function render_ticket_reissue(){
                     provider_pick = airline[i].provider;
                }
             }
-            text += `
-                <div class="row">`;
-            if(provider_list_data.hasOwnProperty(provider_pick) && provider_list_data[provider_pick].hasOwnProperty('reschedule_description_info'))
+
+            if(provider_list_data.hasOwnProperty(provider_pick) && provider_list_data[provider_pick].hasOwnProperty('reschedule_description_info')){
+
                 text+=`
+                <div class="row">
                     <div class="col-lg-12" id="alert-state">
                         <div class="alert alert-warning" role="alert">
                             <h5>`+provider_list_data[provider_pick]['reschedule_description_info']+`</h5>
                         </div>
                     </div>`;
+            }
             if(provider_list_data.hasOwnProperty(provider_pick) && airline_get_detail.result.response.state == 'booked' && provider_list_data[provider_pick].hasOwnProperty('reschedule_description_booked') ||
                provider_list_data.hasOwnProperty(provider_pick) && airline_get_detail.result.response.state == 'issued' && provider_list_data[provider_pick].hasOwnProperty('reschedule_description_issued')){
                 text+=`
@@ -9625,10 +9627,15 @@ function render_ticket_reissue(){
                     text+=`<h5>`+provider_list_data[provider_pick]['reschedule_description_issued']+`</h5>`;
                 text+=`
                         </div>
-                    </div>`;
-            }
-            text+=`
+                    </div>
                 </div>`;
+            }else if(provider_list_data.hasOwnProperty(provider_pick) && provider_list_data[provider_pick].hasOwnProperty('reschedule_description_info')){
+                text += `
+                </div>`;
+            }
+            if(text != '')
+                document.getElementById('reschedule_info_div').innerHTML = text;
+            text = '';
             for(i in airline){
                if(airline[i].airline_pick_sequence == counter_search){
                    if(airline_pick_list.length == 0 || airline_pick_list.length != 0 && airline_recommendations_list.length == 0 && airline[i].journey_ref_id == '' || airline_recommendations_dict.hasOwnProperty(airline[i].journey_ref_id)){

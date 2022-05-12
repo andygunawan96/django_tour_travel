@@ -5148,7 +5148,8 @@ function auto_complete_zurich(){
         country_list = insurance_config['zurich']['region'][document.getElementById('insurance_destination_area').value]['Countries'].split(',');
         zurich_insurance_destination = [];
         for(i in country_list){
-            zurich_insurance_destination.push(insurance_config['zurich'].listCountryCode[country_list[i]].Text + ' - ' + insurance_config['zurich'].listCountryCode[country_list[i]].Value)
+            if(insurance_config['zurich'].listCountryCode.hasOwnProperty(country_list[i]))
+                zurich_insurance_destination.push(insurance_config['zurich'].listCountryCode[country_list[i]].Text + ' - ' + insurance_config['zurich'].listCountryCode[country_list[i]].Value)
         }
         //default kosong kalau destination tidak dalam destination_area
         if(document.getElementById('insurance_destination').value != '')
