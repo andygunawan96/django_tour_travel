@@ -573,7 +573,6 @@ function reset_password(){
     }else{
         username = $('#username').val();
     }
-    console.log(username)
     if(username != ''){
         $.ajax({
            type: "POST",
@@ -5784,7 +5783,6 @@ function edit_passenger_cache(val){
     text = '';
     if(passenger_data_cache[val].phones.length != 0){
         for(i in passenger_data_cache[val].phones){
-            console.log(`phone_cache`+parseInt(parseInt(i)+1)+`_id`);
             text+=`
                 <div class='row' id="phone_cache`+parseInt(parseInt(i)+1)+`_id">
                     <div class="col-sm-5">
@@ -6283,7 +6281,8 @@ function pick_passenger_cache(val){
     try{ //pakai try catch karena if tetap lolos jika id tidak ada
         identity_choose = document.getElementById('identity_chosen'+val).value;
     }catch(err){console.log(err);}
-    if("booker_with_adult".includes(passenger_pick) == false){
+    if("booker_with_adult".includes(passenger_pick+passenger_pick_number) == false){
+        //pax
         var index = 0;
         var temp_data = '';
         for(i in passenger_data_cache[val].identities){
@@ -6739,6 +6738,8 @@ function pick_passenger_cache_copy(val, identity){
                     provider_type_copy = document.URL.split('/')[document.URL.split('/').length-2]
                 else if(document.URL.split('/')[document.URL.split('/').length-1] == 'issued_offline')
                     provider_type_copy = 'issued_offline'
+                data_booker = passenger_data_cache[val];
+                document.getElementsByName('myRadios')[0].checked = 'checked';
                 copy_booker_to_passenger('copy',provider_type_copy);
             }
 
@@ -6788,7 +6789,6 @@ function btn_move_passenger_cache_enable(val){
         selection_list_choose.push('booker');
         selection_list_choose.push('adult1');
     }
-    console.log(selection_list_choose);
     for(i in passenger_data_cache){
         for(j in document.getElementById('selection_type'+i).options){
             if(document.getElementById('selection_type'+i).options[j].selected != true){
