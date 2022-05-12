@@ -358,13 +358,10 @@ def sell_insurance(request):
         insurance_pick = json.loads(request.POST['insurance_pick'])
         data_insurance = {
             "carrier_code": insurance_pick['carrier_code'],
-            "carrier_name": insurance_pick['carrier_name'],
             "provider": insurance_pick['provider'],
-            "sector_type": insurance_pick['sector_type']
         }
         data = {
             "data": data_insurance,
-            'provider': insurance_pick['provider'],
             'pax': int(request.POST['total_policy'])
         }
 
