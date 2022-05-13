@@ -271,6 +271,8 @@ function insurance_get_config(page=false){
                             if(insurance_pick.type_trip_name == 'Family'){
                                 document.getElementById('adult_relation'+i+'_relation'+counter).innerHTML += choice_adult;
                                 $('#adult_relation'+i+'_relation'+counter).niceSelect('update');
+                            }else{
+                                document.getElementById('adult_relation'+i+'_relation'+counter+'_div').style.display = 'none';
                             }
                             document.getElementById('adult_relation'+i+'_title'+counter).innerHTML = choice_title_adult;
                             $('#adult_relation'+i+'_title'+counter).niceSelect('update');
@@ -283,6 +285,8 @@ function insurance_get_config(page=false){
                             if(insurance_pick.type_trip_name == 'Family'){
                                 document.getElementById('adult_relation'+i+'_relation'+counter).innerHTML += choice_child;
                                 $('#adult_relation'+i+'_relation'+counter).niceSelect('update');
+                            }else{
+                                document.getElementById('adult_relation'+i+'_relation'+counter+'_div').style.display = 'none';
                             }
                             document.getElementById('adult_relation'+i+'_title'+counter).innerHTML = choice_title_child;
                             $('#adult_relation'+i+'_title'+counter).niceSelect('update');
