@@ -5321,6 +5321,25 @@ function check_passenger(adult, child, infant){
             last_departure_date = airline_pick[i].journeys[j].departure_date.split(' - ')[0];
         }
    }
+   var is_provider_lionair = false;
+   for(x in airline_pick){
+        for(y in airline_pick[x].journeys){
+            for(z in airline_pick[x].journeys[y].segments){
+                if(airline_pick[x].journeys[y].segments[z].carrier_code.includes('JT') ||
+                   airline_pick[x].journeys[y].segments[z].carrier_code.includes('IW') ||
+                   airline_pick[x].journeys[y].segments[z].carrier_code.includes('ID') ||
+                   airline_pick[x].journeys[y].segments[z].carrier_code.includes('IU') ||
+                   airline_pick[x].journeys[y].segments[z].carrier_code.includes('OD'))
+                   is_provider_lionair = true
+                if(is_provider_lionair)
+                    break;
+            }
+            if(is_provider_lionair)
+                break;
+        }
+        if(is_provider_lionair)
+            break;
+   }
    //adult
    for(i=1;i<=adult;i++){
 
@@ -5434,7 +5453,7 @@ function check_passenger(adult, child, infant){
                             });
                        }
 
-                   }else if(is_international == 'false'){
+                   }else if(is_international == 'false' && is_provider_lionair == false){
                         error_log += 'Please change identity to NIK for passenger adult '+i+'!</br>\n';
                         $("#adult_id_type"+i).each(function() {
                             $(this).parent().find('.nice-select').css('border', '1px solid red');
@@ -5653,7 +5672,7 @@ function check_passenger(adult, child, infant){
                            });
 
                        }
-                   }else if(is_international == 'false'){
+                   }else if(is_international == 'false' && is_provider_lionair == false){
                         error_log += 'Please change identity to NIK for passenger child '+i+'!</br>\n';
                         $("#child_id_type"+i).each(function() {
                             $(this).parent().find('.nice-select').css('border', '1px solid red');
@@ -5882,7 +5901,7 @@ function check_passenger(adult, child, infant){
                              $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
                            });
                        }
-                   }else if(is_international == 'false'){
+                   }else if(is_international == 'false' && is_provider_lionair == false){
                         error_log += 'Please change identity to NIK for passenger infant '+i+'!</br>\n';
                         $("#infant_id_type"+i).each(function() {
                              $(this).parent().find('.nice-select').css('border', '1px solid red');
