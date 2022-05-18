@@ -4358,7 +4358,7 @@ function airline_detail(type){
                                 if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase() == 'fare') //harga per pax hanya fare karena yg lain pax count bisa beda
                                     price_type[price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase()] = price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
                                 else
-                                    price_type[price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase()] = price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].total;
+                                    price_type[price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_type.toLowerCase()] += price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].total;
                                 if(price_type.hasOwnProperty('currency') == false)
                                     price_type['currency'] = price_itinerary_temp[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].currency;
                             }
@@ -4629,8 +4629,8 @@ function airline_detail(type){
                                                             <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                                                         </div>
                                                    </div>`;
-                                                $text += airline_request.adult + ' Adult Fare @'+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare))+'\n';
-                                                $text += 'Adult Tax '+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(price))+'\n';
+                                                $text += airline_request.adult + ' Adult @'+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare) + Math.ceil(price/airline_request.adult))+'\n';
+//                                                $text += 'Adult Tax '+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(price))+'\n';
                                                 price = 0;
                                                 total_price_provider.push({
                                                     'provider': price_itinerary_temp[i].provider,
@@ -4671,8 +4671,8 @@ function airline_detail(type){
                                                             <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                                                         </div>
                                                     </div>`;
-                                                $text += airline_request.child + ' Child Fare @'+ airline_price[price_counter].CHD.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].CHD.fare))+'\n';
-                                                $text += 'Child Tax '+ airline_price[price_counter].CHD.currency +' '+getrupiah(Math.ceil(price))+'\n';
+                                                $text += airline_request.child + ' Child @'+ airline_price[price_counter].CHD.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].CHD.fare) + Math.ceil(price/airline_request.child))+'\n';
+//                                                $text += 'Child Tax '+ airline_price[price_counter].CHD.currency +' '+getrupiah(Math.ceil(price))+'\n';
                                                 price = 0;
                                                 total_price_provider.push({
                                                     'provider': price_itinerary_temp[i].provider,
@@ -4718,8 +4718,8 @@ function airline_detail(type){
                                                             <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                                                         </div>
                                                     </div>`;
-                                                $text += airline_request.infant + ' Infant Fare @'+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare+price))+'\n';
-                                                $text += 'Infant Tax '+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(price))+'\n';
+                                                $text += airline_request.infant + ' Infant @'+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare+price) + Math.ceil(price/airline_request.infant))+'\n';
+//                                                $text += 'Infant Tax '+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(price))+'\n';
                                                 price = 0;
                                                 total_price_provider.push({
                                                     'provider': price_itinerary_temp[i].provider,
@@ -4796,6 +4796,7 @@ function airline_detail(type){
                     text+=`
                         <label>`+airline_price[0].ADT.currency+` `+total_discount+`</label><br/>`;
                     text+=`</div>`;
+                    $text += '‣ Discount: ' + airline_price[0].ADT.currency + ' ' +getrupiah(total_discount*-1) + '\n';
                 }
             }catch(err){
                 console.log(err); // error kalau ada element yg tidak ada
@@ -4877,7 +4878,7 @@ function airline_detail(type){
                 <hr/>
                 <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
 
-                $text += '‣ Grand Total: '+airline_price[0].ADT.currency+' '+ getrupiah(grand_total_price) + '\nPrices and availability may change at any time';
+                $text += '‣ Grand Total: '+airline_price[0].ADT.currency+' '+ getrupiah(grand_total_price + total_discount) + '\nPrices and availability may change at any time';
 
                 share_data();
                 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);

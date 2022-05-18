@@ -5,6 +5,7 @@ passenger_number = 0;
 agent_offside = 0;
 load_more = true;
 login_again = true
+for_jbox_image = 0;
 
 //function goodbye(e) {
 //	console.log(e);
@@ -1065,6 +1066,7 @@ function radio_button(type,val){
             document.getElementById('passenger_search').hidden = false;
         }else{
             document.getElementById('passenger_search').hidden = true;
+            document.getElementById('search_result_passenger').innerHTML = '';
         }
 
 
@@ -1090,6 +1092,13 @@ function radio_button(type,val){
     }else if(value == 'create' && type == 'contact'){
         document.getElementById('train_contact_search_div').hidden = true;
         document.getElementById('contact_input').hidden = false;
+    }
+
+    radio_cache_value = document.querySelector('input[name="radio_passenger_cache"]:checked').value;
+    if(radio_cache_value == 'chosen'){
+        document.getElementById('button_move_footer').style.display="block";
+    }else{
+        document.getElementById('button_move_footer').style.display="none";
     }
 }
 
@@ -1157,6 +1166,7 @@ function get_automatic_booker(cust_code){
 
 function get_customer_list(passenger, number, product){
     check = 0;
+    for_jbox_image++;
     getToken();
     if(passenger == 'booker' || passenger == 'contact'){
         $('.loading-booker-train').show();
@@ -1222,45 +1232,89 @@ function get_customer_list(passenger, number, product){
                         <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> We found `+msg.result.response.length+` user(s) with name like " `+like_name_booker+` "</h6></div>
                         <div class="row">`;
 
+                        //hasil search booker
                         for(i in msg.result.response){
                             var number_i = parseInt(i)+1;
                             if(number_i % 2 == 0){
-                                response+=`<div class="col-lg-12" style="border:1px solid #cdcdcd;background:white; padding:15px;">`;
+                                response+=`<div class="col-lg-12 mb-4 border_custom_left" style="background:white; padding:15px;">`;
                             }else{
-                                response+=`<div class="col-lg-12" style="border:1px solid #cdcdcd;background:#f7f7f7; padding:15px;">`;
+                                response+=`<div class="col-lg-12 mb-4 border_custom_left" style="background:#f7f7f7; padding:15px;">`;
                             }
                             response+=`
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <span style="font-weight:600; font-size:18px; padding-right:5px;"><span style="color:`+color+`;">`+number_i+`.</span> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name+`</span>`;
-                                        if(msg.result.response[i].customer_parents.length != 0){
-                                            response += `<label id="pop_corporate_detail_paxs`+i+`" style="margin-top:10px; border:1px solid #cdcdcd; background:`+text_color+`; color:`+color+`; padding:5px 10px;"><i class="fas fa-money-bill-wave-alt"></i> Corporate Booker</label>`;
-                                        }
-                                    response += `
-                                    </div>
-
-                                    <div class="col-lg-12">
                                         <div class="row">
-                                            <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">`;
-                                                if(msg.result.response[i].face_image.length > 0)
-                                                    response+=`<img src="`+msg.result.response[i].face_image[0]+`" alt="User" class="picture_passenger_agent">`;
+                                            <div class="col-lg-5 col-md-5">
+                                                <div class="row">
+                                                    <div class="col-lg-12 mb-2" style="text-align:left; padding:0px;">
+                                                        <span style="font-weight:600; font-size:16px;">
+                                                            <span style="color:`+text_color+`; background:`+color+`;padding:2px 15px 2px 15px;">`+number_i+`. </span>
+                                                        </span>
+                                                    </div>
 
-                                                else if(msg.result.response[i].title == "MR"){
-                                                    response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" alt="User MR" class="picture_passenger_agent">`;
-                                                }
-                                                else if(msg.result.response[i].title == "MRS"){
-                                                    response+=`<img src="/static/tt_website_rodextrip/img/user_mrs.png" alt="User MRS" class="picture_passenger_agent">`;
-                                                }
-                                                else if(msg.result.response[i].title == "MS"){
-                                                    response+=`<img src="/static/tt_website_rodextrip/img/user_ms.png" alt="User MS" class="picture_passenger_agent">`;
-                                                }
-                                        response+=`
+                                                    <div class="col-lg-12">`;
+                                                    if(msg.result.response[i].face_image.length > 0){
+                                                        response+=`<img src="`+msg.result.response[i].face_image[0]+`" alt="User" class="picture_passenger_agent">`;
+                                                    }
+                                                    else if(msg.result.response[i].title == "MR"){
+                                                        response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" alt="User MR" class="picture_passenger_agent">`;
+                                                    }
+                                                    else if(msg.result.response[i].title == "MRS"){
+                                                        response+=`<img src="/static/tt_website_rodextrip/img/user_mrs.png" alt="User MRS" class="picture_passenger_agent">`;
+                                                    }
+                                                    else if(msg.result.response[i].title == "MS"){
+                                                        response+=`<img src="/static/tt_website_rodextrip/img/user_ms.png" alt="User MS" class="picture_passenger_agent">`;
+                                                    }
+
+                                                    response+=`
+                                                    <br/><span style="font-weight:600; font-size:16px;">
+                                                        `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name+`
+                                                    </span>`;
+
+                                                    if(msg.result.response[i].customer_parents.length != 0){
+                                                        response += `<br/><label id="pop_corporate_detail_paxs`+i+`" style="margin-top:10px; border:1px solid #cdcdcd; background:black; color:white; padding:5px 10px;"><i class="fas fa-money-bill-wave-alt"></i> Corporate Booker <i class="fas fa-chevron-down"></i></label>`;
+                                                    }
+
+                                                    response+=`
+                                                    </div>
+                                                    <div class="col-lg-12">`;
+                                                        if(msg.result.response[i].original_agent != '')
+                                                            response+=`<span><i class="fas fa-user-secret"></i> <i>Customer Of Agent: </i><b>`+msg.result.response[i].original_agent+`</b></span>`;
+                                                        else
+                                                            response+=`<i class="fas fa-user-secret"></i> <i>Customer of Agent: </i>not filled in`;
+
+                                                        if(msg.result.response[i].birth_date != '')
+                                                            response+=`<br/><span><i class="fas fa-birthday-cake"></i> <i>Birth Date: </i><b>`+msg.result.response[i].birth_date+`</b></span>`;
+                                                        else
+                                                            response+=`<br/><i class="fas fa-birthday-cake"></i> <i>Birth Date: </i>not filled in`;
+
+                                                        if(msg.result.response[i].nationality_name != '')
+                                                            response+=`<br/><span><i class="fas fa-globe-asia"></i> <i>Nationality: </i><b>`+msg.result.response[i].nationality_name+`</b></span>`;
+                                                        else
+                                                            response+=`<br/><span><i class="fas fa-globe-asia"></i> <i>Nationality:</i> not filled in</span>`;
+                                                    response+=`
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-lg-8 col-md-8 col-sm-8">`;
-                                                if(msg.result.response[i].original_agent != '')
-                                                    response+=`<span><i class="fas fa-user-secret"></i> <i>Customer Of Agent: </i><b>`+msg.result.response[i].original_agent+`</b></span>`;
-                                                if(msg.result.response[i].birth_date != '')
-                                                    response+=`<br/><span><i class="fas fa-birthday-cake"></i> <i>Birth Date: </i><b>`+msg.result.response[i].birth_date+`</b></span>`;
+                                            <div class="col-lg-7 col-md-7">`;
+                                                if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
+                                                    print_behavior = false;
+                                                    response_behavior=`<i class="fas fa-clipboard"></i>
+                                                    <label id="pop_booker_behavior_detail`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behaviors <i class="fas fa-chevron-down"></i></label>`;
+                                                    for(j in msg.result.response[i].behaviors){
+                                                        if(j.toLowerCase() == product || product == 'cache'){
+                                                            print_behavior = true;
+                                                        }
+                                                    }
+                                                    if(print_behavior)
+                                                        response+= response_behavior;
+                                                }
+
+                                                if(msg.result.response[i].email != '')
+                                                    response+=`<br/><span><i class="fas fa-envelope"></i> <i>Email: </i><b>`+msg.result.response[i].email+`</b></span>`;
+                                                else
+                                                    response+=`<br/><span><i class="fas fa-envelope"></i> <i>Email:</i> not filled in</span>`;
+
                                                 if(msg.result.response[i].phones.length != 0){
                                                     if(template == 1 || template == 5 || template == 6){
                                                         response+=`
@@ -1295,7 +1349,7 @@ function get_customer_list(passenger, number, product){
                                                                 <div class="form-select">`;
                                                     }
 
-                                                    response+=`<select class="phone_chosen_cls" id="phone_chosen`+i+`" style="width:100%;">`;
+                                                    response+=`<select class="phone_chosen_cls nice-select-default mb-1" id="phone_chosen`+i+`" style="width:100%;">`;
 
                                                     for(j in msg.result.response[i].phones){
                                                         response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
@@ -1311,47 +1365,104 @@ function get_customer_list(passenger, number, product){
                                                     }else if(template == 4){
                                                         response+=`</div></div></div>`;
                                                     }
-                                                }else{
-                                                    response+=`<br/>`;
                                                 }
-                                                if(msg.result.response[i].nationality_name != '')
-                                                    response+=`<span><i class="fas fa-globe-asia"></i> <i>Nationality: </i><b>`+msg.result.response[i].nationality_name+`</b></span>`;
-                                                if(msg.result.response[i].email != '')
-                                                    response+=`<br/><span><i class="fas fa-envelope"></i> <i>Email: </i><b>`+msg.result.response[i].email+`</b></span>`;
-                                                if(msg.result.response[i].identities.hasOwnProperty('passport') == true)
-                                                    response+=`<br/> <span><i class="fas fa-passport"></i> <i>Passport: </i><b>`+msg.result.response[i].identities.passport.identity_number+`</b></span>`;
-                                                if(msg.result.response[i].identities.hasOwnProperty('ktp') == true)
-                                                    response+=`<br/> <span><i class="fas fa-id-card"></i> <i>KTP: </i><b>`+msg.result.response[i].identities.ktp.identity_number+`</b></span>`;
-                                                if(msg.result.response[i].identities.hasOwnProperty('sim') == true)
-                                                    response+=`<br/> <span><i class="fas fa-id-badge"></i> <i>SIM: </i><b>`+msg.result.response[i].identities.sim.identity_number+`</b></span>`;
+                                                else{
+                                                    response+=`<br/><span><i class="fas fa-mobile-alt"></i> <i>Mobile:</i> not filled in</span><br/>`;
+                                                }
 
-                                                //edit cenius
-                                                response+=`<div style="display:none">`;
-                                                for(j in msg.result.response[i].identities){
-                                                    for(k in msg.result.response[i].identities[j].identity_images){
-                                                        response += `<img src="`+msg.result.response[i].identities[j].identity_images[k][0]+`" alt="User" class="picture_passenger_agent">`
+                                            if(msg.result.response[i].identities.hasOwnProperty('passport') == true || msg.result.response[i].identities.hasOwnProperty('ktp') == true || msg.result.response[i].identities.hasOwnProperty('sim') == true){
+                                                if(template == 1 || template == 5 || template == 6){
+                                                    response+=`
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <i class="fas fa-id-card"></i> <i>Identity:</i><br/>
+                                                        </div>
+                                                        <div class="col-lg-12">`;
+                                                }else if(template == 2){
+                                                    response+=`
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <i class="fas fa-id-card" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Identity:</i>
+                                                        </div>
+                                                        <div class="col-lg-12">`;
+                                                }else if(template == 3){
+                                                    response+=`
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <i class="fas fa-id-card" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Identity:</i>
+                                                                <div class="default-select">`;
+                                                }else if(template == 4){
+                                                    response+=`
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <i class="fas fa-id-card" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Identity:</i>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <div class="form-select">`;
+                                                }
+
+                                                if(msg.result.response[i].identities.length != 0){
+                                                    response+=`
+                                                    <select class="phone_chosen_cls_search nice-select-default mb-2" id="booker_identity`+i+`" onchange="generate_image_identity(`+i+`, 'booker_identity', 'div_booker_identity', 'label_title_booker_identity', 'booker')" style="width:100%;">
+                                                        <option value="all_identity">All Identity</option>`;
+
+                                                    for(j in msg.result.response[i].identities){
+                                                        response+=`
+                                                        <option value="`+j+` - `+msg.result.response[i].identities[j].identity_number+`" style="text-transform: capitalize;">`+j+` - `+msg.result.response[i].identities[j].identity_number+`</option>`;
                                                     }
-                                                }
-                                                response+=`</div>`;
 
-                                                if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
-                                                    print_behavior = false;
-                                                    response_behavior=`<br/><b>Behaviors:</b><br/>`;
-                                                    for(j in msg.result.response[i].behaviors){
-                                                        if(j.toLowerCase() == product){
-                                                            print_behavior = true;
-                                                            response_behavior+=`<b>`+j+`</b><br/>`;
-                                                            for(k in msg.result.response[i].behaviors[j]){
-                                                                response_behavior+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b>`;
-                                                                if(msg.result.response[i].behaviors[j][k].remark != '' && msg.result.response[i].behaviors[j][k].remark != false)
-                                                                    response_behavior +=` - `+msg.result.response[i].behaviors[j][k].remark;
-                                                                response_behavior+=`</span><br/>`;
+                                                    response+=`</select>`;
+                                                }
+
+                                                if(template == 1 || template == 5 || template == 6){
+                                                    response+=`</div></div>`;
+                                                }else if(template == 2){
+                                                    response+=`</div></div>`;
+                                                }else if(template == 3){
+                                                    response+=`</div></div></div>`;
+                                                }else if(template == 4){
+                                                    response+=`</div></div></div>`;
+                                                }
+
+                                                //identity cenius (hasil search booker di halaman passenger) ed done
+                                                if(msg.result.response[i].identities.length != 0){
+                                                    response+=`
+                                                    <label style="text-transform: capitalize; text-align:center; font-size:14px;" id="label_title_booker_identity`+i+`">All Identity Image</label><br/>
+                                                    <div id="div_booker_identity`+i+`" style="background:white; border:1px solid #cdcdcd; width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
+                                                    check_identity_img = 0;
+                                                    for(j in msg.result.response[i].identities){
+                                                        if(msg.result.response[i].identities[j].identity_images.length != 0){
+                                                            for(k in msg.result.response[i].identities[j].identity_images){
+                                                                response += `
+                                                                <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
+                                                                    <a class="demo-img" href="`+msg.result.response[i].identities[j].identity_images[k][0]+`" data-jbox-image="1showbookeridentity`+i+``+for_jbox_image+`" title="`+j+` - `+msg.result.response[i].identities[j].identity_number+` (`+msg.result.response[i].identities[j].identity_images[k][2]+`)">
+                                                                        <img src="`+msg.result.response[i].identities[j].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
+                                                                    </a><br/>
+                                                                    <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+msg.result.response[i].identities[j].identity_images[k][2]+`</h6>
+                                                                </div>`;
                                                             }
+                                                            check_identity_img = 1;
                                                         }
                                                     }
-                                                    if(print_behavior)
-                                                        response+= response_behavior;
+                                                    if(check_identity_img == 0){
+                                                        response+=`Image not Found!`;
+                                                    }
+                                                    response+=`</div>`;
                                                 }
+
+                                            }
+                                            else{
+                                                response+=`<span><i class="fas fa-id-card"></i> <i>Identity:</i></span><br/>`;
+                                                response+=`
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div style="width:100%; text-align:center; padding:10px 5px 10px 5px; border:1px solid #e3e3e3; background:#fcfcfc;">
+                                                            <h6>Identity not filled in</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>`;
+                                            }
+
                                         response+=`
                                             </div>
                                         </div>
@@ -1378,8 +1489,15 @@ function get_customer_list(passenger, number, product){
                             document.getElementById('search_contact_result').innerHTML = response;
                         else
                             document.getElementById('search_result').innerHTML = response;
+
+                        new jBox('Image', {
+                          imageCounter: true,
+                          imageCounterSeparator: ' of '
+                        });
+
                         passenger_data = msg.result.response;
                         $('.loading-booker-train').hide();
+                        $('.phone_chosen_cls_search').niceSelect();
 
                         if(product == 'group_booking'){
                             if(passenger == 'contact'){
@@ -1390,6 +1508,7 @@ function get_customer_list(passenger, number, product){
                         }
 
                         $('.phone_chosen_cls').niceSelect();
+
                         for(i in msg.result.response){
                             if(msg.result.response[i].customer_parents.length != 0){
                                 response_corporate = '';
@@ -1409,6 +1528,51 @@ function get_customer_list(passenger, number, product){
                                      animation: 'zoomIn',
                                      content: response_corporate
                                 });
+                            }
+
+                            if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
+                                print_pop_behavior = false;
+                                response_pop_behavior = '';
+                                for(j in msg.result.response[i].behaviors){
+                                    if(j.toLowerCase() == product || product == 'cache'){
+                                        print_pop_behavior = true;
+                                        response_pop_behavior+=`<b><i class="fas fa-angle-right"></i> `+j+`</b><br/>`;
+                                        for(k in msg.result.response[i].behaviors[j]){
+                                            response_pop_behavior+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b>`;
+                                            if(msg.result.response[i].behaviors[j][k].remark != '' && msg.result.response[i].behaviors[j][k].remark != false)
+                                                response_pop_behavior +=` - `+msg.result.response[i].behaviors[j][k].remark;
+                                            response_pop_behavior+=`</span><br/>`;
+                                        }
+                                    }
+                                }
+                                if(print_pop_behavior){
+                                    new jBox('Tooltip', {
+                                        attach: '#pop_booker_behavior_detail'+i,
+                                        target: '#pop_booker_behavior_detail'+i,
+                                        theme: 'TooltipBorder',
+                                        trigger: 'click',
+                                        adjustTracker: true,
+                                        closeOnClick: 'body',
+                                        closeButton: 'box',
+                                        animation: 'move',
+                                        position: {
+                                          x: 'left',
+                                          y: 'top'
+                                        },
+                                        outside: 'y',
+                                        pointer: 'left:20',
+                                        offset: {
+                                          x: 25
+                                        },
+                                        content: response_pop_behavior,
+                                        onOpen: function () {
+                                          this.source.addClass('active').html('Close <i class="fas fa-chevron-up"></i>');
+                                        },
+                                        onClose: function () {
+                                          this.source.removeClass('active').html('See Behaviors <i class="fas fa-chevron-down"></i>');
+                                        }
+                                    });
+                                }
                             }
                         }
                     }else{
@@ -1574,8 +1738,11 @@ function get_customer_list(passenger, number, product){
                     var like_name_paxs = document.getElementById('train_'+passenger+number+'_search').value;
                     if(msg.result.response.length != 0){
                         response+=`
-                        <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> We found `+msg.result.response.length+` user(s) with name like " `+like_name_paxs+` "</h6></div>
-                        <div class="row">`;
+                        <div class="row">
+                            <div class="col-lg-12" style="padding:0px;">
+                                <div class="alert alert-success" role="alert" style="margin-top:10px; padding:15px;"><h6><i class="fas fa-search"></i> We found `+msg.result.response.length+` user(s) with name like " `+like_name_paxs+` "</h6></div>
+                            </div>
+                        </div>`;
                         var selection = null;
                         try{
                             selection = document.getElementById(passenger+'_id_type'+passenger_number).options;
@@ -1590,28 +1757,29 @@ function get_customer_list(passenger, number, product){
                                 }
                             }
                         }
+
+                        //hasil search paxs
                         for(i in msg.result.response){
+                            response+=`<div class="row">`;
                             var number_i = parseInt(i)+1;
                             if(number_i % 2 == 0){
-                                response+=`<div class="col-lg-12" style="border:1px solid #cdcdcd;background:white; padding:15px;">`;
+                                response+=`<div class="col-lg-12 mb-4 border_custom_left" style="background:white; padding:15px">`;
                             }else{
-                                response+=`<div class="col-lg-12" style="border:1px solid #cdcdcd;background:#f7f7f7; padding:15px;">`;
+                                response+=`<div class="col-lg-12 mb-4 border_custom_left" style="background:#f7f7f7; padding:15px">`;
                             }
                             response+=`
                                 <div class="row">
-                                    <div class="col-lg-12">
-                                        <span style="font-weight:600; font-size:18px; padding-right:5px;"><span style="color:`+color+`;">`+number_i+`.</span> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name+`</span>`;
-                                        if(msg.result.response[i].customer_parents.length != 0){
-                                            response += `<label id="pop_corporate_detail`+i+`" style="margin-top:10px; border:1px solid #cdcdcd; background:`+text_color+`; color:`+color+`; padding:5px 10px;"><i class="fas fa-money-bill-wave-alt"></i> Corporate Booker</label>`;
-                                        }
-                                    response += `
-                                    </div>
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-5 col-md-5">
                                         <div class="row">
-                                            <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">`;
-
-                                                if(msg.result.response[i].face_image.length > 0)
+                                            <div class="col-lg-12 mb-2" style="text-align:left; padding:0px;">
+                                                <span style="font-weight:600; font-size:16px;">
+                                                    <span style="color:`+text_color+`; background:`+color+`;padding:2px 15px 2px 15px;">`+number_i+`. </span>
+                                                </span>
+                                            </div>
+                                            <div class="col-lg-12">`;
+                                                if(msg.result.response[i].face_image.length > 0){
                                                     response+=`<img src="`+msg.result.response[i].face_image[0]+`" alt="User" class="picture_passenger_agent">`;
+                                                }
                                                 else if(msg.result.response[i].title == "MR"){
                                                     response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" alt="User MR" class="picture_passenger_agent">`;
                                                 }
@@ -1627,166 +1795,263 @@ function get_customer_list(passenger, number, product){
                                                 else if(msg.result.response[i].title == "MISS"){
                                                     response+=`<img src="/static/tt_website_rodextrip/img/user_miss.png" alt="User MISS" class="picture_passenger_agent">`;
                                                 }
-                                        response+=`
+
+
+                                                response+=`
+                                                <br/><span style="font-weight:600; font-size:16px;">
+                                                    `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name+`
+                                                </span>`;
+
+                                                if(msg.result.response[i].customer_parents.length != 0){
+                                                    response += `<br/><label id="pop_corporate_detail`+i+`" style="margin-top:10px; border:1px solid #cdcdcd; background:black; color:white; padding:5px 10px;"><i class="fas fa-money-bill-wave-alt"></i> Corporate Booker <i class="fas fa-chevron-down"></i></label>`;
+                                                }
+
+                                            response+=`
                                             </div>
-                                            <div class="col-lg-8 col-md-8 col-sm-8">`;
+                                            <div class="col-lg-12">`;
+                                                if(msg.result.response[i].original_agent != '')
+                                                    response+=`<i class="fas fa-user-secret"></i> <i>Customer of Agent: </i><b>`+msg.result.response[i].original_agent+`</b>`;
+                                                else
+                                                    response+=`<i class="fas fa-user-secret"></i> <i>Customer of Agent: </i>not filled in`;
 
-                                            if(msg.result.response[i].original_agent != '')
-                                                response+=`<i class="fas fa-user-secret"></i> <i>Customer Of Agent: </i><b>`+msg.result.response[i].original_agent+`</b>`;
-                                            if(msg.result.response[i].birth_date != '')
-                                                response+=`<br/><i class="fas fa-birthday-cake"></i> <i>Birth Date: </i><b>`+msg.result.response[i].birth_date+`</b>`;
-                                            if(msg.result.response[i].phones.length != 0){
-                                                if(template == 1 || template == 5 || template == 6){
-                                                    response+=`
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <i class="fas fa-mobile-alt"></i> <i>Mobile:</i><br/>
-                                                        </div>
-                                                        <div class="col-lg-12">`;
-                                                }
-                                                else if(template == 2){
-                                                    response+=`
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Mobile:</i>
-                                                        </div>
-                                                        <div class="col-lg-12">`;
-                                                }
-                                                else if(template == 3){
-                                                    response+=`
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Mobile:</i>
-                                                                <div class="default-select">`;
-                                                }
-                                                else if(template == 4){
-                                                    response+=`
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Mobile:</i>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <div class="form-select">`;
-                                                }
-                                                response+=`<select class="phone_chosen_cls_search nice-select-default" id="phone_chosen`+i+`" style="width:100%;">`;
-                                                for(j in msg.result.response[i].phones){
-                                                    response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
-                                                }
-                                                response+=`</select>`;
+                                                if(msg.result.response[i].birth_date != '')
+                                                    response+=`<br/><i class="fas fa-birthday-cake"></i> <i>Birth Date: </i><b>`+msg.result.response[i].birth_date+`</b>`;
+                                                else
+                                                    response+=`<br/><i class="fas fa-birthday-cake"></i> <i>Birth Date: </i>not filled in`;
 
-                                                if(template == 1 || template == 5 || template == 6){
-                                                    response+=`</div></div>`;
-                                                }else if(template == 2){
-                                                    response+=`</div></div>`;
-                                                }else if(template == 3){
-                                                    response+=`</div></div></div>`;
-                                                }else if(template == 4){
-                                                    response+=`</div></div></div>`;
-                                                }
-                                            }else{
-                                                response+=`<br/>`;
-                                            }
-                                            check_br = false
-                                            if(msg.result.response[i].email != '' && msg.result.response[i].email != false){
-                                                response+=`<span><i class="fas fa-envelope"></i> <i>Email:</i> <b>`+msg.result.response[i].email+`</b></span>`;
-                                                check_br = true;
-                                            }if(msg.result.response[i].nationality_name != ''){
-                                                if(check_br == true)
-                                                    response += `<br/>`;
-                                                response+=` <span><i class="fas fa-globe-asia"></i> <i>Nationality:</i> <b>`+msg.result.response[i].nationality_name+`</b></span>`;
-                                                check_br = true;
-                                            }
-                                            //default passport, kalau ada selection passport, ktp, sim print
-                                            if(msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection == 0 || msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection.includes('passport') || msg.result.response[i].identities.hasOwnProperty('ktp') == true && found_selection.includes('ktp') || msg.result.response[i].identities.hasOwnProperty('sim') == true && found_selection.includes('sim')){
-                                                if(template == 1 || template == 5 || template == 6){
-                                                    response+=`
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <i class="fas fa-id-card"></i> <i>Identity:</i><br/>
-                                                        </div>
-                                                        <div class="col-lg-12">`;
-                                                }else if(template == 2){
-                                                    response+=`
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <i class="fas fa-id-card" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Identity:</i>
-                                                        </div>
-                                                        <div class="col-lg-12">`;
-                                                }else if(template == 3){
-                                                    response+=`
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <i class="fas fa-id-card" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Identity:</i>
-                                                                <div class="default-select">`;
-                                                }else if(template == 4){
-                                                    response+=`
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <i class="fas fa-id-card" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Identity:</i>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <div class="form-select">`;
-                                                }
-                                                response+=`<select class="phone_chosen_cls_search" id="identity_chosen`+i+`" style="width:100%;">`;
-                                                if(msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection == 0 || msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection.includes('passport'))
-                                                    response += `<option value="passport - `+msg.result.response[i].identities.passport.identity_number+`">Passport - `+msg.result.response[i].identities.passport.identity_number+`</option>`;
-                                                if(msg.result.response[i].identities.hasOwnProperty('ktp') == true && found_selection.includes('ktp'))
-                                                    response += `<option value="ktp - `+msg.result.response[i].identities.ktp.identity_number+`">KTP - `+msg.result.response[i].identities.ktp.identity_number+`</option>`;
-                                                if(msg.result.response[i].identities.hasOwnProperty('sim') == true && found_selection.includes('sim'))
-                                                    response += `<option value="sim - `+msg.result.response[i].identities.sim.identity_number+`">SIM - `+msg.result.response[i].identities.sim.identity_number+`</option>`;
+                                                if(msg.result.response[i].nationality_name != '')
+                                                    response+=` <br/><span><i class="fas fa-globe-asia"></i> <i>Nationality:</i> <b>`+msg.result.response[i].nationality_name+`</b></span>`;
+                                                else
+                                                    response+=` <br/><span><i class="fas fa-globe-asia"></i> <i>Nationality:</i> not filled in</span>`;
 
-                                                response+=`</select>`;
-                                                //edit cenius
-                                                response+=`<div style="display:none">`;
-                                                for(j in msg.result.response[i].identities){
-                                                    for(k in msg.result.response[i].identities[j].identity_images){
-                                                        response += `<img src="`+msg.result.response[i].identities[j].identity_images[k][0]+`" alt="User" class="picture_passenger_agent">`
-                                                    }
-                                                }
-                                                response+=`</div>`;
-
-                                                if(template == 1 || template == 5 || template == 6){
-                                                    response+=`</div></div>`;
-                                                }else if(template == 2){
-                                                    response+=`</div></div>`;
-                                                }else if(template == 3){
-                                                    response+=`</div></div></div>`;
-                                                }else if(template == 4){
-                                                    response+=`</div></div></div>`;
-                                                }
-                                            }
-                                            if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
-                                                print_behavior = false;
-                                                response_behavior=`<br/><b>Behaviors:</b><br/>`;
-                                                for(j in msg.result.response[i].behaviors){
-                                                    if(j.toLowerCase() == product || product == 'cache'){
-                                                        print_behavior = true;
-                                                        response_behavior+=`<b>`+j+`</b><br/>`;
-                                                        for(k in msg.result.response[i].behaviors[j]){
-                                                            response_behavior+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b>`;
-                                                            if(msg.result.response[i].behaviors[j][k].remark != '' && msg.result.response[i].behaviors[j][k].remark != false)
-                                                                response_behavior +=` - `+msg.result.response[i].behaviors[j][k].remark;
-                                                            response_behavior+=`</span><br/>`;
-                                                        }
-                                                    }
-                                                }
-                                                if(print_behavior)
-                                                    response+= response_behavior;
-                                            }
-
-                                        response+=`
+                                            response+=`
                                             </div>
                                         </div>
-                                    </div>`;
-        //                            <td>`+msg.response.result[i].booker_type+`</td>
-        //                            <td>Rp. `+getrupiah(msg.response.result[i].agent_id.credit_limit+ msg.response.result[i].agent_id.balance)+`</td>
-                                    response+=`<div class="col-lg-12" style="text-align:right; padding:15px;"><button type="button" class="primary-btn-custom" onclick="pick_passenger('`+passenger+`',`+msg.result.response[i].sequence+`,'`+product+`');">Choose</button></div>`;
-                                    response+=`
+                                    </div>
+                                    <div class="col-lg-7 col-md-7">`;
+                                    if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
+                                        print_behavior = false;
+                                        response_behavior=`<i class="fas fa-clipboard"></i>
+                                        <label id="pop_behavior_detail`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behaviors <i class="fas fa-chevron-down"></i></label>`;
+                                        for(j in msg.result.response[i].behaviors){
+                                            if(j.toLowerCase() == product || product == 'cache'){
+                                                print_behavior = true;
+                                            }
+                                        }
+                                        if(print_behavior)
+                                            response+= response_behavior;
+                                    }
+
+                                    if(msg.result.response[i].email != '' && msg.result.response[i].email != false){
+                                        response+=`<br/><span><i class="fas fa-envelope"></i> <i>Email:</i> <b>`+msg.result.response[i].email+`</b></span>`;
+                                    }else{
+                                        response+=`<br/><span><i class="fas fa-envelope"></i> <i>Email:</i> not filled in</span>`;
+                                    }
+
+                                    if(msg.result.response[i].phones.length != 0){
+                                        if(template == 1 || template == 5 || template == 6){
+                                            response+=`
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <i class="fas fa-mobile-alt"></i> <i>Mobile:</i><br/>
+                                                </div>
+                                                <div class="col-lg-12">`;
+                                        }
+                                        else if(template == 2){
+                                            response+=`
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Mobile:</i>
+                                                </div>
+                                                <div class="col-lg-12">`;
+                                        }
+                                        else if(template == 3){
+                                            response+=`
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Mobile:</i>
+                                                        <div class="default-select">`;
+                                        }
+                                        else if(template == 4){
+                                            response+=`
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Mobile:</i>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-select">`;
+                                        }
+                                        response+=`<select class="phone_chosen_cls_search nice-select-default mb-1" id="phone_chosen`+i+`" style="width:100%;">`;
+                                        for(j in msg.result.response[i].phones){
+                                            response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
+                                        }
+                                        response+=`</select>`;
+
+                                        if(template == 1 || template == 5 || template == 6){
+                                            response+=`</div></div>`;
+                                        }else if(template == 2){
+                                            response+=`</div></div>`;
+                                        }else if(template == 3){
+                                            response+=`</div></div></div>`;
+                                        }else if(template == 4){
+                                            response+=`</div></div></div>`;
+                                        }
+                                    }else{
+                                        response+=`<br/><span><i class="fas fa-mobile-alt"></i> <i>Mobile:</i> not filled in</span><br/>`;
+                                    }
+
+                                    //default passport, kalau ada selection passport, ktp, sim print
+                                    if(msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection == 0 || msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection.includes('passport') || msg.result.response[i].identities.hasOwnProperty('ktp') == true && found_selection.includes('ktp') || msg.result.response[i].identities.hasOwnProperty('sim') == true && found_selection.includes('sim')){
+                                        if(template == 1 || template == 5 || template == 6){
+                                            response+=`
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <i class="fas fa-id-card"></i> <i>Identity:</i><br/>
+                                                </div>
+                                                <div class="col-lg-12">`;
+                                        }else if(template == 2){
+                                            response+=`
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <i class="fas fa-id-card" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Identity:</i>
+                                                </div>
+                                                <div class="col-lg-12">`;
+                                        }else if(template == 3){
+                                            response+=`
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <i class="fas fa-id-card" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Identity:</i>
+                                                        <div class="default-select">`;
+                                        }else if(template == 4){
+                                            response+=`
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <i class="fas fa-id-card" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Identity:</i>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-select">`;
+                                        }
+                                        response+=`<select class="phone_chosen_cls_search nice-select-default mb-2" id="identity_chosen`+i+`" onchange="generate_image_identity(`+i+`, 'identity_chosen', 'div_identity_chosen', 'label_title_identity', 'pax')" style="width:100%;">`;
+                                        if(product == 'cache'){
+                                            response += `<option value="all_identity">All Identity</option>`;
+                                        }
+                                        for(j in msg.result.response[i].identities){
+                                            if(j=='passport' || found_selection == 0 || found_selection.includes(j))
+                                                response += `<option value="`+j+` - `+msg.result.response[i].identities[j].identity_number+`">`+j.charAt(0).toUpperCase()+j.slice(1)+` - `+msg.result.response[i].identities[j].identity_number+`</option>`;
+                                        }
+//                                                if(msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection == 0 || msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection.includes('passport'))
+//                                                    response += `<option value="passport - `+msg.result.response[i].identities.passport.identity_number+`">Passport - `+msg.result.response[i].identities.passport.identity_number+`</option>`;
+//                                                if(msg.result.response[i].identities.hasOwnProperty('ktp') == true && found_selection == 0 || msg.result.response[i].identities.hasOwnProperty('ktp') == true && found_selection.includes('ktp'))
+//                                                    response += `<option value="ktp - `+msg.result.response[i].identities.ktp.identity_number+`">KTP - `+msg.result.response[i].identities.ktp.identity_number+`</option>`;
+//                                                if(msg.result.response[i].identities.hasOwnProperty('sim') == true && found_selection == 0 || msg.result.response[i].identities.hasOwnProperty('sim') == true && found_selection.includes('sim'))
+//                                                    response += `<option value="sim - `+msg.result.response[i].identities.sim.identity_number+`">SIM - `+msg.result.response[i].identities.sim.identity_number+`</option>`;
+
+                                        response+=`</select>`;
+
+                                        if(template == 1 || template == 5 || template == 6){
+                                            response+=`</div></div>`;
+                                        }else if(template == 2){
+                                            response+=`</div></div>`;
+                                        }else if(template == 3){
+                                            response+=`</div></div></div>`;
+                                        }else if(template == 4){
+                                            response+=`</div></div></div>`;
+                                        }
+
+                                        //identity cenius waktu search di passenger database done
+                                        if(product == 'cache'){
+                                            response+=`<label style="text-transform: capitalize; text-align:center; font-size:14px;" id="label_title_identity`+i+`">All Identity Image</label><br/>`;
+                                            response+=`
+                                            <div id="div_identity_chosen`+i+`" style="background:white; border:1px solid #cdcdcd; width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
+                                            check_identity_img = 0;
+                                            for(j in msg.result.response[i].identities){
+                                                if(msg.result.response[i].identities[j].identity_images.length != 0){
+                                                    for(k in msg.result.response[i].identities[j].identity_images){
+                                                        response += `
+                                                        <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
+                                                            <a class="demo-img" href="`+msg.result.response[i].identities[j].identity_images[k][0]+`" data-jbox-image="2showidentity`+i+`allidentity`+for_jbox_image+`" title="`+j+` - `+msg.result.response[i].identities[j].identity_number+` (`+msg.result.response[i].identities[j].identity_images[k][2]+`)">
+                                                                <img src="`+msg.result.response[i].identities[j].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
+                                                            </a>
+                                                            <br/>
+                                                            <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+msg.result.response[i].identities[j].identity_images[k][2]+`</h6>
+                                                        </div>`;
+                                                    }
+                                                    check_identity_img = 1;
+                                                }
+                                            }
+
+                                            if(check_identity_img == 0){
+                                                response+=`Image not Found!`;
+                                            }
+
+                                            response+=`</div>`;
+                                        }
+                                        //identity cenius search passenger di halaman passenger done
+                                        else{
+                                            for(j in msg.result.response[i].identities){
+                                                if(j=='passport' || found_selection == 0 || found_selection.includes(j)){
+                                                    response+=`<label style="text-transform: capitalize; text-align:center; font-size:14px;" id="label_title_identity`+i+`">`+j.charAt(0).toUpperCase()+j.slice(1)+` - `+msg.result.response[i].identities[j].identity_number+` Image</label><br/>`;
+                                                }
+                                                break;
+                                            }
+                                            response+=`<div id="div_identity_chosen`+i+`" style="background:white; border:1px solid #cdcdcd; width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
+
+                                            check_identity_img = 0;
+                                            for(j in msg.result.response[i].identities){
+                                                if(j=='passport' || found_selection == 0 || found_selection.includes(j)){
+                                                    if(msg.result.response[i].identities[j].identity_images.length != 0){
+                                                        for(k in msg.result.response[i].identities[j].identity_images){
+                                                            response += `
+                                                            <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
+                                                                <a class="demo-img" href="`+msg.result.response[i].identities[j].identity_images[k][0]+`" data-jbox-image="3showidentity`+i+`allidentity`+for_jbox_image+`" title="`+j+` - `+msg.result.response[i].identities[j].identity_number+` (`+msg.result.response[i].identities[j].identity_images[k][2]+`)">
+                                                                    <img src="`+msg.result.response[i].identities[j].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
+                                                                </a><br/>
+                                                                <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+msg.result.response[i].identities[j].identity_images[k][2]+`</h6>
+                                                            </div>`;
+                                                        }
+                                                        check_identity_img = 1;
+                                                    }
+                                                }
+                                                break;
+                                            }
+
+                                            if(check_identity_img == 0){
+                                                response+=`Image not Found!`;
+                                            }
+
+                                            response+=`</div>`;
+                                        }
+
+
+                                    }
+                                    else{
+                                        response+=`<span><i class="fas fa-id-card"></i> <i>Identity:</i></span><br/>`;
+                                        response+=`
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div style="width:100%; text-align:center; padding:10px 5px 10px 5px; border:1px solid #e3e3e3; background:#fcfcfc;">
+                                                    <h6>Identity not filled in</h6>
+                                                </div>
+                                            </div>
+                                        </div>`;
+                                    }
+
+                                response+=`
                                 </div>
                             </div>`;
+//                            <td>`+msg.response.result[i].booker_type+`</td>
+//                            <td>Rp. `+getrupiah(msg.response.result[i].agent_id.credit_limit+ msg.response.result[i].agent_id.balance)+`</td>
+                            response+=`<br/><button type="button" class="primary-btn-custom" style="margin-bottom:0px; float:right;" onclick="pick_passenger('`+passenger+`',`+msg.result.response[i].sequence+`,'`+product+`');">Choose</button>`;
+                            response+=`</div>
+                            </div>`;
                         }
-                        response+=`</div>`;
                         document.getElementById('search_result_'+passenger+number).innerHTML = response;
+
+                        new jBox('Image', {
+                          imageCounter: true,
+                          imageCounterSeparator: ' of '
+                        });
+
                         for(i in msg.result.response){
                             if(msg.result.response[i].customer_parents.length != 0){
                                 response_corporate = '';
@@ -1807,6 +2072,53 @@ function get_customer_list(passenger, number, product){
                                      content: response_corporate
                                 });
                             }
+
+                            if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
+                                print_pop_behavior = false;
+                                response_pop_behavior = '';
+                                for(j in msg.result.response[i].behaviors){
+                                    if(j.toLowerCase() == product || product == 'cache'){
+                                        print_pop_behavior = true;
+                                        response_pop_behavior+=`<b><i class="fas fa-angle-right"></i> `+j+`</b><br/>`;
+                                        for(k in msg.result.response[i].behaviors[j]){
+                                            response_pop_behavior+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b>`;
+                                            if(msg.result.response[i].behaviors[j][k].remark != '' && msg.result.response[i].behaviors[j][k].remark != false)
+                                                response_pop_behavior +=` - `+msg.result.response[i].behaviors[j][k].remark;
+                                            response_pop_behavior+=`</span><br/>`;
+                                        }
+                                    }
+                                }
+                                if(print_pop_behavior){
+                                    new jBox('Tooltip', {
+                                        attach: '#pop_behavior_detail'+i,
+                                        target: '#pop_behavior_detail'+i,
+                                        theme: 'TooltipBorder',
+                                        trigger: 'click',
+                                        adjustTracker: true,
+                                        closeOnClick: 'body',
+                                        closeButton: 'box',
+                                        animation: 'move',
+                                        position: {
+                                          x: 'left',
+                                          y: 'top'
+                                        },
+                                        outside: 'y',
+                                        pointer: 'left:20',
+                                        offset: {
+                                          x: 25
+                                        },
+                                        content: response_pop_behavior,
+                                        onOpen: function () {
+                                          this.source.addClass('active').html('Close <i class="fas fa-chevron-up"></i>');
+                                        },
+                                        onClose: function () {
+                                          this.source.removeClass('active').html('See Behaviors <i class="fas fa-chevron-down"></i>');
+                                        }
+                                    });
+
+                                }
+                            }
+
                         }
 
                         passenger_data = msg.result.response;
@@ -1940,6 +2252,7 @@ function pick_passenger(type, sequence, product){
 }
 
 function pick_passenger_copy(type, sequence, product, identity=''){
+    for_jbox_image++;
     if(product == 'cache'){
         add_passenger_cache(sequence)
 //        document.getElementById('button_choose_'+sequence).innerHTML = 'Chosen';
@@ -2162,14 +2475,26 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     document.getElementById('adult_country_of_issued'+passenger_number).readOnly = true;
                     if(passenger_data[sequence].identities['passport'].identity_images.length > 0){
                         text = '';
+                        //identity cenius? done
                         text += `
-                            <div class="row">`;
-                                for(j in passenger_data[sequence].identities['passport'].identity_images.slice(0,3))
+                            <div class="row">
+                                <div class="col-lg-12">`;
+                                    text+=`<label style="text-transform: capitalize; text-align:center; font-size:14px;">Passport - `+passenger_data[sequence].identities['passport'].identity_number+`</label><br/>`;
+                                    text+=`
+                                    <div style="width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
+                                    for(j in passenger_data[sequence].identities['passport'].identity_images){
+                                        text += `
+                                        <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
+                                            <a class="demo-img" href="`+passenger_data[sequence].identities['passport'].identity_images[j][0]+`" data-jbox-image="4showidentitycopypassport`+sequence+``+for_jbox_image+`" title="passport - `+passenger_data[sequence].identities['passport'].identity_number+` (`+passenger_data[sequence].identities['passport'].identity_images[j][2]+`)">
+                                                <img src="`+passenger_data[sequence].identities['passport'].identity_images[j][0]+`" alt="Identity" class="picture_identity_customer">
+                                            </a>
+                                            <br/>
+                                            <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+passenger_data[sequence].identities['passport'].identity_images[j][2]+`</h6>
+                                        </div>`;
+                                    }
+                                    text+=`</div>`;
                                 text+=`
-                                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
-                                    <img src="`+passenger_data[sequence].identities['passport'].identity_images[j][0]+`" alt="User" class="picture_passenger_agent">
-                                </div>`;
-                                text+=`
+                                </div>
                             </div>
                         `;
                         if(document.getElementById('adult_attachment_identity'+passenger_number)){
@@ -2197,6 +2522,10 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                         if(document.getElementById('adult_div_avatar_identity'+passenger_number)){
                             document.getElementById('adult_div_avatar_identity'+passenger_number).innerHTML = text
                             document.getElementById('adult_div_avatar_identity'+passenger_number).hidden = false;
+                            new jBox('Image', {
+                              imageCounter: true,
+                              imageCounterSeparator: ' of '
+                            });
                         }
                     }else{
                         if(document.getElementById('adult_div_avatar_identity'+passenger_number))
@@ -2277,29 +2606,41 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                                     }catch(err){console.log(err)}
                                     if(passenger_data[sequence].identities[i].identity_images.length > 0){
                                         text = '';
+                                        //identity cenius (waktu choose passenger langsung saat search + muncul di formny) done
                                         text += `
-                                            <div class="row">`;
-                                                for(j in passenger_data[sequence].identities[i].identity_images.slice(0,3))
+                                            <div class="row">
+                                                <div class="col-lg-12">`;
+                                                    text+=`<label style="text-transform: capitalize; text-align:center; font-size:14px;">`+i+` - `+passenger_data[sequence].identities[i].identity_number+`</label><br/>`;
+                                                    text+=`
+                                                    <div style="width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
+                                                    for(k in passenger_data[sequence].identities[i].identity_images){
+                                                        text += `
+                                                        <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
+                                                            <a class="demo-img" href="`+passenger_data[sequence].identities[i].identity_images[k][0]+`" data-jbox-image="5showidentity`+sequence+``+i+``+for_jbox_image+`" title="`+i+` - `+passenger_data[sequence].identities[i].identity_number+` (`+passenger_data[sequence].identities[i].identity_images[k][2]+`)">
+                                                                <img src="`+passenger_data[sequence].identities[i].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
+                                                            </a>
+                                                            <br/>
+                                                            <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+passenger_data[sequence].identities[i].identity_images[k][2]+`</h6>
+                                                        </div>`;
+                                                    }
+                                                    text+=`</div>`;
                                                 text+=`
-                                                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
-                                                    <img src="`+passenger_data[sequence].identities[i].identity_images[j][0]+`" alt="User" class="picture_passenger_agent">
-                                                </div>`;
-                                                text+=`
+                                                </div>
                                             </div>
                                         `;
                                         if(document.getElementById(type+'_attachment_identity'+passenger_number)){
                                             text_attachment= '';
-                                            for(j in passenger_data[sequence].identities[i].identity_images){
+                                            for(k in passenger_data[sequence].identities[i].identity_images){
                                                 text_attachment += `
                                                     <div style="height:220px;margin-bottom:25px;margin-right:10px;">
-                                                        <img src="`+passenger_data[sequence].identities[i].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data[sequence].identities[i].identity_images[j][1]+`" style="height:220px;width:auto" />
+                                                        <img src="`+passenger_data[sequence].identities[i].identity_images[k][0]+`" alt="Passenger" value="`+passenger_data[sequence].identities[i].identity_images[k][1]+`" style="height:220px;width:auto" />
 
                                                         <div class="row" style="justify-content:space-around">
                                                             <div class="checkbox" style="display: block;">
                                                                 <label class="check_box_custom">
                                                                     <span style="font-size:13px;">Delete</span>
-                                                                    <input type="checkbox" value="" id="`+type+`_identity`+passenger_number+`_`+j+`_delete" name="`+type+`_identity`+passenger_number+`_delete">
-                                                                    <input type="hidden" value="`+passenger_data[sequence].identities[i].identity_images[j][1]+`" id="`+type+`_identity`+passenger_number+`_`+j+`_image_seq_id" name="`+type+`_identity`+passenger_number+`_`+j+`_image_seq_id">
+                                                                    <input type="checkbox" value="" id="`+type+`_identity`+passenger_number+`_`+k+`_delete" name="`+type+`_identity`+passenger_number+`_delete">
+                                                                    <input type="hidden" value="`+passenger_data[sequence].identities[i].identity_images[k][1]+`" id="`+type+`_identity`+passenger_number+`_`+k+`_image_seq_id" name="`+type+`_identity`+passenger_number+`_`+k+`_image_seq_id">
                                                                     <span class="check_box_span_custom"></span>
                                                                 </label>
                                                             </div>
@@ -2312,6 +2653,10 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                                         if(document.getElementById(type+'_div_avatar_identity'+passenger_number)){
                                             document.getElementById(type+'_div_avatar_identity'+passenger_number).innerHTML = text
                                             document.getElementById(type+'_div_avatar_identity'+passenger_number).hidden = false;
+                                            new jBox('Image', {
+                                              imageCounter: true,
+                                              imageCounterSeparator: ' of '
+                                            });
                                         }
                                     }else{
                                         if(document.getElementById(type+'_div_avatar_identity'+passenger_number))
@@ -2363,21 +2708,35 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                             }
                             if(passenger_data[sequence].identities['passport'].identity_images.length > 0){
                                 text = '';
+                                //identity cenius only passport (waktu choose passenger langsung saat search + muncul di formny) done
                                 text += `
-                                    <div class="row">`;
-                                        for(j in passenger_data[sequence].identities['passport'].identity_images.slice(0,3))
+                                    <div class="row">
+                                        <div class="col-lg-12">`;
+                                            text+=`<label style="text-transform: capitalize; text-align:center; font-size:14px;">Passport - `+passenger_data[sequence].identities['passport'].identity_number+`</label><br/>`;
+                                            text+=`
+                                            <div style="width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
+                                            for(k in passenger_data[sequence].identities['passport'].identity_images){
+                                                text += `
+                                                <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
+                                                    <a class="demo-img" href="`+passenger_data[sequence].identities['passport'].identity_images[k][0]+`" data-jbox-image="6showidentitypassport`+sequence+`passport`+for_jbox_image+`" title="passport - `+passenger_data[sequence].identities['passport'].identity_number+` (`+passenger_data[sequence].identities['passport'].identity_images[k][2]+`)">
+                                                        <img src="`+passenger_data[sequence].identities['passport'].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
+                                                    </a>
+                                                    <br/>
+                                                    <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+passenger_data[sequence].identities['passport'].identity_images[k][2]+`</h6>
+                                                </div>`;
+                                            }
+                                            text+=`</div>`;
                                         text+=`
-                                        <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
-                                            <img src="`+passenger_data[sequence].identities['passport'].identity_images[j][0]+`" alt="User" class="picture_passenger_agent">
-                                        </div>`;
-                                        text+=`
-                                    </div>`;
+                                        </div>
+                                    </div>
+                                `;
+                                console.log(text);
                                 if(document.getElementById(type+'_attachment_identity'+passenger_number)){
                                     text_attachment= '';
-                                    for(j in passenger_data[sequence].identities['passport'].identity_images){
+                                    for(k in passenger_data[sequence].identities['passport'].identity_images){
                                         text_attachment += `
                                             <div style="height:220px;margin-bottom:25px;margin-right:10px;">
-                                                <img src="`+passenger_data[sequence].identities['passport'].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data[sequence].identities['passport'].identity_images[j][1]+`" style="height:220px;width:auto" />
+                                                <img src="`+passenger_data[sequence].identities['passport'].identity_images[k][0]+`" alt="Passenger" value="`+passenger_data[sequence].identities['passport'].identity_images[k][1]+`" style="height:220px;width:auto" />
 
                                                 <div class="row" style="justify-content:space-around">
                                                     <div class="checkbox" style="display: block;">
@@ -2392,10 +2751,13 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                                     }
                                     document.getElementById(type+'_attachment_identity'+passenger_number).innerHTML = text_attachment;
                                 }
-
                                 if(document.getElementById(type+'_div_avatar_identity'+passenger_number)){
                                     document.getElementById(type+'_div_avatar_identity'+passenger_number).innerHTML = text
                                     document.getElementById(type+'_div_avatar_identity'+passenger_number).hidden = false;
+                                    new jBox('Image', {
+                                      imageCounter: true,
+                                      imageCounterSeparator: ' of '
+                                    });
                                 }
                             }else{
                                 if(document.getElementById(type+'_div_avatar_identity'+passenger_number))
@@ -3348,6 +3710,7 @@ function copy_booker_to_passenger(val, type){
 }
 
 function copy_booker(val,type,identity){
+    for_jbox_image++;
     if(val == 'copy'){
         //sini
         data_identity = [];
@@ -3399,6 +3762,7 @@ function copy_booker(val,type,identity){
                     if(radios.length == 0)
                         radios = document.getElementById('adult_identity_type1').options;
                 }catch(err){console.log(err)}
+
                 if(typeof radios !== 'undefined'){
                     for (var j = 0, length = radios.length; j < length; j++) {
                         if(expired == null || expired < -1){
@@ -3406,16 +3770,28 @@ function copy_booker(val,type,identity){
                                 if(data[0] != ''){
                                     if(typeof data_booker !== 'undefined' && data_booker.identities.hasOwnProperty(identity) && data_booker.identities[identity].identity_images.length > 0){
                                         text = '';
+                                        //identity cenius (milih identity copy booker + muncul di formny) done
                                         text += `
-                                            <div class="row">`;
-                                                for(k in data_booker.identities[identity].identity_images.slice(0,3))
+                                        <div class="row">
+                                            <div class="col-lg-12">`;
+                                                text+=`<label style="text-transform: capitalize; text-align:center; font-size:14px;">`+identity+` - `+data_booker.identities[identity].identity_number+`</label><br/>`;
                                                 text+=`
-                                                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
-                                                    <img src="`+data_booker.identities[identity].identity_images[k][0]+`" alt="User" class="picture_passenger_agent">
-                                                </div>`;
-                                                text+=`
+                                                <div style="width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
+                                                for(k in data_booker.identities[identity].identity_images){
+                                                    text += `
+                                                    <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
+                                                        <a class="demo-img" href="`+data_booker.identities[identity].identity_images[k][0]+`" data-jbox-image="7showidentitycopy1`+for_jbox_image+`" title="`+identity+` - `+data_booker.identities[identity].identity_number+` (`+data_booker.identities[identity].identity_images[k][2]+`)">
+                                                            <img src="`+data_booker.identities[identity].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
+                                                        </a>
+                                                        <br/>
+                                                        <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+data_booker.identities[identity].identity_images[k][2]+`</h6>
+                                                    </div>`;
+                                                }
+                                                text+=`</div>`;
+                                            text+=`
                                             </div>
-                                        `;
+                                        </div>`;
+
                                         if(document.getElementById('adult_attachment_identity1')){
                                             text_attachment= '';
                                             for(k in data_booker.identities[identity].identity_images){
@@ -3441,6 +3817,10 @@ function copy_booker(val,type,identity){
                                         if(document.getElementById('adult_div_avatar_identity1')){
                                             document.getElementById('adult_div_avatar_identity1').innerHTML = text
                                             document.getElementById('adult_div_avatar_identity1').hidden = false;
+                                            new jBox('Image', {
+                                              imageCounter: true,
+                                              imageCounterSeparator: ' of '
+                                            });
                                         }
                                     }else{
                                         if(document.getElementById('adult_div_avatar_identity1'))
@@ -3500,16 +3880,29 @@ function copy_booker(val,type,identity){
                         }
                         if(typeof data_booker !== undefined && data_booker.identities.hasOwnProperty(data[0]) && data_booker.identities[data[0]].identity_images.length > 0){
                             text = '';
+                            //identity cenius (kalo copy booker ke paxs dgn cuma ada passport + muncul di formny) done
+                            //FIX IVAN pas copy booker klo ada sim, yg ke copy sim bukan passport, apa data[0] nya di ganti 'passport' ?
                             text += `
-                                <div class="row">`;
-                                    for(k in data_booker.identities[data[0]].identity_images.slice(0,3))
+                            <div class="row">
+                                <div class="col-lg-12">`;
+                                    text+=`<label style="text-transform: capitalize; text-align:center; font-size:14px;">`+data[0]+` - `+data_booker.identities[data[0]].identity_number+`</label><br/>`;
                                     text+=`
-                                    <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
-                                        <img src="`+data_booker.identities[data[0]].identity_images[k][0]+`" alt="User" class="picture_passenger_agent">
-                                    </div>`;
-                                    text+=`
+                                    <div style="width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
+                                    for(k in data_booker.identities[data[0]].identity_images){
+                                        text += `
+                                        <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
+                                            <a class="demo-img" href="`+data_booker.identities[data[0]].identity_images[k][0]+`" data-jbox-image="8showidentitydata1`+for_jbox_image+`" title="`+data[0]+` - `+data_booker.identities[data[0]].identity_number+` (`+data_booker.identities[data[0]].identity_images[k][2]+`)">
+                                                <img src="`+data_booker.identities[data[0]].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
+                                            </a>
+                                            <br/>
+                                            <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+data_booker.identities[data[0]].identity_images[k][2]+`</h6>
+                                        </div>`;
+                                    }
+                                    text+=`</div>`;
+                                text+=`
                                 </div>
-                            `;
+                            </div>`;
+
                             if(document.getElementById('adult_attachment_identity1')){
                                 text_attachment= '';
                                 for(k in data_booker.identities[data[0]].identity_images){
@@ -3533,8 +3926,12 @@ function copy_booker(val,type,identity){
                             }
 
                             if(document.getElementById('adult_div_avatar_identity1')){
-                                document.getElementById('adult_div_avatar_identity1').innerHTML = text
+                                document.getElementById('adult_div_avatar_identity1').innerHTML = text;
                                 document.getElementById('adult_div_avatar_identity1').hidden = false;
+                                new jBox('Image', {
+                                  imageCounter: true,
+                                  imageCounterSeparator: ' of '
+                                });
                             }
                         }else{
                             if(document.getElementById('adult_div_avatar_identity1'))
@@ -5209,6 +5606,7 @@ function del_passenger_cache(sequence){
 }
 
 function get_passenger_cache(type,update_cache=false){
+    for_jbox_image++;
     type = "chosen";
     $.ajax({
        type: "POST",
@@ -5229,9 +5627,13 @@ function get_passenger_cache(type,update_cache=false){
                 var like_name_booker = document.getElementById('train_passenger_search').value;
                 if(msg.result.response.length != 0){
                     response+=`
-                    <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> Selected Passenger</h6></div>
-                    <div class="row">`;
+                    <div class="row">
+                        <div class="col-lg-12" style="padding:0px;">
+                            <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> Selected Passenger</h6></div>
+                        </div>
+                    </div>
 
+                    <div class="row">`;
                     var selection = null;
                     try{
                         selection = document.getElementById('adult_id_type1').options;
@@ -5253,192 +5655,45 @@ function get_passenger_cache(type,update_cache=false){
                             }
                         }
                     }
+
+                    //hasil chosen
                     for(i in msg.result.response){
                         var number_i = parseInt(i)+1;
                         if(number_i % 2 == 0){
-                            response+=`<div class="col-lg-12" style="border:1px solid #cdcdcd;background:white; padding:15px;">`;
+                            response+=`<div class="col-lg-12 mb-4 border_custom_left" style="background:white; padding:15px">`;
                         }else{
-                            response+=`<div class="col-lg-12" style="border:1px solid #cdcdcd;background:#f7f7f7; padding:15px;">`;
+                            response+=`<div class="col-lg-12 mb-4 border_custom_left" style="background:#f7f7f7; padding:15px">`;
                         }
 
                         response+=`
                         <div class="row">
-                            <div class="col-lg-12">
-                            <span style="font-weight:600; font-size:18px; padding-right:5px;"><span style="color:`+color+`;">`+number_i+`.</span> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name+`</span>`;
-                            if(msg.result.response[i].customer_parents.length != 0){
-                                response += `<label id="pop_corporate_detail`+i+`" style="margin-top:10px; border:1px solid #cdcdcd; background:`+text_color+`; color:`+color+`; padding:5px 10px;"><i class="fas fa-money-bill-wave-alt"></i> Corporate Booker</label>`;
-                            }
+                            <div class="col-xs-3 mb-2" style="text-align:left; padding:0px;">
+                                <span style="font-weight:600; font-size:16px;">
+                                    <span style="color:`+text_color+`; background:`+color+`;padding:2px 15px 2px 15px;">`+number_i+`. </span>
+                                </span>
+                            </div>
+                            <div class="col-xs-9 mb-2" style="text-align:right;">`;
+                                if(agent_security.includes('p_cache_2') == true)
+                                {
+                                    //response+=`<button type="button" class="primary-btn-white" style="width:110px; height:43px;" onclick="edit_passenger_cache(`+i+`);">Edit <i class="fas fa-pen"></i></button>`;
+                                    response+=`<label style="border-bottom:2px solid `+color+`;" onclick="edit_passenger_cache(`+i+`);">Edit <i class="fas fa-pen" style="font-size:18px; color:`+color+`;"></i></label>`;
+                                }
+                                response+=`<label style="margin-right:13px;margin-left:13px;"></label>`;
+                                response+=`<label style="border-bottom:2px solid #ff3030;" onclick="del_passenger_cache(`+i+`);">Remove <i class="fas fa-trash-alt" style="font-size:18px; color:#ff3030;"></i></label>`;
                             response+=`
                             </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">`;
-                                if(msg.result.response[i].face_image.length > 0)
-                                    response+=`<img src="`+msg.result.response[i].face_image[0]+`" alt="User" class="picture_passenger_agent">`;
-                                else if(msg.result.response[i].title == "MR"){
-                                    response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" alt="User MR" class="picture_passenger_agent">`;
-                                }
-                                else if(msg.result.response[i].title == "MRS"){
-                                    response+=`<img src="/static/tt_website_rodextrip/img/user_mrs.png" alt="User MRS" class="picture_passenger_agent">`;
-                                }
-                                else if(msg.result.response[i].title == "MS"){
-                                    response+=`<img src="/static/tt_website_rodextrip/img/user_ms.png" alt="User MS" class="picture_passenger_agent">`;
-                                }
-                                else if(msg.result.response[i].title == "MSTR"){
-                                    response+=`<img src="/static/tt_website_rodextrip/img/user_mistr.png" alt="User MSTR" class="picture_passenger_agent">`;
-                                }
-                                else if(msg.result.response[i].title == "MISS"){
-                                    response+=`<img src="/static/tt_website_rodextrip/img/user_miss.png" alt="User MISS" class="picture_passenger_agent">`;
-                                }
-                                response+=`
-                                </div>
-                                <div class="col-lg-8 col-md-8 col-sm-8">
-                                    <div class="row">
-                                        <div class="col-lg-12">`;
-                                            if(msg.result.response[i].original_agent != '')
-                                            {
-                                                response+=`<span><i class="fas fa-user-secret"></i> <i>Customer Of Agent: </i><b>`+msg.result.response[i].original_agent+`</b></span>`;
-                                            }
-                                            if(msg.result.response[i].birth_date != ''){
-                                                response+=`<br/><span><i class="fas fa-birthday-cake"></i> <i>Birth Date:</i> <b> `+msg.result.response[i].birth_date+`</b></span>`;
-                                            }
+                            <div class="col-lg-5 col-md-5">
+                                <div class="row">
 
-                                            if(msg.result.response[i].phones.length != 0){
-                                                if(template == 1 || template == 5 || template == 6){
-                                                    response+=`
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <i class="fas fa-mobile-alt"></i> <i>Mobile:</i><br/>
-                                                        </div>
-                                                        <div class="col-lg-12">`;
-                                                }
-                                                else if(template == 2){
-                                                    response+=`
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Mobile:</i>
-                                                        </div>
-                                                        <div class="col-lg-12">`;
-                                                }
-                                                else if(template == 3){
-                                                    response+=`
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Mobile:</i>
-                                                                <div class="default-select">`;
-                                                }
-                                                else if(template == 4){
-                                                    response+=`
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Mobile:</i>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <div class="form-select">`;
-                                                }
-
-                                                response+=`<select class="phone_chosen_cls nice-select-default" id="phone_chosen`+i+`" style="width:100%;">`;
-                                                for(j in msg.result.response[i].phones){
-                                                    response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
-                                                }
-                                                response+=`</select>`;
-
-                                                if(template == 1 || template == 5 || template == 6){
-                                                    response+=`</div></div>`;
-                                                }else if(template == 2){
-                                                    response+=`</div></div>`;
-                                                }else if(template == 3){
-                                                    response+=`</div></div></div>`;
-                                                }else if(template == 4){
-                                                    response+=`</div></div></div>`;
-                                                }
-                                            }
-                                            else{
-                                                response+=`<br/>`;
-                                            }
-                                            if(msg.result.response[i].email != '' && msg.result.response[i].email != false){
-                                                response+=`<span><i class="fas fa-envelope"></i> <i>Email:</i> <b>`+msg.result.response[i].email+`</b></span>`;
-                                                check_br = true;
-                                            }
-                                            if(msg.result.response[i].nationality_name != '')
-                                                response+=`<br/><span><i class="fas fa-globe-asia"></i> <i>Nationality:</i> <b>`+msg.result.response[i].nationality_name+`</b></span>`;
-                                            //default passport, kalau ada selection passport, ktp, sim print
-                                            if(msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection == 0 || msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection.includes('passport') || msg.result.response[i].identities.hasOwnProperty('ktp') == true && found_selection.includes('ktp') || msg.result.response[i].identities.hasOwnProperty('sim') == true && found_selection.includes('sim')){
-                                                if(template == 1 || template == 5 || template == 6){
-                                                    response+=`
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <i class="fas fa-id-card"></i> <i>Identity:</i><br/>
-                                                        </div>
-                                                        <div class="col-lg-12">`;
-                                                }else if(template == 2){
-                                                    response+=`
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <i class="fas fa-id-card" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Identity:</i>
-                                                        </div>
-                                                        <div class="col-lg-12">`;
-                                                }else if(template == 3){
-                                                    response+=`
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <i class="fas fa-id-card" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Identity:</i>
-                                                                <div class="default-select">`;
-                                                }else if(template == 4){
-                                                    response+=`
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <i class="fas fa-id-card" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Identity:</i>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <div class="form-select">`;
-                                                }
-                                                response+=`<select class="phone_chosen_cls nice-select-default" id="identity_chosen`+i+`" style="width:100%;">`;
-                                                if(msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection == 0 || msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection.includes('passport'))
-                                                    response += `<option value="passport - `+msg.result.response[i].identities.passport.identity_number+`">Passport - `+msg.result.response[i].identities.passport.identity_number+`</option>`;
-                                                if(msg.result.response[i].identities.hasOwnProperty('ktp') == true && found_selection.includes('ktp') || document.URL.split('/')[document.URL.split('/').length-1] != 'passenger'  &&  msg.result.response[i].identities.hasOwnProperty('ktp') == true || document.URL.split('/')[document.URL.split('/').length-2] != 'passenger' &&  msg.result.response[i].identities.hasOwnProperty('ktp') == true)
-                                                    response += `<option value="ktp - `+msg.result.response[i].identities.ktp.identity_number+`">KTP - `+msg.result.response[i].identities.ktp.identity_number+`</option>`;
-                                                if(msg.result.response[i].identities.hasOwnProperty('sim') == true && found_selection.includes('sim')|| document.URL.split('/')[document.URL.split('/').length-1] != 'passenger'  &&  msg.result.response[i].identities.hasOwnProperty('sim') == true || document.URL.split('/')[document.URL.split('/').length-2] != 'passenger' &&  msg.result.response[i].identities.hasOwnProperty('sim') == true)
-                                                    response += `<option value="sim - `+msg.result.response[i].identities.sim.identity_number+`">SIM - `+msg.result.response[i].identities.sim.identity_number+`</option>`;
-
-                                                response+=`</select>`;
-
-                                                //edit cenius
-                                                response+=`<div style="display:none">`;
-                                                for(j in msg.result.response[i].identities){
-                                                    for(k in msg.result.response[i].identities[j].identity_images){
-                                                        response += `<img src="`+msg.result.response[i].identities[j].identity_images[k][0]+`" alt="User" class="picture_passenger_agent">`
-                                                    }
-                                                }
-                                                response+=`</div>`;
-
-                                                if(template == 1 || template == 5 || template == 6){
-                                                    response+=`</div></div>`;
-                                                }else if(template == 2){
-                                                    response+=`</div></div>`;
-                                                }else if(template == 3){
-                                                    response+=`</div></div></div>`;
-                                                }else if(template == 4){
-                                                    response+=`</div></div></div>`;
-                                                }
-                                            }
-
-//                                            if(msg.result.response[i].identities.hasOwnProperty('passport') == true)
-//                                                response+=`<br/> <span><i class="fas fa-passport"></i> <i>Passport:</i> <b>`+msg.result.response[i].identities.passport.identity_number+`</b></span>`;
-//                                            if(msg.result.response[i].identities.hasOwnProperty('ktp') == true)
-//                                                response+=`<br/> <span><i class="fas fa-id-card"></i> <i>KTP:</i> <b>`+msg.result.response[i].identities.ktp.identity_number+`</b></span>`;
-//                                            if(msg.result.response[i].identities.hasOwnProperty('sim') == true)
-//                                                response+=`<br/> <span><i class="fas fa-id-badge"></i> <i>SIM:</i> <b>`+msg.result.response[i].identities.sim.identity_number+`</b></span>`;
-
-                                            response+=`
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        `;
+                                    <div class="col-lg-12">`;
+                                        response+=`
+                                        <div class="row">`;
                                         if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'passenger' || window.location.href.split('/')[window.location.href.split('/').length-2] == 'passenger'){
                                             response+=`
-                                            <div class="col-lg-12 mt-2">
-                                                <h6>Move to Booker / Passenger</h6>
+                                            <div class="col-lg-12">
+                                                <h6><i class="fas fa-user" style="color:`+color+`;"></i> Move to Booker / Passenger</h6>
                                             </div>
-                                            <div class="col-xs-12 mt-2">`;
+                                            <div class="col-xs-12 mt-2 mb-3">`;
 
                                             response+=`
                                                 <select class="selection_type_ns nice-select-default" id="selection_type`+i+`" style="width:100%;" onchange="btn_move_passenger_cache_enable(`+i+`);">
@@ -5496,126 +5751,325 @@ function get_passenger_cache(type,update_cache=false){
                                                     passenger_sequence = passenger_pick.charAt(0).toUpperCase() + passenger_pick.slice(1).toLowerCase() + ' ' + passenger_pick_number;
                                                 }
                                             }
-            //                                if(check == 0)
-            //                                    response+=`<div class="col-xs-4 mt-2"><button type="button" class="primary-btn-custom" onclick="update_customer_cache_list(`+i+`)" id="move_btn_`+i+`">Move</button></div>`;
-            //                                else
-            //                                    response+=`<div class="col-xs-4 mt-2"><button type="button" class="primary-btn-custom" id="move_btn_`+i+`" disabled>`+passenger_sequence+`</button></div>`;
-                                        }
-                                        else if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'issued_offline'){
+                //                                if(check == 0)
+                //                                    response+=`<div class="col-xs-4 mt-2"><button type="button" class="primary-btn-custom" onclick="update_customer_cache_list(`+i+`)" id="move_btn_`+i+`">Move</button></div>`;
+                //                                else
+                //                                    response+=`<div class="col-xs-4 mt-2"><button type="button" class="primary-btn-custom" id="move_btn_`+i+`" disabled>`+passenger_sequence+`</button></div>`;
+                                            }
+                                            else if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'issued_offline'){
+                                                response+=`
+                                                <div class="col-lg-12 mt-2">
+                                                    <h6>Move to Booker / Passenger</h6>
+                                                </div>
+                                                <div class="col-lg-12 mt-2"><select class="selection_type_ns" id="selection_type`+i+`" style="width:100%;">`;
+                                                if(msg.result.response[i].title == "MR" || msg.result.response[i].title == "MRS" || msg.result.response[i].title == "MS"){
+                                                    response+=`<optgroup label="Booker">`;
+                                                    response+=`<option value="booker">Booker Only</option>`;
+                                                    response+=`<option value="booker_with_adult">Booker With Adult 1</option>`;
+                                                }
+
+                                                try{
+                                                    if(counter_passenger > 0)
+                                                        response+=`<optgroup label="Passenger">`;
+                                                    for(j=0;j<counter_passenger;j++){
+                                                        response+=`<option value="adult`+parseInt(j+1)+`">Passenger `+parseInt(j+1)+`</option>`;
+                                                    }
+                                                }catch(err){
+
+                                                }
+                                                response+=`</select></div>`;
+                                                check = 0;
+                                                var passenger_sequence = '';
+                                                for(i in passenger_data_pick){
+                                                    if(passenger_data_pick[i].seq_id == msg.result.response[i].seq_id){
+                                                        check = 1;
+                                                        var passenger_pick = passenger_data_pick[i].sequence.replace(/[^a-zA-Z ]/g,"");
+                                                        var passenger_pick_number = passenger_data_pick[i].sequence.replace( /^\D+/g, '');
+                                                        passenger_sequence = passenger_pick.charAt(0).toUpperCase() + passenger_pick.slice(1).toLowerCase() + ' ' + passenger_pick_number;
+                                                    }
+                                                }
+                //                                if(check == 0)
+                //                                    response+=`<div class="col-lg-12 mt-2"><button type="button" class="primary-btn-custom" onclick="update_customer_cache_list(`+i+`)" id="move_btn_`+i+`">Move</button></div>`;
+                //                                else
+                //                                    response+=`<div class="col-lg-12 mt-2"><button type="button" class="primary-btn-custom" disabled id="move_btn_`+i+`">`+passenger_sequence+`</button></div>`;
+                                            }
                                             response+=`
-                                            <div class="col-lg-12 mt-2">
-                                                <h6>Move to Booker / Passenger</h6>
-                                            </div>
-                                            <div class="col-lg-12 mt-2"><select class="selection_type_ns" id="selection_type`+i+`" style="width:100%;">`;
-                                            if(msg.result.response[i].title == "MR" || msg.result.response[i].title == "MRS" || msg.result.response[i].title == "MS"){
-                                                response+=`<optgroup label="Booker">`;
-                                                response+=`<option value="booker">Booker Only</option>`;
-                                                response+=`<option value="booker_with_adult">Booker With Adult 1</option>`;
-                                            }
+                                        </div>`;
 
-                                            try{
-                                                if(counter_passenger > 0)
-                                                    response+=`<optgroup label="Passenger">`;
-                                                for(j=0;j<counter_passenger;j++){
-                                                    response+=`<option value="adult`+parseInt(j+1)+`">Passenger `+parseInt(j+1)+`</option>`;
-                                                }
-                                            }catch(err){
-
-                                            }
-                                            response+=`</select></div>`;
-                                            check = 0;
-                                            var passenger_sequence = '';
-                                            for(i in passenger_data_pick){
-                                                if(passenger_data_pick[i].seq_id == msg.result.response[i].seq_id){
-                                                    check = 1;
-                                                    var passenger_pick = passenger_data_pick[i].sequence.replace(/[^a-zA-Z ]/g,"");
-                                                    var passenger_pick_number = passenger_data_pick[i].sequence.replace( /^\D+/g, '');
-                                                    passenger_sequence = passenger_pick.charAt(0).toUpperCase() + passenger_pick.slice(1).toLowerCase() + ' ' + passenger_pick_number;
-                                                }
-                                            }
-            //                                if(check == 0)
-            //                                    response+=`<div class="col-lg-12 mt-2"><button type="button" class="primary-btn-custom" onclick="update_customer_cache_list(`+i+`)" id="move_btn_`+i+`">Move</button></div>`;
-            //                                else
-            //                                    response+=`<div class="col-lg-12 mt-2"><button type="button" class="primary-btn-custom" disabled id="move_btn_`+i+`">`+passenger_sequence+`</button></div>`;
+                                        if(msg.result.response[i].face_image.length > 0)
+                                            response+=`<img src="`+msg.result.response[i].face_image[0]+`" alt="User" class="picture_passenger_agent">`;
+                                        else if(msg.result.response[i].title == "MR"){
+                                            response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" alt="User MR" class="picture_passenger_agent">`;
                                         }
-                                        if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
-                                            print_behavior = false;
-                                            response_behavior=`
-                                            <div class="col-lg-8 col-md-8 col-sm-8">
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                    <br/><b>Behaviors:</b><br/>`;
-                                            for(j in msg.result.response[i].behaviors){
-
-                                                print_behavior = true;
-                                                response_behavior+=`<b>`+j+`</b><br/>`;
-                                                for(k in msg.result.response[i].behaviors[j]){
-                                                    response_behavior+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b>`;
-                                                    if(msg.result.response[i].behaviors[j][k].remark != '' && msg.result.response[i].behaviors[j][k].remark != false)
-                                                        response_behavior +=` - `+msg.result.response[i].behaviors[j][k].remark;
-                                                    response_behavior+=`</span><br/>`;
-                                                }
-                                            }
-                                            if(print_behavior){
-                                                response_behavior += `</div></div></div>`;
-                                                response+= response_behavior;
-                                            }
-                                            response += `</div>`;
+                                        else if(msg.result.response[i].title == "MRS"){
+                                            response+=`<img src="/static/tt_website_rodextrip/img/user_mrs.png" alt="User MRS" class="picture_passenger_agent">`;
+                                        }
+                                        else if(msg.result.response[i].title == "MS"){
+                                            response+=`<img src="/static/tt_website_rodextrip/img/user_ms.png" alt="User MS" class="picture_passenger_agent">`;
+                                        }
+                                        else if(msg.result.response[i].title == "MSTR"){
+                                            response+=`<img src="/static/tt_website_rodextrip/img/user_mistr.png" alt="User MSTR" class="picture_passenger_agent">`;
+                                        }
+                                        else if(msg.result.response[i].title == "MISS"){
+                                            response+=`<img src="/static/tt_website_rodextrip/img/user_miss.png" alt="User MISS" class="picture_passenger_agent">`;
                                         }
                                         response+=`
+                                        <br/>
+                                        <span style="font-weight:600; font-size:18px;">
+                                            `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name+`
+                                        </span>`;
+
+                                        if(msg.result.response[i].customer_parents.length != 0){
+                                            response += `<br/><label id="pop_corporate_detail`+i+`" style="margin-top:10px; border:1px solid #cdcdcd; background:black; color:white; padding:5px 10px;"><i class="fas fa-money-bill-wave-alt"></i> Corporate Booker <i class="fas fa-chevron-down"></i></label>`;
+                                        }
+                                    response+=`
+                                    </div>
+                                    <div class="col-lg-12">`;
+
+                                        if(msg.result.response[i].original_agent != '')
+                                            response+=`<span><i class="fas fa-user-secret"></i> <i>Customer Of Agent: </i><b>`+msg.result.response[i].original_agent+`</b></span>`;
+                                        else
+                                            response+=`<i class="fas fa-user-secret"></i> <i>Customer of Agent: </i>not filled in`;
+
+                                        if(msg.result.response[i].birth_date != '')
+                                            response+=`<br/><span><i class="fas fa-birthday-cake"></i> <i>Birth Date:</i> <b> `+msg.result.response[i].birth_date+`</b></span>`;
+                                        else
+                                            response+=`<br/><i class="fas fa-birthday-cake"></i> <i>Birth Date: </i>not filled in`;
+
+                                        if(msg.result.response[i].nationality_name != '')
+                                            response+=`<br/><span><i class="fas fa-globe-asia"></i> <i>Nationality:</i> <b>`+msg.result.response[i].nationality_name+`</b></span>`;
+                                        else
+                                            response+=`<br/><span><i class="fas fa-globe-asia"></i> <i>Nationality:</i> not filled in</span>`;
+
+                                    response+=`
                                     </div>
                                 </div>
-                            </div>`;
-
-                        if(msg.result.response[i].customer_parents.length != 0){
-                            cor_resp = '';
-                            for(j in msg.result.response[i].customer_parents){
-                                cor_resp += `<option value="`+msg.result.response[i].customer_parents[j].seq_id+`">`+msg.result.response[i].customer_parents[j].type + ` ` + msg.result.response[i].customer_parents[j].name+`</option>`
-                            }
-                            response += `
-                            <div class="col-lg-12 mt-3" style="padding:0px;">
-                                <h6 style="border-bottom:3px solid `+color+`; width:fit-content; padding:5px;">Corporate Mode</h6>
+                            </div>
+                            <div class="col-lg-7 col-md-7 mb-2">
                                 <div class="row">
-                                    <div class="col-sm-8">
-                                        <select id="corpor_mode_select`+i+`" class="corpor_select_cls nice-select-default mt-2" style="width:100%;">
-                                            `+cor_resp+`
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-4">`;
-                                        if(msg.result.response[i].customer_parents.length != 0){
-                                            if(user_login.hasOwnProperty('co_customer_parent_type_name') == false && user_login.co_agent_frontend_security.includes('corp_limitation') == false){
-                                                response+=`<button type="button" class="mt-2 primary-btn-custom corpor-mode-btn" onclick="activate_corporate_mode(`+i+`);">GO</button>`;
-                                            }else{
-                                                response+=`<button type="button" class="mt-2 primary-btn-custom corpor-mode-btn" onclick="deactivate_corporate_mode();">Exit Mode</button>`;
+                                    <div class="col-lg-12">`;
+                                        if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
+                                            print_behavior = false;
+                                            response_behavior=`<i class="fas fa-clipboard"></i>
+                                            <label id="pop_chosen_behavior_detail`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behaviors <i class="fas fa-chevron-down"></i></label>`;
+                                            for(j in msg.result.response[i].behaviors){
+                                                print_behavior = true;
+                                            }
+                                            if(print_behavior)
+                                                response += response_behavior;
+                                        }
+
+                                        if(msg.result.response[i].email != '' && msg.result.response[i].email != false){
+                                            response+=`<br/><span><i class="fas fa-envelope"></i> <i>Email:</i> <b>`+msg.result.response[i].email+`</b></span>`;
+                                        }else{
+                                            response+=`<br/><span><i class="fas fa-envelope"></i> <i>Email:</i> not filled in</span>`;
+                                        }
+
+                                        if(msg.result.response[i].phones.length != 0){
+                                            if(template == 1 || template == 5 || template == 6){
+                                                response+=`
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <i class="fas fa-mobile-alt"></i> <i>Mobile:</i><br/>
+                                                    </div>
+                                                    <div class="col-lg-12">`;
+                                            }
+                                            else if(template == 2){
+                                                response+=`
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Mobile:</i>
+                                                    </div>
+                                                    <div class="col-lg-12">`;
+                                            }
+                                            else if(template == 3){
+                                                response+=`
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Mobile:</i>
+                                                            <div class="default-select">`;
+                                            }
+                                            else if(template == 4){
+                                                response+=`
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Mobile:</i>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="form-select">`;
+                                            }
+
+                                            response+=`<select class="phone_chosen_cls nice-select-default" id="phone_chosen`+i+`" style="width:100%;">`;
+                                            for(j in msg.result.response[i].phones){
+                                                response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
+                                            }
+                                            response+=`</select>`;
+
+                                            if(template == 1 || template == 5 || template == 6){
+                                                response+=`</div></div>`;
+                                            }else if(template == 2){
+                                                response+=`</div></div>`;
+                                            }else if(template == 3){
+                                                response+=`</div></div></div>`;
+                                            }else if(template == 4){
+                                                response+=`</div></div></div>`;
                                             }
                                         }
-                                    response += `
+                                        else{
+                                            response+=`<br/><span><i class="fas fa-mobile-alt"></i> <i>Mobile:</i> not filled in</span><br/>`;
+                                        }
+
+                                        //default passport, kalau ada selection passport, ktp, sim print
+                                        if(msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection == 0 || msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection.includes('passport') || msg.result.response[i].identities.hasOwnProperty('ktp') == true && found_selection.includes('ktp') || msg.result.response[i].identities.hasOwnProperty('sim') == true && found_selection.includes('sim')){
+                                            if(template == 1 || template == 5 || template == 6){
+                                                response+=`
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <i class="fas fa-id-card"></i> <i>Identity:</i><br/>
+                                                    </div>
+                                                    <div class="col-lg-12">`;
+                                            }else if(template == 2){
+                                                response+=`
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <i class="fas fa-id-card" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Identity:</i>
+                                                    </div>
+                                                    <div class="col-lg-12">`;
+                                            }else if(template == 3){
+                                                response+=`
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <i class="fas fa-id-card" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Identity:</i>
+                                                            <div class="default-select">`;
+                                            }else if(template == 4){
+                                                response+=`
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <i class="fas fa-id-card" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> <i>Identity:</i>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="form-select">`;
+                                            }
+
+                                            if(msg.result.response[i].identities.length != 0){
+                                                response+=`
+                                                <select class="phone_chosen_cls nice-select-default mb-2" id="identity_chosen`+i+`" onchange="generate_image_identity(`+i+`, 'identity_chosen', 'div_identity_chosen', 'label_title_identity_chosen', 'chosen')" style="width:100%;">
+                                                    <option value="all_identity">All Identity</option>`;
+
+                                                for(j in msg.result.response[i].identities){
+                                                    response+=`
+                                                    <option value="`+j+` - `+msg.result.response[i].identities[j].identity_number+`" style="text-transform: capitalize;">`+j+` - `+msg.result.response[i].identities[j].identity_number+`</option>`;
+                                                }
+                                                response+=`</select>`;
+                                            }
+
+                                            if(template == 1 || template == 5 || template == 6){
+                                                response+=`</div></div>`;
+                                            }else if(template == 2){
+                                                response+=`</div></div>`;
+                                            }else if(template == 3){
+                                                response+=`</div></div></div>`;
+                                            }else if(template == 4){
+                                                response+=`</div></div></div>`;
+                                            }
+
+                                            //identity cenius chosen passenger done
+                                            if(msg.result.response[i].identities.length != 0){
+                                                response+=`
+                                                <label style="text-transform: capitalize; text-align:center; font-size:14px;" id="label_title_identity_chosen`+i+`">All Identity Image</label><br/>
+                                                <div id="div_identity_chosen`+i+`" style="background:white; border:1px solid #cdcdcd; width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
+                                                check_identity_img = 0;
+                                                for(j in msg.result.response[i].identities){
+                                                    if(msg.result.response[i].identities[j].identity_images.length != 0){
+                                                        for(k in msg.result.response[i].identities[j].identity_images){
+                                                            response += `
+                                                            <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
+                                                                <a class="demo-img" href="`+msg.result.response[i].identities[j].identity_images[k][0]+`" data-jbox-image="9showchosenidentity`+i+``+for_jbox_image+`" title="`+j+` - `+msg.result.response[i].identities[j].identity_number+` (`+msg.result.response[i].identities[j].identity_images[k][2]+`)">
+                                                                    <img src="`+msg.result.response[i].identities[j].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
+                                                                </a><br/>
+                                                                <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+msg.result.response[i].identities[j].identity_images[k][2]+`</h6>
+                                                            </div>`;
+                                                        }
+                                                        check_identity_img = 1;
+                                                    }
+                                                }
+                                                if(check_identity_img == 0){
+                                                    response+=`Image not Found!`;
+                                                }
+                                                response+=`</div>`;
+                                            }
+                                        }
+                                        else{
+                                            response+=`<span><i class="fas fa-id-card"></i> <i>Identity:</i></span><br/>`;
+                                            response+=`
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div style="width:100%; text-align:center; padding:10px 5px 10px 5px; border:1px solid #e3e3e3; background:#fcfcfc;">
+                                                        <h6>Identity not filled in</h6>
+                                                    </div>
+                                                </div>
+                                            </div>`;
+                                        }
+//                                            if(msg.result.response[i].identities.hasOwnProperty('passport') == true)
+//                                                response+=`<br/> <span><i class="fas fa-passport"></i> <i>Passport:</i> <b>`+msg.result.response[i].identities.passport.identity_number+`</b></span>`;
+//                                            if(msg.result.response[i].identities.hasOwnProperty('ktp') == true)
+//                                                response+=`<br/> <span><i class="fas fa-id-card"></i> <i>KTP:</i> <b>`+msg.result.response[i].identities.ktp.identity_number+`</b></span>`;
+//                                            if(msg.result.response[i].identities.hasOwnProperty('sim') == true)
+//                                                response+=`<br/> <span><i class="fas fa-id-badge"></i> <i>SIM:</i> <b>`+msg.result.response[i].identities.sim.identity_number+`</b></span>`;
+
+                                        response+=`
                                     </div>
-                                </div>
-                            </div>`;
-                        }
-                        response+=`
-                            <div class="col-lg-12" style="text-align:right; padding:0px;">
-                                <button type="button" class="primary-btn-custom" onclick="del_passenger_cache(`+i+`);">Delete</button>`;
-                                if(agent_security.includes('p_cache_2') == true)
-                                {
-                                    response+=`
-                                    <button type="button" class="primary-btn-custom mt-2 mb-2" onclick="edit_passenger_cache(`+i+`);">Edit</button>`;
+                                </div>`;
+                                if(msg.result.response[i].customer_parents.length != 0){
+                                    response+=`<div class="row">`;
+                                    cor_resp = '';
+                                        for(j in msg.result.response[i].customer_parents){
+                                            cor_resp += `<option value="`+msg.result.response[i].customer_parents[j].seq_id+`">`+msg.result.response[i].customer_parents[j].type + ` ` + msg.result.response[i].customer_parents[j].name+`</option>`
+                                        }
+                                        response += `
+                                        <div class="col-lg-12 mt-2">
+                                            <div class="row">
+                                                <div class="col-lg-12 mt-1">
+                                                    <h6>Corporate Mode</h6>
+                                                </div>
+                                                <div class="col-lg-12 mt-2 mb-1">
+                                                    <select id="corpor_mode_select`+i+`" class="corpor_select_cls nice-select-default" style="width:100%;">
+                                                        `+cor_resp+`
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg-12">`;
+                                                    if(msg.result.response[i].customer_parents.length != 0){
+                                                        if(user_login.hasOwnProperty('co_customer_parent_type_name') == false && user_login.co_agent_frontend_security.includes('corp_limitation') == false){
+                                                            response+=`<button type="button" class="mt-1 primary-btn-custom corpor-mode-btn" onclick="activate_corporate_mode(`+i+`);">Change Mode</button>`;
+                                                        }else{
+                                                            response+=`<button type="button" class="mt-1 primary-btn-custom corpor-mode-btn" onclick="deactivate_corporate_mode();">Exit Mode</button>`;
+                                                        }
+                                                    }
+                                                response += `
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`;
                                 }
-                        response+=`
+                                response+=`
+                                </div>
                             </div>
                         </div>`;
                     }
                     if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'passenger' || window.location.href.split('/')[window.location.href.split('/').length-2] == 'passenger' || window.location.href.split('/')[window.location.href.split('/').length-1] == 'issued_offline'){
-                        response+=`
-                        <div class="row">
-                            <div class="col-xs-6 mt-3"><button type="button" class="primary-btn" style="width:100%" id="move_btn" onclick="reset_pax_cache();">Reset</button></div>
-                            <div class="col-xs-6 mt-3"><button type="button" class="primary-btn" style="width:100%" id="move_btn" onclick="move_pax_cache();">Move all</button></div>
-                        </div>`;
+                        document.getElementById('button_move_footer').innerHTML=`
+                        <button type="button" class="primary-btn" id="move_btn" onclick="reset_pax_cache();">Reset</button></div>
+                        <button type="button" class="primary-btn" id="move_btn" onclick="move_pax_cache();">Move all</button>`;
                     }
 
                     response+=`</div>`;
                     document.getElementById('passenger_chosen').innerHTML = response;
+
+                    new jBox('Image', {
+                      imageCounter: true,
+                      imageCounterSeparator: ' of '
+                    });
+
                     for(i in msg.result.response){
                         if(msg.result.response[i].customer_parents.length != 0){
                             response_corporate = '';
@@ -5636,6 +6090,51 @@ function get_passenger_cache(type,update_cache=false){
                                  content: response_corporate
                             });
                         }
+
+                        if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
+                            print_pop_behavior = false;
+                            response_pop_behavior = '';
+                            for(j in msg.result.response[i].behaviors){
+                                print_pop_behavior = true;
+                                response_pop_behavior+=`<b><i class="fas fa-angle-right"></i> `+j+`</b><br/>`;
+                                for(k in msg.result.response[i].behaviors[j]){
+                                    response_pop_behavior+=`<span><i>`+k+`: </i><b>`+msg.result.response[i].behaviors[j][k].value+`</b>`;
+                                    if(msg.result.response[i].behaviors[j][k].remark != '' && msg.result.response[i].behaviors[j][k].remark != false)
+                                        response_pop_behavior +=` - `+msg.result.response[i].behaviors[j][k].remark;
+                                    response_pop_behavior+=`</span><br/>`;
+                                }
+                            }
+                            if(print_pop_behavior){
+                                new jBox('Tooltip', {
+                                    attach: '#pop_chosen_behavior_detail'+i,
+                                    target: '#pop_chosen_behavior_detail'+i,
+                                    theme: 'TooltipBorder',
+                                    trigger: 'click',
+                                    adjustTracker: true,
+                                    closeOnClick: 'body',
+                                    closeButton: 'box',
+                                    animation: 'move',
+                                    position: {
+                                      x: 'left',
+                                      y: 'top'
+                                    },
+                                    outside: 'y',
+                                    pointer: 'left:20',
+                                    offset: {
+                                      x: 25
+                                    },
+                                    content: response_pop_behavior,
+                                    onOpen: function () {
+                                      this.source.addClass('active').html('Close <i class="fas fa-chevron-up"></i>');
+                                    },
+                                    onClose: function () {
+                                      this.source.removeClass('active').html('See Behaviors <i class="fas fa-chevron-down"></i>');
+                                    }
+                                });
+
+                            }
+                        }
+
                     }
                     $('.phone_chosen_cls').niceSelect();
                     $('.corpor_select_cls').niceSelect();
@@ -5655,9 +6154,39 @@ function get_passenger_cache(type,update_cache=false){
 }
 
 function move_pax_cache(){
+    cache_error_log = '';
     for(i in passenger_data_cache){
-        if(document.getElementById('selection_type'+i).value)
+        cache_check = 0;
+        if(document.getElementById('selection_type'+i).value){
+            if(document.getElementById('identity_chosen'+i).value == "all_identity"){
+                cache_error_log+= 'Please choose identity type for user '+(parseInt(i)+1)+'!</br>\n';
+                $("#identity_chosen"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                });
+            }else{
+                $("#identity_chosen"+i).each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid #cdcdcd');
+                });
+                cache_check = 1;
+            }
+        }else{
+            $("#identity_chosen"+i).each(function() {
+                $(this).parent().find('.nice-select').css('border', '1px solid #cdcdcd');
+            });
+        }
+        if(cache_check == 1){
             update_customer_cache_list(i);
+        }
+    }
+
+    if(cache_error_log != ''){
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: '<span style="color: red;">'+ cache_error_log +' </span>',
+        });
+    }else{
+        document.getElementById('show_error_log').innerHTML = '';
     }
 }
 
@@ -5672,7 +6201,7 @@ function reset_pax_cache(){
 }
 
 function edit_passenger_cache(val){
-
+    for_jbox_image++;
     //clear data
     document.getElementById('div_avatar_passport').innerHTML = '';
     document.getElementById('attachment1').innerHTML = '';
@@ -5867,31 +6396,51 @@ function edit_passenger_cache(val){
             document.getElementById('passenger_edit_identity_expired_date1').value = passenger_data_cache[val].identities[i].identity_expdate;
             document.getElementById('select2-passenger_edit_identity_country_of_issued1_id-container').innerHTML = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
             document.getElementById('passenger_edit_identity_country_of_issued1').value = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
-            for(j in passenger_data_cache[val].identities[i].identity_images){
-                if(j == 0)
-                    draw_image_identity_text += `<div class="row">`;
-                text+= `
-                    <div style="height:220px;margin-bottom:25px;margin-right:10px;">
-                        <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
 
-                        <div class="row" style="justify-content:space-around">
-                            <div class="checkbox" style="display: block;">
-                                <label class="check_box_custom">
-                                    <span style="font-size:13px;">Delete</span>
-                                    <input type="checkbox" value="" id="`+i+j+`_delete" name="`+i+j+`_delete">
-                                    <span class="check_box_span_custom"></span>
-                                </label>
+            //identity cenius edit passport attachment dan shownya done
+            if(passenger_data_cache[val].identities[i].identity_images.length != 0){
+                draw_image_identity_text+=`
+                <h6 style="text-transform: capitalize;">`+i+` - `+passenger_data_cache[val].identities[i].identity_number+`</h6>
+                <div style="width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
+                for(j in passenger_data_cache[val].identities[i].identity_images){
+                    text+= `
+                    <div class="col-lg-6">
+                        <div style="border:1px solid #cdcdcd; margin-bottom:15px;">
+                            <div class="row">
+                                <div class="col-lg-12 mb-2" style="text-align:center;">
+                                    <img class="mb-2" src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
+                                    <h6 class="mb-2">`+passenger_data_cache[val].identities[i].identity_images[j][2]+`</h6>
+                                </div>
+                                <div class="col-lg-12" style="float:right; margin-left:15px;">
+                                    <label class="check_box_custom">
+                                        <span style="font-size:13px;">Delete</span>
+                                        <input type="checkbox" value="" id="`+i+j+`_delete" name="`+i+j+`_delete">
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>`;
-                draw_image_identity_text += `
-                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
-                    <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="Passport" class="picture_passenger_agent">
-                </div>`;
+
+                    draw_image_identity_text += `
+                    <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
+                        <a class="demo-img" href="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" data-jbox-image="10showidentityeditpassport`+for_jbox_image+`" title="`+i+` - `+passenger_data_cache[val].identities[i].identity_number+` (`+passenger_data_cache[val].identities[i].identity_images[j][2]+`)">
+                            <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="`+i+`" class="picture_identity_customer">
+                        </a>
+                        <br/>
+                        <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+passenger_data_cache[val].identities[i].identity_images[j][2]+`</h6>
+                    </div>`;
+                }
+                draw_image_identity_text+=`</div>`;
             }
+
             if(draw_image_identity_text != ''){
                 document.getElementById('div_avatar_passport').innerHTML = draw_image_identity_text;
                 document.getElementById('div_avatar_passport').hidden = false;
+                new jBox('Image', {
+                  imageCounter: true,
+                  imageCounterSeparator: ' of '
+                });
             }else{
                 document.getElementById('div_avatar_passport').hidden = true;
             }
@@ -5904,31 +6453,51 @@ function edit_passenger_cache(val){
             document.getElementById('passenger_edit_identity_expired_date2').value = passenger_data_cache[val].identities[i].identity_expdate;
             document.getElementById('select2-passenger_edit_identity_country_of_issued2_id-container').innerHTML = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
             document.getElementById('passenger_edit_identity_country_of_issued2').value = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
-            for(j in passenger_data_cache[val].identities[i].identity_images){
-                if(j == 0)
-                    draw_image_identity_text += `<div class="row">`;
-                text+= `
-                    <div style="height:220px;margin-bottom:25px;margin-right:10px;">
-                        <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
 
-                        <div class="row" style="justify-content:space-around">
-                            <div class="checkbox" style="display: block;">
-                                <label class="check_box_custom">
-                                    <span style="font-size:13px;">Delete</span>
-                                    <input type="checkbox" value="" id="`+i+j+`_delete" name="`+i+j+`_delete">
-                                    <span class="check_box_span_custom"></span>
-                                </label>
+            //identity cenius edit ktp attachment dan shownya done
+            if(passenger_data_cache[val].identities[i].identity_images.length != 0){
+                draw_image_identity_text+=`
+                <h6 style="text-transform: capitalize;">`+i+` - `+passenger_data_cache[val].identities[i].identity_number+`</h6>
+                <div style="width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
+                for(j in passenger_data_cache[val].identities[i].identity_images){
+                    text+= `
+                    <div class="col-lg-6">
+                        <div style="border:1px solid #cdcdcd; margin-bottom:15px;">
+                            <div class="row">
+                                <div class="col-lg-12 mb-2" style="text-align:center;">
+                                    <img class="mb-2" src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
+                                    <h6 class="mb-2">`+passenger_data_cache[val].identities[i].identity_images[j][2]+`</h6>
+                                </div>
+                                <div class="col-lg-12" style="float:right; margin-left:15px;">
+                                    <label class="check_box_custom">
+                                        <span style="font-size:13px;">Delete</span>
+                                        <input type="checkbox" value="" id="`+i+j+`_delete" name="`+i+j+`_delete">
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                </div>`;
-                draw_image_identity_text += `
-                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
-                    <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="KTP" class="picture_passenger_agent">
-                </div>`;
+                    </div>`;
+
+                    draw_image_identity_text += `
+                    <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
+                        <a class="demo-img" href="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" data-jbox-image="11showidentityeditpassport`+for_jbox_image+`" title="`+i+` - `+passenger_data_cache[val].identities[i].identity_number+` (`+passenger_data_cache[val].identities[i].identity_images[j][2]+`)">
+                            <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="`+i+`" class="picture_identity_customer">
+                        </a>
+                        <br/>
+                        <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+passenger_data_cache[val].identities[i].identity_images[j][2]+`</h6>
+                    </div>`;
+                }
+                draw_image_identity_text+=`</div>`;
             }
+
             if(draw_image_identity_text != ''){
                 document.getElementById('div_avatar_ktp').innerHTML = draw_image_identity_text;
                 document.getElementById('div_avatar_ktp').hidden = false;
+                new jBox('Image', {
+                  imageCounter: true,
+                  imageCounterSeparator: ' of '
+                });
             }else{
                 document.getElementById('div_avatar_ktp').hidden = true;
             }
@@ -5940,31 +6509,51 @@ function edit_passenger_cache(val){
             document.getElementById('passenger_edit_identity_expired_date3').value = passenger_data_cache[val].identities[i].identity_expdate;
             document.getElementById('select2-passenger_edit_identity_country_of_issued3_id-container').innerHTML = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
             document.getElementById('passenger_edit_identity_country_of_issued3').value = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
-            for(j in passenger_data_cache[val].identities.identity_images){
-                if(j == 0)
-                    draw_image_identity_text += `<div class="row">`;
-                text+= `
-                    <div style="height:220px;margin-bottom:25px;margin-right:10px;">
-                        <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
 
-                        <div class="row" style="justify-content:space-around">
-                            <div class="checkbox" style="display: block;">
-                                <label class="check_box_custom">
-                                    <span style="font-size:13px;">Delete</span>
-                                    <input type="checkbox" value="" id="`+i+j+`_delete" name="`+i+j+`_delete">
-                                    <span class="check_box_span_custom"></span>
-                                </label>
+            //identity cenius edit sim attachment dan shownya done
+            if(passenger_data_cache[val].identities[i].identity_images.length != 0){
+                draw_image_identity_text+=`
+                <h6 style="text-transform: capitalize;">`+i+` - `+passenger_data_cache[val].identities[i].identity_number+`</h6>
+                <div style="width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
+                for(j in passenger_data_cache[val].identities[i].identity_images){
+                    text+= `
+                    <div class="col-lg-6">
+                        <div style="border:1px solid #cdcdcd; margin-bottom:15px;">
+                            <div class="row">
+                                <div class="col-lg-12 mb-2" style="text-align:center;">
+                                    <img class="mb-2" src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
+                                    <h6 class="mb-2">`+passenger_data_cache[val].identities[i].identity_images[j][2]+`</h6>
+                                </div>
+                                <div class="col-lg-12" style="float:right; margin-left:15px;">
+                                    <label class="check_box_custom">
+                                        <span style="font-size:13px;">Delete</span>
+                                        <input type="checkbox" value="" id="`+i+j+`_delete" name="`+i+j+`_delete">
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                </div>`;
-                draw_image_identity_text += `
-                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
-                    <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="SIM" class="picture_passenger_agent">
-                </div>`;
+                    </div>`;
+
+                    draw_image_identity_text += `
+                    <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
+                        <a class="demo-img" href="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" data-jbox-image="12showidentityeditpassport`+for_jbox_image+`" title="`+i+` - `+passenger_data_cache[val].identities[i].identity_number+` (`+passenger_data_cache[val].identities[i].identity_images[j][2]+`)">
+                            <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="`+i+`" class="picture_identity_customer">
+                        </a>
+                        <br/>
+                        <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+passenger_data_cache[val].identities[i].identity_images[j][2]+`</h6>
+                    </div>`;
+                }
+                draw_image_identity_text+=`</div>`;
             }
+
             if(draw_image_identity_text != ''){
                 document.getElementById('div_avatar_sim').innerHTML = draw_image_identity_text;
                 document.getElementById('div_avatar_sim').hidden = false;
+                new jBox('Image', {
+                  imageCounter: true,
+                  imageCounterSeparator: ' of '
+                });
             }else{
                 document.getElementById('div_avatar_sim').hidden = true;
             }
@@ -5976,31 +6565,51 @@ function edit_passenger_cache(val){
             document.getElementById('passenger_edit_identity_expired_date4').value = passenger_data_cache[val].identities[i].identity_expdate;
             document.getElementById('select2-passenger_edit_identity_country_of_issued4_id-container').innerHTML = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
             document.getElementById('passenger_edit_identity_country_of_issued4').value = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
-            for(j in passenger_data_cache[val].identities.identity_images){
-                if(j == 0)
-                    draw_image_identity_text += `<div class="row">`;
-                text+= `
-                    <div style="height:220px;margin-bottom:25px;margin-right:10px;">
-                        <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
 
-                        <div class="row" style="justify-content:space-around">
-                            <div class="checkbox" style="display: block;">
-                                <label class="check_box_custom">
-                                    <span style="font-size:13px;">Delete</span>
-                                    <input type="checkbox" value="" id="`+i+j+`_delete" name="`+i+j+`_delete">
-                                    <span class="check_box_span_custom"></span>
-                                </label>
+            //identity cenius edit ot attachment dan shownya done
+            if(passenger_data_cache[val].identities[i].identity_images.length != 0){
+                draw_image_identity_text+=`
+                <h6 style="text-transform: capitalize;">`+i+` - `+passenger_data_cache[val].identities[i].identity_number+`</h6>
+                <div style="width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
+                for(j in passenger_data_cache[val].identities[i].identity_images){
+                    text+= `
+                    <div class="col-lg-6">
+                        <div style="border:1px solid #cdcdcd; margin-bottom:15px;">
+                            <div class="row">
+                                <div class="col-lg-12 mb-2" style="text-align:center;">
+                                    <img class="mb-2" src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
+                                    <h6 class="mb-2">`+passenger_data_cache[val].identities[i].identity_images[j][2]+`</h6>
+                                </div>
+                                <div class="col-lg-12" style="float:right; margin-left:15px;">
+                                    <label class="check_box_custom">
+                                        <span style="font-size:13px;">Delete</span>
+                                        <input type="checkbox" value="" id="`+i+j+`_delete" name="`+i+j+`_delete">
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                </div>`;
-                draw_image_identity_text += `
-                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
-                    <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="SIM" class="picture_passenger_agent">
-                </div>`;
+                    </div>`;
+
+                    draw_image_identity_text += `
+                    <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
+                        <a class="demo-img" href="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" data-jbox-image="13showidentityeditpassport`+for_jbox_image+`" title="`+i+` - `+passenger_data_cache[val].identities[i].identity_number+` (`+passenger_data_cache[val].identities[i].identity_images[j][2]+`)">
+                            <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="`+i+`" class="picture_identity_customer">
+                        </a>
+                        <br/>
+                        <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+passenger_data_cache[val].identities[i].identity_images[j][2]+`</h6>
+                    </div>`;
+                }
+                draw_image_identity_text+=`</div>`;
             }
+
             if(draw_image_identity_text != ''){
                 document.getElementById('div_avatar_other').innerHTML = draw_image_identity_text;
                 document.getElementById('div_avatar_other').hidden = false;
+                new jBox('Image', {
+                  imageCounter: true,
+                  imageCounterSeparator: ' of '
+                });
             }else{
                 document.getElementById('div_avatar_other').hidden = true;
             }
@@ -6257,14 +6866,16 @@ function update_customer_cache_list(val){
             else if(years_old < parseInt(activity_pax_data[data][0].min_age) - 1 || years_old > parseInt(activity_pax_data[data][0].max_age) + 1)
                 check = 1;
         }
-        if(check == 0)
+        if(check == 0){
             pick_passenger_cache(val);
-        else
+        }
+        else{
             Swal.fire({
               type: 'error',
               title: 'Oops!',
               html: "<span>"+data+" years old doesn't match </span>",
             })
+        }
         $('.loading-booker-train').hide();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -6358,9 +6969,11 @@ function pick_passenger_cache(val){
 }
 
 function pick_passenger_cache_copy(val, identity){
+    for_jbox_image++;
     var passenger_pick = document.getElementById('selection_type'+val).value.replace(/[^a-zA-Z ]/g,"");
     var passenger_pick_number = document.getElementById('selection_type'+val).value.replace( /^\D+/g, '');
     var copy_booker = false;
+
     if(passenger_pick == 'bookerwithadult'){
         passenger_pick = 'booker';
         copy_booker = true;
@@ -6496,11 +7109,16 @@ function pick_passenger_cache_copy(val, identity){
                     var radios = [];
                     try{
                         radios = document.getElementById(passenger_pick+'_id_type'+passenger_pick_number).options;
-                    }catch(err){console.log(err)}
+                    }catch(err){
+                        console.log(err);
+                    }
                     try{
                         if(radios.length == 0)
                             radios = document.getElementById(passenger_pick+'_identity_type'+passenger_pick_number).options;
-                    }catch(err){console.log(err)}
+                    }catch(err){
+                        console.log(err);
+                    }
+
                     if(typeof radios !== 'undefined'){
                         for (var j = 0, length = radios.length; j < length; j++) {
                             if(expired == null || expired < -1){
@@ -6528,14 +7146,26 @@ function pick_passenger_cache_copy(val, identity){
                                         $('#'+passenger_pick+'_id_type'+passenger_pick_number).niceSelect('update');
                                         if(passenger_data_cache[val].identities[data[0]].identity_images.length > 0){
                                             text = '';
+                                            //identity cenius (copy to booker/paxs dari passenger database only passport) done
                                             text += `
-                                                <div class="row">`;
-                                                    for(k in passenger_data_cache[val].identities[data[0]].identity_images.slice(0,3))
+                                                <div class="row">
+                                                    <div class="col-lg-12">`;
+                                                        text+=`<label style="text-transform: capitalize; text-align:center; font-size:14px;">`+data[0]+` - `+passenger_data_cache[val].identities[data[0]].identity_number+`</label><br/>`;
+                                                        text+=`
+                                                        <div style="width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
+                                                        for(k in passenger_data_cache[val].identities[data[0]].identity_images){
+                                                            text += `
+                                                            <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
+                                                                <a class="demo-img" href="`+passenger_data_cache[val].identities[data[0]].identity_images[k][0]+`" data-jbox-image="14showidentity`+val+``+data[0]+``+for_jbox_image+`" title="`+data[0]+` - `+passenger_data_cache[val].identities[data[0]].identity_number+` (`+passenger_data_cache[val].identities[data[0]].identity_images[k][2]+`)">
+                                                                    <img src="`+passenger_data_cache[val].identities[data[0]].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
+                                                                </a>
+                                                                <br/>
+                                                                <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+passenger_data_cache[val].identities[data[0]].identity_images[k][2]+`</h6>
+                                                            </div>`;
+                                                        }
+                                                        text+=`</div>`;
                                                     text+=`
-                                                    <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
-                                                        <img src="`+passenger_data_cache[val].identities[data[0]].identity_images[k][0]+`" alt="User" class="picture_passenger_agent">
-                                                    </div>`;
-                                                    text+=`
+                                                    </div>
                                                 </div>
                                             `;
                                             if(document.getElementById(passenger_pick+'_attachment_identity'+passenger_number)){
@@ -6563,6 +7193,10 @@ function pick_passenger_cache_copy(val, identity){
                                             if(document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number)){
                                                 document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number).innerHTML = text
                                                 document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number).hidden = false;
+                                                new jBox('Image', {
+                                                  imageCounter: true,
+                                                  imageCounterSeparator: ' of '
+                                                });
                                             }
                                         }else{
                                             if(document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number))
@@ -6586,6 +7220,7 @@ function pick_passenger_cache_copy(val, identity){
                     }else if( typeof expired !== 'undefined' && expired < -1){
                         try{ //KALAU ADA IDENTITY
                             //PASSPORT
+                            //FIX IVAN waktu move to adult dari database passenger langsung move ke adult tanpa withbooker apa karena radiosnya ga baca id ap gimana?
                             if(data[1] != ''){
                                 identity_check = false;
                                 if(document.getElementById(passenger_pick+'_passport_number'+passenger_pick_number))
@@ -6600,17 +7235,29 @@ function pick_passenger_cache_copy(val, identity){
                             }
                             if(passenger_data_cache[val].identities['passport'].identity_images.length > 0){
                                 text = '';
+                                //identity cenius (copy to booker/paxs dari passanger database) done
                                 text += `
-                                    <div class="row">`;
-                                        for(k in passenger_data_cache[val].identities['passport'].identity_images.slice(0,3))
+                                    <div class="row">
+                                        <div class="col-lg-12">`;
+                                            text+=`<label style="text-transform: capitalize; text-align:center; font-size:14px;">Passport - `+passenger_data_cache[val].identities['passport'].identity_number+`</label><br/>`;
+                                            text+=`
+                                            <div style="width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
+                                            for(k in passenger_data_cache[val].identities['passport'].identity_images){
+                                                text += `
+                                                <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
+                                                    <a class="demo-img" href="`+passenger_data_cache[val].identities['passport'].identity_images[k][0]+`" data-jbox-image="15showidentity`+val+`passport`+for_jbox_image+`" title="passport - `+passenger_data_cache[val].identities['passport'].identity_number+` (`+passenger_data_cache[val].identities['passport'].identity_images[k][2]+`)">
+                                                        <img src="`+passenger_data_cache[val].identities['passport'].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
+                                                    </a>
+                                                    <br/>
+                                                    <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+passenger_data_cache[val].identities['passport'].identity_images[k][2]+`</h6>
+                                                </div>`;
+                                            }
+                                            text+=`</div>`;
                                         text+=`
-                                        <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
-                                            <img src="`+passenger_data_cache[val].identities[identity].identity_images[k][0]+`" alt="User" class="picture_passenger_agent">
-                                        </div>`;
-                                        text+=`
+                                        </div>
                                     </div>
                                 `;
-                                if(document.getElementById(type+'_attachment_identity'+passenger_number)){
+                                if(document.getElementById(type+'_attachment_identity'+passenger_pick_number)){
                                     text_attachment= '';
                                     for(k in passenger_data_cache[val].identities['passport'].identity_images){
                                         text_attachment += `
@@ -6635,6 +7282,10 @@ function pick_passenger_cache_copy(val, identity){
                                 if(document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number)){
                                     document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number).innerHTML = text
                                     document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number).hidden = false;
+                                    new jBox('Image', {
+                                      imageCounter: true,
+                                      imageCounterSeparator: ' of '
+                                    });
                                 }
                             }else{
                                 if(document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number))
@@ -6738,6 +7389,7 @@ function pick_passenger_cache_copy(val, identity){
                     provider_type_copy = document.URL.split('/')[document.URL.split('/').length-2]
                 else if(document.URL.split('/')[document.URL.split('/').length-1] == 'issued_offline')
                     provider_type_copy = 'issued_offline'
+
                 data_booker = passenger_data_cache[val];
                 document.getElementsByName('myRadios')[0].checked = 'checked';
                 copy_booker_to_passenger('copy',provider_type_copy);
@@ -7577,4 +8229,104 @@ function run_signup_admin(){
     document.getElementById('signup_text_temp').innerHTML = document.getElementById('signup_btb_text').value;
     document.getElementById('signup_btn_temp').innerHTML = `<i class="fas fa-user-plus"></i> ` + document.getElementById('signup_btb_btn').value;
     $('#example_modal').modal('show');
+}
+
+function generate_image_identity(counter, id, div_id, label_id, cek_search){
+    text_identity = '';
+    for_jbox_image++;
+    get_value = $("#"+id+counter).val();
+
+    cek_identity_img = 0;
+    if(get_value == 'all_identity'){
+        document.getElementById(''+label_id+counter).innerHTML = 'All Identity Image';
+        if(cek_search == 'chosen'){
+            for(j in passenger_data_cache[counter].identities){
+                if(passenger_data_cache[counter].identities[j].identity_images.length != 0){
+                    for(k in passenger_data_cache[counter].identities[j].identity_images){
+                        text_identity += `
+                        <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
+                            <a class="demo-img" href="`+passenger_data_cache[counter].identities[j].identity_images[k][0]+`" data-jbox-image="showidentity`+counter+`allidentity`+for_jbox_image+`" title="`+j+` - `+passenger_data_cache[counter].identities[j].identity_number+` (`+passenger_data_cache[counter].identities[j].identity_images[k][2]+`)">
+                                <img src="`+passenger_data_cache[counter].identities[j].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
+                            </a>
+                            <br/>
+                            <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+passenger_data_cache[counter].identities[j].identity_images[k][2]+`</h6>
+                        </div>`;
+                    }
+                    cek_identity_img = 1;
+                }
+            }
+        }
+        else{
+            for(j in passenger_data[counter].identities){
+                if(passenger_data[counter].identities[j].identity_images.length != 0){
+                    for(k in passenger_data[counter].identities[j].identity_images){
+                        text_identity += `
+                        <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
+                            <a class="demo-img" href="`+passenger_data[counter].identities[j].identity_images[k][0]+`" data-jbox-image="showidentity`+counter+`allidentity`+for_jbox_image+`" title="`+j+` - `+passenger_data[counter].identities[j].identity_number+` (`+passenger_data[counter].identities[j].identity_images[k][2]+`)">
+                                <img src="`+passenger_data[counter].identities[j].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
+                            </a>
+                            <br/>
+                            <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+passenger_data[counter].identities[j].identity_images[k][2]+`</h6>
+                        </div>`;
+                    }
+                    cek_identity_img = 1;
+                }
+            }
+        }
+    }
+    else{
+        if(cek_search == 'chosen'){
+            for(j in passenger_data_cache[counter].identities){
+                get_dt_identity = ""+j+ " - " +passenger_data_cache[counter].identities[j].identity_number;
+                if(get_value == get_dt_identity){
+                    document.getElementById(''+label_id+counter).innerHTML = get_dt_identity+" Image";
+                    if(passenger_data_cache[counter].identities[j].identity_images.length != 0){
+                        for(k in passenger_data_cache[counter].identities[j].identity_images){
+                            text_identity += `
+                            <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
+                                <a class="demo-img" href="`+passenger_data_cache[counter].identities[j].identity_images[k][0]+`" data-jbox-image="showidentity`+counter+``+for_jbox_image+`" title="`+j+` - `+passenger_data_cache[counter].identities[j].identity_number+` (`+passenger_data_cache[counter].identities[j].identity_images[k][2]+`)">
+                                    <img src="`+passenger_data_cache[counter].identities[j].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
+                                </a>
+                                <br/>
+                                <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+passenger_data_cache[counter].identities[j].identity_images[k][2]+`</h6>
+                            </div>`;
+                        }
+                        cek_identity_img = 1;
+                    }
+                }
+            }
+        }
+        else{
+            for(j in passenger_data[counter].identities){
+                get_dt_identity = ""+j+ " - " +passenger_data[counter].identities[j].identity_number;
+                if(get_value == get_dt_identity){
+                    document.getElementById(''+label_id+counter).innerHTML = get_dt_identity+" Image";
+                    if(passenger_data[counter].identities[j].identity_images.length != 0){
+                        for(k in passenger_data[counter].identities[j].identity_images){
+                            text_identity += `
+                            <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
+                                <a class="demo-img" href="`+passenger_data[counter].identities[j].identity_images[k][0]+`" data-jbox-image="showidentity`+counter+``+for_jbox_image+`" title="`+j+` - `+passenger_data[counter].identities[j].identity_number+` (`+passenger_data[counter].identities[j].identity_images[k][2]+`)">
+                                    <img src="`+passenger_data[counter].identities[j].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
+                                </a>
+                                <br/>
+                                <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+passenger_data[counter].identities[j].identity_images[k][2]+`</h6>
+                            </div>`;
+                        }
+                        cek_identity_img = 1;
+                    }
+                }
+            }
+        }
+    }
+
+    if(cek_identity_img == 0){
+        text_identity+=`Image not Found!`;
+    }
+
+    document.getElementById(''+div_id+counter).innerHTML = text_identity;
+
+    new jBox('Image', {
+      imageCounter: true,
+      imageCounterSeparator: ' of '
+    });
 }

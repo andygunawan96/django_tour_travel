@@ -262,7 +262,7 @@
                         <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} </span><img src="{{static_path}}img/search.gif" alt="Search" style="height:50px; width:50px;"/>
                     </div>
                     <span style="font-size:14px;">{% trans 'Max 100 customers in 1 search' %} </span>
-                    <div id="search_result_passenger" style="max-height:600px; overflow:auto; padding:15px;">
+                    <div id="search_result_passenger" style="max-height:450px; overflow:auto; padding:15px;">
 
                     </div>
                 </div>
@@ -446,7 +446,7 @@
                                                                 </div>
                                                                 <div class="modal-body">
 
-                                                                    Files: <input type="file" id="files_attachment1" name="files_attachment_edit1" multiple="" accept="image/*"><br>
+                                                                    Files: <input type="file" id="files_attachment1" name="files_attachment_edit1" multiple="" accept="image/*"><br><br/>
 
                                                                     <div id="selectedFiles_attachment1"></div>
                                                                 </div>
@@ -840,7 +840,7 @@
                                                                         </div>
                                                                         <div class="modal-body">
 
-                                                                            Files: <input type="file" id="files_attachment1" name="files_attachment_edit1" multiple="" accept="image/*"><br>
+                                                                            Files: <input type="file" id="files_attachment1" name="files_attachment_edit1" multiple="" accept="image/*"><br><br/>
 
                                                                             <div id="selectedFiles_attachment1"></div>
                                                                         </div>
@@ -1228,7 +1228,7 @@
                                                                 </div>
                                                                 <div class="modal-body">
 
-                                                                    Files: <input type="file" id="files_attachment1" name="files_attachment_edit1" multiple="" accept="image/*"><br>
+                                                                    Files: <input type="file" id="files_attachment1" name="files_attachment_edit1" multiple="" accept="image/*"><br><br/>
 
                                                                     <div id="selectedFiles_attachment1"></div>
                                                                 </div>
@@ -1616,7 +1616,7 @@
                                                                 </div>
                                                                 <div class="modal-body">
 
-                                                                    Files: <input type="file" id="files_attachment1" name="files_attachment_edit1" multiple="" accept="image/*"><br>
+                                                                    Files: <input type="file" id="files_attachment1" name="files_attachment_edit1" multiple="" accept="image/*"><br><br/>
 
                                                                     <div id="selectedFiles_attachment1"></div>
                                                                 </div>
@@ -2006,7 +2006,7 @@
                                                                 </div>
                                                                 <div class="modal-body">
 
-                                                                    Files: <input type="file" id="files_attachment1" name="files_attachment_edit1" multiple="" accept="image/*"><br>
+                                                                    Files: <input type="file" id="files_attachment1" name="files_attachment_edit1" multiple="" accept="image/*"><br><br/>
 
                                                                     <div id="selectedFiles_attachment1"></div>
                                                                 </div>
@@ -2404,7 +2404,7 @@
                                                                 </div>
                                                                 <div class="modal-body">
 
-                                                                    Files: <input type="file" id="files_attachment1" name="files_attachment_edit1" multiple="" accept="image/*"><br>
+                                                                    Files: <input type="file" id="files_attachment1" name="files_attachment_edit1" multiple="" accept="image/*"><br><br/>
 
                                                                     <div id="selectedFiles_attachment1"></div>
                                                                 </div>
@@ -2625,7 +2625,7 @@
                     </form>
                 </div>
                 {% endif %}
-                <div class="col-lg-12" id="passenger_chosen" style="background-color:white; max-height:600px; overflow:auto; margin-top:10px;" hidden>
+                <div class="col-lg-12" id="passenger_chosen" style="background-color:white; max-height:450px; overflow:auto; margin-top:10px;" hidden>
 
                 </div>
                 {%if template == 1%}
@@ -2787,13 +2787,12 @@
                                                                 <div class="modal-body">
 
                                                                     Files: <input type="file" id="files_attachment_edit1" name="files_attachment_edit1" multiple="" accept="image/*"><br>
-
-                                                                    <div id="selectedFiles_attachment_edit1"></div>
+                                                                    <div id="selectedFiles_attachment_edit1" class="mb-2"></div>
                                                                     <div class="input-container-search-ticket">
                                                                         <input type="text" class="form-control o_website_form_input" id="description_attachment_edit1" name="description_attachment_edit1" placeholder="Description" />
                                                                     </div>
                                                                     <br/>
-                                                                    <div id="attachment1"></div>
+                                                                    <div class="row" id="attachment1"></div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'edit');">{% trans 'Close' %}</button>
@@ -2855,13 +2854,13 @@
 
                                                                     Files: <input type="file" id="files_attachment_edit2" name="files_attachment_edit2" multiple="" accept="image/*"><br>
 
-                                                                    <div id="selectedFiles_attachment_edit2"></div>
+                                                                    <div id="selectedFiles_attachment_edit2" class="mb-2"></div>
                                                                     <div class="input-container-search-ticket">
                                                                         <input type="text" class="form-control o_website_form_input" id="description_attachment_edit2" name="description_attachment_edit2" placeholder="Description" />
                                                                     </div>
                                                                     <br/>
 
-                                                                    <div id="attachment2"></div>
+                                                                    <div class="row" id="attachment2"></div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'edit');">{% trans 'Close' %}</button>
@@ -2923,12 +2922,12 @@
 
                                                                     Files: <input type="file" id="files_attachment_edit3" name="files_attachment_edit3" multiple="" accept="image/*"><br>
 
-                                                                    <div id="selectedFiles_attachment_edit3"></div>
+                                                                    <div id="selectedFiles_attachment_edit3" class="mb-2"></div>
                                                                     <div class="input-container-search-ticket">
                                                                         <input type="text" class="form-control o_website_form_input" id="description_attachment_edit3" name="description_attachment_edit3" placeholder="Description" />
                                                                     </div>
                                                                     <br/>
-                                                                    <div id="attachment3"></div>
+                                                                    <div class="row" id="attachment3"></div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" onclick="close_upload_attachment(3,'edit');">{% trans 'Close' %}</button>
@@ -2990,12 +2989,12 @@
 
                                                                     Files: <input type="file" id="files_attachment_edit4" name="files_attachment_edit4" multiple="" accept="image/*"><br>
 
-                                                                    <div id="selectedFiles_attachment_edit4"></div>
+                                                                    <div id="selectedFiles_attachment_edit4" class="mb-2"></div>
                                                                     <div class="input-container-search-ticket">
                                                                         <input type="text" class="form-control o_website_form_input" id="description_attachment_edit4" name="description_attachment_edit4" placeholder="Description" />
                                                                     </div>
                                                                     <br/>
-                                                                    <div id="attachment4"></div>
+                                                                    <div class="row" id="attachment4"></div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" onclick="close_upload_attachment(4,'edit');">{% trans 'Close' %}</button>
@@ -3076,7 +3075,7 @@
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Birth Date' %}</label><br>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control date-picker-birth" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                            <input type="text" class="form-control date-picker-birth" style="background:white;" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -3178,12 +3177,12 @@
 
                                                                             Files: <input type="file" id="files_attachment_edit1" name="files_attachment_edit1" multiple="" accept="image/*"><br>
 
-                                                                            <div id="selectedFiles_attachment_edit1"></div>
+                                                                            <div id="selectedFiles_attachment_edit1" class="mb-2"></div>
                                                                             <div class="input-container-search-ticket">
                                                                                 <input type="text" class="form-control o_website_form_input" id="description_attachment_edit1" name="description_attachment_edit1" placeholder="Description" />
                                                                             </div>
                                                                             <br/>
-                                                                            <div id="attachment1"></div>
+                                                                            <div class="row" id="attachment1"></div>
                                                                         </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'edit');">{% trans 'Close' %}</button>
@@ -3243,12 +3242,12 @@
 
                                                                             Files: <input type="file" id="files_attachment_edit2" name="files_attachment_edit2" multiple="" accept="image/*"><br>
 
-                                                                            <div id="selectedFiles_attachment_edit2"></div>
+                                                                            <div id="selectedFiles_attachment_edit2" class="mb-2"></div>
                                                                             <div class="input-container-search-ticket">
                                                                                 <input type="text" class="form-control o_website_form_input" id="description_attachment_edit2" name="description_attachment_edit2" placeholder="Description" />
                                                                             </div>
                                                                             <br/>
-                                                                            <div id="attachment2"></div>
+                                                                            <div class="row" id="attachment2"></div>
                                                                         </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'edit');">{% trans 'Close' %}</button>
@@ -3308,12 +3307,12 @@
 
                                                                             Files: <input type="file" id="files_attachment_edit3" name="files_attachment_edit3" multiple="" accept="image/*"><br>
 
-                                                                            <div id="selectedFiles_attachment_edit3"></div>
+                                                                            <div id="selectedFiles_attachment_edit3" class="mb-2"></div>
                                                                             <div class="input-container-search-ticket">
                                                                                 <input type="text" class="form-control o_website_form_input" id="description_attachment_edit3" name="description_attachment_edit3" placeholder="Description" />
                                                                             </div>
                                                                             <br/>
-                                                                            <div id="attachment3"></div>
+                                                                            <div class="row" id="attachment3"></div>
                                                                         </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(3,'edit');">{% trans 'Close' %}</button>
@@ -3373,12 +3372,12 @@
 
                                                                             Files: <input type="file" id="files_attachment_edit4" name="files_attachment_edit4" multiple="" accept="image/*"><br>
 
-                                                                            <div id="selectedFiles_attachment_edit4"></div>
+                                                                            <div id="selectedFiles_attachment_edit4" class="mb-2"></div>
                                                                             <div class="input-container-search-ticket">
                                                                                 <input type="text" class="form-control o_website_form_input" id="description_attachment_edit4" name="description_attachment_edit4" placeholder="Description" />
                                                                             </div>
                                                                             <br/>
-                                                                            <div id="attachment4"></div>
+                                                                            <div class="row" id="attachment4"></div>
                                                                         </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-default" onclick="close_upload_attachment(4,'edit');">{% trans 'Close' %}</button>
@@ -3459,7 +3458,7 @@
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Birth Date' %}</label><br>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control date-picker-birth" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                    <input type="text" class="form-control date-picker-birth" style="background:white;" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -3561,12 +3560,12 @@
 
                                                                     Files: <input type="file" id="files_attachment_edit1" name="files_attachment_edit1" multiple="" accept="image/*"><br>
 
-                                                                    <div id="selectedFiles_attachment_edit1"></div>
+                                                                    <div id="selectedFiles_attachment_edit1" class="mb-2"></div>
                                                                     <div class="input-container-search-ticket">
                                                                         <input type="text" class="form-control o_website_form_input" id="description_attachment_edit1" name="description_attachment_edit1" placeholder="Description" />
                                                                     </div>
                                                                     <br/>
-                                                                    <div id="attachment1"></div>
+                                                                    <div class="row" id="attachment1"></div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'edit');">{% trans 'Close' %}</button>
@@ -3626,12 +3625,12 @@
 
                                                                     Files: <input type="file" id="files_attachment_edit2" name="files_attachment_edit2" multiple="" accept="image/*"><br>
 
-                                                                    <div id="selectedFiles_attachment_edit2"></div>
+                                                                    <div id="selectedFiles_attachment_edit2" class="mb-2"></div>
                                                                     <div class="input-container-search-ticket">
                                                                         <input type="text" class="form-control o_website_form_input" id="description_attachment_edit2" name="description_attachment_edit2" placeholder="Description" />
                                                                     </div>
                                                                     <br/>
-                                                                    <div id="attachment2"></div>
+                                                                    <div class="row" id="attachment2"></div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'edit');">{% trans 'Close' %}</button>
@@ -3691,12 +3690,12 @@
 
                                                                     Files: <input type="file" id="files_attachment_edit3" name="files_attachment_edit3" multiple="" accept="image/*"><br>
 
-                                                                    <div id="selectedFiles_attachment_edit3"></div>
+                                                                    <div id="selectedFiles_attachment_edit3" class="mb-2"></div>
                                                                     <div class="input-container-search-ticket">
                                                                         <input type="text" class="form-control o_website_form_input" id="description_attachment_edit3" name="description_attachment_edit3" placeholder="Description" />
                                                                     </div>
                                                                     <br/>
-                                                                    <div id="attachment3"></div>
+                                                                    <div class="row" id="attachment3"></div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" onclick="close_upload_attachment(3,'edit');">{% trans 'Close' %}</button>
@@ -3756,12 +3755,12 @@
 
                                                                     Files: <input type="file" id="files_attachment_edit4" name="files_attachment_edit4" multiple="" accept="image/*"><br>
 
-                                                                    <div id="selectedFiles_attachment_edit4"></div>
+                                                                    <div id="selectedFiles_attachment_edit4" class="mb-2"></div>
                                                                     <div class="input-container-search-ticket">
                                                                         <input type="text" class="form-control o_website_form_input" id="description_attachment_edit4" name="description_attachment_edit4" placeholder="Description" />
                                                                     </div>
                                                                     <br/>
-                                                                    <div id="attachment4"></div>
+                                                                    <div class="row" id="attachment4"></div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" onclick="close_upload_attachment(4,'edit');">{% trans 'Close' %}</button>
@@ -3840,7 +3839,7 @@
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Birth Date' %}</label><br>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control date-picker-birth" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                    <input type="text" class="form-control date-picker-birth" style="background:white;" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -3942,12 +3941,12 @@
 
                                                                     Files: <input type="file" id="files_attachment_edit1" name="files_attachment_edit1" multiple="" accept="image/*"><br>
 
-                                                                    <div id="selectedFiles_attachment_edit1"></div>
+                                                                    <div id="selectedFiles_attachment_edit1" class="mb-2"></div>
                                                                     <div class="input-container-search-ticket">
                                                                         <input type="text" class="form-control o_website_form_input" id="description_attachment_edit1" name="description_attachment_edit1" placeholder="Description" />
                                                                     </div>
                                                                     <br/>
-                                                                    <div id="attachment1"></div>
+                                                                    <div class="row" id="attachment1"></div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'edit');">{% trans 'Close' %}</button>
@@ -4007,12 +4006,12 @@
 
                                                                     Files: <input type="file" id="files_attachment_edit2" name="files_attachment_edit2" multiple="" accept="image/*"><br>
 
-                                                                    <div id="selectedFiles_attachment_edit2"></div>
+                                                                    <div id="selectedFiles_attachment_edit2" class="mb-2"></div>
                                                                     <div class="input-container-search-ticket">
                                                                         <input type="text" class="form-control o_website_form_input" id="description_attachment_edit2" name="description_attachment_edit2" placeholder="Description" />
                                                                     </div>
                                                                     <br/>
-                                                                    <div id="attachment2"></div>
+                                                                    <div class="row" id="attachment2"></div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'edit');">{% trans 'Close' %}</button>
@@ -4072,12 +4071,12 @@
 
                                                                     Files: <input type="file" id="files_attachment_edit3" name="files_attachment_edit3" multiple="" accept="image/*"><br>
 
-                                                                    <div id="selectedFiles_attachment_edit3"></div>
+                                                                    <div id="selectedFiles_attachment_edit3" class="mb-2"></div>
                                                                     <div class="input-container-search-ticket">
                                                                         <input type="text" class="form-control o_website_form_input" id="description_attachment_edit3" name="description_attachment_edit3" placeholder="Description" />
                                                                     </div>
                                                                     <br/>
-                                                                    <div id="attachment3"></div>
+                                                                    <div class="row" id="attachment3"></div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" onclick="close_upload_attachment(3,'edit');">{% trans 'Close' %}</button>
@@ -4137,12 +4136,12 @@
 
                                                                     Files: <input type="file" id="files_attachment_edit4" name="files_attachment_edit4" multiple="" accept="image/*"><br>
 
-                                                                    <div id="selectedFiles_attachment_edit4"></div>
+                                                                    <div id="selectedFiles_attachment_edit4" class="mb-2"></div>
                                                                     <div class="input-container-search-ticket">
                                                                         <input type="text" class="form-control o_website_form_input" id="description_attachment_edit4" name="description_attachment_edit4" placeholder="Description" />
                                                                     </div>
                                                                     <br/>
-                                                                    <div id="attachment4"></div>
+                                                                    <div class="row" id="attachment4"></div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" onclick="close_upload_attachment(4,'edit');">{% trans 'Close' %}</button>
@@ -4223,7 +4222,7 @@
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Birth Date' %}</label><br>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control date-picker-birth" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                    <input type="text" class="form-control date-picker-birth" style="background:white;" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -4328,12 +4327,12 @@
 
                                                                     Files: <input type="file" id="files_attachment_edit1" name="files_attachment_edit1" multiple="" accept="image/*"><br>
 
-                                                                    <div id="selectedFiles_attachment_edit1"></div>
+                                                                    <div id="selectedFiles_attachment_edit1" class="mb-2"></div>
                                                                     <div class="input-container-search-ticket">
                                                                         <input type="text" class="form-control o_website_form_input" id="description_attachment_edit1" name="description_attachment_edit1" placeholder="Description" />
                                                                     </div>
                                                                     <br/>
-                                                                    <div id="attachment1"></div>
+                                                                    <div class="row" id="attachment1"></div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'edit');">{% trans 'Close' %}</button>
@@ -4395,12 +4394,12 @@
 
                                                                     Files: <input type="file" id="files_attachment_edit2" name="files_attachment_edit2" multiple="" accept="image/*"><br>
 
-                                                                    <div id="selectedFiles_attachment_edit2"></div>
+                                                                    <div id="selectedFiles_attachment_edit2" class="mb-2"></div>
                                                                     <div class="input-container-search-ticket">
                                                                         <input type="text" class="form-control o_website_form_input" id="description_attachment_edit2" name="description_attachment_edit2" placeholder="Description" />
                                                                     </div>
                                                                     <br/>
-                                                                    <div id="attachment2"></div>
+                                                                    <div class="row" id="attachment2"></div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'edit');">{% trans 'Close' %}</button>
@@ -4426,7 +4425,7 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date3" id="passenger_edit_identity_expired_date3" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="passenger_edit_identity_expired_date3" id="passenger_edit_identity_expired_date3" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -4462,12 +4461,12 @@
 
                                                                     Files: <input type="file" id="files_attachment_edit3" name="files_attachment_edit3" multiple="" accept="image/*"><br>
 
-                                                                    <div id="selectedFiles_attachment_edit3"></div>
+                                                                    <div id="selectedFiles_attachment_edit3" class="mb-2"></div>
                                                                     <div class="input-container-search-ticket">
                                                                         <input type="text" class="form-control o_website_form_input" id="description_attachment_edit3" name="description_attachment_edit3" placeholder="Description" />
                                                                     </div>
                                                                     <br/>
-                                                                    <div id="attachment3"></div>
+                                                                    <div class="row" id="attachment3"></div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" onclick="close_upload_attachment(3,'edit');">{% trans 'Close' %}</button>
@@ -4493,7 +4492,7 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date4" id="passenger_edit_identity_expired_date4" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="passenger_edit_identity_expired_date4" id="passenger_edit_identity_expired_date4" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -4529,12 +4528,12 @@
 
                                                                     Files: <input type="file" id="files_attachment_edit4" name="files_attachment_edit4" multiple="" accept="image/*"><br>
 
-                                                                    <div id="selectedFiles_attachment_edit4"></div>
+                                                                    <div id="selectedFiles_attachment_edit4" class="mb-2"></div>
                                                                     <div class="input-container-search-ticket">
                                                                         <input type="text" class="form-control o_website_form_input" id="description_attachment_edit4" name="description_attachment_edit4" placeholder="Description" />
                                                                     </div>
                                                                     <br/>
-                                                                    <div id="attachment4"></div>
+                                                                    <div class="row" id="attachment4"></div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" onclick="close_upload_attachment(4,'edit');">{% trans 'Close' %}</button>
@@ -4615,7 +4614,7 @@
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Birth Date' %}</label><br>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control date-picker-birth" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                    <input type="text" class="form-control date-picker-birth" style="background:white;" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -4684,7 +4683,7 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date1" id="passenger_edit_identity_expired_date1" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="passenger_edit_identity_expired_date1" id="passenger_edit_identity_expired_date1" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -4720,12 +4719,12 @@
 
                                                                     Files: <input type="file" id="files_attachment_edit1" name="files_attachment_edit1" multiple="" accept="image/*"><br>
 
-                                                                    <div id="selectedFiles_attachment_edit1"></div>
+                                                                    <div id="selectedFiles_attachment_edit1" class="mb-2"></div>
                                                                     <div class="input-container-search-ticket">
                                                                         <input type="text" class="form-control o_website_form_input" id="description_attachment_edit1" name="description_attachment_edit1" placeholder="Description" />
                                                                     </div>
                                                                     <br/>
-                                                                    <div id="attachment1"></div>
+                                                                    <div class="row" id="attachment1"></div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" onclick="close_upload_attachment(1,'edit');">{% trans 'Close' %}</button>
@@ -4751,7 +4750,7 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date2" id="passenger_edit_identity_expired_date2" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="passenger_edit_identity_expired_date2" id="passenger_edit_identity_expired_date2" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -4787,12 +4786,12 @@
 
                                                                     Files: <input type="file" id="files_attachment_edit2" name="files_attachment_edit2" multiple="" accept="image/*"><br>
 
-                                                                    <div id="selectedFiles_attachment_edit2"></div>
+                                                                    <div id="selectedFiles_attachment_edit2" class="mb-2"></div>
                                                                     <div class="input-container-search-ticket">
                                                                         <input type="text" class="form-control o_website_form_input" id="description_attachment_edit2" name="description_attachment_edit2" placeholder="Description" />
                                                                     </div>
                                                                     <br/>
-                                                                    <div id="attachment2"></div>
+                                                                    <div class="row" id="attachment2"></div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" onclick="close_upload_attachment(2,'edit');">{% trans 'Close' %}</button>
@@ -4818,7 +4817,7 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date3" id="passenger_edit_identity_expired_date3" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="passenger_edit_identity_expired_date3" id="passenger_edit_identity_expired_date3" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -4854,12 +4853,12 @@
 
                                                                     Files: <input type="file" id="files_attachment_edit3" name="files_attachment_edit3" multiple="" accept="image/*"><br>
 
-                                                                    <div id="selectedFiles_attachment_edit3"></div>
+                                                                    <div id="selectedFiles_attachment_edit3" class="mb-2"></div>
                                                                     <div class="input-container-search-ticket">
                                                                         <input type="text" class="form-control o_website_form_input" id="description_attachment_edit3" name="description_attachment_edit3" placeholder="Description" />
                                                                     </div>
                                                                     <br/>
-                                                                    <div id="attachment3"></div>
+                                                                    <div class="row" id="attachment3"></div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" onclick="close_upload_attachment(3,'edit');">{% trans 'Close' %}</button>
@@ -4885,7 +4884,7 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date4" id="passenger_edit_identity_expired_date4" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="passenger_edit_identity_expired_date4" id="passenger_edit_identity_expired_date4" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -4921,12 +4920,12 @@
 
                                                                     Files: <input type="file" id="files_attachment_edit4" name="files_attachment_edit4" multiple="" accept="image/*"><br>
 
-                                                                    <div id="selectedFiles_attachment_edit4"></div>
+                                                                    <div id="selectedFiles_attachment_edit4" class="mb-2"></div>
                                                                     <div class="input-container-search-ticket">
                                                                         <input type="text" class="form-control o_website_form_input" id="description_attachment_edit4" name="description_attachment_edit4" placeholder="Description" />
                                                                     </div>
                                                                     <br/>
-                                                                    <div id="attachment4"></div>
+                                                                    <div class="row" id="attachment4"></div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" onclick="close_upload_attachment(4,'edit');">{% trans 'Close' %}</button>
@@ -4955,7 +4954,8 @@
                 {% endif %}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('passenger','');">{% trans 'Close' %}</button>
+                <button type="button" class="btn btn-default" style="line-height:30px;" data-dismiss="modal" onclick="clear_search_pax('passenger','');">{% trans 'Close' %}</button>
+                <div id="button_move_footer" style="display:none;"></div>
             </div>
         </div>
     </div>

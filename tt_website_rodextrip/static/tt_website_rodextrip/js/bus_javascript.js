@@ -807,7 +807,7 @@ function bus_get_detail(){
     for(i in journeys){
         $text +=
             journeys[i].carrier_name+`-`+journeys[i].carrier_number+`(`+journeys[i].cabin_class[1]+`)\n`+
-            journeys[i].origin_name+` - `+journeys[i].destination_name+` `+journeys[i].departure_date[0] + ` ` + journeys[i].departure_date[1];
+            journeys[i].origin_name+` - `+journeys[i].destination_name+`\n`+journeys[i].departure_date[0] + ` ` + journeys[i].departure_date[1];
         if(journeys[i].arrival_date[0] == journeys[i].departure_date[0]){
             $text +=` - `+journeys[i].arrival_date[1]+`\n\n`;
         }
@@ -883,6 +883,7 @@ function bus_get_detail(){
         }else{
             bus_detail_text += 'No fare rules';
         }
+        total_discount = 0;
         bus_detail_text+=`
         <div class="row">`;
             if(parseInt(passengers.adult) > 0){
@@ -891,16 +892,21 @@ function bus_get_detail(){
                 for(j in journeys[i].fares[0].service_charge_summary){
                     price = {
                         'fare': 0,
-                        'tax': 0
+                        'tax': 0,
+                        'disc': 0,
                     };
                     for(k in journeys[i].fares[0].service_charge_summary[j].service_charges){
                         if(k == 0)
                             price['currency'] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].currency;
-                        if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code != 'tax' && journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code != 'roc')
+
+                        if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code == 'fare')
                             price[journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].amount;
-                        else
-                            price['tax'] += journeys[i].fares[0].service_charge_summary[j].service_charges[k].amount;
+                        else if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code == 'disc')
+                            price[journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].total;
+                        else if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code != 'rac')
+                            price['tax'] += journeys[i].fares[0].service_charge_summary[j].service_charges[k].total;
                     }
+                    total_discount += price['disc'];
                     if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'ADT')
                         total_price += price['fare'] * parseInt(passengers.adult);
                     else
@@ -908,15 +914,24 @@ function bus_get_detail(){
                     if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'ADT' && parseInt(passengers.adult) > 0){
                         bus_detail_text+=`
                             <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px;">`+parseInt(passengers.adult)+` Adult x `+price['currency']+` `+getrupiah(price['fare'] + price['tax'])+`</span>
+                                <span style="font-size:13px;">`+parseInt(passengers.adult)+` Adult Fare x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
                             </div>
                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                <span style="font-size:13px;">`+price['currency']+` `+getrupiah((price['fare'] + price['tax']) * parseInt(passengers.adult))+`</span>
-                            </div>
+                                <span style="font-size:13px;">`+price['currency']+` `+getrupiah((price['fare']) * parseInt(passengers.adult))+`</span>
+                            </div>`;
+                        if(price['tax'] != 0)
+                            bus_detail_text+=`
+                                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                    <span style="font-size:13px;">Adult Tax `+price['currency']+` `+getrupiah(price['tax'])+`</span>
+                                </div>
+                                <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                    <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['tax'])+`</span>
+                                </div>`;
+                        bus_detail_text+=`
                             <div class="col-lg-12">
                                 <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                             </div>`;
-                        $text += passengers.adult+`x Adult Fare @`+price['currency']+' '+getrupiah(price['fare'] + price['tax'])+`\n`;
+                        $text += passengers.adult+`x Adult @`+price['currency']+' '+getrupiah((passengers.adult * price['fare']) + (price['tax']/passengers.adult))+`\n`;
                     }
                     else if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'INF' && parseInt(passengers.infant) > 0){
                         bus_detail_text+=`
@@ -937,6 +952,27 @@ function bus_get_detail(){
             bus_detail_text+=`
         </div>
         `;
+    }
+
+    try{
+        if(total_discount != 0){
+            bus_detail_text += `<div class="row" style="margin-bottom:5px;">`;
+            bus_detail_text += `<div class="col-lg-6 col-xs-6" style="text-align:left;">
+                <label>Discount</label><br/>
+            </div>
+            <div class="col-lg-6 col-xs-6" style="text-align:right;">`;
+            if(price['currency'] == 'IDR')
+            bus_detail_text += `
+                <label>`+price['currency']+` `+getrupiah(total_discount)+`</label><br/>`;
+            else
+            bus_detail_text += `
+                <label>IDR `+total_discount+`</label><br/>`;
+            bus_detail_text += `</div>
+            </div>`;
+            $text += '‣ Discount: IDR ' +getrupiah(total_discount*-1) + '\n';
+        }
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
     }
     bus_detail_text += `
         <div class="row" style="margin-bottom:5px;">
@@ -1094,6 +1130,7 @@ function bus_detail(){
     total_price = 0;
     total_commission = 0;
     total_tax = 0;
+    total_discount = 0;
     text = '';
     $text = '';
     text+=`
@@ -1105,15 +1142,15 @@ function bus_detail(){
         <div class="col-lg-12">`;
 
     for(i in bus_data){
-    $text +=
+        $text +=
         bus_data[i].carrier_name+`-`+bus_data[i].carrier_number+`(`+bus_data[i].cabin_class[1]+`)\n`+
-        bus_data[i].origin_name+` - `+bus_data[i].destination_name+` `;
-    $text += bus_data[i].departure_date[0]+' ' + bus_data[i].departure_date[1]+ ` - `;
-    if(bus_data[i].departure_date[0] != bus_data[i].arrival_date[0])
-        $text += bus_data[i].arrival_date[0] + ' ' + bus_data[i].arrival_date[1]+`\n\n`;
-    else
-        $text += bus_data[i].arrival_date[1]+`\n\n`;
-    text += `
+        bus_data[i].origin_name+` - `+bus_data[i].destination_name+`\n`;
+        $text += bus_data[i].departure_date[0]+' ' + bus_data[i].departure_date[1]+ ` - `;
+        if(bus_data[i].departure_date[0] != bus_data[i].arrival_date[0])
+            $text += bus_data[i].arrival_date[0] + ' ' + bus_data[i].arrival_date[1]+`\n\n`;
+        else
+            $text += bus_data[i].arrival_date[1]+`\n\n`;
+        text += `
         <div class="row">
             <div class="col-lg-12">`;
             if(i == 0){
@@ -1159,10 +1196,10 @@ function bus_detail(){
         <div class="row" style="padding:5px;">`;
         price = {
             'fare': 0,
-            'tax': 0
+            'tax': 0,
+            'disc': 0
         };
         for(j in bus_data[i].fares){
-            total_tax += bus_data[i].fares[0].service_charge_summary[0].total_tax;
             total_commission += bus_data[i].fares[0].service_charge_summary[0].total_commission*-1;
             for(k in bus_data[i].fares[j].service_charge_summary){
                 for(l in bus_data[i].fares[j].service_charge_summary[k].service_charges){
@@ -1172,23 +1209,42 @@ function bus_detail(){
                         price[bus_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_code] = bus_data[i].fares[j].service_charge_summary[k].service_charges[l].amount;
                     else
                         price['tax'] += bus_data[i].fares[j].service_charge_summary[k].service_charges[l].amount;
+
+                    if(bus_data[i].fares[j].service_charge_summary[k].service_charges[k].charge_code == 'fare')
+                        price[bus_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_code] = bus_data[i].fares[j].service_charge_summary[k].service_charges[l].amount;
+                    else if(bus_data[i].fares[j].service_charge_summary[k].service_charges[k].charge_code == 'disc')
+                        price[bus_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_code] = bus_data[i].fares[j].service_charge_summary[k].service_charges[l].total;
+                    else if(bus_data[i].fares[j].service_charge_summary[k].service_charges[k].charge_code != 'rac')
+                        price['tax'] += bus_data[i].fares[j].service_charge_summary[k].service_charges[l].total;
                 }
+                total_discount += price['disc'];
+                total_tax += price['tax'];
                 if(bus_data[i].fares[j].service_charge_summary[k].pax_type == 'ADT')
-                    total_price += price['fare'] * parseInt(adult);
+                    total_price += (price['fare'] * parseInt(adult)) + total_tax;
                 else
-                    total_price += price['fare'] * parseInt(infant);
+                    total_price += (price['fare'] * parseInt(infant)) + total_tax;
                 if(bus_data[i].fares[j].service_charge_summary[k].pax_type == 'ADT' && parseInt(adult) > 0){
                     text+=`
                         <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                            <span style="font-size:13px;">`+parseInt(adult)+` Adult x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
+                            <span style="font-size:13px;">`+parseInt(adult)+` Adult Fare x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
                         </div>
                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
                             <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(adult))+`</span>
+                        </div>`;
+                    if(price['tax'] != 0){
+                        text+=`
+                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                            <span style="font-size:13px;">Adult Tax x `+price['currency']+` `+getrupiah(price['tax'])+`</span>
                         </div>
+                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                            <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['tax'])+`</span>
+                        </div>`;
+                    }
+                    text+=`
                         <div class="col-lg-12">
                             <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                         </div>`;
-                    $text += adult+`x Adult Fare @`+price['currency']+' '+getrupiah(price['fare'])+`\n`;
+                    $text += adult+`x Adult @`+price['currency']+' '+getrupiah(price['fare'] + (price['tax'] / adult))+`\n`;
                 }
                 else if(bus_data[i].fares[j].service_charge_summary[k].pax_type == 'INF' && parseInt(infant) > 0){
                     text+=`
@@ -1209,45 +1265,7 @@ function bus_detail(){
         text+=`
         </div>`;
     }
-    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-        //text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
-    }
-    grand_total_price = total_price + total_tax;
     try{
-        if(upsell_price != 0){
-            text+=`<div class="row"><div class="col-lg-7" style="text-align:left;">
-                <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
-            </div>
-            <div class="col-lg-5" style="text-align:right;">`;
-            if(price['currency'] == 'IDR')
-            text+=`
-                <span style="font-size:13px; font-weight:500;">`+price['currency']+` `+getrupiah(upsell_price)+`</span><br/>`;
-            else
-            text+=`
-                <span style="font-size:13px; font-weight:500;">`+price['currency']+` `+upsell_price+`</span><br/>`;
-            text+=`</div></div>`;
-            grand_total_price += upsell_price;
-        }
-    }catch(err){
-        console.log(err); // error kalau ada element yg tidak ada
-    }
-    text+=`
-    <br/>
-    <div class="row" style="margin-bottom:5px;">
-        <div class="col-lg-6 col-xs-6" style="text-align:left;">
-            <span style="font-size:13px;"><b>Total</b></span><br>
-        </div>
-        <div class="col-lg-6 col-xs-6" style="text-align:right;">
-            <span style="font-size:13px;"><b>`+price['currency']+` `+getrupiah(grand_total_price)+`</b></span><br>
-        </div>
-    </div>`;
-    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-        text+= print_commission(total_commission,'show_commission')
-
-
-    $text += '1x Convenience fee '+price['currency']+' '+ getrupiah(total_tax) + '\n\n';
-    try{
-
         if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
 
             $text += 'Contact Person:\n';
@@ -1267,8 +1285,66 @@ function bus_detail(){
     }catch(err){
 
     }
+    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+        //text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+    }
+    grand_total_price = total_price + total_discount;
+    try{
+        if(upsell_price != 0){
+            text+=`<div class="row"><div class="col-lg-7" style="text-align:left;">
+                <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
+            </div>
+            <div class="col-lg-5" style="text-align:right;">`;
+            if(price['currency'] == 'IDR')
+            text+=`
+                <span style="font-size:13px; font-weight:500;">`+price['currency']+` `+getrupiah(upsell_price)+`</span><br/>`;
+            else
+            text+=`
+                <span style="font-size:13px; font-weight:500;">`+price['currency']+` `+upsell_price+`</span><br/>`;
+            text+=`</div></div>`;
+            grand_total_price += upsell_price;
+        }
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
 
-    $text += '‣ Grand Total: '+ getrupiah(parseInt(parseInt(total_price)+parseInt(total_tax)));
+    try{
+        if(total_discount != 0){
+            text += `<div class="row" style="margin-bottom:5px;">`;
+            text += `<div class="col-lg-6 col-xs-6" style="text-align:left;">
+                <label>Discount</label><br/>
+            </div>
+            <div class="col-lg-6 col-xs-6" style="text-align:right;">`;
+            if(price['currency'] == 'IDR')
+            text += `
+                <label>`+price['currency']+` `+getrupiah(total_discount)+`</label><br/>`;
+            else
+            text += `
+                <label>IDR `+total_discount+`</label><br/>`;
+            text += `</div>
+            </div>`;
+            $text += '‣ Discount: IDR ' +getrupiah(total_discount*-1) + '\n';
+        }
+    }catch(err){
+        console.log(err); // error kalau ada element yg tidak ada
+    }
+    text+=`
+    <br/>
+    <div class="row" style="margin-bottom:5px;">
+        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+            <span style="font-size:13px;"><b>Total</b></span><br>
+        </div>
+        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+            <span style="font-size:13px;"><b>`+price['currency']+` `+getrupiah(grand_total_price)+`</b></span><br>
+        </div>
+    </div>`;
+    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+        text+= print_commission(total_commission,'show_commission')
+
+    if(total_tax != 0)
+        $text += '1x Convenience fee '+price['currency']+' '+ getrupiah(total_tax) + '\n\n';
+
+    $text += '‣ Grand Total: '+ getrupiah(grand_total_price);
     text+=`
     <div class="row">
         <div class="col-lg-12" style="padding-bottom:10px;">
