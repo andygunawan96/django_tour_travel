@@ -1130,30 +1130,30 @@ function airline_signin(data,type=''){
        success: function(msg) {
        try{
            if(msg.result.error_code == 0){
-               airline_signature = msg.result.response.signature;
-               signature = msg.result.response.signature;
-               if(data == '' && type == ''){
-                   airline_get_provider_list('search');
-               }else if(data != '' && type == ''){
-                   get_airline_config('home');
-                   airline_get_provider_list('get_booking', data); //get booking pindah di dalem get provider list karena jika get booking balik dulu provider error tidak ada
-               }else if(data != '' && type == 'refund'){
-                   airline_get_provider_list('refund', data); //get booking pindah di dalem get provider list karena jika get booking balik dulu provider error tidak ada
-               }else if(data != '' && type == 'reorder'){
-                   search_reorder(); //re order
-               }
+                airline_signature = msg.result.response.signature;
+                signature = msg.result.response.signature;
+                if(data == '' && type == ''){
+                    airline_get_provider_list('search');
+                }else if(data != '' && type == ''){
+                    get_airline_config('home');
+                    airline_get_provider_list('get_booking', data); //get booking pindah di dalem get provider list karena jika get booking balik dulu provider error tidak ada
+                }else if(data != '' && type == 'refund'){
+                    airline_get_provider_list('refund', data); //get booking pindah di dalem get provider list karena jika get booking balik dulu provider error tidak ada
+                }else if(data != '' && type == 'reorder'){
+                    search_reorder(); //re order
+                }
            }else{
-               Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: msg.result.error_msg,
-               })
-               $('.loader-rodextrip').fadeOut();
-               try{
-                $("#show_loading_booking_airline").hide();
-               }catch(err){
-                console.log(err); // error kalau ada element yg tidak ada
-               }
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: msg.result.error_msg,
+                })
+                $('.loader-rodextrip').fadeOut();
+                try{
+                    $("#show_loading_booking_airline").hide();
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
            }
        }catch(err){
            $("#barFlightSearch").hide();
@@ -3545,8 +3545,8 @@ function render_price_in_get_price(text, $text, $text_share){
             commission_price += commission;
             total_price += (airline_request.adult * airline_price[price_counter].ADT['fare']) + price;
             if(airline_price[price_counter].ADT.hasOwnProperty('disc')){
-                total_discount += airline_request.adult * airline_price[price_counter].ADT['disc'];
-                discount += airline_request.adult * airline_price[price_counter].ADT['disc'];
+                total_discount += airline_price[price_counter].ADT['disc'];
+                discount += airline_price[price_counter].ADT['disc'];
             }
             text+=`
             <div class="col-lg-12">
@@ -3567,8 +3567,8 @@ function render_price_in_get_price(text, $text, $text_share){
                 </div>
             </div>`;
             $text_price+= 'Price\n';
-            $text_price += airline_request.adult + ' Adult Fare @'+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare))+'\n';
-            $text_price += 'Adult Tax '+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(price))+'\n';
+            $text_price += airline_request.adult + ' Adult @'+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare) + Math.ceil(price/airline_request.adult))+'\n';
+//            $text_price += 'Adult Tax '+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(price))+'\n';
             price = 0;
         }
     }catch(err){
@@ -3591,8 +3591,8 @@ function render_price_in_get_price(text, $text, $text_share){
             commission_price += commission;
             total_price += (airline_request.child * airline_price[price_counter].CHD['fare']) + price;
             if(airline_price[price_counter].CHD.hasOwnProperty('disc')){
-                total_discount += airline_request.child * airline_price[price_counter].CHD['disc'];
-                discount += airline_request.child * airline_price[price_counter].CHD['disc'];
+                total_discount += airline_price[price_counter].CHD['disc'];
+                discount += airline_price[price_counter].CHD['disc'];
             }
             text+=`
             <div class="col-lg-12">
@@ -3612,8 +3612,8 @@ function render_price_in_get_price(text, $text, $text_share){
                     <div class="col-lg-12" style="border:1px solid #e3e3e3;"></div>
                 </div>
             </div>`;
-            $text_price += airline_request.child + ' Child Fare @'+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+'\n';
-            $text_price += 'Child Tax '+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(price))+'\n';
+            $text_price += airline_request.child + ' Child @'+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(airline_price[i].CHD.fare) + Math.ceil(price / airline_request.child))+'\n';
+//            $text_price += 'Child Tax '+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(price))+'\n';
             price = 0;
         }
     }catch(err){
@@ -3641,8 +3641,8 @@ function render_price_in_get_price(text, $text, $text_share){
             commission_price += commission;
             total_price += (airline_request.infant * airline_price[price_counter].INF['fare']) + price;
             if(airline_price[price_counter].INF.hasOwnProperty('disc')){
-                total_discount += airline_request.infant * airline_price[price_counter].INF['disc'];
-                discount += airline_request.infant * airline_price[price_counter].INF['disc'];
+                total_discount += airline_price[price_counter].INF['disc'];
+                discount += airline_price[price_counter].INF['disc'];
             }
             text+=`
             <div class="col-lg-12">
@@ -3662,8 +3662,8 @@ function render_price_in_get_price(text, $text, $text_share){
                     <div class="col-lg-12" style="border:1px solid #e3e3e3;"></div>
                 </div>
             </div>`;
-            $text_price += airline_request.infant + ' Infant Fare @'+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare))+'\n';
-            $text_price += 'Infant Tax'+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(price))+'\n';
+            $text_price += airline_request.infant + ' Infant @'+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare) + Math.ceil(price+airline_request.infant))+'\n';
+//            $text_price += 'Infant Tax'+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(price))+'\n';
             price = 0;
         }
     }catch(err){

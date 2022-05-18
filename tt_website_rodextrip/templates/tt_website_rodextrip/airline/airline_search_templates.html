@@ -1849,7 +1849,6 @@
 <script>
     //test
     counter_mc = {{airline_request.counter}};
-    get_airline_data_search_page();
     document.getElementById('show_provider_airline').innerHTML = `<i class="fas fa-plane"></i> ` + airline_check;
     var origin = new autoComplete({
         selector: '#origin_id_flight',
@@ -1983,6 +1982,7 @@
 
 
     $(function() {
+      get_airline_data_search_page();
       var radioValueAirline = $("input[name='radio_airline_type']:checked").val();
       if(radioValueAirline){
           $radio_value_string = radioValueAirline;

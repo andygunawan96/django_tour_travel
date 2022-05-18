@@ -313,7 +313,7 @@ function activity_table_detail(){
                            <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                     </div>
                    </div>`;
-            $test += activity_date.service_charge_summary[price].pax_count + ' ' + price + ' Price @IDR ' + getrupiah(activity_date.service_charge_summary[price].base_price)+'\n';
+            $test += activity_date.service_charge_summary[price].pax_count + 'x ' + activity_date.service_charge_summary[price].pax_type + ' Price @IDR ' + getrupiah(activity_date.service_charge_summary[price].base_price)+'\n';
             grand_total += activity_date.service_charge_summary[price].total_price;
             grand_commission -= activity_date.service_charge_summary[price].total_commission;
        }
