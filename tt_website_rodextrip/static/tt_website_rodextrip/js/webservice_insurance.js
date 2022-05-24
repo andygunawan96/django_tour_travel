@@ -557,8 +557,15 @@ function sort(data){
     for(i in insurance_data_filter){
         for(j in insurance_data_filter[i]){
             text+=`
-               <div class="col-lg-4 col-md-4 activity_box" style="min-height:unset;">
-                    <div class="single-recent-blog-post item" style="border:1px solid #cdcdcd;">
+               <div class="col-lg-4 col-md-4 activity_box" style="min-height:unset;">`;
+                    if(template == 3 || template == 4){
+                        text+=`<div class="single-recent-blog-post item" style="border:unset;">`;
+                    }
+                    else{
+                        text+=`<div class="single-recent-blog-post item" style="border:1px solid #cdcdcd;">`;
+                    }
+
+                    text+=`
                         <div class="single-destination relative">`;
                             if(insurance_data_filter[i][j].provider == 'bcainsurance')
                                 text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website_rodextrip/images/insurance/`+insurance_data_filter[i][j].MasterBenefitName.toLowerCase()+`-`+insurance_data_filter[i][j].type_trip_name.toLowerCase()+`.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+i+`','`+sequence+`')">`;
@@ -566,12 +573,19 @@ function sort(data){
                                 text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('/static/tt_website_rodextrip/images/icon/home-zurich.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+i+`','`+sequence+`')">`;
                             text+=`
                             </div>
-                            <div class="card card-effect-promotion" style="border:unset;">
-                                <div class="card-body">
+                            <div class="card card-effect-promotion" style="border:unset;">`;
+                            if(template == 3 || template == 4){
+                                text+=`<div class="card-body" style="border:unset;">`;
+                            }
+                            else{
+                                text+=`<div class="card-body">`;
+                            }
+
+                            text+=`
                                     <div class="row details">
-                                        <div class="col-lg-12" style="height:105px;">
-                                            <span style="float:left; font-size:16px;font-weight:bold;">`+insurance_data_filter[i][j].carrier_name+` </span><br/>
-                                            <span style="float:left; margin-bottom:10px; font-size:12px;">Destination Area: `+insurance_data_filter[i][j].data_name+`  </span>`;
+                                        <div class="col-lg-12 mb-3" style="height:90px;">
+                                            <span style="font-size:15px;font-weight:bold;" title="`+insurance_data_filter[i][j].carrier_name+`">`+insurance_data_filter[i][j].carrier_name+` </span>`;
+                                            //<span style="margin-bottom:10px; font-size:13px;">Destination Area: `+insurance_data_filter[i][j].data_name+`  </span>
                                             if(insurance_data_filter[i][j].provider == 'bcainsurance'){
                                                 text+=`
                                                 <span style="padding-left:3px; cursor:pointer; color:`+color+`;" id="`+i+sequence+`" >
@@ -585,13 +599,13 @@ function sort(data){
                                                         cover_covid = true;
                                                 }
                                                 if(cover_covid){
-                                                    text += `<br/><span style="padding-left:3px;">Cover Covid-19  </span>`;
+                                                    text += `<br/><i class="fas fa-shield-alt"></i><span> Cover Covid-19</span>`;
                                                 }
                                             }
                                         text+=`
                                         </div>
-                                        <div class="col-lg-12">
-                                            <span style="float:right; margin-right:5px;"><span style="font-size:16px;font-weight:bold; color:`+color+`;">IDR `+getrupiah(insurance_data_filter[i][j].total_price)+`</span>`;
+                                        <div class="col-lg-12 mt-2">
+                                            <span style="float:right; margin-right:5px; margin-bottom:5px;"><span style="font-size:16px;font-weight:bold; color:`+color+`;">IDR `+getrupiah(insurance_data_filter[i][j].total_price)+`</span>`;
                                         if(insurance_data_filter[i][j].type_trip_name == 'Individual')
                                             text+=`
                                                 <span> / Pax</span>`;
@@ -783,7 +797,10 @@ function modal_policy(provider,sequence){
                     </div>
                 </div>`;
         text+= `<div class="col-lg-5 col-md-5 col-sm-5">
-                    <button style="width:100%; float:center; margin-top:25px;" type="button" id="insurance_buy_btn" class="primary-btn" onclick="insurance_sell('`+provider_choose+`','`+sequence_choose+`')">BUY</button>
+                    <button style="width:100%; float:center; margin-top:25px;" type="button" id="insurance_buy_btn" class="primary-btn ld-ext-right" onclick="insurance_sell('`+provider_choose+`','`+sequence_choose+`')">
+                        BUY
+                        <div class="ld ld-ring ld-cycle"></div>
+                    </button>
                 </div>`;
     }else{
         text += `
@@ -815,7 +832,10 @@ function modal_policy(provider,sequence){
                          </div>`;
         text+=`
                          <div class="col-lg-4">
-                            <button style="width:100%; float:center; margin-top:25px;" type="button" id="insurance_buy_btn" class="primary-btn" onclick="insurance_sell('`+provider_choose+`','`+sequence_choose+`')">BUY</button>
+                            <button style="width:100%; float:center; margin-top:25px;" type="button" id="insurance_buy_btn" class="primary-btn ld-ext-right" onclick="insurance_sell('`+provider_choose+`','`+sequence_choose+`')">
+                                BUY
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
                          </div>
                     </div>
                  </div>`;
@@ -880,11 +900,13 @@ function insurance_sell(provider, sequence){
     if(insurance_data[provider][sequence]['type_trip_name'] == 'Individual'){
         document.getElementById("total_pax").disabled = true;
         document.getElementById("insurance_buy_btn").disabled = true;
+        $('#insurance_buy_btn').addClass("running");
     }
     else{
         document.getElementById("total_adult").disabled = true;
         document.getElementById("total_child").disabled = true;
         document.getElementById("insurance_buy_btn").disabled = true;
+        $('#insurance_buy_btn').addClass("running");
     }
 
     $.ajax({
@@ -4042,7 +4064,7 @@ function onchange_provider_insurance(){
                 </label>
                 <span id="insurance_info"><i class="fas fa-info-circle" style="font-size:20px; cursor:pointer; color:`+text_color+`"></i></span>
             </div>
-            <div class="col-lg-12">
+            <div class="col-lg-8">
                 <div class="row">
                     <input id="insurance_provider" name="insurance_provider" value="bcainsurance" hidden>
                     <input id="checkbox" name="insurance_is_senior" value="" hidden>
@@ -4077,13 +4099,13 @@ function onchange_provider_insurance(){
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4" id="insurance_date_search">
+            <div class="col-lg-6" id="insurance_date_search">
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Date</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" style="background:white;" id="insurance_date" name="insurance_date" placeholder="Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Date '" autocomplete="off" readonly/>
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
                 <div class="input-container-search-ticket btn-group">
                     <button id="show_total_pax_insurance" style="text-align:left; cursor:pointer;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
@@ -4575,35 +4597,27 @@ function onchange_provider_insurance(){
                 </label>
             </div>
             <div class="col-lg-4">
-                <div class="row">
-                    <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
-                    <div class="input-container-search-ticket btn-group">
-                        <div class="form-select" id="default-select">
-                            <select id="insurance_destination_area" name="insurance_destination_area" class="nice-select-default" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">`;
+                <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
+                <select id="insurance_destination_area" name="insurance_destination_area" class="form-control" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">`;
             for(i in insurance_config['zurich']['region']){
                 text +=`
                                 <option value="`+i+`">`+i.substr(0,1).toUpperCase()+i.substr(1,i.length).toLowerCase()+`</option>`;
             }
             text += `
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                </select>
             </div>
             <div class="col-lg-4">
-                <div class="row">
-                    <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
-                    <div class="col-lg-12" style="padding-left:0px;" hidden>
-                        <span class="span-search-ticket"><i class="fas fa-train"></i> From</span>
-                        <div class="input-container-search-ticket">
-                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
-                        </div>
+                <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
+                <div class="col-lg-12" style="padding-left:0px;" hidden>
+                    <span class="span-search-ticket"><i class="fas fa-train"></i> From</span>
+                    <div class="input-container-search-ticket">
+                        <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
                     </div>
-                    <div class="col-lg-12" style="z-index:5;">
-                        <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
-                        <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
-                        </div>
+                </div>
+                <div class="col-lg-12" style="z-index:5;">
+                    <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
+                    <div class="input-container-search-ticket">
+                        <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
                     </div>
                 </div>
             </div>
@@ -4671,35 +4685,31 @@ function onchange_provider_insurance(){
                 </label>
             </div>
             <div class="col-lg-4">
-                <div class="row">
-                    <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
-                    <div class="input-container-search-ticket btn-group">
-                        <div class="form-select" id="default-select">
-                            <select id="insurance_destination_area" name="insurance_destination_area" class="nice-select-default" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">`;
+                <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
+                <div class="form-group">
+                    <div class="default-select" id="default-select">
+                        <select id="insurance_destination_area" name="insurance_destination_area" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">`;
             for(i in insurance_config['zurich']['region']){
                 text +=`
                                 <option value="`+i+`">`+i.substr(0,1).toUpperCase()+i.substr(1,i.length).toLowerCase()+`</option>`;
             }
             text += `
-                            </select>
-                        </div>
+                        </select>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="row">
-                    <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
-                    <div class="col-lg-12" style="padding-left:0px;" hidden>
-                        <span class="span-search-ticket"><i class="fas fa-train"></i> From</span>
-                        <div class="input-container-search-ticket">
-                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
-                        </div>
+                <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
+                <div class="col-lg-12" style="padding-left:0px;" hidden>
+                    <span class="span-search-ticket"><i class="fas fa-train"></i> From</span>
+                    <div class="input-container-search-ticket">
+                        <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
                     </div>
-                    <div class="col-lg-12" style="z-index:5;">
-                        <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
-                        <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
-                        </div>
+                </div>
+                <div class="col-lg-12" style="z-index:5;">
+                    <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
+                    <div class="input-container-search-ticket">
+                        <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
                     </div>
                 </div>
             </div>
@@ -4767,36 +4777,33 @@ function onchange_provider_insurance(){
                 </label>
             </div>
             <div class="col-lg-4">
-                <div class="row">
-                    <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
-                    <div class="input-container-search-ticket btn-group">
-                        <div class="form-select" id="default-select">
-                            <select id="insurance_destination_area" name="insurance_destination_area" class="nice-select-default" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">`;
+                <span class="span-search-ticket">Destination Area</span>
+                <div class="input-container-search-ticket btn-group">
+                    <i class="fas fa-train" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
+                    <div class="form-select" id="default-select">
+                        <select id="insurance_destination_area" name="insurance_destination_area" class="nice-select-default" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">`;
             for(i in insurance_config['zurich']['region']){
                 text +=`
                                 <option value="`+i+`">`+i.substr(0,1).toUpperCase()+i.substr(1,i.length).toLowerCase()+`</option>`;
             }
             text += `
-                            </select>
-                        </div>
+                        </select>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="row">
-                    <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
-                    <div class="col-lg-12" style="padding-left:0px;" hidden>
-                        <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> From</span>
-                        <div class="input-container-search-ticket">
-                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
-                        </div>
+                <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
+                <div class="col-lg-12" style="padding-left:0px;" hidden>
+                    <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> From</span>
+                    <div class="input-container-search-ticket">
+                        <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
                     </div>
-                    <div class="col-lg-12" style="z-index:5;">
-                        <span class="span-search-ticket">Destination</span>
-                        <div class="input-container-search-ticket">
-                            <i class="fas fa-map-marked-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
-                        </div>
+                </div>
+                <div class="col-lg-12" style="z-index:5;">
+                    <span class="span-search-ticket">Destination</span>
+                    <div class="input-container-search-ticket">
+                        <i class="fas fa-map-marked-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
+                        <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
                     </div>
                 </div>
             </div>
@@ -4866,35 +4873,31 @@ function onchange_provider_insurance(){
                 </label>
             </div>
             <div class="col-lg-4">
-                <div class="row">
-                    <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
-                    <div class="input-container-search-ticket btn-group">
-                        <div class="form-select" id="default-select">
-                            <select id="insurance_destination_area" name="insurance_destination_area" class="nice-select-default" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">`;
+                <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
+                <div class="input-container-search-ticket btn-group">
+                    <div class="form-select" id="default-select">
+                        <select id="insurance_destination_area" name="insurance_destination_area" class="nice-select-default" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">`;
             for(i in insurance_config['zurich']['region']){
                 text +=`
                                 <option value="`+i+`">`+i.substr(0,1).toUpperCase()+i.substr(1,i.length).toLowerCase()+`</option>`;
             }
             text += `
-                            </select>
-                        </div>
+                        </select>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="row">
-                    <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
-                    <div class="col-lg-12" style="padding-left:0px;" hidden>
-                        <span class="span-search-ticket"><i class="fas fa-train"></i> From</span>
-                        <div class="input-container-search-ticket">
-                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
-                        </div>
+                <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
+                <div class="col-lg-12" style="padding-left:0px;" hidden>
+                    <span class="span-search-ticket"><i class="fas fa-train"></i> From</span>
+                    <div class="input-container-search-ticket">
+                        <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
                     </div>
-                    <div class="col-lg-12" style="z-index:5;">
-                        <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
-                        <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
-                        </div>
+                </div>
+                <div class="col-lg-12" style="z-index:5;">
+                    <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
+                    <div class="input-container-search-ticket">
+                        <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
                     </div>
                 </div>
             </div>
@@ -4962,35 +4965,31 @@ function onchange_provider_insurance(){
                 </label>
             </div>
             <div class="col-lg-4">
-                <div class="row">
-                    <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
-                    <div class="input-container-search-ticket btn-group">
-                        <div class="form-select" id="default-select">
-                            <select id="insurance_destination_area" name="insurance_destination_area" class="nice-select-default" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">`;
+                <span class="span-search-ticket"><i class="fas fa-train"></i> Destination Area</span>
+                <div class="input-container-search-ticket btn-group">
+                    <div class="form-select" id="default-select">
+                        <select id="insurance_destination_area" name="insurance_destination_area" class="nice-select-default" onchange="auto_complete_zurich();next_focus_element('insurance','destination')">`;
             for(i in insurance_config['zurich']['region']){
                 text +=`
                                 <option value="`+i+`">`+i.substr(0,1).toUpperCase()+i.substr(1,i.length).toLowerCase()+`</option>`;
             }
             text += `
-                            </select>
-                        </div>
+                        </select>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="row">
-                    <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
-                    <div class="col-lg-12" style="padding-left:0px;" hidden>
-                        <span class="span-search-ticket"><i class="fas fa-train"></i> From</span>
-                        <div class="input-container-search-ticket">
-                            <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
-                        </div>
+                <input id="insurance_provider" name="insurance_provider" value="zurich" hidden>
+                <div class="col-lg-12" style="padding-left:0px;" hidden>
+                    <span class="span-search-ticket"><i class="fas fa-train"></i> From</span>
+                    <div class="input-container-search-ticket">
+                        <input id="insurance_origin" name="insurance_origin" class="form-control" type="text" placeholder="Origin" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_origin').select();" onclick="set_insurance_search_value_to_false();">
                     </div>
-                    <div class="col-lg-12" style="z-index:5;">
-                        <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
-                        <div class="input-container-search-ticket">
-                            <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
-                        </div>
+                </div>
+                <div class="col-lg-12" style="z-index:5;">
+                    <span class="span-search-ticket"><i class="fas fa-map-marked-alt"></i> Destination</span>
+                    <div class="input-container-search-ticket">
+                        <input id="insurance_destination" name="insurance_destination" class="form-control" type="text" placeholder="Destination (Country)" style="width:100%; outline:0" autocomplete="off" value="" onfocus="document.getElementById('insurance_destination').select();" onclick="set_insurance_search_value_to_false();" onchange="next_focus_element('insurance','date')">
                     </div>
                 </div>
             </div>
@@ -5062,9 +5061,6 @@ function onchange_provider_insurance(){
                     suggest(insurance_search_autocomplete(term,'destination'));
             },
             onSelect: function(e, term, item){
-                setTimeout(function(){
-                    $('.nice-select').addClass("open");
-                }, 200);
                 set_insurance_search_value_to_true();
             }
         });
@@ -5148,6 +5144,7 @@ function onchange_provider_insurance(){
 
 function auto_complete_zurich(){
     console.log(document.getElementById('insurance_destination_area').value);
+
     if(document.getElementById('insurance_destination_area').value != ''){
         country_list = insurance_config['zurich']['region'][document.getElementById('insurance_destination_area').value]['Countries'].split(',');
         zurich_insurance_destination = [];
@@ -5159,6 +5156,17 @@ function auto_complete_zurich(){
         if(document.getElementById('insurance_destination').value != '')
             if(zurich_insurance_destination.includes(document.getElementById('insurance_destination').value) == false)
                 document.getElementById('insurance_destination').value = '';
+
+        if(document.getElementById('insurance_destination_area').value == 'Domestic'){
+            document.getElementById('insurance_destination').value = zurich_insurance_destination[0];
+            setTimeout(function(){
+                $("#insurance_date").focus();
+            }, 200);
+        }else{
+            setTimeout(function(){
+                $("#insurance_destination").focus();
+            }, 200);
+        }
     }
 }
 
