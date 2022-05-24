@@ -3865,77 +3865,78 @@ function copy_booker(val,type,identity){
                 }else if( typeof expired !== 'undefined' && expired < -180){
                     try{ //KALAU ADA IDENTITY
                         //PASSPORT
-                        if(data[1] != ''){
-                            identity_check = false;
-                            if(document.getElementById('adult_passport_number1'))
-                                document.getElementById('adult_passport_number1').value = data[1];
-                            else if(document.getElementById('adult_identity_number1'))
-                                document.getElementById('adult_identity_number1').value = data[1]
-                        }
-                        if(data[4] != '')
-                            document.getElementById('adult_passport_expired_date1').value = data[3];
-                        if(data[2] != ''){
-                            document.getElementById('select2-adult_country_of_issued1_id-container').innerHTML = data[2];
-                            document.getElementById('adult_country_of_issued1').value = data[2];
-                        }
-                        if(typeof data_booker !== undefined && data_booker.identities.hasOwnProperty(data[0]) && data_booker.identities[data[0]].identity_images.length > 0){
-                            text = '';
-                            //identity cenius (kalo copy booker ke paxs dgn cuma ada passport + muncul di formny) done
-                            //FIX IVAN pas copy booker klo ada sim, yg ke copy sim bukan passport, apa data[0] nya di ganti 'passport' ?
-                            text += `
-                            <div class="row">
-                                <div class="col-lg-12">`;
-                                    text+=`<label style="text-transform: capitalize; text-align:center; font-size:14px;">`+data[0]+` - `+data_booker.identities[data[0]].identity_number+`</label><br/>`;
+                        if(data[0] == 'passport'){
+                            if(data[1] != ''){
+                                identity_check = false;
+                                if(document.getElementById('adult_passport_number1'))
+                                    document.getElementById('adult_passport_number1').value = data[1];
+                                else if(document.getElementById('adult_identity_number1'))
+                                    document.getElementById('adult_identity_number1').value = data[1]
+                            }
+                            if(data[4] != '')
+                                document.getElementById('adult_passport_expired_date1').value = data[3];
+                            if(data[2] != ''){
+                                document.getElementById('select2-adult_country_of_issued1_id-container').innerHTML = data[2];
+                                document.getElementById('adult_country_of_issued1').value = data[2];
+                            }
+                            if(typeof data_booker !== undefined && data_booker.identities.hasOwnProperty(data[0]) && data_booker.identities[data[0]].identity_images.length > 0){
+                                text = '';
+                                //identity cenius (kalo copy booker ke paxs dgn cuma ada passport + muncul di formny) done
+                                text += `
+                                <div class="row">
+                                    <div class="col-lg-12">`;
+                                        text+=`<label style="text-transform: capitalize; text-align:center; font-size:14px;">`+data[0]+` - `+data_booker.identities[data[0]].identity_number+`</label><br/>`;
+                                        text+=`
+                                        <div style="width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
+                                        for(k in data_booker.identities[data[0]].identity_images){
+                                            text += `
+                                            <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
+                                                <a class="demo-img" href="`+data_booker.identities[data[0]].identity_images[k][0]+`" data-jbox-image="8showidentitydata1`+for_jbox_image+`" title="`+data[0]+` - `+data_booker.identities[data[0]].identity_number+` (`+data_booker.identities[data[0]].identity_images[k][2]+`)">
+                                                    <img src="`+data_booker.identities[data[0]].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
+                                                </a>
+                                                <br/>
+                                                <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+data_booker.identities[data[0]].identity_images[k][2]+`</h6>
+                                            </div>`;
+                                        }
+                                        text+=`</div>`;
                                     text+=`
-                                    <div style="width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
+                                    </div>
+                                </div>`;
+
+                                if(document.getElementById('adult_attachment_identity1')){
+                                    text_attachment= '';
                                     for(k in data_booker.identities[data[0]].identity_images){
-                                        text += `
-                                        <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
-                                            <a class="demo-img" href="`+data_booker.identities[data[0]].identity_images[k][0]+`" data-jbox-image="8showidentitydata1`+for_jbox_image+`" title="`+data[0]+` - `+data_booker.identities[data[0]].identity_number+` (`+data_booker.identities[data[0]].identity_images[k][2]+`)">
-                                                <img src="`+data_booker.identities[data[0]].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
-                                            </a>
-                                            <br/>
-                                            <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+data_booker.identities[data[0]].identity_images[k][2]+`</h6>
-                                        </div>`;
-                                    }
-                                    text+=`</div>`;
-                                text+=`
-                                </div>
-                            </div>`;
+                                        text_attachment += `
+                                            <div style="height:220px;margin-bottom:25px;margin-right:10px;">
+                                                <img src="`+data_booker.identities[data[0]].identity_images[k][0]+`" alt="Passenger" value="`+data_booker.identities[data[0]].identity_images[k][1]+`" style="height:220px;width:auto" />
 
-                            if(document.getElementById('adult_attachment_identity1')){
-                                text_attachment= '';
-                                for(k in data_booker.identities[data[0]].identity_images){
-                                    text_attachment += `
-                                        <div style="height:220px;margin-bottom:25px;margin-right:10px;">
-                                            <img src="`+data_booker.identities[data[0]].identity_images[k][0]+`" alt="Passenger" value="`+data_booker.identities[data[0]].identity_images[k][1]+`" style="height:220px;width:auto" />
-
-                                            <div class="row" style="justify-content:space-around">
-                                                <div class="checkbox" style="display: block;">
-                                                    <label class="check_box_custom">
-                                                        <span style="font-size:13px;">Delete</span>
-                                                        <input type="checkbox" value="" id="adult_identity1_`+k+`_delete" name="adult_identity1_`+k+`_delete">
-                                                        <input type="hidden" value="`+data_booker.identities[data[0]].identity_images[k][1]+`" id="adult_identity1_`+k+`_image_seq_id" name="adult_identity1_`+k+`_image_seq_id">
-                                                        <span class="check_box_span_custom"></span>
-                                                    </label>
+                                                <div class="row" style="justify-content:space-around">
+                                                    <div class="checkbox" style="display: block;">
+                                                        <label class="check_box_custom">
+                                                            <span style="font-size:13px;">Delete</span>
+                                                            <input type="checkbox" value="" id="adult_identity1_`+k+`_delete" name="adult_identity1_`+k+`_delete">
+                                                            <input type="hidden" value="`+data_booker.identities[data[0]].identity_images[k][1]+`" id="adult_identity1_`+k+`_image_seq_id" name="adult_identity1_`+k+`_image_seq_id">
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>`;
+                                            </div>`;
+                                    }
+                                    document.getElementById('adult_attachment_identity1').innerHTML = text_attachment;
                                 }
-                                document.getElementById('adult_attachment_identity1').innerHTML = text_attachment;
-                            }
 
-                            if(document.getElementById('adult_div_avatar_identity1')){
-                                document.getElementById('adult_div_avatar_identity1').innerHTML = text;
-                                document.getElementById('adult_div_avatar_identity1').hidden = false;
-                                new jBox('Image', {
-                                  imageCounter: true,
-                                  imageCounterSeparator: ' of '
-                                });
+                                if(document.getElementById('adult_div_avatar_identity1')){
+                                    document.getElementById('adult_div_avatar_identity1').innerHTML = text;
+                                    document.getElementById('adult_div_avatar_identity1').hidden = false;
+                                    new jBox('Image', {
+                                      imageCounter: true,
+                                      imageCounterSeparator: ' of '
+                                    });
+                                }
+                            }else{
+                                if(document.getElementById('adult_div_avatar_identity1'))
+                                    document.getElementById('adult_div_avatar_identity1').hidden = true;
                             }
-                        }else{
-                            if(document.getElementById('adult_div_avatar_identity1'))
-                                document.getElementById('adult_div_avatar_identity1').hidden = true;
                         }
 
                     }catch(err){
@@ -7106,7 +7107,6 @@ function pick_passenger_cache_copy(val, identity){
                     }else{
                         // KTP
                     }
-                    var radios = [];
                     try{
                         radios = document.getElementById(passenger_pick+'_id_type'+passenger_pick_number).options;
                     }catch(err){
@@ -7218,90 +7218,94 @@ function pick_passenger_cache_copy(val, identity){
                             }
                         }
                     }else if( typeof expired !== 'undefined' && expired < -1){
-                        try{ //KALAU ADA IDENTITY
-                            //PASSPORT
-                            //FIX IVAN waktu move to adult dari database passenger langsung move ke adult tanpa withbooker apa karena radiosnya ga baca id ap gimana?
-                            if(data[1] != ''){
-                                identity_check = false;
-                                if(document.getElementById(passenger_pick+'_passport_number'+passenger_pick_number))
-                                    document.getElementById(passenger_pick+'_passport_number'+passenger_pick_number).value = data[1];
-                                else if(document.getElementById(passenger_pick+'_identity_number'+passenger_pick_number))
-                                    document.getElementById(passenger_pick+'_identity_number'+passenger_pick_number).value = data[1]
-                            }if(data[4] != '')
-                                document.getElementById(passenger_pick+'_passport_expired_date'+passenger_pick_number).value = data[3];
-                            if(data[2] != ''){
-                                document.getElementById('select2-'+passenger_pick+'_country_of_issued'+passenger_pick_number+'_id-container').innerHTML = data[2];
-                                document.getElementById(passenger_pick+'_country_of_issued'+passenger_pick_number).value = data[2];
-                            }
-                            if(passenger_data_cache[val].identities['passport'].identity_images.length > 0){
-                                text = '';
-                                //identity cenius (copy to booker/paxs dari passanger database) done
-                                text += `
-                                    <div class="row">
-                                        <div class="col-lg-12">`;
-                                            text+=`<label style="text-transform: capitalize; text-align:center; font-size:14px;">Passport - `+passenger_data_cache[val].identities['passport'].identity_number+`</label><br/>`;
-                                            text+=`
-                                            <div style="width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
-                                            for(k in passenger_data_cache[val].identities['passport'].identity_images){
-                                                text += `
-                                                <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
-                                                    <a class="demo-img" href="`+passenger_data_cache[val].identities['passport'].identity_images[k][0]+`" data-jbox-image="15showidentity`+val+`passport`+for_jbox_image+`" title="passport - `+passenger_data_cache[val].identities['passport'].identity_number+` (`+passenger_data_cache[val].identities['passport'].identity_images[k][2]+`)">
-                                                        <img src="`+passenger_data_cache[val].identities['passport'].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
-                                                    </a>
-                                                    <br/>
-                                                    <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+passenger_data_cache[val].identities['passport'].identity_images[k][2]+`</h6>
-                                                </div>`;
-                                            }
-                                            text+=`</div>`;
-                                        text+=`
-                                        </div>
-                                    </div>
-                                `;
-                                if(document.getElementById(type+'_attachment_identity'+passenger_pick_number)){
-                                    text_attachment= '';
-                                    for(k in passenger_data_cache[val].identities['passport'].identity_images){
-                                        text_attachment += `
-                                            <div style="height:220px;margin-bottom:25px;margin-right:10px;">
-                                                <img src="`+passenger_data_cache[val].identities['passport'].identity_images[k][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities['passport'].identity_images[k][1]+`" style="height:220px;width:auto" />
-
-                                                <div class="row" style="justify-content:space-around">
-                                                    <div class="checkbox" style="display: block;">
-                                                        <label class="check_box_custom">
-                                                            <span style="font-size:13px;">Delete</span>
-                                                            <input type="checkbox" value="" id="`+passenger_pick+`_identity`+passenger_pick_number+`_`+k+`_delete" name="`+passenger_pick+`_identity`+passenger_pick_number+`_delete">
-                                                            <input type="hidden" value="`+passenger_data_cache[val].identities['passport'].identity_images[k][1]+`" id="`+passenger_pick+`_identity`+passenger_pick_number+`_`+k+`_image_seq_id" name="`+passenger_pick+`_identity`+passenger_pick_number+`_`+k+`_image_seq_id">
-                                                            <span class="check_box_span_custom"></span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>`;
+                        if(data[0] == 'passport'){
+                            try{ //KALAU ADA IDENTITY
+                                //PASSPORT
+                                //FIX IVAN waktu move to adult dari database passenger langsung move ke adult tanpa withbooker apa karena radiosnya ga baca id ap gimana?
+                                if(data[0] == 'passport'){
+                                    if(data[1] != ''){
+                                        identity_check = false;
+                                        if(document.getElementById(passenger_pick+'_passport_number'+passenger_pick_number))
+                                            document.getElementById(passenger_pick+'_passport_number'+passenger_pick_number).value = data[1];
+                                        else if(document.getElementById(passenger_pick+'_identity_number'+passenger_pick_number))
+                                            document.getElementById(passenger_pick+'_identity_number'+passenger_pick_number).value = data[1]
+                                    }if(data[4] != '')
+                                        document.getElementById(passenger_pick+'_passport_expired_date'+passenger_pick_number).value = data[3];
+                                    if(data[2] != ''){
+                                        document.getElementById('select2-'+passenger_pick+'_country_of_issued'+passenger_pick_number+'_id-container').innerHTML = data[2];
+                                        document.getElementById(passenger_pick+'_country_of_issued'+passenger_pick_number).value = data[2];
                                     }
-                                    document.getElementById(passenger_pick+'_attachment_identity'+passenger_pick_number).innerHTML = text_attachment;
-                                }
+                                    if(passenger_data_cache[val].identities['passport'].identity_images.length > 0){
+                                        text = '';
+                                        //identity cenius (copy to booker/paxs dari passanger database) done
+                                        text += `
+                                            <div class="row">
+                                                <div class="col-lg-12">`;
+                                                    text+=`<label style="text-transform: capitalize; text-align:center; font-size:14px;">Passport - `+passenger_data_cache[val].identities['passport'].identity_number+`</label><br/>`;
+                                                    text+=`
+                                                    <div style="width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
+                                                    for(k in passenger_data_cache[val].identities['passport'].identity_images){
+                                                        text += `
+                                                        <div style="width:200px; text-align:center; border-bottom:3px solid #cdcdcd; margin:0px 10px 10px 10px;">
+                                                            <a class="demo-img" href="`+passenger_data_cache[val].identities['passport'].identity_images[k][0]+`" data-jbox-image="15showidentity`+val+`passport`+for_jbox_image+`" title="passport - `+passenger_data_cache[val].identities['passport'].identity_number+` (`+passenger_data_cache[val].identities['passport'].identity_images[k][2]+`)">
+                                                                <img src="`+passenger_data_cache[val].identities['passport'].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
+                                                            </a>
+                                                            <br/>
+                                                            <h6 class="mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:175px; padding:0px 15px;">`+passenger_data_cache[val].identities['passport'].identity_images[k][2]+`</h6>
+                                                        </div>`;
+                                                    }
+                                                    text+=`</div>`;
+                                                text+=`
+                                                </div>
+                                            </div>
+                                        `;
+                                        if(document.getElementById(type+'_attachment_identity'+passenger_pick_number)){
+                                            text_attachment= '';
+                                            for(k in passenger_data_cache[val].identities['passport'].identity_images){
+                                                text_attachment += `
+                                                    <div style="height:220px;margin-bottom:25px;margin-right:10px;">
+                                                        <img src="`+passenger_data_cache[val].identities['passport'].identity_images[k][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities['passport'].identity_images[k][1]+`" style="height:220px;width:auto" />
 
-                                if(document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number)){
-                                    document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number).innerHTML = text
-                                    document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number).hidden = false;
-                                    new jBox('Image', {
-                                      imageCounter: true,
-                                      imageCounterSeparator: ' of '
-                                    });
+                                                        <div class="row" style="justify-content:space-around">
+                                                            <div class="checkbox" style="display: block;">
+                                                                <label class="check_box_custom">
+                                                                    <span style="font-size:13px;">Delete</span>
+                                                                    <input type="checkbox" value="" id="`+passenger_pick+`_identity`+passenger_pick_number+`_`+k+`_delete" name="`+passenger_pick+`_identity`+passenger_pick_number+`_delete">
+                                                                    <input type="hidden" value="`+passenger_data_cache[val].identities['passport'].identity_images[k][1]+`" id="`+passenger_pick+`_identity`+passenger_pick_number+`_`+k+`_image_seq_id" name="`+passenger_pick+`_identity`+passenger_pick_number+`_`+k+`_image_seq_id">
+                                                                    <span class="check_box_span_custom"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+                                            }
+                                            document.getElementById(passenger_pick+'_attachment_identity'+passenger_pick_number).innerHTML = text_attachment;
+                                        }
+
+                                        if(document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number)){
+                                            document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number).innerHTML = text
+                                            document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number).hidden = false;
+                                            new jBox('Image', {
+                                              imageCounter: true,
+                                              imageCounterSeparator: ' of '
+                                            });
+                                        }
+                                    }else{
+                                        if(document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number))
+                                            document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number).hidden = true;
+                                    }
                                 }
-                            }else{
-                                if(document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number))
-                                    document.getElementById(passenger_pick+'_div_avatar_identity'+passenger_pick_number).hidden = true;
+                            }catch(err){
+                                console.log(err); //error kalau tidak ada field identity std
                             }
-                        }catch(err){
-                            console.log(err); //error kalau tidak ada field identity std
-                        }
-                        //notif passport krng dari 6 bulan
-                        if(expired != null || expired < -180){
-                            identity_type = data[0];
-                            Swal.fire({
-                              type: 'warning',
-                              title: 'Oops!',
-                              html: '<span style="color: #ff9900;">'+identity_type+' expired date less then 6 months </span>' ,
-                            })
+                            //notif passport krng dari 6 bulan
+                            if(expired != null || expired < -180){
+                                identity_type = data[0];
+                                Swal.fire({
+                                  type: 'warning',
+                                  title: 'Oops!',
+                                  html: '<span style="color: #ff9900;">'+identity_type+' expired date less then 6 months </span>' ,
+                                })
+                            }
                         }
                     }
 
