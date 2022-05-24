@@ -433,6 +433,7 @@ function get_transactions_notification(val){
 }
 
 function get_transaction_history_ledger(type,use_cache){
+    $('#loading-search-reservation').show();
     if(type == 'reset'){
         page_transaction_history_ledger = 1;
         document.getElementById('body_table_reservation').innerHTML = '';
@@ -462,18 +463,20 @@ function get_transaction_history_ledger(type,use_cache){
        success: function(msg) {
             console.log(msg);
             text = '';
+
             if(msg.result.error_code == 0){
                 date_now_history = moment().format('DD MMM YYYY');
-                cek_div_history = 0;
-                counter_history_div = 0;
-
                 for(i in msg.result.response){
                     if(msg.result.response[i].date){
                         data_date_history = moment(msg.result.response[i].date).format('DD MMM YYYY');
 
+                        if(temp_date_history != data_date_history){
+                            text+=`<br/>`;
+                            temp_date_history = '';
+                        }
+
                         if(temp_date_history == ''){
-                            counter_history_div += 1;
-                            text += `<div class="border_custom_left" id="div_date`+counter_history_div+`" style="background:white; padding:15px;">`;
+                            text += `<div class="border_custom_left" style="background:white; padding:15px;">`;
                             if(date_now_history == data_date_history){
                                 text += "<b style='font-size:14px;'><i class='fas fa-calendar-alt' style='padding-right:5px;'></i>Today</b>";
                             }else{
@@ -527,7 +530,7 @@ function get_transaction_history_ledger(type,use_cache){
                                 }else{
                                     text += `<img src="/static/tt_website_rodextrip/images/icon/wallet_black.png" alt="`+msg.result.response[i].name+`" style="width:20px; height:20px;">`;
                                 }
-                                // phc, sentra medika, bus, insurance
+
                                 if(msg.result.response[i].provider_type_name)
                                     text += '<b style="font-size:16px;"> ' +msg.result.response[i].provider_type_name + '</b><br/>';
                                 if(msg.result.response[i].name)
@@ -542,32 +545,30 @@ function get_transaction_history_ledger(type,use_cache){
                                     text += "<span id='pop_detail_info"+i+"'><b style='color:"+color+"; cursor:pointer;'>Detail Info <i class='fas fa-chevron-down'></i></b></span><br/>";
                                 text += `
                             </div>
-                            <div class="col-lg-3" style="text-align:right;">
-                                <i>`+moment(msg.result.response[i].create_date).format('DD MMM YYYY - HH:mm')+`</i><br/>`;
-                                if(msg.result.response[i].currency && msg.result.response[i].debit > 0){
-                                    text += `<span style="text-align:right; font-size:18px; font-weight:700; color:green">`;
-                                    text += msg.result.response[i].currency+' ';
-                                    text += '+'+getrupiah(msg.result.response[i].debit);
-                                    text += `</span>`;
-                                }
-                                if(msg.result.response[i].currency && msg.result.response[i].credit > 0){
-                                    text += `<span style="text-align:right; font-size:18px; font-weight:700; color:red">`;
-                                    text += msg.result.response[i].currency+' ';
-                                    text += '-'+getrupiah(msg.result.response[i].credit);
-                                    text += `</span>`;
-                                }
+                            <div class="col-lg-3" style="text-align:right;">`;
+                            tes = moment.utc(msg.result.response[i].create_date).format('YYYY-MM-DD HH:mm:ss')
+                            localTime  = moment.utc(tes).toDate();
+                            msg.result.response[i].create_date = moment(localTime).format('DD MMM YYYY HH:mm');
+
+                            text+=`<i>`+moment(msg.result.response[i].create_date).format('DD MMM YYYY - HH:mm')+`</i><br/>`;
+
+                            if(msg.result.response[i].currency && msg.result.response[i].debit > 0){
+                                text += `<span style="text-align:right; font-size:18px; font-weight:700; color:green">`;
+                                text += msg.result.response[i].currency+' ';
+                                text += '+'+getrupiah(msg.result.response[i].debit);
+                                text += `</span>`;
+                            }
+                            if(msg.result.response[i].currency && msg.result.response[i].credit > 0){
+                                text += `<span style="text-align:right; font-size:18px; font-weight:700; color:red">`;
+                                text += msg.result.response[i].currency+' ';
+                                text += '-'+getrupiah(msg.result.response[i].credit);
+                                text += `</span>`;
+                            }
+
                             text += `
                             </div>
                         </div>
                     </div>`;
-
-                    if(msg.result.response[i].date){
-                        if(temp_date_history != data_date_history){
-                            text+=`<br/>`;
-                            temp_date_history = '';
-                            cek_div_history = 0;
-                        }
-                    }
                 }
 
                 if(msg.result.response.length == 0)
@@ -1691,4 +1692,8 @@ function FileSelect_attachment(passenger_type, passenger_number, type,e) {
         reader.readAsDataURL(f);
 
     });
+}
+
+function transaction_history_click_search(){
+    temp_date_history = '';
 }
