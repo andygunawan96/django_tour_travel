@@ -9443,6 +9443,7 @@ ul.progress_tabs li.current .image-rounded-icon{
     border-bottom:1px solid #cdcdcd;
     border-left:1px solid #cdcdcd;
 }
+
 .border_custom_right{
     border-top:1px solid #cdcdcd;
     border-right:10px solid #f15a22;
@@ -9460,6 +9461,76 @@ ul.progress_tabs li.current .image-rounded-icon{
     border-right:1px solid #cdcdcd;
     border-bottom:1px solid #cdcdcd;
     border-left:10px solid #f15a22;
+}
+
+
+.border_custom_top_red{
+    border-top:5px solid red !important;
+    border-right:1px solid #cdcdcd;
+    border-bottom:1px solid #cdcdcd;
+    border-left:1px solid #cdcdcd;
+}
+
+.border_custom_right_red{
+    border-top:1px solid #cdcdcd;
+    border-right:5px solid red !important;
+    border-bottom:1px solid #cdcdcd;
+    border-left:1px solid #cdcdcd;
+}
+.border_custom_bottom_red{
+    border-top:1px solid #cdcdcd;
+    border-right:1px solid #cdcdcd;
+    border-bottom:5px solid red !important;
+    border-left:1px solid #cdcdcd;
+}
+.border_custom_left_red{
+    border-top:1px solid #cdcdcd;
+    border-right:1px solid #cdcdcd;
+    border-bottom:1px solid #cdcdcd;
+    border-left:5px solid red !important;
+}
+
+
+.border_custom_top_green{
+    border-top:5px solid green !important;
+    border-right:1px solid #cdcdcd;
+    border-bottom:1px solid #cdcdcd;
+    border-left:1px solid #cdcdcd;
+}
+
+.border_custom_right_green{
+    border-top:1px solid #cdcdcd;
+    border-right:5px solid green !important;
+    border-bottom:1px solid #cdcdcd;
+    border-left:1px solid #cdcdcd;
+}
+.border_custom_bottom_green{
+    border-top:1px solid #cdcdcd;
+    border-right:1px solid #cdcdcd;
+    border-bottom:5px solid green !important;
+    border-left:1px solid #cdcdcd;
+}
+.border_custom_left_green{
+    border-top:1px solid #cdcdcd;
+    border-right:1px solid #cdcdcd;
+    border-bottom:1px solid #cdcdcd;
+    border-left:5px solid green !important;
+}
+
+.list-of-history tr:nth-child(even){background-color:#FAF9FA;}
+.list-of-reservation-left {
+    padding-left: 10px;
+    text-align:center;
+}
+
+.list-of-reservation-right {
+    padding-right: 10px;
+}
+
+.list-of-reservation td, .list-of-reservation th {
+  border: 1px solid #cdcdcd;
+  padding: 8px;
+  background:white;
 }
 
 .modal{
