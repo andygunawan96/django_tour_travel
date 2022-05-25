@@ -2632,8 +2632,35 @@
                 <div class="col-lg-12 banner-right" id="passenger_update" style="overflow:auto;height:70vh;background-color:white; padding:10px; border:1px solid #cdcdcd;" hidden>
                     <form action="" style="padding:15px; text-align:left;" method="POST" class="form-wrap" id="form_identity_passenger_edit" enctype="multipart/form-data">
                         <div class="row">
-                            <div class="col-lg-12 col-xs-12" id="div_avatar" hidden>
+                            <div class="col-lg-12 mb-2" id="div_avatar" hidden>
                             </div>
+                            <div class="col-lg-12 mb-3">
+                                <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_edit">{% trans 'Upload Image' %}</button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="myModal_attachment_edit" data-keyboard="false">
+                                    <div class="modal-dialog">
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" style="color:white;">{% trans 'Avatar Photo' %}</h4>
+                                                <button type="button" class="close" onclick="close_upload_attachment('','edit');">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+
+                                                Files: <input type="file" id="files_attachment_edit" name="files_attachment_edit" accept="image/*"><br>
+
+                                                <div id="selectedFiles_attachment_edit"></div>
+                                                <div id="attachment"></div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" onclick="close_upload_attachment('','edit');">{% trans 'Close' %}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-lg-6 col-xs-6">
                                 <label style="color:red">*</label>
                                 <label>{% trans 'Title' %}</label><br>
@@ -2686,33 +2713,7 @@
                                     <input type="text" class="form-control date-picker-birth" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <span>{% trans 'Avatar Photo' %}</span><br/>
-                                <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_edit">{% trans 'Upload Image' %}</button>
-                                <!-- Modal -->
-                                <div class="modal fade" id="myModal_attachment_edit" data-keyboard="false">
-                                    <div class="modal-dialog">
 
-                                        <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title" style="color:white;">{% trans 'Avatar Photo' %}</h4>
-                                                <button type="button" class="close" onclick="close_upload_attachment('','edit');">&times;</button>
-                                            </div>
-                                            <div class="modal-body">
-
-                                                Files: <input type="file" id="files_attachment_edit" name="files_attachment_edit" accept="image/*"><br>
-
-                                                <div id="selectedFiles_attachment_edit"></div>
-                                                <div id="attachment"></div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" onclick="close_upload_attachment('','edit');">{% trans 'Close' %}</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <label style="color:{{text_color}}">*</label>
                                 <label>{% trans 'Contact Email Address' %}</label>

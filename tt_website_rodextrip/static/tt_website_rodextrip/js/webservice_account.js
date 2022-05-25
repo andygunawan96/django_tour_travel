@@ -1,5 +1,6 @@
 offset_transaction = 0;
 page_transaction_history_ledger = 1
+temp_date_history = ''
 function signin_rodextrip(type){
     $.ajax({
        type: "POST",
@@ -432,6 +433,7 @@ function get_transactions_notification(val){
 }
 
 function get_transaction_history_ledger(type,use_cache){
+    $('#loading-search-reservation').show();
     if(type == 'reset'){
         page_transaction_history_ledger = 1;
         document.getElementById('body_table_reservation').innerHTML = '';
@@ -461,38 +463,114 @@ function get_transaction_history_ledger(type,use_cache){
        success: function(msg) {
             console.log(msg);
             text = '';
+
             if(msg.result.error_code == 0){
+                date_now_history = moment().format('DD MMM YYYY');
                 for(i in msg.result.response){
-                text += '<tr>';
-                text += `<td>`;
-                if(msg.result.response[i].name)
-                    text += msg.result.response[i].name + '<br/>';
-                if(msg.result.response[i].pnr)
-                    text += "PNR: "+msg.result.response[i].pnr + '<br/>';
-                if(msg.result.response[i].name.includes(msg.result.response[i].ref) == false)
-                    text += "Reference: "+msg.result.response[i].ref + '<br/>';
-                if(msg.result.response[i].info)
-                    text += "Info: <br/>"+msg.result.response[i].info + '<br/>';
-                if(Object.keys(msg.result.response[i].booker).length > 0)
-                    text += "Booker: "+msg.result.response[i].booker.name + '<br/>';
-                if(msg.result.response[i].date)
-                    text += "Date: "+moment(msg.result.response[i].date).format('DD MMM YYYY') + '<br/>';
-                text += `<td>`;
-                if(msg.result.response[i].currency && msg.result.response[i].debit > 0){
-                    text += `<span style="color:green">`;
-                    text += msg.result.response[i].currency+' ';
-                    text += '+'+getrupiah(msg.result.response[i].debit);
-                    text += `</span>`;
+                    if(msg.result.response[i].date){
+                        data_date_history = moment(msg.result.response[i].date).format('DD MMM YYYY');
+
+                        if(temp_date_history != data_date_history){
+                            text+=`<br/>`;
+                            temp_date_history = '';
+                        }
+
+                        if(temp_date_history == ''){
+                            text += `<div class="border_custom_left" style="background:white; padding:15px;">`;
+                            if(date_now_history == data_date_history){
+                                text += "<b style='font-size:14px;'><i class='fas fa-calendar-alt' style='padding-right:5px;'></i>Today</b>";
+                            }else{
+                                text += "<b style='font-size:14px;'><i class='fas fa-calendar-alt' style='padding-right:5px;'></i>"+moment(msg.result.response[i].date).format('DD MMM YYYY') + '</b>';
+                            }
+                            text += `</div>`;
+                            temp_date_history = data_date_history;
+                        }
+                    }
+
+                    text += `<div style="border:1px solid #cdcdcd; background:white; padding:15px;">`;
+                        text += `
+                        <div class="row">
+                            <div class="col-lg-9">`;
+                                if(msg.result.response[i].provider_type_name == "Airline"){
+                                    text += `<img src="/static/tt_website_rodextrip/images/icon/airlines_black.png" alt="`+msg.result.response[i].name+`" style="width:20px; height:20px;">`;
+                                }else if(msg.result.response[i].provider_type_name == "Train"){
+                                    text += `<img src="/static/tt_website_rodextrip/images/icon/train_black.png" alt="`+msg.result.response[i].name+`" style="width:20px; height:20px;">`;
+                                }else if(msg.result.response[i].provider_type_name == "Hotel"){
+                                    text += `<img src="/static/tt_website_rodextrip/images/icon/hotel_black.png" alt="`+msg.result.response[i].name+`" style="width:20px; height:20px;">`;
+                                }else if(msg.result.response[i].provider_type_name == "Activity"){
+                                    text += `<img src="/static/tt_website_rodextrip/images/icon/activity_black.png" alt="`+msg.result.response[i].name+`" style="width:20px; height:20px;">`;
+                                }else if(msg.result.response[i].provider_type_name == "Tour"){
+                                    text += `<img src="/static/tt_website_rodextrip/images/icon/tour_black.png" alt="`+msg.result.response[i].name+`" style="width:20px; height:20px;">`;
+                                }else if(msg.result.response[i].provider_type_name == "Visa"){
+                                    text += `<img src="/static/tt_website_rodextrip/images/icon/visa_black.png" alt="`+msg.result.response[i].name+`" style="width:20px; height:20px;">`;
+                                }else if(msg.result.response[i].provider_type_name == "Passport"){
+                                    text += `<img src="/static/tt_website_rodextrip/images/icon/passport_black.png" alt="`+msg.result.response[i].name+`" style="width:20px; height:20px;">`;
+                                }else if(msg.result.response[i].provider_type_name == "PPOB"){
+                                    text += `<img src="/static/tt_website_rodextrip/images/icon/ppob_black.png" alt="`+msg.result.response[i].name+`" style="width:20px; height:20px;">`;
+                                }else if(msg.result.response[i].provider_type_name == "Event"){
+                                    text += `<img src="/static/tt_website_rodextrip/images/icon/event_black.png" alt="`+msg.result.response[i].name+`" style="width:20px; height:20px;">`;
+                                }else if(msg.result.response[i].provider_type_name == "Bus"){
+                                    text += `<img src="/static/tt_website_rodextrip/images/icon/bus_black.png" alt="`+msg.result.response[i].name+`" style="width:20px; height:20px;">`;
+                                }else if(msg.result.response[i].provider_type_name == "Insurance"){
+                                    text += `<img src="/static/tt_website_rodextrip/images/icon/insurance_black.png" alt="`+msg.result.response[i].name+`" style="width:20px; height:20px;">`;
+                                }else if(msg.result.response[i].provider_type_name == "Offline"){
+                                    text += `<img src="/static/tt_website_rodextrip/images/icon/offline_black.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:20px;">`;
+                                }else if(msg.result.response[i].provider_type_name == "Group Booking"){
+                                    text += `<img src="/static/tt_website_rodextrip/images/icon/groupbooking_black.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:20px;">`;
+                                }else if(msg.result.response[i].provider_type_name == "Mitra Keluarga"){
+                                    text += `<img src="/static/tt_website_rodextrip/images/icon/mitra_keluarga.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:20px;">`;
+                                }else if(msg.result.response[i].provider_type_name == "phc"){
+                                    text += `<img src="/static/tt_website_rodextrip/images/icon/phc_logo.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:20px;">`;
+                                }else if(msg.result.response[i].provider_type_name == "Lab Pintar"){
+                                    text += `<img src="/static/tt_website_rodextrip/images/icon/lab_pintar.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:20px;">`;
+                                }else if(msg.result.response[i].provider_type_name == "Sentra Medika"){
+                                    text += `<img src="/static/tt_website_rodextrip/images/icon/sentra_medika.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:20px;">`;
+                                }else if(msg.result.response[i].provider_type_name == "Periksain"){
+                                    text += `<img src="/static/tt_website_rodextrip/images/icon/periksain.png" alt="`+msg.result.response[i].name+`" style="width:auto; height:20px;">`;
+                                }else{
+                                    text += `<img src="/static/tt_website_rodextrip/images/icon/wallet_black.png" alt="`+msg.result.response[i].name+`" style="width:20px; height:20px;">`;
+                                }
+
+                                if(msg.result.response[i].provider_type_name)
+                                    text += '<b style="font-size:16px;"> ' +msg.result.response[i].provider_type_name + '</b><br/>';
+                                if(msg.result.response[i].name)
+                                    text += '<b style="font-size:16px;">' +msg.result.response[i].name + '</b><br/>';
+                                if(msg.result.response[i].pnr)
+                                    text += "<b>PNR:</b><i> "+msg.result.response[i].pnr + '</i><br/>';
+                                if(msg.result.response[i].name.includes(msg.result.response[i].ref) == false)
+                                    text += "<b>Reference:</b><i> "+msg.result.response[i].ref + '</i><br/>';
+                                if(Object.keys(msg.result.response[i].booker).length > 0)
+                                    text += "<b>Booker:</b><i> "+msg.result.response[i].booker.name + '</i><br/>';
+                                if(msg.result.response[i].info)
+                                    text += "<span id='pop_detail_info"+i+"'><b style='color:"+color+"; cursor:pointer;'>Detail Info <i class='fas fa-chevron-down'></i></b></span><br/>";
+                                text += `
+                            </div>
+                            <div class="col-lg-3" style="text-align:right;">`;
+                            tes = moment.utc(msg.result.response[i].create_date).format('YYYY-MM-DD HH:mm:ss')
+                            localTime  = moment.utc(tes).toDate();
+                            msg.result.response[i].create_date = moment(localTime).format('DD MMM YYYY HH:mm');
+
+                            text+=`<i>`+moment(msg.result.response[i].create_date).format('DD MMM YYYY - HH:mm')+`</i><br/>`;
+
+                            if(msg.result.response[i].currency && msg.result.response[i].debit > 0){
+                                text += `<span style="text-align:right; font-size:18px; font-weight:700; color:green">`;
+                                text += msg.result.response[i].currency+' ';
+                                text += '+'+getrupiah(msg.result.response[i].debit);
+                                text += `</span>`;
+                            }
+                            if(msg.result.response[i].currency && msg.result.response[i].credit > 0){
+                                text += `<span style="text-align:right; font-size:18px; font-weight:700; color:red">`;
+                                text += msg.result.response[i].currency+' ';
+                                text += '-'+getrupiah(msg.result.response[i].credit);
+                                text += `</span>`;
+                            }
+
+                            text += `
+                            </div>
+                        </div>
+                    </div>`;
                 }
-                if(msg.result.response[i].currency && msg.result.response[i].credit > 0){
-                    text += `<span style="color:red">`;
-                    text += msg.result.response[i].currency+' ';
-                    text += '-'+getrupiah(msg.result.response[i].credit);
-                    text += `</span>`;
-                }
-                text+=`</td>`;
-                text += '</tr>';
-            }
+
                 if(msg.result.response.length == 0)
                     document.getElementById('reservation_found').style.display = 'block';
                 else
@@ -501,6 +579,40 @@ function get_transaction_history_ledger(type,use_cache){
                 document.getElementById('reservation_found').style.display = 'block';
             }
             document.getElementById('body_table_reservation').innerHTML += text;
+
+            if(msg.result.error_code == 0){
+                for(i in msg.result.response){
+                    if(msg.result.response[i].info){
+                        new jBox('Tooltip', {
+                            attach: '#pop_detail_info'+i,
+                            target: '#pop_detail_info'+i,
+                            theme: 'TooltipBorder',
+                            trigger: 'click',
+                            adjustTracker: true,
+                            closeOnClick: 'body',
+                            closeButton: 'box',
+                            animation: 'move',
+                            position: {
+                              x: 'left',
+                              y: 'bottom'
+                            },
+                            outside: 'y',
+                            pointer: 'left:20',
+                            offset: {
+                              x: 25
+                            },
+                            content: '<b>'+msg.result.response[i].info+'</b>',
+                            onOpen: function () {
+                              this.source.addClass('active').html('<b style="color:'+color+'; cursor:pointer;">Close <i class="fas fa-chevron-up"></i></b>');
+                            },
+                            onClose: function () {
+                              this.source.removeClass('active').html('<b style="color:'+color+'; cursor:pointer;">Detail Info <i class="fas fa-chevron-down"></i></b>');
+                            }
+                        });
+                    }
+                }
+            }
+
             $('#loading-search-reservation').hide();
             page_transaction_history_ledger++;
             document.getElementById('button').disabled = false;
@@ -1580,4 +1692,8 @@ function FileSelect_attachment(passenger_type, passenger_number, type,e) {
         reader.readAsDataURL(f);
 
     });
+}
+
+function transaction_history_click_search(){
+    temp_date_history = '';
 }

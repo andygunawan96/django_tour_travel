@@ -5677,10 +5677,10 @@ function get_passenger_cache(type,update_cache=false){
                                 if(agent_security.includes('p_cache_2') == true)
                                 {
                                     //response+=`<button type="button" class="primary-btn-white" style="width:110px; height:43px;" onclick="edit_passenger_cache(`+i+`);">Edit <i class="fas fa-pen"></i></button>`;
-                                    response+=`<label style="border-bottom:2px solid `+color+`;" onclick="edit_passenger_cache(`+i+`);">Edit <i class="fas fa-pen" style="font-size:18px; color:`+color+`;"></i></label>`;
+                                    response+=`<label style="border-bottom:2px solid `+color+`; cursor:pointer;" onclick="edit_passenger_cache(`+i+`);">Edit <i class="fas fa-pen" style="font-size:18px; color:`+color+`;"></i></label>`;
                                 }
                                 response+=`<label style="margin-right:13px;margin-left:13px;"></label>`;
-                                response+=`<label style="border-bottom:2px solid #ff3030;" onclick="del_passenger_cache(`+i+`);">Remove <i class="fas fa-trash-alt" style="font-size:18px; color:#ff3030;"></i></label>`;
+                                response+=`<label style="border-bottom:2px solid #ff3030; cursor:pointer;" onclick="del_passenger_cache(`+i+`);">Remove <i class="fas fa-trash-alt" style="font-size:18px; color:#ff3030;"></i></label>`;
                             response+=`
                             </div>
                             <div class="col-lg-5 col-md-5">

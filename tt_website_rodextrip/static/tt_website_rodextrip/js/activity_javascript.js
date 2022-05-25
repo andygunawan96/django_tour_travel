@@ -2162,7 +2162,7 @@ function sort(activity_dat, check){
 
                    if(template == 1){
                         text+=`
-                            <div class="single-recent-blog-post item activity_box" style="border:1px solid #cdcdcd;">
+                            <div class="single-recent-blog-post item" style="border:1px solid #cdcdcd;">
                                 <div class="single-destination relative">`;
                                     if(img_src){
                                         text+=`<div class="thumb relative" style="cursor:pointer; border-bottom:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+activity_dat[i].sequence+`')">`;
@@ -2219,9 +2219,9 @@ function sort(activity_dat, check){
                         </div>`;
                    }else{
                         if(template == 5){
-                            text+=`<div class="single-post-area activity_box" style="margin-bottom:15px; cursor:pointer; border:1px solid #cdcdcd; transform:unset; -webkit-transform:unset;">`;
+                            text+=`<div class="single-post-area" style="margin-bottom:15px; cursor:pointer; border:1px solid #cdcdcd; transform:unset; -webkit-transform:unset;">`;
                         }else{
-                            text+=`<div class="single-post-area activity_box" style="margin-bottom:15px; cursor:pointer; border:unset; transform:unset; -webkit-transform:unset;">`;
+                            text+=`<div class="single-post-area" style="margin-bottom:15px; cursor:pointer; border:unset; transform:unset; -webkit-transform:unset;">`;
                         }
                         text+=`
                             <div class="single-destination avail-sd relative">`;
@@ -2364,21 +2364,9 @@ function sort(activity_dat, check){
 
        }
 
-       document.getElementById("activity_result").innerHTML = '';
-       text = '';
-       var node = document.createElement("div");
-       text+=`
-       <div style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px;">
-           <span style="font-weight:bold; font-size:14px;"> Activity - `+activity_dat.length+` results</span>
-       </div>`;
-       node.innerHTML = text;
-       document.getElementById("activity_result").appendChild(node);
-       node = document.createElement("div");
-
-
         var items = $(".activity_box");
         var numItems = items.length;
-        var perPage = 21;
+        var perPage = 20;
         items.slice(perPage).hide();
         $('#pagination-container').pagination({
             items: numItems,
@@ -2414,6 +2402,17 @@ function sort(activity_dat, check){
             $('#pagination-container').show();
             $('#pagination-container2').show();
         }
+
+        document.getElementById("activity_result").innerHTML = '';
+        text = '';
+        var node = document.createElement("div");
+        text+=`
+        <div style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px;">
+            <span style="font-weight:bold; font-size:14px;"> Activity - `+numItems+` results</span>
+        </div>`;
+        node.innerHTML = text;
+        document.getElementById("activity_result").appendChild(node);
+        node = document.createElement("div");
     }
 }
 

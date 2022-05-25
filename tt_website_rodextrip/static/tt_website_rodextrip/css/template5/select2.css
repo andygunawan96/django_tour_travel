@@ -19,7 +19,6 @@
       display: block;
       padding-left: 10px;
       padding-right: 20px;
-      margin-bottom:15px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap; }
@@ -141,7 +140,7 @@
   .select2-container--default .select2-selection--single .select2-selection__rendered {
     color: #444;
     outline: unset;
-    line-height: 43px; }
+    line-height: 42px; }
   .select2-container--default .select2-selection--single .select2-selection__clear {
     cursor: pointer;
     float: right;

@@ -877,7 +877,7 @@ function activity_search(){
 
                var items = $(".activity_box");
                var numItems = items.length;
-               var perPage = 21;
+               var perPage = 20;
                items.slice(perPage).hide();
                $('#pagination-container').pagination({
                    items: numItems,
@@ -906,6 +906,7 @@ function activity_search(){
                });
                $('#pagination-container').show();
                $('#pagination-container2').show();
+
                if(msg.result.response.length!=0)
                    get_new = true;
            }else{
