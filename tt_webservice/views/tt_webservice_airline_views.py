@@ -272,7 +272,7 @@ def re_order_set_passengers(request):
         title = ''
         if data_booker['gender'] == 'male':
             title = 'MR'
-        elif data_booker['gender'] == 'female' and data_booker['martial_status'] == '':
+        elif data_booker['gender'] == 'female' and data_booker['marital_status'] == '':
             title = 'MS'
         else:
             title = 'MRS'
@@ -300,7 +300,7 @@ def re_order_set_passengers(request):
                     pax_type = 'INF'
             if pax['gender'] == 'male':
                 title = 'MR'
-            elif pax['gender'] == 'female' and data_booker['martial_status'] == '':
+            elif pax['gender'] == 'female' and data_booker['marital_status'] == '':
                 title = 'MS'
             else:
                 title = 'MRS'
@@ -311,7 +311,7 @@ def re_order_set_passengers(request):
                 "title": title,
                 "birth_date": pax['birth_date'],
                 "nationality_name": pax['nationality_name'],
-                "identity_country_of_issued_name": pax['identity_country_of_issued_name'],
+                "identity_country_of_issued_name": pax['identity_country_of_issued_name'] if pax['identity_country_of_issued_code'] != '' else '',
                 "identity_expdate": convert_string_to_date_to_string_front_end(pax['identity_expdate']) if pax['identity_expdate'] != '' and pax['identity_expdate'] != False else '',
                 "identity_number": pax['identity_number'],
                 "passenger_seq_id": pax['seq_id'],
@@ -319,6 +319,7 @@ def re_order_set_passengers(request):
                 "ff_numbers": [],
                 "behaviors": pax['behaviors'],
                 "identity_image": [],
+                "passenger_number": pax['passenger_number']
             }
             if pax_type == 'ADT':
                 adult.append(data_pax_dict)
