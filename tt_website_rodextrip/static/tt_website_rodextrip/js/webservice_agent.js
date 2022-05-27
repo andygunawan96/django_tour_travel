@@ -2793,7 +2793,8 @@ function pick_passenger_copy(type, sequence, product, identity=''){
             //change booker
             check = 0;
             if(check == 0){
-                document.getElementById('train_booker_search').value = '';
+                if(document.getElementById('train_booker_search'))
+                    document.getElementById('train_booker_search').value = '';
                 if(document.getElementById('train_booker_search_type'))
                 {
                     document.getElementById('train_booker_search_type').value = 'cust_name';
