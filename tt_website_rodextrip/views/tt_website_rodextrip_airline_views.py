@@ -1792,25 +1792,26 @@ def review_after_sales(request, signature):
                     segment_seat_request = []
                     data_booking = request.session['airline_get_booking_response']['result']['response']['provider_bookings']
                     for counter_seat_availability_provider, seat_map_provider in enumerate(seat_map_list['seat_availability_provider']):
-                        for seat_segment in seat_map_provider['segments']:
-                            pax_request = []
-                            for idx, pax in enumerate(passengers):
-                                for pax_seat in pax['seat_list']:
-                                    if pax_seat['segment_code'] == seat_segment['segment_code2']:
-                                        if pax_seat['seat_code'] != '':
-                                            pax_request.append({
-                                                'passenger_number': idx,
-                                                'seat_code': pax_seat['seat_code']
-                                            })
-                                        break
-                            if len(pax_request) != 0:
-                                segment_seat_request.append({
-                                    'segment_code': seat_segment['segment_code'],
-                                    'pnr': data_booking[counter_seat_availability_provider]['pnr'],
-                                    # 'provider': seat_segment['provider'], ganti ke pnr
-                                    'passengers': pax_request
-                                })
-                            pax_request = []
+                        if seat_map_provider.get('segments'):
+                            for seat_segment in seat_map_provider['segments']:
+                                pax_request = []
+                                for idx, pax in enumerate(passengers):
+                                    for pax_seat in pax['seat_list']:
+                                        if pax_seat['segment_code'] == seat_segment['segment_code2']:
+                                            if pax_seat['seat_code'] != '':
+                                                pax_request.append({
+                                                    'passenger_number': idx,
+                                                    'seat_code': pax_seat['seat_code']
+                                                })
+                                            break
+                                if len(pax_request) != 0:
+                                    segment_seat_request.append({
+                                        'segment_code': seat_segment['segment_code'],
+                                        'pnr': data_booking[counter_seat_availability_provider]['pnr'],
+                                        # 'provider': seat_segment['provider'], ganti ke pnr
+                                        'passengers': pax_request
+                                    })
+                                pax_request = []
                     set_session(request, 'airline_seat_request_%s' % signature, segment_seat_request)
                 except Exception as e:
                     print('airline no seatmap')
