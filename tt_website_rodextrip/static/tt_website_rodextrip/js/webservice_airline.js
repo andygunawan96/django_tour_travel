@@ -4016,7 +4016,7 @@ function get_seat_map_response(){
                     percent += seat_map.seat_availability_provider[i].segments.length;
                     percent = 75 / percent;
                     for(j in seat_map.seat_availability_provider[i].segments){
-                        if(i == 0 && j == 0){
+                        if(typeof(set_seat_show_segments) === 'undefined'){
                             set_seat_show_segments = seat_map.seat_availability_provider[i].segments[j].segment_code2+'_'+seat_map.seat_availability_provider[i].segments[j].departure_date;
                             segment_list.push(seat_map.seat_availability_provider[i].segments[j].segment_code2);
                             text += `
@@ -4027,19 +4027,20 @@ function get_seat_map_response(){
                                 </button>
                             </div>`;
                         }else
-                        text += `
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-                            <button class="button-seat-pass" style="width:100%; margin-right:10px; margin-bottom:10px; padding:10px; color:black; background-color:white;" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`" type="button" onclick="show_seat_map('`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`', false)">
-                                <span>`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`</span><br/>
-                                <span style="font-weight:700">`+moment(seat_map.seat_availability_provider[i].segments[j].departure_date).format('DD MMM YYYY HH:mm')+`</span>
-                            </button>
-                        </div>`;
+                            text += `
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+                                <button class="button-seat-pass" style="width:100%; margin-right:10px; margin-bottom:10px; padding:10px; color:black; background-color:white;" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`" type="button" onclick="show_seat_map('`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].departure_date+`', false)">
+                                    <span>`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`</span><br/>
+                                    <span style="font-weight:700">`+moment(seat_map.seat_availability_provider[i].segments[j].departure_date).format('DD MMM YYYY HH:mm')+`</span>
+                                </button>
+                            </div>`;
                     }
                 }
             }
             text += '</div></div>';
             document.getElementById('airline_seat_map').innerHTML = text;
-            show_seat_map(set_seat_show_segments, true)
+            if(typeof(set_seat_show_segments) !== 'undefined')
+                show_seat_map(set_seat_show_segments, true)
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline seat map response');
@@ -4049,9 +4050,11 @@ function get_seat_map_response(){
 }
 
 function show_seat_map(val, checked){
-    if(val != set_seat_show_segments || checked == true){
-        document.getElementById(set_seat_show_segments).style.background = 'white';
-        document.getElementById(set_seat_show_segments).style.color = 'black';
+    if(typeof(set_seat_show_segments) === 'undefined' || val != set_seat_show_segments || checked == true){
+        if(typeof(set_seat_show_segments) !== 'undefined'){
+            document.getElementById(set_seat_show_segments).style.background = 'white';
+            document.getElementById(set_seat_show_segments).style.color = 'black';
+        }
         document.getElementById(val).style.background = color;
         document.getElementById(val).style.color = 'white';
         set_seat_show_segments = val;
