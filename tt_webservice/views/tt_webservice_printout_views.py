@@ -73,7 +73,7 @@ def get_printout(request):
             'order_number': request.POST['order_number'],
             'mode': request.POST['mode'],
             'provider_type': provider_type,
-            'bill_to_name': request.POST['bill_name_to'],
+            'bill_name': request.POST['bill_name_to'],
             'bill_address': request.POST['bill_address'],
             'additional_information': request.POST['additional_information'],
             'kwitansi_name': request.POST['kwitansi_name'],
