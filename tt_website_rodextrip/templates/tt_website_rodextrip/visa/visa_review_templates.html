@@ -240,7 +240,7 @@
                                                         {% for visa_type in type.visa_type.adult %}
                                                         <label class="radio-button-custom">
                                                             <span>{{visa_type.1}}</span>
-                                                            <input type="radio" name="adult_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'visa')">
+                                                            <input type="radio" name="adult_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('adt',{{counter}},'visa')">
                                                             <span class="checkmark-radio"></span>
                                                         </label><br/>
                                                         {% endfor %}
@@ -250,7 +250,7 @@
                                                         {% for entry_type in type.entry_type.adult %}
                                                         <label class="radio-button-custom">
                                                             <span>{{entry_type.1}}</span>
-                                                            <input type="radio" name="adult_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'entry')" disabled>
+                                                            <input type="radio" name="adult_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('adt',{{counter}},'entry')" disabled>
                                                             <span class="checkmark-radio"></span>
                                                         </label><br/>
                                                         {% endfor %}
@@ -260,7 +260,7 @@
                                                         {% for process_type in type.process_type.adult %}
                                                         <label class="radio-button-custom">
                                                             <span>{{process_type.1}}</span>
-                                                            <input type="radio" name="adult_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'process')" disabled>
+                                                            <input type="radio" name="adult_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('adt',{{counter}},'process')" disabled>
                                                             <span class="checkmark-radio"></span>
                                                         </label><br/>
                                                         {% endfor %}
@@ -304,7 +304,7 @@
                                                         {% for visa_type in type.visa_type.child %}
                                                         <label class="radio-button-custom">
                                                             <span>{{visa_type.1}}</span>
-                                                            <input type="radio" name="child_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('child',{{counter}},'visa')">
+                                                            <input type="radio" name="child_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('chd',{{counter}},'visa')">
                                                             <span class="checkmark-radio"></span>
                                                         </label><br/>
                                                         {% endfor %}
@@ -314,7 +314,7 @@
                                                         {% for entry_type in type.entry_type.child %}
                                                         <label class="radio-button-custom">
                                                             <span>{{entry_type.1}}</span>
-                                                            <input type="radio" name="child_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('child',{{counter}},'entry')" disabled>
+                                                            <input type="radio" name="child_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('chd',{{counter}},'entry')" disabled>
                                                             <span class="checkmark-radio"></span>
                                                         </label><br/>
                                                         {% endfor %}
@@ -324,7 +324,7 @@
                                                         {% for process_type in type.process_type.child %}
                                                         <label class="radio-button-custom">
                                                             <span>{{process_type.1}}</span>
-                                                            <input type="radio" name="child_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('child',{{counter}},'process')" disabled>
+                                                            <input type="radio" name="child_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('chd',{{counter}},'process')" disabled>
                                                             <span class="checkmark-radio"></span>
                                                         </label><br/>
                                                         {% endfor %}
@@ -368,7 +368,7 @@
                                                         {% for visa_type in type.visa_type.infant %}
                                                         <label class="radio-button-custom">
                                                             <span>{{visa_type.1}}</span>
-                                                            <input type="radio" name="infant_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('infant',{{counter}},'visa')">
+                                                            <input type="radio" name="infant_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('inf',{{counter}},'visa')">
                                                             <span class="checkmark-radio"></span>
                                                         </label><br/>
                                                         {% endfor %}
@@ -378,7 +378,7 @@
                                                         {% for entry_type in type.entry_type.infant %}
                                                         <label class="radio-button-custom">
                                                             <span>{{entry_type.1}}</span>
-                                                            <input type="radio" name="infant_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('infant',{{counter}},'entry')" disabled>
+                                                            <input type="radio" name="infant_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('inf',{{counter}},'entry')" disabled>
                                                             <span class="checkmark-radio"></span>
                                                         </label><br/>
                                                         {% endfor %}
@@ -388,7 +388,7 @@
                                                         {% for process_type in type.process_type.infant %}
                                                         <label class="radio-button-custom">
                                                             <span>{{process_type.1}}</span>
-                                                            <input type="radio" name="infant_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('infant',{{counter}},'process')" disabled>
+                                                            <input type="radio" name="infant_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('inf',{{counter}},'process')" disabled>
                                                             <span class="checkmark-radio"></span>
                                                         </label><br/>
                                                         {% endfor %}

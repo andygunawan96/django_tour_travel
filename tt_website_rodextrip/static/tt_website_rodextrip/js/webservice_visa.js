@@ -136,7 +136,7 @@ function visa_page_passenger(){
             visa = msg.visa;
             visa_request = msg.visa_request;
             sell_visa();
-            update_table('passenger');
+            //update_table('passenger');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error visa get config provider');
@@ -158,19 +158,22 @@ function visa_page_review(){
             passenger = msg.passengers;
             visa_request = msg.visa_request;
             visa = msg.visa;
+            sell_visa = msg.sell_visa;
+            for(i in sell_visa['search_data']){
+                sell_visa['search_data'][i]['total_pax'] = sell_visa['search_data'][i].pax;
+                sell_visa['search_data'][i]['pax_count'] = sell_visa['search_data'][i].pax;
+            }
             adult = passenger.adult;
             infant = passenger.infant;
             elder = passenger.elder;
             child = passenger.child;
 
             for(i in passenger.adult)
-                set_value_radio_first('adult',parseInt(i)+1);
+                set_value_radio_first('adt',parseInt(i)+1);
             for(i in passenger.child)
-                set_value_radio_first('child',parseInt(i)+1);
+                set_value_radio_first('chd',parseInt(i)+1);
             for(i in passenger.infant)
-                set_value_radio_first('infant',parseInt(i)+1);
-            for(i in passenger.elder)
-                set_value_radio_first('elder',parseInt(i)+1);
+                set_value_radio_first('inf',parseInt(i)+1);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error visa get config provider');
@@ -468,6 +471,16 @@ function sell_visa(){
             'signature': signature
        },
        success: function(msg) {
+            if(msg.result.error_code == 0){
+                sell_visa = msg.result.response;
+                update_table_new('passenger');
+            }else{
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: msg.result.error_msg,
+                });
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error sell visa');
@@ -593,23 +606,30 @@ function update_passenger(){
                         process_type = radios[j].value;
                     }
                 }
-                for(j in visa.list_of_visa){ //list of visa
-                    if(visa.list_of_visa[j].pax_type[1].toLowerCase() == i &&
-                        visa.list_of_visa[j].visa_type[0] == visa_type &&
-                        visa.list_of_visa[j].entry_type[0] == entry_type &&
-                        visa.list_of_visa[j].type.process_type[0] == process_type &&
-                        visa.list_of_visa[j].pax_count != 0){
+                for(j in sell_visa['search_data']){ //list of visa
+                    pax_type = ''
+                    if(sell_visa['search_data'][j].pax_type.toLowerCase() == 'adt')
+                        pax_type = 'adult';
+                    else if(sell_visa['search_data'][j].pax_type.toLowerCase() == 'chd')
+                        pax_type = 'child';
+                    else if(sell_visa['search_data'][j].pax_type.toLowerCase() == 'inf')
+                        pax_type = 'infant';
+                    if(pax_type == i &&
+                        sell_visa['search_data'][j].visa_type == visa_type &&
+                        sell_visa['search_data'][j].entry_type == entry_type &&
+                        sell_visa['search_data'][j].type.process_type == process_type &&
+                        sell_visa['search_data'][j].pax_count != 0){
                         required = [];
-                        for(count in visa.list_of_visa[j].requirements){
+                        for(count in sell_visa['search_data'][j].requirements){
                             required.push({
-                                'is_original': document.getElementById(i+'_required'+pax_count+'_'+count+'_original').checked,
-                                'is_copy': document.getElementById(i+'_required'+pax_count+'_'+count+'_copy').checked,
-                                'id': visa.list_of_visa[j].requirements[count].id
+                                'is_original': document.getElementById(sell_visa['search_data'][j].pax_type.toLowerCase()+'_required'+pax_count+'_'+count+'_original').checked,
+                                'is_copy': document.getElementById(sell_visa['search_data'][j].pax_type.toLowerCase()+'_required'+pax_count+'_'+count+'_copy').checked,
+                                'id': sell_visa['search_data'][j].requirements[count].id
                             });
 
                         }
                         data_pax.push({
-                            'id':visa.list_of_visa[j].id.toString(),
+                            'id':sell_visa['search_data'][j].id.toString(),
                             'required': required,
                             'notes': document.getElementById('notes_'+i+pax_count).value
                         });

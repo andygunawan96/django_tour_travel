@@ -374,6 +374,7 @@ def sell_visa(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
+            set_session(request, 'sell_visa', res)
             _logger.info("SUCCESS sell_visa VISA SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR sell_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -680,6 +681,7 @@ def page_review(request):
                     })
                     count = count + 1
         res['visa'] = request.session['visa_search']['result']['response']
+        res['sell_visa'] = request.session['sell_visa']['result']['response']
         res['passengers'] = pax
         res['visa_request'] = request.session['visa_request']
     except Exception as e:
