@@ -8223,10 +8223,18 @@ function change_identity_type(id){
 }
 
 function openInNewTab(href) {
-    Object.assign(document.createElement('a'), {
-        target: '_blank',
-        href: href,
-    }).click();
+    if(window.safari == undefined){
+        Object.assign(document.createElement('a'), {
+            target: '_blank',
+            href: href,
+        }).click();
+    }else{
+        Swal.fire({
+            type: 'warning',
+            title: 'Oops!',
+            html: 'Please use chrome / firefox to use this function',
+        })
+    }
 }
 
 function run_signup_admin(){
