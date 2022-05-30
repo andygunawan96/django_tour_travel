@@ -165,6 +165,13 @@ def api_models(request):
         elif req_data['action'] == 'save_retrieve_booking_from_vendor':
             res = save_retrieve_booking_from_vendor(request)
 
+        ## change identity
+        elif req_data['action'] == 'update_post_pax_identity':
+            res = update_post_pax_identity(request)
+        elif req_data['action'] == 'update_post_pax_name':
+            res = update_post_pax_name(request)
+
+
         # V2
         elif req_data['action'] == 'get_reschedule_availability_v2':
             res = get_reschedule_availability_v2(request)
@@ -4226,6 +4233,124 @@ def cancel_v2(request):
             _logger.info("SUCCESS cancel AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR cancel_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def update_post_pax_name(request):
+    try:
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        passenger = []
+        passenger_cache = json.loads(request.POST['passengers'])
+        for pax in passenger_cache:
+            if pax['nationality_name'] != '':
+                for country in response['result']['response']['airline']['country']:
+                    if pax['nationality_name'] == country['name']:
+                        pax['nationality_code'] = country['code']
+                        break
+
+            if pax['identity_country_of_issued_name'] != '':
+                for country in response['result']['response']['airline']['country']:
+                    if pax['identity_country_of_issued_name'] == country['name']:
+                        pax['identity_country_of_issued_code'] = country['code']
+                        break
+            if pax['identity_type'] != '':
+                pax['identity'] = {
+                    "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                    "identity_country_of_issued_code": pax.get('identity_country_of_issued_code') or '',
+                    "identity_expdate": pax.pop('identity_expdate'),
+                    "identity_number": pax.pop('identity_number'),
+                    "identity_type": pax.pop('identity_type'),
+                }
+
+            else:
+                pax.pop('identity_country_of_issued_name')
+                pax.pop('identity_expdate')
+                pax.pop('identity_number')
+                pax.pop('identity_type')
+                # pax.pop('identity_image')
+            passenger.append(pax)
+
+        data = {
+            'passengers': passenger,
+            'order_number': request.POST['order_number']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "update_post_pax_name",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/airline'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS update_post_pax_name AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR update_post_pax_name AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def update_post_pax_identity(request):
+    try:
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        passenger = []
+        passenger_cache = json.loads(request.POST['passengers'])
+        for pax in passenger_cache:
+            if pax['nationality_name'] != '':
+                for country in response['result']['response']['airline']['country']:
+                    if pax['nationality_name'] == country['name']:
+                        pax['nationality_code'] = country['code']
+                        break
+
+            if pax['identity_country_of_issued_name'] != '':
+                for country in response['result']['response']['airline']['country']:
+                    if pax['identity_country_of_issued_name'] == country['name']:
+                        pax['identity_country_of_issued_code'] = country['code']
+                        break
+            if pax['identity_type'] != '':
+                pax['identity'] = {
+                    "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                    "identity_country_of_issued_code": pax.get('identity_country_of_issued_code') or '',
+                    "identity_expdate": pax.pop('identity_expdate'),
+                    "identity_number": pax.pop('identity_number'),
+                    "identity_type": pax.pop('identity_type'),
+                }
+
+            else:
+                pax.pop('identity_country_of_issued_name')
+                pax.pop('identity_expdate')
+                pax.pop('identity_number')
+                pax.pop('identity_type')
+                # pax.pop('identity_image')
+            passenger.append(pax)
+
+        data = {
+            'passengers': passenger,
+            'order_number': request.POST['order_number']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "update_post_pax_identity",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/airline'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS update_post_pax_name AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR update_post_pax_name AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

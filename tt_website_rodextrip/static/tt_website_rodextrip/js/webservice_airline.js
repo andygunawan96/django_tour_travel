@@ -753,6 +753,110 @@ function get_airline_data_passenger_page(type='default'){
     });
 }
 
+function update_post_pax_name(type=''){
+    var passengers = [];
+    var index = 0;
+    for(i in pax_cache_reorder['adult']){
+        index = parseInt(parseInt(i)+1);
+        passengers.push({
+            "title": document.getElementById('adult_title'+index).value,
+            "first_name": document.getElementById('adult_first_name'+index).value,
+            "last_name": document.getElementById('adult_last_name'+index).value,
+            "birth_date": moment(document.getElementById('adult_birth_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD'),
+            "pax_type": pax_cache_reorder['adult'][i].pax_type,
+            "nationality_name": document.getElementById('adult_nationality'+index).value,
+            "identity_expdate": document.getElementById('adult_passport_expired_date'+index).value != '' ? moment(document.getElementById('adult_passport_expired_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD') : '',
+            "identity_type": document.getElementById('adult_id_type'+index).value,
+            "identity_number": document.getElementById('adult_passport_number'+index).value,
+            "identity_country_of_issued_name": document.getElementById('adult_country_of_issued'+index).value,
+            "passenger_number": pax_cache_reorder['adult'][i].passenger_number
+        })
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'update_post_pax_name',
+       },
+       data: {
+            'signature': signature,
+            'order_number': order_number,
+            'passengers': JSON.stringify(passengers)
+       },
+       success: function(msg) {
+            if(type == ''){
+                if(msg.result.error_code == 0){
+                    window.location.href = '/airline/booking/' + btoa(order_number)
+                }else{
+                    $('.btn-next').prop('disabled', false);
+                    $('.btn-next').removeClass("running");
+                    $('.loader-rodextrip').fadeOut();
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops!',
+                        html: msg.result.error_msg,
+                    })
+                }
+            }else{
+                update_post_pax_identity();
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+}
+
+function update_post_pax_identity(){
+    var passengers = [];
+    var index = 0;
+    for(i in pax_cache_reorder['adult']){
+        index = parseInt(parseInt(i)+1);
+        passengers.push({
+            "title": document.getElementById('adult_title'+index).value,
+            "first_name": document.getElementById('adult_first_name'+index).value,
+            "last_name": document.getElementById('adult_last_name'+index).value,
+            "birth_date": moment(document.getElementById('adult_birth_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD'),
+            "pax_type": pax_cache_reorder['adult'][i].pax_type,
+            "nationality_name": document.getElementById('adult_nationality'+index).value,
+            "identity_expdate": document.getElementById('adult_passport_expired_date'+index).value != '' ? moment(document.getElementById('adult_passport_expired_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD') : '',
+            "identity_type": document.getElementById('adult_id_type'+index).value,
+            "identity_number": document.getElementById('adult_passport_number'+index).value,
+            "identity_country_of_issued_name": document.getElementById('adult_country_of_issued'+index).value,
+            "passenger_number": pax_cache_reorder['adult'][i].passenger_number
+        })
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'update_post_pax_identity',
+       },
+       data: {
+            'signature': signature,
+            'order_number': order_number,
+            'passengers': JSON.stringify(passengers)
+       },
+       success: function(msg) {
+            if(msg.result.error_code == 0){
+                window.location.href = '/airline/booking/' + btoa(order_number);
+            }else{
+                $('.btn-next').prop('disabled', false);
+                $('.btn-next').removeClass("running");
+                $('.loader-rodextrip').fadeOut();
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: msg.result.error_msg,
+                })
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+}
+
 function airline_do_passenger_js_load(){
     $(function() {
         for (var i = 1; i <= adult; i++){
@@ -5325,7 +5429,8 @@ function re_order_set_airline_request(type='reorder'){
        },
        success: function(resJson) {
             setTimeout(function(){
-                please_wait_custom('Set Request <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Set Passenger, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
+                if(type == 'reorder')
+                    please_wait_custom('Set Request <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Set Passenger, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
                 re_order_set_passengers(type);
             }, 1000);
        },
@@ -5937,6 +6042,12 @@ function airline_get_booking(data, sync=false){
                                     if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_reroute){
                                         is_reroute = true;
                                     }
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_pax_identity){
+                                        can_change_pax = true;
+                                    }
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_pax_name){
+                                        can_change_pax = true;
+                                    }
                                }
                            }
                        }
@@ -6036,6 +6147,12 @@ function airline_get_booking(data, sync=false){
                                     }
                                     if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_ori_ticket){
                                         col = 3;
+                                    }
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_pax_identity){
+                                        can_change_pax = true;
+                                    }
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_pax_name){
+                                        can_change_pax = true;
                                     }
 
                                }
