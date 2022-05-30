@@ -560,8 +560,16 @@ def passenger_aftersales(request, signature):
                         is_identity_required = True
                     if is_international == False:
                         for leg in segment['legs']:
-                            if leg['origin_country'] != 'Indonesia':
+                            if leg['origin_country'] != 'Indonesia' or leg['destination_country'] != 'Indonesia':
                                 is_international = True
+                                if carrier_code:
+                                    if carrier_code[segment['carrier_code']]['required_identity_required_international']:
+                                        is_identity_required = True
+                                break
+                            else:
+                                if carrier_code:
+                                    if carrier_code[segment['carrier_code']]['required_identity_required_domestic']:
+                                        is_identity_required = True
                                 break
                     if is_international and is_birthdate_required and is_identity_required:
                         break
@@ -582,11 +590,9 @@ def passenger_aftersales(request, signature):
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'is_identity_required': is_identity_required,
-                # 'airline_request': request.session['airline_request_%s' % signature],
-                # 'price': request.session['airline_sell_journey_%s' % signature],
-                # 'airline_get_price_request': request.session['airline_get_price_request_%s' % signature],
+                'order_number': request.session['airline_get_booking_response']['result']['response']['order_number'],
+                'airline_request': request.session['airline_request_%s' % signature],
                 'airline_carriers': carrier,
-                # 'airline_pick': request.session['airline_sell_journey_%s' % signature]['sell_journey_provider'],
                 'adults': adult,
                 'childs': child,
                 'infants': infant,

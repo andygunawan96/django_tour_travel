@@ -39,7 +39,7 @@
     last_session = 'passenger';
 
     signature = `{{signature}}`;
-
+    order_number = `{{order_number}}`;
     birth_date_required = `{{birth_date_required}}`;
     birth_date_required = birth_date_required.replace(/False/g, false);
     birth_date_required = birth_date_required.replace(/True/g, true);
@@ -857,11 +857,21 @@
                         {% endfor %}
 
                         <div class="row">
-                            <div class="col-lg-4"></div>
-                            <div class="col-lg-4"></div>
                             <div class="col-lg-4">
-                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
-                                    {% trans 'Next' %}
+                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
+                                    {% trans 'Update Name' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </div>
+                            <div class="col-lg-4">
+                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
+                                    {% trans 'Update Identity' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </div>
+                            <div class="col-lg-4">
+                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
+                                    {% trans 'Update All' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
@@ -897,13 +907,25 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12">
-                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
-                                    {% trans 'Next' %}
+                            <div class="col-lg-4">
+                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
+                                    {% trans 'Update Name' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
-                                <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                             </div>
+                            <div class="col-lg-4">
+                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
+                                    {% trans 'Update Identity' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </div>
+                            <div class="col-lg-4">
+                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
+                                    {% trans 'Update All' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </div>
+                            <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                         </div>
                     </div>
                     <input type="hidden" id="time_limit_input" name="time_limit_input" />
@@ -1667,11 +1689,21 @@
                                 <br/>
                                 {% endfor %}
                                 <div class="row">
-                                    <div class="col-lg-4"></div>
-                                    <div class="col-lg-4"></div>
                                     <div class="col-lg-4">
-                                        <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
-                                            {% trans 'Next' %}
+                                        <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
+                                            {% trans 'Update Name' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
+                                            {% trans 'Update Identity' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
+                                            {% trans 'Update All' %}
                                             <div class="ld ld-ring ld-cycle"></div>
                                         </button>
                                     </div>
@@ -1708,13 +1740,25 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-12">
-                                        <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
-                                            {% trans 'Next' %}
+                                    <div class="col-lg-4">
+                                        <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
+                                            {% trans 'Update Name' %}
                                             <div class="ld ld-ring ld-cycle"></div>
                                         </button>
-                                        <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                                     </div>
+                                    <div class="col-lg-4">
+                                        <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
+                                            {% trans 'Update Identity' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
+                                            {% trans 'Update All' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </div>
+                                    <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                                 </div>
                             </div>
                             <input type="hidden" id="time_limit_input" name="time_limit_input" />
@@ -2508,11 +2552,21 @@
                         {% endfor %}
 
                         <div class="row">
-                            <div class="col-lg-4"></div>
-                            <div class="col-lg-4"></div>
                             <div class="col-lg-4">
-                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
-                                    {% trans 'Next' %}
+                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
+                                    {% trans 'Update Name' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </div>
+                            <div class="col-lg-4">
+                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
+                                    {% trans 'Update Identity' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </div>
+                            <div class="col-lg-4">
+                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
+                                    {% trans 'Update All' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
@@ -2549,13 +2603,25 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12">
-                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
-                                    {% trans 'Next' %}
+                            <div class="col-lg-4">
+                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
+                                    {% trans 'Update Name' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
-                                <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                             </div>
+                            <div class="col-lg-4">
+                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
+                                    {% trans 'Update Identity' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </div>
+                            <div class="col-lg-4">
+                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
+                                    {% trans 'Update All' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </div>
+                            <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                         </div>
                     </div>
                     <input type="hidden" id="time_limit_input" name="time_limit_input" />
@@ -3347,11 +3413,21 @@
                     {% endfor %}
 
                     <div class="row">
-                        <div class="col-lg-4"></div>
-                        <div class="col-lg-4"></div>
                         <div class="col-lg-4">
-                            <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
-                                {% trans 'Next' %}
+                            <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
+                                {% trans 'Update Name' %}
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>
+                        <div class="col-lg-4">
+                            <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
+                                {% trans 'Update Identity' %}
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>
+                        <div class="col-lg-4">
+                            <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
+                                {% trans 'Update All' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
@@ -3388,13 +3464,25 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12">
-                            <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
-                                {% trans 'Next' %}
+                        <div class="col-lg-4">
+                            <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
+                                {% trans 'Update Name' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
-                            <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                         </div>
+                        <div class="col-lg-4">
+                            <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
+                                {% trans 'Update Identity' %}
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>
+                        <div class="col-lg-4">
+                            <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
+                                {% trans 'Update All' %}
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>
+                        <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                     </div>
                 </div>
                 <input type="hidden" id="time_limit_input" name="time_limit_input" />
@@ -4176,11 +4264,21 @@
                         {% endfor %}
 
                         <div class="row">
-                            <div class="col-lg-4"></div>
-                            <div class="col-lg-4"></div>
                             <div class="col-lg-4">
-                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
-                                    {% trans 'Next' %}
+                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
+                                    {% trans 'Update Name' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </div>
+                            <div class="col-lg-4">
+                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
+                                    {% trans 'Update Identity' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </div>
+                            <div class="col-lg-4">
+                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
+                                    {% trans 'Update All' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
@@ -4216,13 +4314,25 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12">
-                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
-                                    {% trans 'Next' %}
+                            <div class="col-lg-4">
+                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
+                                    {% trans 'Update Name' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
-                                <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                             </div>
+                            <div class="col-lg-4">
+                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
+                                    {% trans 'Update Identity' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </div>
+                            <div class="col-lg-4">
+                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
+                                    {% trans 'Update All' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </div>
+                            <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                         </div>
                     </div>
                     <input type="hidden" id="time_limit_input" name="time_limit_input" />
@@ -5005,11 +5115,21 @@
                         {% endfor %}
 
                         <div class="row">
-                            <div class="col-lg-4"></div>
-                            <div class="col-lg-4"></div>
                             <div class="col-lg-4">
-                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
-                                    {% trans 'Next' %}
+                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
+                                    {% trans 'Update Name' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </div>
+                            <div class="col-lg-4">
+                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
+                                    {% trans 'Update Identity' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </div>
+                            <div class="col-lg-4">
+                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
+                                    {% trans 'Update All' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
@@ -5044,13 +5164,25 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12">
-                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
-                                    {% trans 'Next' %}
+                            <div class="col-lg-4">
+                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
+                                    {% trans 'Update Name' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
-                                <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                             </div>
+                            <div class="col-lg-4">
+                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
+                                    {% trans 'Update Identity' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </div>
+                            <div class="col-lg-4">
+                                <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
+                                    {% trans 'Update All' %}
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </div>
+                            <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                         </div>
                     </div>
                     <input type="hidden" id="time_limit_input" name="time_limit_input" />
