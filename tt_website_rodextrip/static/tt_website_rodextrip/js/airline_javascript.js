@@ -4620,7 +4620,7 @@ function airline_detail(type){
                                                             <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Adult Fare @`+airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare))+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
-                                                            <span style="font-size:13px; font-weight:500;">Tax `+airline_price[price_counter].ADT.currency+` `+getrupiah(Math.ceil(price))+`</span>
+                                                            <span style="font-size:13px; font-weight:500;">Tax & Charges `+airline_price[price_counter].ADT.currency+` `+getrupiah(Math.ceil(price))+`</span>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
                                                             <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].ADT.currency+` `+getrupiah(Math.ceil((airline_price[price_counter].ADT.fare * airline_request.adult) +price))+`</span>
@@ -4662,7 +4662,7 @@ function airline_detail(type){
                                                             <span style="font-size:13px; font-weight:500;">`+airline_request.child+`x Child Fare @`+airline_price[price_counter].CHD.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].CHD.fare))+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
-                                                            <span style="font-size:13px; font-weight:500;">Tax `+airline_price[price_counter].CHD.currency+` `+getrupiah(Math.ceil(price))+`</span>
+                                                            <span style="font-size:13px; font-weight:500;">Tax & Charges `+airline_price[price_counter].CHD.currency+` `+getrupiah(Math.ceil(price))+`</span>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
                                                             <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].CHD.currency+` `+getrupiah(Math.ceil((airline_price[price_counter].CHD.fare * airline_request.child)+price))+`</span>
@@ -4709,7 +4709,7 @@ function airline_detail(type){
                                                             <span style="font-size:13px; font-weight:500;">`+airline_request.infant+`x Infant Fare @`+airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare))+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
-                                                            <span style="font-size:13px; font-weight:500;">Tax `+airline_price[price_counter].INF.currency+` `+getrupiah(Math.ceil(price))+`</span>
+                                                            <span style="font-size:13px; font-weight:500;">Tax & Charges `+airline_price[price_counter].INF.currency+` `+getrupiah(Math.ceil(price))+`</span>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
                                                             <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].INF.currency+` `+getrupiah(Math.ceil((airline_price[price_counter].INF.fare * airline_request.infant)+price))+`</span>
@@ -4769,7 +4769,7 @@ function airline_detail(type){
             try{
                 if(upsell_price != 0){
                     text+=`<div class="col-lg-7" style="text-align:left;">
-                        <label>Other Service Charge</label><br/>
+                        <label>Other Tax & Charges</label><br/>
                     </div>
                     <div class="col-lg-5" style="text-align:right;">`;
                     if(airline_price[0].ADT.currency == 'IDR')
@@ -6194,8 +6194,29 @@ function get_airline_review(){
                             <div class="col-lg-12">
                             <h5>`+(parseInt(count_pax)+1)+`.
                             `+passengers_ssr[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name+`</h5>`;
+                            text+=`</div>
+                            <div class="col-lg-12">`;
+                            if(passengers_ssr[i].pax_type == 'ADT')
+                                text += `<b>Adult - </b>`;
+                            else
+                                text += `<b>Child - </b>`;
+                            text+=`
+                            Birth Date: <b>`+passengers_ssr[i].birth_date+`</b></div>`;
+                            if(passengers_ssr[i].identity_type)
+                            text+=`
+                            <div class="col-lg-12">
+                            `+passengers_ssr[i].identity_type.substr(0,1).toUpperCase()+passengers_ssr[i].identity_type.substr(1,passengers_ssr[i].identity_type.length)+`: <b>`+passengers_ssr[i].identity_number+`</b></div>
+                            <div class="col-lg-12">`;
+                            try{
+                                for(j in passengers_ssr[i].ff_numbers){
+                                    text+= `<label>`+passengers_ssr[i].ff_numbers[j].ff_code+`: `+passengers_ssr[i].ff_numbers[j].ff_number+`</label><br/>`;
+                                }
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
+
                             if(passengers_ssr[i].hasOwnProperty('behaviors') && Object.keys(passengers_ssr[i].behaviors).length > 0){
-                                text+=`<br/><b>Behaviors:</b><br/>`;
+                                text+=`<b>Behaviors:</b><br/>`;
                                 for(j in passengers_ssr[i].behaviors){
                                     if(j.toLowerCase() == 'airline'){
                                         text+=`<i>`+j+`</i><br/>`;
@@ -6204,22 +6225,6 @@ function get_airline_review(){
                                         }
                                     }
                                 }
-                            }
-                            text+=`</div>
-                            <div class="col-lg-12">`;
-                            if(passengers_ssr[i].pax_type == 'ADT')
-                                text += `<b>Adult - </b>`;
-                            else
-                                text += `<b>Child - </b>`;
-                            text+=`
-                            Birth Date: <b>`+passengers_ssr[i].birth_date+`</b></div>
-                            <div class="col-lg-12">`;
-                            try{
-                                for(j in passengers_ssr[i].ff_numbers){
-                                    text+= `<label>`+passengers_ssr[i].ff_numbers[j].ff_code+`: `+passengers_ssr[i].ff_numbers[j].ff_number+`</label><br/>`;
-                                }
-                            }catch(err){
-                                console.log(err); // error kalau ada element yg tidak ada
                             }
 
                             if(passengers_ssr[i].ssr_list.length){

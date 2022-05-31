@@ -1752,7 +1752,7 @@ function draw_get_booking(msg){
         text+=`
         <div class="row" style="margin-bottom:5px;">
             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                <span style="font-size:12px;">`+price[i].pax_count+`x Tax `+price[i].pax_type+` @`+price[i].service_charges[0].currency+` `+getrupiah(price[i].total_tax/price[i].pax_count)+`</span>`;
+                <span style="font-size:12px;">`+price[i].pax_count+`x Tax & Charges `+price[i].pax_type+` @`+price[i].service_charges[0].currency+` `+getrupiah(price[i].total_tax/price[i].pax_count)+`</span>`;
             text+=`</div>
             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                 <span style="font-size:13px;">`+price[i].service_charges[0].currency+` `+getrupiah(price[i].total_tax)+`</span>
@@ -3662,7 +3662,7 @@ function render_price_in_get_price(text, $text, $text_share){
                         <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare * airline_request.adult))+`</span>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                        <span style="font-size:13px; font-weight:500;">Service Charge</span>
+                        <span style="font-size:13px; font-weight:500;">Tax & Charges</span>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                         <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price))+`</span>
@@ -3708,7 +3708,7 @@ function render_price_in_get_price(text, $text, $text_share){
                         <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[price_counter].CHD.fare * airline_request.child))+`</span>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                        <span style="font-size:13px; font-weight:500;">Service Charge</span>
+                        <span style="font-size:13px; font-weight:500;">Tax & Charges</span>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                         <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.child))+`</span>
@@ -3758,7 +3758,7 @@ function render_price_in_get_price(text, $text, $text_share){
                         <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[price_counter].INF.fare * airline_request.infant))+`</span>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                        <span style="font-size:13px; font-weight:500;">Tax</span>
+                        <span style="font-size:13px; font-weight:500;">Tax & Charges</span>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                         <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.infant))+`</span>
@@ -6202,8 +6202,6 @@ function airline_get_booking(data, sync=false){
                     </button>`;
                 }
 
-                $text += '‣ Order Number: '+ msg.result.response.order_number + '\n';
-
                 //$text += 'Hold Date: ' + msg.result.response.hold_date + '\n';
                 $text += '‣ Status: '+msg.result.response.state_description + '\n';
                 var localTime;
@@ -6288,7 +6286,6 @@ function airline_get_booking(data, sync=false){
                             </tr>`;
                         }
                         if(check_provider_booking == 0 && msg.result.response.state != 'issued'){
-                            $text += '‣ Status: '+msg.result.response.state_description+'\n';
                             check_provider_booking++;
                             $(".issued_booking_btn").remove();
                         }
@@ -6512,23 +6509,25 @@ function airline_get_booking(data, sync=false){
                                     }
                                     $text += '\n';
                                 }
-                                for(l in fare_detail_list){
-                                    if(l == 0)
-                                        $text += '‣ Include:\n';
-                                    if(fare_detail_list[l].detail_type == 'BG'){
-                                        text+=`<i class="fas fa-suitcase"></i><span style="font-weight:500;" class="copy_suitcase_details"> `+fare_detail_list[l].amount+` `+fare_detail_list[l].unit+` for 1 person</span><br/>`;
-                                        $text += 'Baggage ';
-                                    }else if(fare_detail_list[l].detail_type == 'ML'){
-                                        text+=`<i class="fas fa-utensils"></i><span style="font-weight:500;" class="copy_utensils_details"> `+fare_detail_list[l].amount+` `+fare_detail_list[l].unit+` for 1 person</span><br/>`;
-                                        $text += 'Meal ';
-                                    }else{
-                                        text+=`<span style="font-weight:500;" class="copy_others_details">`+fare_detail_list[l].amount+` `+fare_detail_list[l].unit+` for 1 person</span><br/>`;
-                                        $text += fare_detail_list[l].detail_name;
-                                    }
-                                    $text += fare_detail_list[l].amount + ' ' + fare_detail_list[l].unit +' for 1 person\n';
+                                if(fare_detail_list.length > 0){
+                                    for(l in fare_detail_list){
+                                        if(l == 0)
+                                            $text += '‣ Include:\n';
+                                        if(fare_detail_list[l].detail_type == 'BG'){
+                                            text+=`<i class="fas fa-suitcase"></i><span style="font-weight:500;" class="copy_suitcase_details"> `+fare_detail_list[l].amount+` `+fare_detail_list[l].unit+` for 1 person</span><br/>`;
+                                            $text += 'Baggage ';
+                                        }else if(fare_detail_list[l].detail_type == 'ML'){
+                                            text+=`<i class="fas fa-utensils"></i><span style="font-weight:500;" class="copy_utensils_details"> `+fare_detail_list[l].amount+` `+fare_detail_list[l].unit+` for 1 person</span><br/>`;
+                                            $text += 'Meal ';
+                                        }else{
+                                            text+=`<span style="font-weight:500;" class="copy_others_details">`+fare_detail_list[l].amount+` `+fare_detail_list[l].unit+` for 1 person</span><br/>`;
+                                            $text += fare_detail_list[l].detail_name;
+                                        }
+                                        $text += fare_detail_list[l].amount + ' ' + fare_detail_list[l].unit +' for 1 person\n';
 
+                                    }
+                                    $text += '\n';
                                 }
-                                $text += '\n';
                             }
                             try{
                                 //prevent error kalau provider tidak ada
@@ -7089,7 +7088,7 @@ function airline_get_booking(data, sync=false){
                 price_arr_repricing = {};
                 pax_type_repricing = [];
                 disc = 0;
-
+                $text += '‣ Order Number: '+ msg.result.response.order_number + '\n';
                 $text += '\n‣ Contact Person:\n';
                 $text += msg.result.response.contact.title + ' ' + msg.result.response.contact.name + '\n';
                 $text += msg.result.response.contact.email + '\n';
@@ -7216,7 +7215,7 @@ function airline_get_booking(data, sync=false){
                                 counter_ssr++;
                             }
                             $text += '['+msg.result.response.provider_bookings[i].pnr+'] '
-                            $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n\n\n';
+                            $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n\n';
                             if(counter_service_charge == 0){
                                 total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
                             }else{
@@ -8403,7 +8402,7 @@ function airline_issued(data){
                             </div>
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` Tax
+                                    <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` Tax & Charges
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                     <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>
@@ -8517,7 +8516,7 @@ function airline_issued(data){
                             </div>
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax
+                                    <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax & Charges
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                     <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>

@@ -7920,6 +7920,27 @@ function update_passenger_backend(){
                                   title: 'Update!',
                                   html: '',
                                 })
+                                try{
+                                    //setelah save hapus data di modal
+                                    document.getElementById('div_avatar_passport').innerHTML = '';
+                                    document.getElementById('div_avatar_ktp').innerHTML = '';
+                                    document.getElementById('div_avatar_sim').innerHTML = '';
+                                    document.getElementById('div_avatar_other').innerHTML = '';
+                                    document.getElementById('selectedFiles_attachment_edit').innerHTML = '';
+                                    document.getElementById('attachment').innerHTML = '';
+                                    document.getElementById('attachment1').innerHTML = '';
+                                    document.getElementById('attachment2').innerHTML = '';
+                                    document.getElementById('attachment3').innerHTML = '';
+                                    document.getElementById('attachment4').innerHTML = '';
+                                    document.getElementById('div_avatar').innerHTML = '';
+                                    document.getElementById('files_attachment_edit1').value = '';
+                                    document.getElementById('files_attachment_edit2').value = '';
+                                    document.getElementById('files_attachment_edit3').value = '';
+                                    document.getElementById('files_attachment_edit4').value = '';
+                                    document.getElementById('files_attachment_edit').value = '';
+                                }catch(err){
+                                    console.log(err);
+                                }
                                 document.getElementById('passenger_chosen').hidden = false;
                                 document.getElementById('passenger_update').hidden = true;
                                 get_passenger_cache('chosen',true);
