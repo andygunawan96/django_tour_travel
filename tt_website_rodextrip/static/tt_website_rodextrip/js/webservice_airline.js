@@ -753,6 +753,110 @@ function get_airline_data_passenger_page(type='default'){
     });
 }
 
+function update_post_pax_name(type=''){
+    var passengers = [];
+    var index = 0;
+    for(i in pax_cache_reorder['adult']){
+        index = parseInt(parseInt(i)+1);
+        passengers.push({
+            "title": document.getElementById('adult_title'+index).value,
+            "first_name": document.getElementById('adult_first_name'+index).value,
+            "last_name": document.getElementById('adult_last_name'+index).value,
+            "birth_date": moment(document.getElementById('adult_birth_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD'),
+            "pax_type": pax_cache_reorder['adult'][i].pax_type,
+            "nationality_name": document.getElementById('adult_nationality'+index).value,
+            "identity_expdate": document.getElementById('adult_passport_expired_date'+index).value != '' ? moment(document.getElementById('adult_passport_expired_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD') : '',
+            "identity_type": document.getElementById('adult_id_type'+index).value,
+            "identity_number": document.getElementById('adult_passport_number'+index).value,
+            "identity_country_of_issued_name": document.getElementById('adult_country_of_issued'+index).value,
+            "passenger_number": pax_cache_reorder['adult'][i].passenger_number
+        })
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'update_post_pax_name',
+       },
+       data: {
+            'signature': signature,
+            'order_number': order_number,
+            'passengers': JSON.stringify(passengers)
+       },
+       success: function(msg) {
+            if(type == ''){
+                if(msg.result.error_code == 0){
+                    window.location.href = '/airline/booking/' + btoa(order_number)
+                }else{
+                    $('.btn-next').prop('disabled', false);
+                    $('.btn-next').removeClass("running");
+                    $('.loader-rodextrip').fadeOut();
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops!',
+                        html: msg.result.error_msg,
+                    })
+                }
+            }else{
+                update_post_pax_identity();
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+}
+
+function update_post_pax_identity(){
+    var passengers = [];
+    var index = 0;
+    for(i in pax_cache_reorder['adult']){
+        index = parseInt(parseInt(i)+1);
+        passengers.push({
+            "title": document.getElementById('adult_title'+index).value,
+            "first_name": document.getElementById('adult_first_name'+index).value,
+            "last_name": document.getElementById('adult_last_name'+index).value,
+            "birth_date": moment(document.getElementById('adult_birth_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD'),
+            "pax_type": pax_cache_reorder['adult'][i].pax_type,
+            "nationality_name": document.getElementById('adult_nationality'+index).value,
+            "identity_expdate": document.getElementById('adult_passport_expired_date'+index).value != '' ? moment(document.getElementById('adult_passport_expired_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD') : '',
+            "identity_type": document.getElementById('adult_id_type'+index).value,
+            "identity_number": document.getElementById('adult_passport_number'+index).value,
+            "identity_country_of_issued_name": document.getElementById('adult_country_of_issued'+index).value,
+            "passenger_number": pax_cache_reorder['adult'][i].passenger_number
+        })
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'update_post_pax_identity',
+       },
+       data: {
+            'signature': signature,
+            'order_number': order_number,
+            'passengers': JSON.stringify(passengers)
+       },
+       success: function(msg) {
+            if(msg.result.error_code == 0){
+                window.location.href = '/airline/booking/' + btoa(order_number);
+            }else{
+                $('.btn-next').prop('disabled', false);
+                $('.btn-next').removeClass("running");
+                $('.loader-rodextrip').fadeOut();
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: msg.result.error_msg,
+                })
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+}
+
 function airline_do_passenger_js_load(){
     $(function() {
         for (var i = 1; i <= adult; i++){
@@ -1648,7 +1752,7 @@ function draw_get_booking(msg){
         text+=`
         <div class="row" style="margin-bottom:5px;">
             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                <span style="font-size:12px;">`+price[i].pax_count+`x Tax `+price[i].pax_type+` @`+price[i].service_charges[0].currency+` `+getrupiah(price[i].total_tax/price[i].pax_count)+`</span>`;
+                <span style="font-size:12px;">`+price[i].pax_count+`x Tax & Charges `+price[i].pax_type+` @`+price[i].service_charges[0].currency+` `+getrupiah(price[i].total_tax/price[i].pax_count)+`</span>`;
             text+=`</div>
             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                 <span style="font-size:13px;">`+price[i].service_charges[0].currency+` `+getrupiah(price[i].total_tax)+`</span>
@@ -3558,7 +3662,7 @@ function render_price_in_get_price(text, $text, $text_share){
                         <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare * airline_request.adult))+`</span>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                        <span style="font-size:13px; font-weight:500;">Service Charge</span>
+                        <span style="font-size:13px; font-weight:500;">Tax & Charges</span>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                         <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price))+`</span>
@@ -3604,7 +3708,7 @@ function render_price_in_get_price(text, $text, $text_share){
                         <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[price_counter].CHD.fare * airline_request.child))+`</span>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                        <span style="font-size:13px; font-weight:500;">Service Charge</span>
+                        <span style="font-size:13px; font-weight:500;">Tax & Charges</span>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                         <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.child))+`</span>
@@ -3654,7 +3758,7 @@ function render_price_in_get_price(text, $text, $text_share){
                         <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[price_counter].INF.fare * airline_request.infant))+`</span>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                        <span style="font-size:13px; font-weight:500;">Tax</span>
+                        <span style="font-size:13px; font-weight:500;">Tax & Charges</span>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                         <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.infant))+`</span>
@@ -5325,7 +5429,8 @@ function re_order_set_airline_request(type='reorder'){
        },
        success: function(resJson) {
             setTimeout(function(){
-                please_wait_custom('Set Request <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Set Passenger, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
+                if(type == 'reorder')
+                    please_wait_custom('Set Request <i class="fas fa-check-circle" style="color:'+color+';"></i><br/>Set Passenger, please wait <img src="/static/tt_website_rodextrip/img/loading-dot-white.gif" style="height:50px; width:50px;"/>');
                 re_order_set_passengers(type);
             }, 1000);
        },
@@ -5937,6 +6042,12 @@ function airline_get_booking(data, sync=false){
                                     if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_reroute){
                                         is_reroute = true;
                                     }
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_pax_identity){
+                                        can_change_pax = true;
+                                    }
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_pax_name){
+                                        can_change_pax = true;
+                                    }
                                }
                            }
                        }
@@ -6037,6 +6148,12 @@ function airline_get_booking(data, sync=false){
                                     if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_ori_ticket){
                                         col = 3;
                                     }
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_pax_identity){
+                                        can_change_pax = true;
+                                    }
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_pax_name){
+                                        can_change_pax = true;
+                                    }
 
                                }
                            }
@@ -6084,8 +6201,6 @@ function airline_get_booking(data, sync=false){
                         <i class="fas fa-redo-alt"></i> Re Order
                     </button>`;
                 }
-
-                $text += '‣ Order Number: '+ msg.result.response.order_number + '\n';
 
                 //$text += 'Hold Date: ' + msg.result.response.hold_date + '\n';
                 $text += '‣ Status: '+msg.result.response.state_description + '\n';
@@ -6171,7 +6286,6 @@ function airline_get_booking(data, sync=false){
                             </tr>`;
                         }
                         if(check_provider_booking == 0 && msg.result.response.state != 'issued'){
-                            $text += '‣ Status: '+msg.result.response.state_description+'\n';
                             check_provider_booking++;
                             $(".issued_booking_btn").remove();
                         }
@@ -6395,23 +6509,25 @@ function airline_get_booking(data, sync=false){
                                     }
                                     $text += '\n';
                                 }
-                                for(l in fare_detail_list){
-                                    if(l == 0)
-                                        $text += '‣ Include:\n';
-                                    if(fare_detail_list[l].detail_type == 'BG'){
-                                        text+=`<i class="fas fa-suitcase"></i><span style="font-weight:500;" class="copy_suitcase_details"> `+fare_detail_list[l].amount+` `+fare_detail_list[l].unit+` for 1 person</span><br/>`;
-                                        $text += 'Baggage ';
-                                    }else if(fare_detail_list[l].detail_type == 'ML'){
-                                        text+=`<i class="fas fa-utensils"></i><span style="font-weight:500;" class="copy_utensils_details"> `+fare_detail_list[l].amount+` `+fare_detail_list[l].unit+` for 1 person</span><br/>`;
-                                        $text += 'Meal ';
-                                    }else{
-                                        text+=`<span style="font-weight:500;" class="copy_others_details">`+fare_detail_list[l].amount+` `+fare_detail_list[l].unit+` for 1 person</span><br/>`;
-                                        $text += fare_detail_list[l].detail_name;
-                                    }
-                                    $text += fare_detail_list[l].amount + ' ' + fare_detail_list[l].unit +' for 1 person\n';
+                                if(fare_detail_list.length > 0){
+                                    for(l in fare_detail_list){
+                                        if(l == 0)
+                                            $text += '‣ Include:\n';
+                                        if(fare_detail_list[l].detail_type == 'BG'){
+                                            text+=`<i class="fas fa-suitcase"></i><span style="font-weight:500;" class="copy_suitcase_details"> `+fare_detail_list[l].amount+` `+fare_detail_list[l].unit+` for 1 person</span><br/>`;
+                                            $text += 'Baggage ';
+                                        }else if(fare_detail_list[l].detail_type == 'ML'){
+                                            text+=`<i class="fas fa-utensils"></i><span style="font-weight:500;" class="copy_utensils_details"> `+fare_detail_list[l].amount+` `+fare_detail_list[l].unit+` for 1 person</span><br/>`;
+                                            $text += 'Meal ';
+                                        }else{
+                                            text+=`<span style="font-weight:500;" class="copy_others_details">`+fare_detail_list[l].amount+` `+fare_detail_list[l].unit+` for 1 person</span><br/>`;
+                                            $text += fare_detail_list[l].detail_name;
+                                        }
+                                        $text += fare_detail_list[l].amount + ' ' + fare_detail_list[l].unit +' for 1 person\n';
 
+                                    }
+                                    $text += '\n';
                                 }
-                                $text += '\n';
                             }
                             try{
                                 //prevent error kalau provider tidak ada
@@ -6972,7 +7088,7 @@ function airline_get_booking(data, sync=false){
                 price_arr_repricing = {};
                 pax_type_repricing = [];
                 disc = 0;
-
+                $text += '‣ Order Number: '+ msg.result.response.order_number + '\n';
                 $text += '\n‣ Contact Person:\n';
                 $text += msg.result.response.contact.title + ' ' + msg.result.response.contact.name + '\n';
                 $text += msg.result.response.contact.email + '\n';
@@ -7099,7 +7215,7 @@ function airline_get_booking(data, sync=false){
                                 counter_ssr++;
                             }
                             $text += '['+msg.result.response.provider_bookings[i].pnr+'] '
-                            $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n\n\n';
+                            $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n\n';
                             if(counter_service_charge == 0){
                                 total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
                             }else{
@@ -8286,7 +8402,7 @@ function airline_issued(data){
                             </div>
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` Tax
+                                    <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` Tax & Charges
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                     <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>
@@ -8400,7 +8516,7 @@ function airline_issued(data){
                             </div>
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax
+                                    <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax & Charges
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                                     <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>

@@ -4620,7 +4620,7 @@ function airline_detail(type){
                                                             <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Adult Fare @`+airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare))+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
-                                                            <span style="font-size:13px; font-weight:500;">Tax `+airline_price[price_counter].ADT.currency+` `+getrupiah(Math.ceil(price))+`</span>
+                                                            <span style="font-size:13px; font-weight:500;">Tax & Charges `+airline_price[price_counter].ADT.currency+` `+getrupiah(Math.ceil(price))+`</span>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
                                                             <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].ADT.currency+` `+getrupiah(Math.ceil((airline_price[price_counter].ADT.fare * airline_request.adult) +price))+`</span>
@@ -4662,7 +4662,7 @@ function airline_detail(type){
                                                             <span style="font-size:13px; font-weight:500;">`+airline_request.child+`x Child Fare @`+airline_price[price_counter].CHD.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].CHD.fare))+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
-                                                            <span style="font-size:13px; font-weight:500;">Tax `+airline_price[price_counter].CHD.currency+` `+getrupiah(Math.ceil(price))+`</span>
+                                                            <span style="font-size:13px; font-weight:500;">Tax & Charges `+airline_price[price_counter].CHD.currency+` `+getrupiah(Math.ceil(price))+`</span>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
                                                             <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].CHD.currency+` `+getrupiah(Math.ceil((airline_price[price_counter].CHD.fare * airline_request.child)+price))+`</span>
@@ -4709,7 +4709,7 @@ function airline_detail(type){
                                                             <span style="font-size:13px; font-weight:500;">`+airline_request.infant+`x Infant Fare @`+airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare))+`</span><br/>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:left;">
-                                                            <span style="font-size:13px; font-weight:500;">Tax `+airline_price[price_counter].INF.currency+` `+getrupiah(Math.ceil(price))+`</span>
+                                                            <span style="font-size:13px; font-weight:500;">Tax & Charges `+airline_price[price_counter].INF.currency+` `+getrupiah(Math.ceil(price))+`</span>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:right;">
                                                             <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].INF.currency+` `+getrupiah(Math.ceil((airline_price[price_counter].INF.fare * airline_request.infant)+price))+`</span>
@@ -4769,7 +4769,7 @@ function airline_detail(type){
             try{
                 if(upsell_price != 0){
                     text+=`<div class="col-lg-7" style="text-align:left;">
-                        <label>Other Service Charge</label><br/>
+                        <label>Other Tax & Charges</label><br/>
                     </div>
                     <div class="col-lg-5" style="text-align:right;">`;
                     if(airline_price[0].ADT.currency == 'IDR')
@@ -5228,7 +5228,7 @@ function update_identity(type, val){
     }
 }
 
-function check_passenger(adult, child, infant){
+function check_passenger(adult, child, infant, type=''){
     //booker
     error_log = '';
     //check booker jika teropong
@@ -5264,82 +5264,86 @@ function check_passenger(adult, child, infant){
     }catch(err){
 
     }
-    if(check_name(document.getElementById('booker_title').value,
-                    document.getElementById('booker_first_name').value,
-                    document.getElementById('booker_last_name').value,
-                    length_name) == false){
-        error_log+= 'Total of Booker name maximum '+length_name+' characters!</br>\n';
-        document.getElementById('booker_first_name').style['border-color'] = 'red';
-        document.getElementById('booker_last_name').style['border-color'] = 'red';
-    }else{
-        document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
-        document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
-    }if(document.getElementById('booker_first_name').value == '' || check_word(document.getElementById('booker_first_name').value) == false){
-        if(document.getElementById('booker_first_name').value == '')
-            error_log+= 'Please fill booker first name!</br>\n';
-        else if(check_word(document.getElementById('booker_first_name').value) == false)
-            error_log+= 'Please use alpha characters for booker first name!</br>\n';
-        document.getElementById('booker_first_name').style['border-color'] = 'red';
-    }else{
-        document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
-    }if(document.getElementById('booker_nationality').value == ''){
-        error_log+= 'Please fill booker nationality!</br>\n';
-        $("#booker_nationality").each(function() {
-          $(this).siblings(".select2-container").css('border', '1px solid red');
-        });
-    }else{
-        document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
-    }if(check_phone_number(document.getElementById('booker_phone').value)==false){
-        if(check_phone_number(document.getElementById('booker_phone').value) == false)
-            error_log+= 'Phone number Booker only contain number 8 - 12 digits!</br>\n';
-        document.getElementById('booker_phone').style['border-color'] = 'red';
-    }else{
-        document.getElementById('booker_phone').style['border-color'] = '#EFEFEF';
-    }if(check_email(document.getElementById('booker_email').value)==false){
-        error_log+= 'Invalid Booker email!</br>\n';
-        document.getElementById('booker_email').style['border-color'] = 'red';
-    }else{
-        document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
-    }
-
-    var radios = document.getElementsByName('myRadios');
-    for (var j = 0, length = radios.length; j < length; j++) {
-        if (radios[j].checked) {
-            // do whatever you want with the checked radio
-            booker_copy = radios[j].value;
-            // only one radio can be logically checked, don't check the rest
-            break;
+    if(document.getElementById('booker_title') != undefined){
+        if(check_name(document.getElementById('booker_title').value,
+                        document.getElementById('booker_first_name').value,
+                        document.getElementById('booker_last_name').value,
+                        length_name) == false){
+            error_log+= 'Total of Booker name maximum '+length_name+' characters!</br>\n';
+            document.getElementById('booker_first_name').style['border-color'] = 'red';
+            document.getElementById('booker_last_name').style['border-color'] = 'red';
+        }else{
+            document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
+            document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
+        }if(document.getElementById('booker_first_name').value == '' || check_word(document.getElementById('booker_first_name').value) == false){
+            if(document.getElementById('booker_first_name').value == '')
+                error_log+= 'Please fill booker first name!</br>\n';
+            else if(check_word(document.getElementById('booker_first_name').value) == false)
+                error_log+= 'Please use alpha characters for booker first name!</br>\n';
+            document.getElementById('booker_first_name').style['border-color'] = 'red';
+        }else{
+            document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
+        }if(document.getElementById('booker_nationality').value == ''){
+            error_log+= 'Please fill booker nationality!</br>\n';
+            $("#booker_nationality").each(function() {
+              $(this).siblings(".select2-container").css('border', '1px solid red');
+            });
+        }else{
+            document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
+        }if(check_phone_number(document.getElementById('booker_phone').value)==false){
+            if(check_phone_number(document.getElementById('booker_phone').value) == false)
+                error_log+= 'Phone number Booker only contain number 8 - 12 digits!</br>\n';
+            document.getElementById('booker_phone').style['border-color'] = 'red';
+        }else{
+            document.getElementById('booker_phone').style['border-color'] = '#EFEFEF';
+        }if(check_email(document.getElementById('booker_email').value)==false){
+            error_log+= 'Invalid Booker email!</br>\n';
+            document.getElementById('booker_email').style['border-color'] = 'red';
+        }else{
+            document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
         }
-    }
-    if(booker_copy == 'yes')
-        if(document.getElementById('booker_title').value != document.getElementById('adult_title1').value ||
-           document.getElementById('booker_first_name').value != document.getElementById('adult_first_name1').value ||
-           document.getElementById('booker_last_name').value != document.getElementById('adult_last_name1').value)
-                error_log += 'Copy booker to passenger true, value title, first name, and last name has to be same!</br>\n';
 
-   for(i in airline_pick){
-        for(j in airline_pick[i].journeys){
-            last_departure_date = airline_pick[i].journeys[j].departure_date.split(' - ')[0];
+        var radios = document.getElementsByName('myRadios');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                // do whatever you want with the checked radio
+                booker_copy = radios[j].value;
+                // only one radio can be logically checked, don't check the rest
+                break;
+            }
         }
+        if(booker_copy == 'yes')
+            if(document.getElementById('booker_title').value != document.getElementById('adult_title1').value ||
+               document.getElementById('booker_first_name').value != document.getElementById('adult_first_name1').value ||
+               document.getElementById('booker_last_name').value != document.getElementById('adult_last_name1').value)
+                    error_log += 'Copy booker to passenger true, value title, first name, and last name has to be same!</br>\n';
+
+       for(i in airline_pick){
+            for(j in airline_pick[i].journeys){
+                last_departure_date = airline_pick[i].journeys[j].departure_date.split(' - ')[0];
+            }
+       }
    }
    var is_provider_lionair = false;
-   for(x in airline_pick){
-        for(y in airline_pick[x].journeys){
-            for(z in airline_pick[x].journeys[y].segments){
-                if(airline_pick[x].journeys[y].segments[z].carrier_code.includes('JT') ||
-                   airline_pick[x].journeys[y].segments[z].carrier_code.includes('IW') ||
-                   airline_pick[x].journeys[y].segments[z].carrier_code.includes('ID') ||
-                   airline_pick[x].journeys[y].segments[z].carrier_code.includes('IU') ||
-                   airline_pick[x].journeys[y].segments[z].carrier_code.includes('OD'))
-                   is_provider_lionair = true
+   if(typeof airline_pick !== 'undefined'){
+       for(x in airline_pick){
+            for(y in airline_pick[x].journeys){
+                for(z in airline_pick[x].journeys[y].segments){
+                    if(airline_pick[x].journeys[y].segments[z].carrier_code.includes('JT') ||
+                       airline_pick[x].journeys[y].segments[z].carrier_code.includes('IW') ||
+                       airline_pick[x].journeys[y].segments[z].carrier_code.includes('ID') ||
+                       airline_pick[x].journeys[y].segments[z].carrier_code.includes('IU') ||
+                       airline_pick[x].journeys[y].segments[z].carrier_code.includes('OD'))
+                       is_provider_lionair = true
+                    if(is_provider_lionair)
+                        break;
+                }
                 if(is_provider_lionair)
                     break;
             }
             if(is_provider_lionair)
                 break;
-        }
-        if(is_provider_lionair)
-            break;
+       }
    }
    //adult
    for(i=1;i<=adult;i++){
@@ -5532,24 +5536,27 @@ function check_passenger(adult, child, infant){
                 document.getElementById('adult_phone'+i).style['border-color'] = 'red';
             }else
                 document.getElementById('adult_phone'+i).style['border-color'] = '#EFEFEF';
-       }if(ff_request.length != 0 && check_ff == 1){
-           for(j=1;j<=ff_request.length;j++){
-                error_ff = true
-                if(document.getElementById('adult_ff_request'+i+'_'+j).value != '' && document.getElementById('adult_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != '')
-                    error_ff = false
-                else if(document.getElementById('adult_ff_request'+i+'_'+j).value == '' && document.getElementById('adult_ff_number'+i+'_'+j).value != '' ||
-                        document.getElementById('adult_ff_request'+i+'_'+j).value == 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != ''){
-                    error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger adult '+i+'!</br>\n';
-                    document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
-                }else if(document.getElementById('adult_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value == '' &&
-                    document.getElementById('adult_ff_request'+i+'_'+j).value != '' && document.getElementById('adult_ff_number'+i+'_'+j).value == ''){
-                    error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger adult '+i+'!</br>\n';
-                    document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
-                }
-                if(error_ff == false){
-                    document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = '#EFEFEF';
-                    document.getElementById('adult_ff_request'+i+'_'+j).style['border-color'] = '#EFEFEF';
-                }
+       }
+       if(typeof ff_request !== 'undefined'){
+           if(ff_request.length != 0 && check_ff == 1){
+               for(j=1;j<=ff_request.length;j++){
+                    error_ff = true
+                    if(document.getElementById('adult_ff_request'+i+'_'+j).value != '' && document.getElementById('adult_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != '')
+                        error_ff = false
+                    else if(document.getElementById('adult_ff_request'+i+'_'+j).value == '' && document.getElementById('adult_ff_number'+i+'_'+j).value != '' ||
+                            document.getElementById('adult_ff_request'+i+'_'+j).value == 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != ''){
+                        error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger adult '+i+'!</br>\n';
+                        document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                    }else if(document.getElementById('adult_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value == '' &&
+                        document.getElementById('adult_ff_request'+i+'_'+j).value != '' && document.getElementById('adult_ff_number'+i+'_'+j).value == ''){
+                        error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger adult '+i+'!</br>\n';
+                        document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                    }
+                    if(error_ff == false){
+                        document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = '#EFEFEF';
+                        document.getElementById('adult_ff_request'+i+'_'+j).style['border-color'] = '#EFEFEF';
+                    }
+               }
            }
        }
    }
@@ -5765,21 +5772,22 @@ function check_passenger(adult, child, infant){
 //               }
 //           }
 //       }
+       if(typeof ff_request !== 'undefined'){
+           if(ff_request.length != 0 && check_ff == 1){
+               for(j=1;j<=ff_request.length;j++){
+                    if(document.getElementById('child_ff_request'+i+'_'+j).value != '' && document.getElementById('child_ff_number'+i+'_'+j).value != '' ||
+                       document.getElementById('child_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('child_ff_number'+i+'_'+j).value != ''){
 
-       if(ff_request.length != 0 && check_ff == 1){
-           for(j=1;j<=ff_request.length;j++){
-                if(document.getElementById('child_ff_request'+i+'_'+j).value != '' && document.getElementById('child_ff_number'+i+'_'+j).value != '' ||
-                   document.getElementById('child_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('child_ff_number'+i+'_'+j).value != ''){
-
-                    error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger child '+i+'!</br>\n';
-                    document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = 'red';
-                }else if(document.getElementById('child_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('child_ff_number'+i+'_'+j).value != ''){
-                    error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger child '+i+'!</br>\n';
-                    document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = 'red';
-                }else{
-                    document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = '#EFEFEF';
-                    document.getElementById('child_ff_request'+i+'_'+j).style['border-color'] = '#EFEFEF';
-                }
+                        error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger child '+i+'!</br>\n';
+                        document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                    }else if(document.getElementById('child_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('child_ff_number'+i+'_'+j).value != ''){
+                        error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger child '+i+'!</br>\n';
+                        document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                    }else{
+                        document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = '#EFEFEF';
+                        document.getElementById('child_ff_request'+i+'_'+j).style['border-color'] = '#EFEFEF';
+                    }
+               }
            }
        }
    }
@@ -6011,7 +6019,17 @@ function check_passenger(adult, child, infant){
        $('.loader-rodextrip').fadeIn();
        document.getElementById('time_limit_input').value = time_limit;
 //       document.getElementById('airline_price_itinerary_request').value = JSON.stringify(airline_get_price_request);
-       upload_image();
+       if(type == '')
+            upload_image();
+       else if(type == 'update_name')
+            update_post_pax_name();
+       else if(type == 'update_identity'){
+            //check kalau identity tidak di isi error
+            update_post_pax_identity();
+       }else if(type == 'update_all'){
+            //check kalau identity tidak di isi error
+            update_post_pax_name('update_all');
+       }
 
    }
    else{
@@ -6157,7 +6175,18 @@ function get_airline_review(){
     <div class="row" style="padding-top:20px;">
         <div class="col-lg-12">
             <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
-                <h4>Seat & SSR</h4><hr/>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h4>Seat & SSR</h4>
+                    </div>
+                    <div class="col-lg-6">
+                        <button type="button" class="primary-btn-white hold-seat-booking-train ld-ext-right" id="btn-search-train" onclick="window.location.href = '/airline/passenger/`+signature+`';" style="width:100%;">
+                            Edit Passenger <i class="fas fa-user-edit"></i>
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </div>
+                </div>
+                <hr/>
                 <div class="row">`;
                     count_pax = 0;
                     for(i in passengers_ssr){
@@ -6165,8 +6194,29 @@ function get_airline_review(){
                             <div class="col-lg-12">
                             <h5>`+(parseInt(count_pax)+1)+`.
                             `+passengers_ssr[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name+`</h5>`;
+                            text+=`</div>
+                            <div class="col-lg-12">`;
+                            if(passengers_ssr[i].pax_type == 'ADT')
+                                text += `<b>Adult - </b>`;
+                            else
+                                text += `<b>Child - </b>`;
+                            text+=`
+                            Birth Date: <b>`+passengers_ssr[i].birth_date+`</b></div>`;
+                            if(passengers_ssr[i].identity_type)
+                            text+=`
+                            <div class="col-lg-12">
+                            `+passengers_ssr[i].identity_type.substr(0,1).toUpperCase()+passengers_ssr[i].identity_type.substr(1,passengers_ssr[i].identity_type.length)+`: <b>`+passengers_ssr[i].identity_number+`</b></div>
+                            <div class="col-lg-12">`;
+                            try{
+                                for(j in passengers_ssr[i].ff_numbers){
+                                    text+= `<label>`+passengers_ssr[i].ff_numbers[j].ff_code+`: `+passengers_ssr[i].ff_numbers[j].ff_number+`</label><br/>`;
+                                }
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
+
                             if(passengers_ssr[i].hasOwnProperty('behaviors') && Object.keys(passengers_ssr[i].behaviors).length > 0){
-                                text+=`<br/><b>Behaviors:</b><br/>`;
+                                text+=`<b>Behaviors:</b><br/>`;
                                 for(j in passengers_ssr[i].behaviors){
                                     if(j.toLowerCase() == 'airline'){
                                         text+=`<i>`+j+`</i><br/>`;
@@ -6175,22 +6225,6 @@ function get_airline_review(){
                                         }
                                     }
                                 }
-                            }
-                            text+=`</div>
-                            <div class="col-lg-12">`;
-                            if(passengers_ssr[i].pax_type == 'ADT')
-                                text += `<b>Adult - </b>`;
-                            else
-                                text += `<b>Child - </b>`;
-                            text+=`
-                            Birth Date: <b>`+passengers_ssr[i].birth_date+`</b></div>
-                            <div class="col-lg-12">`;
-                            try{
-                                for(j in passengers_ssr[i].ff_numbers){
-                                    text+= `<label>`+passengers_ssr[i].ff_numbers[j].ff_code+`: `+passengers_ssr[i].ff_numbers[j].ff_number+`</label><br/>`;
-                                }
-                            }catch(err){
-                                console.log(err); // error kalau ada element yg tidak ada
                             }
 
                             if(passengers_ssr[i].ssr_list.length){
@@ -6544,9 +6578,16 @@ function checkboxCopyBox(id){
 
 function check_passport_expired_six_month(id){
     last_departure_date = '';
+    //proses booking normal
     for(i in airline_pick){
         for(j in airline_pick[i].journeys){
             last_departure_date = airline_pick[i].journeys[j].departure_date.split(' - ')[0];
+        }
+    }
+    if(last_departure_date == ''){
+        //after sales
+        for(i in airline_request.departure){
+            last_departure_date = airline_request.departure[i];
         }
     }
     if(document.getElementById(id).value != '' && document.getElementById(id).value != moment().subtract(-1, 'years').format('DD MMM YYYY') && id.includes('infant') == false){
