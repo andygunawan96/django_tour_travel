@@ -9752,8 +9752,10 @@ function render_ticket_reissue(){
                 text += `
                 </div>`;
             }
-            if(text != '')
-                document.getElementById('reschedule_info_div').innerHTML = text;
+            if(text != ''){
+                document.getElementById('airline_reissue_info_div').innerHTML = text;
+                document.getElementById('airline_reissue_info_div').style.display = 'block';
+            }
             text = '';
             for(i in airline){
                if(airline[i].airline_pick_sequence == counter_search){
