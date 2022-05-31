@@ -9753,8 +9753,8 @@ function render_ticket_reissue(){
                 </div>`;
             }
             if(text != ''){
-                document.getElementById('airline_reissue_div').innerHTML = text;
-                document.getElementById('airline_reissue_div').style.display = 'block';
+                document.getElementById('airline_reissue_info_div').innerHTML = text;
+                document.getElementById('airline_reissue_info_div').style.display = 'block';
             }
             text = '';
             for(i in airline){
