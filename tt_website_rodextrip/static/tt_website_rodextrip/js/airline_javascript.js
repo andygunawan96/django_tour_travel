@@ -6175,7 +6175,18 @@ function get_airline_review(){
     <div class="row" style="padding-top:20px;">
         <div class="col-lg-12">
             <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
-                <h4>Seat & SSR</h4><hr/>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h4>Seat & SSR</h4>
+                    </div>
+                    <div class="col-lg-6">
+                        <button type="button" class="primary-btn-white hold-seat-booking-train ld-ext-right" id="btn-search-train" onclick="window.location.href = '/airline/passenger/`+signature+`';" style="width:100%;">
+                            Edit Passenger <i class="fas fa-user-edit"></i>
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </div>
+                </div>
+                <hr/>
                 <div class="row">`;
                     count_pax = 0;
                     for(i in passengers_ssr){
