@@ -321,9 +321,9 @@ def passengers(request):
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
             # agent
-            adult_title = ['MR', 'MRS', 'MS']
+            adult_title = ['', 'MR', 'MRS', 'MS']
 
-            infant_title = ['MSTR', 'MISS']
+            infant_title = ['', 'MSTR', 'MISS']
 
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
@@ -344,7 +344,7 @@ def passengers(request):
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'countries': airline_country,
                 'phone_code': phone_code,
-                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'titles': ['', 'MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'hotel_search': request.session['hotel_request'],
                 'hotel_room_detail_pick': request.session['hotel_room_pick'],
                 # 'username': request.session['username'],

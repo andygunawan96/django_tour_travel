@@ -175,8 +175,7 @@ function get_train_data_passenger_page(){
                           format: 'DD MMM YYYY',
                       }
                   });
-                  if(birth_date_required)
-                      $('input[name="adult_birth_date'+i+'"]').val("");
+                  $('input[name="adult_birth_date'+i+'"]').val("");
                   $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
                       singleDatePicker: true,
                       autoUpdateInput: true,
@@ -212,6 +211,7 @@ function get_train_data_passenger_page(){
                           format: 'DD MMM YYYY',
                       }
                   });
+                  $('input[name="infant_birth_date'+i+'"]').val("");
 
                   $('input[name="infant_passport_expired_date'+i+'"]').daterangepicker({
                       singleDatePicker: true,

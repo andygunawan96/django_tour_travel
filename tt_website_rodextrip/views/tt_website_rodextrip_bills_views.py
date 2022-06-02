@@ -36,7 +36,7 @@ def bill(request):
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
-                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'titles': ['', 'MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -76,7 +76,7 @@ def review(request):
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
-                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'titles': ['', 'MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'upsell': request.session.get('bills_upsell_'+request.session['bills_signature']) and request.session.get('bills_upsell_'+request.session['bills_signature']) or 0,

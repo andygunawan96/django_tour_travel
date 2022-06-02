@@ -277,8 +277,8 @@ def passenger(request):
                 set_session(request, 'time_limit', request.session['time_limit'])
 
             # agent
-            adult_title = ['MR', 'MRS', 'MS']
-            infant_title = ['MSTR', 'MISS']
+            adult_title = ['', 'MR', 'MRS', 'MS']
+            infant_title = ['', 'MSTR', 'MISS']
             child_title = infant_title
 
             airline_country = response['result']['response']['airline']['country']
@@ -414,7 +414,7 @@ def passenger(request):
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'adult_title': adult_title,
-                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'titles': ['', 'MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'infant_title': infant_title,

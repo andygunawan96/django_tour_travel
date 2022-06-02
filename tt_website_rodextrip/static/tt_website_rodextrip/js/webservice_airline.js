@@ -880,8 +880,7 @@ function airline_do_passenger_js_load(){
                     format: 'DD MMM YYYY',
                 }
             });
-            if(birth_date_required == false)
-                $('input[name="adult_birth_date'+i+'"]').val("");
+            $('input[name="adult_birth_date'+i+'"]').val("");
 
             $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
                 singleDatePicker: true,
@@ -919,7 +918,7 @@ function airline_do_passenger_js_load(){
                     format: 'DD MMM YYYY',
                 }
             });
-              //$('input[name="child_birth_date'+i+'"]').val("");
+            $('input[name="child_birth_date'+i+'"]').val("");
 
             $('input[name="child_passport_expired_date'+i+'"]').daterangepicker({
                 singleDatePicker: true,
@@ -956,7 +955,7 @@ function airline_do_passenger_js_load(){
                     format: 'DD MMM YYYY',
                 }
             });
-              //$('input[name="infant_birth_date'+i+'"]').val("");
+            $('input[name="infant_birth_date'+i+'"]').val("");
 
             $('input[name="infant_passport_expired_date'+i+'"]').daterangepicker({
                 singleDatePicker: true,
