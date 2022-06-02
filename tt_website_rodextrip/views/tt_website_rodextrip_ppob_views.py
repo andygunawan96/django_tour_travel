@@ -36,7 +36,7 @@ def ppob(request):
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
-                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'titles': ['', 'MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],

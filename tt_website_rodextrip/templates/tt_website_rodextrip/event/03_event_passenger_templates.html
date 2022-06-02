@@ -3320,7 +3320,7 @@
               format: 'DD MMM YYYY',
           }
       });
-      //$('input[name="adult_birth_date1"]').val("");
+      $('input[name="adult_birth_date1"]').val("");
     });
     {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" %}
         get_automatic_booker('{{username.co_customer_seq_id}}');

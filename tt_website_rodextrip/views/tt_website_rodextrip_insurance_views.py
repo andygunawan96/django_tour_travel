@@ -166,9 +166,9 @@ def passenger(request):
             values = get_data_template(request)
 
             # agent
-            adult_title = ['MR', 'MRS', 'MS']
+            adult_title = ['', 'MR', 'MRS', 'MS']
 
-            infant_title = ['MSTR', 'MISS']
+            infant_title = ['', 'MSTR', 'MISS']
 
             # agent
 
@@ -217,7 +217,7 @@ def passenger(request):
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
-                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'titles': ['', 'MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'adults': adult,
