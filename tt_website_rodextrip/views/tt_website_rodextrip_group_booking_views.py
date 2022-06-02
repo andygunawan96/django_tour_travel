@@ -105,7 +105,7 @@ def issued_offline_history(request):
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'username': request.session['user_account'],
-                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'titles': ['', 'MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'static_path_url_server': get_url_static_path(),
@@ -136,7 +136,7 @@ def booking(request, order_number):
             'order_number': request.session['group_booking_order_number'],
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
-            'adult_title': ['MR', 'MRS', 'MS'],
+            'adult_title': ['', 'MR', 'MRS', 'MS'],
         })
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())

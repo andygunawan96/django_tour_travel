@@ -154,9 +154,9 @@ def passenger(request):
                 'elder': 0
             }
             # agent
-            adult_title = ['MR', 'MRS', 'MS']
+            adult_title = ['', 'MR', 'MRS', 'MS']
 
-            infant_title = ['MSTR', 'MISS']
+            infant_title = ['', 'MSTR', 'MISS']
 
             id_type = [['ktp', 'KTP'], ['sim', 'SIM'], ['pas', 'Passport']]
 
@@ -245,7 +245,7 @@ def passenger(request):
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
-                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'titles': ['', 'MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'visa': list_of_visa,

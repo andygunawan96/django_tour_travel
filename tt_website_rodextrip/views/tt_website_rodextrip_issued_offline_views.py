@@ -49,8 +49,8 @@ def issued_offline(request):
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'issued_offline_data': response['result']['response']['issued_offline'],
-                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-                'adult_title': ['MR', 'MRS', 'MS'],
+                'titles': ['', 'MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'adult_title': ['', 'MR', 'MRS', 'MS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'static_path_url_server': get_url_static_path(),
@@ -90,7 +90,7 @@ def issued_offline_history(request):
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'username': request.session['user_account'],
-                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'titles': ['', 'MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'static_path_url_server': get_url_static_path(),

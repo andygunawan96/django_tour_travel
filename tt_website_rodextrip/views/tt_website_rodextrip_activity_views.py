@@ -236,9 +236,9 @@ def passenger(request):
             values = get_data_template(request)
 
             # agent
-            adult_title = ['MR', 'MRS', 'MS']
+            adult_title = ['', 'MR', 'MRS', 'MS']
 
-            infant_title = ['MSTR', 'MISS']
+            infant_title = ['', 'MSTR', 'MISS']
 
             id_type = [['ktp', 'KTP'], ['sim', 'SIM'], ['pas', 'Passport']]
 
@@ -474,7 +474,7 @@ def passenger(request):
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'adult_title': adult_title,
                 'infant_title': infant_title,
-                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'titles': ['', 'MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'additional_price': request.session['additional_price_input'],

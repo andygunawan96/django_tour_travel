@@ -134,7 +134,7 @@ function passport_page_passenger(){
                           format: 'DD MMM YYYY',
                       }
                   });
-                  //$('input[name="adult_birth_date'+i+'"]').val("");
+                  $('input[name="adult_birth_date'+i+'"]').val("");
 
                   $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
                       singleDatePicker: true,
