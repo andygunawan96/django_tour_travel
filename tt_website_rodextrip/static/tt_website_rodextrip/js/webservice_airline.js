@@ -9725,8 +9725,8 @@ function render_ticket_reissue(){
             }
 
             if(provider_list_data.hasOwnProperty(provider_pick) && provider_list_data[provider_pick].hasOwnProperty('reschedule_description_info')){
-
-                text+=`
+                if(provider_list_data[provider_pick]['reschedule_description_info'])
+                    text+=`
                 <div class="row">
                     <div class="col-lg-12" id="alert-state">
                         <div class="alert alert-warning" role="alert">
@@ -9736,22 +9736,24 @@ function render_ticket_reissue(){
             }
             if(provider_list_data.hasOwnProperty(provider_pick) && airline_get_detail.result.response.state == 'booked' && provider_list_data[provider_pick].hasOwnProperty('reschedule_description_booked') ||
                provider_list_data.hasOwnProperty(provider_pick) && airline_get_detail.result.response.state == 'issued' && provider_list_data[provider_pick].hasOwnProperty('reschedule_description_issued')){
-                text+=`
-                    <div class="col-lg-12" id="alert-state">
-                        <div class="alert alert-warning" role="alert">`;
-                if(airline_get_detail.result.response.state == 'booked')
-                    text+=`<h5>`+provider_list_data[provider_pick]['reschedule_description_booked']+`</h5>`;
-                else
-                    text+=`<h5>`+provider_list_data[provider_pick]['reschedule_description_issued']+`</h5>`;
-                text+=`
+                if(airline_get_detail.result.response.state == 'booked' && provider_list_data[provider_pick]['reschedule_description_booked'] ||
+                   airline_get_detail.result.response.state == 'issued' && provider_list_data[provider_pick]['reschedule_description_issued']){
+                    text+=`
+                        <div class="col-lg-12" id="alert-state">
+                            <div class="alert alert-warning" role="alert">`;
+                    if(airline_get_detail.result.response.state == 'booked')
+                        text+=`<h5>`+provider_list_data[provider_pick]['reschedule_description_booked']+`</h5>`;
+                    else
+                        text+=`<h5>`+provider_list_data[provider_pick]['reschedule_description_issued']+`</h5>`;
+                    text+=`
+                            </div>
                         </div>
-                    </div>
-                </div>`;
-            }else if(provider_list_data.hasOwnProperty(provider_pick) && provider_list_data[provider_pick].hasOwnProperty('reschedule_description_info')){
-                text += `
-                </div>`;
+                    </div>`;
+                }
             }
             if(text != ''){
+                text += `
+                </div>`;
                 document.getElementById('airline_reissue_info_div').innerHTML = text;
                 document.getElementById('airline_reissue_info_div').style.display = 'block';
             }
