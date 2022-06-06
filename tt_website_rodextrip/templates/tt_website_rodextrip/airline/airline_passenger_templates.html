@@ -41,8 +41,10 @@
     signature = `{{signature}}`;
 
     birth_date_required = `{{birth_date_required}}`;
-    birth_date_required = birth_date_required.replace(/False/g, false);
-    birth_date_required = birth_date_required.replace(/True/g, true);
+    if(birth_date_required == 'False')
+        birth_date_required = false
+    else
+        birth_date_required = true
 
     is_identity_required = `{{is_identity_required}}`;
     is_identity_required = is_identity_required.replace(/False/g, false);
