@@ -3188,7 +3188,22 @@ function activity_get_booking(data){
                                             </tr>
                                          </table>
 
-                                        <hr/>
+                                        <hr/>`;
+                                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                                        text+=`
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <span>Agent: <b>`+msg.result.response.agent_name+`</b></span>
+                                                </div>`;
+                                        if(msg.result.response.customer_parent_name){
+                                            text+=`
+                                                <div class="col-lg-6">
+                                                    <span>Customer: <b>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</b></span>
+                                                </div>`;
+                                        }
+                                        text+= `</div>`;
+                                    }
+                                    text += `
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <h6>Booked</h6>
@@ -3782,6 +3797,7 @@ function activity_get_booking(data){
                                     </div>
                                 </div>`;
                                 }
+                                text_detail = '';
                                 if(msg.result.response.hasOwnProperty('booker_insentif') == true){
                                     booker_insentif = 0;
                                     booker_insentif = msg.result.response.booker_insentif;

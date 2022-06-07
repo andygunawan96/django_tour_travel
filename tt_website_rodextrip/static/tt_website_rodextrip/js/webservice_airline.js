@@ -6290,7 +6290,22 @@ function airline_get_booking(data, sync=false){
                         }
                 text+=`
                 </table>
-                    <hr/>
+                    <hr/>`;
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                    text+=`
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <span>Agent: <b>`+msg.result.response.agent_name+`</b></span>
+                            </div>`;
+                    if(msg.result.response.customer_parent_name){
+                        text+=`
+                            <div class="col-lg-6">
+                                <span>Customer: <b>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</b></span>
+                            </div>`;
+                    }
+                    text+= `</div>`;
+                }
+                text+=`
                     <div class="row">
                         <div class="col-lg-6 mb-3">
                             <h6>Booked</h6>
