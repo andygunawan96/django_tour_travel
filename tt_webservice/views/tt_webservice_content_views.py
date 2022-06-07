@@ -130,6 +130,8 @@ def api_models(request):
             res = reject_reservation_issued_request(request)
         elif req_data['action'] == 'cancel_reservation_issued_request':
             res = cancel_reservation_issued_request(request)
+        elif req_data['action'] == 'get_provider_type_sequence':
+            res = get_provider_type_sequence(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -1264,3 +1266,44 @@ def cancel_reservation_issued_request(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
+
+def get_provider_type_sequence(request):
+    provider_types_sequence = []
+    file = read_cache_with_folder_path("provider_types_sequence", 90911)
+    if file:
+        provider_types_sequence_file = file
+        for rec in provider_types_sequence_file:
+            try:
+                provider_types_sequence.append({
+                    'name': rec,
+                    'sequence': provider_types_sequence_file[rec]
+                })
+            except:
+                pass
+
+    # check sequence
+    last_sequence = 0
+    empty_sequence = False
+    for provider_obj in provider_types_sequence:
+        try:
+            if provider_obj['sequence'] == '':
+                empty_sequence = True
+            elif isinstance(int(provider_obj['sequence']), int) and last_sequence < int(
+                    provider_obj['sequence']):  # check isi int atau tidak
+                last_sequence = int(provider_obj['sequence'])
+        except:
+            provider_obj['sequence'] = ''
+            empty_sequence = True
+    if empty_sequence:
+        for provider_obj in provider_types_sequence:
+            if provider_obj['sequence'] == '':
+                last_sequence += 1
+                provider_obj['sequence'] = str(last_sequence)
+
+    provider_types_sequence = sorted(provider_types_sequence, key=lambda k: int(k['sequence']))
+
+    return {
+        "error_code": 0,
+        "error_msg": '',
+        "response": provider_types_sequence
+    }
