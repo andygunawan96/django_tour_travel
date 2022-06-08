@@ -751,39 +751,78 @@ function hotel_detail_request(checkin_date, checkout_date){
                     <div class="row">
 
                         <div class="col-lg-3">
+                            <h6>Show All</h6>
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
                                     <span class="span-search-ticket" style="color:black;">All</span>
-                                    <input type="checkbox" id="checkbox_room_all" onclick="filter_room_hotel('');">
+                                    <input type="checkbox" id="checkbox_room_all" onclick="filter_room_hotel('','');">
                                     <span class="check_box_span_custom"></span>
                                 </label><br>
                             </div>
                         </div>
                         <div class="col-lg-3">
+                            <h6>Meal Type</h6>
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
                                     <span class="span-search-ticket" style="color:black;">Room Only</span>
-                                    <input type="checkbox" id="checkbox_room_only" onclick="filter_room_hotel('room_only');">
+                                    <input type="checkbox" id="checkbox_room_only" onclick="filter_room_hotel('meal','room_only');">
+                                    <span class="check_box_span_custom"></span>
+                                </label><br>
+                            </div>
+                            <div class="checkbox-inline1">
+                               <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Breakfast</span>
+                                    <input type="checkbox" id="checkbox_breakfast" onclick="filter_room_hotel('meal','breakfast');">
                                     <span class="check_box_span_custom"></span>
                                 </label><br>
                             </div>
                         </div>
                         <div class="col-lg-3">
+                            <h6>Room Type</h6>
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="color:black;">Breakfast</span>
-                                    <input type="checkbox" id="checkbox_breakfast" onclick="filter_room_hotel('breakfast');">
+                                    <span class="span-search-ticket" style="color:black;">Single</span>
+                                    <input type="checkbox" id="checkbox_single" onclick="filter_room_hotel('room','single');">
+                                    <span class="check_box_span_custom"></span>
+                                </label><br>
+                            </div>
+                            <div class="checkbox-inline1">
+                               <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Twin</span>
+                                    <input type="checkbox" id="checkbox_twin" onclick="filter_room_hotel('room','twin');">
+                                    <span class="check_box_span_custom"></span>
+                                </label><br>
+                            </div>
+                            <div class="checkbox-inline1">
+                               <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Double</span>
+                                    <input type="checkbox" id="checkbox_double" onclick="filter_room_hotel('room','double');">
+                                    <span class="check_box_span_custom"></span>
+                                </label><br>
+                            </div>
+                            <div class="checkbox-inline1">
+                               <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Queen</span>
+                                    <input type="checkbox" id="checkbox_queen" onclick="filter_room_hotel('room','queen');">
+                                    <span class="check_box_span_custom"></span>
+                                </label><br>
+                            </div>
+                            <div class="checkbox-inline1">
+                               <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">King</span>
+                                    <input type="checkbox" id="checkbox_king" onclick="filter_room_hotel('room','king');">
                                     <span class="check_box_span_custom"></span>
                                 </label><br>
                             </div>
                         </div>
-                        <div class="col-lg-3">`;
+                        <div class="col-lg-3">
+                            <h6>Provider</h6>`;
                         for(i in provider_list){
                             text2+=`
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
                                     <span class="span-search-ticket" style="color:black;">`+provider_list[i]+`</span>
-                                    <input type="checkbox" id="checkbox_breakfast" onclick="filter_room_hotel('`+provider_list[i]+`');">
+                                    <input type="checkbox" id="checkbox_provider`+i+`" onclick="filter_room_hotel('provider','`+provider_list[i]+`');">
                                     <span class="check_box_span_custom"></span>
                                 </label><br>
                             </div>`;
