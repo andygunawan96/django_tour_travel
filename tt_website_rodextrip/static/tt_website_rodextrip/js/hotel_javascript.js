@@ -2686,38 +2686,97 @@ function show_hide_div(key){
 
 filter_room_list = {
     "meal_type": [],
-    "provider": []
+    "provider": [],
+    "room_type": []
 }
 
 is_first_render_room_hotel = true;
 
-function filter_room_hotel(value){
-    if(value == ''){
+function filter_room_hotel(type, value){
+    if(type == ''){
         filter_room_list = {
             "meal_type": [],
-            "provider": []
+            "provider": [],
+            "room_type": []
         }
-    }else if(value == 'room_only'){
-        if(filter_room_list['meal_type'].includes('Room Only')){
-            for(i in filter_room_list['meal_type']){
-                if(filter_room_list['meal_type'][i] == 'Room Only'){
-                    filter_room_list['meal_type'].splice(i,1);
-                    break;
+    }else if(type == 'meal'){
+        //meal
+        if(value == 'room_only'){
+            if(filter_room_list['meal_type'].includes('Room Only')){
+                for(i in filter_room_list['meal_type']){
+                    if(filter_room_list['meal_type'][i] == 'Room Only'){
+                        filter_room_list['meal_type'].splice(i,1);
+                        break;
+                    }
                 }
-            }
 
-        }else
-            filter_room_list['meal_type'].push('Room Only');
-    }else if(value == 'breakfast'){
-        if(filter_room_list['meal_type'].includes('Breakfast'))
-            for(i in filter_room_list['meal_type']){
-                if(filter_room_list['meal_type'][i] == 'Breakfast'){
-                    filter_room_list['meal_type'].splice(i,1);
-                    break;
+            }else
+                filter_room_list['meal_type'].push('Room Only');
+        }else if(value == 'breakfast'){
+            if(filter_room_list['meal_type'].includes('Breakfast'))
+                for(i in filter_room_list['meal_type']){
+                    if(filter_room_list['meal_type'][i] == 'Breakfast'){
+                        filter_room_list['meal_type'].splice(i,1);
+                        break;
+                    }
                 }
-            }
-        else
-            filter_room_list['meal_type'].push('Breakfast');
+            else
+                filter_room_list['meal_type'].push('Breakfast');
+        }
+    }else if(type == 'room'){
+        //room
+        if(value == 'single'){
+            if(filter_room_list['room_type'].includes('single')){
+                for(i in filter_room_list['room_type']){
+                    if(filter_room_list['room_type'][i] == 'single'){
+                        filter_room_list['room_type'].splice(i,1);
+                        break;
+                    }
+                }
+
+            }else
+                filter_room_list['room_type'].push('single');
+        }else if(value == 'twin'){
+            if(filter_room_list['room_type'].includes('twin'))
+                for(i in filter_room_list['room_type']){
+                    if(filter_room_list['room_type'][i] == 'twin'){
+                        filter_room_list['room_type'].splice(i,1);
+                        break;
+                    }
+                }
+            else
+                filter_room_list['room_type'].push('twin');
+        }else if(value == 'double'){
+            if(filter_room_list['room_type'].includes('double'))
+                for(i in filter_room_list['room_type']){
+                    if(filter_room_list['room_type'][i] == 'double'){
+                        filter_room_list['room_type'].splice(i,1);
+                        break;
+                    }
+                }
+            else
+                filter_room_list['room_type'].push('double');
+        }else if(value == 'queen'){
+            if(filter_room_list['room_type'].includes('queen'))
+                for(i in filter_room_list['room_type']){
+                    if(filter_room_list['room_type'][i] == 'queen'){
+                        filter_room_list['room_type'].splice(i,1);
+                        break;
+                    }
+                }
+            else
+                filter_room_list['room_type'].push('queen');
+        }else if(value == 'king'){
+            if(filter_room_list['room_type'].includes('king'))
+                for(i in filter_room_list['room_type']){
+                    if(filter_room_list['room_type'][i] == 'king'){
+                        filter_room_list['room_type'].splice(i,1);
+                        break;
+                    }
+                }
+            else
+                filter_room_list['room_type'].push('king');
+        }
     }else{
         //provider
         if(filter_room_list['provider'].includes(value))
@@ -2730,13 +2789,23 @@ function filter_room_hotel(value){
         else
             filter_room_list['provider'].push(value)
     }
-    if(filter_room_list['meal_type'].length == 0 && filter_room_list['provider'].length == 0){
+    if(filter_room_list['meal_type'].length == 0 && filter_room_list['provider'].length == 0 && filter_room_list['room_type'].length == 0){
         for(i in hotel_price){
             hotel_price[i].show = true;
         }
+        //all
         document.getElementById('checkbox_room_all').checked = true;
+        //meal type
         document.getElementById('checkbox_room_only').checked = false;
         document.getElementById('checkbox_breakfast').checked = false;
+        //room type
+        document.getElementById('checkbox_single').checked = false;
+        document.getElementById('checkbox_twin').checked = false;
+        document.getElementById('checkbox_double').checked = false;
+        document.getElementById('checkbox_queen').checked = false;
+        document.getElementById('checkbox_king').checked = false;
+        for(i in provider_list)
+            document.getElementById('checkbox_provider'+i).checked = false;
     }else{
         document.getElementById('checkbox_room_all').checked = false;
         //data awal show
@@ -2747,6 +2816,23 @@ function filter_room_hotel(value){
         if(filter_room_list['meal_type'].length != 0){
             for(i in hotel_price){
                 if(filter_room_list['meal_type'].includes(hotel_price[i].meal_type) == false)
+                    hotel_price[i].show = false;
+            }
+        }
+
+        if(filter_room_list['room_type'].length != 0){
+            for(i in hotel_price){
+                is_hide_room = true;
+                for(j in hotel_price[i].rooms){
+                    for(k in filter_room_list['room_type']){
+                        if(hotel_price[i].rooms[j].description.toLowerCase().includes(filter_room_list['room_type'][k])){
+                            is_hide_room = false;
+                            break;
+                        }
+                    }
+                    break;
+                }
+                if(is_hide_room)
                     hotel_price[i].show = false;
             }
         }

@@ -2968,7 +2968,7 @@ function group_booking_issued_booking(){
                document.getElementById('product_title').innerHTML = '';
                document.getElementById('product_type_title').innerHTML = '';
                document.getElementById('tour_detail_table').innerHTML = '';
-               tour_get_booking(order_number);
+               group_booking_get_booking(order_number);
            }else{
                 if(msg.result.error_code != 1007){
                     Swal.fire({
@@ -3002,7 +3002,7 @@ function group_booking_issued_booking(){
                 document.getElementById('product_title').innerHTML = '';
                 document.getElementById('product_type_title').innerHTML = '';
                 document.getElementById('tour_detail_table').innerHTML = '';
-                tour_get_booking(order_number);
+                group_booking_get_booking(order_number);
                 $("#issuedModal").modal('hide');
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
