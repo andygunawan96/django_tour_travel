@@ -5278,7 +5278,7 @@ function check_passenger(adult, child, infant, type=''){
         }if(document.getElementById('booker_title').value == ''){
             error_log+= 'Please fill booker title!</br>\n';
             $("#booker_title").each(function() {
-                $(this).parent().find('.nice-select').css('border', '0px solid red');
+                $(this).parent().find('.nice-select').css('border', '1px solid red');
             });
         }else{
             $("#booker_title").each(function() {
@@ -5371,7 +5371,7 @@ function check_passenger(adult, child, infant, type=''){
        }if(document.getElementById('adult_title'+i).value == ''){
             error_log+= 'Please choose title of adult passenger '+i+'!</br>\n';
            $("#adult_title"+i).each(function() {
-                $(this).parent().find('.nice-select').css('border', '0px solid red');
+                $(this).parent().find('.nice-select').css('border', '1px solid red');
             });
        }else{
            $("#adult_title"+i).each(function() {
@@ -5660,7 +5660,7 @@ function check_passenger(adult, child, infant, type=''){
                    if(document.getElementById('child_id_type'+i).value == 'ktp' && is_international == 'false'){
                         document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
                         $("#child_id_type"+i).each(function() {
-                            $(this).parent().find('.nice-select').css('border', '0px solid red');
+                            $(this).parent().find('.nice-select').css('border', '1px solid red');
                         });
                         if(check_ktp(document.getElementById('child_passport_number'+i).value) == false){
                            error_log+= 'Please fill id number, nik only contain 16 digits for passenger child '+i+'!</br>\n';
@@ -5847,7 +5847,7 @@ function check_passenger(adult, child, infant, type=''){
        }if(document.getElementById('infant_title'+i).value == ''){
             error_log+= 'Please choose title of infant passenger '+i+'!</br>\n';
             $("#infant_title"+i).each(function() {
-                $(this).parent().find('.nice-select').css('border', '0px solid red');
+                $(this).parent().find('.nice-select').css('border', '1px solid red');
             });
        }else{
            $("#infant_title"+i).each(function() {
