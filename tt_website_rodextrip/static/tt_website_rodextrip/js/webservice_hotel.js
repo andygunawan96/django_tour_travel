@@ -1565,6 +1565,25 @@ function hotel_issued(data){
       if (result.value) {
         show_loading();
         please_wait_transaction();
+
+        if(document.getElementById('hotel_payment_form'))
+        {
+            var formData = new FormData($('#hotel_payment_form').get(0));
+        }
+        else
+        {
+            var formData = new FormData($('#global_payment_form').get(0));
+        }
+        formData.append('order_number', data);
+        formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
+        formData.append('member', payment_acq2[payment_method][selected].method);
+        formData.append('signature', signature);
+        formData.append('voucher_code', voucher_code);
+        if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
+        {
+            formData.append('payment_reference', document.getElementById('pay_ref_text').value);
+        }
+
         getToken();
         $.ajax({
            type: "POST",
@@ -1886,6 +1905,8 @@ function hotel_issued(data){
                     $(".issued_booking_btn").hide();
                }
            },
+           contentType:false,
+           processData:false,
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel issued');
                 price_arr_repricing = {};
@@ -1995,20 +2016,24 @@ function hotel_request_issued(req_order_number){
 
 function hotel_issued_booking(val){
     force_issued = false;
+    var formData = new FormData($('#global_payment_form').get(0));
     if(val == 1)
-        data = {
-            'signature': signature,
-            'force_issued': val,
-            'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
-            'member': payment_acq2[payment_method][selected].method,
-            'voucher_code': voucher_code
+    {
+        formData.append('force_issued', val);
+        formData.append('signature', signature);
+        formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
+        formData.append('member', payment_acq2[payment_method][selected].method);
+        formData.append('voucher_code', voucher_code);
+        if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
+        {
+            formData.append('payment_reference', document.getElementById('pay_ref_text').value);
         }
+    }
     else
-        data = {
-            'signature': signature,
-            'force_issued': val
-        }
-
+    {
+        formData.append('force_issued', val);
+        formData.append('signature', signature);
+    }
 
     $.ajax({
        type: "POST",
@@ -2016,7 +2041,7 @@ function hotel_issued_booking(val){
        headers:{
             'action': 'issued',
        },
-       data: data,
+       data: formData,
        success: function(msg) {
             if(google_analytics != ''){
                 if(data.hasOwnProperty('member') == true)
@@ -2086,6 +2111,8 @@ function hotel_issued_booking(val){
                 })
             }
        },
+       contentType:false,
+       processData:false,
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel issued booking');
             hide_modal_waiting_transaction();

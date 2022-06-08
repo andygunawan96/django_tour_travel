@@ -1,3 +1,16 @@
+function toggle_show_attach_pay_ref() {
+    if(document.getElementById('is_attach_pay_ref').checked == true)
+    {
+        document.getElementById("attach_pay_ref").style.display = "block";
+    }
+    else
+    {
+        document.getElementById("attach_pay_ref").style.display = "none";
+        document.getElementById("pay_ref_text").value = "";
+        document.getElementById("pay_ref_file").value = null;
+    }
+}
+
 function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signature,type,agent_seq_id,top_up_name){
     order_number_id = order_number;
     $.ajax({
@@ -51,6 +64,27 @@ function render_payment(){
                 text=`<h4 style="color:`+color+`;">Payment Method</h4><hr/>`;
             else
                 text=`<h4 style="color:`+color+`;">Customer Payment Method</h4><hr/>`;
+
+            text+=`
+                <div>
+                    <input type="checkbox" id="is_attach_pay_ref" name="is_attach_pay_ref" value="is_attach_pay_ref" onclick="toggle_show_attach_pay_ref();">
+                    <label for="is_attach_pay_ref">Attach Payment Reference</label>
+                </div>
+            `;
+            text+=`
+                <div id="attach_pay_ref" style="display:none; margin-bottom:15px;">
+                    <span class="control-label" for="pay_ref_text">Payment Reference</span>
+                    <div class="input-container-search-ticket">
+                        <input type="text" class="form-control o_website_form_input" id="pay_ref_text" name="pay_ref_text" placeholder="Payment Reference"/>
+                    </div>
+
+                    <span class="control-label" for="pay_ref_file">Payment Ref Attachment</span>
+                    <div class="input-container-search-ticket">
+                        <input type="file" class="form-control o_website_form_input" id="pay_ref_file" name="pay_ref_file" multiple/>
+                    </div>
+                </div>
+            `;
+
             text+=`
             <h6 style="padding-bottom:10px;">1. Payment Via: </h6>`;
             if(template == 1 || template == 5){
@@ -65,7 +99,6 @@ function render_payment(){
             }else if(template == 3){
                 text+=`<div class="default-select" style="margin-bottom:15px;">`;
             }
-
             if(template == 4){
                 text+=`<select class="nice-select-default rounded payment_method" id="payment_via" onchange="set_payment('`+val_render+`','`+type_render+`');">`;
             }else{
@@ -89,6 +122,7 @@ function render_payment(){
             <div id="payment_description" style="text-align:left;"></div>`;
             text+=`
                 </div>`;
+
             document.getElementById('payment_acq').innerHTML = text;
             $('.payment_acq_btn').prop('disabled', false);
             $('.payment_acq_btn').removeClass("running");
@@ -349,7 +383,7 @@ function set_price(val, type, product_type){
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                                </td>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -446,7 +480,7 @@ function set_price(val, type, product_type){
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                                </td>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>

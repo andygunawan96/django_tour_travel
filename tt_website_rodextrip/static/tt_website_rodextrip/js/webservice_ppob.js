@@ -1773,6 +1773,27 @@ function ppob_issued(data){
       if (result.value) {
         show_loading();
         please_wait_transaction();
+
+        if(document.getElementById('bills_booking'))
+        {
+            var formData = new FormData($('#bills_booking').get(0));
+        }
+        else
+        {
+            var formData = new FormData($('#global_payment_form').get(0));
+        }
+        formData.append('order_number', data);
+        formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
+        formData.append('member', payment_acq2[payment_method][selected].method);
+        formData.append('signature', signature);
+        formData.append('voucher_code', voucher_code);
+        formData.append('booking', temp_data);
+
+        if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
+        {
+            formData.append('payment_reference', document.getElementById('pay_ref_text').value);
+        }
+
         getToken();
         $.ajax({
            type: "POST",
@@ -1780,14 +1801,7 @@ function ppob_issued(data){
            headers:{
                 'action': 'issued',
            },
-           data: {
-               'order_number': data,
-               'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
-               'member': payment_acq2[payment_method][selected].method,
-               'voucher_code': voucher_code,
-               'signature': signature,
-               'booking': temp_data
-           },
+           data: formData,
            success: function(msg) {
                if(google_analytics != '')
                    gtag('event', 'ppob_issued', {});
@@ -1854,6 +1868,8 @@ function ppob_issued(data){
                     ppob_get_booking(data);
                }
            },
+           contentType:false,
+           processData:false,
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error bills issued');
                 price_arr_repricing = {};

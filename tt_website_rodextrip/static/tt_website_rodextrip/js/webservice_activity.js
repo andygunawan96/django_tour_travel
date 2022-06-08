@@ -2431,14 +2431,17 @@ function force_issued_activity(val){
 }
 
 function activity_commit_booking(val){
-    data = {
-        'value': val,
-        'signature': signature
-    }
+    var formData = new FormData($('#global_payment_form').get(0));
+    formData.append('value', val);
+    formData.append('signature', signature);
     try{
-        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
-        data['member'] = payment_acq2[payment_method][selected].method;
-        data['voucher_code'] =  voucher_code;
+        formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
+        formData.append('member', payment_acq2[payment_method][selected].method);
+        formData.append('voucher_code', voucher_code);
+        if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
+        {
+            formData.append('payment_reference', document.getElementById('pay_ref_text').value);
+        }
     }catch(err){
     }
     getToken();
@@ -2448,7 +2451,7 @@ function activity_commit_booking(val){
        headers:{
             'action': 'commit_booking',
        },
-       data: data,
+       data: formData,
        success: function(msg) {
         if(google_analytics != ''){
             if(data.hasOwnProperty('member') == true)
@@ -2540,6 +2543,8 @@ function activity_commit_booking(val){
             hide_modal_waiting_transaction();
         }
        },
+       contentType:false,
+       processData:false,
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error submit top up');
             hide_modal_waiting_transaction();
@@ -2552,24 +2557,36 @@ function activity_commit_booking(val){
 
 function activity_issued_booking(order_number)
 {
-    getToken();
     var temp_data = {}
     if(typeof(act_get_booking) !== 'undefined')
         temp_data = JSON.stringify(act_get_booking)
+
+    if(document.getElementById('activity_booking'))
+    {
+        var formData = new FormData($('#activity_booking').get(0));
+    }
+    else
+    {
+        var formData = new FormData($('#global_payment_form').get(0));
+    }
+    formData.append('order_number', order_number);
+    formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
+    formData.append('member', payment_acq2[payment_method][selected].method);
+    formData.append('signature', signature);
+    formData.append('voucher_code', voucher_code);
+    formData.append('booking', temp_data);
+    if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
+    {
+        formData.append('payment_reference', document.getElementById('pay_ref_text').value);
+    }
+    getToken();
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
        headers:{
             'action': 'issued_booking',
        },
-       data: {
-           'order_number': order_number,
-           'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
-           'member': payment_acq2[payment_method][selected].method,
-           'signature': signature,
-           'voucher_code': voucher_code,
-           'booking': temp_data
-       },
+       data: formData,
        success: function(msg) {
            if(google_analytics != '')
                gtag('event', 'activity_issued', {});
@@ -2657,6 +2674,8 @@ function activity_issued_booking(order_number)
                 hide_modal_waiting_transaction();
            }
        },
+       contentType:false,
+       processData:false,
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error submit top up');
             hide_modal_waiting_transaction();
@@ -3782,6 +3801,7 @@ function activity_get_booking(data){
                                     </div>
                                 </div>`;
                                 }
+                                text_detail = '';
                                 if(msg.result.response.hasOwnProperty('booker_insentif') == true){
                                     booker_insentif = 0;
                                     booker_insentif = msg.result.response.booker_insentif;

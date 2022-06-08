@@ -670,18 +670,30 @@ function force_issued_passport(val){
 
 function passport_commit_booking(){
     //tambah swal
-    data = {
-        'force_issued': 'false',
-        'signature': signature,
-        'voucher_code': ''
+    if(document.getElementById('passport_booking'))
+    {
+        var formData = new FormData($('#passport_booking').get(0));
     }
+    else
+    {
+        var formData = new FormData($('#global_payment_form').get(0));
+    }
+    formData.append('force_issued', 'false');
+    formData.append('signature', signature);
+    formData.append('voucher_code', '');
+
     try{
-        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
-        data['member'] = payment_acq2[payment_method][selected].method;
-        data['voucher_code'] = voucher_code;
+        formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
+        formData.append('member', payment_acq2[payment_method][selected].method);
+        formData.append('voucher_code', voucher_code);
+        if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
+        {
+            formData.append('payment_reference', document.getElementById('pay_ref_text').value);
+        }
     }catch(err){
-        console.log(err) //ada element yg tidak ada
+        console.log(err); // error kalau ada element yg tidak ada
     }
+
     getToken();
     $.ajax({
        type: "POST",
@@ -689,7 +701,7 @@ function passport_commit_booking(){
        headers:{
             'action': 'commit_booking',
        },
-       data: data,
+       data: formData,
        success: function(msg) {
             if(google_analytics != ''){
                 if(data.hasOwnProperty('member') == true)
@@ -711,6 +723,8 @@ function passport_commit_booking(){
                 set_payment('Issued','passport');
             }
        },
+       contentType:false,
+       processData:false,
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error visa commit booking');
             hide_modal_waiting_transaction();
