@@ -589,6 +589,7 @@ function change_train(val){
     $('#loading-search-train-choose').hide();
     $('#choose-ticket-train').show();
     document.getElementById("badge-train-notif").innerHTML = "0";
+    document.getElementById("badge-train-notif2").innerHTML = "0";
     document.getElementById("badge-copy-notif").innerHTML = 0;
     document.getElementById("badge-copy-notif2").innerHTML = 0;
     $('#button_copy_train').hide();
@@ -599,6 +600,7 @@ function change_train(val){
 
 function train_get_detail(){
     document.getElementById("badge-train-notif").innerHTML = "1";
+    document.getElementById("badge-train-notif2").innerHTML = "1";
     $('#button_chart_train').show();
     $("#badge-train-notif").addClass("infinite");
     $("#myModalTicketTrain").modal('show');
@@ -2053,8 +2055,8 @@ function sort(value){
                                     response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">IDR `+getrupiah(data_filter[i].without_discount_price)+`</span><br/>`
                                 }
                                 response+=`
-                            <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
-                            <input class="primary-btn-custom-un" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`);"  id="train_choose`+i+`" disabled value="Chosen">`;
+                                <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
+                                <input class="primary-btn-custom-un" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`);"  id="train_choose`+i+`" disabled value="Chosen">`;
                                 check = 1;
                             }
                         }

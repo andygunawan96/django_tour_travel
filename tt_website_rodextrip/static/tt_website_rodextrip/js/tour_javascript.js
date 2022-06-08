@@ -1689,7 +1689,7 @@ function sort(tour_dat, exist_check){
                             if(template == 1){
                                 text+=`
                                     <div class="single-recent-blog-post item" style="cursor:unset;">
-                                        <div class="single-destination avail-sd relative">`;
+                                        <div class="single-destination avail-sd relative mb-2">`;
                                             if(img_src){
                                                 text+=`<div class="thumb relative" style="cursor:pointer; border:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
                                             }else{
@@ -1701,8 +1701,8 @@ function sort(tour_dat, exist_check){
                                             <div class="card card-effect-promotion">
                                                 <div class="card-body">
                                                     <div class="row details">
-                                                        <div class="col-lg-12 mb-2" style="text-align:left;">
-                                                            <h5 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
+                                                        <div class="col-lg-12 mb-2" style="text-align:left; height:100px;">
+                                                            <h6 title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>`;
                                                             if(tour_dat[i].tour_line_amount != 0){
                                                                 if(tour_dat[i].tour_type != 'open'){
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
@@ -1712,19 +1712,19 @@ function sort(tour_dat, exist_check){
                                                                 text+=`<span id="pop_date`+i+`" style="float:right; font-size:12px;font-weight:500;color:`+color+`; cursor:pointer;">See Date</span>`;
                                                             }
                                                         text+=`
+                                                            <div style="display:flex;">
+                                                                <div style="border-bottom:2px solid `+color+`; width:max-content; font-size:12px;">`;
+                                                                if(tour_dat[i].tour_type == 'open'){
+                                                                    text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
+                                                                }else{
+                                                                    text+=tour_dat[i].tour_type_str;
+                                                                }
+                                                            text+=`
+                                                                </div>
+                                                                <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
+                                                            </div>
                                                         </div>
                                                         <div class="col-lg-12 mb-2">
-                                                        <div style="display:flex;">
-                                                            <div style="border-bottom:1px solid `+color+`; width:max-content; font-size:12px;">`;
-                                                            if(tour_dat[i].tour_type == 'open'){
-                                                                text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
-                                                            }else{
-                                                                text+=tour_dat[i].tour_type_str;
-                                                            }
-                                                        text+=`
-                                                            </div>
-                                                            <span id="pop_question`+i+`" style="cursor:pointer;"><i class="fas fa-question-circle" style="padding:0px 5px;font-size:16px;"></i></span>
-                                                        </div>
                                                             <span style="font-size:13px; color:#616161; float:left; margin-top:10px;">Starting From</span>
                                                             <span style="font-size:14px;font-weight:bold; float:right; margin-top:10px;">IDR `+getrupiah(tour_dat[i].est_starting_price)+`</span><br/>
                                                         </div>
@@ -1752,8 +1752,8 @@ function sort(tour_dat, exist_check){
                                             <div class="card card-effect-promotion" style="border:unset;">
                                                 <div class="card-body" style="padding:10px; border:unset;">
                                                     <div class="row details">
-                                                        <div class="col-lg-12 mb-2" style="text-align:left;">
-                                                            <h5 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
+                                                        <div class="col-lg-12 mb-2" style="text-align:left; height:100px;">
+                                                            <h5 title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
                                                             if(tour_dat[i].tour_line_amount != 0){
                                                                 if(tour_dat[i].tour_type != 'open'){
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
@@ -1766,7 +1766,7 @@ function sort(tour_dat, exist_check){
                                                         </div>
                                                         <div class="col-lg-12 mb-2">
                                                         <div style="display:flex;">
-                                                            <div style="border-bottom:1px solid `+color+`; width:max-content; font-size:12px;">`;
+                                                            <div style="border-bottom:2px solid `+color+`; width:max-content; font-size:12px;">`;
                                                             if(tour_dat[i].tour_type == 'open'){
                                                                 text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
                                                             }else{
@@ -1802,8 +1802,8 @@ function sort(tour_dat, exist_check){
                                             <div class="card card-effect-promotion" style="border:unset;">
                                                 <div class="card-body" style="padding:10px; border:unset;">
                                                     <div class="row details">
-                                                        <div class="col-lg-12 mb-2" style="text-align:left;">
-                                                            <h5 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
+                                                        <div class="col-lg-12 mb-2" style="text-align:left; height:100px;">
+                                                            <h5 title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
                                                             if(tour_dat[i].tour_line_amount != 0){
                                                                 if(tour_dat[i].tour_type != 'open'){
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
@@ -1816,7 +1816,7 @@ function sort(tour_dat, exist_check){
                                                         </div>
                                                         <div class="col-lg-12 mb-2">
                                                         <div style="display:flex;">
-                                                            <div style="border-bottom:1px solid `+color+`; width:max-content; font-size:12px;">`;
+                                                            <div style="border-bottom:2px solid `+color+`; width:max-content; font-size:12px;">`;
                                                             if(tour_dat[i].tour_type == 'open'){
                                                                 text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
                                                             }else{
@@ -1852,8 +1852,8 @@ function sort(tour_dat, exist_check){
                                             <div class="card card-effect-promotion" style="border:unset;">
                                                 <div class="card-body" style="padding:10px; border:unset;">
                                                     <div class="row details">
-                                                        <div class="col-lg-12 mb-2" style="text-align:left;">
-                                                            <h5 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
+                                                        <div class="col-lg-12 mb-2" style="text-align:left; height:100px;">
+                                                            <h5 title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
                                                             if(tour_dat[i].tour_line_amount != 0){
                                                                 if(tour_dat[i].tour_type != 'open'){
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
@@ -1866,7 +1866,7 @@ function sort(tour_dat, exist_check){
                                                         </div>
                                                         <div class="col-lg-12 mb-2">
                                                         <div style="display:flex;">
-                                                            <div style="border-bottom:1px solid `+color+`; width:max-content; font-size:12px;">`;
+                                                            <div style="border-bottom:2px solid `+color+`; width:max-content; font-size:12px;">`;
                                                             if(tour_dat[i].tour_type == 'open'){
                                                                 text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
                                                             }else{
@@ -1901,8 +1901,8 @@ function sort(tour_dat, exist_check){
                                             <div class="card card-effect-promotion" style="border:unset;">
                                                 <div class="card-body" style="padding:10px; border:unset;">
                                                     <div class="row details">
-                                                        <div class="col-lg-12 mb-2" style="text-align:left;">
-                                                            <h5 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
+                                                        <div class="col-lg-12 mb-2" style="text-align:left; height:100px;">
+                                                            <h5 title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
                                                             if(tour_dat[i].tour_line_amount != 0){
                                                                 if(tour_dat[i].tour_type != 'open'){
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
@@ -1915,7 +1915,7 @@ function sort(tour_dat, exist_check){
                                                         </div>
                                                         <div class="col-lg-12 mb-2">
                                                         <div style="display:flex;">
-                                                            <div style="border-bottom:1px solid `+color+`; width:max-content; font-size:12px;">`;
+                                                            <div style="border-bottom:2px solid `+color+`; width:max-content; font-size:12px;">`;
                                                             if(tour_dat[i].tour_type == 'open'){
                                                                 text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
                                                             }else{
@@ -1940,7 +1940,7 @@ function sort(tour_dat, exist_check){
                             else if(template == 6){
                                 text+=`
                                     <div class="single-recent-blog-post item" style="cursor:unset;">
-                                        <div class="single-destination avail-sd relative">`;
+                                        <div class="single-destination avail-sd relative mb-2">`;
                                             if(img_src){
                                                 text+=`<div class="thumb relative" style="cursor:pointer; border:1px solid #cdcdcd; height:200px; background: white url('`+img_src+`'); background-size: cover; background-repeat: no-repeat; background-position: center center;" onclick="go_to_detail('`+tour_dat[i].tour_code+`')">`;
                                             }else{
@@ -1951,8 +1951,8 @@ function sort(tour_dat, exist_check){
                                             <div class="card card-effect-promotion">
                                                 <div class="card-body">
                                                     <div class="row details">
-                                                        <div class="col-lg-12 mb-2" style="text-align:left;">
-                                                            <h5 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
+                                                        <div class="col-lg-12 mb-2" style="text-align:left; height:170px;">
+                                                            <h5 title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h5>`;
                                                             if(tour_dat[i].tour_line_amount != 0){
                                                                 if(tour_dat[i].tour_type != 'open'){
                                                                     text+=`<span style="font-size:13px;font-weight:500;">`+tour_dat[i].tour_line_amount+` Available Date</span>`;
@@ -1965,7 +1965,7 @@ function sort(tour_dat, exist_check){
                                                         </div>
                                                         <div class="col-lg-12 mb-2">
                                                         <div style="display:flex;">
-                                                            <div style="border-bottom:1px solid `+color+`; width:max-content; font-size:12px;">`;
+                                                            <div style="border-bottom:2px solid `+color+`; width:max-content; font-size:12px;">`;
                                                             if(tour_dat[i].tour_type == 'open'){
                                                                 text+=`<span style="border:1px solid `+color+`; background:`+color+`; color:`+text_color+`; font-weight:500; padding:2px 5px;">`+tour_dat[i].tour_type_str+`</span>`;
                                                             }else{
