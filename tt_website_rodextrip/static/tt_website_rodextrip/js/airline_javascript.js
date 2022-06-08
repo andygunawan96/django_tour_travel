@@ -5405,7 +5405,7 @@ function check_passenger(adult, child, infant, type=''){
                 });
                if(document.getElementById('adult_nationality'+i).value == 'Indonesia'){
                    //indonesia
-                   if(document.getElementById('adult_id_type'+i).value == 'ktp' && is_international == 'false'){
+                   if(document.getElementById('adult_id_type'+i).value == 'ktp' && is_international == 'false' || is_provider_lionair == true && document.getElementById('adult_id_type'+i).value == 'ktp'){
                         document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
                         $("#adult_id_type"+i).each(function() {
                             $(this).parent().find('.nice-select').css('border', '0px solid red');
@@ -5426,7 +5426,7 @@ function check_passenger(adult, child, infant, type=''){
                              $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
                            });
                         }
-                   }else if(document.getElementById('adult_id_type'+i).value == 'passport' && is_international == 'true'){
+                   }else if(document.getElementById('adult_id_type'+i).value == 'passport' && is_international == 'true' || is_provider_lionair == true && document.getElementById('adult_id_type'+i).value == 'passport'){
                        $("#adult_id_type"+i).each(function() {
                            $(this).parent().find('.nice-select').css('border', '0px solid red');
                        });
