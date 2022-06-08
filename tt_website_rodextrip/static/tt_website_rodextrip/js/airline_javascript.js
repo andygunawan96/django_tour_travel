@@ -5276,11 +5276,14 @@ function check_passenger(adult, child, infant, type=''){
             document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
             document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
         }if(document.getElementById('booker_title').value == ''){
-            if(document.getElementById('booker_title').value == '')
-                error_log+= 'Please fill booker title!</br>\n';
-            document.getElementById('booker_title').style['border-color'] = 'red';
+            error_log+= 'Please fill booker title!</br>\n';
+            $("#booker_title").each(function() {
+                $(this).parent().find('.nice-select').css('border', '0px solid red');
+            });
         }else{
-            document.getElementById('booker_title').style['border-color'] = '#EFEFEF';
+            $("#booker_title").each(function() {
+                $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+            });
         }
         if(document.getElementById('booker_first_name').value == '' || check_word(document.getElementById('booker_first_name').value) == false){
             if(document.getElementById('booker_first_name').value == '')
@@ -5366,11 +5369,14 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('adult_title'+i).value == ''){
-           if(document.getElementById('adult_title'+i).value == '')
-               error_log+= 'Please choose title of adult passenger '+i+'!</br>\n';
-           document.getElementById('adult_title'+i).style['border-color'] = 'red';
+            error_log+= 'Please choose title of adult passenger '+i+'!</br>\n';
+           $("#adult_title"+i).each(function() {
+                $(this).parent().find('.nice-select').css('border', '0px solid red');
+            });
        }else{
-           document.getElementById('adult_title'+i).style['border-color'] = '#EFEFEF';
+           $("#adult_title"+i).each(function() {
+                $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+            });
        }
        if(document.getElementById('adult_first_name'+i).value == '' || check_word(document.getElementById('adult_first_name'+i).value) == false){
            if(document.getElementById('adult_first_name'+i).value == '')
@@ -5597,10 +5603,14 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
            document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('child_title'+i).value == ''){
-           if(document.getElementById('child_title'+i).value == '')
-               error_log+= 'Please choose title of child passenger '+i+'!</br>\n';
+            error_log+= 'Please choose title of child passenger '+i+'!</br>\n';
+            $("#child_title"+i).each(function() {
+                $(this).parent().find('.nice-select').css('border', '0px solid red');
+            });
        }else{
-           document.getElementById('child_title'+i).style['border-color'] = '#EFEFEF';
+           $("#child_title"+i).each(function() {
+                $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+            });
        }
        if(document.getElementById('child_first_name'+i).value == '' || check_word(document.getElementById('child_first_name'+i).value) == false){
            if(document.getElementById('child_first_name'+i).value == '')
@@ -5835,10 +5845,14 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
            document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('infant_title'+i).value == ''){
-           if(document.getElementById('infant_title'+i).value == '')
-               error_log+= 'Please choose title of infant passenger '+i+'!</br>\n';
+            error_log+= 'Please choose title of infant passenger '+i+'!</br>\n';
+            $("#infant_title"+i).each(function() {
+                $(this).parent().find('.nice-select').css('border', '0px solid red');
+            });
        }else{
-           document.getElementById('infant_title'+i).style['border-color'] = '#EFEFEF';
+           $("#infant_title"+i).each(function() {
+                $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+            });
        }if(document.getElementById('infant_first_name'+i).value == '' || check_word(document.getElementById('infant_first_name'+i).value) == false){
            if(document.getElementById('infant_first_name'+i).value == '')
                error_log+= 'Please input first name of infant passenger '+i+'!</br>\n';
