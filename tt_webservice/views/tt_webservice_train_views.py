@@ -5,6 +5,7 @@ from tools import util, ERR
 from datetime import *
 from tools.parser import *
 from ..static.tt_webservice.url import *
+import base64
 import json
 import logging
 import traceback
@@ -780,7 +781,6 @@ def issued(request):
         else:
             member = True
         data = {
-            # 'order_number': 'TB.190329533467'
             'order_number': request.POST['order_number'],
             'member': member,
             'acquirer_seq_id': request.POST['acquirer_seq_id'],
@@ -791,6 +791,21 @@ def issued(request):
             data.update({
                 'voucher': data_voucher(request.POST['voucher_code'], 'train', []),
             })
+        if request.POST.get('payment_reference'):
+            data.update({
+                'payment_reference': request.POST['payment_reference']
+            })
+        if request.FILES.get('pay_ref_file'):
+            temp_file = []
+            for rec_file in request.FILES.getlist('pay_ref_file'):
+                temp_file.append({
+                    'name': rec_file.name,
+                    'file': base64.b64encode(rec_file.file.read()).decode('ascii'),
+                })
+            data.update({
+                'payment_ref_attachment': temp_file
+            })
+
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

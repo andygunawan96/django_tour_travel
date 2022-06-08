@@ -2192,6 +2192,27 @@ function medical_issued_booking(data){
       if (result.value) {
         show_loading();
         please_wait_transaction();
+
+        if(document.getElementById('medical_payment_form'))
+        {
+            var formData = new FormData($('#medical_payment_form').get(0));
+        }
+        else
+        {
+            var formData = new FormData($('#global_payment_form').get(0));
+        }
+        formData.append('order_number', data);
+        formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
+        formData.append('member', payment_acq2[payment_method][selected].method);
+        formData.append('signature', signature);
+        formData.append('voucher_code', voucher_code);
+        formData.append('booking', temp_data);
+
+        if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
+        {
+            formData.append('payment_reference', document.getElementById('pay_ref_text').value);
+        }
+
         getToken();
         $.ajax({
            type: "POST",
@@ -2199,14 +2220,7 @@ function medical_issued_booking(data){
            headers:{
                 'action': 'issued',
            },
-           data: {
-               'order_number': data,
-               'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
-               'member': payment_acq2[payment_method][selected].method,
-               'voucher_code': voucher_code,
-               'signature': signature,
-               'booking': temp_data
-           },
+           data: formData,
            success: function(msg) {
                if(google_analytics != '')
                    gtag('event', 'medical_issued', {});
@@ -2517,6 +2531,8 @@ function medical_issued_booking(data){
                     $(".issued_booking_btn").hide();
                }
            },
+           contentType:false,
+           processData:false,
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error medical issued');
                 price_arr_repricing = {};

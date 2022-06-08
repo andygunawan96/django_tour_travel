@@ -4848,15 +4848,18 @@ function force_issued_airline(val){
 }
 
 function airline_commit_booking(val){
-    data = {
-        'value': val,
-        'signature': signature,
-        'voucher_code': ''
-    }
+    var formData = new FormData($('#global_payment_form').get(0));
+    formData.append('value', val);
+    formData.append('signature', signature);
+    formData.append('voucher_code', '');
     try{
-        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
-        data['member'] = payment_acq2[payment_method][selected].method;
-        data['voucher_code'] =  voucher_code;
+        formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
+        formData.append('member', payment_acq2[payment_method][selected].method);
+        formData.append('voucher_code', voucher_code);
+        if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
+        {
+            formData.append('payment_reference', document.getElementById('pay_ref_text').value);
+        }
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
@@ -4866,7 +4869,7 @@ function airline_commit_booking(val){
        headers:{
             'action': 'commit_booking',
        },
-       data: data,
+       data: formData,
        success: function(msg) {
            if(google_analytics != ''){
                if(data.hasOwnProperty('member') == true)
@@ -5048,6 +5051,8 @@ function airline_commit_booking(val){
                 $('.btn-next').prop('disabled', false);
            }
        },
+       contentType:false,
+       processData:false,
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline commit booking');
             hide_modal_waiting_transaction();
@@ -8259,6 +8264,7 @@ function airline_issued(data){
     var temp_data = {}
     if(typeof(airline_get_detail) !== 'undefined')
         temp_data = JSON.stringify(airline_get_detail)
+
     Swal.fire({
       title: 'Are you sure want to Issued this booking?',
       type: 'warning',
@@ -8270,6 +8276,27 @@ function airline_issued(data){
       if (result.value) {
         show_loading();
         please_wait_transaction();
+
+        if(document.getElementById('airline_form'))
+        {
+            var formData = new FormData($('#airline_form').get(0));
+        }
+        else
+        {
+            var formData = new FormData($('#global_payment_form').get(0));
+        }
+        formData.append('order_number', data);
+        formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
+        formData.append('member', payment_acq2[payment_method][selected].method);
+        formData.append('signature', signature);
+        formData.append('voucher_code', voucher_code);
+        formData.append('booking', temp_data);
+
+        if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
+        {
+            formData.append('payment_reference', document.getElementById('pay_ref_text').value);
+        }
+
         getToken();
         $.ajax({
            type: "POST",
@@ -8277,14 +8304,7 @@ function airline_issued(data){
            headers:{
                 'action': 'issued',
            },
-           data: {
-               'order_number': data,
-               'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
-               'member': payment_acq2[payment_method][selected].method,
-               'voucher_code': voucher_code,
-               'signature': signature,
-               'booking': temp_data
-           },
+           data: formData,
            success: function(msg) {
                if(google_analytics != '')
                    gtag('event', 'airline_issued', {});
@@ -8643,6 +8663,8 @@ function airline_issued(data){
                     $(".issued_booking_btn").hide();
                }
            },
+           contentType:false,
+           processData:false,
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline issued');
                 price_arr_repricing = {};

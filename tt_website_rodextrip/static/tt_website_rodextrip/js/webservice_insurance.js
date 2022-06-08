@@ -1316,60 +1316,6 @@ function insurance_login(){
     });
 }
 
-function insurance_commit_booking(){
-    getToken();
-    $.ajax({
-       type: "POST",
-       url: "/webservice/insurance",
-       headers:{
-            'action': 'commit_booking',
-       },
-//       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
-       data: {
-            'signature': signature
-       },
-       success: function(msg) {
-       try{
-           if(msg.result.error_code == 0){
-
-           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                auto_logout();
-           }else{
-               Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: msg.result.error_msg,
-               })
-               try{
-                $("#show_loading_booking_insurance").hide();
-               }catch(err){
-                console.log(err); // error kalau ada element yg tidak ada
-               }
-           }
-       }catch(err){
-            console.log(err);
-           Swal.fire({
-               type: 'error',
-               title: 'Oops...',
-               text: 'Something went wrong, please try again or check your internet connection',
-           })
-           $('.loader-rodextrip').fadeOut();
-        }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-          error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error insurance commit booking');
-          $("#barFlightSearch").hide();
-          $("#waitFlightSearch").hide();
-          $('.loader-rodextrip').fadeOut();
-          try{
-            $("#show_loading_booking_insurance").hide();
-          }catch(err){
-            console.log(err); // error kalau ada element yg tidak ada
-          }
-       },timeout: 300000
-    });
-}
-
 function get_insurance_data_search_page(){
     $.ajax({
        type: "POST",
@@ -1476,19 +1422,19 @@ function insurance_commit_booking(){
                 vendor = '';
             if(typeof(test_type) === 'undefined')
                 test_type = '';
-            data = {
-                'signature': signature,
-                'provider': vendor,
-                'test_type': test_type,
-                'force_issued': 0
-            }
+            var formData = new FormData($('#global_payment_form').get(0));
+            formData.append('signature', signature);
+            formData.append('provider', vendor);
+            formData.append('test_type', test_type);
+            formData.append('force_issued', 0);
             try{
-                data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
-                data['member'] = payment_acq2[payment_method][selected].method;
-            }catch(err){
-            }
-            try{
-                data['voucher_code'] = voucher_code;
+                formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
+                formData.append('member', payment_acq2[payment_method][selected].method);
+                formData.append('voucher_code', voucher_code);
+                if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
+                {
+                    formData.append('payment_reference', document.getElementById('pay_ref_text').value);
+                }
             }catch(err){
                 console.log(err); // error kalau ada element yg tidak ada
             }
@@ -1498,7 +1444,7 @@ function insurance_commit_booking(){
                headers:{
                     'action': 'commit_booking',
                },
-               data: data,
+               data: formData,
                success: function(msg) {
                    if(msg.result.error_code == 0){
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
@@ -1638,6 +1584,8 @@ function insurance_commit_booking(){
                     }
 
                },
+               contentType:false,
+               processData:false,
                error: function(XMLHttpRequest, textStatus, errorThrown) {
 
                },timeout: 60000
@@ -3482,6 +3430,27 @@ function insurance_issued_booking(data){
       if (result.value) {
         show_loading();
         please_wait_transaction();
+
+        if(document.getElementById('insurance_payment_form'))
+        {
+            var formData = new FormData($('#insurance_payment_form').get(0));
+        }
+        else
+        {
+            var formData = new FormData($('#global_payment_form').get(0));
+        }
+        formData.append('order_number', data);
+        formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
+        formData.append('member', payment_acq2[payment_method][selected].method);
+        formData.append('signature', signature);
+        formData.append('voucher_code', voucher_code);
+        formData.append('booking', temp_data);
+
+        if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
+        {
+            formData.append('payment_reference', document.getElementById('pay_ref_text').value);
+        }
+
         getToken();
         $.ajax({
            type: "POST",
@@ -3489,14 +3458,7 @@ function insurance_issued_booking(data){
            headers:{
                 'action': 'issued',
            },
-           data: {
-               'order_number': data,
-               'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
-               'member': payment_acq2[payment_method][selected].method,
-               'voucher_code': voucher_code,
-               'signature': signature,
-               'booking': temp_data
-           },
+           data: formData,
            success: function(msg) {
                if(google_analytics != '')
                    gtag('event', 'insurance_issued', {});
@@ -3820,6 +3782,8 @@ function insurance_issued_booking(data){
                     $(".issued_booking_btn").hide();
                }
            },
+           contentType:false,
+           processData:false,
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error insurance issued');
                 price_arr_repricing = {};

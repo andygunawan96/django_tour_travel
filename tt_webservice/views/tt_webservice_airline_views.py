@@ -10,6 +10,7 @@ from .tt_webservice_views import *
 from ..views import tt_webservice_agent_views as webservice_agent
 from .tt_webservice_voucher_views import *
 from .tt_webservice import *
+import base64
 import json
 import logging
 import traceback
@@ -1702,6 +1703,20 @@ def commit_booking(request):
                 data.update({
                     'voucher': data_voucher(request.POST['voucher_code'], 'airline', provider),
                 })
+            if request.POST.get('payment_reference'):
+                data.update({
+                    'payment_reference': request.POST['payment_reference']
+                })
+            if request.FILES.get('pay_ref_file'):
+                temp_file = []
+                for rec_file in request.FILES.getlist('pay_ref_file'):
+                    temp_file.append({
+                        'name': rec_file.name,
+                        'file': base64.b64encode(rec_file.file.read()).decode('ascii'),
+                    })
+                data.update({
+                    'payment_ref_attachment': temp_file
+                })
             # data.update({
             #     'bypass_psg_validator': request.POST['bypass_psg_validator']
             # })
@@ -2244,6 +2259,20 @@ def issued(request):
         if request.POST['voucher_code'] != '':
             data.update({
                 'voucher': data_voucher(request.POST['voucher_code'], 'airline', provider),
+            })
+        if request.POST.get('payment_reference'):
+            data.update({
+                'payment_reference': request.POST['payment_reference']
+            })
+        if request.FILES.get('pay_ref_file'):
+            temp_file = []
+            for rec_file in request.FILES.getlist('pay_ref_file'):
+                temp_file.append({
+                    'name': rec_file.name,
+                    'file': base64.b64encode(rec_file.file.read()).decode('ascii'),
+                })
+            data.update({
+                'payment_ref_attachment': temp_file
             })
         headers = {
             "Accept": "application/json,text/html,application/xml",
