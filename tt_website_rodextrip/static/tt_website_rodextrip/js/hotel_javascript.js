@@ -718,18 +718,18 @@ function sort(response, check_filter){
                 <div class="row">`;
                     if(response.hotel_ids[i].images.length != 0){
                         text+=`
-                        <div class="col-lg-3">
+                        <div class="col-lg-3 mb-2 mt-2">
                             <div class="img-hotel-search" style="cursor:pointer; background-image: url('`+response.hotel_ids[i].images[0].url+`');" onclick="goto_detail('hotel',`+i+`)"></div>
                         </div>`;
                     }
                     else{
                         text+=`
-                        <div class="col-lg-3">
+                        <div class="col-lg-3 mb-2 mt-2">
                             <div class="img-hotel-search" style="cursor:pointer; background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');"></div>
                         </div>`;
                     }
                     text+=`
-                    <div class="col-lg-9 name_hotel_search"">
+                    <div class="col-lg-9 mt-2 mb-2 name_hotel_search"">
                         <div class="row">
                             <div class="col-lg-7 col-md-7">
                                 <div>
@@ -760,8 +760,14 @@ function sort(response, check_filter){
                             detail = JSON.stringify(response.hotel_ids[i]);
                             detail = detail.replace(/'/g, "");
                             text+=`<input type="hidden" id="hotel_detail`+i+`" name="hotel_detail" value='`+detail+`'/>`;
+                            if(top_facility.length != 0 ){
+                                text+=`<div style="padding-bottom:5px;">`;
+                            }
+                            else{
+                                text+=`<div style="padding-bottom:5px; height:135px;">`;
+                            }
+
                             text+=`
-                            <div style="padding-bottom:5px;">
                                 <i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`;
                             address = '';
                             address_detail = '';
@@ -790,7 +796,7 @@ function sort(response, check_filter){
                                         address_detail += ', '
                                     address_detail+= ', '+ response.hotel_ids[i].location.zipcode;
                                 }
-                                text += address + address_detail;
+                                text += address + '<b>'+ address_detail + '</b>';
 //                            if(response.hotel_ids[i].location.address)
 //                                text+= response.hotel_ids[i].location.address + '<br/>';
                             //IVAN
@@ -808,15 +814,13 @@ function sort(response, check_filter){
                             //    text+= '<br/>'+ response.hotel_ids[i].location.zipcode + ')
 //                            text+=`</span> - <a href="#" style="color:blue; text-decoration: unset;">Show Map</a>
                             text+=`</span>
-                                </div>
-
-                                <div style="padding-bottom:5px; height:90px;"><span>`;
+                                </div>`;
 
                                 if(top_facility.length != 0 ){
-                                    text+=`Facilities`;
-                                }
+                                    text+=`<div style="padding-bottom:5px; height:90px;"><span>Facilities</span><br/>`;
 
-                                text+=`</span><br/><div class="row">`;
+                                    text+=`
+                                    <div class="row">`;
                                     try{
                                         var ava_fac = '';
                                         for(j in top_facility){
@@ -842,11 +846,14 @@ function sort(response, check_filter){
                                             text+=`</div>`;
                                         }
                                     }
-                                catch(err){
-                                    console.log(err); // error kalau ada element yg tidak ada
+
+                                    catch(err){
+                                        console.log(err); // error kalau ada element yg tidak ada
+                                    }
+                                    text+=`</div>
+                                    </div>`;
                                 }
-                                text+=`</div>
-                                </div>
+                                text+=`
 
                                 <div style="padding-top:10px; height:60px;" id='pagination_image`+i+`'>`;
                                     if(i >= 0 && i<= 19){

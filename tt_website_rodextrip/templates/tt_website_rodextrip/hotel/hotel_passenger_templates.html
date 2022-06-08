@@ -216,23 +216,23 @@
                                             <label style="color:red">*</label>
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('booker_first_name'); change_booker_value('hotel');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('booker_first_name'); change_booker_value('hotel');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                 <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
                                                 <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
                                                 <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
                                                 <input type="hidden" class="form-control" name="booker_id_number" id="booker_exp_date" />
                                                 <input type="hidden" class="form-control" name="booker_id_number" id="booker_country_of_issued" />
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
 
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mb-3">
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('booker_last_name'); change_booker_value('hotel');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('booker_last_name'); change_booker_value('hotel');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
 
                                         <div class="col-lg-6">
@@ -251,13 +251,13 @@
                                         </div>
 
 
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mb-3">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('hotel');">
+                                                <input type="text" style="margin-bottom:0px;" class="form-control" name="booker_email" id="booker_email" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('hotel');">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</span>
                                         </div>
 
                                         <div class="col-lg-6">
@@ -265,8 +265,8 @@
                                             <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
                                             <label style="font-size:10px; color:red;">({% trans "Must be filled with booker's mobile on first registration" %})</label>
                                             <div class="row">
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-5">
-                                                    <div class="form-select">
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
+                                                    <div class="form-select" style="margin-bottom:0px;">
                                                         <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('hotel');" class="nice-select-default">
                                                             {% for phone in phone_code %}
                                                             <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
@@ -275,12 +275,12 @@
                                                     </div>
                                                     <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                                 </div>
-                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-7">
-                                                    <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('hotel');">
+                                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
+                                                    <input type="text" style="margin-bottom:0px;" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('hotel');">
                                                     <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                                 </div>
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</span>
                                         </div>
 
                                     </div>
@@ -320,7 +320,11 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}}</span>
+                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">
+                                                {% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}}
+                                                <br/>
+                                                {% if forloop.counter <= 1 %} <span style="color:red; font-size:12px; background:white; padding:2px 5px; ">Required Guest*</span><br/>{%endif%}
+                                            </span>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
@@ -390,8 +394,6 @@
                                         <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar{{forloop.counter}}" hidden>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
-                                            {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/>{%endif%}
-                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
@@ -404,7 +406,6 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:30px;">
-                                            {% if forloop.counter <= 1 %}<label style="color:white;">Required Guest</label><br/>{%endif%}
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -437,20 +438,20 @@
                                             {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                 <input type="hidden" class="form-control" name="adult_id{{forloop.counter}}" id="adult_id{{forloop.counter}}">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mb-3">
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('adult_last_name{{forloop.counter}}');" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('adult_last_name{{forloop.counter}}');" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mb-3">
                                             {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
@@ -485,7 +486,7 @@
                                             <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
                                             <label style="font-size:10px; color:red;">({% trans "Must be filled with contact person's mobile on first registration" %})</label>
                                             <div class="row">
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-5">
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
 
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
@@ -498,7 +499,7 @@
                                                         <input type="hidden" name="adult_phone_code{{forloop.counter}}" id="adult_phone_code{{forloop.counter}}" />
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-7">
+                                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control" name="adult_phone{{forloop.counter}}" id="adult_phone{{forloop.counter}}" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
                                                     </div>
@@ -624,20 +625,20 @@
                                             <label style="color:red">*</label>
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('child_first_name{{forloop.counter}}');" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('child_first_name{{forloop.counter}}');" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                 <input type="hidden" class="form-control" name="child_id{{forloop.counter}}" id="child_id{{forloop.counter}}">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mb-3">
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('child_last_name{{forloop.counter}}');" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('child_last_name{{forloop.counter}}');" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mb-3">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
@@ -651,7 +652,7 @@
                                                 <input type="hidden" name="child_nationality{{forloop.counter}}" id="child_nationality{{forloop.counter}}" />
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mb-3">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
@@ -665,7 +666,6 @@
                         </div>
                         <br/>
                         {% endfor %}
-
                     </div>
                     <div class="col-lg-4" style="margin-top:10px;">
                         <input type="hidden" value="{{response.name}}" id="get_name_hotel"/>
@@ -683,8 +683,8 @@
                             <h4> {% trans 'Special Request' %} </h4>
                             <hr/>
                             {% for room in rooms %}
-                                <h6>{% trans 'Room' %} {{room}}:</h6>
-                                <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
+                            <h6>{% trans 'Room' %} {{room}}:</h6>
+                            <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
                             {% endfor %}
                             <h6>{% trans 'Early' %}/{% trans 'Late' %} {% trans 'Check-In' %}:</h6>
                             <textarea rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="late_ci" name="late_ci"></textarea>
@@ -906,10 +906,10 @@
                                                                         <center><img src="/static/tt_website_rodextrip/img/id_card.png" alt="ID Card" style="width:100%; height:100%;"></center>
                                                                     </div>
                                                                     <div>
-                                                                    <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
-                                                                    <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
-                                                                    <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
-                                                                </div>
+                                                                        <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
+                                                                        <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
+                                                                        <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
+                                                                    </div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -924,26 +924,26 @@
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'First name and middle name (if any)' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" onchange="capitalizeInput('booker_first_name'); change_booker_value('hotel');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                    <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('booker_first_name'); change_booker_value('hotel');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                     <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
                                                     <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
                                                     <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
                                                     <input type="hidden" class="form-control" name="booker_id_number" id="booker_exp_date" />
                                                     <input type="hidden" class="form-control" name="booker_id_number" id="booker_country_of_issued" />
                                                 </div>
-                                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                             </div>
 
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6 mb-3">
                                                 <br/>
                                                 <label>{% trans 'Last name' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" onchange="capitalizeInput('booker_last_name'); change_booker_value('hotel');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                    <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('booker_last_name'); change_booker_value('hotel');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                                 </div>
-                                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                             </div>
 
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6 mb-3">
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'Nationality' %}</label>
                                                 <div class="form-select">
@@ -956,14 +956,13 @@
                                                 <input type="hidden" name="booker_nationality" id="booker_nationality" />
                                             </div>
 
-
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6 mb-3">
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'Contact Email Address' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('hotel');">
+                                                    <input type="text" style="margin-bottom:0px;" class="form-control" name="booker_email" id="booker_email" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('hotel');">
                                                 </div>
-                                                <label style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</label>
+                                                <span style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</span>
                                             </div>
 
                                             <div class="col-lg-6">
@@ -971,8 +970,8 @@
                                                 <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
                                                 <label style="font-size:10px; color:red;">({% trans "Must be filled with booker's mobile on first registration" %})</label>
                                                 <div class="row">
-                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-5">
-                                                        <div class="form-select">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
+                                                        <div class="form-select" style="margin-bottom:0px;">
                                                             <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('hotel');" class="nice-select-default">
                                                                 {% for phone in phone_code %}
                                                                 <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
@@ -981,12 +980,12 @@
                                                         </div>
                                                         <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                                     </div>
-                                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-7">
-                                                        <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('hotel');">
+                                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
+                                                        <input type="text" style="margin-bottom:0px;" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('hotel');">
                                                         <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                                     </div>
                                                 </div>
-                                                <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
+                                                <span style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</span>
                                             </div>
 
                                         </div>
@@ -1026,7 +1025,11 @@
                                     <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}}</span>
+                                                <span style="color:{{text_color}}; text-align:center; font-size:15px;">
+                                                    {% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}}
+                                                    <br/>
+                                                    {% if forloop.counter <= 1 %} <span style="color:red; font-size:12px; background:white; padding:2px 5px; ">Required Guest*</span><br/>{%endif%}
+                                                </span>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                                 <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
@@ -1096,8 +1099,6 @@
                                             <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar{{forloop.counter}}" hidden>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
-                                                {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/>{%endif%}
-                                                {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                                 <label>{% trans 'Title' %}</label>
                                                 <div class="form-select-2">
                                                     <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}" class="nice-select-default">
@@ -1108,7 +1109,6 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:30px;">
-                                                {% if forloop.counter <= 1 %}<label style="color:white;">Required Guest</label><br/>{%endif%}
                                                 <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                                 <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                                     <div class="modal-dialog">
@@ -1141,20 +1141,20 @@
                                                 {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                                 <label>{% trans 'First name and middle name (if any)' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                    <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                     <input type="hidden" class="form-control" name="adult_id{{forloop.counter}}" id="adult_id{{forloop.counter}}">
                                                 </div>
-                                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6 mb-3">
                                                 <br/>
                                                 <label>{% trans 'Last name' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" onchange="capitalizeInput('adult_last_name{{forloop.counter}}');" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                    <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('adult_last_name{{forloop.counter}}');" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                                 </div>
-                                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6 mb-3">
                                                 {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                                 <label>{% trans 'Nationality' %}</label>
                                                 <div class="form-select">
@@ -1174,21 +1174,21 @@
                                                     <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
+                                            <div class="col-lg-6 mb-3" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'Contact Email Address' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" class="form-control" name="adult_email{{forloop.counter}}" id="adult_email{{forloop.counter}}" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
+                                                    <input type="text" style="margin-bottom:0px;" class="form-control" name="adult_email{{forloop.counter}}" id="adult_email{{forloop.counter}}" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
                                                 </div>
-                                                <label style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</label>
+                                                <span style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</span>
                                             </div>
                                             <div class="col-lg-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
                                                 <label style="color:red">*</label>
                                                 <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
                                                 <label style="font-size:10px; color:red;">({% trans "Must be filled with contact person's mobile on first registration" %})</label>
                                                 <div class="row">
-                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                        <div class="form-select">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
+                                                        <div class="form-select" style="margin-bottom:0px;">
                                                             <select class="form-control js-example-basic-single" name="adult_phone_code{{forloop.counter}}_id" style="width:100%;" id="adult_phone_code{{forloop.counter}}_id" onchange="auto_complete('adult_phone_code{{forloop.counter}}')" class="nice-select-default">
                                                                 {% for phone in phone_code %}
                                                                 <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
@@ -1197,13 +1197,13 @@
                                                         </div>
                                                         <input type="hidden" name="adult_phone_code{{forloop.counter}}" id="adult_phone_code{{forloop.counter}}" />
                                                     </div>
-                                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
                                                         <div class="input-container-search-ticket">
-                                                            <input type="text" class="form-control" name="adult_phone{{forloop.counter}}" id="adult_phone{{forloop.counter}}" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                                            <input type="text" class="form-control" style="margin-bottom:0px;" name="adult_phone{{forloop.counter}}" id="adult_phone{{forloop.counter}}" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
+                                                <span style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</span>
                                             </div>
                                         </div>
                                     </div>
@@ -1321,20 +1321,20 @@
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'First name and middle name (if any)' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" onchange="capitalizeInput('child_first_name{{forloop.counter}}');" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                    <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('child_first_name{{forloop.counter}}');" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                     <input type="hidden" class="form-control" name="child_id{{forloop.counter}}" id="child_id{{forloop.counter}}">
                                                 </div>
-                                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6 mb-3">
                                                 <br/>
                                                 <label>{% trans 'Last name' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" onchange="capitalizeInput('child_last_name{{forloop.counter}}');" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                    <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('child_last_name{{forloop.counter}}');" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                                 </div>
-                                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6 mb-3">
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'Nationality' %}</label>
                                                 <div class="form-select">
@@ -1346,7 +1346,7 @@
                                                 </div>
                                                 <input type="hidden" name="child_nationality{{forloop.counter}}" id="child_nationality{{forloop.counter}}" />
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6 mb-3">
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'Birth Date' %}</label>
                                                 <div class="input-container-search-ticket">
@@ -1620,27 +1620,27 @@
                                             <br/>
                                             <label style="color:red">*</label>
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
-                                            <div class="form-group">
-                                                <input type="text" onchange="capitalizeInput('booker_first_name'); change_booker_value('hotel');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                            <div class="form-group" style="margin-bottom:0px;">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('booker_first_name'); change_booker_value('hotel');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                 <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
                                                 <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
                                                 <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
                                                 <input type="hidden" class="form-control" name="booker_id_number" id="booker_exp_date" />
                                                 <input type="hidden" class="form-control" name="booker_id_number" id="booker_country_of_issued" />
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
 
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mb-3">
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
-                                            <div class="form-group">
-                                                <input type="text" onchange="capitalizeInput('booker_last_name'); change_booker_value('hotel');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            <div class="form-group" style="margin-bottom:0px;">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('booker_last_name'); change_booker_value('hotel');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
 
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mb-3">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="form-group">
@@ -1655,7 +1655,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mb-3">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
                                             <div class="form-group">
@@ -1669,8 +1669,8 @@
                                             <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
                                             <label style="font-size:10px; color:red;">({% trans "Must be filled with booker's mobile on first registration" %})</label>
                                             <div class="row">
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                    <div class="form-select">
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
+                                                    <div class="form-select" style="margin-bottom:0px;">
                                                         <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('hotel');" class="nice-select-default">
                                                             {% for phone in phone_code %}
                                                             <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
@@ -1679,12 +1679,12 @@
                                                     </div>
                                                     <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                                 </div>
-                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                                    <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('hotel');">
+                                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
+                                                    <input type="text" style="margin-bottom:0px;" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('hotel');">
                                                     <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                                 </div>
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1723,7 +1723,11 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}}</span>
+                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">
+                                                {% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}}
+                                                <br/>
+                                                {% if forloop.counter <= 1 %} <span style="color:red; font-size:12px; background:white; padding:2px 5px; ">Required Guest*</span><br/>{%endif%}
+                                            </span>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
@@ -1793,8 +1797,6 @@
                                         <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar{{forloop.counter}}" hidden>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
-                                            {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/>{%endif%}
-                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                             <label>{% trans 'Title' %}</label>
                                             <div class="default-select">
                                                 <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}" class="nice-select-default">
@@ -1805,7 +1807,6 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:30px;">
-                                            {% if forloop.counter <= 1 %}<label style="color:white;">Required Guest</label><br/>{%endif%}
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -1821,10 +1822,10 @@
                                                                 <center><img src="/static/tt_website_rodextrip/img/id_card.png" alt="ID Card" style="width:100%; height:100%;"></center>
                                                             </div>
                                                             <div>
-                                                                    <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
-                                                                    <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
-                                                                    <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
-                                                                </div>
+                                                                <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
+                                                                <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
+                                                                <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
+                                                            </div>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -1833,28 +1834,28 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-lg-6">
                                             <br/>
                                             {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
-                                            <div class="form-group">
-                                                <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                            <div class="form-group" style="margin-bottom:0px;">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                 <input type="hidden" class="form-control" name="adult_id{{forloop.counter}}" id="adult_id{{forloop.counter}}">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-lg-6 mb-3">
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
-                                            <div class="form-group">
-                                                <input type="text" onchange="capitalizeInput('adult_last_name{{forloop.counter}}');" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            <div class="form-group" style="margin-bottom:0px;">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('adult_last_name{{forloop.counter}}');" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-lg-6 mb-3">
                                             {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                             <label>{% trans 'Nationality' %}</label>
-                                            <div class="form-group">
+                                            <div class="form-group" style="margin-bottom:0px;">
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}')" class="nice-select-default">
                                                         {% for country in countries %}
@@ -1868,12 +1869,12 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                             <label>{% trans 'Birth Date' %}</label>
-                                            <div class="form-group">
-                                                <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                            <div class="form-group" style="margin-bottom:0px;">
+                                                <input type="text" style="background:white; width:100%; margin-bottom:0px;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
+                                        <div class="col-lg-6 mb-3" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
                                             <div class="form-group">
@@ -1881,15 +1882,15 @@
                                             </div>
                                             <label style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</label>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
+                                        <div class="col-lg-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
                                             <label style="color:red">*</label>
                                             <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
                                             <label style="font-size:10px; color:red;">({% trans "Must be filled with contact person's mobile on first registration" %})</label>
                                             <div class="row">
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
 
                                                     <div class="input-container-search-ticket">
-                                                        <div class="form-select">
+                                                        <div class="form-select" style="margin-bottom:0px;">
                                                             <select class="form-control js-example-basic-single" name="adult_phone_code{{forloop.counter}}_id" style="width:100%;" id="adult_phone_code{{forloop.counter}}_id" onchange="auto_complete('adult_phone_code{{forloop.counter}}')" class="nice-select-default">
                                                                 {% for phone in phone_code %}
                                                                 <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
@@ -1899,9 +1900,9 @@
                                                         <input type="hidden" name="adult_phone_code{{forloop.counter}}" id="adult_phone_code{{forloop.counter}}" />
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="adult_phone{{forloop.counter}}" id="adult_phone{{forloop.counter}}" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                                        <input type="text" style="margin-bottom:0px;" class="form-control" name="adult_phone{{forloop.counter}}" id="adult_phone{{forloop.counter}}" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
                                                     </div>
                                                 </div>
                                             </div>
@@ -2006,10 +2007,10 @@
                                                                 <center><img src="/static/tt_website_rodextrip/img/id_card.png" alt="ID Card" style="width:100%; height:100%;"></center>
                                                             </div>
                                                             <div>
-                                                                    <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
-                                                                    <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
-                                                                    <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
-                                                                </div>
+                                                                <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
+                                                                <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
+                                                                <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
+                                                            </div>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -2022,21 +2023,21 @@
                                             <br/>
                                             <label style="color:red">*</label>
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
-                                            <div class="form-group">
-                                                <input type="text" onchange="capitalizeInput('child_first_name{{forloop.counter}}');" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                            <div class="form-group" style="margin-bottom:0px;">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('child_first_name{{forloop.counter}}');" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                 <input type="hidden" class="form-control" name="child_id{{forloop.counter}}" id="child_id{{forloop.counter}}">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mb-3">
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
-                                            <div class="form-group">
-                                                <input type="text" onchange="capitalizeInput('child_last_name{{forloop.counter}}');" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            <div class="form-group" style="margin-bottom:0px;">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('child_last_name{{forloop.counter}}');" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mb-3">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="form-group">
@@ -2081,8 +2082,8 @@
                             <h4> {% trans 'Special Request' %} </h4>
                             <hr/>
                             {% for room in rooms %}
-                                <h6>{% trans 'Room' %} {{room}}:</h6>
-                                <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
+                            <h6>{% trans 'Room' %} {{room}}:</h6>
+                            <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
                             {% endfor %}
                             <h6>{% trans 'Early' %}/{% trans 'Late' %} {% trans 'Check-In' %}:</h6>
                             <textarea rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="late_ci" name="late_ci"></textarea>
@@ -2306,10 +2307,10 @@
                                                                 <center><img src="/static/tt_website_rodextrip/img/id_card.png" alt="ID Card" style="width:100%; height:100%;"></center>
                                                             </div>
                                                             <div>
-                                                                    <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
-                                                                    <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
-                                                                    <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
-                                                                </div>
+                                                                <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
+                                                                <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
+                                                                <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
+                                                            </div>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -2324,26 +2325,26 @@
                                         <label style="color:red">*</label>
                                         <label>{% trans 'First name and middle name (if any)' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" onchange="capitalizeInput('booker_first_name'); change_booker_value('hotel');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                            <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('booker_first_name'); change_booker_value('hotel');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                             <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
                                             <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
                                             <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
                                             <input type="hidden" class="form-control" name="booker_id_number" id="booker_exp_date" />
                                             <input type="hidden" class="form-control" name="booker_id_number" id="booker_country_of_issued" />
                                         </div>
-                                        <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                     </div>
 
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 mb-3">
                                         <br/>
                                         <label>{% trans 'Last name' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" onchange="capitalizeInput('booker_last_name'); change_booker_value('hotel');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('booker_last_name'); change_booker_value('hotel');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                         </div>
-                                        <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                     </div>
 
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 mb-3">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Nationality' %}</label>
                                         <div class="input-container-search-ticket">
@@ -2358,8 +2359,7 @@
                                         </div>
                                     </div>
 
-
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 mb-3">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Contact Email Address' %}</label>
                                         <div class="input-container-search-ticket">
@@ -2373,8 +2373,8 @@
                                         <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
                                         <label style="font-size:10px; color:red;">({% trans "Must be filled with booker's mobile on first registration" %})</label>
                                         <div class="row">
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                <div class="form-select">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
+                                                <div class="form-select" style="margin-bottom:0px;">
                                                     <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('hotel');" class="nice-select-default">
                                                         {% for phone in phone_code %}
                                                         <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
@@ -2383,12 +2383,12 @@
                                                 </div>
                                                 <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                             </div>
-                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                                <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('hotel');">
+                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
+                                                <input type="text" style="margin-bottom:0px;" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('hotel');">
                                                 <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                             </div>
                                         </div>
-                                        <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
+                                        <span style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</span>
                                     </div>
 
                                 </div>
@@ -2428,7 +2428,11 @@
                             <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                        <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}}</span>
+                                        <span style="color:{{text_color}}; text-align:center; font-size:15px;">
+                                            {% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}}
+                                            <br/>
+                                            {% if forloop.counter <= 1 %} <span style="color:red; font-size:12px; background:white; padding:2px 5px; ">Required Guest*</span><br/>{%endif%}
+                                        </span>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                         <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
@@ -2499,8 +2503,6 @@
                                     <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar{{forloop.counter}}" hidden>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
-                                        {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/>{%endif%}
-                                        {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                         <label>{% trans 'Title' %}</label>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select-2">
@@ -2513,7 +2515,6 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:30px;">
-                                        {% if forloop.counter <= 1 %}<label style="color:white;">Required Guest</label><br/>{%endif%}
                                         <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                         <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                             <div class="modal-dialog">
@@ -2529,10 +2530,10 @@
                                                             <center><img src="/static/tt_website_rodextrip/img/id_card.png" alt="ID Card" style="width:100%; height:100%;"></center>
                                                         </div>
                                                         <div>
-                                                                    <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
-                                                                    <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
-                                                                    <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
-                                                                </div>
+                                                            <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
+                                                            <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
+                                                            <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -2541,25 +2542,25 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="col-lg-6">
                                         <br/>
                                         {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                         <label>{% trans 'First name and middle name (if any)' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                            <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                             <input type="hidden" class="form-control" name="adult_id{{forloop.counter}}" id="adult_id{{forloop.counter}}">
                                         </div>
-                                        <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="col-lg-6 mb-3">
                                         <br/>
                                         <label>{% trans 'Last name' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" onchange="capitalizeInput('adult_last_name{{forloop.counter}}');" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('adult_last_name{{forloop.counter}}');" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                         </div>
-                                        <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="col-lg-6 mb-3">
                                         {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                         <label>{% trans 'Nationality' %}</label>
                                         <div class="input-container-search-ticket">
@@ -2573,7 +2574,7 @@
                                             <input type="hidden" name="adult_nationality{{forloop.counter}}" id="adult_nationality{{forloop.counter}}" />
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="col-lg-6 mb-3">
                                         {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                         <label>{% trans 'Birth Date' %}</label>
                                         <div class="input-container-search-ticket">
@@ -2581,7 +2582,7 @@
                                             <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
+                                    <div class="col-lg-6 mb-3" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Contact Email Address' %}</label>
                                         <div class="input-container-search-ticket">
@@ -2589,15 +2590,14 @@
                                         </div>
                                         <label style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</label>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
+                                    <div class="col-lg-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
                                         <label style="color:red">*</label>
                                         <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
                                         <label style="font-size:10px; color:red;">({% trans "Must be filled with contact person's mobile on first registration" %})</label>
                                         <div class="row">
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
                                                 <div class="input-container-search-ticket">
-                                                    <div class="form-select">
+                                                    <div class="form-select" style="margin-bottom:0px;">
                                                         <select class="form-control js-example-basic-single" name="adult_phone_code{{forloop.counter}}_id" style="width:100%;" id="adult_phone_code{{forloop.counter}}_id" onchange="auto_complete('adult_phone_code{{forloop.counter}}')" class="nice-select-default">
                                                             {% for phone in phone_code %}
                                                             <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
@@ -2607,13 +2607,13 @@
                                                     <input type="hidden" name="adult_phone_code{{forloop.counter}}" id="adult_phone_code{{forloop.counter}}" />
                                                 </div>
                                             </div>
-                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" class="form-control" name="adult_phone{{forloop.counter}}" id="adult_phone{{forloop.counter}}" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                                    <input type="text" style="margin-bottom:0px;" class="form-control" name="adult_phone{{forloop.counter}}" id="adult_phone{{forloop.counter}}" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
                                                 </div>
                                             </div>
                                         </div>
-                                        <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
+                                        <span style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</span>
                                     </div>
                                 </div>
                             </div>
@@ -2716,10 +2716,10 @@
                                                             <center><img src="/static/tt_website_rodextrip/img/id_card.png" alt="ID Card" style="width:100%; height:100%;"></center>
                                                         </div>
                                                         <div>
-                                                                    <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
-                                                                    <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
-                                                                    <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
-                                                                </div>
+                                                            <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
+                                                            <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
+                                                            <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -2733,24 +2733,24 @@
                                         <label style="color:red">*</label>
                                         <label>{% trans 'First name and middle name (if any)' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" onchange="capitalizeInput('child_first_name{{forloop.counter}}');" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                            <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('child_first_name{{forloop.counter}}');" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                             <input type="hidden" class="form-control" name="child_id{{forloop.counter}}" id="child_id{{forloop.counter}}">
                                         </div>
-                                        <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 mb-3">
                                         <br/>
                                         <label>{% trans 'Last name' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" onchange="capitalizeInput('child_last_name{{forloop.counter}}');" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('child_last_name{{forloop.counter}}');" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                         </div>
-                                        <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 mb-3">
                                         <label style="color:red">*</label>
                                         <label>{% trans 'Nationality' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <div class="form-select">
+                                            <div class="form-select" style="margin-bottom:0px;">
                                                 <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('child_nationality{{forloop.counter}}')" class="nice-select-default">
                                                     {% for country in countries %}
                                                     <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
@@ -3032,30 +3032,30 @@
                                             <label style="color:red">*</label>
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('booker_first_name'); change_booker_value('hotel');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('booker_first_name'); change_booker_value('hotel');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                 <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
                                                 <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
                                                 <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
                                                 <input type="hidden" class="form-control" name="booker_id_number" id="booker_exp_date" />
                                                 <input type="hidden" class="form-control" name="booker_id_number" id="booker_country_of_issued" />
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
 
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mb-3">
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('booker_last_name'); change_booker_value('hotel');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('booker_last_name'); change_booker_value('hotel');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
 
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mb-3">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select">
+                                                <div class="form-select" style="margin-bottom:0px;">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('hotel');" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
@@ -3066,14 +3066,13 @@
                                             </div>
                                         </div>
 
-
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mb-3">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('hotel');">
+                                                <input type="text" style="margin-bottom:0px;" class="form-control" name="booker_email" id="booker_email" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('hotel');">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</span>
                                         </div>
 
                                         <div class="col-lg-6">
@@ -3081,7 +3080,7 @@
                                             <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
                                             <label style="font-size:10px; color:red;">({% trans "Must be filled with booker's mobile on first registration" %})</label>
                                             <div class="row">
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
                                                     <div class="form-select">
                                                         <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('hotel');" class="nice-select-default">
                                                             {% for phone in phone_code %}
@@ -3091,7 +3090,7 @@
                                                     </div>
                                                     <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                                 </div>
-                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
                                                     <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('hotel');">
                                                     <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                                 </div>
@@ -3136,7 +3135,11 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}}</span>
+                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">
+                                                {% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}}
+                                                <br/>
+                                                {% if forloop.counter <= 1 %} <span style="color:red; font-size:12px; background:white; padding:2px 5px; ">Required Guest*</span><br/>{%endif%}
+                                            </span>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
@@ -3207,8 +3210,6 @@
                                         <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar{{forloop.counter}}" hidden>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
-                                            {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/>{%endif%}
-                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label>{%endif%}
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select" style="margin-bottom:0px;">
@@ -3221,7 +3222,6 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="margin-top:30px;">
-                                            {% if forloop.counter <= 1 %}<label style="color:white;">Required Guest</label><br/>{%endif%}
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -3237,10 +3237,10 @@
                                                                 <center><img src="/static/tt_website_rodextrip/img/id_card.png" alt="ID Card" style="width:100%; height:100%;"></center>
                                                             </div>
                                                             <div>
-                                                                    <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
-                                                                    <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
-                                                                    <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
-                                                                </div>
+                                                                <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
+                                                                <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
+                                                                <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
+                                                            </div>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -3249,25 +3249,25 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-lg-6">
                                             <br/>
                                             {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                 <input type="hidden" class="form-control" name="adult_id{{forloop.counter}}" id="adult_id{{forloop.counter}}">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-lg-6 mb-3">
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('adult_last_name{{forloop.counter}}');" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('adult_last_name{{forloop.counter}}');" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-lg-6 mb-3">
                                             {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
@@ -3281,7 +3281,7 @@
                                                 <input type="hidden" name="adult_nationality{{forloop.counter}}" id="adult_nationality{{forloop.counter}}" />
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-lg-6">
                                             {% if forloop.counter <= 1 %} <label style="color:red">*</label> {% endif %}
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
@@ -3289,23 +3289,23 @@
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
+                                        <div class="col-lg-6 mb-3" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="adult_email{{forloop.counter}}" id="adult_email{{forloop.counter}}" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</span>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
+                                        <div class="col-lg-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
                                             <label style="color:red">*</label>
                                             <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
                                             <label style="font-size:10px; color:red;">({% trans "Must be filled with contact person's mobile on first registration" %})</label>
                                             <div class="row">
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
 
                                                     <div class="input-container-search-ticket">
-                                                        <div class="form-select">
+                                                        <div class="form-select" style="margin-bottom:0px;">
                                                             <select class="form-control js-example-basic-single" name="adult_phone_code{{forloop.counter}}_id" style="width:100%;" id="adult_phone_code{{forloop.counter}}_id" onchange="auto_complete('adult_phone_code{{forloop.counter}}')" class="nice-select-default">
                                                                 {% for phone in phone_code %}
                                                                 <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
@@ -3315,13 +3315,13 @@
                                                         <input type="hidden" name="adult_phone_code{{forloop.counter}}" id="adult_phone_code{{forloop.counter}}" />
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="adult_phone{{forloop.counter}}" id="adult_phone{{forloop.counter}}" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                                        <input type="text" style="margin-bottom:0px;" class="form-control" name="adult_phone{{forloop.counter}}" id="adult_phone{{forloop.counter}}" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
                                                     </div>
                                                 </div>
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</span>
                                         </div>
                                     </div>
                                 </div>
@@ -3424,10 +3424,10 @@
                                                                 <center><img src="/static/tt_website_rodextrip/img/id_card.png" alt="ID Card" style="width:100%; height:100%;"></center>
                                                             </div>
                                                             <div>
-                                                                    <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
-                                                                    <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
-                                                                    <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
-                                                                </div>
+                                                                <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
+                                                                <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
+                                                                <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
+                                                            </div>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -3441,20 +3441,20 @@
                                             <label style="color:red">*</label>
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('child_first_name{{forloop.counter}}');" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('child_first_name{{forloop.counter}}');" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                 <input type="hidden" class="form-control" name="child_id{{forloop.counter}}" id="child_id{{forloop.counter}}">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
                                         <div class="col-lg-6">
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('child_last_name{{forloop.counter}}');" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('child_last_name{{forloop.counter}}');" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mb-3">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
@@ -3482,7 +3482,6 @@
                         </div>
                         <br/>
                         {% endfor %}
-
                     </div>
                     <div class="col-lg-4" style="margin-top:10px;">
                         <input type="hidden" value="{{response.name}}" id="get_name_hotel"/>
@@ -3500,8 +3499,8 @@
                             <h4> {% trans 'Special Request' %} </h4>
                             <hr/>
                             {% for room in rooms %}
-                                <h6>{% trans 'Room' %} {{room}}:</h6>
-                                <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
+                            <h6>{% trans 'Room' %} {{room}}:</h6>
+                            <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
                             {% endfor %}
                             <h6>{% trans 'Early' %}/{% trans 'Late' %} {% trans 'Check-In' %}:</h6>
                             <textarea rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="late_ci" name="late_ci"></textarea>
@@ -3743,26 +3742,26 @@
                                             <label style="color:red">*</label>
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('booker_first_name'); change_booker_value('hotel');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('booker_first_name'); change_booker_value('hotel');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                 <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
                                                 <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
                                                 <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
                                                 <input type="hidden" class="form-control" name="booker_id_number" id="booker_exp_date" />
                                                 <input type="hidden" class="form-control" name="booker_id_number" id="booker_country_of_issued" />
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
 
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mb-3">
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('booker_last_name'); change_booker_value('hotel');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input style="margin-bottom:0px;" type="text" onchange="capitalizeInput('booker_last_name'); change_booker_value('hotel');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
 
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mb-3">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
@@ -3778,13 +3777,13 @@
                                         </div>
 
 
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mb-3">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('hotel');">
+                                                <input type="text" style="margin-bottom:0px;" class="form-control" name="booker_email" id="booker_email" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('hotel');">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</span>
                                         </div>
 
                                         <div class="col-lg-6">
@@ -3792,8 +3791,8 @@
                                             <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
                                             <label style="font-size:10px; color:red;">({% trans "Must be filled with booker's mobile on first registration" %})</label>
                                             <div class="row">
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                    <div class="form-select">
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
+                                                    <div class="form-select" style="margin-bottom:0px;">
                                                         <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('hotel');" class="nice-select-default">
                                                             {% for phone in phone_code %}
                                                             <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
@@ -3802,12 +3801,12 @@
                                                     </div>
                                                     <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                                 </div>
-                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                                    <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('hotel');">
+                                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
+                                                    <input type="text" style="margin-bottom:0px;" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('hotel');">
                                                     <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                                 </div>
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</span>
                                         </div>
 
                                     </div>
@@ -3847,7 +3846,11 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}}</span>
+                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">
+                                                {% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}}
+                                                <br/>
+                                                {% if forloop.counter <= 1 %} <span style="color:red; font-size:12px; background:white; padding:2px 5px; ">Required Guest*</span><br/>{%endif%}
+                                            </span>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
@@ -3917,8 +3920,6 @@
                                         <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar{{forloop.counter}}" hidden>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
-                                            {% if forloop.counter <= 1 %} <label style="color:red">Required Guest</label><br/> {%endif%}
-                                            {% if forloop.counter <= 1 %} <label style="color:red">*</label> {%endif%}
                                             <label>{% trans 'Title' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -3958,25 +3959,25 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-lg-6">
                                             <br/>
                                             {% if forloop.counter <= 1 %} <label style="color:red">*</label> {%endif%}
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                 <input type="hidden" class="form-control" name="adult_id{{forloop.counter}}" id="adult_id{{forloop.counter}}">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-lg-6 mb-3">
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('adult_last_name{{forloop.counter}}');" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('adult_last_name{{forloop.counter}}');" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-lg-6 mb-3">
                                             {% if forloop.counter <= 1 %} <label style="color:red">*</label> {%endif%}
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
@@ -3990,31 +3991,31 @@
                                                 <input type="hidden" name="adult_nationality{{forloop.counter}}" id="adult_nationality{{forloop.counter}}" />
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-lg-6">
                                             {% if forloop.counter <= 1 %} <label style="color:red">*</label> {%endif%}
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                                <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
+                                        <div class="col-lg-6 mb-3" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="adult_email{{forloop.counter}}" id="adult_email{{forloop.counter}}" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
+                                                <input type="text" style="margin-bottom:0px;" class="form-control" name="adult_email{{forloop.counter}}" id="adult_email{{forloop.counter}}" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</span>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
                                             <label style="color:red">*</label>
                                             <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
                                             <label style="font-size:10px; color:red;">({% trans "Must be filled with contact person's mobile on first registration" %})</label>
                                             <div class="row">
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
 
                                                     <div class="input-container-search-ticket">
-                                                        <div class="form-select">
+                                                        <div class="form-select" style="margin-bottom:0px;">
                                                             <select class="form-control js-example-basic-single" name="adult_phone_code{{forloop.counter}}_id" style="width:100%;" id="adult_phone_code{{forloop.counter}}_id" onchange="auto_complete('adult_phone_code{{forloop.counter}}')" class="nice-select-default">
                                                                 {% for phone in phone_code %}
                                                                 <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
@@ -4024,13 +4025,13 @@
                                                         <input type="hidden" name="adult_phone_code{{forloop.counter}}" id="adult_phone_code{{forloop.counter}}" />
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="adult_phone{{forloop.counter}}" id="adult_phone{{forloop.counter}}" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                                        <input type="text" style="margin-bottom:0px;" class="form-control" name="adult_phone{{forloop.counter}}" id="adult_phone{{forloop.counter}}" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
                                                     </div>
                                                 </div>
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</span>
                                         </div>
                                     </div>
                                 </div>
@@ -4150,20 +4151,20 @@
                                             <label style="color:red">*</label>
                                             <label>{% trans 'First name and middle name (if any)' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('child_first_name{{forloop.counter}}');" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('child_first_name{{forloop.counter}}');" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                 <input type="hidden" class="form-control" name="child_id{{forloop.counter}}" id="child_id{{forloop.counter}}">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mb-3">
                                             <br/>
                                             <label>{% trans 'Last name' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('child_last_name{{forloop.counter}}');" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('child_last_name{{forloop.counter}}');" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
-                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 mb-3">
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Nationality' %}</label>
                                             <div class="input-container-search-ticket">
@@ -4181,7 +4182,7 @@
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                                <input type="text" style="background:white;" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
@@ -4209,8 +4210,8 @@
                             <h4> {% trans 'Special Request' %} </h4>
                             <hr/>
                             {% for room in rooms %}
-                                <h6>{% trans 'Room' %} {{room}}:</h6>
-                                <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
+                            <h6>{% trans 'Room' %} {{room}}:</h6>
+                            <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
                             {% endfor %}
                             <h6>{% trans 'Early' %}/{% trans 'Late' %} {% trans 'Check-In' %}:</h6>
                             <textarea rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="late_ci" name="late_ci"></textarea>
@@ -4353,7 +4354,7 @@
                   format: 'DD MMM YYYY',
               }
           });
-          $('input[name="adult_birth_date'+i+'"]').val("");
+          //$('input[name="adult_birth_date'+i+'"]').val("");
       }
 
       for (var i = 1; i <= child; i++){
