@@ -1937,7 +1937,7 @@ function hotel_issued_booking(val){
        data: formData,
        success: function(msg) {
             if(google_analytics != ''){
-                if(data.hasOwnProperty('member') == true)
+                if(formData.get('member'))
                     gtag('event', 'hotel_issued', {});
                 else
                     gtag('event', 'hotel_hold_booking', {});
