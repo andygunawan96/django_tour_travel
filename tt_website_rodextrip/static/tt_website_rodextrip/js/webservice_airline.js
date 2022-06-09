@@ -4887,7 +4887,7 @@ function airline_commit_booking(val){
        data: formData,
        success: function(msg) {
            if(google_analytics != ''){
-               if(data.hasOwnProperty('member') == true)
+               if(formData.get('member'))
                    gtag('event', 'airline_issued', {});
                else
                    gtag('event', 'airline_hold_booking', {});
@@ -5079,16 +5079,19 @@ function airline_commit_booking(val){
 }
 
 function airline_force_commit_booking(val){
-    data = {
-        'value': val,
-        'signature': signature,
-        'voucher_code': ''
-    }
+    var formData = new FormData($('#global_payment_form').get(0));
+    formData.append('value', val);
+    formData.append('signature', signature);
+    formData.append('voucher_code', '');
     try{
-        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
-        data['member'] = payment_acq2[payment_method][selected].method;
-        data['bypass_psg_validator'] = true;
-        data['voucher_code'] =  voucher_code;
+        formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
+        formData.append('member', payment_acq2[payment_method][selected].method);
+        formData.append('bypass_psg_validator', true);
+        formData.append('voucher_code', voucher_code);
+        if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
+        {
+            formData.append('payment_reference', document.getElementById('pay_ref_text').value);
+        }
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
@@ -5098,10 +5101,10 @@ function airline_force_commit_booking(val){
        headers:{
             'action': 'commit_booking',
        },
-       data: data,
+       data: formData,
        success: function(msg) {
            if(google_analytics != ''){
-               if(data.hasOwnProperty('member') == true)
+               if(formData.get('member'))
                    gtag('event', 'airline_issued', {});
                else
                    gtag('event', 'airline_hold_booking', {});
@@ -5192,6 +5195,8 @@ function airline_force_commit_booking(val){
                 $('.btn-next').prop('disabled', false);
            }
        },
+       contentType:false,
+       processData:false,
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline commit booking');
             hide_modal_waiting_transaction();

@@ -2454,7 +2454,7 @@ function activity_commit_booking(val){
        data: formData,
        success: function(msg) {
         if(google_analytics != ''){
-            if(data.hasOwnProperty('member') == true)
+            if(formData.get('member'))
                 gtag('event', 'activity_issued', {});
             else
                 gtag('event', 'activity_hold_booking', {});

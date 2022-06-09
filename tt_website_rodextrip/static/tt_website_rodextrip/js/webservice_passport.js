@@ -704,7 +704,7 @@ function passport_commit_booking(){
        data: formData,
        success: function(msg) {
             if(google_analytics != ''){
-                if(data.hasOwnProperty('member') == true)
+                if(formData.get('member'))
                     gtag('event', 'passport_issued', {});
                 else
                     gtag('event', 'passport_hold_booking', {});
