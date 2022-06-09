@@ -795,7 +795,7 @@ def ssr(request, signature):
                                         for provider in ssr_provider['ssr_availability']:
                                             for availability in ssr_provider['ssr_availability'][provider]:
                                                 for ssr in availability['ssrs']:
-                                                    if ssr['fee_code'] == fee['fee_code']:
+                                                    if ssr['ssr_code'] == fee['fee_code']:
                                                         child[len(child) - 1]['ssr_list'].append({
                                                             "fee_code": fee['fee_code'],
                                                             "journey_code": ssr['journey_code'],
