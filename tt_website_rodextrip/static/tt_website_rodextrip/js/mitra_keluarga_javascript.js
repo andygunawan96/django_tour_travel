@@ -2507,6 +2507,16 @@ function check_passenger(){
             }else{
                 document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
                 //document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
+            }if(document.getElementById('booker_title').value == ''){
+                error_log+= 'Please choose booker title!</br>\n';
+                $("#booker_title").each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid red');
+                });
+                check_form_booker = 1;
+            }else{
+                $("#booker_title").each(function() {
+                    $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+                });
             }if(document.getElementById('booker_first_name').value == ''){
                 error_log+= 'Please fill booker first name!</br>\n';
                 document.getElementById('booker_first_name').style['border-color'] = 'red';
@@ -2574,6 +2584,16 @@ function check_passenger(){
                     }else{
                         document.getElementById('adult_first_name'+nomor_pax).style['border-color'] = '#EFEFEF';
                         //document.getElementById('adult_last_name'+nomor_pax).style['border-color'] = '#EFEFEF';
+                    }if(document.getElementById('adult_title'+nomor_pax).value == ''){
+                        error_log+= 'Please choose title of adult passenger '+nomor_pax+'!</br>\n';
+                        $("#adult_title"+nomor_pax).each(function() {
+                            $(this).parent().find('.nice-select').css('border', '1px solid red');
+                        });
+                        check_form_periksain = 1;
+                    }else{
+                        $("#adult_title"+nomor_pax).each(function() {
+                            $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
+                        });
                     }
                     if(document.getElementById('adult_first_name' + nomor_pax).value == '' || check_word(document.getElementById('adult_first_name' + nomor_pax).value) == false){
                         error_log += 'Please fill or use alpha characters for first name for customer '+ nomor_pax + ' !</br>\n';

@@ -2363,7 +2363,7 @@ function datasearch2(airline){
            for(k in airline_request.origin){
                 if(airline_request.origin[k].split(' - ')[0] == airline.schedules[i].journeys[j].origin &&
                    airline_request.destination[k].split(' - ')[0] == airline.schedules[i].journeys[j].destination &&
-                   airline_request.departure[k] == airline.schedules[i].journeys[j].departure_date.split(' - ')[0]){
+                   airline_request.departure[k] == airline.schedules[i].journeys[j].departure_date.split(', ')[1].split(' - ')[0]){
                     airline.schedules[i].journeys[j].airline_pick_sequence = parseInt(parseInt(k)+1);
                 }
            }
@@ -3181,7 +3181,7 @@ function get_price_itinerary_request(){
                                                     if(resJson.result.response.price_itinerary_provider[i].journeys[j].hasOwnProperty('search_banner')){
                                                        for(banner_counter in resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner){
                                                            var max_banner_date = moment().subtract(parseInt(-1*resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
-                                                           var selected_banner_date = moment(resJson.result.response.price_itinerary_provider[i].journeys[j].departure_date.split(' - ')[0]).format('YYYY-MM-DD');
+                                                           var selected_banner_date = moment(resJson.result.response.price_itinerary_provider[i].journeys[j].departure_date.split(', ')[1].split(' - ')[0]).format('YYYY-MM-DD');
 
                                                            if(selected_banner_date >= max_banner_date){
                                                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].search_banner[banner_counter].active == true){
@@ -3273,8 +3273,12 @@ function get_price_itinerary_request(){
 
                                                          $text += '\n'+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_city + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin + ') - ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_city + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination + ')\n';
                                                          $text += 'Departure Date  : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].departure_date+'\n';
-                                                         $text += 'Arrival Date    : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].arrival_date +'\n\n';
-
+                                                         if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_terminal)
+                                                            $text += 'Terminal  : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_terminal+'\n';
+                                                         $text += 'Arrival Date    : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].arrival_date +'\n';
+                                                         if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_terminal)
+                                                            $text += 'Terminal  : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_terminal+'\n';
+                                                         $text += '\n'
                                                         for(l in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs){
                                                             text+=`
                                                                 <div class="row">
@@ -3331,6 +3335,17 @@ function get_price_itinerary_request(){
                                                            airline_price.length > resJson.result.response.price_itinerary_provider.length){ //provider
                                                             fare_print = true;
                                                         }
+                                                        for(l in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares){
+                                                            for(m in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details){
+                                                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('BG'))
+                                                                    $text += '• Baggage ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit + '\n';
+                                                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('ML'))
+                                                                    $text += '• Meal ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit + '\n';
+                                                            }
+                                                            if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_type_name)
+                                                                $text += '• Aircraft: ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_type_name + '\n';
+                                                        }
+                                                        $text += '\n';
                                                     }
                                                     text+=`</div>`;
 
@@ -4848,15 +4863,18 @@ function force_issued_airline(val){
 }
 
 function airline_commit_booking(val){
-    data = {
-        'value': val,
-        'signature': signature,
-        'voucher_code': ''
-    }
+    var formData = new FormData($('#global_payment_form').get(0));
+    formData.append('value', val);
+    formData.append('signature', signature);
+    formData.append('voucher_code', '');
     try{
-        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
-        data['member'] = payment_acq2[payment_method][selected].method;
-        data['voucher_code'] =  voucher_code;
+        formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
+        formData.append('member', payment_acq2[payment_method][selected].method);
+        formData.append('voucher_code', voucher_code);
+        if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
+        {
+            formData.append('payment_reference', document.getElementById('pay_ref_text').value);
+        }
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
@@ -4866,7 +4884,7 @@ function airline_commit_booking(val){
        headers:{
             'action': 'commit_booking',
        },
-       data: data,
+       data: formData,
        success: function(msg) {
            if(google_analytics != ''){
                if(data.hasOwnProperty('member') == true)
@@ -5048,6 +5066,8 @@ function airline_commit_booking(val){
                 $('.btn-next').prop('disabled', false);
            }
        },
+       contentType:false,
+       processData:false,
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline commit booking');
             hide_modal_waiting_transaction();
@@ -6290,7 +6310,22 @@ function airline_get_booking(data, sync=false){
                         }
                 text+=`
                 </table>
-                    <hr/>
+                    <hr/>`;
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                    text+=`
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <span>Agent: <b>`+msg.result.response.agent_name+`</b></span>
+                            </div>`;
+                    if(msg.result.response.customer_parent_name){
+                        text+=`
+                            <div class="col-lg-6">
+                                <span>Customer: <b>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</b></span>
+                            </div>`;
+                    }
+                    text+= `</div>`;
+                }
+                text+=`
                     <div class="row">
                         <div class="col-lg-6 mb-3">
                             <h6>Booked</h6>
@@ -6435,18 +6470,31 @@ function airline_get_booking(data, sync=false){
 //                                        $text += '‣ Arrival:\n';
 //                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_name + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city + ') ' +'\n\n';
 
-                                        $text += '\n'+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin + ') - ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination + ')\n';
+                                        $text += '\nDeparture: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city + ' - ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_country + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin + ') ';
 
-                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0] == msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]){
-                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+' ';
-                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1]+' - ';
-                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1]+'\n';
-                                        }else{
-                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+' ';
-                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1]+' - ';
-                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0]+' ';
-                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1]+'\n';
-                                        }
+
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+' ';
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1] + '\n';
+                                        //terminal
+                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].origin_terminal)
+                                            $text += 'Terminal: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].origin_terminal + '\n';
+                                        $text += 'Arrival: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city + ' - ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_country + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination + ') ';
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0]+' ';
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1] + '\n';
+                                        //terminal
+                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].destination_terminal)
+                                            $text += 'Terminal: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].destination_terminal + '\n';
+                                        $text += '\n';
+//                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0] == msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]){
+//                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+' ';
+//                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1]+' - ';
+//                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1]+'\n';
+//                                        }else{
+//                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+' ';
+//                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1]+' - ';
+//                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0]+' ';
+//                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1]+'\n';
+//                                        }
 
                                         text+= `
                                         <div class="row">
@@ -8244,6 +8292,7 @@ function airline_issued(data){
     var temp_data = {}
     if(typeof(airline_get_detail) !== 'undefined')
         temp_data = JSON.stringify(airline_get_detail)
+
     Swal.fire({
       title: 'Are you sure want to Issued this booking?',
       type: 'warning',
@@ -8255,6 +8304,27 @@ function airline_issued(data){
       if (result.value) {
         show_loading();
         please_wait_transaction();
+
+        if(document.getElementById('airline_form'))
+        {
+            var formData = new FormData($('#airline_form').get(0));
+        }
+        else
+        {
+            var formData = new FormData($('#global_payment_form').get(0));
+        }
+        formData.append('order_number', data);
+        formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
+        formData.append('member', payment_acq2[payment_method][selected].method);
+        formData.append('signature', signature);
+        formData.append('voucher_code', voucher_code);
+        formData.append('booking', temp_data);
+
+        if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
+        {
+            formData.append('payment_reference', document.getElementById('pay_ref_text').value);
+        }
+
         getToken();
         $.ajax({
            type: "POST",
@@ -8262,14 +8332,7 @@ function airline_issued(data){
            headers:{
                 'action': 'issued',
            },
-           data: {
-               'order_number': data,
-               'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
-               'member': payment_acq2[payment_method][selected].method,
-               'voucher_code': voucher_code,
-               'signature': signature,
-               'booking': temp_data
-           },
+           data: formData,
            success: function(msg) {
                if(google_analytics != '')
                    gtag('event', 'airline_issued', {});
@@ -8628,6 +8691,8 @@ function airline_issued(data){
                     $(".issued_booking_btn").hide();
                }
            },
+           contentType:false,
+           processData:false,
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline issued');
                 price_arr_repricing = {};

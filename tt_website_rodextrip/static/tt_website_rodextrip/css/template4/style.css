@@ -2147,6 +2147,9 @@ ul.tabs li.current{
     .image-change-route-horizontal3{
       display:block;
     }
+    .image-change-route-vertical3{
+      display:none;
+    }
 }
 
 @media (min-width: 576px) {
@@ -2164,6 +2167,9 @@ ul.tabs li.current{
     }
     .image-change-route-horizontal3{
       display:none;
+    }
+    .image-change-route-vertical3{
+      display:block;
     }
 }
 
@@ -2611,6 +2617,10 @@ ul.tabs li.current{
     display:block !important;
   }
 
+  #sorting-search-hotel{
+    display:block !important;
+  }
+
   #filter-search-train {
     display:block !important;
   }
@@ -2654,6 +2664,10 @@ ul.tabs li.current{
   }
 
   #sorting-search-flight {
+    display:none !important;
+  }
+
+  #sorting-search-hotel {
     display:none !important;
   }
 
@@ -6239,6 +6253,7 @@ ul.btn_tabs li.current .image-rounded-icon{
   cursor: pointer;
   position: relative;
   border: 2px solid #f15a22;
+  margin-bottom:15px;
 }
 
 .primary-btn-white:hover {

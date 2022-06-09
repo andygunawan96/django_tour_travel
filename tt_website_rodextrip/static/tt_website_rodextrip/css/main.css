@@ -2078,7 +2078,7 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: none;
   width: 100%;
   padding: 10px 0 10px 0px;
-  height:130px;
+  height:100px;
   overflow-y: scroll;
 }
 
@@ -8878,6 +8878,7 @@ ul.popular2_tabs li.current .image-rounded-icon{
   transition: all 0.3s ease 0s;
   cursor: pointer;
   position: relative;
+  margin-bottom:15px;
   border: 2px solid #f15a22;
 }
 

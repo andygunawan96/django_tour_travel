@@ -8022,6 +8022,7 @@ ul.btn_tabs li.current .image-rounded-icon{
   cursor: pointer;
   position: relative;
   border: 2px solid #f15a22;
+  margin-bottom:15px;
 }
 
 .primary-btn-white:hover {
@@ -8711,4 +8712,9 @@ ul.progress_tabs li.current .image-rounded-icon{
 
 .modal{
     padding-right:unset !important;
+}
+
+.header_breadcrumb{
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
 }

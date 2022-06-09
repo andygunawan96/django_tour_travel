@@ -10,6 +10,7 @@ from .tt_webservice_views import *
 from ..views import tt_webservice_agent_views as webservice_agent
 from .tt_webservice_voucher_views import *
 from .tt_webservice import *
+import base64
 import json
 import logging
 import traceback
@@ -905,17 +906,17 @@ def search2(request):
                 for journey in journey_list['journeys']:
                     journey['is_combo_price'] = False
                     journey.update({
-                        'departure_date': parse_date_time_front_end(string_to_datetime(journey['departure_date'])),
-                        'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date']))
+                        'departure_date': parse_date_time_front_end_with_day(string_to_datetime(journey['departure_date'])),
+                        'arrival_date': parse_date_time_front_end_with_day(string_to_datetime(journey['arrival_date']))
                     })
                     if journey.get('arrival_date_return'):
                         journey.update({
-                            'departure_date_return': parse_date_time_front_end(string_to_datetime(journey['departure_date_return'])),
-                            'arrival_date_return': parse_date_time_front_end(string_to_datetime(journey['arrival_date_return']))
+                            'departure_date_return': parse_date_time_front_end_with_day(string_to_datetime(journey['departure_date_return'])),
+                            'arrival_date_return': parse_date_time_front_end_with_day(string_to_datetime(journey['arrival_date_return']))
                         })
                     if journey.get('return_date'):
                         journey.update({
-                            'return_date': parse_date_time_front_end(string_to_datetime(journey['return_date'])),
+                            'return_date': parse_date_time_front_end_with_day(string_to_datetime(journey['return_date'])),
                         })
                     for destination in airline_destinations:
                         if destination['code'] == journey['origin']:
@@ -935,8 +936,8 @@ def search2(request):
                             break
                     for segment in journey['segments']:
                         segment.update({
-                            'departure_date': parse_date_time_front_end(string_to_datetime(segment['departure_date'])),
-                            'arrival_date': parse_date_time_front_end(string_to_datetime(segment['arrival_date']))
+                            'departure_date': parse_date_time_front_end_with_day(string_to_datetime(segment['departure_date'])),
+                            'arrival_date': parse_date_time_front_end_with_day(string_to_datetime(segment['arrival_date']))
                         })
                         for destination in airline_destinations:
                             if destination['code'] == segment['origin']:
@@ -958,8 +959,8 @@ def search2(request):
 
                         for leg in segment['legs']:
                             leg.update({
-                                'departure_date': parse_date_time_front_end(string_to_datetime(leg['departure_date'])),
-                                'arrival_date': parse_date_time_front_end(string_to_datetime(leg['arrival_date']))
+                                'departure_date': parse_date_time_front_end_with_day(string_to_datetime(leg['departure_date'])),
+                                'arrival_date': parse_date_time_front_end_with_day(string_to_datetime(leg['arrival_date']))
                             })
 
                             for destination in airline_destinations:
@@ -1097,19 +1098,19 @@ def get_price_itinerary(request, boolean, counter):
                     for journey in price_itinerary_provider['journeys']:
                         journey.update({
                             'rules': [],
-                            'departure_date': parse_date_time_front_end(string_to_datetime(journey['departure_date'])),
-                            'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date']))
+                            'departure_date': parse_date_time_front_end_with_day(string_to_datetime(journey['departure_date'])),
+                            'arrival_date': parse_date_time_front_end_with_day(string_to_datetime(journey['arrival_date']))
                         })
                         if journey.get('arrival_date_return'):
                             journey.update({
-                                'departure_date_return': parse_date_time_front_end(
+                                'departure_date_return': parse_date_time_front_end_with_day(
                                     string_to_datetime(journey['departure_date_return'])),
-                                'arrival_date_return': parse_date_time_front_end(
+                                'arrival_date_return': parse_date_time_front_end_with_day(
                                     string_to_datetime(journey['arrival_date_return']))
                             })
                         if journey.get('return_date'):
                             journey.update({
-                                'return_date': parse_date_time_front_end(string_to_datetime(journey['return_date'])),
+                                'return_date': parse_date_time_front_end_with_day(string_to_datetime(journey['return_date'])),
                             })
                         for destination in airline_destinations:
                             if destination['code'] == journey['origin']:
@@ -1129,8 +1130,8 @@ def get_price_itinerary(request, boolean, counter):
                                 break
                         for segment in journey['segments']:
                             segment.update({
-                                'departure_date': parse_date_time_front_end(string_to_datetime(segment['departure_date'])),
-                                'arrival_date': parse_date_time_front_end(string_to_datetime(segment['arrival_date']))
+                                'departure_date': parse_date_time_front_end_with_day(string_to_datetime(segment['departure_date'])),
+                                'arrival_date': parse_date_time_front_end_with_day(string_to_datetime(segment['arrival_date']))
                             })
                             for destination in airline_destinations:
                                 if destination['code'] == segment['origin']:
@@ -1152,8 +1153,8 @@ def get_price_itinerary(request, boolean, counter):
 
                             for leg in segment['legs']:
                                 leg.update({
-                                    'departure_date': parse_date_time_front_end(string_to_datetime(leg['departure_date'])),
-                                    'arrival_date': parse_date_time_front_end(string_to_datetime(leg['arrival_date']))
+                                    'departure_date': parse_date_time_front_end_with_day(string_to_datetime(leg['departure_date'])),
+                                    'arrival_date': parse_date_time_front_end_with_day(string_to_datetime(leg['arrival_date']))
                                 })
 
                                 for destination in airline_destinations:
@@ -1287,19 +1288,17 @@ def sell_journeys(request):
                 for journey in price_itinerary_provider['journeys']:
                     journey.update({
                         'rules': [],
-                        'departure_date': parse_date_time_front_end(string_to_datetime(journey['departure_date'])),
-                        'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date']))
+                        'departure_date': parse_date_time_front_end_with_day(string_to_datetime(journey['departure_date'])),
+                        'arrival_date': parse_date_time_front_end_with_day(string_to_datetime(journey['arrival_date']))
                     })
                     if journey.get('arrival_date_return'):
                         journey.update({
-                            'departure_date_return': parse_date_time_front_end(
-                                string_to_datetime(journey['departure_date_return'])),
-                            'arrival_date_return': parse_date_time_front_end(
-                                string_to_datetime(journey['arrival_date_return']))
+                            'departure_date_return': parse_date_time_front_end_with_day(string_to_datetime(journey['departure_date_return'])),
+                            'arrival_date_return': parse_date_time_front_end_with_day(string_to_datetime(journey['arrival_date_return']))
                         })
                     if journey.get('return_date'):
                         journey.update({
-                            'return_date': parse_date_time_front_end(string_to_datetime(journey['return_date'])),
+                            'return_date': parse_date_time_front_end_with_day(string_to_datetime(journey['return_date'])),
                         })
                     for destination in airline_destinations:
                         if destination['code'] == journey['origin']:
@@ -1319,8 +1318,8 @@ def sell_journeys(request):
                             break
                     for segment in journey['segments']:
                         segment.update({
-                            'departure_date': parse_date_time_front_end(string_to_datetime(segment['departure_date'])),
-                            'arrival_date': parse_date_time_front_end(string_to_datetime(segment['arrival_date']))
+                            'departure_date': parse_date_time_front_end_with_day(string_to_datetime(segment['departure_date'])),
+                            'arrival_date': parse_date_time_front_end_with_day(string_to_datetime(segment['arrival_date']))
                         })
                         for destination in airline_destinations:
                             if destination['code'] == segment['origin']:
@@ -1342,8 +1341,8 @@ def sell_journeys(request):
 
                         for leg in segment['legs']:
                             leg.update({
-                                'departure_date': parse_date_time_front_end(string_to_datetime(leg['departure_date'])),
-                                'arrival_date': parse_date_time_front_end(string_to_datetime(leg['arrival_date']))
+                                'departure_date': parse_date_time_front_end_with_day(string_to_datetime(leg['departure_date'])),
+                                'arrival_date': parse_date_time_front_end_with_day(string_to_datetime(leg['arrival_date']))
                             })
 
                             for destination in airline_destinations:
@@ -1701,6 +1700,20 @@ def commit_booking(request):
             if request.POST['voucher_code'] != '':
                 data.update({
                     'voucher': data_voucher(request.POST['voucher_code'], 'airline', provider),
+                })
+            if request.POST.get('payment_reference'):
+                data.update({
+                    'payment_reference': request.POST['payment_reference']
+                })
+            if request.FILES.get('pay_ref_file'):
+                temp_file = []
+                for rec_file in request.FILES.getlist('pay_ref_file'):
+                    temp_file.append({
+                        'name': rec_file.name,
+                        'file': base64.b64encode(rec_file.file.read()).decode('ascii'),
+                    })
+                data.update({
+                    'payment_ref_attachment': temp_file
                 })
             # data.update({
             #     'bypass_psg_validator': request.POST['bypass_psg_validator']
@@ -2244,6 +2257,20 @@ def issued(request):
         if request.POST['voucher_code'] != '':
             data.update({
                 'voucher': data_voucher(request.POST['voucher_code'], 'airline', provider),
+            })
+        if request.POST.get('payment_reference'):
+            data.update({
+                'payment_reference': request.POST['payment_reference']
+            })
+        if request.FILES.get('pay_ref_file'):
+            temp_file = []
+            for rec_file in request.FILES.getlist('pay_ref_file'):
+                temp_file.append({
+                    'name': rec_file.name,
+                    'file': base64.b64encode(rec_file.file.read()).decode('ascii'),
+                })
+            data.update({
+                'payment_ref_attachment': temp_file
             })
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -4618,7 +4645,7 @@ def search_mobile(request):
 
                             choose_fare = True
                             for idz, fare in enumerate(segment['fares']):
-                                if fare['available_count'] >= (request.data['adult'] + request.data['child']) and choose_fare:
+                                if int(fare['available_count']) >= (request.data['adult'] + request.data['child']) and choose_fare:
                                     choose_fare = False
                                     fare['pick'] = True
                                     segment['fare_pick'] = idz
@@ -4647,13 +4674,13 @@ def search_mobile(request):
                                             break
 
                                     if idy == 0:
-                                        available_count.append(fare['available_count'])
+                                        available_count.append(int(fare['available_count']))
                                         journey['class_of_service'].append(fare['class_of_service'])
                                         segment['bool'] = True
                                     elif journey['is_combo_price']:
                                         for journey_list_req in request.data['journey_list']:
                                             if journey_list_req['origin'] == segment['origin'] and segment.get('bool'):
-                                                available_count.append(fare['available_count'])
+                                                available_count.append(int(fare['available_count']))
                                                 journey['class_of_service'].append(fare['class_of_service'])
                                                 segment['bool'] = True
 

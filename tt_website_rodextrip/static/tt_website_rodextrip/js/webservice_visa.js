@@ -730,18 +730,30 @@ function force_issued_visa(val){
 
 function visa_commit_booking(){
     //tambah swal
-    data = {
-        'force_issued': 'false',
-        'signature': signature,
-        'voucher_code': ''
+    if(document.getElementById('visa_booking'))
+    {
+        var formData = new FormData($('#visa_booking').get(0));
     }
+    else
+    {
+        var formData = new FormData($('#global_payment_form').get(0));
+    }
+    formData.append('force_issued', 'false');
+    formData.append('signature', signature);
+    formData.append('voucher_code', '');
+
     try{
-        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
-        data['member'] = payment_acq2[payment_method][selected].method;
-        data['voucher_code'] = voucher_code;
+        formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
+        formData.append('member', payment_acq2[payment_method][selected].method);
+        formData.append('voucher_code', voucher_code);
+        if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
+        {
+            formData.append('payment_reference', document.getElementById('pay_ref_text').value);
+        }
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
+
     getToken();
     $.ajax({
        type: "POST",
@@ -749,7 +761,7 @@ function visa_commit_booking(){
        headers:{
             'action': 'commit_booking',
        },
-       data: data,
+       data: formData,
        success: function(msg) {
             if(google_analytics != '')
                 gtag('event', 'visa_hold_booking', {});
@@ -772,6 +784,8 @@ function visa_commit_booking(){
                 })
             }
        },
+       contentType:false,
+       processData:false,
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error visa commit booking');
             hide_modal_waiting_transaction();
@@ -991,7 +1005,22 @@ function visa_get_data(data){
                                         </tr>
                                      </table>
 
-                                    <hr/>
+                                    <hr/>`;
+                                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                                        text+=`
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <span>Agent: <b>`+msg.result.response.agent_name+`</b></span>
+                                                </div>`;
+                                        if(msg.result.response.customer_parent_name){
+                                            text+=`
+                                                <div class="col-lg-6">
+                                                    <span>Customer: <b>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</b></span>
+                                                </div>`;
+                                        }
+                                        text+= `</div>`;
+                                    }
+                                    text+=`
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <h6>Booked</h6>

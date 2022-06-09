@@ -1309,6 +1309,27 @@ function tour_issued_booking(order_number)
             break;
         }
     }
+
+    if(document.getElementById('tour_booking'))
+    {
+        var formData = new FormData($('#tour_booking').get(0));
+    }
+    else
+    {
+        var formData = new FormData($('#global_payment_form').get(0));
+    }
+    formData.append('order_number', order_number);
+    formData.append('payment_method', payment_method_choice);
+    formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
+    formData.append('member', payment_acq2[payment_method][selected].method);
+    formData.append('signature', signature);
+    formData.append('voucher_code', voucher_code);
+    formData.append('booking', temp_data);
+    if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
+    {
+        formData.append('payment_reference', document.getElementById('pay_ref_text').value);
+    }
+
     getToken();
     $.ajax({
        type: "POST",
@@ -1316,15 +1337,7 @@ function tour_issued_booking(order_number)
        headers:{
             'action': 'issued_booking',
        },
-       data: {
-           'order_number': order_number,
-           'payment_method': payment_method_choice,
-           'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
-           'member': payment_acq2[payment_method][selected].method,
-           'signature': signature,
-           'voucher_code': voucher_code,
-           'booking': temp_data
-       },
+       data: formData,
        success: function(msg) {
            if(google_analytics != '')
                gtag('event', 'tour_issued', {});
@@ -1410,6 +1423,8 @@ function tour_issued_booking(order_number)
                 hide_modal_waiting_transaction();
            }
        },
+       contentType:false,
+       processData:false,
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour issued booking');
             hide_modal_waiting_transaction();
@@ -1895,7 +1910,22 @@ function tour_get_booking(order_number)
                                             </tr>
                                          </table>
 
-                                        <hr/>
+                                        <hr/>`;
+                                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                                            text+=`
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <span>Agent: <b>`+msg.result.response.agent_name+`</b></span>
+                                                    </div>`;
+                                            if(msg.result.response.customer_parent_name){
+                                                text+=`
+                                                    <div class="col-lg-6">
+                                                        <span>Customer: <b>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</b></span>
+                                                    </div>`;
+                                            }
+                                            text+= `</div>`;
+                                        }
+                                        text+=`
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <h6>Booked</h6>

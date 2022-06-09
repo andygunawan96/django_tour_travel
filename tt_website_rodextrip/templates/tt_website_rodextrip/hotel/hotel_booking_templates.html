@@ -221,9 +221,11 @@
                 </button>
                 {% endif %}
 
-                <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:10px; position:relative;" id="payment_acq" hidden>
-                    <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
-                </div>
+                <form method="POST" id="hotel_payment_form" action="">
+                    <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:10px; position:relative;" id="payment_acq" hidden>
+                        <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
+                    </div>
+                </form>
             </div>
             <div class="modal fade" id="myModalRepricing" role="dialog">
                 <div class="modal-dialog" style="width:100% !important; height:100% !important; max-width:1200px;padding: 0;">

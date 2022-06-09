@@ -12,6 +12,9 @@ def parse_datetime(date):
 def parse_date_time_front_end(date):
     return date.strftime("%d %b %Y - %H:%M")
 
+def parse_date_time_front_end_with_day(date):
+    return date.strftime("%a, %d %b %Y - %H:%M")
+
 def parse_save_cache(date):
     return date.strftime("%Y-%m-%d %H:%M:%S")
 

@@ -1149,7 +1149,22 @@ function swab_express_get_booking(order_number, sync=false){
                             </div>`;
 
                         text+=`
-                            <hr/>
+                            <hr/>`;
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                            text+=`
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <span>Agent: <b>`+msg.result.response.agent_name+`</b></span>
+                                    </div>`;
+                            if(msg.result.response.customer_parent_name){
+                                text+=`
+                                    <div class="col-lg-6">
+                                        <span>Customer: <b>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</b></span>
+                                    </div>`;
+                            }
+                            text+= `</div>`;
+                        }
+                        text+=`
                             <div class="row">
                                 <div class="col-lg-6">
                                     <h6>Booked</h6>
@@ -1943,6 +1958,27 @@ function swab_express_issued_booking(data){
       if (result.value) {
         show_loading();
         please_wait_transaction();
+
+        if(document.getElementById('swab_express_payment_form'))
+        {
+            var formData = new FormData($('#swab_express_payment_form').get(0));
+        }
+        else
+        {
+            var formData = new FormData($('#global_payment_form').get(0));
+        }
+        formData.append('order_number', data);
+        formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
+        formData.append('member', payment_acq2[payment_method][selected].method);
+        formData.append('signature', signature);
+        formData.append('voucher_code', voucher_code);
+        formData.append('booking', temp_data);
+
+        if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
+        {
+            formData.append('payment_reference', document.getElementById('pay_ref_text').value);
+        }
+
         getToken();
         $.ajax({
            type: "POST",
@@ -1950,14 +1986,7 @@ function swab_express_issued_booking(data){
            headers:{
                 'action': 'issued',
            },
-           data: {
-               'order_number': data,
-               'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
-               'member': payment_acq2[payment_method][selected].method,
-               'voucher_code': voucher_code,
-               'signature': signature,
-               'booking': temp_data
-           },
+           data: formData,
            success: function(msg) {
                if(google_analytics != '')
                    gtag('event', 'swab_express_issued', {});
@@ -2272,6 +2301,8 @@ function swab_express_issued_booking(data){
                     $(".issued_booking_btn").hide();
                }
            },
+           contentType:false,
+           processData:false,
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error swab_express issued');
                 price_arr_repricing = {};
