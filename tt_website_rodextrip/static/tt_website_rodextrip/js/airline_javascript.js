@@ -5295,7 +5295,7 @@ function check_passenger(adult, child, infant, type=''){
             document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
             document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
         }if(document.getElementById('booker_title').value == ''){
-            error_log+= 'Please fill booker title!</br>\n';
+            error_log+= 'Please choose booker title!</br>\n';
             $("#booker_title").each(function() {
                 $(this).parent().find('.nice-select').css('border', '1px solid red');
             });

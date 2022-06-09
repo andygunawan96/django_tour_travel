@@ -4645,7 +4645,7 @@ def search_mobile(request):
 
                             choose_fare = True
                             for idz, fare in enumerate(segment['fares']):
-                                if fare['available_count'] >= (request.data['adult'] + request.data['child']) and choose_fare:
+                                if int(fare['available_count']) >= (request.data['adult'] + request.data['child']) and choose_fare:
                                     choose_fare = False
                                     fare['pick'] = True
                                     segment['fare_pick'] = idz
@@ -4674,13 +4674,13 @@ def search_mobile(request):
                                             break
 
                                     if idy == 0:
-                                        available_count.append(fare['available_count'])
+                                        available_count.append(int(fare['available_count']))
                                         journey['class_of_service'].append(fare['class_of_service'])
                                         segment['bool'] = True
                                     elif journey['is_combo_price']:
                                         for journey_list_req in request.data['journey_list']:
                                             if journey_list_req['origin'] == segment['origin'] and segment.get('bool'):
-                                                available_count.append(fare['available_count'])
+                                                available_count.append(int(fare['available_count']))
                                                 journey['class_of_service'].append(fare['class_of_service'])
                                                 segment['bool'] = True
 
