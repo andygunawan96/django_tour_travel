@@ -777,6 +777,10 @@ def admin(request):
                     write_cache_with_folder(text, "google_recaptcha")
 
                     text = ''
+                    text += request.POST['google_tag_manager_key']
+                    write_cache_with_folder(text, "google_tag_manager")
+
+                    text = ''
                     text += request.POST['signup_btb_text'] + '\n'
                     text += request.POST['signup_btb_btn'] + '\n'
                     write_cache_with_folder(text, "signup_b2b")
@@ -1338,6 +1342,7 @@ def get_data_template(request, type='home', provider_type = []):
     signup_btb_text = 'Want to join us as an agent?'
     signup_btb_btn = 'Sign Up agent Here'
     setting_login_page = 'website_name'
+    google_tag_manager_key = ''
     font = {
         "name": '',
         "font": ''
@@ -1400,7 +1405,7 @@ def get_data_template(request, type='home', provider_type = []):
             elif idx == 1 and line != '':
                 signup_btb_btn = line
 
-    # google
+    # google re-captcha
     file = read_cache_with_folder_path("google_recaptcha", 90911)
     if file:
         for idx, line in enumerate(file.split('\n')):
@@ -1410,6 +1415,13 @@ def get_data_template(request, type='home', provider_type = []):
                 site_key = line
             elif idx == 2 and line != '':
                 secret_key = line
+
+    ##google tag manager
+    file = read_cache_with_folder_path("google_tag_manager", 90911)
+    if file:
+        for idx, line in enumerate(file.split('\n')):
+            if line != '':
+                google_tag_manager_key = line
 
     # font
     file = read_cache_with_folder_path("font", 90911)
@@ -1669,6 +1681,7 @@ def get_data_template(request, type='home', provider_type = []):
         'signup_btb_text': signup_btb_text,
         'signup_btb_btn': signup_btb_btn,
         'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+        'google_tag_manager_key': google_tag_manager_key
     }
 
 
