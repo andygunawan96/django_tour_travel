@@ -869,19 +869,23 @@ function medical_commit_booking(val){
         vendor = '';
     if(typeof(test_type) === 'undefined')
         test_type = '';
-    data = {
-        'signature': signature,
-        'provider': vendor,
-        'test_type': test_type,
-        'force_issued': val
-    }
+
+    var formData = new FormData($('#global_payment_form').get(0));
+    formData.append('signature', signature);
+    formData.append('provider', vendor);
+    formData.append('test_type', test_type);
+    formData.append('force_issued', val);
     try{
-        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
-        data['member'] = payment_acq2[payment_method][selected].method;
+        formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
+        formData.append('member', payment_acq2[payment_method][selected].method);
+        if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
+        {
+            formData.append('payment_reference', document.getElementById('pay_ref_text').value);
+        }
     }catch(err){
     }
     try{
-        data['voucher_code'] = voucher_code;
+        formData.append('voucher_code', voucher_code);
     }catch(err){
         console.log(err); //error voucher tidak ada / tidak di isi
     }
@@ -891,7 +895,7 @@ function medical_commit_booking(val){
        headers:{
             'action': 'commit_booking',
        },
-       data: data,
+       data: formData,
        success: function(msg) {
             if(msg.result.error_code == 0){
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
@@ -1047,6 +1051,8 @@ function medical_commit_booking(val){
                })
             }
        },
+       contentType:false,
+       processData:false,
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get price medical');
        },timeout: 300000

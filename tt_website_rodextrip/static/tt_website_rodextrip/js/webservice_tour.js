@@ -1120,15 +1120,18 @@ function commit_booking_tour(val)
             }
         }
     }
-    data = {
-        'value': val,
-        'signature': signature
-    }
+    var formData = new FormData($('#global_payment_form').get(0));
+    formData.append('value', val);
+    formData.append('signature', signature);
     try{
-        data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
-        data['member'] = payment_acq2[payment_method][selected].method;
-        data['payment_method'] = payment_method_choice;
-        data['voucher_code'] =  voucher_code;
+        formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
+        formData.append('member', payment_acq2[payment_method][selected].method);
+        formData.append('payment_method', payment_method_choice);
+        formData.append('voucher_code', voucher_code);
+        if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
+        {
+            formData.append('payment_reference', document.getElementById('pay_ref_text').value);
+        }
     }catch(err){
     }
     getToken();
@@ -1138,10 +1141,10 @@ function commit_booking_tour(val)
        headers:{
             'action': 'commit_booking',
        },
-       data: data,
+       data: formData,
        success: function(msg) {
            if(google_analytics != ''){
-               if(data.hasOwnProperty('member') == true)
+               if(formData.get('member'))
                    gtag('event', 'tour_issued', {});
                else
                    gtag('event', 'tour_hold_booking', {});
@@ -1237,6 +1240,8 @@ function commit_booking_tour(val)
                 hide_modal_waiting_transaction();
            }
        },
+       contentType:false,
+       processData:false,
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour commit booking');
             hide_modal_waiting_transaction();
