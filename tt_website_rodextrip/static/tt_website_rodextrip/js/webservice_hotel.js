@@ -765,14 +765,14 @@ function hotel_detail_request(checkin_date, checkout_date){
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
                                     <span class="span-search-ticket" style="color:black;">Room Only</span>
-                                    <input type="checkbox" id="checkbox_room_only" onclick="filter_room_hotel('meal','room_only');">
+                                    <input type="checkbox" id="checkbox_room_only" onclick="filter_room_hotel('meal',false);">
                                     <span class="check_box_span_custom"></span>
                                 </label><br>
                             </div>
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
                                     <span class="span-search-ticket" style="color:black;">Breakfast</span>
-                                    <input type="checkbox" id="checkbox_breakfast" onclick="filter_room_hotel('meal','breakfast');">
+                                    <input type="checkbox" id="checkbox_breakfast" onclick="filter_room_hotel('meal',true);">
                                     <span class="check_box_span_custom"></span>
                                 </label><br>
                             </div>

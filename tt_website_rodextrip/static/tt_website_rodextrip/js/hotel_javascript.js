@@ -2735,28 +2735,16 @@ function filter_room_hotel(type, value){
         }
     }else if(type == 'meal'){
         //meal
-        if(value == 'room_only'){
-            if(filter_room_list['meal_type'].includes('Room Only')){
-                for(i in filter_room_list['meal_type']){
-                    if(filter_room_list['meal_type'][i] == 'Room Only'){
-                        filter_room_list['meal_type'].splice(i,1);
-                        break;
-                    }
+        if(filter_room_list['meal_type'].includes(value)){
+            for(i in filter_room_list['meal_type']){
+                if(filter_room_list['meal_type'][i] == value){
+                    filter_room_list['meal_type'].splice(i,1);
+                    break;
                 }
+            }
 
-            }else
-                filter_room_list['meal_type'].push('Room Only');
-        }else if(value == 'breakfast'){
-            if(filter_room_list['meal_type'].includes('Breakfast'))
-                for(i in filter_room_list['meal_type']){
-                    if(filter_room_list['meal_type'][i] == 'Breakfast'){
-                        filter_room_list['meal_type'].splice(i,1);
-                        break;
-                    }
-                }
-            else
-                filter_room_list['meal_type'].push('Breakfast');
-        }
+        }else
+            filter_room_list['meal_type'].push(value);
     }else if(type == 'room'){
         //room
         if(value == 'single'){
@@ -2849,7 +2837,7 @@ function filter_room_hotel(type, value){
         //filter meal
         if(filter_room_list['meal_type'].length != 0){
             for(i in hotel_price){
-                if(filter_room_list['meal_type'].includes(hotel_price[i].meal_type) == false)
+                if(filter_room_list['meal_type'].includes(hotel_price[i].is_with_meal) == false)
                     hotel_price[i].show = false;
             }
         }
@@ -3033,7 +3021,11 @@ function render_room_hotel(data_room_hotel_list){
                             text+= '<span class="price_room" style="font-weight: bold; font-size:14px;">' +  data_room_hotel_list[i].currency + ' ' + getrupiah(data_room_hotel_list[i].total)+'</span><br/><span class="copy_total_rn carrier_code_template" style="font-size:12px;">(for '+total_room+' room, '+total_night+' night)</span><br/>';
                         }
                         if (data_room_hotel_list[i].availability == 'available'){
-                            text+=`<button class="primary-btn-custom" type="button" onclick="hotel_room_pick(`+i+`,`+j+`);" id="button`+i+`">Choose</button>`;
+                            if(hotel_room_detail_pick != null  && hotel_room_detail_pick == i){
+                                text+=`<button class="primary-btn-custom-un" type="button" onclick="hotel_room_pick(`+i+`,`+j+`);" id="button`+i+`">Chosen</button>`;
+                            }else{
+                                text+=`<button class="primary-btn-custom" type="button" onclick="hotel_room_pick(`+i+`,`+j+`);" id="button`+i+`">Choose</button>`;
+                            }
                         } else {
                             text+=`<button class="primary-btn-custom-un" type="button" style="color:green;" disabled="1"><i class="fa fa-phone-alt" style="margin-top:5px;"/> On Request</button>`;
                         }
