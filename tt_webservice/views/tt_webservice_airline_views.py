@@ -2205,10 +2205,12 @@ def update_refund_booking(request):
 def cancel(request):
     # nanti ganti ke get_ssr_availability
     try:
+        data_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
+
         data = {
             'order_number': request.POST['order_number'],
             'passengers': request.POST.get('passengers') and compute_pax_js(request.POST['passengers']) or [],
-            'provider_bookings': request.POST.get('passengers') and compute_pax_js_new(request.POST['passengers']) or []
+            'provider_bookings': request.POST.get('passengers') and compute_pax_js_new(request.POST['passengers']) or data_booking['result']['response']['provider_bookings']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

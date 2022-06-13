@@ -497,13 +497,6 @@ def passenger_aftersales(request, signature):
             values = get_data_template(request)
 
             # agent
-            adult_title = ['MR', 'MRS', 'MS']
-
-            infant_title = ['MSTR', 'MISS']
-
-            id_type = [['ktp', 'KTP'], ['sim', 'SIM'], ['pas', 'Passport']]
-
-            # agent
 
             # get_balance(request)
             # pax
@@ -539,14 +532,27 @@ def passenger_aftersales(request, signature):
         except Exception as e:
             _logger.info(str(e) + traceback.format_exc())
             # signature = request.session['airline_signature']
+        adult_title = ['MR', 'MRS', 'MS']
+
+        infant_title = ['MSTR', 'MISS']
+
+        id_type = [['ktp', 'KTP'], ['sim', 'SIM'], ['pas', 'Passport']]
         carrier_code = read_cache_with_folder_path("get_airline_carriers", 90911)
+        provider_list_data = read_cache_with_folder_path("get_list_provider_data", 90911)
         is_lionair = False
         is_international = False
         is_garuda = False
         is_identity_required = False
         is_birthdate_required = False
         get_booking = request.session['airline_get_booking_response']
+        is_change_identity = False
+        is_change_name = False
         for provider_booking in get_booking['result']['response']['provider_bookings']:
+            if provider_list_data.get(provider_booking['provider']):
+                if provider_list_data.get(provider_booking['provider']).get('is_post_booked_pax_name'):
+                    is_change_name = True
+                if provider_list_data.get(provider_booking['provider']).get('is_post_booked_pax_identity'):
+                    is_change_identity = True
             for journey in provider_booking['journeys']:
                 if journey['origin_country'] != 'Indonesia' and is_international == False:
                     is_international = True
@@ -589,6 +595,8 @@ def passenger_aftersales(request, signature):
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
+                'is_change_name': is_change_name,
+                'is_change_identity': is_change_identity,
                 'is_identity_required': is_identity_required,
                 'order_number': request.session['airline_get_booking_response']['result']['response']['order_number'],
                 'airline_request': request.session['airline_request_%s' % signature],

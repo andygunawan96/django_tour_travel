@@ -1774,16 +1774,16 @@ function change_filter(type, value){
 function time_check(data){
     var temp_data = [];
     var check = 0;
-    data.forEach((obj1)=> {
+    data.forEach((airline_data_rec)=> {
         check = 0;
-        departure_list.forEach((obj)=> {
-            if(obj.status == true && obj.value == 'All' && check == 0){
+        departure_list.forEach((filter_rec)=> {
+            if(filter_rec.status == true && filter_rec.value == 'All' && check == 0){
                 check = 1;
-            }else if(obj.status == true && check == 0){
-                time = obj.value.split(' - ');
+            }else if(filter_rec.status == true && check == 0){
+                time = filter_rec.value.split(' - ');
                 for(i in time)
                     time[i] = time[i].split('.')[0]*3600 + time[i].split('.')[1]*60;
-                data_time = obj1.departure_date.split(', ')[1].split(' - ');
+                data_time = airline_data_rec.departure_date.split(', ')[1].split(' - ');
                 data_time = data_time[1].split(':')[0]*3600 + data_time[1].split(':')[1]*60;
                 if(time[0]<=data_time && time[1]>=data_time){
                     check = 1;
@@ -1791,18 +1791,18 @@ function time_check(data){
             }
         });
         if(check == 1){
-            arrival_list.forEach((obj)=> {
-                if(obj.status == true && obj.value == 'All' && check == 1){
-                    temp_data.push(obj1);
+            arrival_list.forEach((filter_rec)=> {
+                if(filter_rec.status == true && filter_rec.value == 'All' && check == 1){
+                    temp_data.push(airline_data_rec);
                     check = 2;
-                }else if(obj.status == true && check == 1){
-                    time = obj.value.split(' - ');
+                }else if(filter_rec.status == true && check == 1){
+                    time = filter_rec.value.split(' - ');
                     for(i in time)
                         time[i] = time[i].split('.')[0]*3600 + time[i].split('.')[1]*60;
-                    data_time = obj1.arrival_date.split(', ')[1].split(' - ');
+                    data_time = airline_data_rec.arrival_date.split(', ')[1].split(' - ');
                     data_time = data_time[1].split(':')[0]*3600 + data_time[1].split(':')[1]*60;
                     if(time[0]<=data_time && time[1]>=data_time){
-                        temp_data.push(obj1);
+                        temp_data.push(airline_data_rec);
                         check = 2;
                     }
                 }
