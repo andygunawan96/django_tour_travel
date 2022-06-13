@@ -4842,7 +4842,7 @@ function airline_detail(type){
             text+=`
             </div>
         </div>`;
-        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+        if(document.URL.split('/')[document.URL.split('/').length-2] == 'review'){
             tax = 0;
             fare = 0;
             total_price = 0;
@@ -4888,7 +4888,7 @@ function airline_detail(type){
             document.getElementById('repricing_div').innerHTML = text_repricing;
             //repricing
         }
-        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+        if(document.URL.split('/')[document.URL.split('/').length-2] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
             text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
         }
         text+=`
@@ -6767,9 +6767,12 @@ function get_checked_copy_result(){
                         }
                     });
 
+                    if(j != 0)
+                        $text += '\n\n';
+
                     var co_j = j+1;
                     text+=`<h5>Flight-`+co_j+`</h5>`;
-                    $text += '\nFlight-'+co_j+'\n';
+                    $text += '› Flight-'+co_j+'\n';
 
                     parent_segments.find('.copy_carrier_provider_details').each(function(obj) {
                         if($(this).html() != undefined){
@@ -6844,7 +6847,7 @@ function get_checked_copy_result(){
 
                        text+=`</div>
                        <div class="col-lg-6" style="text-align:right;">`;
-                       $text += '\nArrival: ';
+                       $text += 'Arrival: ';
                        parent_legs.find('.copy_legs_arr').each(function(obj) {
                            if($(this).html() != undefined){
                                text+=`<b>Arrival</b><br/><span> `+$(this).html()+` </span>`;
@@ -6875,7 +6878,6 @@ function get_checked_copy_result(){
                        $text+='\n';
                     }
 
-                    $text+='\n';
                     var value_fares = [];
                     parent_segments.find('.copy_fares').each(function(obj) {
                         value_fares.push($(this).html());
