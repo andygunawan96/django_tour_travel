@@ -52,6 +52,8 @@
     is_international = is_international.replace(/True/g, 'true');
     time_limit = {{time_limit}};
     session_time_limit();
+    is_change_name = '{{is_change_name}}';
+    is_change_identity = '{{is_change_identity}}';
 </script>
 
 <style>.hotel-search-form-area .hotel-search-form .form-control{margin-bottom:0px;}</style>
@@ -857,24 +859,31 @@
                         {% endfor %}
 
                         <div class="row">
+                            {% if is_change_name == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                     {% trans 'Update Name' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
+
+                            {% if is_change_identity == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                     {% trans 'Update Identity' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
+                            {% if is_change_name == True and is_change_identity == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                     {% trans 'Update All' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
 
@@ -907,24 +916,30 @@
                                     </div>
                                 </div>
                             </div>
+                            {% if is_change_name == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                     {% trans 'Update Name' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
+                            {% if is_change_identity == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                     {% trans 'Update Identity' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
+                            {% if is_change_name == True and is_change_identity == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                     {% trans 'Update All' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
                             <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                         </div>
                     </div>
@@ -1689,24 +1704,31 @@
                                 <br/>
                                 {% endfor %}
                                 <div class="row">
+                                    {% if is_change_name == True %}
                                     <div class="col-lg-4">
                                         <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                             {% trans 'Update Name' %}
                                             <div class="ld ld-ring ld-cycle"></div>
                                         </button>
                                     </div>
+                                    {% endif %}
+
+                                    {% if is_change_identity == True %}
                                     <div class="col-lg-4">
                                         <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                             {% trans 'Update Identity' %}
                                             <div class="ld ld-ring ld-cycle"></div>
                                         </button>
                                     </div>
+                                    {% endif %}
+                                    {% if is_change_name == True and is_change_identity == True %}
                                     <div class="col-lg-4">
                                         <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                             {% trans 'Update All' %}
                                             <div class="ld ld-ring ld-cycle"></div>
                                         </button>
                                     </div>
+                                    {% endif %}
                                 </div>
                             </div>
 
@@ -1740,24 +1762,30 @@
                                         </div>
                                     </div>
 
+                                    {% if is_change_name == True %}
                                     <div class="col-lg-4">
                                         <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                             {% trans 'Update Name' %}
                                             <div class="ld ld-ring ld-cycle"></div>
                                         </button>
                                     </div>
+                                    {% endif %}
+                                    {% if is_change_identity == True %}
                                     <div class="col-lg-4">
                                         <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                             {% trans 'Update Identity' %}
                                             <div class="ld ld-ring ld-cycle"></div>
                                         </button>
                                     </div>
+                                    {% endif %}
+                                    {% if is_change_name == True and is_change_identity == True %}
                                     <div class="col-lg-4">
                                         <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                             {% trans 'Update All' %}
                                             <div class="ld ld-ring ld-cycle"></div>
                                         </button>
                                     </div>
+                                    {% endif %}
                                     <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                                 </div>
                             </div>
@@ -2552,24 +2580,31 @@
                         {% endfor %}
 
                         <div class="row">
+                            {% if is_change_name == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                     {% trans 'Update Name' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
+
+                            {% if is_change_identity == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                     {% trans 'Update Identity' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
+                            {% if is_change_name == True and is_change_identity == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                     {% trans 'Update All' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
 
@@ -2603,24 +2638,30 @@
                                     </div>
                                 </div>
                             </div>
+                            {% if is_change_name == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                     {% trans 'Update Name' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
+                            {% if is_change_identity == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                     {% trans 'Update Identity' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
+                            {% if is_change_name == True and is_change_identity == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                     {% trans 'Update All' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
                             <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                         </div>
                     </div>
@@ -3413,24 +3454,31 @@
                     {% endfor %}
 
                     <div class="row">
+                        {% if is_change_name == True %}
                         <div class="col-lg-4">
                             <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                 {% trans 'Update Name' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
+                        {% endif %}
+
+                        {% if is_change_identity == True %}
                         <div class="col-lg-4">
                             <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                 {% trans 'Update Identity' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
+                        {% endif %}
+                        {% if is_change_name == True and is_change_identity == True %}
                         <div class="col-lg-4">
                             <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                 {% trans 'Update All' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -3464,24 +3512,30 @@
                                 </div>
                             </div>
                         </div>
+                        {% if is_change_name == True %}
                         <div class="col-lg-4">
                             <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                 {% trans 'Update Name' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
+                        {% endif %}
+                        {% if is_change_identity == True %}
                         <div class="col-lg-4">
                             <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                 {% trans 'Update Identity' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
+                        {% endif %}
+                        {% if is_change_name == True and is_change_identity == True %}
                         <div class="col-lg-4">
                             <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                 {% trans 'Update All' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
+                        {% endif %}
                         <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                     </div>
                 </div>
@@ -4264,24 +4318,31 @@
                         {% endfor %}
 
                         <div class="row">
+                            {% if is_change_name == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                     {% trans 'Update Name' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
+
+                            {% if is_change_identity == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                     {% trans 'Update Identity' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
+                            {% if is_change_name == True and is_change_identity == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                     {% trans 'Update All' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
 
@@ -4314,24 +4375,30 @@
                                     </div>
                                 </div>
                             </div>
+                            {% if is_change_name == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                     {% trans 'Update Name' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
+                            {% if is_change_identity == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                     {% trans 'Update Identity' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
+                            {% if is_change_name == True and is_change_identity == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                     {% trans 'Update All' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
                             <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                         </div>
                     </div>
@@ -5115,24 +5182,31 @@
                         {% endfor %}
 
                         <div class="row">
+                            {% if is_change_name == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                     {% trans 'Update Name' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
+
+                            {% if is_change_identity == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                     {% trans 'Update Identity' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
+                            {% if is_change_name == True and is_change_identity == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                     {% trans 'Update All' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="col-lg-8" style="margin-top:15px;">
@@ -5164,24 +5238,30 @@
                                     </div>
                                 </div>
                             </div>
+                            {% if is_change_name == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                     {% trans 'Update Name' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
+                            {% if is_change_identity == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_identity');">
                                     {% trans 'Update Identity' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
+                            {% if is_change_name == True and is_change_identity == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;margin-top:10px;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_all');">
                                     {% trans 'Update All' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
+                            {% endif %}
                             <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                         </div>
                     </div>
