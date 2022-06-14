@@ -631,23 +631,14 @@ function event_get_booking(data){
                         }
                         //repricing
                         check = 0;
-                        for(k in pax_type_repricing){
-                            if(pax_type_repricing[k][0] == msg.result.response.passengers[j].name)
-                                check = 1;
+                        if(price_arr_repricing.hasOwnProperty(msg.result.response.passengers[j].pax_type) == false){
+                            price_arr_repricing[msg.result.response.passengers[j].pax_type] = {}
+                            pax_type_repricing.push([msg.result.response.passengers[j].pax_type, msg.result.response.passengers[j].pax_type]);
                         }
-                        if(check == 0){
-                            pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
-                            price_arr_repricing[msg.result.response.passengers[j].name] = {
-                                'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                                'Tax': price['TAX'] + price['ROC'],
-                                'Repricing': price['CSC']
-                            }
-                        }else{
-                            price_arr_repricing[msg.result.response.passengers[j].name] = {
-                                'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'] + price['SEAT'],
-                                'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
-                                'Repricing': price['CSC']
-                            }
+                        price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name] = {
+                            'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
+                            'Tax': price['TAX'] + price['ROC'],
+                            'Repricing': price['CSC']
                         }
                         text_repricing = `
                         <div class="col-lg-12">
@@ -659,18 +650,20 @@ function event_get_booking(data){
                             </div>
                         </div>`;
                         for(k in price_arr_repricing){
-                           text_repricing += `
-                           <div class="col-lg-12">
-                                <div style="padding:5px;" class="row" id="adult">
-                                    <div class="col-lg-3" id="`+j+`_`+k+`">`+k+`</div>
-                                    <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
-                                    if(price_arr_repricing[k].Repricing == 0)
-                                    text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
-                                    else
-                                    text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
-                                    text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
-                                </div>
-                            </div>`;
+                            for(l in price_arr_repricing[k]){
+                                text_repricing += `
+                                <div class="col-lg-12">
+                                    <div style="padding:5px;" class="row" id="adult">
+                                        <div class="col-lg-3" id="`+j+`_`+k+`">`+l+`</div>
+                                        <div class="col-lg-3" id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
+                                        if(price_arr_repricing[k][l].Repricing == 0)
+                                            text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">-</div>`;
+                                        else
+                                            text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
+                                        text_repricing+=`<div class="col-lg-3" id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
+                                    </div>
+                                </div>`;
+                            }
                         }
                         //booker
                         booker_insentif = '-';
@@ -2137,49 +2130,46 @@ function update_service_charge(type){
     if(type == 'booking'){
         document.getElementById('event_booking').innerHTML = '';
         upsell = []
-        for(i in event_get_detail.result.response.passenger){
-            for(j in event_get_detail.result.response.passenger[i].sale_service_charges){
-                currency = event_get_detail.result.response.passenger[i].sale_service_charges[j].FARE.currency;
-            }
-            list_price = []
-            for(j in list){
-                if(event_get_detail.result.response.passenger[i].name == document.getElementById('selection_pax'+j).value){
-                    list_price.push({
-                        'amount': list[j],
-                        'currency_code': currency
-                    });
+        currency = '';
+        for(i in event_get_detail.result.response.passengers){
+            if(currency == '')
+                for(j in event_get_detail.result.response.passengers[i].sale_service_charges){
+                    currency = event_get_detail.result.response.passengers[i].sale_service_charges[j].FARE.currency;
+                    break;
                 }
-
+            list_price = []
+            if(document.getElementById(event_get_detail.result.response.passengers[i].name+'_repricing').innerHTML != '-' && document.getElementById(event_get_detail.result.response.passengers[i].name+'_repricing').innerHTML != '0'){
+                list_price.push({
+                    'amount': parseInt(document.getElementById(event_get_detail.result.response.passengers[i].name+'_repricing').innerHTML.split(',').join('')),
+                    'currency_code': currency
+                });
+                upsell.push({
+                    'sequence': event_get_detail.result.response.passengers[i].sequence,
+                    'pricing': JSON.parse(JSON.stringify(list_price))
+                });
             }
-            upsell.push({
-                'sequence': event_get_detail.result.response.passenger[i].sequence,
-                'pricing': JSON.parse(JSON.stringify(list_price))
-            });
         }
         repricing_order_number = event_get_detail.result.response.order_number;
     }else{
         upsell_price = 0;
         upsell = []
-        counter_pax = -1;
+        counter_pax = 0;
         val = adult;
         currency = json_event_option_code[0]['currency'];
         for(i in val){
             list_price = []
-            for(j in list){
-                if(val[i].first_name +val[i].last_name == document.getElementById('selection_pax'+j).value){
-                    list_price.push({
-                        'amount': list[j],
-                        'currency_code': currency
-                    });
-                    upsell_price += list[j];
-                }
-            }
-            counter_pax++;
-            if(list_price.length != 0)
+            if(document.getElementById(val[i].first_name+val[i].last_name+'_repricing').innerHTML != '-' && document.getElementById(val[i].first_name+val[i].last_name+'_repricing').innerHTML != '0'){
+                list_price.push({
+                    'amount': parseInt(document.getElementById(val[i].first_name+val[i].last_name+'_repricing').innerHTML.split(',').join('')),
+                    'currency_code': currency
+                });
+                upsell_price += parseInt(document.getElementById(val[i].first_name+val[i].last_name+'_repricing').innerHTML.split(',').join(''));
                 upsell.push({
                     'sequence': counter_pax,
                     'pricing': JSON.parse(JSON.stringify(list_price))
                 });
+            }
+            counter_pax++;
         }
         val = json_event_option_code;
     }

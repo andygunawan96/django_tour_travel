@@ -2117,7 +2117,7 @@ function get_notif_train(page=""){
        headers:{
             'action': 'get_notification_train',
        },
-       data: data,
+       data: {},
        success: function(msg) {
             if(msg.result.error_code == 0){
                 if(page == 'admin'){

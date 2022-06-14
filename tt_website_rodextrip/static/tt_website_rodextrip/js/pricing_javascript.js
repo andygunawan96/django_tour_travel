@@ -61,7 +61,7 @@ function add_table_of_equation(percentage=true){
         </div>`;
         text += `
         <div class="col-lg-4" style="padding:0px;">
-            <span style="font-size:11px;">Pax Name</span><br/>
+            <span style="font-size:11px;">Pax Type</span><br/>
             <div class="input-container-search-ticket">
                 <div class="form-select">
                     <select id="selection_pax`+counter+`" style="width:100%;">`;
@@ -161,12 +161,14 @@ function reset_repricing(){
 }
 
 function add_repricing(){
-    for(j in price_arr_repricing){
-       total = 0
-       for(k in price_arr_repricing[j]){
-           total += price_arr_repricing[j][k];
-       }
-       price_arr_repricing[j]['total'] = total;
+    for(x in price_arr_repricing){
+        for(y in price_arr_repricing[x]){
+            total = 0
+            for(z in price_arr_repricing[x][y]){
+                total += price_arr_repricing[x][y][z];
+            }
+            price_arr_repricing[x][y]['total'] = total;
+        }
     }
 }
 
@@ -181,7 +183,8 @@ function calculate(type){
         price_duplication = JSON.parse(JSON.stringify(price_arr_repricing));
         list = [];
         for(i in price_duplication){
-            price_duplication[i].Repricing = 0;
+            for(j in price_duplication[i])
+                price_duplication[i][j].Repricing = 0;
         }
         for(i=0;i<counter;i++){
             var selection_calculation = document.getElementById('calculation'+i).value.split(',');
@@ -197,48 +200,52 @@ function calculate(type){
                 selection_calculation = temp;
             }
             if(document.getElementById('selection_type'+i).value == 'upsell'){
-                if(selection_calculation.match('%')){
-                    list.push((price_duplication[selection_pax]['Fare'] + price_duplication[selection_pax]['Tax'] + price_duplication[selection_pax]['Repricing']) * parseFloat(selection_calculation) / 100);
-                    price_duplication[selection_pax]['Repricing'] = price_duplication[selection_pax]['Repricing'] + ((price_duplication[selection_pax]['Fare'] + price_duplication[selection_pax]['Tax'] + price_duplication[selection_pax]['Repricing']) * parseFloat(selection_calculation) / 100) ;
-                    total = 0;
-                    for(j in price_duplication[selection_pax]){
-                        if(j != 'total')
-                            total += price_duplication[selection_pax][j];
+                for(j in price_duplication[selection_pax]){
+                    if(selection_calculation.match('%')){
+                        list.push((price_duplication[selection_pax][j]['Fare'] + price_duplication[selection_pax][j]['Tax'] + price_duplication[selection_pax][j]['Repricing']) * parseFloat(selection_calculation) / 100);
+                        price_duplication[selection_pax][j]['Repricing'] = price_duplication[selection_pax][j]['Repricing'] + ((price_duplication[selection_pax][j]['Fare'] + price_duplication[selection_pax][j]['Tax'] + price_duplication[selection_pax][j]['Repricing']) * parseFloat(selection_calculation) / 100) ;
+                        total = 0;
+                        for(k in price_duplication[selection_pax][j]){
+                            if(k != 'total')
+                                total += price_duplication[selection_pax][j][k];
+                        }
+                        price_duplication[selection_pax][j]['total'] = total
+                    }else{
+                        price_duplication[selection_pax][j]['Repricing'] = price_duplication[selection_pax][j]['Repricing'] + parseFloat(selection_calculation);
+                        list.push(parseFloat(selection_calculation));
+                        total = 0;
+                        for(k in price_duplication[selection_pax][j]){
+                            if(k != 'total')
+                                total += price_duplication[selection_pax][j][k];
+                        }
+                        price_duplication[selection_pax][j]['total'] = total
                     }
-                    price_duplication[selection_pax]['total'] = total
-                }else{
-                    price_duplication[selection_pax]['Repricing'] = price_duplication[selection_pax]['Repricing'] + parseFloat(selection_calculation);
-                    list.push(parseFloat(selection_calculation));
-                    total = 0;
-                    for(j in price_duplication[selection_pax]){
-                        if(j != 'total')
-                            total += price_duplication[selection_pax][j];
-                    }
-                    price_duplication[selection_pax]['total'] = total
                 }
             }else if(document.getElementById('selection_type'+i).value == 'discount'){
-                if(selection_calculation.match('%')){
-                    if(parseFloat(selection_calculation) > 100){
-                        alert('Max discount 100%');
-                    }else{
-                        list.push((price_duplication[selection_pax]['Fare'] + price_duplication[selection_pax]['Tax'] + price_duplication[selection_pax]['Repricing']) * parseFloat(selection_calculation) / 100);
-                        price_duplication[selection_pax]['Repricing'] = price_duplication[selection_pax]['Repricing'] + ((price_duplication[selection_pax]['Fare'] + price_duplication[selection_pax]['Tax'] + price_duplication[selection_pax]['Repricing']) * parseFloat(selection_calculation) / 100 * -1);
-                        total = 0;
-                        for(j in price_duplication[selection_pax]){
-                            if(j != 'total')
-                                total += price_duplication[selection_pax][j];
+                for(j in price_duplication[selection_pax]){
+                    if(selection_calculation.match('%')){
+                        if(parseFloat(selection_calculation) > 100){
+                            alert('Max discount 100%');
+                        }else{
+                            list.push((price_duplication[selection_pax][j]['Fare'] + price_duplication[selection_pax][j]['Tax'] + price_duplication[selection_pax][j]['Repricing']) * parseFloat(selection_calculation) / 100);
+                            price_duplication[selection_pax][j]['Repricing'] = price_duplication[selection_pax][j]['Repricing'] + ((price_duplication[selection_pax][j]['Fare'] + price_duplication[selection_pax][j]['Tax'] + price_duplication[selection_pax][j]['Repricing']) * parseFloat(selection_calculation) / 100 * -1);
+                            total = 0;
+                            for(k in price_duplication[selection_pax][j]){
+                                if(j != 'total')
+                                    total += price_duplication[selection_pax][j][k];
+                            }
+                            price_duplication[selection_pax][j]['total'] = total
                         }
-                        price_duplication[selection_pax]['total'] = total
+                    }else{
+                        price_duplication[selection_pax][j]['Repricing'] = price_duplication[selection_pax][j]['Repricing'] + (parseFloat(selection_calculation) * -1);
+                        list.push(parseFloat(selection_calculation) * -1);
+                        total = 0;
+                        for(j in price_duplication[selection_pax][j]){
+                            if(k != 'total')
+                                total += price_duplication[selection_pax][j][k];
+                        }
+                        price_duplication[selection_pax][j]['total'] = total
                     }
-                }else{
-                    list.push(parseFloat(selection_calculation) * -1);
-                    price_duplication[selection_pax]['Repricing'] = price_duplication[selection_pax]['Repricing'] + (parseFloat(selection_calculation) * -1);
-                    total = 0;
-                    for(j in price_duplication[selection_pax]){
-                        if(j != 'total')
-                            total += price_duplication[selection_pax][j];
-                    }
-                    price_duplication[selection_pax]['total'] = total
                 }
             }
         }
@@ -250,67 +257,74 @@ function calculate(type){
                 }
         }else if(type == 'airline'){
             for(i in price_duplication){
-                if(price_duplication[i].total == undefined)
-                    price_duplication[i].total = 0;
-                document.getElementById(i+'_price').innerHTML = getrupiah(price_duplication[i].Fare + price_duplication[i].Tax);
-                document.getElementById(i+'_repricing').innerHTML = getrupiah(price_duplication[i].Repricing);
-                document.getElementById(i+'_total').innerHTML = getrupiah(price_duplication[i].total);
+                for(j in price_duplication[i]){
+                    if(price_duplication[i][j].total == undefined)
+                        price_duplication[i][j].total = 0;
+                    document.getElementById(j+'_price').innerHTML = getrupiah(price_duplication[i][j].Fare + price_duplication[i][j].Tax);
+                    document.getElementById(j+'_repricing').innerHTML = getrupiah(price_duplication[i][j].Repricing);
+                    document.getElementById(j+'_total').innerHTML = getrupiah(price_duplication[i][j].total);
+                }
             }
             text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
             document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
         }else if(type == 'airline_review'){
-            console.log(price_duplication);
             for(i in price_duplication){
-                if(price_duplication[i].total == undefined)
-                    price_duplication[i].total = 0;
-                document.getElementById(i+'_price').innerHTML = getrupiah(price_duplication[i].Fare + price_duplication[i].Tax);
-                document.getElementById(i+'_repricing').innerHTML = getrupiah(price_duplication[i].Repricing);
-                document.getElementById(i+'_total').innerHTML = getrupiah(price_duplication[i].total);
+                for(j in price_duplication[i]){
+                    if(price_duplication[i][j].total == undefined)
+                        price_duplication[i][j].total = 0;
+                    document.getElementById(j+'_price').innerHTML = getrupiah(price_duplication[i][j].Fare + price_duplication[i][j].Tax);
+                    document.getElementById(j+'_repricing').innerHTML = getrupiah(price_duplication[i][j].Repricing);
+                    document.getElementById(j+'_total').innerHTML = getrupiah(price_duplication[i][j].total);
+                }
             }
             text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge();" value="Set Upsell Downsell">`;
             document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('review');" value="Set Upsell Downsell">`;
         }else if(type == 'train'){
             for(i in price_duplication){
-                if(price_duplication[i].total == undefined)
-                    price_duplication[i].total = 0;
-                document.getElementById(i+'_price').innerHTML = getrupiah(price_duplication[i].Fare + price_duplication[i].Tax);
-                document.getElementById(i+'_repricing').innerHTML = getrupiah(price_duplication[i].Repricing);
-                document.getElementById(i+'_total').innerHTML = getrupiah(price_duplication[i].total);
+                for(j in price_duplication[i]){
+                    if(price_duplication[i][j].total == undefined)
+                        price_duplication[i][j].total = 0;
+                    document.getElementById(j+'_price').innerHTML = getrupiah(price_duplication[i][j].Fare + price_duplication[i][j].Tax);
+                    document.getElementById(j+'_repricing').innerHTML = getrupiah(price_duplication[i][j].Repricing);
+                    document.getElementById(j+'_total').innerHTML = getrupiah(price_duplication[i][j].total);
+                }
             }
             text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
             document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
         }else if(type == 'activity'){
-            console.log(price_duplication);
             for(i in price_duplication){
-                if(price_duplication[i].total == undefined)
-                    price_duplication[i].total = 0;
-                console.log(price_duplication[i]);
-                document.getElementById(i+'_price').innerHTML = getrupiah(price_duplication[i].Fare + price_duplication[i].Tax);
-                document.getElementById(i+'_repricing').innerHTML = getrupiah(price_duplication[i].Repricing);
-                document.getElementById(i+'_total').innerHTML = getrupiah(price_duplication[i].total);
+                for(j in price_duplication[i]){
+                    if(price_duplication[i][j].total == undefined)
+                        price_duplication[i][j].total = 0;
+                    document.getElementById(j+'_price').innerHTML = getrupiah(price_duplication[i][j].Fare + price_duplication[i][j].Tax);
+                    document.getElementById(j+'_repricing').innerHTML = getrupiah(price_duplication[i][j].Repricing);
+                    document.getElementById(j+'_total').innerHTML = getrupiah(price_duplication[i][j].total);
+                }
             }
             text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
             document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
         }else if(type == 'tour'){
             console.log(price_duplication);
             for(i in price_duplication){
-                if(price_duplication[i].total == undefined)
-                    price_duplication[i].total = 0;
-                console.log(price_duplication[i]);
-                document.getElementById(i+'_price').innerHTML = getrupiah(price_duplication[i].Fare + price_duplication[i].Tax);
-                document.getElementById(i+'_repricing').innerHTML = getrupiah(price_duplication[i].Repricing);
-                document.getElementById(i+'_total').innerHTML = getrupiah(price_duplication[i].total);
+                for(j in price_duplication[i]){
+                    if(price_duplication[i][j].total == undefined)
+                        price_duplication[i][j].total = 0;
+                    document.getElementById(j+'_price').innerHTML = getrupiah(price_duplication[i][j].Fare + price_duplication[i][j].Tax);
+                    document.getElementById(j+'_repricing').innerHTML = getrupiah(price_duplication[i][j].Repricing);
+                    document.getElementById(j+'_total').innerHTML = getrupiah(price_duplication[i][j].total);
+                }
             }
             text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
             document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
         }else{
             for(i in price_duplication){
-                if(price_duplication[i].total == undefined)
-                    price_duplication[i].total = 0;
-                console.log(price_duplication[i]);
-                document.getElementById(i+'_price').innerHTML = getrupiah(price_duplication[i].Fare + price_duplication[i].Tax);
-                document.getElementById(i+'_repricing').innerHTML = getrupiah(price_duplication[i].Repricing);
-                document.getElementById(i+'_total').innerHTML = getrupiah(price_duplication[i].total);
+                for(j in price_duplication[i]){
+                    if(price_duplication[i][j].total == undefined)
+                        price_duplication[i][j].total = 0;
+                    document.getElementById(j+'_price').innerHTML = getrupiah(price_duplication[i][j].Fare + price_duplication[i][j].Tax);
+                    document.getElementById(j+'_repricing').innerHTML = getrupiah(price_duplication[i][j].Repricing);
+                    document.getElementById(j+'_total').innerHTML = getrupiah(price_duplication[i][j].total);
+                }
             }
             text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
             document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;

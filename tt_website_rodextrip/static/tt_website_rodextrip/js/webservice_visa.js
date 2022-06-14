@@ -1102,6 +1102,7 @@ function visa_get_data(data){
                     </div>`;
 
                     /*pax*/
+                    commission = 0;
                     text+=`
                     <div class="row" style="margin-top: 10px;">
                         <div class="col-lg-12">
@@ -1124,25 +1125,17 @@ function visa_get_data(data){
                                             price[j] += msg.result.response.passengers[i].visa.price[j].amount;
                                         }
                                     }
+                                    commission += parseInt(price.RAC);
                                     //repricing
                                     check = 0;
-                                    for(j in pax_type_repricing){
-                                        if(pax_type_repricing[j][0] == msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name)
-                                            check = 1;
+                                    if(price_arr_repricing.hasOwnProperty(msg.result.response.passengers[i].pax_type) == false){
+                                        price_arr_repricing[msg.result.response.passengers[i].pax_type] = {}
+                                        pax_type_repricing.push([msg.result.response.passengers[i].pax_type, msg.result.response.passengers[i].pax_type]);
                                     }
-                                    if(check == 0){
-                                        pax_type_repricing.push([msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name, msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name]);
-                                        price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name] = {
-                                            'Fare': price['FARE'],
-                                            'Tax': price['TAX'] + price['ROC'],
-                                            'Repricing': price['CSC']
-                                        }
-                                    }else{
-                                        price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name] = {
-                                            'Fare': price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name]['Fare'] + price['FARE'],
-                                            'Tax': price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name]['Tax'] + price['TAX'] + price['ROC'],
-                                            'Repricing': price['CSC']
-                                        }
+                                    price_arr_repricing[msg.result.response.passengers[i].pax_type][msg.result.response.passengers[i].name] = {
+                                        'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
+                                        'Tax': price['TAX'] + price['ROC'],
+                                        'Repricing': price['CSC']
                                     }
                                     text_repricing = `
                                     <div class="col-lg-12">
@@ -1153,17 +1146,69 @@ function visa_get_data(data){
                                             <div class="col-lg-3">Total</div>
                                         </div>
                                     </div>`;
-                                    for(j in price_arr_repricing){
-                                       text_repricing += `
-                                       <div class="col-lg-12">
-                                            <div style="padding:5px;" class="row">
-                                                <div class="col-lg-3" id="`+j+`">`+j+`</div>
-                                                <div class="col-lg-3" id="`+j+`_price">`+getrupiah(price_arr_repricing[j].Fare + price_arr_repricing[j].Tax)+`</div>
-                                                <div class="col-lg-3" id="`+j+`_repricing">-</div>
-                                                <div class="col-lg-3" id="`+j+`_total">`+getrupiah(price_arr_repricing[j].Fare + price_arr_repricing[j].Tax)+`</div>
+                                    for(k in price_arr_repricing){
+                                        for(l in price_arr_repricing[k]){
+                                            text_repricing += `
+                                            <div class="col-lg-12">
+                                                <div style="padding:5px;" class="row" id="adult">
+                                                    <div class="col-lg-3" id="`+l+`_`+k+`">`+l+`</div>
+                                                    <div class="col-lg-3" id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
+                                                    if(price_arr_repricing[k][l].Repricing == 0)
+                                                        text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">-</div>`;
+                                                    else
+                                                        text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
+                                                    text_repricing+=`<div class="col-lg-3" id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
+                                                </div>
+                                            </div>`;
+                                        }
+                                    }
+                                    //
+                                    if(msg.result.response.hasOwnProperty('agent_nta') == true){
+                                        total_nta = 0;
+                                        total_nta = msg.result.response.agent_nta;
+                                        text_repricing+=`<div class="row">
+                                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                            <span style="font-size:13px; font-weight:bold;">Agent NTA</span>
+                                        </div>
+                                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                            <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
+                                        </div>
+                                    </div>`;
+                                    }
+                                    if(msg.result.response.hasOwnProperty('total_nta') == true){
+                                        total_nta = 0;
+                                        total_nta = msg.result.response.total_nta;
+                                        text_repricing+=`<div class="row">
+                                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                            <span style="font-size:13px; font-weight:bold;">HO NTA</span>
+                                        </div>
+                                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                            <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
+                                        </div>
+                                    </div>`;
+                                    }
+                                    if(msg.result.response.hasOwnProperty('booker_insentif') == true){
+                                        booker_insentif = 0;
+                                        booker_insentif = msg.result.response.booker_insentif;
+                                        text_repricing+=`<div class="row">
+                                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                            <span style="font-size:13px; font-weight:bold;">Booker Insentif</span>
+                                        </div>
+                                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                            <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(booker_insentif)+`</span>
+                                        </div>
+                                    </div>`;
+                                    }
+                                    if(commission == 0){
+                                        text_repricing+=`
+                                        <div class="row">
+                                            <div class="col-lg-12 col-xs-12" style="text-align:left;">
+                                                <span style="font-size:13px; color:red;">* Please mark up the price first</span>
                                             </div>
                                         </div>`;
                                     }
+                                    //
+
                                     //booker
                                     booker_insentif = '-';
                                     if(msg.result.response.hasOwnProperty('booker_insentif'))
@@ -1485,31 +1530,31 @@ function visa_get_data(data){
 function update_service_charge(type){
     repricing_order_number = '';
     if(type == 'booking'){
-        upsell = []
+        upsell = [];
+        currency = '';
         for(i in visa.passengers){
-            for(j in visa.passengers[i].sale_service_charges){
-                currency = visa.passengers[i].sale_service_charges[j].TOTAL.currency;
-            }
-            list_price = []
-            for(j in list){
-                if(visa.passengers[i].first_name + ' ' + visa.passengers[i].last_name == document.getElementById('selection_pax'+j).value){
-                    list_price.push({
-                        'amount': list[j],
-                        'currency_code': currency
-                    });
+            if(currency == '')
+                for(j in visa.passengers[i].sale_service_charges){
+                    currency = visa.passengers[i].sale_service_charges[j].TOTAL.currency;
+                    break;
                 }
-
+            list_price = []
+            if(document.getElementById(visa.passengers[i].name+'_repricing').innerHTML != '-' && document.getElementById(visa.passengers[i].name+'_repricing').innerHTML != '0'){
+                list_price.push({
+                    'amount': parseInt(document.getElementById(visa.passengers[i].name+'_repricing').innerHTML.split(',').join('')),
+                    'currency_code': currency
+                });
+                upsell.push({
+                    'sequence': visa.passengers[i].sequence,
+                    'pricing': JSON.parse(JSON.stringify(list_price))
+                });
             }
-            upsell.push({
-                'sequence': visa.passengers[i].sequence,
-                'pricing': JSON.parse(JSON.stringify(list_price))
-            });
         }
         repricing_order_number = visa.journey.name;
     }else{
         upsell_price = 0;
         upsell = []
-        counter_pax = -1;
+        counter_pax = 0;
         for(j in visa.list_of_visa[0].service_charges){
             currency = visa.list_of_visa[0].service_charges[j].currency;
             break
@@ -1517,24 +1562,22 @@ function update_service_charge(type){
         for(i in passenger){
             list_price = []
             if(i != 'booker' && i != 'contact'){
-                for(j in list){
-                    for(k in passenger[i]){
-                        if(passenger[i][k].first_name+passenger[i][k].last_name == document.getElementById('selection_pax'+j).value){
-                            list_price.push({
-                                'amount': list[j],
-                                'currency_code': currency
-                            });
-                            upsell_price += list[j];
-                        }
+                for(k in passenger[i]){
+                    if(document.getElementById(passenger[i][k].first_name+passenger[i][k].last_name+'_repricing').innerHTML != '-' && document.getElementById(passenger[i][k].first_name+passenger[i][k].last_name+'_repricing').innerHTML != '0'){
+                        list_price.push({
+                            'amount': parseInt(document.getElementById(passenger[i][k].first_name+passenger[i][k].last_name+'_repricing').innerHTML.split(',').join('')),
+                            'currency_code': currency
+                        });
+                        upsell_price += parseInt(document.getElementById(passenger[i][k].first_name+passenger[i][k].last_name+'_repricing').innerHTML.split(',').join(''));
+                        upsell.push({
+                            'sequence': counter_pax,
+                            'pricing': JSON.parse(JSON.stringify(list_price))
+                        });
+                        list_price = [];
                     }
+                    counter_pax++;
                 }
-                counter_pax++;
             }
-            if(list_price.length != 0)
-                upsell.push({
-                    'sequence': counter_pax,
-                    'pricing': JSON.parse(JSON.stringify(list_price))
-                });
         }
     }
     $.ajax({
