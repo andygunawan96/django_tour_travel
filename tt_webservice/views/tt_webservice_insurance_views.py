@@ -46,19 +46,6 @@ month = {
 
 }
 
-cabin_class_list = {
-    'All': 'ALL',
-    'Y': 'Economy',
-    'W': 'Premium Economy',
-    'C': 'Business',
-    'F': 'First',
-    'ALL': 'All',
-    'Economy': 'Y',
-    'Premium': 'W',
-    'Business': 'C',
-    'First': 'F',
-}
-
 @api_view(['GET', 'POST'])
 def api_models(request):
     try:
@@ -93,6 +80,10 @@ def api_models(request):
             res = issued(request)
         elif req_data['action'] == 'cancel':
             res = cancel(request)
+        elif req_data['action'] == 'update_service_charge':
+            res = update_service_charge(request)
+        elif req_data['action'] == 'booker_insentif_booking':
+            res = booker_insentif_booking(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -624,6 +615,72 @@ def cancel(request):
             _logger.info("SUCCESS cancel INSURANCE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR cancel_insurance INSURANCE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def update_service_charge(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        data = {
+            'order_number': json.loads(request.POST['order_number']),
+            'passengers': json.loads(request.POST['passengers'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "pricing_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/insurance'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            total_upsell = 0
+            for upsell in data['passengers']:
+                for pricing in upsell['pricing']:
+                    total_upsell += int(pricing['amount'])
+            set_session(request, 'insurance_upsell_'+request.POST['signature'], total_upsell)
+            _logger.info(json.dumps(request.session['insurance_upsell_' + request.POST['signature']]))
+            _logger.info("SUCCESS update_service_charge INSURANCE SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR update_service_charge INSURANCE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def booker_insentif_booking(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        data = {
+            'order_number': json.loads(request.POST['order_number']),
+            'booker': json.loads(request.POST['booker'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "booker_insentif_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/insurance'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            total_upsell = 0
+            for upsell in data['passengers']:
+                for pricing in upsell['pricing']:
+                    total_upsell += pricing['amount']
+            set_session(request, 'insurance_upsell_booker_'+request.POST['signature'], total_upsell)
+            _logger.info(json.dumps(request.session['insurance_upsell_booker_' + request.POST['signature']]))
+            _logger.info("SUCCESS update_service_charge_booker INSURANCE SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR update_service_charge_hotel_booker INSURANCE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

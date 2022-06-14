@@ -1392,10 +1392,13 @@ function update_service_charge(type){
     repricing_order_number = '';
     if(type == 'booking'){
         upsell = []
+        currency = '';
         for(i in passport.passengers){
-            for(j in passport.passengers[i].sale_service_charges){
-                currency = passport.passengers[i].sale_service_charges[j].TOTAL.currency;
-            }
+            if(currency == '')
+                for(j in passport.passengers[i].sale_service_charges){
+                    currency = passport.passengers[i].sale_service_charges[j].TOTAL.currency;
+                    break;
+                }
             list_price = []
             for(j in list){
                 if(passport.passengers[i].first_name + ' ' + passport.passengers[i].last_name == document.getElementById('selection_pax'+j).value){

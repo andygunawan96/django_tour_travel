@@ -1902,20 +1902,16 @@ function hotel_detail(old_cancellation_policy){
         service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
         type_amount_repricing = ['Repricing'];
         for(i in adult){
-            pax_type_repricing.push([adult[i].first_name +adult[i].last_name, adult[i].first_name +adult[i].last_name]);
-            price_arr_repricing[adult[i].first_name +adult[i].last_name] = {
+            if(price_arr_repricing.hasOwnProperty('Reservation') == false){
+                price_arr_repricing['Reservation'] = {}
+                pax_type_repricing.push(['Reservation', 'Reservation']);
+            }
+            price_arr_repricing['Reservation']['Reservation'] = {
                 'Fare': 0,
                 'Tax': 0,
                 'Repricing': 0
             }
-        }
-        for(i in child){
-            pax_type_repricing.push([child[i].first_name +child[i].last_name, child[i].first_name +child[i].last_name]);
-            price_arr_repricing[child[i].first_name +child[i].last_name] = {
-                'Fare': 0,
-                'Tax': 0,
-                'Repricing': 0
-            }
+            break;
         }
         //repricing
         text_repricing = `
@@ -1926,18 +1922,20 @@ function hotel_detail(old_cancellation_policy){
             </div>
         </div>`;
         for(k in price_arr_repricing){
-           text_repricing += `
-           <div class="col-lg-12">
-                <div style="padding:5px;" class="row" id="adult">
-                    <div class="col-lg-6" id="`+i+`_`+k+`">`+k+`</div>
-                    <div hidden id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
-                    if(price_arr_repricing[k].Repricing == 0)
-                    text_repricing+=`<div class="col-lg-6" id="`+k+`_repricing">-</div>`;
-                    else
-                    text_repricing+=`<div class="col-lg-6" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
-                    text_repricing+=`<div hidden id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
-                </div>
-            </div>`;
+            for(l in price_arr_repricing[k]){
+                text_repricing += `
+                <div class="col-lg-12">
+                    <div style="padding:5px;" class="row" id="adult">
+                        <div class="col-lg-6" id="`+l+`_`+k+`">`+l+`</div>
+                        <div hidden id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
+                        if(price_arr_repricing[k][l].Repricing == 0)
+                            text_repricing+=`<div class="col-lg-6" id="`+l+`_repricing">-</div>`;
+                        else
+                            text_repricing+=`<div class="col-lg-6" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
+                        text_repricing+=`<div hidden id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
+                    </div>
+                </div>`;
+            }
         }
         text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
         document.getElementById('repricing_div').innerHTML = text_repricing;
@@ -2931,7 +2929,7 @@ function render_room_hotel(data_room_hotel_list){
             var cnt_img = 0;
 
             //untuk image
-            text+=`<div class="col-lg-3 col-md-3 mb-3">`;
+            text+=`<div class="col-lg-3 col-md-3">`;
             if(idx_img_room == 1){
                 text+=`<div class="owl-carousel-room-img owl-theme" style="text-align:center;">`;
                 for (var counter = 0; counter < img_dict.length; counter++) {
@@ -2939,7 +2937,7 @@ function render_room_hotel(data_room_hotel_list){
                         if (cnt_img > 0) {
                             text+=`
                             <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
-                            <img class="img-hotel-detail" src="`+current_url+`" style="border:1px solid #cdcdcd; max-height:300px;" alt="Room Hotel" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="margin: auto; max-height:500px; width:unset;">
+                            <img class="img-hotel-detail" src="`+current_url+`" style="border:1px solid #cdcdcd; width:100%; height:175px; object-fit:cover;" alt="Room Hotel" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="margin: auto; max-height:500px; width:unset;">
                             </div>`;
                         }
                         current_url = encodeURI(img_dict[counter][1]);
@@ -2952,12 +2950,12 @@ function render_room_hotel(data_room_hotel_list){
                 if (cnt_img > 0) {
                     text+=`
                     <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
-                    <img class="img-hotel-detail" src="`+current_url+`" style="border:1px solid #cdcdcd; max-height:300px;" alt="Room Hotel" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="margin: auto; max-height:500px; width:unset;">
+                    <img class="img-hotel-detail" src="`+current_url+`" style="border:1px solid #cdcdcd; width:100%; height:175px; object-fit:cover;" alt="Room Hotel" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="margin: auto; max-height:500px; width:unset;">
                     </div>`;
                 }
                 text+=`</div>`;
             }else{
-                text+=`<div class="img-hotel-detail" style="background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg'); border:1px solid #cdcdcd; max-height:300px;"></div>`;
+                text+=`<div class="img-hotel-detail" style="background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg'); border:1px solid #cdcdcd; width:100%; height:175px; object-fit:cover;"></div>`;
             }
             text+=`</div>`;
 
@@ -3022,12 +3020,12 @@ function render_room_hotel(data_room_hotel_list){
                         }
                         if (data_room_hotel_list[i].availability == 'available'){
                             if(hotel_room_detail_pick != null  && hotel_room_detail_pick == i){
-                                text+=`<button class="primary-btn-custom-un" type="button" onclick="hotel_room_pick(`+i+`,`+j+`);" id="button`+i+`">Chosen</button>`;
+                                text+=`<button class="primary-btn-custom-un" style="margin-bottom:unset;" type="button" onclick="hotel_room_pick(`+i+`,`+j+`);" id="button`+i+`">Chosen</button>`;
                             }else{
-                                text+=`<button class="primary-btn-custom" type="button" onclick="hotel_room_pick(`+i+`,`+j+`);" id="button`+i+`">Choose</button>`;
+                                text+=`<button class="primary-btn-custom" style="margin-bottom:unset;" type="button" onclick="hotel_room_pick(`+i+`,`+j+`);" id="button`+i+`">Choose</button>`;
                             }
                         } else {
-                            text+=`<button class="primary-btn-custom-un" type="button" style="color:green;" disabled="1"><i class="fa fa-phone-alt" style="margin-top:5px;"/> On Request</button>`;
+                            text+=`<button class="primary-btn-custom-un" style="margin-bottom:unset;" type="button" style="color:green;" disabled="1"><i class="fa fa-phone-alt" style="margin-top:5px;"/> On Request</button>`;
                         }
                         idx = 1;
                     }
@@ -3043,6 +3041,51 @@ function render_room_hotel(data_room_hotel_list){
             hotel_print++;
         }
     }
+
+    if(hotel_print != 0){
+        var items = $(".detail-hotel-box");
+        var numItems = items.length;
+        var perPage = 8;
+        items.slice(perPage).hide();
+
+        $('#pagination-container').pagination({
+            items: numItems,
+            itemsOnPage: perPage,
+            prevText: "<i class='fas fa-angle-left'/>",
+            nextText: "<i class='fas fa-angle-right'/>",
+            onPageClick: function (pageNumber) {
+                var showFrom = perPage * (pageNumber - 1);
+                var showTo = showFrom + perPage;
+                items.hide().slice(showFrom, showTo).show();
+                $('#pagination-container2').pagination('drawPage', pageNumber);
+            }
+        });
+
+        $('#pagination-container2').pagination({
+            items: numItems,
+            itemsOnPage: perPage,
+            prevText: "<i class='fas fa-angle-left'/>",
+            nextText: "<i class='fas fa-angle-right'/>",
+            onPageClick: function (pageNumber) {
+                var showFrom = perPage * (pageNumber - 1);
+                var showTo = showFrom + perPage;
+                items.hide().slice(showFrom, showTo).show();
+                $('#pagination-container').pagination('drawPage', pageNumber);
+            }
+        });
+        $('#pagination-container').show();
+        $('#pagination-container2').show();
+    }else{
+        document.getElementById('detail_room_pick').innerHTML = `
+        <div style="padding:5px; margin:10px;">
+            <div style="text-align:center">
+                <img src="/static/tt_website_rodextrip/images/nofound/no-hotel.png" style="width:60px; height:60px;" alt="Hotel Not Found" title="" />
+                <br/><br/>
+                <span style="font-size:14px; font-weight:600;">Oops! Room not found.</span>
+            </div>
+        </div>`;
+    }
+
     document.getElementById('total_room_hotel').innerHTML = `Room - `+hotel_print+` results`;
     is_first_render_room_hotel = false;
     $('.zoom-img').wrap('<span style="display:inline-block"></span>').css('display', 'block').parent().zoom({ on:'click' });

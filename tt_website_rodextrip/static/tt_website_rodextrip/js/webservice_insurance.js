@@ -2914,23 +2914,14 @@ function insurance_get_booking(data, sync=false){
                             }
                             //repricing
                             check = 0;
-                            for(k in pax_type_repricing){
-                                if(pax_type_repricing[k][0] == msg.result.response.passengers[j].name)
-                                    check = 1;
+                            if(price_arr_repricing.hasOwnProperty(msg.result.response.passengers[j].pax_type) == false){
+                                price_arr_repricing[msg.result.response.passengers[j].pax_type] = {}
+                                pax_type_repricing.push([msg.result.response.passengers[j].pax_type, msg.result.response.passengers[j].pax_type]);
                             }
-                            if(check == 0){
-                                pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
-                                price_arr_repricing[msg.result.response.passengers[j].name] = {
-                                    'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                                    'Tax': price['TAX'] + price['ROC'],
-                                    'Repricing': price['CSC']
-                                }
-                            }else{
-                                price_arr_repricing[msg.result.response.passengers[j].name] = {
-                                    'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'] + price['SEAT'],
-                                    'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
-                                    'Repricing': price['CSC']
-                                }
+                            price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name] = {
+                                'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
+                                'Tax': price['TAX'] + price['ROC'],
+                                'Repricing': price['CSC']
                             }
                             text_repricing = `
                             <div class="col-lg-12">
@@ -2942,18 +2933,20 @@ function insurance_get_booking(data, sync=false){
                                 </div>
                             </div>`;
                             for(k in price_arr_repricing){
-                               text_repricing += `
-                               <div class="col-lg-12">
-                                    <div style="padding:5px;" class="row" id="adult">
-                                        <div class="col-lg-3" id="`+j+`_`+k+`">`+k+`</div>
-                                        <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
-                                        if(price_arr_repricing[k].Repricing == 0)
-                                        text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
-                                        else
-                                        text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
-                                        text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
-                                    </div>
-                                </div>`;
+                                for(l in price_arr_repricing[k]){
+                                    text_repricing += `
+                                    <div class="col-lg-12">
+                                        <div style="padding:5px;" class="row" id="adult">
+                                            <div class="col-lg-3" id="`+j+`_`+k+`">`+l+`</div>
+                                            <div class="col-lg-3" id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
+                                            if(price_arr_repricing[k][l].Repricing == 0)
+                                                text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">-</div>`;
+                                            else
+                                                text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
+                                            text_repricing+=`<div class="col-lg-3" id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
+                                        </div>
+                                    </div>`;
+                                }
                             }
                             //booker
                             booker_insentif = '-';
@@ -5248,4 +5241,240 @@ function upload_image(){
             document.getElementById('update_passenger_customer').disabled = false;
        }
     });
+}
+
+function update_service_charge(type){
+    repricing_order_number = '';
+    if(type == 'booking'){
+        document.getElementById('hotel_booking').innerHTML = '';
+        upsell = []
+        currency = '';
+        for(i in insurance_get_detail.result.response.passengers){
+            if(currency == '')
+                for(j in insurance_get_detail.result.response.passengers[i].sale_service_charges){
+                    currency = insurance_get_detail.result.response.passengers[i].sale_service_charges[j].FARE.currency;
+                    break;
+                }
+            list_price = []
+            if(document.getElementById(insurance_get_detail.result.response.passengers[i].name+'_repricing').innerHTML != '-' && document.getElementById(insurance_get_detail.result.response.passengers[i].name+'_repricing').innerHTML != '0'){
+                list_price.push({
+                    'amount': parseInt(document.getElementById(insurance_get_detail.result.response.passengers[i].name+'_repricing').innerHTML.split(',').join('')),
+                    'currency_code': currency
+                });
+                upsell.push({
+                    'sequence': insurance_get_detail.result.response.passengers[i].sequence,
+                    'pricing': JSON.parse(JSON.stringify(list_price))
+                });
+            }
+        }
+        repricing_order_number = hotel_get_detail.result.response.booking_name;
+    }else{
+        upsell_price = 0;
+        upsell = []
+        counter_pax = 0;
+        currency = 'IDR';
+        for(i in adult){
+            list_price = []
+            if(document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML != '-' && document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML != '0'){
+                list_price.push({
+                    'amount': parseInt(document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML.split(',').join('')),
+                    'currency_code': currency
+                });
+                upsell_price += parseInt(document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML.split(',').join(''));
+                upsell.push({
+                    'sequence': counter_pax,
+                    'pricing': JSON.parse(JSON.stringify(list_price))
+                });
+            }
+            counter_pax++;
+        }
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/hotel",
+       headers:{
+            'action': 'update_service_charge',
+       },
+       data: {
+           'order_number': JSON.stringify(repricing_order_number),
+           'passengers': JSON.stringify(upsell),
+           'signature': signature
+       },
+       success: function(msg) {
+           if(msg.result.error_code == 0){
+                if(type == 'booking'){
+                    please_wait_transaction();
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    hotel_get_booking(repricing_order_number);
+                }else{
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    hotel_detail();
+                }
+
+                $('#myModalRepricing').modal('hide');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error hotel service charge </span>' + msg.result.error_msg,
+                })
+                $('.loader-rodextrip').fadeOut();
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel service charge');
+            $('.loader-rodextrip').fadeOut();
+       },timeout: 60000
+    });
+
+}
+
+function update_service_charge(type){
+    repricing_order_number = '';
+    if(type == 'booking'){
+        document.getElementById('insurance_booking').innerHTML = '';
+        upsell = []
+        for(i in insurance_get_detail.result.response.passengers){
+            for(j in insurance_get_detail.result.response.passengers[i].sale_service_charges){
+                currency = insurance_get_detail.result.response.passengers[i].sale_service_charges[j].FARE.currency;
+                break;
+            }
+            list_price = []
+            if(document.getElementById(insurance_get_detail.result.response.passengers[i].name+'_repricing').innerHTML != '-' && document.getElementById(insurance_get_detail.result.response.passengers[i].name+'_repricing').innerHTML != '0'){
+                list_price.push({
+                    'amount': parseInt(document.getElementById(insurance_get_detail.result.response.passengers[i].name+'_repricing').innerHTML.split(',').join('')),
+                    'currency_code': currency
+                });
+                upsell.push({
+                    'sequence': insurance_get_detail.result.response.passengers[i].sequence,
+                    'pricing': JSON.parse(JSON.stringify(list_price))
+                });
+            }
+        }
+        repricing_order_number = insurance_get_detail.result.response.order_number;
+    }else{
+        //BELUM DI TEST
+        upsell_price = 0;
+        upsell = []
+        counter_pax = 0;
+        currency = 'IDR';
+        for(i in adult){
+            list_price = []
+            if(document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML != '-' && document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML != '0'){
+                list_price.push({
+                    'amount': parseInt(document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML.split(',').join('')),
+                    'currency_code': currency
+                });
+                upsell_price += parseInt(document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML.split(',').join(''));
+                upsell.push({
+                    'sequence': counter_pax,
+                    'pricing': JSON.parse(JSON.stringify(list_price))
+                });
+            }
+            counter_pax++;
+        }
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/insurance",
+       headers:{
+            'action': 'update_service_charge',
+       },
+       data: {
+           'order_number': JSON.stringify(repricing_order_number),
+           'passengers': JSON.stringify(upsell),
+           'signature': signature
+       },
+       success: function(msg) {
+           if(msg.result.error_code == 0){
+                if(type == 'booking'){
+                    please_wait_transaction();
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    insurance_get_booking(repricing_order_number);
+                }else{
+                    //BELUM DI TEST
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    insurance_detail();
+                }
+
+                $('#myModalRepricing').modal('hide');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error insurance service charge </span>' + msg.result.error_msg,
+                })
+                $('.loader-rodextrip').fadeOut();
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error insurance service charge');
+            $('.loader-rodextrip').fadeOut();
+       },timeout: 60000
+    });
+
+}
+
+function update_insentif_booker(type){
+    repricing_order_number = '';
+    if(type == 'booking'){
+        booker_insentif = {}
+        total_price = 0
+        for(j in list){
+            total_price += list[j];
+        }
+        booker_insentif = {
+            'amount': total_price
+        };
+        repricing_order_number = order_number;
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/insurance",
+       headers:{
+            'action': 'booker_insentif_booking',
+       },
+       data: {
+           'order_number': JSON.stringify(repricing_order_number),
+           'booker': JSON.stringify(booker_insentif),
+           'signature': signature
+       },
+       success: function(msg) {
+           if(msg.result.error_code == 0){
+                try{
+                    if(type == 'booking'){
+                        please_wait_transaction();
+                        insurance_get_booking(repricing_order_number);
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
+                    }
+                }catch(err){
+                    console.log(err); // error kalau ada element yg tidak ada
+                }
+                $('#myModalRepricing').modal('hide');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error insurance update booker insentif </span>' + msg.result.error_msg,
+                })
+                $('.loader-rodextrip').fadeOut();
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error insurance update booker insentif');
+            $('.loader-rodextrip').fadeOut();
+       },timeout: 60000
+    });
+
 }

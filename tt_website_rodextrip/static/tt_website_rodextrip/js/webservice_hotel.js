@@ -731,6 +731,7 @@ function hotel_detail_request(checkin_date, checkout_date){
                 var result = msg.result.response;
                 text='';
                 text2='';
+                text_filter = '';
                 var node2 = document.createElement("div");
                 if(typeof result.prices === "undefined"){
                     //alert("There's no room in this hotel!");
@@ -747,21 +748,25 @@ function hotel_detail_request(checkin_date, checkout_date){
                         if(provider_list.includes(result.prices[i].provider) == false)
                             provider_list.push(result.prices[i].provider);
                     }
-                    text2+=`
+                    text_filter+=`
                     <div class="row">
-
-                        <div class="col-lg-3">
-                            <h6>Show All</h6>
+                        <div class="col-lg-12">
+                            <h6 class="mb-2">Show All</h6>
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="color:black;">All</span>
+                                    <span class="span-search-ticket" style="color:black;">Select All</span>
                                     <input type="checkbox" id="checkbox_room_all" onclick="filter_room_hotel('','');">
                                     <span class="check_box_span_custom"></span>
-                                </label><br>
+                                </label>
                             </div>
                         </div>
-                        <div class="col-lg-3">
-                            <h6>Meal Type</h6>
+                    </div>`;
+
+                    text_filter+=`
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <hr/>
+                            <h6 class="mb-2">Meal Type</h6>
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
                                     <span class="span-search-ticket" style="color:black;">Room Only</span>
@@ -776,9 +781,14 @@ function hotel_detail_request(checkin_date, checkout_date){
                                     <span class="check_box_span_custom"></span>
                                 </label><br>
                             </div>
+                            <hr/>
                         </div>
-                        <div class="col-lg-3">
-                            <h6>Room Type</h6>
+                    </div>`;
+
+                    text_filter+=`
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h6 class="mb-2">Room Type</h6>
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
                                     <span class="span-search-ticket" style="color:black;">Single</span>
@@ -814,11 +824,16 @@ function hotel_detail_request(checkin_date, checkout_date){
                                     <span class="check_box_span_custom"></span>
                                 </label><br>
                             </div>
+                            <hr/>
                         </div>
-                        <div class="col-lg-3">
-                            <h6>Provider</h6>`;
+                    </div>`;
+
+                    text_filter+=`
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h6 class="mb-2">Provider</h6>`;
                         for(i in provider_list){
-                            text2+=`
+                            text_filter+=`
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
                                     <span class="span-search-ticket" style="color:black;">`+provider_list[i]+`</span>
@@ -827,8 +842,12 @@ function hotel_detail_request(checkin_date, checkout_date){
                                 </label><br>
                             </div>`;
                         }
-                        text2+=`
+                        text_filter+=`
                         </div>
+                    </div>`;
+
+                    text2+=`
+                    <div class="row">
                         <div class="col-lg-6">
                             <span style="font-size:14px; font-weight:bold;" id="total_room_hotel"></span>
                         </div>
@@ -844,6 +863,8 @@ function hotel_detail_request(checkin_date, checkout_date){
                     node2.innerHTML = text2;
                     document.getElementById("select_copy_all").appendChild(node2);
                     node2 = document.createElement("div");
+
+                    document.getElementById("filterRoom_generalShow").innerHTML = text_filter;
 
                     result_room_detail = result;
                     hotel_price = result.prices;
@@ -2606,14 +2627,19 @@ function hotel_get_booking(data){
                                     total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.DISC);
                                 }
                                 commission += parseInt(price.RAC);
+                                break; //harga hanya di pax 1 agar price tidak ter reset
                             }
                             for(j in msg.result.response.passengers){
-                                pax_type_repricing.push([msg.result.response.passengers[j].title+' '+msg.result.response.passengers[j].first_name+' '+msg.result.response.passengers[j].last_name, msg.result.response.passengers[j].title+' '+msg.result.response.passengers[j].first_name+' '+msg.result.response.passengers[j].last_name]);
-                                price_arr_repricing[msg.result.response.passengers[j].title+' '+msg.result.response.passengers[j].first_name+' '+msg.result.response.passengers[j].last_name] = {
-                                    'Fare': (price['FARE']/msg.result.response.passengers.length/msg.result.response.hotel_rooms.length) + price['SSR'] + price['DISC'],
+                                if(price_arr_repricing.hasOwnProperty('Reservation') == false){
+                                    price_arr_repricing['Reservation'] = {}
+                                }
+                                pax_type_repricing.push(['Reservation', 'Reservation']);
+                                price_arr_repricing['Reservation']['Reservation'] = {
+                                    'Fare': (price['FARE']) + price['SSR'] + price['DISC'],
                                     'Tax': price['TAX'] + price['ROC'],
                                     'Repricing': price['CSC']
                                 }
+                                break; // upsell per reservasi
                             }
 
                             text_repricing = `
@@ -2625,19 +2651,21 @@ function hotel_get_booking(data){
                                     <div class="col-lg-3">Total</div>
                                 </div>
                             </div>`;
-                            for(j in price_arr_repricing){
-                               text_repricing += `
-                               <div class="col-lg-12">
-                                    <div style="padding:5px;" class="row" id="adult">
-                                        <div class="col-lg-3" id="`+i+`_`+j+`">`+j+`</div>
-                                        <div class="col-lg-3" id="`+j+`_price">`+getrupiah(price_arr_repricing[j].Fare + price_arr_repricing[j].Tax)+`</div>`;
-                                        if(price_arr_repricing[j].Repricing == 0)
-                                        text_repricing+=`<div class="col-lg-3" id="`+j+`_repricing">-</div>`;
-                                        else
-                                        text_repricing+=`<div class="col-lg-3" id="`+j+`_repricing">`+getrupiah(price_arr_repricing[j].Repricing)+`</div>`;
-                                        text_repricing+=`<div class="col-lg-3" id="`+j+`_total">`+getrupiah(price_arr_repricing[j].Fare + price_arr_repricing[j].Tax + price_arr_repricing[j].Repricing)+`</div>
-                                    </div>
-                                </div>`;
+                            for(k in price_arr_repricing){
+                                for(l in price_arr_repricing[k]){
+                                    text_repricing += `
+                                    <div class="col-lg-12">
+                                        <div style="padding:5px;" class="row" id="adult">
+                                            <div class="col-lg-3" id="`+l+`_`+k+`">`+l+`</div>
+                                            <div class="col-lg-3" id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
+                                            if(price_arr_repricing[k][l].Repricing == 0)
+                                                text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">-</div>`;
+                                            else
+                                                text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
+                                            text_repricing+=`<div class="col-lg-3" id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
+                                        </div>
+                                    </div>`;
+                                }
                             }
                             //booker
                             booker_insentif = '-';
@@ -3107,65 +3135,43 @@ function update_service_charge(type){
     if(type == 'booking'){
         document.getElementById('hotel_booking').innerHTML = '';
         upsell = []
+        currency = '';
         for(i in hotel_get_detail.result.response.hotel_rooms){
             currency = hotel_get_detail.result.response.hotel_rooms[i].currency;
+            break;
         }
-        for(i in hotel_get_detail.result.response.passengers){
-            list_price = []
-            for(j in list){
-                if(hotel_get_detail.result.response.passengers[i].title + ' ' + hotel_get_detail.result.response.passengers[i].first_name + ' ' + hotel_get_detail.result.response.passengers[i].last_name == document.getElementById('selection_pax'+j).value){
-                    list_price.push({
-                        'amount': list[j],
-                        'currency_code': currency
-                    });
-                }
-
-            }
+        list_price = []
+        if(document.getElementById('Reservation_repricing').innerHTML != '-' && document.getElementById('Reservation_repricing').innerHTML != '0'){
+            list_price.push({
+                'amount': parseInt(document.getElementById('Reservation_repricing').innerHTML.split(',').join('')),
+                'currency_code': currency
+            });
             upsell.push({
-                'sequence': parseInt(i),
+                'sequence': 0,
                 'pricing': JSON.parse(JSON.stringify(list_price))
             });
         }
-        repricing_order_number = hotel_get_detail.result.response.booking_name;
+        repricing_order_number = hotel_get_detail.result.response.order_number;
     }else{
         upsell_price = 0;
         upsell = []
-        counter_pax = -1;
+        counter_pax = 0;
         currency = 'IDR';
         for(i in adult){
             list_price = []
-            for(j in list){
-                if(adult[i].first_name+adult[i].last_name == document.getElementById('selection_pax'+j).value){
-                    list_price.push({
-                        'amount': list[j],
-                        'currency_code': currency
-                    });
-                    upsell_price += list[j];
-                }
-            }
-            counter_pax++;
-            if(list_price.length != 0)
+            if(document.getElementById('Reservation_repricing').innerHTML != '-' && document.getElementById('Reservation_repricing').innerHTML != '0'){
+                list_price.push({
+                    'amount': parseInt(document.getElementById('Reservation_repricing').innerHTML.split(',').join('')),
+                    'currency_code': currency
+                });
+                upsell_price += parseInt(document.getElementById('Reservation_repricing').innerHTML.split(',').join(''));
                 upsell.push({
                     'sequence': counter_pax,
                     'pricing': JSON.parse(JSON.stringify(list_price))
                 });
-        }
-        for(i in child){
-            for(j in list){
-                if(child[i].first_name+child[i].last_name == document.getElementById('selection_pax'+j).value){
-                    list_price.push({
-                        'amount': list[j],
-                        'currency_code': currency
-                    });
-                    upsell_price += list[j];
-                }
             }
             counter_pax++;
-            if(list_price.length != 0)
-                upsell.push({
-                    'sequence': counter_pax,
-                    'pricing': JSON.parse(JSON.stringify(list_price))
-                });
+            break; //upsell per reservasi
         }
     }
     $.ajax({
