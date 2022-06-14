@@ -6234,37 +6234,38 @@ function get_airline_review(){
         <div class="col-lg-12">
             <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 mb-2">
                         <h4>Seat & SSR</h4>
                     </div>
-                    <div class="col-lg-6">
-                        <button type="button" class="primary-btn-white hold-seat-booking-train ld-ext-right" id="btn-search-train" onclick="window.location.href = '/airline/passenger/`+signature+`';" style="width:100%;">
+                    <div class="col-lg-6 mb-2" style="text-align:right;">
+                        <button type="button" class="primary-btn-white hold-seat-booking-train ld-ext-right" style="width:unset; margin-bottom:unset;" id="btn-search-train" onclick="window.location.href = '/airline/passenger/`+signature+`';" style="width:100%;">
                             Edit Passenger <i class="fas fa-user-edit"></i>
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>
                     </div>
                 </div>
-                <hr/>
-                <div class="row">`;
+                <div class="row" style="padding:5px;">`;
                     count_pax = 0;
                     for(i in passengers_ssr){
                         text+=`
-                            <div class="col-lg-12">
-                            <h5>`+(parseInt(count_pax)+1)+`.
+                            <div class="col-lg-12 mb-2" style="padding-top:15px; border-top:1px solid #cdcdcd;">
+                            <h5>
+                            <span style="color:`+color+`;">`+(parseInt(count_pax)+1)+`.</span>
                             `+passengers_ssr[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name+`</h5>`;
                             text+=`</div>
                             <div class="col-lg-12">`;
-                            if(passengers_ssr[i].pax_type == 'ADT')
-                                text += `<b>Adult - </b>`;
-                            else
-                                text += `<b>Child - </b>`;
+//                            if(passengers_ssr[i].pax_type == 'ADT')
+//                                text += `<b>Adult - </b>`;
+//                            else
+//                                text += `<b>Child - </b>`;
                             text+=`
-                            Birth Date: <b>`+passengers_ssr[i].birth_date+`</b></div>`;
+                            <b>Birth Date:</b> <i>`+passengers_ssr[i].birth_date+`</i></div>`;
                             if(passengers_ssr[i].identity_type)
                             text+=`
                             <div class="col-lg-12">
-                            `+passengers_ssr[i].identity_type.substr(0,1).toUpperCase()+passengers_ssr[i].identity_type.substr(1,passengers_ssr[i].identity_type.length)+`: <b>`+passengers_ssr[i].identity_number+`</b></div>
-                            <div class="col-lg-12">`;
+                                <b>`+passengers_ssr[i].identity_type.substr(0,1).toUpperCase()+passengers_ssr[i].identity_type.substr(1,passengers_ssr[i].identity_type.length)+`</b>: <i>`+passengers_ssr[i].identity_number+`</i>
+                            </div>
+                            <div class="col-lg-12" style="padding-bottom:15px;">`;
                             try{
                                 for(j in passengers_ssr[i].ff_numbers){
                                     text+= `<label>`+passengers_ssr[i].ff_numbers[j].ff_code+`: `+passengers_ssr[i].ff_numbers[j].ff_number+`</label><br/>`;
@@ -6272,21 +6273,12 @@ function get_airline_review(){
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
-
                             if(passengers_ssr[i].hasOwnProperty('behaviors') && Object.keys(passengers_ssr[i].behaviors).length > 0){
-                                text+=`<b>Behaviors:</b><br/>`;
-                                for(j in passengers_ssr[i].behaviors){
-                                    if(j.toLowerCase() == 'airline'){
-                                        text+=`<i>`+j+`</i><br/>`;
-                                        for(k in passengers_ssr[i].behaviors[j]){
-                                            text+=`<span><i>`+k+`: </i><b>`+passengers_ssr[i].behaviors[j][k].value+`</b></span><br/>`;
-                                        }
-                                    }
-                                }
+                                text+=`<label id="pop_behaviors`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behaviors <i class="fas fa-chevron-down"></i></label>`;
                             }
 
                             if(passengers_ssr[i].ssr_list.length){
-                                text+=`<h6 style="color:`+color+`;">SSR</h6>`;
+                                text+=`<br/><b>SSR:</b><br/>`;
                             }
                             fee_dict = {}
                             for(j in passengers_ssr[i].ssr_list){
@@ -6320,7 +6312,7 @@ function get_airline_review(){
                             }
 
                             if(passengers_ssr[i].hasOwnProperty('seat_list')){
-                                text+=`<h6 style="color:`+color+`;">Seat</h6>`;
+                                text+=`<b>Seat:</b><br/>`;
                             }
                             for(j in passengers_ssr[i].seat_list){
                                 if(passengers_ssr[i].seat_list[j].seat_pick != ''){
@@ -6329,17 +6321,17 @@ function get_airline_review(){
                                 }
                             }
                             text+=`
-                                <hr/>
                             </div>`;
                         count_pax++;
                     }
                     for(i in passengers.infant){
-                        text+=`<div class="col-lg-12">
-                                <h5> `+(parseInt(count_pax)+1)+`.
-                                `+passengers.infant[i].title+` `+passengers.infant[i].first_name+` `+ passengers.infant[i].last_name +`</h5>
-                                <b>Infant - </b>
-                                Birth Date: <b>`+passengers.infant[i].birth_date+`</b>
-                               </div>`;
+                        text+=`
+                        <div class="col-lg-12 mb-2" style="padding-top:15px; border-top:1px solid #cdcdcd;">
+                            <h5><span style="color:`+color+`;"> `+(parseInt(count_pax)+1)+`.</span>
+                            `+passengers.infant[i].title+` `+passengers.infant[i].first_name+` `+ passengers.infant[i].last_name +`</h5>
+                            <b>Infant - </b>
+                            Birth Date: <b>`+passengers.infant[i].birth_date+`</b>
+                        </div>`;
                         count_pax++;
                     }
                 text+=`
@@ -6405,6 +6397,33 @@ function get_airline_review(){
 
     document.getElementById('airline_review').innerHTML = text;
 
+    for(i in airline_pick){
+        if(passengers_ssr[i].hasOwnProperty('behaviors') && Object.keys(passengers_ssr[i].behaviors).length > 0){
+            text_behavior = '';
+            for(j in passengers_ssr[i].behaviors){
+                if(j.toLowerCase() == 'airline'){
+                    text_behavior+=`<b>`+j+`</b><br/>`;
+                    for(k in passengers_ssr[i].behaviors[j]){
+                        text_behavior+=`<span><b>`+k+`: </b><i>`+passengers_ssr[i].behaviors[j][k].value+`</i></span><br/>`;
+                    }
+                }
+            }
+            if(text_behavior != ''){
+                new jBox('Tooltip', {
+                     attach: '#pop_behaviors'+i,
+                     theme: 'TooltipBorder',
+                     width: 280,
+                     position: {
+                       x: 'center',
+                       y: 'bottom'
+                     },
+                     closeOnMouseleave: true,
+                     animation: 'zoomIn',
+                     content: text_behavior
+                });
+            }
+        }
+    }
 }
 
 function get_airline_review_after_sales(){
