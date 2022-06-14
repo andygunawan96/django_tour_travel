@@ -6477,15 +6477,18 @@ function airline_get_booking(data, sync=false){
 
                                         $text += '\nDeparture: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city + ' - ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_country + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin + ') ';
 
+                                        $text += moment(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date, 'DD MMM YYYY  HH:mm').format('ddd, DD MMM YYYY HH:mm') + '\n';
 
-                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+' ';
-                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1] + '\n';
+//                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+' ';
+//                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1] + '\n';
                                         //terminal
                                         if(msg.result.response.provider_bookings[i].journeys[j].segments[k].origin_terminal)
                                             $text += 'Terminal: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].origin_terminal + '\n';
                                         $text += 'Arrival: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city + ' - ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_country + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination + ') ';
-                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0]+' ';
-                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1] + '\n';
+
+                                        $text += moment(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date, 'DD MMM YYYY  HH:mm').format('ddd, DD MMM YYYY HH:mm') + '\n';
+//                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0]+' ';
+//                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1] + '\n';
                                         //terminal
                                         if(msg.result.response.provider_bookings[i].journeys[j].segments[k].destination_terminal)
                                             $text += 'Terminal: ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].destination_terminal + '\n';
