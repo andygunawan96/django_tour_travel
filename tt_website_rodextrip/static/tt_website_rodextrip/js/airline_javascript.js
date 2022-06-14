@@ -4853,8 +4853,11 @@ function airline_detail(type){
             for(i in passengers){
                 if(i != 'booker' && i != 'contact'){
                     for(j in passengers[i]){
-                        pax_type_repricing.push([passengers[i][j].first_name +passengers[i][j].last_name, passengers[i][j].first_name +passengers[i][j].last_name]);
-                        price_arr_repricing[passengers[i][j].first_name +passengers[i][j].last_name] = {
+                        if(price_arr_repricing.hasOwnProperty(passengers[i][j].pax_type) == false){
+                            price_arr_repricing[passengers[i][j].pax_type] = {}
+                            pax_type_repricing.push([passengers[i][j].pax_type, passengers[i][j].pax_type]);
+                        }
+                        price_arr_repricing[passengers[i][j].pax_type][passengers[i][j].first_name +passengers[i][j].last_name] = {
                             'Fare': 0,
                             'Tax': 0,
                             'Repricing': 0
@@ -4871,18 +4874,20 @@ function airline_detail(type){
                 </div>
             </div>`;
             for(k in price_arr_repricing){
-               text_repricing += `
-               <div class="col-lg-12">
-                    <div style="padding:5px;" class="row" id="adult">
-                        <div class="col-lg-6" id="`+j+`_`+k+`">`+k+`</div>
-                        <div hidden id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
-                        if(price_arr_repricing[k].Repricing == 0)
-                        text_repricing+=`<div class="col-lg-6" id="`+k+`_repricing">-</div>`;
-                        else
-                        text_repricing+=`<div class="col-lg-6" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
-                        text_repricing+=`<div hidden id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
-                    </div>
-                </div>`;
+                for(l in price_arr_repricing[k]){
+                    text_repricing += `
+                    <div class="col-lg-12">
+                        <div style="padding:5px;" class="row" id="adult">
+                            <div class="col-lg-6" id="`+j+`_`+k+`">`+l+`</div>
+                            <div hidden id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
+                            if(price_arr_repricing[k][l].Repricing == 0)
+                                text_repricing+=`<div class="col-lg-6" id="`+l+`_repricing">-</div>`;
+                            else
+                                text_repricing+=`<div class="col-lg-6" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
+                            text_repricing+=`<div hidden id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
+                        </div>
+                    </div>`;
+                }
             }
             text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
             document.getElementById('repricing_div').innerHTML = text_repricing;

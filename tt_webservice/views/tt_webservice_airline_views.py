@@ -1804,17 +1804,6 @@ def get_booking(request):
                                 pax['birth_date'].split(' ')[0].split('-')[2], month[pax['birth_date'].split(' ')[0].split('-')[1]],
                                 pax['birth_date'].split(' ')[0].split('-')[0])
                         })
-                        birth_date = pax['birth_date'].split(' ')
-                        old = get_age(date(int(birth_date[2]), int(month[birth_date[1]]), int(birth_date[0])))
-                        if old > 11:
-                            pax_type = 'ADT'
-                        elif old >= 2:
-                            pax_type = 'CHD'
-                        else:
-                            pax_type = 'INF'
-                    else:
-                        pax_type = 'ADT'
-                    pax['pax_type'] = pax_type
                 except Exception as e:
                     _logger.error(str(e) + traceback.format_exc())
                 if pax.get('nationality_code'):
