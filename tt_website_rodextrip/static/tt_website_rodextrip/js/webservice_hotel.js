@@ -731,6 +731,7 @@ function hotel_detail_request(checkin_date, checkout_date){
                 var result = msg.result.response;
                 text='';
                 text2='';
+                text_filter = '';
                 var node2 = document.createElement("div");
                 if(typeof result.prices === "undefined"){
                     //alert("There's no room in this hotel!");
@@ -747,21 +748,25 @@ function hotel_detail_request(checkin_date, checkout_date){
                         if(provider_list.includes(result.prices[i].provider) == false)
                             provider_list.push(result.prices[i].provider);
                     }
-                    text2+=`
+                    text_filter+=`
                     <div class="row">
-
-                        <div class="col-lg-3">
-                            <h6>Show All</h6>
+                        <div class="col-lg-12">
+                            <h6 class="mb-2">Show All</h6>
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="color:black;">All</span>
+                                    <span class="span-search-ticket" style="color:black;">Select All</span>
                                     <input type="checkbox" id="checkbox_room_all" onclick="filter_room_hotel('','');">
                                     <span class="check_box_span_custom"></span>
-                                </label><br>
+                                </label>
                             </div>
                         </div>
-                        <div class="col-lg-3">
-                            <h6>Meal Type</h6>
+                    </div>`;
+
+                    text_filter+=`
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <hr/>
+                            <h6 class="mb-2">Meal Type</h6>
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
                                     <span class="span-search-ticket" style="color:black;">Room Only</span>
@@ -776,9 +781,14 @@ function hotel_detail_request(checkin_date, checkout_date){
                                     <span class="check_box_span_custom"></span>
                                 </label><br>
                             </div>
+                            <hr/>
                         </div>
-                        <div class="col-lg-3">
-                            <h6>Room Type</h6>
+                    </div>`;
+
+                    text_filter+=`
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h6 class="mb-2">Room Type</h6>
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
                                     <span class="span-search-ticket" style="color:black;">Single</span>
@@ -814,11 +824,16 @@ function hotel_detail_request(checkin_date, checkout_date){
                                     <span class="check_box_span_custom"></span>
                                 </label><br>
                             </div>
+                            <hr/>
                         </div>
-                        <div class="col-lg-3">
-                            <h6>Provider</h6>`;
+                    </div>`;
+
+                    text_filter+=`
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h6 class="mb-2">Provider</h6>`;
                         for(i in provider_list){
-                            text2+=`
+                            text_filter+=`
                             <div class="checkbox-inline1">
                                <label class="check_box_custom">
                                     <span class="span-search-ticket" style="color:black;">`+provider_list[i]+`</span>
@@ -827,8 +842,12 @@ function hotel_detail_request(checkin_date, checkout_date){
                                 </label><br>
                             </div>`;
                         }
-                        text2+=`
+                        text_filter+=`
                         </div>
+                    </div>`;
+
+                    text2+=`
+                    <div class="row">
                         <div class="col-lg-6">
                             <span style="font-size:14px; font-weight:bold;" id="total_room_hotel"></span>
                         </div>
@@ -844,6 +863,8 @@ function hotel_detail_request(checkin_date, checkout_date){
                     node2.innerHTML = text2;
                     document.getElementById("select_copy_all").appendChild(node2);
                     node2 = document.createElement("div");
+
+                    document.getElementById("filterRoom_generalShow").innerHTML = text_filter;
 
                     result_room_detail = result;
                     hotel_price = result.prices;

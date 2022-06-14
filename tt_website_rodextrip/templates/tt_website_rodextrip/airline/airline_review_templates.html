@@ -342,14 +342,14 @@
                                         </div>
                                         <div class="col-lg-6 mb-3">
                                             {% if ssr == 0 %}
-                                            <button class="btn-next next-loading-booking primary-btn-white hold-seat-booking-train" id="ssr_btn" type="button" value="SSR" onclick="send_request_link(`/airline/ssr/{{signature}}`,2)" style="width:100%;">
+                                            <button class="btn-next next-loading-booking primary-btn-white hold-seat-booking-train" id="ssr_btn" type="button" value="SSR" onclick="send_request_link(`/airline/ssr/{{signature}}`,2)" style="width:100%; margin-bottom:unset;">
                                                 <i class="fas fa-plus"></i> Baggage, Meal, Medical
                                             </button>
                                             {% endif %}
                                         </div>
                                         <div class="col-lg-6 mb-2">
                                             {% if seat == 0 %}
-                                            <button class="btn-next next-loading-booking primary-btn-white hold-seat-booking-train" id="seat_btn" type="button" value="SEAT" onclick="send_request_link(`/airline/seat_map/{{signature}}`,2)" style="width:100%;">
+                                            <button class="btn-next next-loading-booking primary-btn-white hold-seat-booking-train" id="seat_btn" type="button" value="SEAT" onclick="send_request_link(`/airline/seat_map/{{signature}}`,2)" style="width:100%; margin-bottom:unset;">
                                                 <i class="fas fa-plus"></i> {% trans 'Seat' %}
                                             </button>
                                             {% endif %}

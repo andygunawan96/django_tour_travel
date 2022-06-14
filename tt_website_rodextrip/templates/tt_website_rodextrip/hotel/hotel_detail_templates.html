@@ -1389,14 +1389,24 @@
                     {% endif %}
                 </div>
 
-                <div class="col-lg-12 div-select-room-hotel" style="background:white; margin-bottom:30px; padding-top:20px; padding-bottom:20px; border:1px solid #cdcdcd; border-radius:3px;">
+                <div class="col-lg-12 div-select-room-hotel">
                     <div class="row">
-                        <div class="col-lg-12">
-                            <h4>{% trans 'Room' %}</h4>
-                            <hr/>
-                        </div>
+                        <div class="col-lg-3 mb-4" style="padding:15px; border:1px solid #cdcdcd; background:white;">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h4 style="display: inline;">Filter</h4>
+                                    <a style="float: right; cursor: pointer; font-weight:bold; color:{{color}}; display:none;" id="filterRoom_generalDown" onclick="show_hide_general('filterRoom');">show</a>
+                                    <a style="float: right; cursor: pointer; font-weight:bold; color:{{color}}; display:block;" id="filterRoom_generalUp" onclick="show_hide_general('filterRoom');">hide</a>
+                                    <hr/>
+                                </div>
+                                <div class="col-lg-12" id="filterRoom_generalShow">
 
-                        <div class="col-lg-7">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-9 mb-4" style="padding:15px; border:1px solid #cdcdcd; background:white;">
+                            <h4>Room</h4>
+                            <hr/>
                             {%if template == 1%}
                             <div class="banner-right">
                                 <div class="row form-wrap" style="padding:0px !important;">
@@ -1538,6 +1548,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="mt-2" id="select_copy_all">
 
                             </div>
@@ -1557,8 +1568,9 @@
                             </div>
                         </div>
 
+                        <div class="col-lg-7"></div>
                         <div class="col-lg-5">
-                            <div class="row" style="padding:0px 15px 15px 15px;" id="price_detail_div">
+                            <div class="row" id="price_detail_div">
                                 <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding-bottom: 15px;">
                                     <h4 style="padding-top:15px;"> Price Detail</h4>
                                     <hr/>

@@ -3146,7 +3146,7 @@ function get_price_itinerary_request(){
 //                                    $text +='Flight '+flight_count+'\n';
                                     text += `
                                     <div class="col-lg-12 mt-2">
-                                        <h6 style="background:`+color+`; padding:10px; cursor:pointer; color:`+text_color+`; display:none;" id="flight_title_up`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">
+                                        <h6 style="background:`+color+`; padding:10px; cursor:pointer; color:`+text_color+`; display:block;" id="flight_title_up`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">
                                             Flight `+flight_count+` -
                                             `+resJson.result.response.price_itinerary_provider[i].journeys[j].origin+`
                                             <i class="fas fa-arrow-right"></i>
@@ -3154,7 +3154,7 @@ function get_price_itinerary_request(){
                                             ( `+resJson.result.response.price_itinerary_provider[i].journeys[j].departure_date.split(' - ')[0]+` )
                                             <i class="fas fa-caret-up" style="float:right; font-size:18px;"></i>
                                         </h6>
-                                        <h6 style="background:`+color+`; padding:10px; cursor:pointer; color:`+text_color+`;" id="flight_title_down`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">
+                                        <h6 style="background:`+color+`; padding:10px; cursor:pointer; color:`+text_color+`; display:none;" id="flight_title_down`+flight_count+`" onclick="show_hide_flight(`+flight_count+`);">
                                             Flight `+flight_count+` -
                                             `+resJson.result.response.price_itinerary_provider[i].journeys[j].origin+`
                                             <i class="fas fa-arrow-right"></i>
@@ -3165,7 +3165,7 @@ function get_price_itinerary_request(){
                                     </div>`;
                                     $text +='Flight '+flight_count+'\n';
                                     text+=`
-                                    <div class="col-lg-12" style="padding:0px 15px 15px 15px; display:none;" id="flight_div_sh`+flight_count+`">
+                                    <div class="col-lg-12" style="padding:0px 15px 15px 15px; display:block;" id="flight_div_sh`+flight_count+`">
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div style="padding:15px; border:1px solid #cdcdcd;">`;
