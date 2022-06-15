@@ -1782,9 +1782,9 @@ function ppob_issued(data){
         show_loading();
         please_wait_transaction();
 
-        if(document.getElementById('bills_booking'))
+        if(document.getElementById('ppob_form'))
         {
-            var formData = new FormData($('#bills_booking').get(0));
+            var formData = new FormData($('#ppob_form').get(0));
         }
         else
         {
