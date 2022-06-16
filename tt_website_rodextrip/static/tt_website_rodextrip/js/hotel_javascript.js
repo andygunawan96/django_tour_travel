@@ -2048,12 +2048,24 @@ function hotel_detail(old_cancellation_policy){
         text += `<div class="row">`;
         for(j in hotel_price.rooms[i].nightly_prices){
             date = new Date(hotel_price.rooms[i].nightly_prices[j].date).toString().split(' ');
-            if(hotel_price.rooms[i].nightly_prices[j].currency != 'IDR'){
-                text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price))+'<span/></div>';
-                //$text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price))+'\n';
+            if (typeof upsell_price !== 'undefined' && hotel_price.rooms[i].nightly_prices.length -1 == j){
+                if(upsell_price != 0){
+                    if(hotel_price.rooms[i].nightly_prices[j].currency != 'IDR'){
+                        text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price + upsell_price))+'<span/></div>';
+                        //$text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price))+'\n';
+                    }else{
+                        text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_price.rooms[i].nightly_prices[j].price + upsell_price)+'<span/></div>';
+                        //$text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_price.rooms[i].nightly_prices[j].price))+'\n';
+                    }
+                }
             }else{
-                text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_price.rooms[i].nightly_prices[j].price)+'<span/></div>';
-                //$text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_price.rooms[i].nightly_prices[j].price))+'\n';
+                if(hotel_price.rooms[i].nightly_prices[j].currency != 'IDR'){
+                    text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price))+'<span/></div>';
+                    //$text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price))+'\n';
+                }else{
+                    text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_price.rooms[i].nightly_prices[j].price)+'<span/></div>';
+                    //$text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_price.rooms[i].nightly_prices[j].price))+'\n';
+                }
             }
         }
         try{
@@ -2066,13 +2078,22 @@ function hotel_detail(old_cancellation_policy){
 
         text += `<div class="col-lg-6">
             <span style="font-weight:bold;">Total</span>
-        </div>
+        </div>`;
+        if(upsell_price != 0 && i == hotel_price.rooms.length -1)
+            text+=`
         <div class="col-lg-6" style="text-align:right;">
-            <span style="font-weight:bold;">IDR `+ getrupiah(grand_total_price) +`</span>
+            <span style="font-weight:bold;">IDR `+ getrupiah(hotel_price.rooms[i].price_total + upsell_price) +`</span>
+        </div>`;
+        else
+            text+=`
+        <div class="col-lg-6" style="text-align:right;">
+            <span style="font-weight:bold;">IDR `+ getrupiah(hotel_price.rooms[i].price_total) +`</span>
         </div>`;
         text += `<div class="col-lg-12"><hr/></div>`;
-
-        $text2 += 'Total: IDR ' + getrupiah(hotel_price.rooms[i].price_total) + '\n\n';
+        if(upsell_price != 0 && i == hotel_price.rooms.length -1)
+            $text2 += 'Total: IDR ' + getrupiah(hotel_price.rooms[i].price_total + upsell_price) + '\n\n';
+        else
+            $text2 += 'Total: IDR ' + getrupiah(hotel_price.rooms[i].price_total) + '\n\n';
         text += `</div>`;
     }
     if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
@@ -2111,13 +2132,14 @@ function hotel_detail(old_cancellation_policy){
         }
         if (typeof upsell_price !== 'undefined'){
             if(upsell_price != 0){
-                text+=`<div class="col-lg-7" style="text-align:left;">
-                    <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
-                </div>
-                <div class="col-lg-5" style="text-align:right;">`;
-                text+=`
-                    <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(upsell_price)+`</span><br/>`;
-                text+=`</div>`;
+                //di gabung ke room terakhir
+//                text+=`<div class="col-lg-7" style="text-align:left;">
+//                    <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
+//                </div>
+//                <div class="col-lg-5" style="text-align:right;">`;
+//                text+=`
+//                    <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(upsell_price)+`</span><br/>`;
+//                text+=`</div>`;
                 total_price_hotel += upsell_price;
             }
         }

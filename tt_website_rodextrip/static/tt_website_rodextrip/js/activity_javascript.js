@@ -537,9 +537,16 @@ function activity_table_detail2(pagetype){
             text+= `<div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                 <span style="font-size:13px; font-weight:500;">`+price.service_charge_summary[pri].pax_count+`x `+price.service_charge_summary[pri].pax_type+` @`+price.service_charge_summary[pri].service_charges[0].currency+` `;
-            text+= getrupiah(price.service_charge_summary[pri].base_price)+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">`+price.service_charge_summary[pri].service_charges[0].currency+` `;
-            text+= getrupiah(price.service_charge_summary[pri].total_price)+`</span></div>`;
-            $test += price.service_charge_summary[pri].pax_count + ' ' + price.service_charge_summary[pri].pax_type + ' Price @'+price.service_charge_summary[pri].service_charges[0].currency+' ' + getrupiah(price.service_charge_summary[pri].base_price)+'\n';
+            if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty(price.service_charge_summary[pri].pax_type)){ //with upsell
+                text+= getrupiah(price.service_charge_summary[pri].base_price + (upsell_price_dict[price.service_charge_summary[pri].pax_type] / price.service_charge_summary[pri].pax_count))+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">`+price.service_charge_summary[pri].service_charges[0].currency+` `;
+                text+= getrupiah(price.service_charge_summary[pri].total_price + (upsell_price_dict[price.service_charge_summary[pri].pax_type]))+`</span></div>`;
+                $test += price.service_charge_summary[pri].pax_count + ' ' + price.service_charge_summary[pri].pax_type + ' Price @'+price.service_charge_summary[pri].service_charges[0].currency+' ' + getrupiah(price.service_charge_summary[pri].base_price + (upsell_price_dict[price.service_charge_summary[pri].pax_type] / price.service_charge_summary[pri].pax_count))+'\n';
+            }else{
+                text+= getrupiah(price.service_charge_summary[pri].base_price)+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">`+price.service_charge_summary[pri].service_charges[0].currency+` `;
+                text+= getrupiah(price.service_charge_summary[pri].total_price)+`</span></div>`;
+                $test += price.service_charge_summary[pri].pax_count + ' ' + price.service_charge_summary[pri].pax_type + ' Price @'+price.service_charge_summary[pri].service_charges[0].currency+' ' + getrupiah(price.service_charge_summary[pri].base_price)+'\n';
+            }
+
             text+= `<div class="col-lg-12">
                        <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                    </div>
@@ -572,7 +579,8 @@ function activity_table_detail2(pagetype){
        $test += '‣ Additional price @IDR '+getrupiah(additional_price)+'\n';
 
    try{
-        grand_total += upsell_price;
+        for(i in upsell_price_dict)
+            grand_total += upsell_price_dict[i];
    }catch(err){
    }
 
@@ -597,21 +605,21 @@ function activity_table_detail2(pagetype){
        text +=`<div style="text-align:right;"><img alt="Bank" src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
    }
 
-    try{
-        if(upsell_price != 0){
-            text+=`<div class="row" style="padding-bottom:15px;">`
-            text+=`
-            <div class="col-lg-7" style="text-align:left;">
-                <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
-            </div>
-            <div class="col-lg-5" style="text-align:right;">`;
-            text+=`
-                <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(upsell_price)+`</span><br/>`;
-            text+=`</div></div>`;
-        }
-    }catch(err){
-        console.log(err) //ada element yg tidak ada
-    }
+//    try{
+//        if(upsell_price != 0){
+//            text+=`<div class="row" style="padding-bottom:15px;">`
+//            text+=`
+//            <div class="col-lg-7" style="text-align:left;">
+//                <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
+//            </div>
+//            <div class="col-lg-5" style="text-align:right;">`;
+//            text+=`
+//                <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(upsell_price)+`</span><br/>`;
+//            text+=`</div></div>`;
+//        }
+//    }catch(err){
+//        console.log(err) //ada element yg tidak ada
+//    }
    text+= `
            <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><span style="font-weight:bold">Grand Total</span></div>

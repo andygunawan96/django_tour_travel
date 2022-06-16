@@ -519,7 +519,6 @@ def review(request):
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
-                'upsell': request.session.get('event_upsell_'+request.session['event_signature']) and request.session.get('event_upsell_'+request.session['event_signature']) or 0,
                 'username': request.session['user_account'],
                 'signature': request.session['event_signature'],
                 'javascript_version': javascript_version,

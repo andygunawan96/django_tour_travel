@@ -1702,7 +1702,6 @@ def review(request, signature):
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
-                'upsell': request.session.get('airline_upsell_'+signature) and request.session.get('airline_upsell_'+signature) or 0,
                 'ssr': request.session.get('airline_get_ssr_%s' % signature)['result']['error_code'] if request.session.get('airline_get_ssr_%s' % signature) else 1,
                 'seat': request.session.get('airline_get_seat_availability_%s' % signature)['result']['error_code'] if request.session.get('airline_get_seat_availability_%s' % signature) else 1,
                 'airline_request': request.session['airline_request_%s' % signature],

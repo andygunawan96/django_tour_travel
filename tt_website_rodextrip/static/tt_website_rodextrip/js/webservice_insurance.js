@@ -2967,10 +2967,16 @@ function insurance_get_booking(data, sync=false){
                             text_detail+=`
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Fare</span>`;
+                                    <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
                                 text_detail+=`</div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT))+`</span>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
+                                if(i == 0) //upsel hanya masuk di pnr pertama
+                                    text_detail+=`
+                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT + price.CSC))+`</span>`;
+                                else
+                                    text_detail+=`
+                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT))+`</span>`;
+                                text_detail+=`
                                 </div>
                             </div>`;
                             $text += msg.result.response.passengers[j].title +' '+ msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_bookings[i].pnr+'] ';
@@ -3009,18 +3015,18 @@ function insurance_get_booking(data, sync=false){
                                 'price': JSON.parse(JSON.stringify(price))
                             });
                         }
-
-                        if(csc != 0){
-                            text_detail+=`
-                                <div class="row" style="margin-bottom:5px;">
-                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">Other service charges</span>`;
-                                    text_detail+=`</div>
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
-                                    </div>
-                                </div>`;
-                        }
+                        // digabung ke pax
+//                        if(csc != 0){
+//                            text_detail+=`
+//                                <div class="row" style="margin-bottom:5px;">
+//                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+//                                        <span style="font-size:12px;">Other service charges</span>`;
+//                                    text_detail+=`</div>
+//                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+//                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
+//                                    </div>
+//                                </div>`;
+//                        }
                         counter_service_charge++;
                     }catch(err){console.log(err);}
                 }
@@ -5246,96 +5252,6 @@ function upload_image(){
 function update_service_charge(type){
     repricing_order_number = '';
     if(type == 'booking'){
-        document.getElementById('hotel_booking').innerHTML = '';
-        upsell = []
-        currency = '';
-        for(i in insurance_get_detail.result.response.passengers){
-            if(currency == '')
-                for(j in insurance_get_detail.result.response.passengers[i].sale_service_charges){
-                    currency = insurance_get_detail.result.response.passengers[i].sale_service_charges[j].FARE.currency;
-                    break;
-                }
-            list_price = []
-            if(document.getElementById(insurance_get_detail.result.response.passengers[i].name+'_repricing').innerHTML != '-' && document.getElementById(insurance_get_detail.result.response.passengers[i].name+'_repricing').innerHTML != '0'){
-                list_price.push({
-                    'amount': parseInt(document.getElementById(insurance_get_detail.result.response.passengers[i].name+'_repricing').innerHTML.split(',').join('')),
-                    'currency_code': currency
-                });
-                upsell.push({
-                    'sequence': insurance_get_detail.result.response.passengers[i].sequence,
-                    'pricing': JSON.parse(JSON.stringify(list_price))
-                });
-            }
-        }
-        repricing_order_number = hotel_get_detail.result.response.booking_name;
-    }else{
-        upsell_price = 0;
-        upsell = []
-        counter_pax = 0;
-        currency = 'IDR';
-        for(i in adult){
-            list_price = []
-            if(document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML != '-' && document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML != '0'){
-                list_price.push({
-                    'amount': parseInt(document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML.split(',').join('')),
-                    'currency_code': currency
-                });
-                upsell_price += parseInt(document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML.split(',').join(''));
-                upsell.push({
-                    'sequence': counter_pax,
-                    'pricing': JSON.parse(JSON.stringify(list_price))
-                });
-            }
-            counter_pax++;
-        }
-    }
-    $.ajax({
-       type: "POST",
-       url: "/webservice/hotel",
-       headers:{
-            'action': 'update_service_charge',
-       },
-       data: {
-           'order_number': JSON.stringify(repricing_order_number),
-           'passengers': JSON.stringify(upsell),
-           'signature': signature
-       },
-       success: function(msg) {
-           if(msg.result.error_code == 0){
-                if(type == 'booking'){
-                    please_wait_transaction();
-                    price_arr_repricing = {};
-                    pax_type_repricing = [];
-                    hotel_get_booking(repricing_order_number);
-                }else{
-                    price_arr_repricing = {};
-                    pax_type_repricing = [];
-                    hotel_detail();
-                }
-
-                $('#myModalRepricing').modal('hide');
-           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                auto_logout();
-           }else{
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error hotel service charge </span>' + msg.result.error_msg,
-                })
-                $('.loader-rodextrip').fadeOut();
-           }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel service charge');
-            $('.loader-rodextrip').fadeOut();
-       },timeout: 60000
-    });
-
-}
-
-function update_service_charge(type){
-    repricing_order_number = '';
-    if(type == 'booking'){
         document.getElementById('insurance_booking').innerHTML = '';
         upsell = []
         for(i in insurance_get_detail.result.response.passengers){
@@ -5364,7 +5280,7 @@ function update_service_charge(type){
         currency = 'IDR';
         for(i in adult){
             list_price = []
-            if(document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML != '-' && document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML != '0'){
+            if(document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML != '-'){
                 list_price.push({
                     'amount': parseInt(document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML.split(',').join('')),
                     'currency_code': currency

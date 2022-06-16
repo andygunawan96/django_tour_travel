@@ -353,7 +353,7 @@ function activity_review_page(){
             all_pax = msg.all_pax;
             highlights = msg.highlights;
             response = msg.response;
-
+            upsell_price_dict = msg.upsell_price_dict;
             activity_table_detail2('review');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -2801,21 +2801,24 @@ function update_service_charge(type){
         }
         repricing_order_number = act_order_number;
     }else{
-        upsell_price = 0;
+        upsell_price_dict = {};
         upsell = []
         counter_pax = 0;
         currency = 'IDR';
         for(i in all_pax){
             list_price = [];
-            if(document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML != '-' && document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML != '0'){
+            if(all_pax[i].pax_type in upsell_price_dict == false)
+                upsell_price_dict[all_pax[i].pax_type] = 0;
+            if(document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML != '-'){
                 list_price.push({
                     'amount': parseInt(document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML.split(',').join('')),
                     'currency_code': currency
                 });
-                upsell_price += parseInt(document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML.split(',').join(''));
+                upsell_price_dict[all_pax[i].pax_type] += parseInt(document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML.split(',').join(''));
                 upsell.push({
                     'sequence': counter_pax,
-                    'pricing': JSON.parse(JSON.stringify(list_price))
+                    'pricing': JSON.parse(JSON.stringify(list_price)),
+                    'pax_type': all_pax[i].pax_type
                 });
                 list_price = [];
             }
@@ -3670,21 +3673,21 @@ function activity_get_booking(data){
                                     price_text+=`</div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
 
-                                    if(counter_service_charge == 0){
-                                    price_text+=`
-                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC))+`</span>`;
-                                    }else{
+                                    if(counter_service_charge == 0){ // with upsell pnr pertama
+                                        price_text+=`
+                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC))+`</span>`;
+                                    }else{ // no upsell
                                         price_text+=`
                                         <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC))+`</span>`;
                                     }
                                     price_text+=`
                                     </div>
                                 </div>`;
-                                if(counter_service_charge == 0){
+                                if(counter_service_charge == 0){ // with upsell pnr pertama
                                     total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.DISC);
                                     total_price_for_discount += parseInt(price.FARE);
                                     $test += msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_booking[i].pnr+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.DISC))+'\n';
-                                }else{
+                                }else{ // no upsell
                                     $test += msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_booking[i].pnr+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.FARE + price.DISC))+'\n';
                                     total_price += parseInt(price.TAX + price.ROC + price.FARE + price.DISC);
                                     total_price_for_discount += parseInt(price.FARE);
@@ -3696,17 +3699,18 @@ function activity_get_booking(data){
                                     'price': JSON.parse(JSON.stringify(price))
                                 });
                             }
-                            if(csc != 0){
-                                price_text+=`
-                                    <div class="row" style="margin-bottom:5px;">
-                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                            <span style="font-size:12px;">Other service charges</span>`;
-                                        price_text+=`</div>
-                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
-                                        </div>
-                                    </div>`;
-                            }
+                            //di gabung di pax
+//                            if(csc != 0){
+//                                price_text+=`
+//                                    <div class="row" style="margin-bottom:5px;">
+//                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+//                                            <span style="font-size:12px;">Other service charges</span>`;
+//                                        price_text+=`</div>
+//                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+//                                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
+//                                        </div>
+//                                    </div>`;
+//                            }
                             counter_service_charge++;
                     }catch(err){
                         console.log(err)

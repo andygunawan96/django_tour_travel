@@ -199,54 +199,22 @@ function calculate(type){
                 }
                 selection_calculation = temp;
             }
-            if(document.getElementById('selection_type'+i).value == 'upsell'){
-                for(j in price_duplication[selection_pax]){
-                    if(selection_calculation.match('%')){
-                        list.push((price_duplication[selection_pax][j]['Fare'] + price_duplication[selection_pax][j]['Tax'] + price_duplication[selection_pax][j]['Repricing']) * parseFloat(selection_calculation) / 100);
-                        price_duplication[selection_pax][j]['Repricing'] = price_duplication[selection_pax][j]['Repricing'] + ((price_duplication[selection_pax][j]['Fare'] + price_duplication[selection_pax][j]['Tax'] + price_duplication[selection_pax][j]['Repricing']) * parseFloat(selection_calculation) / 100) ;
-                        total = 0;
-                        for(k in price_duplication[selection_pax][j]){
-                            if(k != 'total')
-                                total += price_duplication[selection_pax][j][k];
-                        }
-                        price_duplication[selection_pax][j]['total'] = total
-                    }else{
-                        price_duplication[selection_pax][j]['Repricing'] = price_duplication[selection_pax][j]['Repricing'] + parseFloat(selection_calculation);
-                        list.push(parseFloat(selection_calculation));
-                        total = 0;
-                        for(k in price_duplication[selection_pax][j]){
-                            if(k != 'total')
-                                total += price_duplication[selection_pax][j][k];
-                        }
-                        price_duplication[selection_pax][j]['total'] = total
-                    }
+            for(j in price_duplication[selection_pax]){
+                if(selection_calculation.match('%')){
+                    price_calculation = (price_duplication[selection_pax][j]['Fare'] + price_duplication[selection_pax][j]['Tax'] + price_duplication[selection_pax][j]['Repricing']) * parseFloat(selection_calculation) / 100;
+                }else{
+                    price_calculation =  parseFloat(selection_calculation);
                 }
-            }else if(document.getElementById('selection_type'+i).value == 'discount'){
-                for(j in price_duplication[selection_pax]){
-                    if(selection_calculation.match('%')){
-                        if(parseFloat(selection_calculation) > 100){
-                            alert('Max discount 100%');
-                        }else{
-                            list.push((price_duplication[selection_pax][j]['Fare'] + price_duplication[selection_pax][j]['Tax'] + price_duplication[selection_pax][j]['Repricing']) * parseFloat(selection_calculation) / 100);
-                            price_duplication[selection_pax][j]['Repricing'] = price_duplication[selection_pax][j]['Repricing'] + ((price_duplication[selection_pax][j]['Fare'] + price_duplication[selection_pax][j]['Tax'] + price_duplication[selection_pax][j]['Repricing']) * parseFloat(selection_calculation) / 100 * -1);
-                            total = 0;
-                            for(k in price_duplication[selection_pax][j]){
-                                if(j != 'total')
-                                    total += price_duplication[selection_pax][j][k];
-                            }
-                            price_duplication[selection_pax][j]['total'] = total
-                        }
-                    }else{
-                        price_duplication[selection_pax][j]['Repricing'] = price_duplication[selection_pax][j]['Repricing'] + (parseFloat(selection_calculation) * -1);
-                        list.push(parseFloat(selection_calculation) * -1);
-                        total = 0;
-                        for(k in price_duplication[selection_pax][j]){
-                            if(k != 'total')
-                                total += price_duplication[selection_pax][j][k];
-                        }
-                        price_duplication[selection_pax][j]['total'] = total
-                    }
+                if(document.getElementById('selection_type'+i).value == 'discount')
+                    price_calculation *= -1;
+                list.push(price_calculation)
+                price_duplication[selection_pax][j]['Repricing'] = price_duplication[selection_pax][j]['Repricing'] + price_calculation;
+                total = 0;
+                for(k in price_duplication[selection_pax][j]){
+                    if(k != 'total')
+                        total += price_duplication[selection_pax][j][k];
                 }
+                price_duplication[selection_pax][j]['total'] = total
             }
         }
         if(type == 'visa'){

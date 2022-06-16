@@ -1096,6 +1096,7 @@ function ppob_get_booking(data){
                 type_amount_repricing = ['Repricing'];
                 //repricing
                 counter_service_charge = 0;
+                total_price_dict = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
                 $text += '\nPrice:\n';
                 for(i in msg.result.response.provider_booking){
                     try{
@@ -1138,17 +1139,18 @@ function ppob_get_booking(data){
                             'price': JSON.parse(JSON.stringify(price_discount))
                         });
                         if(msg.result.response.provider_booking[i].bill_details.length != 0){
-                            msg.result.response.provider_booking[i].bill_details.push({
-                                "customer_name": "Service Charges",
-                                "currency": currency,
-                                "total": roc
-                            })
-                            if(csc != 0)
+                            if(roc != 0)
                                 msg.result.response.provider_booking[i].bill_details.push({
-                                    "customer_name": "Other Service Charges",
+                                    "customer_name": "Service Charges",
                                     "currency": currency,
-                                    "total": csc
+                                    "total": roc
                                 })
+//                            if(csc != 0)
+//                                msg.result.response.provider_booking[i].bill_details.push({
+//                                    "customer_name": "Other Service Charges",
+//                                    "currency": currency,
+//                                    "total": csc
+//                                })
                             for(j in msg.result.response.provider_booking[i].bill_details){
                                 price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
                                 price['FARE'] = msg.result.response.provider_booking[i].bill_details[j].total;
@@ -1157,93 +1159,60 @@ function ppob_get_booking(data){
                                 else
                                     price['RAC'] = 0;
                                 price['currency'] = currency;
-                                //repricing
-                                check = 0;
-                                if(price_arr_repricing.hasOwnProperty('Reservation') == false){
-                                    price_arr_repricing['Reservation'] = {}
-                                    pax_type_repricing.push(['Reservation', 'Reservation']);
-                                }
-                                price_arr_repricing['Reservation'][msg.result.response.provider_booking[i].bill_details[j].customer_name] = {
-                                    'Fare': price_arr_repricing[msg.result.response.provider_booking[i].bill_details[j].customer_name]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'] + price['SEAT'],
-                                    'Tax': price_arr_repricing[msg.result.response.provider_booking[i].bill_details[j].customer_name]['Tax'] + price['TAX'] + price['ROC'],
-                                    'Repricing': price['CSC']
-                                }
-                                text_repricing = `
-                                <div class="col-lg-12">
-                                    <div style="padding:5px;" class="row">
-                                        <div class="col-lg-3"></div>
-                                        <div class="col-lg-3">Price</div>
-                                        <div class="col-lg-3">Repricing</div>
-                                        <div class="col-lg-3">Total</div>
-                                    </div>
-                                </div>`;
-                                for(k in price_arr_repricing){
-                                    for(l in price_arr_repricing[k]){
-                                        text_repricing += `
-                                        <div class="col-lg-12">
-                                            <div style="padding:5px;" class="row" id="adult">
-                                                <div class="col-lg-3" id="`+j+`_`+k+`">`+l+`</div>
-                                                <div class="col-lg-3" id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
-                                                if(price_arr_repricing[k][l].Repricing == 0)
-                                                    text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">-</div>`;
-                                                else
-                                                    text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
-                                                text_repricing+=`<div class="col-lg-3" id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
-                                            </div>
-                                        </div>`;
-                                    }
-                                }
-                                //booker
-                                booker_insentif = '-';
-                                if(msg.result.response.hasOwnProperty('booker_insentif'))
-                                    booker_insentif = getrupiah(msg.result.response.booker_insentif)
-                                text_repricing += `
-                                <div class="col-lg-12">
-                                    <div style="padding:5px;" class="row" id="booker_repricing" hidden>
-                                    <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
-                                    <div class="col-lg-3" id="repriring_booker_repricing"></div>
-                                    <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
-                                    </div>
-                                </div>`;
-                                text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
-                                document.getElementById('repricing_div').innerHTML = text_repricing;
-                                //repricing
 
                                 text_detail+=`
                                 <div class="row" style="margin-bottom:5px;">
                                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
                                         <span style="font-size:12px;">`+msg.result.response.provider_booking[i].bill_details[j].customer_name+`</span>`;
+                    text_detail+=`</div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
+                                if(i == 0 && j == 0) //bill pertama & pnr pertama yg di upsell
+                                    text_detail+=`
+                                    <span style="font-size:13px;">`+currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC + csc))+`</span>`;
+                                else
+                                    text_detail+=`
+                                    <span style="font-size:13px;">`+currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>`;
                                     text_detail+=`</div>
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">`+currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>
-                                    </div>
                                 </div>`;
                                 $text += msg.result.response.provider_booking[i].bill_details[j].customer_name + ' ['+msg.result.response.provider_booking[i].pnr+'] ';
 
                                 $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
                                 if(counter_service_charge == 0){
-                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
+                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + csc + price.SSR + price.DISC);
+                                    price.CSC = csc;
                                     total_price_for_discount += parseInt(price.FARE);
-                                    price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
+                                    price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + csc + price.SSR + price.DISC);
                                 }else{
                                     total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
                                     total_price_for_discount += parseInt(price.FARE);
                                     price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
                                 }
                                 commission += parseInt(price.RAC);
+                                total_price_dict = {
+                                    'FARE': total_price_dict['FARE'] + price['FARE'],
+                                    'RAC': total_price_dict['RAC'] + price['RAC'],
+                                    'ROC': total_price_dict['ROC'] + price['ROC'],
+                                    'TAX': total_price_dict['TAX'] + price['TAX'],
+                                    'currency': 'IDR',
+                                    'CSC': total_price_dict['CSC'] + price['CSC'],
+                                    'SSR': total_price_dict['SSR'] + price['SSR'],
+                                    'DISC': total_price_dict['DISC'] + price['DISC'],
+                                    'SEAT': total_price_dict['SEAT'] + price['SEAT']
+                                }
                             }
                         }else{
-                            msg.result.response.provider_booking[i].bill_data.push({
-                                "period_date": "Service Charges",
-                                "currency": currency,
-                                "total": roc
-                            })
-                            if(csc != 0)
+                            if(roc != 0)
                                 msg.result.response.provider_booking[i].bill_data.push({
-                                    "period_date": "Other Service Charges",
+                                    "period_date": "Service Charges",
                                     "currency": currency,
-                                    "total": csc
+                                    "total": roc
                                 })
+//                            if(csc != 0)
+//                                msg.result.response.provider_booking[i].bill_data.push({
+//                                    "period_date": "Other Service Charges",
+//                                    "currency": currency,
+//                                    "total": csc
+//                                })
                             for(j in msg.result.response.provider_booking[i].bill_data){
                                 price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
                                 price['FARE'] = msg.result.response.provider_booking[i].bill_data[j].total;
@@ -1252,81 +1221,110 @@ function ppob_get_booking(data){
                                 else
                                     price['RAC'] = 0;
                                 price['currency'] = currency;
-                                //repricing
-                                check = 0;
-                                for(k in pax_type_repricing){
-                                    if(pax_type_repricing[k][0] == msg.result.response.provider_booking[i].bill_data[j].period_date)
-                                        check = 1;
-                                }
-                                if(check == 0){
-                                    pax_type_repricing.push([msg.result.response.provider_booking[i].bill_data[j].period_date, msg.result.response.provider_booking[i].bill_data[j].period_date]);
-                                    price_arr_repricing[msg.result.response.provider_booking[i].bill_data[j].period_date] = {
-                                        'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                                        'Tax': price['TAX'] + price['ROC'],
-                                        'Repricing': price['CSC']
-                                    }
-                                }else{
-                                    price_arr_repricing[msg.result.response.provider_booking[i].bill_data[j].period_date] = {
-                                        'Fare': price_arr_repricing[msg.result.response.provider_booking[i].bill_data[j].pnr]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'] + price['SEAT'],
-                                        'Tax': price_arr_repricing[msg.result.response.provider_booking[i].bill_data[j].pnr]['Tax'] + price['TAX'] + price['ROC'],
-                                        'Repricing': price['CSC']
-                                    }
-                                }
-                                text_repricing = `
-                                <div class="col-lg-12">
-                                    <div style="padding:5px;" class="row">
-                                        <div class="col-lg-3"></div>
-                                        <div class="col-lg-3">Price</div>
-                                        <div class="col-lg-3">Repricing</div>
-                                        <div class="col-lg-3">Total</div>
-                                    </div>
-                                </div>`;
-                                for(k in price_arr_repricing){
-                                   text_repricing += `
-                                   <div class="col-lg-12">
-                                        <div style="padding:5px;" class="row" id="adult">
-                                            <div class="col-lg-3" id="`+j+`_`+k+`">`+k+`</div>
-                                            <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
-                                            if(price_arr_repricing[k].Repricing == 0)
-                                            text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
-                                            else
-                                            text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
-                                            text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
-                                        </div>
-                                    </div>`;
-                                }
-                                text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
-                                document.getElementById('repricing_div').innerHTML = text_repricing;
-                                //repricing
+
 
                                 text_detail+=`
                                 <div class="row" style="margin-bottom:5px;">
                                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
                                         <span style="font-size:12px;">`+msg.result.response.provider_booking[i].bill_data[j].period_date+`</span>`;
-                                    text_detail+=`</div>
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>
+                        text_detail+=`</div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
+                                if(i == 0 && j == 0) //bill pertama & pnr pertama yg di upsell
+                                    text_detail+=`
+                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + csc + price.SSR + price.SEAT + price.DISC))+`</span>`;
+                                else
+                                    text_detail+=`
+                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>`;
+                                    text_detail+=`
                                     </div>
                                 </div>`;
                                 $text += msg.result.response.provider_booking[i].bill_data[j].period_date + ' ['+msg.result.response.provider_booking[i].pnr+'] ';
 
-                                $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
-                                if(counter_service_charge == 0){
-                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
+
+                                if(counter_service_charge == 0 && j == 0){ //upsell hanya provider pertama, & hanya untuk bill pertama
+                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + csc + price.SSR + price.DISC);
+                                    price.CSC = csc;
                                     total_price_for_discount += parseInt(price.FARE);
                                     price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
+                                    $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + csc + price.DISC))+'\n';
                                 }else{
                                     total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
                                     total_price_for_discount += parseInt(price.FARE);
                                     price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                                    $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.DISC))+'\n';
                                 }
                                 commission += parseInt(price.RAC);
+                                total_price_dict = {
+                                    'FARE': total_price_dict['FARE'] + price['FARE'],
+                                    'RAC': total_price_dict['RAC'] + price['RAC'],
+                                    'ROC': total_price_dict['ROC'] + price['ROC'],
+                                    'TAX': total_price_dict['TAX'] + price['TAX'],
+                                    'currency': 'IDR',
+                                    'CSC': total_price_dict['CSC'] + price['CSC'],
+                                    'SSR': total_price_dict['SSR'] + price['SSR'],
+                                    'DISC': total_price_dict['DISC'] + price['DISC'],
+                                    'SEAT': total_price_dict['SEAT'] + price['SEAT']
+                                }
                             }
                         }
                         price_provider = 0;
                         counter_service_charge++;
                     }catch(err){
                         console.log(err);
+                    }
+                    if(i == 0){
+                        //repricing
+                        check = 0;
+                        if(price_arr_repricing.hasOwnProperty('Reservation') == false){
+                            price_arr_repricing['Reservation'] = {}
+                            pax_type_repricing.push(['Reservation', 'Reservation']);
+                        }
+                        price_arr_repricing['Reservation']['Reservation'] = {
+                            'Fare': total_price_dict['FARE'] + total_price_dict['SSR'] + total_price_dict['SEAT'] + total_price_dict['DISC'],
+                            'Tax': total_price_dict['TAX'] + total_price_dict['ROC'],
+                            'Repricing': total_price_dict['CSC']
+                        }
+                        text_repricing = `
+                        <div class="col-lg-12">
+                            <div style="padding:5px;" class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-lg-3">Price</div>
+                                <div class="col-lg-3">Repricing</div>
+                                <div class="col-lg-3">Total</div>
+                            </div>
+                        </div>`;
+                        for(k in price_arr_repricing){
+                            for(l in price_arr_repricing[k]){
+                                text_repricing += `
+                                <div class="col-lg-12">
+                                    <div style="padding:5px;" class="row" id="adult">
+                                        <div class="col-lg-3" id="`+j+`_`+k+`">`+l+`</div>
+                                        <div class="col-lg-3" id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
+                                        if(price_arr_repricing[k][l].Repricing == 0)
+                                            text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">-</div>`;
+                                        else
+                                            text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
+                                        text_repricing+=`<div class="col-lg-3" id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
+                                    </div>
+                                </div>`;
+                            }
+                        }
+                        //booker
+                        booker_insentif = '-';
+                        if(msg.result.response.hasOwnProperty('booker_insentif'))
+                            booker_insentif = getrupiah(msg.result.response.booker_insentif)
+                        text_repricing += `
+                        <div class="col-lg-12">
+                            <div style="padding:5px;" class="row" id="booker_repricing" hidden>
+                            <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
+                            <div class="col-lg-3" id="repriring_booker_repricing"></div>
+                            <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
+                            </div>
+                        </div>`;
+                        text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+                        document.getElementById('repricing_div').innerHTML = text_repricing;
+
+                        //repricing
                     }
                 }
                 try{
