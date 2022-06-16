@@ -1080,6 +1080,7 @@ function get_airline_data_review_page(){
            passengers = msg.passengers;
            passengers_ssr = msg.passengers_ssr;
            airline_request = msg.airline_request;
+           upsell_price_dict = msg.upsell_price_dict;
            airline_get_provider_list('review');
 
        },
@@ -2382,6 +2383,7 @@ function datasearch2(airline){
            airline.schedules[i].journeys[j].operated_by = true;
            can_book_schedule = true;
            can_book = true;
+           has_fare_details = true;
            for(k in airline.schedules[i].journeys[j].segments){
                if(airline.schedules[i].journeys[j].segments[k].fares.length == 0)
                     can_book = false;
@@ -2392,15 +2394,47 @@ function datasearch2(airline){
                             available_count = airline.schedules[i].journeys[j].segments[k].fares[l].available_count;
                        can_book = true;
                        airline.schedules[i].journeys[j].segments[k].fare_pick = l;
-                       for(m in airline.schedules[i].journeys[j].segments[k].fares[l].fare_details){
-                            add_fare_detail = true;
-                            for(n in fare_details){
-                                if(fare_details[n].amount == airline.schedules[i].journeys[j].segments[k].fares[l].fare_details[m].amount && fare_details[n].detail_type == airline.schedules[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type){
-                                    add_fare_detail = false;
+                       if(has_fare_details && airline.schedules[i].journeys[j].segments[k].fares[l].fare_details.length > 0){
+                            if(fare_details.length > 0){
+                                // check fare details yg sudah ada check kalau ada tipe yg tidak ada di hapus
+                                fare_details_list_to_delete = []; // yg tidak ada di next flight
+                                for(m=0;m<fare_details.length;m++){
+                                    has_same_fare_detail_category = false;
+                                    for(n in airline.schedules[i].journeys[j].segments[k].fares[l].fare_details){
+                                        if(fare_details[m].detail_type == airline.schedules[i].journeys[j].segments[k].fares[l].fare_details[n].detail_type){
+                                            has_same_fare_detail_category = true;
+                                        }
+                                    }
+                                    if(has_same_fare_detail_category == false){
+                                        fare_details_list_to_delete.push(m)
+                                    }
                                 }
+                                if(fare_details_list_to_delete.length != 0)
+                                    fare_details_list_to_delete.reverse();
+                                    for(x in fare_details_list_to_delete)
+                                        fare_details.splice(fare_details_list_to_delete[x],1);
                             }
-                            if(add_fare_detail)
-                                fare_details.push(airline.schedules[i].journeys[j].segments[k].fares[l].fare_details[m])
+                            for(m in airline.schedules[i].journeys[j].segments[k].fares[l].fare_details){
+                                add_fare_detail = true;
+                                for(n in fare_details){
+                                    if(fare_details[n].amount <= airline.schedules[i].journeys[j].segments[k].fares[l].fare_details[m].amount && fare_details[n].detail_type == airline.schedules[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type){
+                                        add_fare_detail = false;
+                                    }else if(fare_details[n].amount > airline.schedules[i].journeys[j].segments[k].fares[l].fare_details[m].amount && fare_details[n].detail_type == airline.schedules[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type){
+                                        fare_details.splice(n,1);
+                                        break;
+                                    }else if(k != 0 && fare_details[n].detail_type == airline.schedules[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type){
+                                        add_fare_detail = true; // ada di segment 1 tambah
+                                        break;
+                                    }else if(k != 0){
+                                        add_fare_detail = false; // asumsi kalau tidak ada di segment 1 tidak di add
+                                    }
+                                }
+                                if(add_fare_detail)
+                                    fare_details.push(airline.schedules[i].journeys[j].segments[k].fares[l].fare_details[m])
+                            }
+                       }else{
+                           has_fare_details = false;
+                           fare_details = [];
                        }
                        for(m in airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary){
                            if(airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type == 'ADT'){
@@ -3217,14 +3251,14 @@ function get_price_itinerary_request(){
                                                         }
                                                         text += `<br/>`;
                                                         if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares.length > 0){
-                                                            text += `<span>`
+                                                            text += `<span style="color:`+color+`">`;
                                                             if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class != '' &&  airline_cabin_class_list.hasOwnProperty(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class)){
                                                                 if(is_citilink && resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class == 'W')
                                                                     text += airline_cabin_class_list['W1']
                                                                 else
                                                                     text += airline_cabin_class_list[resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class]
                                                             }
-                                                            text += `<br/>Class: `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].class_of_service+`</span>`;
+                                                            text += `<br/></span><span>Class: `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].class_of_service+`</span>`;
                                                         }
                                                     }
                                                     text+=`
@@ -4697,7 +4731,7 @@ function airline_set_ssr(val){
                 }
                 if(error_log != ''){
                     Swal.fire({
-                      title: msg.result.error_msg,
+                      title: msg.result.error_msg + ', Do you want to continue this book without SSR?',
                       type: 'warning',
                       showCancelButton: true,
                       confirmButtonColor: '#3085d6',
@@ -4785,7 +4819,7 @@ function airline_assign_seats(val){
                         document.getElementById('airline_issued').submit();
                 else{
                     Swal.fire({
-                      title: error_log,
+                      title: error_log + ', Do you want to continue this book without Seat?',
                       type: 'warning',
                       showCancelButton: true,
                       confirmButtonColor: '#3085d6',
@@ -7234,8 +7268,14 @@ function airline_get_booking(data, sync=false){
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
                                     <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
                                 text_detail+=`</div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT))+`</span>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
+                                if(counter_service_charge == 0) //upsell hanya masuk di pnr pertama
+                                    text_detail+=`
+                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT + price.CSC))+`</span>`;
+                                else
+                                    text_detail+=`
+                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT + price.CSC))+`</span>`;
+                                text_detail+=`
                                 </div>
                             </div>`;
                             $text += msg.result.response.passengers[j].title +' '+ msg.result.response.passengers[j].name + '\n';
@@ -7263,11 +7303,13 @@ function airline_get_booking(data, sync=false){
                                 counter_ssr++;
                             }
                             $text += '['+msg.result.response.provider_bookings[i].pnr+'] '
-                            $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n\n';
-                            if(counter_service_charge == 0){
+
+                            if(counter_service_charge == 0){ // with upsell pnr pertama
                                 total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
-                            }else{
+                                $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n\n';
+                            }else{ // no upsell
                                 total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                                $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.DISC))+'\n\n';
                             }
                             commission += parseInt(price.RAC);
                             total_price_provider.push({
@@ -7279,17 +7321,18 @@ function airline_get_booking(data, sync=false){
                         counter_service_charge++;
                     }catch(err){console.log(err);}
                 }
-                if(csc != 0){
-                    text_detail+=`
-                        <div class="row" style="margin-bottom:5px;">
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                <span style="font-size:12px;">Other service charges</span>`;
-                            text_detail+=`</div>
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
-                            </div>
-                        </div>`;
-                }
+                //di gabung di pax
+//                if(csc != 0){
+//                    text_detail+=`
+//                        <div class="row" style="margin-bottom:5px;">
+//                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+//                                <span style="font-size:12px;">Other service charges</span>`;
+//                            text_detail+=`</div>
+//                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+//                                <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
+//                            </div>
+//                        </div>`;
+//                }
                 try{
                     airline_get_detail.result.response.total_price = total_price;
                     $text += '‣ Grand Total: '+price.currency+' '+ getrupiah(total_price);
@@ -8844,23 +8887,25 @@ function update_service_charge(type){
         }
         repricing_order_number = order_number;
     }else{
-        upsell_price = 0;
+        upsell_price_dict = {};
         upsell = []
         counter_pax = 0;
         currency = airline_price[0].ADT.currency;
         for(i in passengers){
             list_price = []
             if(i != 'booker' && i != 'contact'){
+                upsell_price_dict[i] = 0;
                 for(k in passengers[i]){
-                    if(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing').innerHTML != '-' && document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing').innerHTML != '0'){
+                    if(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing').innerHTML != '-'){
                         list_price.push({
                             'amount': parseInt(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing').innerHTML.split(',').join('')),
                             'currency_code': currency
                         });
-                        upsell_price += parseInt(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing').innerHTML.split(',').join(''));
+                        upsell_price_dict[i] += parseInt(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing').innerHTML.split(',').join(''));
                         upsell.push({
                             'sequence': counter_pax,
-                            'pricing': JSON.parse(JSON.stringify(list_price))
+                            'pricing': JSON.parse(JSON.stringify(list_price)),
+                            'pax_type': i
                         });
                         list_price = [];
                     }

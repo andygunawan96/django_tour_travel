@@ -845,11 +845,14 @@ def update_service_charge(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            total_upsell = 0
+            total_upsell_dict = {}
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
-                    total_upsell += pricing['amount']
-            set_session(request, 'tour_upsell_'+request.POST['signature'], total_upsell)
+                    if upsell.get('pax_type'):
+                        if upsell['pax_type'] not in total_upsell_dict:
+                            total_upsell_dict[upsell['pax_type']] = 0
+                        total_upsell_dict[upsell['pax_type']] += pricing['amount']
+            set_session(request, 'tour_upsell_' + request.POST['signature'], total_upsell_dict)
             _logger.info(json.dumps(request.session['tour_upsell_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge TOUR SIGNATURE " + request.POST['signature'])
         else:
@@ -943,6 +946,7 @@ def page_review(request):
         res = {}
         res['all_pax'] = request.session['all_pax']
         res['booker'] = request.session['tour_booking_data']['booker']
+        res['upsell_price_dict'] = request.session.get('tour_upsell_%s' % request.POST['signature']) and request.session.get('tour_upsell_%s' % request.POST['signature']) or {}
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

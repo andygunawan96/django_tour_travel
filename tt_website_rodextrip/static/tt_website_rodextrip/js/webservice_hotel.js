@@ -2222,6 +2222,21 @@ function hotel_get_booking(data){
                     if(msg.result.response.state == 'pending' || msg.result.response.state == 'in_progress' || msg.result.response.state == 'partial_issued' || msg.result.response.state == 'fail_issued'){
                         document.getElementById('div_sync_status').hidden = false;
                     }
+                    csc = 0;
+                    for(i in msg.result.response.hotel_rooms){
+                        try{
+                            //HARGA PER ROOM MAU DI BIKIN PER PAX
+                            // Update Vin Harga Pax yg diterima di FE adalah Total per pax tidak  perlu dikali total per night lagi
+                            // Todo: Pertimbangkan better mechanism
+                            total_price = 0
+                            for(j in msg.result.response.passengers){
+                                if(msg.result.response.passengers[j].sale_service_charges.hasOwnProperty(msg.result.response.hotel_rooms[i].prov_issued_code) && msg.result.response.passengers[j].sale_service_charges[msg.result.response.hotel_rooms[i].prov_issued_code].hasOwnProperty('CSC')){
+                                    csc += msg.result.response.passengers[j].sale_service_charges[msg.result.response.hotel_rooms[i].prov_issued_code]['CSC'].amount
+                                }
+                            }
+                            break; // upsell hanya 1x
+                        }catch(err){}
+                    }
                     hotel_get_detail = msg;
                     $text = '';
                     $text += 'Order Number: '+ msg.result.response.order_number + '\n';
@@ -2398,7 +2413,7 @@ function hotel_get_booking(data){
 
                             </tr>`;
                         for(i in msg.result.response.hotel_rooms){
-                        var oioi = parseInt(i)+1;
+                            var oioi = parseInt(i)+1;
                         text+=`
                             <tr>
                                 <td>`+oioi+`</td>
@@ -2418,8 +2433,12 @@ function hotel_get_booking(data){
                                     text+=msg.result.response.hotel_rooms[i].dates[j].meal_type+`<br/>`;
                                 text+=`</td>
                                 <td>`;
-                                for(j in msg.result.response.hotel_rooms[i].dates)
-                                    text+=msg.result.response.hotel_rooms[i].currency+` `+getrupiah(msg.result.response.hotel_rooms[i].dates[j].sale_price)+`<br/>`;
+                                for(j in msg.result.response.hotel_rooms[i].dates){
+                                    if(i == msg.result.response.hotel_rooms.length - 1 && j == msg.result.response.hotel_rooms[i].dates.length-1)
+                                        text+=msg.result.response.hotel_rooms[i].currency+` `+getrupiah(msg.result.response.hotel_rooms[i].dates[j].sale_price + csc)+`<br/>`;
+                                    else
+                                        text+=msg.result.response.hotel_rooms[i].currency+` `+getrupiah(msg.result.response.hotel_rooms[i].dates[j].sale_price)+`<br/>`;
+                                }
                                 text+=`</td>
 
                             </tr>`;
@@ -2708,7 +2727,11 @@ function hotel_get_booking(data){
                                     for(j in msg.result.response.hotel_rooms[i].dates){
                                         total_per_room = total_per_room + parseInt(msg.result.response.hotel_rooms[i].dates[j].sale_price);
                                     }
-                                    text_detail+=`
+                                    if(i == msg.result.response.hotel_rooms.length - 1)
+                                        text_detail+=`
+                                    <span style="font-size:13px; font-weight:700;">`+msg.result.response.hotel_rooms[i].dates[j].currency+` `+ getrupiah(total_per_room + csc) +`</span>`;
+                                    else
+                                        text_detail+=`
                                     <span style="font-size:13px; font-weight:700;">`+msg.result.response.hotel_rooms[i].dates[j].currency+` `+ getrupiah(total_per_room) +`</span>`;
                                     }catch(err){
                                         console.log(err); // error kalau ada element yg tidak ada
@@ -2721,7 +2744,10 @@ function hotel_get_booking(data){
                                 for(j in msg.result.response.hotel_rooms[i].dates){
                                     $text += msg.result.response.hotel_rooms[i].dates[j].date + ' ';
                                 }
-                                $text += currency+` `+getrupiah(parseInt(total_price_provider[i].price.FARE + total_price_provider[i].price.TAX + total_price_provider[i].price.ROC))+'\n';
+                                if(i == msg.result.response.hotel_rooms.length - 1)
+                                    $text += currency+` `+getrupiah(parseInt(total_price_provider[i].price.FARE + total_price_provider[i].price.TAX + total_price_provider[i].price.ROC + csc))+'\n';
+                                else
+                                    $text += currency+` `+getrupiah(parseInt(total_price_provider[i].price.FARE + total_price_provider[i].price.TAX + total_price_provider[i].price.ROC))+'\n';
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
@@ -2733,18 +2759,19 @@ function hotel_get_booking(data){
                     </div>`;
 
                     try{
-                        if(csc != 0){
-                            text_detail+=`
-                                <div class="row" style="margin-bottom:5px;">
-                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">Other service charges</span>`;
-                                    text_detail+=`</div>
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">`+currency+` `+getrupiah(parseInt(csc))+`</span>
-                                    </div>
-                                </div>`;
-                            $text += 'Other service charges: '+currency+' '+ getrupiah(csc)+'\n';
-                        }
+                        //di gabung
+//                        if(csc != 0){
+//                            text_detail+=`
+//                                <div class="row" style="margin-bottom:5px;">
+//                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+//                                        <span style="font-size:12px;">Other service charges</span>`;
+//                                    text_detail+=`</div>
+//                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+//                                        <span style="font-size:13px;">`+currency+` `+getrupiah(parseInt(csc))+`</span>
+//                                    </div>
+//                                </div>`;
+//                            $text += 'Other service charges: '+currency+' '+ getrupiah(csc)+'\n';
+//                        }
                         if(disc != 0){
                             text_detail+=`
                                 <div class="row" style="margin-bottom:5px;">
@@ -3159,7 +3186,7 @@ function update_service_charge(type){
         currency = 'IDR';
         for(i in adult){
             list_price = []
-            if(document.getElementById('Reservation_repricing').innerHTML != '-' && document.getElementById('Reservation_repricing').innerHTML != '0'){
+            if(document.getElementById('Reservation_repricing').innerHTML != '-'){
                 list_price.push({
                     'amount': parseInt(document.getElementById('Reservation_repricing').innerHTML.split(',').join('')),
                     'currency_code': currency

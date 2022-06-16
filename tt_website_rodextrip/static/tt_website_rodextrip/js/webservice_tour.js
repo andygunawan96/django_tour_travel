@@ -199,7 +199,7 @@ function tour_page_review(){
             all_pax = msg.all_pax;
 
             booker = msg.booker;
-
+            upsell_price_dict = msg.upsell_price_dict;
             get_price_itinerary_cache('review');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1552,21 +1552,24 @@ function update_service_charge(type){
         }
         repricing_order_number = tour_order_number;
     }else{
-        upsell_price = 0;
+        upsell_price_dict = {};
         upsell = []
         counter_pax = 0;
         currency = 'IDR';
         for(i in all_pax){
+            if(all_pax[i].pax_type in upsell_price_dict == false)
+                upsell_price_dict[all_pax[i].pax_type] = 0;
             list_price = [];
-            if(document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML != '-' && document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML != '0'){
+            if(document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML != '-'){
                 list_price.push({
                     'amount': parseInt(document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML.split(',').join('')),
                     'currency_code': currency
                 });
-                upsell_price += parseInt(document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML.split(',').join(''));
+                upsell_price_dict[all_pax[i].pax_type] += parseInt(document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML.split(',').join(''));
                 upsell.push({
                     'sequence': counter_pax,
-                    'pricing': JSON.parse(JSON.stringify(list_price))
+                    'pricing': JSON.parse(JSON.stringify(list_price)),
+                    'pax_type': all_pax[i].pax_type
                 });
                 list_price = [];
             }
@@ -2289,7 +2292,7 @@ function tour_get_booking(order_number)
 
                                     if(counter_service_charge == 0){
                                     price_text+=`
-                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC))+`</span>`;
+                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC))+`</span>`;
                                     }else{
                                         price_text+=`
                                         <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC))+`</span>`;
@@ -2313,17 +2316,17 @@ function tour_get_booking(order_number)
                                     'price': JSON.parse(JSON.stringify(price))
                                 });
                             }
-                            if(csc != 0){
-                                price_text+=`
-                                    <div class="row" style="margin-bottom:5px;">
-                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                            <span style="font-size:12px;">Other service charges</span>`;
-                                        price_text+=`</div>
-                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
-                                        </div>
-                                    </div>`;
-                            }
+//                            if(csc != 0){
+//                                price_text+=`
+//                                    <div class="row" style="margin-bottom:5px;">
+//                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+//                                            <span style="font-size:12px;">Other service charges</span>`;
+//                                        price_text+=`</div>
+//                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+//                                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
+//                                        </div>
+//                                    </div>`;
+//                            }
                             counter_service_charge++;
                     }catch(err){
                         console.log(err)
@@ -2719,13 +2722,24 @@ function table_price_update(msg,type){
             else if(price_data[i].charge_type != 'RAC')
             {
                 if(price_data[i].pax_count != 0){
-                    price_txt2 += `<div class="row">
+                    price_txt2 += `<div class="row">`;
+                    if(typeof upsell_price_dict !== 'undefined' && price_data[i].pax_type in upsell_price_dict && price_data[i].charge_type == 'FARE' && price_data[i].charge_code == 'fare.flight')
+                        price_txt2 += `
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                            <span style="font-size:13px; font-weight:500;">`+price_data[i].pax_count+`x `+price_data[i].description+` <br/>@ IDR `+getrupiah(price_data[i].amount + (upsell_price_dict[price_data[i].pax_type]/price_data[i].pax_count))+`</span>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">
+                                            <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(price_data[i].total + upsell_price_dict[price_data[i].pax_type])+`</span>
+                                        </div>`;
+                    else
+                        price_txt2 += `
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                             <span style="font-size:13px; font-weight:500;">`+price_data[i].pax_count+`x `+price_data[i].description+` <br/>@ IDR `+getrupiah(price_data[i].amount)+`</span>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">
                                             <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(price_data[i].total)+`</span>
-                                        </div>
+                                        </div>`;
+                    price_txt2 += `
                                        <div class="col-lg-12">
                                            <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                                        </div>
@@ -2804,7 +2818,8 @@ function table_price_update(msg,type){
     </div>`;
     price_txt2 += `</div></div>`;
     try{
-        grand_total += upsell_price;
+        for(i in upsell_price_dict)
+            grand_total += upsell_price_dict[i];
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
@@ -2817,21 +2832,22 @@ function table_price_update(msg,type){
     if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         price_txt +=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
     }
-    try{
-        if(upsell_price != 0){
-            price_txt+=`<div class="row" style="padding-bottom:15px;">`
-            price_txt+=`
-            <div class="col-lg-7" style="text-align:left;">
-                <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
-            </div>
-            <div class="col-lg-5" style="text-align:right;">`;
-            price_txt+=`
-                <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(upsell_price)+`</span><br/>`;
-            price_txt+=`</div></div>`;
-        }
-    }catch(err){
-        console.log(err); // error kalau ada element yg tidak ada
-    }
+    // pindah ke pax
+//    try{
+//        if(upsell_price != 0){
+//            price_txt+=`<div class="row" style="padding-bottom:15px;">`
+//            price_txt+=`
+//            <div class="col-lg-7" style="text-align:left;">
+//                <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
+//            </div>
+//            <div class="col-lg-5" style="text-align:right;">`;
+//            price_txt+=`
+//                <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(upsell_price)+`</span><br/>`;
+//            price_txt+=`</div></div>`;
+//        }
+//    }catch(err){
+//        console.log(err); // error kalau ada element yg tidak ada
+//    }
     price_txt += `
                    <div class="row">
                         <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>

@@ -777,11 +777,15 @@ def update_service_charge(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            total_upsell = 0
+            total_upsell_dict = {}
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
-                    total_upsell += pricing['amount']
-            set_session(request, 'activity_upsell_'+request.POST['signature'], total_upsell)
+                    if upsell.get('pax_type'):
+                        if upsell['pax_type'] not in total_upsell_dict:
+                            total_upsell_dict[upsell['pax_type']] = 0
+                        total_upsell_dict[upsell['pax_type']] += pricing['amount']
+            set_session(request, 'activity_upsell_' + request.POST['signature'], total_upsell_dict)
+
             _logger.info(json.dumps(request.session['activity_upsell_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge ACTIVITY SIGNATURE " + request.POST['signature'])
         else:
@@ -901,7 +905,7 @@ def review_page(request):
         res['booker'] = request.session['activity_review_booking']['booker']
         res['contact_person'] = request.session['activity_review_booking']['contacts']
         res['all_pax'] = request.session['activity_review_booking']['all_pax']
-
+        res['upsell_price_dict'] = request.session.get('activity_upsell_%s' % request.POST['signature']) and request.session.get('activity_upsell_%s' % request.POST['signature']) or {}
         res['response'] = request.session['activity_pick']
         res['highlights'] = request.session['activity_pick']['highlights']
     except Exception as e:

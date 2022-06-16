@@ -411,7 +411,7 @@ def get_data_review_page(request):
         res['airline_ssr_request'] = request.session['airline_ssr_request_%s' % request.POST['signature']] if request.session.get('airline_ssr_request_%s' % request.POST['signature']) else {}
         res['airline_seat_request'] = request.session['airline_seat_request_%s' % request.POST['signature']] if request.session.get('airline_seat_request_%s' % request.POST['signature']) else {}
         res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
-
+        res['upsell_price_dict'] = request.session.get('airline_upsell_%s' % request.POST['signature']) and request.session.get('airline_upsell_%s' % request.POST['signature']) or {}
         if request.session.get('airline_get_ssr_%s' % request.POST['signature']):
             if request.session['airline_get_ssr_%s' % request.POST['signature']]['result']['error_code'] == 0:
                 for idx, rec in enumerate(request.session['airline_get_ssr_%s' % request.POST['signature']]['result']['response']['ssr_availability_provider']):
@@ -2082,11 +2082,14 @@ def update_service_charge(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            total_upsell = 0
+            total_upsell_dict = {}
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
-                    total_upsell += pricing['amount']
-            set_session(request, 'airline_upsell_'+request.POST['signature'], total_upsell)
+                    if upsell.get('pax_type'):
+                        if upsell['pax_type'] not in total_upsell_dict:
+                            total_upsell_dict[upsell['pax_type']] = 0
+                        total_upsell_dict[upsell['pax_type']] += pricing['amount']
+            set_session(request, 'airline_upsell_'+request.POST['signature'], total_upsell_dict)
             _logger.info(json.dumps(request.session['airline_upsell_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge AIRLINE SIGNATURE " + request.POST['signature'])
         else:

@@ -4622,6 +4622,8 @@ function airline_detail(type){
                                                         price = airline_price[i].ADT['roc'];
                                                     if(airline_price[price_counter].ADT.tax != null)
                                                         price += airline_price[price_counter].ADT.tax;
+                                                    if(upsell_price_dict.hasOwnProperty('adult'))
+                                                        price += upsell_price_dict['adult'];
                                                 }catch(err){
 
                                                 }
@@ -4667,6 +4669,8 @@ function airline_detail(type){
                                                         price = airline_price[price_counter].CHD['roc'];
                                                     if(airline_price[price_counter].CHD.tax != null)
                                                         price += airline_price[price_counter].CHD.tax;
+                                                    if(upsell_price_dict.hasOwnProperty('child'))
+                                                        price += upsell_price_dict['child'];
                                                 }catch(err){
 
                                                 }
@@ -4710,6 +4714,8 @@ function airline_detail(type){
                                                         price = airline_price[price_counter].INF['roc'];
                                                     if(airline_price[price_counter].INF.tax != null)
                                                         price += airline_price[price_counter].INF.tax;
+                                                    if(upsell_price_dict.hasOwnProperty('infant'))
+                                                        price += upsell_price_dict['infant'];
                                                 }catch(err){
 
                                                 }
@@ -4737,7 +4743,7 @@ function airline_detail(type){
                                                             <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                                                         </div>
                                                     </div>`;
-                                                $text += airline_request.infant + ' Infant @'+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare+price) + Math.ceil(price/airline_request.infant))+'\n';
+                                                $text += airline_request.infant + ' Infant @'+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare) + Math.ceil(price/airline_request.infant))+'\n';
 //                                                $text += 'Infant Tax '+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(price))+'\n';
                                                 price = 0;
                                                 total_price_provider.push({
@@ -4777,31 +4783,26 @@ function airline_detail(type){
             </div>
             <div class="col-lg-5" style="text-align:right;">`;
             if(airline_price[0].ADT.currency == 'IDR')
-            text+=`
+                text+=`
                 <label id="additional_price">`+getrupiah(additional_price)+`</label><br/>`;
             else
-            text+=`
+                text+=`
                 <label id="additional_price">`+additional_price+`</label><br/>`;
+
             text+=`
                 <input type="hidden" name="additional_price" id="additional_price_hidden"/>
             </div>`;
-            try{
-                if(upsell_price != 0){
-                    text+=`<div class="col-lg-7" style="text-align:left;">
-                        <label>Other Tax & Charges</label><br/>
-                    </div>
-                    <div class="col-lg-5" style="text-align:right;">`;
-                    if(airline_price[0].ADT.currency == 'IDR')
-                    text+=`
-                        <label>`+airline_price[0].ADT.currency+` `+getrupiah(upsell_price)+`</label><br/>`;
-                    else
-                    text+=`
-                        <label>`+airline_price[0].ADT.currency+` `+upsell_price+`</label><br/>`;
-                    text+=`</div>`;
-                }
-            }catch(err){
-                console.log(err); // error kalau ada element yg tidak ada
-            }
+//            try{
+//                upsell_price = 0;
+//                if(Object.keys(upsell_price_dict).length != 0){
+//                    for(x in upsell_price_dict)
+//                        upsell_price += upsell_price_dict[x];
+//                }
+//            }catch(err){
+//                console.log(err); // error kalau ada element yg tidak ada
+//            }
+            if(additional_price != 0)
+                $text += '‣ Additional Price: ' + airline_price[0].ADT.currency + ' ' +getrupiah(additional_price) + '\n';
             try{
                 if(total_discount != 0){
                     text+=`<div class="col-lg-7" style="text-align:left;">
@@ -4828,7 +4829,7 @@ function airline_detail(type){
             try{
                 grand_total_price = total_price;
                 grand_total_price += parseFloat(additional_price)
-                grand_total_price += upsell_price;
+//                grand_total_price += upsell_price;
             }catch(err){
                 console.log(err); // error kalau ada element yg tidak ada
             }
@@ -6335,7 +6336,13 @@ function get_airline_review(){
                             <h5><span style="color:`+color+`;"> `+(parseInt(count_pax)+1)+`.</span>
                             `+passengers.infant[i].title+` `+passengers.infant[i].first_name+` `+ passengers.infant[i].last_name +`</h5>
                             <b>Infant - </b>
-                            Birth Date: <b>`+passengers.infant[i].birth_date+`</b>
+                            Birth Date: <b>`+passengers.infant[i].birth_date+`</b>`;
+                        if(passengers.infant[i].identity_type)
+                            text+=`
+                            <div class="col-lg-12">
+                                <b>`+passengers.infant[i].identity_type.substr(0,1).toUpperCase()+passengers.infant[i].identity_type.substr(1,passengers.infant[i].identity_type.length)+`</b>: <i>`+passengers.infant[i].identity_number+`</i>
+                            </div>`;
+                        text+=`
                         </div>`;
                         count_pax++;
                     }
@@ -6726,8 +6733,8 @@ function get_checked_copy_result(){
     text='';
     //$text='Search: '+value_idx[0]+'\n'+value_idx[1].trim()+'\nDate: '+value_idx[2]+'\n'+value_idx[3]+'\n\n';
 
-    $text= value_idx[0]+' - '+value_idx[1]+' → '+value_idx[2]+', '+value_idx[3]+'\n\n';
-
+//    $text= value_idx[0]+' - '+value_idx[1]+' → '+value_idx[2]+', '+value_idx[3]+'\n\n'; // pak adi yg minta
+    $text = '';
     var airline_number = 0;
     node = document.createElement("div");
     //text+=`<div class="col-lg-12"><h5>`+value_flight_type+`</h5><hr/></div>`;
@@ -6744,7 +6751,7 @@ function get_checked_copy_result(){
 
         var id_airline = parent_airline.find('.id_copy_result').html();
         airline_number = airline_number + 1;
-        $text += '› Option-'+airline_number+'\n';
+        $text += '#OPTION-'+airline_number+'\n'; // pak adi yg minta
 
         text+=`
         <div class="row" id="div_list`+id_airline+`">`;
@@ -6768,7 +6775,8 @@ function get_checked_copy_result(){
                 <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+id_airline+`);"><i class="fas fa-times-circle" style="color:red; font-size:18px;"></i> Delete</span>
             </div>
             <div class="col-lg-12"><br/>`;
-
+            if(airline_number != 1)
+                $text += '________________________________________\n\n'; // pak adi yg minta pembatas per option
             for (var i = 0; i < value_journey.length; i++) {
                 var temp_journey = ''+value_journey[i];
                 var parent_copy_details = $("#detail_departjourney"+temp_journey);
@@ -6796,7 +6804,7 @@ function get_checked_copy_result(){
 
                     var co_j = j+1;
                     text+=`<h5>Flight-`+co_j+`</h5>`;
-                    $text += '› Flight-'+co_j+'\n';
+//                    $text += '› Flight-'+co_j+'\n'; // pak adi yg minta
 
                     parent_segments.find('.copy_carrier_provider_details').each(function(obj) {
                         if($(this).html() != undefined){
@@ -6815,7 +6823,7 @@ function get_checked_copy_result(){
                                 for (var j = 0, length = change_radios.length; j < length; j++) {
                                     if (change_radios[j].checked && i == j) {
                                         text+=`<br/><span>`+$(this).html().replace(' ','').split('(')[4].split(')')[0]+` (`+$(this).html().split('(')[0].replace('\n','').replace(/ /g,'')+`)</span>`;
-                                        $text += `\n`+$(this).html().replace(' ','').split('(')[4].split(')')[0]+` (`+$(this).html().split('(')[0].replace('\n','').replace(/ /g,'')+`)`;
+                                        $text += $(this).html().replace(' ','').split('(')[4].split(')')[0]+` (`+$(this).html().split('(')[0].replace('\n','').replace(/ /g,'')+`)`;
                                         break;
                                     }
                                 }
@@ -6846,7 +6854,8 @@ function get_checked_copy_result(){
                            <div class="col-lg-6" style="text-align:left;">`;
 
                        $text += '\n';
-                       $text += 'Departure: ';
+//                       $text += 'Departure: ';
+                       $text += 'Origin: ';
                        parent_legs.find('.copy_legs_depart').each(function(obj) {
                            if($(this).html() != undefined){
                                text+=`<b>Departure</b><br/><span>`+$(this).html()+` </span>`;
@@ -6871,7 +6880,8 @@ function get_checked_copy_result(){
 
                        text+=`</div>
                        <div class="col-lg-6" style="text-align:right;">`;
-                       $text += 'Arrival: ';
+//                       $text += 'Arrival: ';
+                       $text += '\nDestination: ';
                        parent_legs.find('.copy_legs_arr').each(function(obj) {
                            if($(this).html() != undefined){
                                text+=`<b>Arrival</b><br/><span> `+$(this).html()+` </span>`;
@@ -6899,7 +6909,7 @@ function get_checked_copy_result(){
                         </div>
                        </div>`;
 
-                       $text+='\n';
+                       $text+='\n\n';
                     }
 
                     var value_fares = [];

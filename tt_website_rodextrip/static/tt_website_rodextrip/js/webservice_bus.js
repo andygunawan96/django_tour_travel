@@ -281,6 +281,7 @@ function bus_review_page(){
             }
             bus_request = msg.bus_request;
             bus_booking = msg.bus_booking;
+            upsell_price_dict = msg.upsell_price_dict;
             adult = bus_request.adult;
             infant = 0;
             child = 0;
@@ -1420,8 +1421,14 @@ function bus_get_booking(data, sync=false){
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
                                     <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
                                 text_detail+=`</div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT))+`</span>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
+                                if(counter_service_charge == 0) //with upsell pnr pertama
+                                    text_detail+=`
+                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT + price.CSC))+`</span>`;
+                                else
+                                    text_detail+=`
+                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT))+`</span>`;
+                                text_detail+=`
                                 </div>
                             </div>`;
                             $text += msg.result.response.passengers[j].title +' '+ msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_bookings[i].pnr+'] ';
@@ -1447,11 +1454,12 @@ function bus_get_booking(data, sync=false){
                                     coma = true
                                 }
                             }
-                            $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
-                            if(counter_service_charge == 0){
+                            if(counter_service_charge == 0){ //with upsell pnr pertama
                                 total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
-                            }else{
+                                $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
+                            }else{ //no upsell
                                 total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                                $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.DISC))+'\n';
                             }
                             commission += parseInt(price.RAC);
                             total_price_provider.push({
@@ -1460,17 +1468,18 @@ function bus_get_booking(data, sync=false){
                                 'price': JSON.parse(JSON.stringify(price))
                             });
                         }
-                        if(csc != 0){
-                            text_detail+=`
-                                <div class="row" style="margin-bottom:5px;">
-                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">Other service charges</span>`;
-                                    text_detail+=`</div>
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
-                                    </div>
-                                </div>`;
-                        }
+                        //di gabung di pax
+//                        if(csc != 0){
+//                            text_detail+=`
+//                                <div class="row" style="margin-bottom:5px;">
+//                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+//                                        <span style="font-size:12px;">Other service charges</span>`;
+//                                    text_detail+=`</div>
+//                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+//                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
+//                                    </div>
+//                                </div>`;
+//                        }
                         counter_service_charge++;
                     }catch(err){
                         console.log(err); // error kalau ada element yg tidak ada
@@ -2347,22 +2356,24 @@ function update_service_charge(type){
         }
         repricing_order_number = order_number;
     }else{
-        upsell_price = 0;
+        upsell_price_dict = {};
         upsell = []
         counter_pax = -1;
         currency = price['currency'];
         for(i in passengers){
+            upsell_price_dict[i] = 0;
             for(k in passengers[i]){
                 list_price = []
-                if(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing').innerHTML != '-' && document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing').innerHTML != '0'){
+                if(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing').innerHTML != '-'){
                     list_price.push({
                         'amount': parseInt(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing').innerHTML.split(',').join('')),
                         'currency_code': currency
                     });
-                    upsell_price += parseInt(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing').innerHTML.split(',').join(''));
+                    upsell_price_dict[i] += parseInt(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing').innerHTML.split(',').join(''));
                     upsell.push({
                         'sequence': counter_pax,
-                        'pricing': JSON.parse(JSON.stringify(list_price))
+                        'pricing': JSON.parse(JSON.stringify(list_price)),
+                        'pax_type': i
                     });
                     list_price = [];
                 }

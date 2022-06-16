@@ -1610,9 +1610,9 @@ function group_booking_get_booking(order_number){
                                             <div class="col-lg-3" id="`+j+`_`+k+`">`+k+`</div>
                                             <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
                                             if(price_arr_repricing[k].Repricing == 0)
-                                            text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
+                                                text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
                                             else
-                                            text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
+                                                text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
                                             text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
                                         </div>
                                     </div>`;
@@ -1639,8 +1639,14 @@ function group_booking_get_booking(order_number){
                                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
                                             <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
                                         text_detail+=`</div>
-                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT))+`</span>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
+                                        if(counter_service_charge == 0) // with upsell pnr pertama
+                                            text_detail+=`
+                                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT + price.CSC))+`</span>`;
+                                        else // no upsell
+                                            text_detail+=`
+                                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT))+`</span>`;
+                                        text_detail+=`
                                         </div>
                                     </div>`;
                                 }
@@ -1660,11 +1666,13 @@ function group_booking_get_booking(order_number){
 
                                 if (typeof price !== 'undefined'){
                                     $text += '['+msg.result.response.provider_bookings[i].pnr+'] '
-                                    $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n\n';
-                                    if(counter_service_charge == 0){
+
+                                    if(counter_service_charge == 0){ // with upsell
                                         total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
-                                    }else{
+                                        $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n\n';
+                                    }else{ // no upsell
                                         total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                                        $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.DISC))+'\n\n';
                                     }
                                     commission += parseInt(price.RAC);
                                     total_price_provider.push({
@@ -1677,17 +1685,18 @@ function group_booking_get_booking(order_number){
                             counter_service_charge++;
                         }catch(err){console.log(err);}
                     }
-                    if(csc != 0 && typeof price !== 'undefined'){
-                        text_detail+=`
-                            <div class="row" style="margin-bottom:5px;">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">Other service charges</span>`;
-                                text_detail+=`</div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
-                                </div>
-                            </div>`;
-                    }
+                    // di gabung
+//                    if(csc != 0 && typeof price !== 'undefined'){
+//                        text_detail+=`
+//                            <div class="row" style="margin-bottom:5px;">
+//                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+//                                    <span style="font-size:12px;">Other service charges</span>`;
+//                                text_detail+=`</div>
+//                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+//                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
+//                                </div>
+//                            </div>`;
+//                    }
                     try{
                         group_booking_get_detail.result.response.total_price = total_price;
                         $text += '‣ Grand Total: '+price.currency+' '+ getrupiah(total_price);

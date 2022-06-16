@@ -159,6 +159,7 @@ function visa_page_review(){
             visa_request = msg.visa_request;
             visa = msg.visa;
             sell_visa = msg.sell_visa;
+            upsell_price_dict = msg.upsell_price_dict;
             for(i in sell_visa['search_data']){
                 sell_visa['search_data'][i]['total_pax'] = sell_visa['search_data'][i].pax;
                 sell_visa['search_data'][i]['pax_count'] = sell_visa['search_data'][i].pax;
@@ -1494,7 +1495,7 @@ function visa_get_data(data){
                     document.getElementById('visa_track').innerHTML = text_status;
 
                     hide_modal_waiting_transaction();
-                    update_table('booking');
+                    update_table_new('booking');
                 }else if(msg.result.error_code == 1035){
                     render_login('visa');
                 }else{
@@ -1535,7 +1536,7 @@ function update_service_charge(type){
         for(i in visa.passengers){
             if(currency == '')
                 for(j in visa.passengers[i].sale_service_charges){
-                    currency = visa.passengers[i].sale_service_charges[j].TOTAL.currency;
+                    currency = visa.passengers[i].sale_service_charges[j].FARE.currency;
                     break;
                 }
             list_price = []
@@ -1552,6 +1553,7 @@ function update_service_charge(type){
         }
         repricing_order_number = visa.journey.name;
     }else{
+        upsell_price_dict = {};
         upsell_price = 0;
         upsell = []
         counter_pax = 0;
@@ -1562,16 +1564,19 @@ function update_service_charge(type){
         for(i in passenger){
             list_price = []
             if(i != 'booker' && i != 'contact'){
+                if(passenger[i].length > 0)
+                    upsell_price_dict[passenger[i][0].pax_type] = 0
                 for(k in passenger[i]){
-                    if(document.getElementById(passenger[i][k].first_name+passenger[i][k].last_name+'_repricing').innerHTML != '-' && document.getElementById(passenger[i][k].first_name+passenger[i][k].last_name+'_repricing').innerHTML != '0'){
+                    if(document.getElementById(passenger[i][k].first_name+passenger[i][k].last_name+'_repricing').innerHTML != '-'){
                         list_price.push({
                             'amount': parseInt(document.getElementById(passenger[i][k].first_name+passenger[i][k].last_name+'_repricing').innerHTML.split(',').join('')),
                             'currency_code': currency
                         });
-                        upsell_price += parseInt(document.getElementById(passenger[i][k].first_name+passenger[i][k].last_name+'_repricing').innerHTML.split(',').join(''));
+                        upsell_price_dict[i] += parseInt(document.getElementById(passenger[i][k].first_name+passenger[i][k].last_name+'_repricing').innerHTML.split(',').join(''));
                         upsell.push({
                             'sequence': counter_pax,
-                            'pricing': JSON.parse(JSON.stringify(list_price))
+                            'pricing': JSON.parse(JSON.stringify(list_price)),
+                            'pax_type': passenger[i][k].pax_type
                         });
                         list_price = [];
                     }
@@ -1602,7 +1607,7 @@ function update_service_charge(type){
                     }else{
                         price_arr_repricing = {};
                         pax_type_repricing = [];
-                        update_table('review');
+                        update_table_new('review');
                     }
                 }catch(err){
                     console.log(err); // error kalau ada element yg tidak ada

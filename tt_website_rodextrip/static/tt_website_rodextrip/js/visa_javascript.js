@@ -449,13 +449,25 @@ function update_table_new(type){
                         currency = sell_visa.search_data[i].service_charges[j].currency;
                 }
                 text+=`
-                <div class="row">
+                <div class="row">`;
+                if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty(visa.list_of_visa[i].pax_type[0])){ //with upsell
+                    text+=`
                     <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                        <span style="font-size:13px;">`+sell_visa.search_data[i].pax+` `+sell_visa.search_data[i].pax_type+` <br/> `+sell_visa.search_data[i].visa_type+`, `+sell_visa.search_data[i].entry_type+` <br/> `+currency+` `+getrupiah(price_perpax/sell_visa.search_data[i].pax)+`</span>
+                        <span style="font-size:13px;">`+visa.list_of_visa[i].pax_count+` `+visa.list_of_visa[i].pax_type[1]+` <br/> `+visa.list_of_visa[i].visa_type[1]+`, `+visa.list_of_visa[i].entry_type[1]+` <br/> `+currency+` `+getrupiah(price_perpax + (upsell_price_dict[visa.list_of_visa[i].pax_type[0]] / visa.list_of_visa[i].pax_count))+`</span>
                     </div>
                     <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                        <span style="font-size:13px;">`+currency+` `+getrupiah(price_perpax)+`</span>
+                        <span style="font-size:13px;">`+currency+` `+getrupiah(price_perpax*visa.list_of_visa[i].pax_count + upsell_price_dict[visa.list_of_visa[i].pax_type[0]])+`</span>
+                    </div>`;
+                }else{
+                    text+=`
+                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                        <span style="font-size:13px;">`+visa.list_of_visa[i].pax_count+` `+visa.list_of_visa[i].pax_type[1]+` <br/> `+visa.list_of_visa[i].visa_type[1]+`, `+visa.list_of_visa[i].entry_type[1]+` <br/> `+currency+` `+getrupiah(price_perpax)+`</span>
                     </div>
+                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                        <span style="font-size:13px;">`+currency+` `+getrupiah(price_perpax*visa.list_of_visa[i].pax_count)+`</span>
+                    </div>`;
+                }
+                text+=`
                     <div class="col-lg-12">
                         <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                     </div>
@@ -493,7 +505,7 @@ function update_table_new(type){
 
             }
             try{
-                price += price_perpax;
+                price += price_perpax * visa.list_of_visa[i].pax_count;
                 for(j in sell_visa.search_data[i].service_charges)
                     if(sell_visa.search_data[i].service_charges[j].charge_type == 'RAC')
                         commission += (sell_visa.search_data[i].service_charges[j].total * -1);
@@ -531,34 +543,41 @@ function update_table_new(type){
                     if(currency == '')
                         currency = sell_visa.search_data[i].service_charges[j].currency;
                 }
-                $text += sell_visa.search_data[i].pax_count + ' ' + sell_visa.search_data[i].pax_type;
-                $text += ' @'+ currency+ ' ' +getrupiah(price_perpax) + '\n';
+                if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty(sell_visa.search_data[i].pax_type)){ //with upsell
+                    $text += sell_visa.search_data[i].pax_count + ' ' + sell_visa.search_data[i].pax_type;
+                    $text += ' @'+ currency+ ' ' +getrupiah(price_perpax + (upsell_price_dict[sell_visa.search_data[i].pax_type]/sell_visa.search_data[i].pax)) + '\n';
+                }else{
+                    $text += sell_visa.search_data[i].pax_count + ' ' + sell_visa.search_data[i].pax_type;
+                    $text += ' @'+ currency+ ' ' +getrupiah(price_perpax) + '\n';
+                }
             }
         }
-        try{
-            if(upsell_price != 0){
-                text+=`<div class="row" style="padding-bottom:15px;">`
-                text+=`
-                <div class="col-lg-7" style="text-align:left;">
-                    <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
-                </div>
-                <div class="col-lg-5" style="text-align:right;">`;
-                if(currency == 'IDR')
-                text+=`
-                    <span style="font-size:13px; font-weight:500;">`+currency+` `+getrupiah(upsell_price)+`</span><br/>`;
-                else
-                text+=`
-                    <span style="font-size:13px; font-weight:500;">`+currency+` `+upsell_price+`</span><br/>`;
-                text+=`</div></div>`;
-            }
-        }catch(err){
-            console.log(err) //ada element yg tidak ada
-        }
+        //pindah upsell ke pax
+//        try{
+//            if(upsell_price != 0){
+//                text+=`<div class="row" style="padding-bottom:15px;">`
+//                text+=`
+//                <div class="col-lg-7" style="text-align:left;">
+//                    <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
+//                </div>
+//                <div class="col-lg-5" style="text-align:right;">`;
+//                if(currency == 'IDR')
+//                text+=`
+//                    <span style="font-size:13px; font-weight:500;">`+currency+` `+getrupiah(upsell_price)+`</span><br/>`;
+//                else
+//                text+=`
+//                    <span style="font-size:13px; font-weight:500;">`+currency+` `+upsell_price+`</span><br/>`;
+//                text+=`</div></div>`;
+//            }
+//        }catch(err){
+//            console.log(err) //ada element yg tidak ada
+//        }
         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
             text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
         try{
             grand_total_price = price;
-            grand_total_price += upsell_price;
+            for(i in upsell_price_dict)
+                grand_total_price += upsell_price_dict[i];
         }catch(err){
             console.log(err) //ada element yg tidak ada
         }
@@ -683,23 +702,14 @@ function update_table_new(type){
                     }
                     //repricing
                     check = 0;
-                    for(k in pax_type_repricing){
-                        if(pax_type_repricing[k][0] == visa.passengers[j].name)
-                            check = 1;
+                    if(price_arr_repricing.hasOwnProperty(visa.passengers[j].pax_type) == false){
+                        price_arr_repricing[visa.passengers[j].pax_type] = {}
+                        pax_type_repricing.push([visa.passengers[j].pax_type, visa.passengers[j].pax_type]);
                     }
-                    if(check == 0){
-                        pax_type_repricing.push([visa.passengers[j].name, visa.passengers[j].name]);
-                        price_arr_repricing[visa.passengers[j].name] = {
-                            'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                            'Tax': price['TAX'] + price['ROC'],
-                            'Repricing': price['CSC']
-                        }
-                    }else{
-                        price_arr_repricing[visa.passengers[j].name] = {
-                            'Fare': price_arr_repricing[visa.passengers[j].name]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'] + price['SEAT'],
-                            'Tax': price_arr_repricing[visa.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
-                            'Repricing': price['CSC']
-                        }
+                    price_arr_repricing[visa.passengers[j].pax_type][visa.passengers[j].name] = {
+                        'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
+                        'Tax': price['TAX'] + price['ROC'],
+                        'Repricing': price['CSC']
                     }
                     text_repricing = `
                     <div class="col-lg-12">
@@ -711,18 +721,20 @@ function update_table_new(type){
                         </div>
                     </div>`;
                     for(k in price_arr_repricing){
-                       text_repricing += `
-                       <div class="col-lg-12">
-                            <div style="padding:5px;" class="row" id="adult">
-                                <div class="col-lg-3" id="`+j+`_`+k+`">`+k+`</div>
-                                <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
-                                if(price_arr_repricing[k].Repricing == 0)
-                                text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
-                                else
-                                text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
-                                text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
-                            </div>
-                        </div>`;
+                        for(l in price_arr_repricing[k]){
+                            text_repricing += `
+                            <div class="col-lg-12">
+                                <div style="padding:5px;" class="row" id="adult">
+                                    <div class="col-lg-3" id="`+l+`_`+k+`">`+l+`</div>
+                                    <div class="col-lg-3" id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
+                                    if(price_arr_repricing[k][l].Repricing == 0)
+                                        text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">-</div>`;
+                                    else
+                                        text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
+                                    text_repricing+=`<div class="col-lg-3" id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
+                                </div>
+                            </div>`;
+                        }
                     }
                     text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
                     document.getElementById('repricing_div').innerHTML = text_repricing;
@@ -733,17 +745,25 @@ function update_table_new(type){
                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
                             <span style="font-size:12px;">`+visa.passengers[j].name+`</span>`;
                         text_detail+=`</div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT))+`</span>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
+                        if(counter_service_charge == 0)
+                            text_detail+=`
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT + price.CSC))+`</span>`;
+                        else
+                            text_detail+=`
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT))+`</span>`;
+                        text_detail+=`
                         </div>
                     </div>`;
                     $text += visa.passengers[j].title +' '+ visa.passengers[j].name + ' ['+visa.provider_bookings[i].pnr+'] ';
 
-                    $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
-                    if(counter_service_charge == 0){
+
+                    if(counter_service_charge == 0){ // with upsell
                         total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
+                        $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
                     }else{
                         total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                        $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.DISC))+'\n';
                     }
                     commission += parseInt(price.RAC);
                     total_price_provider.push({
@@ -752,17 +772,18 @@ function update_table_new(type){
                         'price': JSON.parse(JSON.stringify(price))
                     });
                 }
-                if(csc != 0){
-                    text_detail+=`
-                        <div class="row" style="margin-bottom:5px;">
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                <span style="font-size:12px;">Other service charges</span>`;
-                            text_detail+=`</div>
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
-                            </div>
-                        </div>`;
-                }
+                // digabung ke pax
+//                if(csc != 0){
+//                    text_detail+=`
+//                        <div class="row" style="margin-bottom:5px;">
+//                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+//                                <span style="font-size:12px;">Other service charges</span>`;
+//                            text_detail+=`</div>
+//                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+//                                <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
+//                            </div>
+//                        </div>`;
+//                }
                 counter_service_charge++;
             }catch(err){console.log(err);}
         }
@@ -1275,13 +1296,25 @@ function update_table(type){
                         currency = visa.list_of_visa[i].service_charges[j].currency;
                 }
                 text+=`
-                <div class="row">
+                <div class="row">`;
+                if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty(visa.list_of_visa[i].pax_type[1].toLowerCase())){ //with upsell
+                    text+=`
+                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                        <span style="font-size:13px;">`+visa.list_of_visa[i].pax_count+` `+visa.list_of_visa[i].pax_type[1]+` <br/> `+visa.list_of_visa[i].visa_type[1]+`, `+visa.list_of_visa[i].entry_type[1]+` <br/> `+currency+` `+getrupiah(price_perpax + (upsell_price_dict[visa.list_of_visa[i].pax_type[1].toLowerCase()] / visa.list_of_visa[i].pax_count))+`</span>
+                    </div>
+                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                        <span style="font-size:13px;">`+currency+` `+getrupiah(price_perpax*visa.list_of_visa[i].pax_count + upsell_price_dict[visa.list_of_visa[i].pax_type[1].toLowerCase()])+`</span>
+                    </div>`;
+                }else{
+                    text+=`
                     <div class="col-lg-6 col-xs-6" style="text-align:left;">
                         <span style="font-size:13px;">`+visa.list_of_visa[i].pax_count+` `+visa.list_of_visa[i].pax_type[1]+` <br/> `+visa.list_of_visa[i].visa_type[1]+`, `+visa.list_of_visa[i].entry_type[1]+` <br/> `+currency+` `+getrupiah(price_perpax)+`</span>
                     </div>
                     <div class="col-lg-6 col-xs-6" style="text-align:right;">
                         <span style="font-size:13px;">`+currency+` `+getrupiah(price_perpax*visa.list_of_visa[i].pax_count)+`</span>
-                    </div>
+                    </div>`;
+                }
+                text+=`
                     <div class="col-lg-12">
                         <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                     </div>
@@ -1361,30 +1394,31 @@ function update_table(type){
                 $text += ' @'+ currency+ ' ' +getrupiah(price_perpax) + '\n';
             }
         }
-        try{
-            if(upsell_price != 0){
-                text+=`<div class="row" style="padding-bottom:15px;">`
-                text+=`
-                <div class="col-lg-7" style="text-align:left;">
-                    <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
-                </div>
-                <div class="col-lg-5" style="text-align:right;">`;
-                if(currency == 'IDR')
-                text+=`
-                    <span style="font-size:13px; font-weight:500;">`+currency+` `+getrupiah(upsell_price)+`</span><br/>`;
-                else
-                text+=`
-                    <span style="font-size:13px; font-weight:500;">`+currency+` `+upsell_price+`</span><br/>`;
-                text+=`</div></div>`;
-            }
-        }catch(err){
-            console.log(err) //ada element yg tidak ada
-        }
+//        try{
+//            if(upsell_price != 0){
+//                text+=`<div class="row" style="padding-bottom:15px;">`
+//                text+=`
+//                <div class="col-lg-7" style="text-align:left;">
+//                    <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
+//                </div>
+//                <div class="col-lg-5" style="text-align:right;">`;
+//                if(currency == 'IDR')
+//                text+=`
+//                    <span style="font-size:13px; font-weight:500;">`+currency+` `+getrupiah(upsell_price)+`</span><br/>`;
+//                else
+//                text+=`
+//                    <span style="font-size:13px; font-weight:500;">`+currency+` `+upsell_price+`</span><br/>`;
+//                text+=`</div></div>`;
+//            }
+//        }catch(err){
+//            console.log(err) //ada element yg tidak ada
+//        }
         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
             text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
         try{
             grand_total_price = price;
-            grand_total_price += upsell_price;
+            for(i in upsell_price_dict)
+                grand_total_price += upsell_price_dict[i];
         }catch(err){
             console.log(err) //ada element yg tidak ada
         }
