@@ -1105,10 +1105,18 @@
                                                 <input type="hidden" name="child_nationality{{forloop.counter}}" id="child_nationality{{forloop.counter}}" />
                                             </div>
                                         </div>
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Birth Date' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'child')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                                <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
+                                            </div>
+                                        </div>
                                         <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
                                         </div>
                                         <div class="col-lg-6 mb-3">
-                                            <label>Identity Photo</span><br>
+                                            <label>Identity Photo</label><br>
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image</button>
                                             <!-- Modal -->
                                             <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
@@ -1140,14 +1148,6 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label style="color:red">*</label>
-                                            <label>{% trans 'Birth Date' %}</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'child')" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
-                                                <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
-                                            </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <br/>

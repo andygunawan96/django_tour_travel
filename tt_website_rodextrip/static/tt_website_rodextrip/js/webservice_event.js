@@ -180,7 +180,7 @@ function event_page_review(){
             json_event_option_code = msg.event_option_code;
 
             json_event_answer = msg.event_extra_question;
-
+            upsell_price_dict = msg.upsell_price_dict;
             document.getElementById('json_event_code').value = json_event_option_code;
             render_extra_question(json_event_answer);
             render_object_from_value(json_event_option_code);
@@ -686,19 +686,27 @@ function event_get_booking(data){
                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
                                 <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
                             text_detail+=`</div>
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <span style="font-size:13px;">`+ msg.result.response.passengers[j].qty + `X @` + price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
+                            if(counter_service_charge == 0) //with upsell pnr pertama
+                                text_detail+=`
+                                <span style="font-size:13px;">`+ msg.result.response.passengers[j].qty + `X @` + price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC + price.CSC))+`</span>`;
+                            else
+                                text_detail+=`
+                                <span style="font-size:13px;">`+ msg.result.response.passengers[j].qty + `X @` + price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>`;
+                            text_detail+=`
                             </div>
                         </div>`;
                         $text += msg.result.response.passengers[j].name + ' ['+msg.result.response.providers[i].pnr+'] \n';
-                        $text += msg.result.response.passengers[j].qty + ' x ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
-                        $text += 'Sub Total: ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC) * msg.result.response.passengers[j].qty)+'\n\n';
-                        if(counter_service_charge == 0){
+                        if(counter_service_charge == 0){ //with upsell pnr pertama
                             total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC) * parseInt(msg.result.response.passengers[j].qty);
                             price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC) * parseInt(msg.result.response.passengers[j].qty);
-                        }else{
+                            $text += msg.result.response.passengers[j].qty + ' x ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
+                            $text += 'Sub Total: ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC) * msg.result.response.passengers[j].qty)+'\n\n';
+                        }else{ //no upsell
                             total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC) * parseInt(msg.result.response.passengers[j].qty);
                             price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC) * parseInt(msg.result.response.passengers[j].qty);
+                            $text += msg.result.response.passengers[j].qty + ' x ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.DISC))+'\n';
+                            $text += 'Sub Total: ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.DISC) * msg.result.response.passengers[j].qty)+'\n\n';
                         }
                         commission += parseInt(price.RAC);
                     }
@@ -2151,22 +2159,25 @@ function update_service_charge(type){
         }
         repricing_order_number = event_get_detail.result.response.order_number;
     }else{
-        upsell_price = 0;
+        upsell_price_dict = {};
         upsell = []
         counter_pax = 0;
         val = adult;
         currency = json_event_option_code[0]['currency'];
         for(i in val){
+            if(val[i].pax_type in upsell_price_dict == false)
+                upsell_price_dict[val[i].pax_type] = 0;
             list_price = []
-            if(document.getElementById(val[i].first_name+val[i].last_name+'_repricing').innerHTML != '-' && document.getElementById(val[i].first_name+val[i].last_name+'_repricing').innerHTML != '0'){
+            if(document.getElementById(val[i].first_name+val[i].last_name+'_repricing').innerHTML != '-'){
                 list_price.push({
                     'amount': parseInt(document.getElementById(val[i].first_name+val[i].last_name+'_repricing').innerHTML.split(',').join('')),
                     'currency_code': currency
                 });
-                upsell_price += parseInt(document.getElementById(val[i].first_name+val[i].last_name+'_repricing').innerHTML.split(',').join(''));
+                upsell_price_dict[val[i].pax_type] += parseInt(document.getElementById(val[i].first_name+val[i].last_name+'_repricing').innerHTML.split(',').join(''));
                 upsell.push({
                     'sequence': counter_pax,
-                    'pricing': JSON.parse(JSON.stringify(list_price))
+                    'pricing': JSON.parse(JSON.stringify(list_price)),
+                    'pax_type': 'ADT'
                 });
             }
             counter_pax++;

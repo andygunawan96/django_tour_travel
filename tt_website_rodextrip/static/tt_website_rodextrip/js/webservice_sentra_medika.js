@@ -1410,20 +1410,28 @@ function sentra_medika_get_booking(order_number, sync=false){
                                 text_detail+=`
                                 <div class="row" style="margin-bottom:5px;">
                                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Fare</span>`;
+                                        <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
                                     text_detail+=`</div>
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT))+`</span>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
+                                    if(counter_service_charge == 0) // with upsell pnr pertama
+                                        text_detail+=`
+                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT + price.CSC))+`</span>`;
+                                    else
+                                        text_detail+=`
+                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT))+`</span>`;
+                                    text+=`
                                     </div>
                                 </div>`;
                                 ADMIN_FEE_MEDICAL += price['ADMIN_FEE_MEDICAL'];
                                 $text += msg.result.response.passengers[j].title +' '+ msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_bookings[i].pnr+'] ';
 
-                                $text += `IDR `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC + price['ADMIN_FEE_MEDICAL']))+'\n';
-                                if(counter_service_charge == 0){
+
+                                if(counter_service_charge == 0){ //with upsell pnr pertama
                                     total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC + price['ADMIN_FEE_MEDICAL']);
+                                    $text += `IDR `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC + price['ADMIN_FEE_MEDICAL']))+'\n';
                                 }else{
                                     total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC + price['ADMIN_FEE_MEDICAL']);
+                                    $text += `IDR `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.DISC + price['ADMIN_FEE_MEDICAL']))+'\n';
                                 }
                                 commission += parseInt(price.RAC);
                                 total_price_provider.push({
@@ -1443,18 +1451,18 @@ function sentra_medika_get_booking(order_number, sync=false){
                                     </div>
                                 </div>`;
                             }
-
-                            if(csc != 0){
-                                text_detail+=`
-                                    <div class="row" style="margin-bottom:5px;">
-                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                            <span style="font-size:12px;">Other service charges</span>`;
-                                        text_detail+=`</div>
-                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
-                                        </div>
-                                    </div>`;
-                            }
+                            // di gabung di pax
+//                            if(csc != 0){
+//                                text_detail+=`
+//                                    <div class="row" style="margin-bottom:5px;">
+//                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+//                                            <span style="font-size:12px;">Other service charges</span>`;
+//                                        text_detail+=`</div>
+//                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+//                                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
+//                                        </div>
+//                                    </div>`;
+//                            }
                             counter_service_charge++;
                         }catch(err){console.log(err);}
                     }

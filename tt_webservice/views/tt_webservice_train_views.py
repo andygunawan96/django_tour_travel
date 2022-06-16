@@ -258,6 +258,7 @@ def get_train_data_review_page(request):
         if file:
             res['train_carriers'] = file
         res['train_request'] = request.session['train_request']
+        res['upsell_price_dict'] = request.session.get('train_upsell_%s' % request.POST['signature']) and request.session.get('train_upsell_%s' % request.POST['signature']) or {}
         logging.getLogger("error_info").error("SUCCESS data search page TRAIN")
     except Exception as e:
         _logger.error('ERROR get train_cache_data file\n' + str(e) + '\n' + traceback.format_exc())
@@ -710,11 +711,14 @@ def update_service_charge(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
-            total_upsell = 0
+            total_upsell_dict = {}
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
-                    total_upsell += pricing['amount']
-            set_session(request, 'train_upsell_'+request.POST['signature'], total_upsell)
+                    if upsell.get('pax_type'):
+                        if upsell['pax_type'] not in total_upsell_dict:
+                            total_upsell_dict[upsell['pax_type']] = 0
+                        total_upsell_dict[upsell['pax_type']] += pricing['amount']
+            set_session(request, 'train_upsell_' + request.POST['signature'], total_upsell_dict)
             _logger.info(json.dumps(request.session['train_upsell' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge TRAIN SIGNATURE " + request.POST['signature'])
         else:

@@ -1229,27 +1229,30 @@ function bus_detail(){
                 else
                     total_price += (price['fare'] * parseInt(infant)) + total_tax;
                 if(bus_data[i].fares[j].service_charge_summary[k].pax_type == 'ADT' && parseInt(adult) > 0){
-                    text+=`
-                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                            <span style="font-size:13px;">`+parseInt(adult)+` Adult Fare x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
-                        </div>
-                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                            <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(adult))+`</span>
-                        </div>`;
-                    if(price['tax'] != 0){
+                    if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty('adult')){ //with upsell
                         text+=`
                         <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                            <span style="font-size:13px;">Adult Tax x `+price['currency']+` `+getrupiah(price['tax'])+`</span>
+                            <span style="font-size:13px;">`+parseInt(adult)+` Adult x `+price['currency']+` `+getrupiah(price['fare'] + ((price['tax']+upsell_price_dict['adult'])/parseInt(adult)))+`</span>
                         </div>
                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                            <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['tax'])+`</span>
+                            <span style="font-size:13px;">`+price['currency']+` `+getrupiah((price['fare'] * parseInt(adult)) + price['tax'] + upsell_price_dict['adult'])+`</span>
                         </div>`;
+                        $text += adult+`x Adult @`+price['currency']+' '+getrupiah(price['fare'] + ((price['tax']+upsell_price_dict['adult']) / adult))+`\n`;
+                    }else{
+                        text+=`
+                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                            <span style="font-size:13px;">`+parseInt(adult)+` Adult x `+price['currency']+` `+getrupiah(price['fare'] + (price['tax']/parseInt(adult)))+`</span>
+                        </div>
+                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                            <span style="font-size:13px;">`+price['currency']+` `+getrupiah((price['fare'] * parseInt(adult)) + price['tax'])+`</span>
+                        </div>`;
+                        $text += adult+`x Adult @`+price['currency']+' '+getrupiah(price['fare'] + (price['tax'] / adult))+`\n`;
                     }
                     text+=`
                         <div class="col-lg-12">
                             <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                         </div>`;
-                    $text += adult+`x Adult @`+price['currency']+' '+getrupiah(price['fare'] + (price['tax'] / adult))+`\n`;
+
                 }
                 else if(bus_data[i].fares[j].service_charge_summary[k].pax_type == 'INF' && parseInt(infant) > 0){
                     text+=`
@@ -1295,20 +1298,22 @@ function bus_detail(){
     }
     grand_total_price = total_price + total_discount;
     try{
-        if(upsell_price != 0){
-            text+=`<div class="row"><div class="col-lg-7" style="text-align:left;">
-                <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
-            </div>
-            <div class="col-lg-5" style="text-align:right;">`;
-            if(price['currency'] == 'IDR')
-            text+=`
-                <span style="font-size:13px; font-weight:500;">`+price['currency']+` `+getrupiah(upsell_price)+`</span><br/>`;
-            else
-            text+=`
-                <span style="font-size:13px; font-weight:500;">`+price['currency']+` `+upsell_price+`</span><br/>`;
-            text+=`</div></div>`;
-            grand_total_price += upsell_price;
-        }
+//        if(upsell_price != 0){
+//            text+=`<div class="row"><div class="col-lg-7" style="text-align:left;">
+//                <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
+//            </div>
+//            <div class="col-lg-5" style="text-align:right;">`;
+//            if(price['currency'] == 'IDR')
+//            text+=`
+//                <span style="font-size:13px; font-weight:500;">`+price['currency']+` `+getrupiah(upsell_price)+`</span><br/>`;
+//            else
+//            text+=`
+//                <span style="font-size:13px; font-weight:500;">`+price['currency']+` `+upsell_price+`</span><br/>`;
+//            text+=`</div></div>`;
+//            grand_total_price += upsell_price;
+//        }
+        for(i in upsell_price_dict)
+            grand_total_price += upsell_price_dict[i];
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }

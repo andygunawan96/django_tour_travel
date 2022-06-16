@@ -944,8 +944,14 @@ function render_object_from_value(val){
         total_commission = total_commission + (val[i].qty * val[i].comm);
 
         $text += val[i].name + '\n';
-        $text += val[i].qty + ' x ' + val[i].currency + ' ' + getrupiah(val[i].price) + '\n';
-        $text += 'Sub Total: ' + val[i].currency + ' ' + getrupiah(val[i].price * val[i].qty) + '\n\n';
+
+        if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty('ADT')){ //with upsell
+            $text += val[i].qty + ' x ' + val[i].currency + ' ' + getrupiah(val[i].price + (upsell_price_dict['ADT']/ val[i].qty)) + '\n';
+            $text += 'Sub Total: ' + val[i].currency + ' ' + getrupiah(val[i].price * val[i].qty + upsell_price_dict['ADT']) + '\n\n';
+        }else{
+            $text += val[i].qty + ' x ' + val[i].currency + ' ' + getrupiah(val[i].price) + '\n';
+            $text += 'Sub Total: ' + val[i].currency + ' ' + getrupiah(val[i].price * val[i].qty) + '\n\n';
+        }
 
         text+=`
         <div class="row">
@@ -953,11 +959,17 @@ function render_object_from_value(val){
                 <span style="font-weight:500;">`+val[i].name+` <br/> ( `+val[i].qty+` Qty )</span>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">`;
+            if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty('ADT')) //with upsell
+                text+='<span style="font-weight:500;"> @ ' + val[i].currency + ' ' + getrupiah(val[i].price + (upsell_price_dict['ADT']/ val[i].qty)) + '</span>';
+            else
                 text+='<span style="font-weight:500;"> @ ' + val[i].currency + ' ' + getrupiah(val[i].price) + '</span>';
             text+=`
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">`;
-            text+='<span style="font-weight:500;">' + val[i].currency + ' ' + getrupiah(val[i].price * val[i].qty) + '</span>';
+            if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty('ADT')) //with upsell
+                text+='<span style="font-weight:500;">' + val[i].currency + ' ' + getrupiah(val[i].price * val[i].qty + upsell_price_dict['ADT']) + '</span>';
+            else
+                text+='<span style="font-weight:500;">' + val[i].currency + ' ' + getrupiah(val[i].price * val[i].qty) + '</span>';
         text+=`
             </div>
         </div>`;
@@ -978,11 +990,11 @@ function render_object_from_value(val){
         type_amount_repricing = ['Repricing'];
         for(i in adult){
             if(price_arr_repricing.hasOwnProperty(adult[i].pax_type) == false){
-                price_arr_repricing[adult[i].pax_type] = {}
-                pax_type_repricing.push([adult[i].pax_type, adult[i].pax_type]);
+                price_arr_repricing['Reservation'] = {}
+                pax_type_repricing.push(['Reservation', 'Reservation']);
             }
 
-            price_arr_repricing[adult[i].pax_type][adult[i].first_name +adult[i].last_name] = {
+            price_arr_repricing['Reservation']['Reservation'] = {
                 'Fare': 0,
                 'Tax': 0,
                 'Repricing': 0
@@ -1021,30 +1033,33 @@ function render_object_from_value(val){
         text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
     }
     try{
-        if(upsell_price != 0){
-            text+=`
-            <div class="row">
-                <div class="col-lg-7" style="text-align:left;">
-                    <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
-                </div>
-                <div class="col-lg-5" style="text-align:right;">`;
-                if(val[i].currency == 'IDR')
-                text+=`
-                    <span style="font-size:13px; font-weight:500;">`+val[i].currency+` `+getrupiah(upsell_price)+`</span><br/>`;
-                else
-                text+=`
-                    <span style="font-size:13px; font-weight:500;">`+val[i].currency+` `+upsell_price+`</span><br/>`;
-                text+=`
-                </div>
-            </div>`;
-        }
-        grand_total_option += upsell_price;
+        // di gabung ke pax
+//        if(upsell_price != 0){
+//            text+=`
+//            <div class="row">
+//                <div class="col-lg-7" style="text-align:left;">
+//                    <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
+//                </div>
+//                <div class="col-lg-5" style="text-align:right;">`;
+//                if(val[i].currency == 'IDR')
+//                text+=`
+//                    <span style="font-size:13px; font-weight:500;">`+val[i].currency+` `+getrupiah(upsell_price)+`</span><br/>`;
+//                else
+//                text+=`
+//                    <span style="font-size:13px; font-weight:500;">`+val[i].currency+` `+upsell_price+`</span><br/>`;
+//                text+=`
+//                </div>
+//            </div>`;
+//        }
+//        grand_total_option += upsell_price;
         //$text += 'Grand Total: '+val[i].currency+' '+ getrupiah(grand_total_option);
+        for(i in upsell_price_dict)
+            grand_total_option += upsell_price_dict[i];
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
 
-    $text += 'Grand Total: '+val[i].currency+' '+ getrupiah(grand_total_option);
+    $text += 'Grand Total: '+val[0].currency+' '+ getrupiah(grand_total_option);
     text+=`
     <div class="row">
         <div class="col-lg-12">
@@ -1055,7 +1070,7 @@ function render_object_from_value(val){
                 </div>
 
                 <div class="col-lg-6" style="text-align:right;">`;
-                text+='<span style="font-weight:bold; font-size:15px;">' + val[i].currency + ' ' + getrupiah(grand_total_option) + '</span>'
+                text+='<span style="font-weight:bold; font-size:15px;">' + val[0].currency + ' ' + getrupiah(grand_total_option) + '</span>'
                 text+=`
                 </div>
             </div>
@@ -1086,7 +1101,7 @@ function render_object_from_value(val){
     </div>`;
 
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-        text+= print_commission(total_commission*-1,'show_commission_event',val[i].currency)
+        text+= print_commission(total_commission*-1,'show_commission_event',val[0].currency)
 
         text+=`
         <div style="margin-bottom:5px;">
