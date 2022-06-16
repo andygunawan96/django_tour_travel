@@ -736,7 +736,7 @@ def update_service_charge(request):
 
         additional_url = 'booking/'
 
-        additional_url += 'swab_express'
+        additional_url += 'swabexpress'
 
 
         data = {

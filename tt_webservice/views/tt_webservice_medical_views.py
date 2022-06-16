@@ -950,10 +950,7 @@ def update_service_charge(request):
     try:
 
         additional_url = 'booking/'
-        if 'PK' in request.POST['order_number']:
-            additional_url += 'periksain'
-        else:
-            additional_url += 'phc'
+        additional_url += 'medical'
 
         data = {
             'order_number': json.loads(request.POST['order_number']),

@@ -732,7 +732,7 @@ def update_service_charge(request):
 
         additional_url = 'booking/'
 
-        additional_url += 'lab_pintar'
+        additional_url += 'labpintar'
 
 
         data = {

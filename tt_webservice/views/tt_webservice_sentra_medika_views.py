@@ -740,7 +740,7 @@ def update_service_charge(request):
 
         additional_url = 'booking/'
 
-        additional_url += 'sentra_medika'
+        additional_url += 'sentramedika'
 
 
         data = {
