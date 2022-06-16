@@ -240,7 +240,7 @@ function calculate(type){
                         price_duplication[selection_pax][j]['Repricing'] = price_duplication[selection_pax][j]['Repricing'] + (parseFloat(selection_calculation) * -1);
                         list.push(parseFloat(selection_calculation) * -1);
                         total = 0;
-                        for(j in price_duplication[selection_pax][j]){
+                        for(k in price_duplication[selection_pax][j]){
                             if(k != 'total')
                                 total += price_duplication[selection_pax][j][k];
                         }
