@@ -2570,22 +2570,52 @@ function change_fare(journey, segment, fares){
             document.getElementById('copy_fares_details'+journey+segment+"0"+l).innerHTML = text
         }
         fare_details = [];
+        has_fare_details = true;
         for(j in airline[journey].segments){
             if(airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].hasOwnProperty('fare_details')){
-                for(l in airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].fare_details){
-                    add_new_data = true;
-                    for(m in fare_details){
-                        add_new_data = false;
-                        if(fare_details[m].detail_code == airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].fare_details[l].detail_code && fare_details[m].amount > airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].fare_details[l].amount){
-                            fare_details.splice(m, 1);
-                            add_new_data = true;
-                            break;
-                        }else if(fare_details[m].detail_code == airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].fare_details[l].detail_code && fare_details[m].amount < airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].fare_details[l].amount){
-                            break;
+                for(k in airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].fare_details){
+                    if(has_fare_details && airline[journey].segments[j].fares[k].fare_details.length > 0){
+                        if(fare_details.length > 0){
+                            // check fare details yg sudah ada check kalau ada tipe yg tidak ada di hapus
+                            fare_details_list_to_delete = []; // yg tidak ada di next flight
+                            for(l=0;l<fare_details.length;l++){
+                                has_same_fare_detail_category = false;
+                                for(m in airline[journey].segments[j].fares[k].fare_details){
+                                    if(fare_details[l].detail_type == airline[journey].segments[j].fares[k].fare_details[m].detail_type){
+                                        has_same_fare_detail_category = true;
+                                    }
+                                }
+                                if(has_same_fare_detail_category == false){
+                                    fare_details_list_to_delete.push(l)
+                                }
+                            }
+                            if(fare_details_list_to_delete.length != 0)
+                                fare_details_list_to_delete.reverse();
+                                for(x in fare_details_list_to_delete)
+                                    fare_details.splice(fare_details_list_to_delete[x],1);
                         }
-                    }
-                    if(add_new_data)
-                        fare_details.push(airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].fare_details[l])
+                        for(l in airline[journey].segments[j].fares[k].fare_details){
+                            add_fare_detail = true;
+                            for(m in fare_details){
+                                if(fare_details[m].amount <= airline[journey].segments[j].fares[k].fare_details[l].amount && fare_details[m].detail_type == airline[journey].segments[j].fares[k].fare_details[l].detail_type){
+                                    add_fare_detail = false;
+                                }else if(fare_details[m].amount > airline[journey].segments[j].fares[k].fare_details[l].amount && fare_details[m].detail_type == airline[journey].segments[j].fares[k].fare_details[l].detail_type){
+                                    fare_details.splice(m,1);
+                                    break;
+                                }else if(j != 0 && fare_details[m].detail_type == airline[journey].segments[j].fares[k].fare_details[l].detail_type){
+                                    add_fare_detail = true; // ada di segment 1 tambah
+                                    break;
+                                }else if(j != 0){
+                                    add_fare_detail = false; // asumsi kalau tidak ada di segment 1 tidak di add
+                                }
+                            }
+                            if(add_fare_detail)
+                                fare_details.push(airline[journey].segments[j].fares[k].fare_details[l])
+                        }
+                   }else{
+                       has_fare_details = false;
+                       fare_details = [];
+                   }
                 }
             }
         }
