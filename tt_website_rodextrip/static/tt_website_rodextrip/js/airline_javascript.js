@@ -6966,7 +6966,7 @@ function get_checked_copy_result(){
                     $text += 'Price: '+price_airline+'\n';
                 }
 
-                $text+='====================\n\n';
+                $text+='====================\n';
             }
             text+=`
             </div>
@@ -7673,3 +7673,20 @@ function choose_airline_groupbooking(text){
     $('#show_provider_airline').text(text);
 }
 
+function reschedule_list_details(key, type){
+    var reschedule_flight_detail = document.getElementById('detail_reschedule_list_'+type+'_'+key);
+    var reschedule_flight_down = document.getElementById('reschedule_list_details_'+type+'_down'+key);
+    var reschedule_flight_up = document.getElementById('reschedule_list_details_'+type+'_up'+key);
+
+    if (reschedule_flight_detail.style.display === "none") {
+        reschedule_flight_up.style.display = "block";
+        reschedule_flight_down.style.display = "none";
+        reschedule_flight_detail.style.display = "block";
+
+    }
+    else {
+        reschedule_flight_up.style.display = "none";
+        reschedule_flight_down.style.display = "block";
+        reschedule_flight_detail.style.display = "none";
+    }
+}

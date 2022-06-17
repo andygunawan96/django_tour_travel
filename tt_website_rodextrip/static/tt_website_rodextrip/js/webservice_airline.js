@@ -6862,13 +6862,23 @@ function airline_get_booking(data, sync=false){
                                             text += `
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <h5>Old</h5>
-                                                    `+msg.result.response.reschedule_list[i].old_fee_notes.replaceAll('\n','<br/>')+`
-                                                 </div>
-                                                 <div class="col-lg-6">
-                                                    <h5>New</h5>
-                                                    `+msg.result.response.reschedule_list[i].new_fee_notes.replaceAll('\n','<br/>')+`
-                                                 </div>
+                                                    <a id="reschedule_old_`+i+`" data-toggle="collapse" data-parent="#accordiondepart" onclick="reschedule_list_details(`+i+`,'old');" href="#detail_reschedule_list_old_`+i+`" style="color: #237395; text-decoration: unset;" aria-expanded="true">
+                                                        <span class="detail-link" style="font-weight: bold; display:none;" id="reschedule_list_details_old_up`+i+`"> Old <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                        <span class="detail-link" style="font-weight: bold; display:block;" id="reschedule_list_details_old_down`+i+`"> Old <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                    </a>
+                                                    <div id="detail_reschedule_list_old_`+i+`" class="panel-collapse collapse in" aria-expanded="true" style="display:none;">
+                                                        `+msg.result.response.reschedule_list[i].old_fee_notes.replaceAll('\n','<br/>')+`
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <a id="reschedule_new_`+i+`" data-toggle="collapse" data-parent="#accordiondepart" onclick="reschedule_list_details(`+i+`,'new');" href="#detail_reschedule_list_new_`+i+`" style="color: #237395; text-decoration: unset;" aria-expanded="true">
+                                                        <span class="detail-link" style="font-weight: bold; display:none;" id="reschedule_list_details_new_up`+i+`"> New <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                        <span class="detail-link" style="font-weight: bold; display:block;" id="reschedule_list_details_new_down`+i+`"> New <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                    </a>
+                                                    <div id="detail_reschedule_list_new_`+i+`" class="panel-collapse collapse in" aria-expanded="true" style="display:none;">
+                                                        `+msg.result.response.reschedule_list[i].new_fee_notes.replaceAll('\n','<br/>')+`
+                                                    </div>
+                                                </div>
                                             </div>`;
                                     }
                                     text += `
