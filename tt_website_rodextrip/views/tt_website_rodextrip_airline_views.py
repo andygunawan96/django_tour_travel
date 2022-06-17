@@ -661,12 +661,12 @@ def ssr(request, signature):
                 for ssr_provider in request.session['airline_get_ssr_%s' % signature]['result']['response']['ssr_availability_provider']:
                     if ssr_provider.get('ssr_availability'):
                         airline_ssr['ssr_availability_provider'].append(ssr_provider)
-                    for available in ssr_provider['ssr_availability']:
-                        for journey in ssr_provider['ssr_availability'][available]:
-                            for segment in journey['segments']:
-                                if segment['carrier_code'] not in airline_list:
-                                    airline_list.append(segment['carrier_code'])
-                        break
+                        for available in ssr_provider['ssr_availability']:
+                            for journey in ssr_provider['ssr_availability'][available]:
+                                for segment in journey['segments']:
+                                    if segment['carrier_code'] not in airline_list:
+                                        airline_list.append(segment['carrier_code'])
+                            break
                     ssr_provider.update({
                         'airline_list': airline_list
                     })
