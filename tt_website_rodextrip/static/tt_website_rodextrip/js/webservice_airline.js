@@ -2570,22 +2570,52 @@ function change_fare(journey, segment, fares){
             document.getElementById('copy_fares_details'+journey+segment+"0"+l).innerHTML = text
         }
         fare_details = [];
+        has_fare_details = true;
         for(j in airline[journey].segments){
             if(airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].hasOwnProperty('fare_details')){
-                for(l in airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].fare_details){
-                    add_new_data = true;
-                    for(m in fare_details){
-                        add_new_data = false;
-                        if(fare_details[m].detail_code == airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].fare_details[l].detail_code && fare_details[m].amount > airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].fare_details[l].amount){
-                            fare_details.splice(m, 1);
-                            add_new_data = true;
-                            break;
-                        }else if(fare_details[m].detail_code == airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].fare_details[l].detail_code && fare_details[m].amount < airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].fare_details[l].amount){
-                            break;
+                for(k in airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].fare_details){
+                    if(has_fare_details && airline[journey].segments[j].fares[k].fare_details.length > 0){
+                        if(fare_details.length > 0){
+                            // check fare details yg sudah ada check kalau ada tipe yg tidak ada di hapus
+                            fare_details_list_to_delete = []; // yg tidak ada di next flight
+                            for(l=0;l<fare_details.length;l++){
+                                has_same_fare_detail_category = false;
+                                for(m in airline[journey].segments[j].fares[k].fare_details){
+                                    if(fare_details[l].detail_type == airline[journey].segments[j].fares[k].fare_details[m].detail_type){
+                                        has_same_fare_detail_category = true;
+                                    }
+                                }
+                                if(has_same_fare_detail_category == false){
+                                    fare_details_list_to_delete.push(l)
+                                }
+                            }
+                            if(fare_details_list_to_delete.length != 0)
+                                fare_details_list_to_delete.reverse();
+                                for(x in fare_details_list_to_delete)
+                                    fare_details.splice(fare_details_list_to_delete[x],1);
                         }
-                    }
-                    if(add_new_data)
-                        fare_details.push(airline[journey].segments[j].fares[airline[journey].segments[j].fare_pick].fare_details[l])
+                        for(l in airline[journey].segments[j].fares[k].fare_details){
+                            add_fare_detail = true;
+                            for(m in fare_details){
+                                if(fare_details[m].amount <= airline[journey].segments[j].fares[k].fare_details[l].amount && fare_details[m].detail_type == airline[journey].segments[j].fares[k].fare_details[l].detail_type){
+                                    add_fare_detail = false;
+                                }else if(fare_details[m].amount > airline[journey].segments[j].fares[k].fare_details[l].amount && fare_details[m].detail_type == airline[journey].segments[j].fares[k].fare_details[l].detail_type){
+                                    fare_details.splice(m,1);
+                                    break;
+                                }else if(j != 0 && fare_details[m].detail_type == airline[journey].segments[j].fares[k].fare_details[l].detail_type){
+                                    add_fare_detail = true; // ada di segment 1 tambah
+                                    break;
+                                }else if(j != 0){
+                                    add_fare_detail = false; // asumsi kalau tidak ada di segment 1 tidak di add
+                                }
+                            }
+                            if(add_fare_detail)
+                                fare_details.push(airline[journey].segments[j].fares[k].fare_details[l])
+                        }
+                   }else{
+                       has_fare_details = false;
+                       fare_details = [];
+                   }
                 }
             }
         }
@@ -6664,7 +6694,7 @@ function airline_get_booking(data, sync=false){
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div style="padding:10px; background-color:white;">
-                                    <h5> Flight Detail (Before Reschedule) <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png" alt="Reschedule Flight Detail"/></h5>
+                                    <h5> History <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png" alt="Reschedule Flight Detail"/></h5>
                                     <hr/>`;
                                 check = 0;
                                 for(i in msg.result.response.reschedule_list){
@@ -6682,17 +6712,23 @@ function airline_get_booking(data, sync=false){
                                     text+=`</div>
                                            <div class="col-lg-6" style="text-align:right;">`
                                     text+=`<h5>`;
+                                    tes = moment.utc(msg.result.response.reschedule_list[i].create_date).format('YYYY-MM-DD HH:mm:ss')
+                                    localTime  = moment.utc(tes).toDate();
+                                    try{
+                                        reschedule_time = moment(localTime).format('DD MMM YYYY HH:mm') + ' ' + gmt + timezone ;
+                                    }catch(err){
+                                        reschedule_time = moment(localTime).format('DD MMM YYYY HH:mm');
+                                    }
+                                    text+= reschedule_time + ', ';
                                     if(msg.result.response.reschedule_list[i].state.includes('cancel'))
                                         text+='Update History';
                                     else
                                         text+='Paid';
                                     text+=`</h5></div></div>`;
                                     if(msg.result.response.reschedule_list[i].old_segments.length > 0){
+                                        text+=`<h4 style="color:`+color+`">OLD</h4>`;
                                         for(j in msg.result.response.reschedule_list[i].old_segments){
-
                                             text+=`<h5>PNR: `+msg.result.response.reschedule_list[i].old_segments[j].pnr+`</h5>`;
-                                            text+=`<h6>Flight `+flight_counter+`</h6>`;
-                                            flight_counter++;
                                             var cabin_class = '';
                                             //yang baru harus diganti
                                             if(msg.result.response.reschedule_list[i].old_segments[j].cabin_class == 'Y')
@@ -6749,6 +6785,72 @@ function airline_get_booking(data, sync=false){
                                                                 </table>
                                                                 <span>`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].arrival_date.split('  ')[0]+`</span><br/>
                                                                 <span style="font-weight:500;">`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].destination_name+` - `+msg.result.response.reschedule_list[i].old_segments[j].legs[k].destination_city+` (`+msg.result.response.reschedule_list[i].old_segments[j].legs[k].destination+`)</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>`;
+                                            }
+                                        }
+                                        text+=`<h4 style="color:`+color+`">New</h4>`;
+                                        for(j in msg.result.response.reschedule_list[i].new_segments){
+                                            text+=`<h5>PNR: `+msg.result.response.reschedule_list[i].new_segments[j].pnr+`</h5>`;
+                                            flight_counter++;
+                                            var cabin_class = '';
+                                            //yang baru harus diganti
+                                            if(msg.result.response.reschedule_list[i].new_segments[j].cabin_class == 'Y')
+                                                cabin_class = 'Economy Class';
+                                            else if(msg.result.response.reschedule_list[i].new_segments[j].carrier_code == 'QG' && msg.result.response.reschedule_list[i].new_segments[j].cabin_class == 'W')
+                                                cabin_class = 'Royal Green Class';
+                                            else if(msg.result.response.reschedule_list[i].new_segments[j].cabin_class == 'W')
+                                                cabin_class = 'Premium Economy Class';
+                                            else if(msg.result.response.reschedule_list[i].new_segments[j].cabin_class == 'C')
+                                                cabin_class = 'Business Class';
+                                            else if(msg.result.response.reschedule_list[i].new_segments[j].cabin_class == 'F')
+                                                cabin_class = 'First Class';
+                                            for(k in msg.result.response.reschedule_list[i].new_segments[j].legs){
+                                                text+= `
+                                                <div class="row">
+                                                    <div class="col-lg-4">`;
+                                                    try{
+                                                        text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+airline_carriers[msg.result.response.reschedule_list[i].new_segments[j].carrier_code].name+`" title="`+airline_carriers[msg.result.response.reschedule_list[i].new_segments[j].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.reschedule_list[i].new_segments[j].carrier_code+`.png"/>`;
+                                                    }catch(err){
+                                                        text += `<img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+msg.result.response.reschedule_list[i].new_segments[j].carrier_code+`" title="`+msg.result.response.reschedule_list[i].new_segments[j].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.reschedule_list[i].new_segments[j].carrier_code+`.png"/>`;
+                                                    }
+                                                    text+=`<h5>`+msg.result.response.reschedule_list[i].new_segments[j].carrier_name+' '+msg.result.response.reschedule_list[i].new_segments[j].carrier_number+`</h5>
+                                                        <span>Class : `+cabin_class+` (`+msg.result.response.reschedule_list[i].new_segments[j].class_of_service+`)</span><br/>
+                                                    </div>
+                                                    <div class="col-lg-8" style="padding-top:10px;">
+                                                        <div class="row">
+                                                            <div class="col-lg-6 col-xs-6">
+                                                                <table style="width:100%">
+                                                                    <tr>
+                                                                        <td><h5>`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].departure_date.split('  ')[1]+`</h5></td>
+                                                                        <td style="padding-left:15px;">
+                                                                            <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" alt="Airline" style="width:20px; height:20px;"/>
+                                                                        </td>
+                                                                        <td style="height:30px;padding:0 15px;width:100%">
+                                                                            <div style="display:inline-block;position:relative;width:100%">
+                                                                                <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                                                                <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                                                                <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                                <span>`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].departure_date.split('  ')[0]+`</span><br/>
+                                                                <span style="font-weight:500;">`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].origin_name+` - `+msg.result.response.reschedule_list[i].new_segments[j].legs[k].origin_city+` (`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].origin+`)</span>
+                                                            </div>
+
+                                                            <div class="col-lg-6 col-xs-6" style="padding:0;">
+                                                                <table style="width:100%; margin-bottom:6px;">
+                                                                    <tr>
+                                                                        <td><h5>`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].arrival_date.split('  ')[1]+`</h5></td>
+                                                                        <td></td>
+                                                                        <td style="height:30px;padding:0 15px;width:100%"></td>
+                                                                    </tr>
+                                                                </table>
+                                                                <span>`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].arrival_date.split('  ')[0]+`</span><br/>
+                                                                <span style="font-weight:500;">`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].destination_name+` - `+msg.result.response.reschedule_list[i].new_segments[j].legs[k].destination_city+` (`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].destination+`)</span>
                                                             </div>
                                                         </div>
                                                     </div>
