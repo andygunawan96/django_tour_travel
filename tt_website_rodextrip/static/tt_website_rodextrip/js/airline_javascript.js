@@ -6748,7 +6748,8 @@ function get_checked_copy_result(){
         parent_airline.find('.copy_airline').each(function(obj) {
             value_copy.push($(this).html());
         });
-
+        if(airline_number != 0)
+            $text += '_____________________________________\n\n'; // pak adi yg minta pembatas per option
         var id_airline = parent_airline.find('.id_copy_result').html();
         airline_number = airline_number + 1;
         $text += '#OPTION-'+airline_number+'\n'; // pak adi yg minta
@@ -6775,8 +6776,6 @@ function get_checked_copy_result(){
                 <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+id_airline+`);"><i class="fas fa-times-circle" style="color:red; font-size:18px;"></i> Delete</span>
             </div>
             <div class="col-lg-12"><br/>`;
-            if(airline_number != 1)
-                $text += '________________________________________\n\n'; // pak adi yg minta pembatas per option
             for (var i = 0; i < value_journey.length; i++) {
                 var temp_journey = ''+value_journey[i];
                 var parent_copy_details = $("#detail_departjourney"+temp_journey);
