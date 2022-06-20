@@ -511,6 +511,7 @@ def get_notification_airline(request):
     return res
 
 def youtube_api_check(request):
+    ### FITUR TIDAK DAPAT DI PAKAI KARENA PINDAH OAUTH2
     api_key_youtube = ''
     channel_id_youtube = ''
     file = read_cache_with_folder_path("youtube", 90911)
