@@ -4399,6 +4399,7 @@ function airline_detail(type){
                         if(price_itinerary_temp[i].journeys[j].carrier_code_list.includes('QG')){
                             is_citilink = true;
                         }
+                        $text +='*Flight '+flight_count+'*\n';
                         if(i == 0 && j == 0 && Boolean(price_itinerary.is_combo_price) == true && price_itinerary_temp.length > 1){
                             text += `<h6>Special Price</h6>`;
                             $text +='Special Price\n';
@@ -4429,7 +4430,7 @@ function airline_detail(type){
                             </h6>
                         </div>`;
 
-                        $text +='Flight '+flight_count+'\n';
+
                         text+=`<div class="col-lg-12" id="flight_div_sh`+flight_count+`" style="display:none;">`;
 
                         if(price_itinerary_temp[i].journeys[j].hasOwnProperty('search_banner')){
@@ -4505,7 +4506,7 @@ function airline_detail(type){
         //                    $text += '‣ Arrival:\n';
         //                    $text += price_itinerary_temp[i].journeys[j].segments[k].destination_name + ' (' + price_itinerary_temp[i].journeys[j].segments[k].destination_city + ') '+price_itinerary_temp[i].journeys[j].segments[k].arrival_date +'\n\n';
 
-                            $text += '\n'+price_itinerary_temp[i].journeys[j].segments[k].origin_city + ' (' + price_itinerary_temp[i].journeys[j].segments[k].origin + ') - ' + price_itinerary_temp[i].journeys[j].segments[k].destination_city + ' (' + price_itinerary_temp[i].journeys[j].segments[k].destination + ')\n';
+                            $text += price_itinerary_temp[i].journeys[j].segments[k].origin_city + ' (' + price_itinerary_temp[i].journeys[j].segments[k].origin + ') - ' + price_itinerary_temp[i].journeys[j].segments[k].destination_city + ' (' + price_itinerary_temp[i].journeys[j].segments[k].destination + ')\n';
                             $text += 'Departure Date: '+price_itinerary_temp[i].journeys[j].segments[k].departure_date+'\n';
                             if(price_itinerary_temp[i].journeys[j].segments[k].origin_terminal)
                                 $text += 'Terminal: ' + price_itinerary_temp[i].journeys[j].segments[k].origin_terminal + '\n';
@@ -4600,7 +4601,6 @@ function airline_detail(type){
                                     if(price_itinerary_temp[i].journeys[j].segments[k].carrier_type_name)
                                         $text += '• Aircraft: ' + price_itinerary_temp[i].journeys[j].segments[k].carrier_type_name + '\n';
                                 }
-                                $text += '\n';
                             }
 
                             for(l in price_itinerary_temp[i].journeys[j].segments[k].legs){
@@ -4771,6 +4771,7 @@ function airline_detail(type){
         //                text+=`<div class="row"><div class="col-lg-12"><hr/></div></div>`;
 
                         text+=`</div>`;
+                        $text += '\n';
                     }
                 }
 
