@@ -3227,7 +3227,7 @@ function get_price_itinerary_request(){
                                             <i class="fas fa-caret-down" style="float:right; font-size:18px;"></i>
                                         </h6>
                                     </div>`;
-                                    $text +='Flight '+flight_count+'\n';
+                                    $text +='*Flight '+flight_count+'*\n';
                                     text+=`
                                     <div class="col-lg-12" style="padding:0px 15px 15px 15px; display:block;" id="flight_div_sh`+flight_count+`">
                                         <div class="row">
@@ -3335,14 +3335,13 @@ function get_price_itinerary_request(){
                             //                            $text += 'Arrival: ';
                             //                            $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_name + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_city + ') '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].arrival_date +'\n\n';
 
-                                                         $text += '\n'+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_city + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin + ') - ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_city + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination + ')\n';
+                                                         $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_city + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin + ') - ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_city + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination + ')\n';
                                                          $text += 'Departure Date  : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].departure_date+'\n';
                                                          if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_terminal)
                                                             $text += 'Terminal  : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_terminal+'\n';
                                                          $text += 'Arrival Date    : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].arrival_date +'\n';
                                                          if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_terminal)
                                                             $text += 'Terminal  : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_terminal+'\n';
-                                                         $text += '\n'
                                                         for(l in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs){
                                                             text+=`
                                                                 <div class="row">
@@ -3444,6 +3443,7 @@ function get_price_itinerary_request(){
                                             </div>
                                         </div>
                                     </div>`;
+                                    $text+= '\n';
                                 }
                                 temp = render_price_in_get_price(text, $text, $text_price)
                                 text = temp[0];
@@ -6464,7 +6464,7 @@ function airline_get_booking(data, sync=false){
                             for(j in msg.result.response.provider_bookings[i].journeys){
                                 fare_detail_list = [];
                                 text+=`<h6>Flight `+flight_counter+`</h6>`;
-                                $text += '\nFlight '+ flight_counter+'\n';
+                                $text += '\n*Flight '+ flight_counter+'*\n';
                                 flight_counter++;
                                 if(msg.result.response.provider_bookings[i].journeys[j].hasOwnProperty('search_banner')){
                                    for(banner_counter in msg.result.response.provider_bookings[i].journeys[j].search_banner){
@@ -6626,7 +6626,6 @@ function airline_get_booking(data, sync=false){
                                         if(add)
                                             fare_detail_list.push(msg.result.response.provider_bookings[i].journeys[j].segments[k].fare_details[l]);
                                     }
-                                    $text += '\n';
                                 }
                                 if(fare_detail_list.length > 0){
                                     for(l in fare_detail_list){
@@ -7289,7 +7288,7 @@ function airline_get_booking(data, sync=false){
                 price_arr_repricing = {};
                 pax_type_repricing = [];
                 disc = 0;
-                $text += '‣ Order Number: '+ msg.result.response.order_number + '\n';
+                $text += '\n‣ Order Number: '+ msg.result.response.order_number + '\n';
                 $text += '\n‣ Contact Person:\n';
                 $text += msg.result.response.contact.title + ' ' + msg.result.response.contact.name + '\n';
                 $text += msg.result.response.contact.email + '\n';
