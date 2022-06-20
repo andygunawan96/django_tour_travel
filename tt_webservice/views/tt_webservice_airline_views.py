@@ -4578,7 +4578,7 @@ def search_mobile(request):
                                         }
                                         origin_found = True
                                         check += 1
-                                    elif destination_found == False and segment['origin'] == destination['code']:
+                                    elif destination_found == False and segment['destination'] == destination['code']:
                                         segment['destination_name'] = destination['name']
                                         segment['destination_city'] = destination['city']
                                         segment['destination_country'] = destination['country']
