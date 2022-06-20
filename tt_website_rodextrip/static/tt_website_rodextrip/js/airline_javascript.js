@@ -2452,7 +2452,7 @@ function sort(){
                                     }
 
                                    text+=`
-                                   <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:10px; margin: auto;">`;
+                                   <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:10px; margin-top: 15px;">`;
 
                                    if(provider_list_data[airline[i].provider].is_post_issued_reschedule)
                                         text+=`
@@ -3501,6 +3501,10 @@ function airline_pick_mc(type){
                         <div class="row">
                             <div class="col-lg-2">`;
                                 for(j in airline_pick_list[i].segments){
+                                    if(j != 0){
+                                        text+=`<hr style="margin-top:unset;"/>`;
+                                    }
+
                                     if(airline_pick_list[i].segments[j].carrier_code != airline_pick_list[i].segments[j].operating_airline_code && airline_pick_list[i].segments[j].operating_airline_code != ''){
                                         try{
                                             text += `<span class="copy_operated_by" style="float:left; font-weight: 700; font-size:12px;">Operated by `+airline_carriers[0][airline_pick_list[i].segments[j].operating_airline_code].name+`</span><br/>`;
@@ -3516,9 +3520,6 @@ function airline_pick_mc(type){
                                             <span class="copy_carrier_provider" style="font-weight:500; font-size:12px;">`+airline_pick_list[i].segments[j].carrier_code+`</span><br/>
                                             <img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+airline_pick_list[i].segments[j].carrier_code+`" title="`+airline_pick_list[i].segments[j].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick_list[i].segments[j].carrier_code+`.png"><br/>`;
                                         }
-                                        if(j != 0){
-                                            text+=`<hr style="margin-top:unset;"/>`;
-                                        }
                                     }else if(carrier_code_airline.includes(airline_pick_list[i].segments[j].carrier_code) == false){
                                         try{
                                             text+=`
@@ -3528,9 +3529,6 @@ function airline_pick_mc(type){
                                             text+=`
                                             <span class="copy_carrier_provider" style="font-weight:500; font-size:12px;">`+airline_pick_list[i].segments[j].carrier_code+`</span><br/>
                                             <img data-toggle="tooltip" style="width:50px; height:50px;" alt="`+airline_pick_list[i].segments[j].carrier_code+`" title="`+airline_pick_list[i].segments[j].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick_list[i].segments[j].carrier_code+`.png"><br/>`;
-                                        }
-                                        if(j != 0){
-                                            text+=`<hr style="margin-top:unset;"/>`;
                                         }
                                     }
                                     if(carrier_code_airline.includes(airline_pick_list[i].segments[j].carrier_code) == false)

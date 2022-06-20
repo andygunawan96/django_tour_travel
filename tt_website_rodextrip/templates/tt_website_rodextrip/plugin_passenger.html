@@ -316,18 +316,18 @@
                                 <label style="color:red">*</label>
                                 <label>{% trans 'First name and middle name (if any)' %}</label>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" onchange="capitalizeInput('passenger_first_name');" class="form-control" name="passenger_first_name" id="passenger_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                    <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('passenger_first_name');" class="form-control" name="passenger_first_name" id="passenger_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                     <input type="hidden" class="form-control" name="passenger_id" id="passenger_id">
                                 </div>
-                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 mb-3">
                                 <br/>
                                 <label>{% trans 'Last name' %}</label>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" onchange="capitalizeInput('passenger_last_name');" class="form-control" name="passenger_last_name" id="passenger_last_name" placeholder="{% trans 'Last name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                    <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('passenger_last_name');" class="form-control" name="passenger_last_name" id="passenger_last_name" placeholder="{% trans 'Last name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                 </div>
-                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                             </div>
                             <div class="col-lg-6">
                                 <label style="color:red">*</label>
@@ -350,8 +350,8 @@
                                     <input type="text" class="form-control date-picker-birth" name="passenger_birth_date" id="passenger_birth_date" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <span>{% trans 'Avatar Photo' %}</span><br/>
+                            <div class="col-lg-6">
+                                <label>{% trans 'Avatar Photo' %}</label><br/>
                                 <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment">{% trans 'Upload Image' %}</button>
                                 <!-- Modal -->
                                 <div class="modal fade" id="myModal_attachment" data-keyboard="false">
@@ -406,13 +406,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_identity_number1" id="passenger_identity_number1" placeholder={% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_identity_number1" id="passenger_identity_number1" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" name="passenger_identity_expired_date1" id="passenger_identity_expired_date1" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" name="passenger_identity_expired_date1" id="passenger_identity_expired_date1" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -470,13 +470,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_identity_number2" id="passenger_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_identity_number2" id="passenger_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" name="passenger_identity_expired_date2" id="passenger_identity_expired_date2" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" name="passenger_identity_expired_date2" id="passenger_identity_expired_date2" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -534,13 +534,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_identity_number3" id="passenger_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_identity_number3" id="passenger_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" name="passenger_identity_expired_date3" id="passenger_identity_expired_date3" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" name="passenger_identity_expired_date3" id="passenger_identity_expired_date3" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -598,13 +598,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_identity_number4" id="passenger_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_identity_number4" id="passenger_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" name="passenger_identity_expired_date4" id="passenger_identity_expired_date4" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" name="passenger_identity_expired_date4" id="passenger_identity_expired_date4" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -714,18 +714,18 @@
                                         <label style="color:red">*</label>
                                         <label>{% trans 'First name and middle name (if any)' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" onchange="capitalizeInput('passenger_first_name');" class="form-control" name="passenger_first_name" id="passenger_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                            <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('passenger_first_name');" class="form-control" name="passenger_first_name" id="passenger_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                             <input type="hidden" class="form-control" name="passenger_id" id="passenger_id">
                                         </div>
-                                        <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 mb-3">
                                         <br/>
                                         <label>{% trans 'Last name' %}</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" onchange="capitalizeInput('passenger_last_name');" class="form-control" name="passenger_last_name" id="passenger_last_name" placeholder="{% trans 'Last name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('passenger_last_name');" class="form-control" name="passenger_last_name" id="passenger_last_name" placeholder="{% trans 'Last name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                         </div>
-                                        <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                     </div>
                                     <div class="col-lg-6">
                                         <label style="color:red">*</label>
@@ -746,8 +746,8 @@
                                             <input type="text" style="background:white;" class="form-control date-picker-birth" name="passenger_birth_date" id="passenger_birth_date" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <span>{% trans 'Avatar Photo' %}</span><br/>
+                                    <div class="col-lg-6">
+                                        <label>{% trans 'Avatar Photo' %}</label><br/>
                                         <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment">{% trans 'Upload Image' %}</button>
                                         <!-- Modal -->
                                         <div class="modal fade" id="myModal_attachment" data-keyboard="false">
@@ -802,13 +802,13 @@
                                                         <div class="col-sm-6">
                                                             <span>{% trans 'Identity Number' %}</span><br/>
                                                             <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="passenger_identity_number1" id="passenger_identity_number1" placeholder={% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                                <input type="text" class="form-control" name="passenger_identity_number1" id="passenger_identity_number1" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <span>{% trans 'Expired Date' %}</span><br/>
                                                             <div class="input-container-search-ticket">
-                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date1" id="passenger_identity_expired_date1" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date1" id="passenger_identity_expired_date1" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
@@ -864,13 +864,13 @@
                                                         <div class="col-sm-6">
                                                             <span>{% trans 'Identity Number' %}</span><br/>
                                                             <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="passenger_identity_number2" id="passenger_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                                <input type="text" class="form-control" name="passenger_identity_number2" id="passenger_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <span>{% trans 'Expired Date' %}</span><br/>
                                                             <div class="input-container-search-ticket">
-                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date2" id="passenger_identity_expired_date2" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date2" id="passenger_identity_expired_date2" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
@@ -926,13 +926,13 @@
                                                         <div class="col-sm-6">
                                                             <span>{% trans 'Identity Number' %}</span><br/>
                                                             <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="passenger_identity_number3" id="passenger_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                                <input type="text" class="form-control" name="passenger_identity_number3" id="passenger_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <span>{% trans 'Expired Date' %}</span><br/>
                                                             <div class="input-container-search-ticket">
-                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date3" id="passenger_identity_expired_date3" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date3" id="passenger_identity_expired_date3" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
@@ -988,13 +988,13 @@
                                                         <div class="col-sm-6">
                                                             <span>{% trans 'Identity Number' %}</span><br/>
                                                             <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="passenger_identity_number4" id="passenger_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                                <input type="text" class="form-control" name="passenger_identity_number4" id="passenger_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <span>{% trans 'Expired Date' %}</span><br/>
                                                             <div class="input-container-search-ticket">
-                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date4" id="passenger_identity_expired_date4" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date4" id="passenger_identity_expired_date4" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
@@ -1102,18 +1102,18 @@
                                 <label style="color:red">*</label>
                                 <label>{% trans 'First name and middle name (if any)' %}</label>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" onchange="capitalizeInput('passenger_first_name');" class="form-control" name="passenger_first_name" id="passenger_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                    <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('passenger_first_name');" class="form-control" name="passenger_first_name" id="passenger_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                     <input type="hidden" class="form-control" name="passenger_id" id="passenger_id">
                                 </div>
-                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 mb-3">
                                 <br/>
                                 <label>{% trans 'Last name' %}</label>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" onchange="capitalizeInput('passenger_last_name');" class="form-control" name="passenger_last_name" id="passenger_last_name" placeholder="{% trans 'Last name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                    <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('passenger_last_name');" class="form-control" name="passenger_last_name" id="passenger_last_name" placeholder="{% trans 'Last name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                 </div>
-                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                             </div>
                             <div class="col-lg-6">
                                 <label style="color:red">*</label>
@@ -1134,8 +1134,8 @@
                                     <input type="text" style="background:white;" class="form-control date-picker-birth" name="passenger_birth_date" id="passenger_birth_date" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <span>{% trans 'Avatar Photo' %}</span><br/>
+                            <div class="col-lg-6">
+                                <label>{% trans 'Avatar Photo' %}</label><br/>
                                 <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment">{% trans 'Upload Image' %}</button>
                                 <!-- Modal -->
                                 <div class="modal fade" id="myModal_attachment" data-keyboard="false">
@@ -1160,7 +1160,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="col-lg-6">
                                 <label style="color:{{text_color}}">*</label>
                                 <label>{% trans 'Contact Email Address' %}</label>
                                 <div class="input-container-search-ticket">
@@ -1190,13 +1190,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_identity_number1" id="passenger_identity_number1" placeholder={% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_identity_number1" id="passenger_identity_number1" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date1" id="passenger_identity_expired_date1" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date1" id="passenger_identity_expired_date1" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -1252,13 +1252,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_identity_number2" id="passenger_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_identity_number2" id="passenger_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date2" id="passenger_identity_expired_date2" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date2" id="passenger_identity_expired_date2" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -1314,13 +1314,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_identity_number3" id="passenger_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_identity_number3" id="passenger_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date3" id="passenger_identity_expired_date3" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date3" id="passenger_identity_expired_date3" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -1376,13 +1376,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_identity_number4" id="passenger_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_identity_number4" id="passenger_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date4" id="passenger_identity_expired_date4" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date4" id="passenger_identity_expired_date4" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -1490,18 +1490,18 @@
                                 <label style="color:red">*</label>
                                 <label>{% trans 'First name and middle name (if any)' %}</label>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" onchange="capitalizeInput('passenger_first_name');" class="form-control" name="passenger_first_name" id="passenger_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                    <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('passenger_first_name');" class="form-control" name="passenger_first_name" id="passenger_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                     <input type="hidden" class="form-control" name="passenger_id" id="passenger_id">
                                 </div>
-                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 mb-3">
                                 <br/>
                                 <label>{% trans 'Last name' %}</label>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" onchange="capitalizeInput('passenger_last_name');" class="form-control" name="passenger_last_name" id="passenger_last_name" placeholder="{% trans 'Last name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                    <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('passenger_last_name');" class="form-control" name="passenger_last_name" id="passenger_last_name" placeholder="{% trans 'Last name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                 </div>
-                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                             </div>
                             <div class="col-lg-6">
                                 <label style="color:red">*</label>
@@ -1522,8 +1522,8 @@
                                     <input type="text" style="background:white;" class="form-control date-picker-birth" name="passenger_birth_date" id="passenger_birth_date" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <span>{% trans 'Avatar Photo' %}</span><br/>
+                            <div class="col-lg-6">
+                                <label>{% trans 'Avatar Photo' %}</label><br/>
                                 <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment">{% trans 'Upload Image' %}</button>
                                 <!-- Modal -->
                                 <div class="modal fade" id="myModal_attachment" data-keyboard="false">
@@ -1578,13 +1578,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_identity_number1" id="passenger_identity_number1" placeholder={% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_identity_number1" id="passenger_identity_number1" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date1" id="passenger_identity_expired_date1" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date1" id="passenger_identity_expired_date1" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -1640,13 +1640,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_identity_number2" id="passenger_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_identity_number2" id="passenger_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date2" id="passenger_identity_expired_date2" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date2" id="passenger_identity_expired_date2" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -1702,13 +1702,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_identity_number3" id="passenger_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_identity_number3" id="passenger_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date3" id="passenger_identity_expired_date3" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date3" id="passenger_identity_expired_date3" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -1764,13 +1764,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_identity_number4" id="passenger_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_identity_number4" id="passenger_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date4" id="passenger_identity_expired_date4" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date4" id="passenger_identity_expired_date4" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -1876,18 +1876,18 @@
                                 <label style="color:red">*</label>
                                 <label>{% trans 'First name and middle name (if any)' %}</label>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" onchange="capitalizeInput('passenger_first_name');" class="form-control" name="passenger_first_name" id="passenger_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                    <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('passenger_first_name');" class="form-control" name="passenger_first_name" id="passenger_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                     <input type="hidden" class="form-control" name="passenger_id" id="passenger_id">
                                 </div>
-                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 mb-3">
                                 <br/>
                                 <label>{% trans 'Last name' %}</label>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" onchange="capitalizeInput('passenger_last_name');" class="form-control" name="passenger_last_name" id="passenger_last_name" placeholder="{% trans 'Last name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                    <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('passenger_last_name');" class="form-control" name="passenger_last_name" id="passenger_last_name" placeholder="{% trans 'Last name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                 </div>
-                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                             </div>
                             <div class="col-lg-6">
                                 <label style="color:red">*</label>
@@ -1910,8 +1910,8 @@
                                     <input type="text" style="background:white;" class="form-control date-picker-birth" name="passenger_birth_date" id="passenger_birth_date" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <span>{% trans 'Avatar Photo' %}</span><br/>
+                            <div class="col-lg-6">
+                                <label>{% trans 'Avatar Photo' %}</label><br/>
                                 <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment">{% trans 'Upload Image' %}</button>
                                 <!-- Modal -->
                                 <div class="modal fade" id="myModal_attachment" data-keyboard="false">
@@ -1966,13 +1966,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_identity_number1" id="passenger_identity_number1" placeholder={% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_identity_number1" id="passenger_identity_number1" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date1" id="passenger_identity_expired_date1" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date1" id="passenger_identity_expired_date1" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -2030,13 +2030,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_identity_number2" id="passenger_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_identity_number2" id="passenger_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date2" id="passenger_identity_expired_date2" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date2" id="passenger_identity_expired_date2" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -2094,13 +2094,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_identity_number3" id="passenger_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_identity_number3" id="passenger_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date3" id="passenger_identity_expired_date3" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date3" id="passenger_identity_expired_date3" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -2158,13 +2158,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_identity_number4" id="passenger_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_identity_number4" id="passenger_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date4" id="passenger_identity_expired_date4" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date4" id="passenger_identity_expired_date4" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -2274,18 +2274,18 @@
                                 <label style="color:red">*</label>
                                 <label>{% trans 'First name and middle name (if any)' %}</label>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" onchange="capitalizeInput('passenger_first_name');" class="form-control" name="passenger_first_name" id="passenger_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                    <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('passenger_first_name');" class="form-control" name="passenger_first_name" id="passenger_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                     <input type="hidden" class="form-control" name="passenger_id" id="passenger_id">
                                 </div>
-                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 mb-3">
                                 <br/>
                                 <label>{% trans 'Last name' %}</label>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" onchange="capitalizeInput('passenger_last_name');" class="form-control" name="passenger_last_name" id="passenger_last_name" placeholder="{% trans 'Last name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                    <input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('passenger_last_name');" class="form-control" name="passenger_last_name" id="passenger_last_name" placeholder="{% trans 'Last name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                 </div>
-                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                             </div>
                             <div class="col-lg-6">
                                 <label style="color:red">*</label>
@@ -2308,8 +2308,8 @@
                                     <input type="text" style="background:white;" class="form-control date-picker-birth" name="passenger_birth_date" id="passenger_birth_date" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <span>{% trans 'Avatar Photo' %}</span><br/>
+                            <div class="col-lg-6">
+                                <label>{% trans 'Avatar Photo' %}</label><br/>
                                 <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment">{% trans 'Upload Image' %}</button>
                                 <!-- Modal -->
                                 <div class="modal fade" id="myModal_attachment" data-keyboard="false">
@@ -2364,13 +2364,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_identity_number1" id="passenger_identity_number1" placeholder={% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_identity_number1" id="passenger_identity_number1" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date1" id="passenger_identity_expired_date1" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date1" id="passenger_identity_expired_date1" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -2428,13 +2428,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_identity_number2" id="passenger_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_identity_number2" id="passenger_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date2" id="passenger_identity_expired_date2" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date2" id="passenger_identity_expired_date2" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -2492,13 +2492,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_identity_number3" id="passenger_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_identity_number3" id="passenger_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date3" id="passenger_identity_expired_date3" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date3" id="passenger_identity_expired_date3" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -2556,13 +2556,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_identity_number4" id="passenger_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_identity_number4" id="passenger_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date4" id="passenger_identity_expired_date4" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date4" id="passenger_identity_expired_date4" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -2635,6 +2635,7 @@
                             <div class="col-lg-12 mb-2" id="div_avatar" hidden>
                             </div>
                             <div class="col-lg-12 mb-3">
+                                <label>{% trans 'Avatar Photo' %}</label><br/>
                                 <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_edit">{% trans 'Upload Image' %}</button>
                                 <!-- Modal -->
                                 <div class="modal fade" id="myModal_attachment_edit" data-keyboard="false">
@@ -2683,14 +2684,14 @@
                                 <label>{% trans 'First name and middle name (if any)' %}</label><br/>
                                 <div class="input-container-search-ticket" id="passenger_first_name_div">
                                 </div>
-                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 mb-3">
                                 <br/>
                                 <label>{% trans 'Last name' %}</label><br/>
                                 <div class="input-container-search-ticket" id="passenger_last_name_div">
                                 </div>
-                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                             </div>
                             <div class="col-lg-6">
                                 <label style="color:red">*</label>
@@ -2747,13 +2748,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_edit_identity_number1" id="passenger_edit_identity_number1" placeholder={% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_edit_identity_number1" id="passenger_edit_identity_number1" placeholder={% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date1" id="passenger_edit_identity_expired_date1" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date1" id="passenger_edit_identity_expired_date1" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -2813,13 +2814,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_edit_identity_number2" id="passenger_edit_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_edit_identity_number2" id="passenger_edit_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date2" id="passenger_edit_identity_expired_date2" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date2" id="passenger_edit_identity_expired_date2" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -2881,13 +2882,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_edit_identity_number3" id="passenger_edit_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_edit_identity_number3" id="passenger_edit_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date3" id="passenger_edit_identity_expired_date3" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date3" id="passenger_edit_identity_expired_date3" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -2948,13 +2949,13 @@
                                                 <div class="col-lg-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_edit_identity_number4" id="passenger_edit_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_edit_identity_number4" id="passenger_edit_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date4" id="passenger_edit_identity_expired_date4" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date4" id="passenger_edit_identity_expired_date4" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -3051,14 +3052,14 @@
                                         <label>{% trans 'First name and middle name (if any)' %}</label><br/>
                                         <div class="input-container-search-ticket" id="passenger_first_name_div">
                                         </div>
-                                        <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 mb-3">
                                         <br/>
                                         <label>{% trans 'Last name' %}</label><br/>
                                         <div class="input-container-search-ticket" id="passenger_last_name_div">
                                         </div>
-                                        <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                                     </div>
                                     <div class="col-lg-6">
                                         <label style="color:red">*</label>
@@ -3079,8 +3080,8 @@
                                             <input type="text" class="form-control date-picker-birth" style="background:white;" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <span>{% trans 'Avatar Photo' %}</span><br/>
+                                    <div class="col-lg-6">
+                                        <label>{% trans 'Avatar Photo' %}</label><br/>
                                         <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_edit">{% trans 'Upload Image' %}</button>
                                         <!-- Modal -->
                                         <div class="modal fade" id="myModal_attachment_edit" data-keyboard="false">
@@ -3138,13 +3139,13 @@
                                                         <div class="col-sm-6">
                                                             <span>{% trans 'Identity Number' %}</span><br/>
                                                             <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="passenger_edit_identity_number1" id="passenger_edit_identity_number1" placeholder={% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                                <input type="text" class="form-control" name="passenger_edit_identity_number1" id="passenger_edit_identity_number1" placeholder={% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <span>{% trans 'Expired Date' %}</span><br/>
                                                             <div class="input-container-search-ticket">
-                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date1" id="passenger_edit_identity_expired_date1" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date1" id="passenger_edit_identity_expired_date1" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
@@ -3203,13 +3204,13 @@
                                                         <div class="col-sm-6">
                                                             <span>{% trans 'Identity Number' %}</span><br/>
                                                             <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="passenger_edit_identity_number2" id="passenger_edit_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                                <input type="text" class="form-control" name="passenger_edit_identity_number2" id="passenger_edit_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <span>{% trans 'Expired Date' %}</span><br/>
                                                             <div class="input-container-search-ticket">
-                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date2" id="passenger_edit_identity_expired_date2" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date2" id="passenger_edit_identity_expired_date2" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
@@ -3268,13 +3269,13 @@
                                                         <div class="col-sm-6">
                                                             <span>{% trans 'Identity Number' %}</span><br/>
                                                             <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="passenger_edit_identity_number3" id="passenger_edit_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                                <input type="text" class="form-control" name="passenger_edit_identity_number3" id="passenger_edit_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <span>{% trans 'Expired Date' %}</span><br/>
                                                             <div class="input-container-search-ticket">
-                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date3" id="passenger_edit_identity_expired_date3" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date3" id="passenger_edit_identity_expired_date3" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
@@ -3333,13 +3334,13 @@
                                                         <div class="col-lg-6">
                                                             <span>{% trans 'Identity Number' %}</span><br/>
                                                             <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="passenger_edit_identity_number4" id="passenger_edit_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                                <input type="text" class="form-control" name="passenger_edit_identity_number4" id="passenger_edit_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <span>{% trans 'Expired Date' %}</span><br/>
                                                             <div class="input-container-search-ticket">
-                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date4" id="passenger_edit_identity_expired_date4" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date4" id="passenger_edit_identity_expired_date4" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
@@ -3434,14 +3435,14 @@
                                 <label>{% trans 'First name and middle name (if any)' %}</label><br/>
                                 <div class="input-container-search-ticket" id="passenger_first_name_div">
                                 </div>
-                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 mb-3">
                                 <br/>
                                 <label>{% trans 'Last name' %}</label><br/>
                                 <div class="input-container-search-ticket" id="passenger_last_name_div">
                                 </div>
-                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                             </div>
                             <div class="col-lg-6">
                                 <label style="color:red">*</label>
@@ -3462,8 +3463,8 @@
                                     <input type="text" class="form-control date-picker-birth" style="background:white;" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <span>{% trans 'Avatar Photo' %}</span><br/>
+                            <div class="col-lg-6">
+                                <label>{% trans 'Avatar Photo' %}</label><br/>
                                 <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_edit">{% trans 'Upload Image' %}</button>
                                 <!-- Modal -->
                                 <div class="modal fade" id="myModal_attachment_edit" data-keyboard="false">
@@ -3521,13 +3522,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_edit_identity_number1" id="passenger_edit_identity_number1" placeholder={% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_edit_identity_number1" id="passenger_edit_identity_number1" placeholder={% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date1" id="passenger_edit_identity_expired_date1" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date1" id="passenger_edit_identity_expired_date1" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -3586,13 +3587,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_edit_identity_number2" id="passenger_edit_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_edit_identity_number2" id="passenger_edit_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date2" id="passenger_edit_identity_expired_date2" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date2" id="passenger_edit_identity_expired_date2" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -3651,13 +3652,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_edit_identity_number3" id="passenger_edit_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_edit_identity_number3" id="passenger_edit_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date3" id="passenger_edit_identity_expired_date3" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date3" id="passenger_edit_identity_expired_date3" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -3716,13 +3717,13 @@
                                                 <div class="col-lg-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_edit_identity_number4" id="passenger_edit_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_edit_identity_number4" id="passenger_edit_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date4" id="passenger_edit_identity_expired_date4" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date4" id="passenger_edit_identity_expired_date4" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -3815,14 +3816,14 @@
                                 <label>{% trans 'First name and middle name (if any)' %}</label><br/>
                                 <div class="input-container-search-ticket" id="passenger_first_name_div">
                                 </div>
-                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 mb-3">
                                 <br/>
                                 <label>{% trans 'Last name' %}</label><br/>
                                 <div class="input-container-search-ticket" id="passenger_last_name_div">
                                 </div>
-                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                             </div>
                             <div class="col-lg-6">
                                 <label style="color:red">*</label>
@@ -3843,8 +3844,8 @@
                                     <input type="text" class="form-control date-picker-birth" style="background:white;" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <span>{% trans 'Avatar Photo' %}</span><br/>
+                            <div class="col-lg-6">
+                                <label>{% trans 'Avatar Photo' %}</label><br/>
                                 <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_edit">{% trans 'Upload Image' %}</button>
                                 <!-- Modal -->
                                 <div class="modal fade" id="myModal_attachment_edit" data-keyboard="false">
@@ -3902,13 +3903,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_edit_identity_number1" id="passenger_edit_identity_number1" placeholder={% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_edit_identity_number1" id="passenger_edit_identity_number1" placeholder={% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date1" id="passenger_edit_identity_expired_date1" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date1" id="passenger_edit_identity_expired_date1" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -3967,13 +3968,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_edit_identity_number2" id="passenger_edit_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_edit_identity_number2" id="passenger_edit_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date2" id="passenger_edit_identity_expired_date2" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date2" id="passenger_edit_identity_expired_date2" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -4032,13 +4033,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_edit_identity_number3" id="passenger_edit_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_edit_identity_number3" id="passenger_edit_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date3" id="passenger_edit_identity_expired_date3" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date3" id="passenger_edit_identity_expired_date3" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -4097,13 +4098,13 @@
                                                 <div class="col-lg-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_edit_identity_number4" id="passenger_edit_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_edit_identity_number4" id="passenger_edit_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date4" id="passenger_edit_identity_expired_date4" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date4" id="passenger_edit_identity_expired_date4" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -4196,14 +4197,14 @@
                                 <label>{% trans 'First name and middle name (if any)' %}</label><br/>
                                 <div class="input-container-search-ticket" id="passenger_first_name_div">
                                 </div>
-                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 mb-3">
                                 <br/>
                                 <label>{% trans 'Last name' %}</label><br/>
                                 <div class="input-container-search-ticket" id="passenger_last_name_div">
                                 </div>
-                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                             </div>
                             <div class="col-lg-6">
                                 <label style="color:red">*</label>
@@ -4226,8 +4227,8 @@
                                     <input type="text" class="form-control date-picker-birth" style="background:white;" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <span>{% trans 'Avatar Photo' %}</span><br/>
+                            <div class="col-lg-6">
+                                <label>{% trans 'Avatar Photo' %}</label><br/>
                                 <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_edit">{% trans 'Upload Image' %}</button>
                                 <!-- Modal -->
                                 <div class="modal fade" id="myModal_attachment_edit" data-keyboard="false">
@@ -4286,13 +4287,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_edit_identity_number1" id="passenger_edit_identity_number1" placeholder={% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_edit_identity_number1" id="passenger_edit_identity_number1" placeholder={% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date1" id="passenger_edit_identity_expired_date1" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date1" id="passenger_edit_identity_expired_date1" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -4353,13 +4354,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_edit_identity_number2" id="passenger_edit_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_edit_identity_number2" id="passenger_edit_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date2" id="passenger_edit_identity_expired_date2" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date2" id="passenger_edit_identity_expired_date2" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -4420,13 +4421,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_edit_identity_number3" id="passenger_edit_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_edit_identity_number3" id="passenger_edit_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="passenger_edit_identity_expired_date3" id="passenger_edit_identity_expired_date3" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="passenger_edit_identity_expired_date3" id="passenger_edit_identity_expired_date3" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -4487,13 +4488,13 @@
                                                 <div class="col-lg-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_edit_identity_number4" id="passenger_edit_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_edit_identity_number4" id="passenger_edit_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="passenger_edit_identity_expired_date4" id="passenger_edit_identity_expired_date4" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="passenger_edit_identity_expired_date4" id="passenger_edit_identity_expired_date4" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -4588,14 +4589,14 @@
                                 <label>{% trans 'First name and middle name (if any)' %}</label><br/>
                                 <div class="input-container-search-ticket" id="passenger_first_name_div">
                                 </div>
-                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 mb-3">
                                 <br/>
                                 <label>{% trans 'Last name' %}</label><br/>
                                 <div class="input-container-search-ticket" id="passenger_last_name_div">
                                 </div>
-                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                <span style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</span>
                             </div>
                             <div class="col-lg-6">
                                 <label style="color:red">*</label>
@@ -4618,8 +4619,8 @@
                                     <input type="text" class="form-control date-picker-birth" style="background:white;" name="passenger_edit_birth_date" id="passenger_edit_birth_date" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <span>{% trans 'Avatar Photo' %}</span><br/>
+                            <div class="col-lg-6">
+                                <label>{% trans 'Avatar Photo' %}</label><br/>
                                 <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_edit">{% trans 'Upload Image' %}</button>
                                 <!-- Modal -->
                                 <div class="modal fade" id="myModal_attachment_edit" data-keyboard="false">
@@ -4678,13 +4679,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_edit_identity_number1" id="passenger_edit_identity_number1" placeholder={% trans 'Passport Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_edit_identity_number1" id="passenger_edit_identity_number1" placeholder={% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="passenger_edit_identity_expired_date1" id="passenger_edit_identity_expired_date1" placeholder="{% trans 'Passport Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="passenger_edit_identity_expired_date1" id="passenger_edit_identity_expired_date1" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -4745,13 +4746,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_edit_identity_number2" id="passenger_edit_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_edit_identity_number2" id="passenger_edit_identity_number2" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="passenger_edit_identity_expired_date2" id="passenger_edit_identity_expired_date2" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="passenger_edit_identity_expired_date2" id="passenger_edit_identity_expired_date2" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -4812,13 +4813,13 @@
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_edit_identity_number3" id="passenger_edit_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_edit_identity_number3" id="passenger_edit_identity_number3" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="passenger_edit_identity_expired_date3" id="passenger_edit_identity_expired_date3" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="passenger_edit_identity_expired_date3" id="passenger_edit_identity_expired_date3" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -4879,13 +4880,13 @@
                                                 <div class="col-lg-6">
                                                     <span>{% trans 'Identity Number' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control" name="passenger_edit_identity_number4" id="passenger_edit_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                        <input type="text" class="form-control" name="passenger_edit_identity_number4" id="passenger_edit_identity_number4" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <span>{% trans 'Expired Date' %}</span><br/>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="passenger_edit_identity_expired_date4" id="passenger_edit_identity_expired_date4" placeholder="{% trans 'Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="passenger_edit_identity_expired_date4" id="passenger_edit_identity_expired_date4" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime'" readonly>
                                                         <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
