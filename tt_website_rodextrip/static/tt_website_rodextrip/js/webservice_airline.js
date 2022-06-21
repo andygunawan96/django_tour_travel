@@ -6198,7 +6198,7 @@ function airline_get_booking(data, sync=false){
                                     if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_pax_identity){
                                         can_change_pax = true;
                                     }
-                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_pax_name){
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_pax_name && user_login.co_agent_frontend_security.includes('process_channel_booking')){
                                         can_change_pax = true;
                                     }
                                }
@@ -6304,7 +6304,7 @@ function airline_get_booking(data, sync=false){
                                     if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_pax_identity){
                                         can_change_pax = true;
                                     }
-                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_pax_name){
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_pax_name && user_login.co_agent_frontend_security.includes('process_channel_booking')){
                                         can_change_pax = true;
                                     }
 
