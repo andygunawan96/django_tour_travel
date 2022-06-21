@@ -1572,11 +1572,11 @@ function update_service_charge(type){
                             'amount': parseInt(document.getElementById(passenger[i][k].first_name+passenger[i][k].last_name+'_repricing').innerHTML.split(',').join('')),
                             'currency_code': currency
                         });
-                        upsell_price_dict[i] += parseInt(document.getElementById(passenger[i][k].first_name+passenger[i][k].last_name+'_repricing').innerHTML.split(',').join(''));
+                        upsell_price_dict[passenger[i][0].pax_type] += parseInt(document.getElementById(passenger[i][k].first_name+passenger[i][k].last_name+'_repricing').innerHTML.split(',').join(''));
                         upsell.push({
                             'sequence': counter_pax,
                             'pricing': JSON.parse(JSON.stringify(list_price)),
-                            'pax_type': passenger[i][k].pax_type
+                            'pax_type': passenger[i][0].pax_type
                         });
                         list_price = [];
                     }
