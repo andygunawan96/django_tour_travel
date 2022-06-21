@@ -73,6 +73,7 @@ def get_printout(request):
             'order_number': request.POST['order_number'],
             'mode': request.POST['mode'],
             'provider_type': provider_type,
+            'is_hide_agent_logo': request.POST.get('is_hide_agent_logo') == 'true' and True or False,
             'bill_name': request.POST['bill_name_to'],
             'bill_address': request.POST['bill_address'],
             'additional_information': request.POST['additional_information'],

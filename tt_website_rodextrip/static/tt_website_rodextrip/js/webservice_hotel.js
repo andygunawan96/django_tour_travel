@@ -2478,17 +2478,21 @@ function hotel_get_booking(data){
                         document.getElementById('issued-breadcrumb').classList.add("br-active");
                         document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                         document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
-
-                        text=`<div class="col-sm-4">
+                        text=`
+                            <div class="col-lg-12" style="border:1px solid #cdcdcd; background-color:white; padding-top:15px; padding-bottom:15px; margin-bottom:20px;" id="hotel_hide_logo_opt_cont">
+                                <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo">
+                                <label for="is_hide_agent_logo">Hide agent logo on tickets</label>
+                            </div>
+                        `;
+                        document.getElementById('hotel_hide_agent_logo_opt').innerHTML = text;
+                        text=`<div class="col-sm-6">
                                     <button type="button" id="button-choose-print" style="width:100%;" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','hotel');">
                                         Print Voucher
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>
                                </div>`;
                         text+=`
-                            <div class="col-sm-4">
-                            </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
                                     <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
                                     <div class="ld ld-ring ld-cycle"></div>
