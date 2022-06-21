@@ -2032,6 +2032,10 @@ function hotel_detail(old_cancellation_policy){
         <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_hotel_down" onclick="show_hide_div('price_detail_hotel');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
     </div>`;
     text += `<div id="price_detail_hotel_div" style="display:none;">`;
+    total_room_night = 0;
+    for(i in hotel_price.rooms){
+        total_room_night += hotel_price.rooms[i].nightly_prices.length;
+    }
     for(i in hotel_price.rooms){
         var idx_room = parseInt(i)+1;
         text += '<h6><span style="color:'+color+';">Room #'+ idx_room + ' </span>'+ hotel_price.rooms[i].description + '</h6>';
@@ -2048,8 +2052,8 @@ function hotel_detail(old_cancellation_policy){
         text += `<div class="row">`;
         for(j in hotel_price.rooms[i].nightly_prices){
             date = new Date(hotel_price.rooms[i].nightly_prices[j].date).toString().split(' ');
-            if (typeof upsell_price !== 'undefined' && hotel_price.rooms[i].nightly_prices.length -1 == j){
-                last_day_price = hotel_price.rooms[i].nightly_prices[j].price + upsell_price
+            if (typeof upsell_price !== 'undefined'){
+                last_day_price = hotel_price.rooms[i].nightly_prices[j].price + Math.ceil(upsell_price / total_room_night);
                 if(hotel_price.rooms[i].nightly_prices[j].currency != 'IDR'){
                     text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((last_day_price))+'<span/></div>';
                     //$text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price))+'\n';
@@ -2078,7 +2082,7 @@ function hotel_detail(old_cancellation_policy){
         text += `<div class="col-lg-6">
             <span style="font-weight:bold;">Total</span>
         </div>`;
-        if(typeof upsell_price_dict !== 'undefined' && upsell_price != 0 && i == hotel_price.rooms.length -1)
+        if(typeof upsell_price !== 'undefined' && upsell_price != 0)
             text+=`
         <div class="col-lg-6" style="text-align:right;">
             <span style="font-weight:bold;">IDR `+ getrupiah(hotel_price.rooms[i].price_total + upsell_price) +`</span>
@@ -2089,7 +2093,7 @@ function hotel_detail(old_cancellation_policy){
             <span style="font-weight:bold;">IDR `+ getrupiah(hotel_price.rooms[i].price_total) +`</span>
         </div>`;
         text += `<div class="col-lg-12"><hr/></div>`;
-        if(typeof upsell_price_dict !== 'undefined' && upsell_price != 0 && i == hotel_price.rooms.length -1)
+        if(typeof upsell_price !== 'undefined' && upsell_price != 0)
             $text2 += 'Total: IDR ' + getrupiah(hotel_price.rooms[i].price_total + upsell_price) + '\n\n';
         else
             $text2 += 'Total: IDR ' + getrupiah(hotel_price.rooms[i].price_total) + '\n\n';

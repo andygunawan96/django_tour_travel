@@ -73,7 +73,16 @@ function get_printout(order_number,mode,provider_type,type='',reschedule_number=
            success: function(msg) {
                 if(msg.result.error_code == 0){
                     for(i in msg.result.response)
-                        openInNewTab(msg.result.response[i].url);
+                        if(msg.result.response[i].hasOwnProperty('url'))
+                            openInNewTab(msg.result.response[i].url);
+                        else{
+                            Swal.fire({
+                              type: 'error',
+                              title: 'Oops!',
+                              html: msg.result.response[i].error_msg,
+                            });
+                            break;
+                        }
     //                window.open(msg.result.response.url,'_blank');
     //                window.open('https://static.rodextrip.com/ebe/6b5/74e/ig%20no%20socmed.jpg','_blank');
                 }else{

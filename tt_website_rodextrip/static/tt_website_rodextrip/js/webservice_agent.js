@@ -967,11 +967,14 @@ function create_new_passenger(){
                                     for(i=1;i<5;i++){
                                         document.getElementById('passenger_identity_number'+i).value = '';
                                         document.getElementById('passenger_identity_expired_date'+i).value = '';
-                                        document.getElementById('passenger_identity_country_of_issued'+i+'_id').value = '';
-                                        document.getElementById('select2-passenger_identity_country_of_issued'+i+'_id-container').innerHTML = 'Country of Issued';
+                                        $('#passenger_identity_country_of_issued'+i+'_id').val('');
+//                                        document.getElementById('passenger_identity_country_of_issued'+i+'_id').value = '';
+//                                        document.getElementById('select2-passenger_identity_country_of_issued'+i+'_id-container').innerHTML = 'Country of Issued';
                                         document.getElementById('files_attachment'+i).value = '';
                                         document.getElementById('selectedFiles_attachment'+i).innerHTML = '';
                                     }
+                                    document.getElementById('passenger_phone_table').innerHTML = '';
+                                    passenger_data_phone = 0;
                                     document.getElementById('create_new_passenger_btn').disabled = false;
                                 }catch(err){
                                     console.log(err);
@@ -1298,7 +1301,7 @@ function get_customer_list(passenger, number, product){
                                                 if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
                                                     print_behavior = false;
                                                     response_behavior=`<i class="fas fa-clipboard"></i>
-                                                    <label id="pop_booker_behavior_detail`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behaviors <i class="fas fa-chevron-down"></i></label>`;
+                                                    <label id="pop_booker_behavior_detail`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behavior History <i class="fas fa-chevron-down"></i></label>`;
                                                     for(j in msg.result.response[i].behaviors){
                                                         if(j.toLowerCase() == product || product == 'cache'){
                                                             print_behavior = true;
@@ -1840,7 +1843,7 @@ function get_customer_list(passenger, number, product){
                                     if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
                                         print_behavior = false;
                                         response_behavior=`<i class="fas fa-clipboard"></i>
-                                        <label id="pop_behavior_detail`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behaviors <i class="fas fa-chevron-down"></i></label>`;
+                                        <label id="pop_behavior_detail`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behavior History <i class="fas fa-chevron-down"></i></label>`;
                                         for(j in msg.result.response[i].behaviors){
                                             if(j.toLowerCase() == product || product == 'cache'){
                                                 print_behavior = true;
@@ -5897,7 +5900,7 @@ function get_passenger_cache(type,update_cache=false){
                                         if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
                                             print_behavior = false;
                                             response_behavior=`<i class="fas fa-clipboard"></i>
-                                            <label id="pop_chosen_behavior_detail`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behaviors <i class="fas fa-chevron-down"></i></label>`;
+                                            <label id="pop_chosen_behavior_detail`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behavior History <i class="fas fa-chevron-down"></i></label>`;
                                             for(j in msg.result.response[i].behaviors){
                                                 print_behavior = true;
                                             }
@@ -8001,16 +8004,16 @@ function update_passenger_backend(){
                                     document.getElementById('div_avatar_other').innerHTML = '';
                                     document.getElementById('selectedFiles_attachment_edit').innerHTML = '';
                                     document.getElementById('attachment').innerHTML = '';
-                                    document.getElementById('attachment1').innerHTML = '';
-                                    document.getElementById('attachment2').innerHTML = '';
-                                    document.getElementById('attachment3').innerHTML = '';
-                                    document.getElementById('attachment4').innerHTML = '';
                                     document.getElementById('div_avatar').innerHTML = '';
-                                    document.getElementById('files_attachment_edit1').value = '';
-                                    document.getElementById('files_attachment_edit2').value = '';
-                                    document.getElementById('files_attachment_edit3').value = '';
-                                    document.getElementById('files_attachment_edit4').value = '';
                                     document.getElementById('files_attachment_edit').value = '';
+
+                                    for(i=1;i<5;i++){
+                                        document.getElementById('attachment'+i).innerHTML = '';
+                                        $('#passenger_identity_country_of_issued'+i+'_id').val('');
+                                        document.getElementById('files_attachment_edit'+i).value = '';
+                                        document.getElementById('passenger_edit_identity_number'+i).value = '';
+                                    }
+                                    document.getElementById('passenger_edit_phone_table').innerHTML = '';
                                 }catch(err){
                                     console.log(err);
                                 }

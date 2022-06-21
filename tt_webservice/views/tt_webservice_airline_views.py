@@ -4456,6 +4456,7 @@ def search_mobile(request):
             country_detail = {}
             for journey_list in res['result']['response']['schedules']:
                 for journey in journey_list['journeys']:
+                    check_segment_fare = True
                     available_seat = 100
                     if provider_list_data.get(journey['provider']):
                         if provider_list_data[journey['provider']]['is_post_issued_reschedule'] or provider_list_data[journey['provider']]['is_post_booked_reschedule']:
@@ -4639,7 +4640,7 @@ def search_mobile(request):
 
                             choose_fare = True
                             for idz, fare in enumerate(segment['fares']):
-                                if int(fare['available_count']) >= (request.data['adult'] + request.data['child']) and choose_fare:
+                                if int(fare['available_count']) >= (request.data['adult'] + request.data['child']) and choose_fare and check_segment_fare:
                                     choose_fare = False
                                     fare['pick'] = True
                                     segment['fare_pick'] = idz
@@ -4691,7 +4692,9 @@ def search_mobile(request):
                                 fare['show'] = True
                                 fare['segments_sequence'] = segment['sequence']
                                 fare['journey_code'] = journey['journey_code']
-                        if choose_fare == False:
+                            if choose_fare:
+                                check_segment_fare = False
+                        if choose_fare == False and check_segment_fare:
                             if totalprice % 1 != 0:
                                 totalprice = math.ceil(totalprice)
                             if total_price_with_discount % 1 != 0:

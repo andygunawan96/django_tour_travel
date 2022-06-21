@@ -3184,7 +3184,7 @@ function capitalizeInput(id){
             var temp_split = [];
             for (var i = 0, len = split.length; i < len; i++) {
                 if(split[i] != ''){
-                    split[i] = split[i].charAt(0).toUpperCase() + split[i].slice(1).toUpperCase();
+                    split[i] = split[i].toUpperCase();
                     temp_split.push(split[i]);
                 }
             }
