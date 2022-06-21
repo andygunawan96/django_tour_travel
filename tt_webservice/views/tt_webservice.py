@@ -36,7 +36,8 @@ def send_request_api(request, url, headers, data, method="POST", timeout=30):
         _logger.error(str(e) + traceback.format_exc())
         ################ PRINT HASIL YG BUKAN DICT BIAR BISA DI TRACE
         _logger.error('#########################CHECK SEND REQUEST RESPONSE ERROR#####################')
-        _logger.error('REQUEST DATA: %s' % json.dumps(res))
+        _logger.error('URL: %s' % url)
+        _logger.error('REQUEST DATA: %s' % json.dumps(data))
         _logger.error('RESPONSE %s' % json.dumps(res))
         _logger.error('#########################END LOGGER#####################')
     return res

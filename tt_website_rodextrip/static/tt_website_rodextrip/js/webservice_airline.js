@@ -4406,7 +4406,7 @@ function set_passenger_seat_map_airline(val){
     </h5>`;
     if(passengers[val].hasOwnProperty('behaviors') && Object.keys(passengers[val].behaviors).length > 0){
         print_behavior = false;
-        text_behaviors=`<br/><b>Behaviors:</b><br/>`;
+        text_behaviors=`<br/><b>Behavior History:</b><br/>`;
         for(j in passengers[val].behaviors){
             if(j.toLowerCase() == 'airline'){
                 print_behavior = true;
@@ -4420,7 +4420,7 @@ function set_passenger_seat_map_airline(val){
             }
         }
         if(print_behavior)
-            text += text_behaviors
+            text += text_behaviors + '<hr/>'
     }
     text+=`
     <div class="row">`;
@@ -4470,7 +4470,7 @@ function set_first_passenger_seat_map_airline(val){
     </h5>`;
     if(passengers[val].hasOwnProperty('behaviors') && Object.keys(passengers[val].behaviors).length > 0){
         print_behavior = false;
-        text_behaviors=`<br/><b>Behaviors:</b><br/>`;
+        text_behaviors=`<br/><b>Behaviors History:</b><br/>`;
         for(j in passengers[val].behaviors){
             if(j.toLowerCase() == 'airline'){
                 print_behavior = true;
@@ -4484,7 +4484,7 @@ function set_first_passenger_seat_map_airline(val){
             }
         }
         if(print_behavior)
-            text += text_behaviors
+            text += text_behaviors + '<hr>'
     }
     text+=`
     <div class="row">`;

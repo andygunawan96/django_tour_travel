@@ -4620,7 +4620,7 @@ function airline_detail(type){
                                                         price = airline_price[i].ADT['roc'];
                                                     if(airline_price[price_counter].ADT.tax != null)
                                                         price += airline_price[price_counter].ADT.tax;
-                                                    if(upsell_price_dict.hasOwnProperty('adult'))
+                                                    if(upsell_price_dict.hasOwnProperty('adult') && i == 0) //upsell hanya di gunakan di provider pertama
                                                         price += upsell_price_dict['adult'];
                                                 }catch(err){
 
@@ -4667,7 +4667,7 @@ function airline_detail(type){
                                                         price = airline_price[price_counter].CHD['roc'];
                                                     if(airline_price[price_counter].CHD.tax != null)
                                                         price += airline_price[price_counter].CHD.tax;
-                                                    if(upsell_price_dict.hasOwnProperty('child'))
+                                                    if(upsell_price_dict.hasOwnProperty('child') && i == 0) //upsell hanya di gunakan di provider pertama
                                                         price += upsell_price_dict['child'];
                                                 }catch(err){
 
@@ -4712,7 +4712,7 @@ function airline_detail(type){
                                                         price = airline_price[price_counter].INF['roc'];
                                                     if(airline_price[price_counter].INF.tax != null)
                                                         price += airline_price[price_counter].INF.tax;
-                                                    if(upsell_price_dict.hasOwnProperty('infant'))
+                                                    if(upsell_price_dict.hasOwnProperty('infant') && i == 0) //upsell hanya di gunakan di provider pertama
                                                         price += upsell_price_dict['infant'];
                                                 }catch(err){
 
@@ -6279,7 +6279,7 @@ function get_airline_review(){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
                             if(passengers_ssr[i].hasOwnProperty('behaviors') && Object.keys(passengers_ssr[i].behaviors).length > 0){
-                                text+=`<label id="pop_behaviors`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behaviors <i class="fas fa-chevron-down"></i></label>`;
+                                text+=`<label id="pop_behaviors`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behavior History <i class="fas fa-chevron-down"></i></label>`;
                             }
 
                             if(passengers_ssr[i].ssr_list.length){
