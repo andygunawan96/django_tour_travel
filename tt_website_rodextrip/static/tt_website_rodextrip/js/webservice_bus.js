@@ -1173,8 +1173,21 @@ function bus_get_booking(data, sync=false){
 
                     text+=`</table>
                     </div>
-                </div>
+                </div>`;
 
+                if (msg.result.response.state == 'issued'){
+                    text+=`
+                    <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo">
+                                <label for="is_hide_agent_logo">Hide agent logo on tickets</label>
+                            </div>
+                        </div>
+                    </div>`;
+                }
+
+                text+=`
                 <div class="row" style="margin-top:20px;">
                     <div class="col-lg-4" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){

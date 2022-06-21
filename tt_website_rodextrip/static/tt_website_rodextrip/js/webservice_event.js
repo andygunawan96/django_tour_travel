@@ -855,6 +855,13 @@ function event_get_booking(data){
             var print_text = '<div class="col-lg-4" style="padding-bottom:10px;">';
             // === Button 1 ===
             if (msg.result.response.state  == 'issued') {
+                hide_logo_text=`
+                    <div class="col-lg-12" style="border:1px solid #cdcdcd; background-color:white; padding-top:15px; padding-bottom:15px; margin-bottom:20px;" id="event_hide_logo_opt_cont">
+                        <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo">
+                        <label for="is_hide_agent_logo">Hide agent logo on tickets</label>
+                    </div>
+                `;
+                document.getElementById('event_hide_agent_logo_opt').innerHTML = hide_logo_text;
                 print_text+=`
                 <button class="primary-btn hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.name + `','ticket','event');" style="width:100%;">
                     Print Ticket

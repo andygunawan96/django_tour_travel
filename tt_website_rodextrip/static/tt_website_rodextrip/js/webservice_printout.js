@@ -3,10 +3,16 @@ function get_printout(order_number,mode,provider_type,type='',reschedule_number=
     //type ticket, ticket_price, invoice, itinerary, voucher, visa_handling,
     if(printout_state == 0){
         printout_state = 1;
+        is_hide_agent_logo = false;
         bill_name_to = '';
         bill_address = '';
         additional_information = '';
         kwitansi_name = '';
+        try{
+            is_hide_agent_logo = document.getElementById('is_hide_agent_logo').checked;
+        }catch(err){
+            console.log(err); // error kalau ada element yg tidak ada
+        }
         try{
             bill_name_to = document.getElementById('bill_name').value;
         }catch(err){
@@ -61,6 +67,7 @@ function get_printout(order_number,mode,provider_type,type='',reschedule_number=
                 'order_number': order_number,
                 'mode': mode,
                 'provider_type': provider_type,
+                'is_hide_agent_logo': is_hide_agent_logo,
                 'bill_name_to': bill_name_to,
                 'bill_address': bill_address,
                 'additional_information': additional_information,
