@@ -755,10 +755,12 @@ def admin(request):
                     text += request.POST.get('train_destination') or ''
                     write_cache_with_folder(text, "data_cache_product")
 
-                    text = ''
-                    text += request.POST.get('api_key_youtube') + '\n' or '' + '\n'
-                    text += request.POST.get('channel_id_youtube') or ''
-                    write_cache_with_folder(text, "youtube")
+                    ## FITUR TIDAK DAPAT DI PAKAI KARENA PINDAH OAUTH2
+                    # text = ''
+                    # text += request.POST.get('api_key_youtube') + '\n' or '' + '\n'
+                    # text += request.POST.get('channel_id_youtube') or ''
+                    # write_cache_with_folder(text, "youtube")
+                    ##
 
                     text = ''
                     text += request.POST.get('app_id_one_signal') + '\n' or '' + '\n'
@@ -1371,14 +1373,15 @@ def get_data_template(request, type='home', provider_type = []):
                 train_origin = line
             elif idx == 3 and line != '':
                 train_destination = line
-
-    file = read_cache_with_folder_path("youtube", 90911)
-    if file:
-        for idx, line in enumerate(file.split('\n')):
-            if idx == 0 and line != '':
-                api_key_youtube = line
-            elif idx == 1 and line != '':
-                channel_id_youtube = line
+    ## FITUR TIDAK DAPAT DI PAKAI KARENA PINDAH OAUTH2
+    # file = read_cache_with_folder_path("youtube", 90911)
+    # if file:
+    #     for idx, line in enumerate(file.split('\n')):
+    #         if idx == 0 and line != '':
+    #             api_key_youtube = line
+    #         elif idx == 1 and line != '':
+    #             channel_id_youtube = line
+    ##
 
     # printout color
     file = read_cache_with_folder_path("color_printout", 90911)

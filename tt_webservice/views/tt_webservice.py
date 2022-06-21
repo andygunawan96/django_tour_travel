@@ -4,6 +4,7 @@ from tools import util, ERR
 from datetime import datetime, timedelta
 import traceback
 import logging
+import json
 _logger = logging.getLogger("rodextrip_logger")
 
 def set_session(request, session_key, data, depth = 1):
@@ -33,6 +34,12 @@ def send_request_api(request, url, headers, data, method="POST", timeout=30):
             _check_expired(request, res)
     except Exception as e:
         _logger.error(str(e) + traceback.format_exc())
+        ################ PRINT HASIL YG BUKAN DICT BIAR BISA DI TRACE
+        _logger.error('#########################CHECK SEND REQUEST RESPONSE ERROR#####################')
+        _logger.error('URL: %s' % url)
+        _logger.error('REQUEST DATA: %s' % json.dumps(data))
+        _logger.error('RESPONSE %s' % json.dumps(res))
+        _logger.error('#########################END LOGGER#####################')
     return res
 
 def _check_expired(request, res):

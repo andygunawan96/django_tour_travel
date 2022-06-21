@@ -2230,8 +2230,8 @@ function hotel_get_booking(data){
                             // Todo: Pertimbangkan better mechanism
                             total_price = 0
                             for(j in msg.result.response.passengers){
-                                if(msg.result.response.passengers[j].sale_service_charges.hasOwnProperty(msg.result.response.hotel_rooms[i].prov_issued_code) && msg.result.response.passengers[j].sale_service_charges[msg.result.response.hotel_rooms[i].prov_issued_code].hasOwnProperty('CSC')){
-                                    csc += msg.result.response.passengers[j].sale_service_charges[msg.result.response.hotel_rooms[i].prov_issued_code]['CSC'].amount
+                                if(msg.result.response.passengers[j].hasOwnProperty('channel_service_charges')){
+                                    csc += msg.result.response.passengers[j].channel_service_charges.amount;
                                 }
                             }
                             break; // upsell hanya 1x
@@ -2433,11 +2433,17 @@ function hotel_get_booking(data){
                                     text+=msg.result.response.hotel_rooms[i].dates[j].meal_type+`<br/>`;
                                 text+=`</td>
                                 <td>`;
+                                total_room_night = 0;
                                 for(j in msg.result.response.hotel_rooms[i].dates){
-                                    if(i == msg.result.response.hotel_rooms.length - 1 && j == msg.result.response.hotel_rooms[i].dates.length-1)
-                                        text+=msg.result.response.hotel_rooms[i].currency+` `+getrupiah(msg.result.response.hotel_rooms[i].dates[j].sale_price + csc)+`<br/>`;
-                                    else
-                                        text+=msg.result.response.hotel_rooms[i].currency+` `+getrupiah(msg.result.response.hotel_rooms[i].dates[j].sale_price)+`<br/>`;
+                                    total_room_night += msg.result.response.hotel_rooms[i].dates.length;
+                                }
+                                for(j in msg.result.response.hotel_rooms[i].dates){
+                                    total_price_print = msg.result.response.hotel_rooms[i].dates[j].sale_price;
+                                    if(csc)
+                                        total_price_print += Math.ceil(csc/total_room_night);
+
+                                    text+=msg.result.response.hotel_rooms[i].currency+` `+getrupiah(total_price_print)+`<br/>`;
+
                                 }
                                 text+=`</td>
 
@@ -2724,13 +2730,13 @@ function hotel_get_booking(data){
                                     }
                                     try{
                                     var total_per_room = parseInt(0);
+                                    total_room = msg.result.response.hotel_rooms.length;
+
                                     for(j in msg.result.response.hotel_rooms[i].dates){
                                         total_per_room = total_per_room + parseInt(msg.result.response.hotel_rooms[i].dates[j].sale_price);
                                     }
-                                    if(i == msg.result.response.hotel_rooms.length - 1)
-                                        text_detail+=`
-                                    <span style="font-size:13px; font-weight:700;">`+msg.result.response.hotel_rooms[i].dates[j].currency+` `+ getrupiah(total_per_room + csc) +`</span>`;
-                                    else
+                                    if(csc)
+                                        total_per_room += Math.ceil(csc/total_room);
                                         text_detail+=`
                                     <span style="font-size:13px; font-weight:700;">`+msg.result.response.hotel_rooms[i].dates[j].currency+` `+ getrupiah(total_per_room) +`</span>`;
                                     }catch(err){
@@ -3168,7 +3174,7 @@ function update_service_charge(type){
             break;
         }
         list_price = []
-        if(document.getElementById('Reservation_repricing').innerHTML != '-' && document.getElementById('Reservation_repricing').innerHTML != '0'){
+        if(document.getElementById('Reservation_repricing').innerHTML != '-'){
             list_price.push({
                 'amount': parseInt(document.getElementById('Reservation_repricing').innerHTML.split(',').join('')),
                 'currency_code': currency

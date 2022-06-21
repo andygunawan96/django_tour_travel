@@ -1773,7 +1773,7 @@ function select_passenger(val){
     }
     if(pax[val-1].hasOwnProperty('behaviors') && Object.keys(pax[val-1].behaviors).length > 0){
         print_behavior = false;
-        text=`<br/><b>Behaviors:</b><br/>`;
+        text=`<br/><b>Behavior History:</b><br/>`;
         for(j in pax[val-1].behaviors){
             if(j.toLowerCase() == 'train'){
                 print_behavior = true;

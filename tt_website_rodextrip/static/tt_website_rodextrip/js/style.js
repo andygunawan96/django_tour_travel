@@ -3032,6 +3032,23 @@ function show_hide_tac(id){
     }
 }
 
+function show_hide_subtotal(id){
+    var span_subtotal_up = document.getElementById("span-subtotal-up"+id);
+    var span_subtotal_down = document.getElementById("span-subtotal-down"+id);
+    var div_subtotal = document.getElementById("div-subtotal"+id);
+
+    if (span_subtotal_up.style.display === "none") {
+        span_subtotal_down.style.display = "none";
+        div_subtotal.style.display = "none";
+        span_subtotal_up.style.display = "block";
+    }
+    else {
+        span_subtotal_down.style.display = "block";
+        div_subtotal.style.display = "block";
+        span_subtotal_up.style.display = "none";
+    }
+}
+
 var count_alert=0;
 var count_alert_items=[];
 try{
@@ -3167,7 +3184,7 @@ function capitalizeInput(id){
             var temp_split = [];
             for (var i = 0, len = split.length; i < len; i++) {
                 if(split[i] != ''){
-                    split[i] = split[i].charAt(0).toUpperCase() + split[i].slice(1).toLowerCase();
+                    split[i] = split[i].toUpperCase();
                     temp_split.push(split[i]);
                 }
             }

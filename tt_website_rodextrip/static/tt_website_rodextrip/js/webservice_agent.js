@@ -967,13 +967,14 @@ function create_new_passenger(){
                                     for(i=1;i<5;i++){
                                         document.getElementById('passenger_identity_number'+i).value = '';
                                         document.getElementById('passenger_identity_expired_date'+i).value = '';
-                                        document.getElementById('passenger_identity_country_of_issued'+i).value = '';
-                                        document.getElementById('passenger_identity_country_of_issued_id'+i).value = '';
+                                        $('#passenger_identity_country_of_issued'+i+'_id').val('');
+//                                        document.getElementById('passenger_identity_country_of_issued'+i+'_id').value = '';
+//                                        document.getElementById('select2-passenger_identity_country_of_issued'+i+'_id-container').innerHTML = 'Country of Issued';
                                         document.getElementById('files_attachment'+i).value = '';
                                         document.getElementById('selectedFiles_attachment'+i).innerHTML = '';
                                     }
-                                    document.getElementById('selectedFiles_attachment').innerHTML = '';
-                                    document.getElementById('select2-passenger_identity_country_of_issued_id-container').innerHTML= '';
+                                    document.getElementById('passenger_phone_table').innerHTML = '';
+                                    passenger_data_phone = 0;
                                     document.getElementById('create_new_passenger_btn').disabled = false;
                                 }catch(err){
                                     console.log(err);
@@ -1300,7 +1301,7 @@ function get_customer_list(passenger, number, product){
                                                 if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
                                                     print_behavior = false;
                                                     response_behavior=`<i class="fas fa-clipboard"></i>
-                                                    <label id="pop_booker_behavior_detail`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behaviors <i class="fas fa-chevron-down"></i></label>`;
+                                                    <label id="pop_booker_behavior_detail`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behavior History <i class="fas fa-chevron-down"></i></label>`;
                                                     for(j in msg.result.response[i].behaviors){
                                                         if(j.toLowerCase() == product || product == 'cache'){
                                                             print_behavior = true;
@@ -1438,7 +1439,7 @@ function get_customer_list(passenger, number, product){
                                                                     <a class="demo-img" href="`+msg.result.response[i].identities[j].identity_images[k][0]+`" data-jbox-image="1showbookeridentity`+i+``+for_jbox_image+`" title="`+j+` - `+msg.result.response[i].identities[j].identity_number+` (`+msg.result.response[i].identities[j].identity_images[k][2]+`)">
                                                                         <img src="`+msg.result.response[i].identities[j].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
                                                                     </a><br/>
-                                                                    <h6 class="mb-2" style="white-space: normal; width:220px; padding:0px 15px;">`+msg.result.response[i].identities[j].identity_images[k][2]+`</h6>
+                                                                    <h6 class="mb-2" style="white-space: normal; width:220px; word-break: break-word; padding:0px 15px;">`+msg.result.response[i].identities[j].identity_images[k][2]+`</h6>
                                                                     <i>
                                                                         Upload date<br/>
                                                                         `+moment(msg.result.response[i].identities[j].identity_images[k][3]).format('DD MMM YYYY - HH:mm')+`
@@ -1449,7 +1450,14 @@ function get_customer_list(passenger, number, product){
                                                         }
                                                     }
                                                     if(check_identity_img == 0){
-                                                        response+=`Image not Found!`;
+                                                        response+=`
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <div style="padding:10px 5px 10px 5px;">
+                                                                    <h6>No Image!</h6>
+                                                                </div>
+                                                            </div>
+                                                        </div>`;
                                                     }
                                                     response+=`</div>`;
                                                 }
@@ -1835,7 +1843,7 @@ function get_customer_list(passenger, number, product){
                                     if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
                                         print_behavior = false;
                                         response_behavior=`<i class="fas fa-clipboard"></i>
-                                        <label id="pop_behavior_detail`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behaviors <i class="fas fa-chevron-down"></i></label>`;
+                                        <label id="pop_behavior_detail`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behavior History <i class="fas fa-chevron-down"></i></label>`;
                                         for(j in msg.result.response[i].behaviors){
                                             if(j.toLowerCase() == product || product == 'cache'){
                                                 print_behavior = true;
@@ -1975,7 +1983,7 @@ function get_customer_list(passenger, number, product){
                                                             <a class="demo-img" href="`+msg.result.response[i].identities[j].identity_images[k][0]+`" data-jbox-image="2showidentity`+i+`allidentity`+for_jbox_image+`" title="`+j+` - `+msg.result.response[i].identities[j].identity_number+` (`+msg.result.response[i].identities[j].identity_images[k][2]+`)">
                                                                 <img src="`+msg.result.response[i].identities[j].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
                                                             </a><br/>
-                                                            <h6 class="mb-2" style="white-space: normal; width:220px; padding:0px 15px;">`+msg.result.response[i].identities[j].identity_images[k][2]+`</h6>
+                                                            <h6 class="mb-2" style="white-space: normal; width:220px; word-break: break-word; padding:0px 15px;">`+msg.result.response[i].identities[j].identity_images[k][2]+`</h6>
                                                             <i>
                                                                 Upload date<br/>
                                                                 `+moment(msg.result.response[i].identities[j].identity_images[k][3]).format('DD MMM YYYY - HH:mm')+`
@@ -1987,7 +1995,14 @@ function get_customer_list(passenger, number, product){
                                             }
 
                                             if(check_identity_img == 0){
-                                                response+=`Image not Found!`;
+                                                response+=`
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div style="padding:10px 5px 10px 5px;">
+                                                            <h6>No Image!</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>`;
                                             }
 
                                             response+=`</div>`;
@@ -2012,7 +2027,7 @@ function get_customer_list(passenger, number, product){
                                                                 <a class="demo-img" href="`+msg.result.response[i].identities[j].identity_images[k][0]+`" data-jbox-image="3showidentity`+i+`allidentity`+for_jbox_image+`" title="`+j+` - `+msg.result.response[i].identities[j].identity_number+` (`+msg.result.response[i].identities[j].identity_images[k][2]+`)">
                                                                     <img src="`+msg.result.response[i].identities[j].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
                                                                 </a><br/>
-                                                                <h6 class="mb-2" style="white-space: normal; width:220px; padding:0px 15px;">`+msg.result.response[i].identities[j].identity_images[k][2]+`</h6>
+                                                                <h6 class="mb-2" style="white-space: normal; width:220px; word-break: break-word; padding:0px 15px;">`+msg.result.response[i].identities[j].identity_images[k][2]+`</h6>
                                                                 <i>
                                                                     Upload date<br/>
                                                                     `+moment(msg.result.response[i].identities[j].identity_images[k][3]).format('DD MMM YYYY - HH:mm')+`
@@ -2026,7 +2041,14 @@ function get_customer_list(passenger, number, product){
                                             }
 
                                             if(check_identity_img == 0){
-                                                response+=`Image not Found!`;
+                                                response+=`
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div style="padding:10px 5px 10px 5px;">
+                                                            <h6>No Image!</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>`;
                                             }
 
                                             response+=`</div>`;
@@ -2498,7 +2520,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                                             <a class="demo-img" href="`+passenger_data[sequence].identities['passport'].identity_images[j][0]+`" data-jbox-image="4showidentitycopypassport`+sequence+``+for_jbox_image+`" title="passport - `+passenger_data[sequence].identities['passport'].identity_number+` (`+passenger_data[sequence].identities['passport'].identity_images[j][2]+`)">
                                                 <img src="`+passenger_data[sequence].identities['passport'].identity_images[j][0]+`" alt="Identity" class="picture_identity_customer">
                                             </a><br/>
-                                            <h6 class="mb-2" style="white-space: normal; width:220px; padding:0px 15px;">`+passenger_data[sequence].identities['passport'].identity_images[j][2]+`</h6>
+                                            <h6 class="mb-2" style="white-space: normal; width:220px; word-break: break-word; padding:0px 15px;">`+passenger_data[sequence].identities['passport'].identity_images[j][2]+`</h6>
                                             <i>
                                                 Upload date<br/>
                                                 `+moment(passenger_data[sequence].identities['passport'].identity_images[j][3]).format('DD MMM YYYY - HH:mm')+`
@@ -2632,7 +2654,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                                                             <a class="demo-img" href="`+passenger_data[sequence].identities[i].identity_images[k][0]+`" data-jbox-image="5showidentity`+sequence+``+i+``+for_jbox_image+`" title="`+i+` - `+passenger_data[sequence].identities[i].identity_number+` (`+passenger_data[sequence].identities[i].identity_images[k][2]+`)">
                                                                 <img src="`+passenger_data[sequence].identities[i].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
                                                             </a><br/>
-                                                            <h6 class="mb-2" style="white-space: normal; width:220px; padding:0px 15px;">`+passenger_data[sequence].identities[i].identity_images[k][2]+`</h6>
+                                                            <h6 class="mb-2" style="white-space: normal; width:220px; word-break: break-word; padding:0px 15px;">`+passenger_data[sequence].identities[i].identity_images[k][2]+`</h6>
                                                             <i>
                                                                 Upload date<br/>
                                                                 `+moment(passenger_data[sequence].identities[i].identity_images[k][3]).format('DD MMM YYYY - HH:mm')+`
@@ -2737,7 +2759,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                                                     <a class="demo-img" href="`+passenger_data[sequence].identities['passport'].identity_images[k][0]+`" data-jbox-image="6showidentitypassport`+sequence+`passport`+for_jbox_image+`" title="passport - `+passenger_data[sequence].identities['passport'].identity_number+` (`+passenger_data[sequence].identities['passport'].identity_images[k][2]+`)">
                                                         <img src="`+passenger_data[sequence].identities['passport'].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
                                                     </a><br/>
-                                                    <h6 class="mb-2" style="white-space: normal; width:220px; padding:0px 15px;">`+passenger_data[sequence].identities['passport'].identity_images[k][2]+`</h6>
+                                                    <h6 class="mb-2" style="white-space: normal; width:220px; word-break: break-word; padding:0px 15px;">`+passenger_data[sequence].identities['passport'].identity_images[k][2]+`</h6>
                                                     <i>
                                                         Upload date<br/>
                                                         `+moment(passenger_data[sequence].identities['passport'].identity_images[k][3]).format('DD MMM YYYY - HH:mm')+`
@@ -3803,7 +3825,7 @@ function copy_booker(val,type,identity){
                                                         <a class="demo-img" href="`+data_booker.identities[identity].identity_images[k][0]+`" data-jbox-image="7showidentitycopy1`+for_jbox_image+`" title="`+identity+` - `+data_booker.identities[identity].identity_number+` (`+data_booker.identities[identity].identity_images[k][2]+`)">
                                                             <img src="`+data_booker.identities[identity].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
                                                         </a><br/>
-                                                        <h6 class="mb-2" style="white-space: normal; width:220px; padding:0px 15px;">`+data_booker.identities[identity].identity_images[k][2]+`</h6>
+                                                        <h6 class="mb-2" style="white-space: normal; width:220px; word-break: break-word; padding:0px 15px;">`+data_booker.identities[identity].identity_images[k][2]+`</h6>
                                                         <i>
                                                             Upload date<br/>
                                                             `+moment(data_booker.identities[identity].identity_images[k][3]).format('DD MMM YYYY - HH:mm')+`
@@ -3917,7 +3939,7 @@ function copy_booker(val,type,identity){
                                                 <a class="demo-img" href="`+data_booker.identities[data[0]].identity_images[k][0]+`" data-jbox-image="8showidentitydata1`+for_jbox_image+`" title="`+data[0]+` - `+data_booker.identities[data[0]].identity_number+` (`+data_booker.identities[data[0]].identity_images[k][2]+`)">
                                                     <img src="`+data_booker.identities[data[0]].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
                                                 </a><br/>
-                                                <h6 class="mb-2" style="white-space: normal; width:220px; padding:0px 15px;">`+data_booker.identities[data[0]].identity_images[k][2]+`</h6>
+                                                <h6 class="mb-2" style="white-space: normal; width:220px; word-break: break-word; padding:0px 15px;">`+data_booker.identities[data[0]].identity_images[k][2]+`</h6>
                                                 <i>
                                                     Upload date<br/>
                                                     `+moment(data_booker.identities[data[0]].identity_images[k][3]).format('DD MMM YYYY - HH:mm')+`
@@ -5878,7 +5900,7 @@ function get_passenger_cache(type,update_cache=false){
                                         if(msg.result.response[i].hasOwnProperty('behaviors') && Object.keys(msg.result.response[i].behaviors).length > 0){
                                             print_behavior = false;
                                             response_behavior=`<i class="fas fa-clipboard"></i>
-                                            <label id="pop_chosen_behavior_detail`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behaviors <i class="fas fa-chevron-down"></i></label>`;
+                                            <label id="pop_chosen_behavior_detail`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behavior History <i class="fas fa-chevron-down"></i></label>`;
                                             for(j in msg.result.response[i].behaviors){
                                                 print_behavior = true;
                                             }
@@ -6014,7 +6036,7 @@ function get_passenger_cache(type,update_cache=false){
                                                                 <a class="demo-img" href="`+msg.result.response[i].identities[j].identity_images[k][0]+`" data-jbox-image="9showchosenidentity`+i+``+for_jbox_image+`" title="`+j+` - `+msg.result.response[i].identities[j].identity_number+` (`+msg.result.response[i].identities[j].identity_images[k][2]+`)">
                                                                     <img src="`+msg.result.response[i].identities[j].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
                                                                 </a><br/>
-                                                                <h6 class="mb-2" style="white-space: normal; width:220px; padding:0px 15px;">`+msg.result.response[i].identities[j].identity_images[k][2]+`</h6>
+                                                                <h6 class="mb-2" style="white-space: normal; width:220px; word-break: break-word; padding:0px 15px;">`+msg.result.response[i].identities[j].identity_images[k][2]+`</h6>
                                                                 <i>
                                                                     Upload date<br/>
                                                                     `+moment(msg.result.response[i].identities[j].identity_images[k][3]).format('DD MMM YYYY - HH:mm')+`
@@ -6025,7 +6047,14 @@ function get_passenger_cache(type,update_cache=false){
                                                     }
                                                 }
                                                 if(check_identity_img == 0){
-                                                    response+=`Image not Found!`;
+                                                    response+=`
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div style="width:100%; text-align:center; padding:10px 5px 10px 5px; border:1px solid #e3e3e3; background:#fcfcfc;">
+                                                                <h6>No Image!</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
                                                 }
                                                 response+=`</div>`;
                                             }
@@ -6311,11 +6340,11 @@ function edit_passenger_cache(val){
     }
     $('#passenger_edit_title').niceSelect('update');
     if(agent_security.includes('p_cache_3') == true){
-        document.getElementById('passenger_first_name_div').innerHTML = `<input type="text" onchange="capitalizeInput('passenger_edit_first_name');" class="form-control" name="passenger_edit_first_name" id="passenger_edit_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '" value='`+passenger_data_cache[val].first_name+`'>`;
-        document.getElementById('passenger_last_name_div').innerHTML = `<input type="text" onchange="capitalizeInput('passenger_edit_last_name');" class="form-control" name="passenger_edit_last_name" id="passenger_edit_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '" value='`+passenger_data_cache[val].last_name+`'>`;
+        document.getElementById('passenger_first_name_div').innerHTML = `<input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('passenger_edit_first_name');" class="form-control" name="passenger_edit_first_name" id="passenger_edit_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '" value='`+passenger_data_cache[val].first_name+`'>`;
+        document.getElementById('passenger_last_name_div').innerHTML = `<input type="text" style="margin-bottom:0px;" onchange="capitalizeInput('passenger_edit_last_name');" class="form-control" name="passenger_edit_last_name" id="passenger_edit_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '" value='`+passenger_data_cache[val].last_name+`'>`;
     }else{
-        document.getElementById('passenger_first_name_div').innerHTML = `<label id="passenger_edit_first_name">`+passenger_data_cache[val].first_name+`</label>`;
-        document.getElementById('passenger_last_name_div').innerHTML = `<label id="passenger_edit_last_name">`+passenger_data_cache[val].last_name+`</label>`;
+        document.getElementById('passenger_first_name_div').innerHTML = `<span id="passenger_edit_first_name">`+passenger_data_cache[val].first_name+`</label>`;
+        document.getElementById('passenger_last_name_div').innerHTML = `<span id="passenger_edit_last_name">`+passenger_data_cache[val].last_name+`</label>`;
     }
     if(passenger_data_cache[val].birth_date != ''){
         $('input[name="passenger_edit_birth_date"]').val(passenger_data_cache[val].birth_date);
@@ -6458,7 +6487,7 @@ function edit_passenger_cache(val){
                         <a class="demo-img" href="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" data-jbox-image="10showidentityeditpassport`+for_jbox_image+`" title="`+i+` - `+passenger_data_cache[val].identities[i].identity_number+` (`+passenger_data_cache[val].identities[i].identity_images[j][2]+`)">
                             <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="`+i+`" class="picture_identity_customer">
                         </a><br/>
-                        <h6 class="mb-2" style="white-space: normal; width:220px; padding:0px 15px;">`+passenger_data_cache[val].identities[i].identity_images[j][2]+`</h6>
+                        <h6 class="mb-2" style="white-space: normal; width:220px; word-break: break-word; padding:0px 15px;">`+passenger_data_cache[val].identities[i].identity_images[j][2]+`</h6>
                         <i>
                             Upload date<br/>
                             `+moment(passenger_data_cache[val].identities[i].identity_images[j][3]).format('DD MMM YYYY - HH:mm')+`
@@ -6518,7 +6547,7 @@ function edit_passenger_cache(val){
                         <a class="demo-img" href="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" data-jbox-image="11showidentityeditpassport`+for_jbox_image+`" title="`+i+` - `+passenger_data_cache[val].identities[i].identity_number+` (`+passenger_data_cache[val].identities[i].identity_images[j][2]+`)">
                             <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="`+i+`" class="picture_identity_customer">
                         </a><br/>
-                        <h6 class="mb-2" style="white-space: normal; width:220px; padding:0px 15px;">`+passenger_data_cache[val].identities[i].identity_images[j][2]+`</h6>
+                        <h6 class="mb-2" style="white-space: normal; width:220px; word-break: break-word; padding:0px 15px;">`+passenger_data_cache[val].identities[i].identity_images[j][2]+`</h6>
                         <i>
                             Upload date<br/>
                             `+moment(passenger_data_cache[val].identities[i].identity_images[j][3]).format('DD MMM YYYY - HH:mm')+`
@@ -6577,7 +6606,7 @@ function edit_passenger_cache(val){
                         <a class="demo-img" href="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" data-jbox-image="12showidentityeditpassport`+for_jbox_image+`" title="`+i+` - `+passenger_data_cache[val].identities[i].identity_number+` (`+passenger_data_cache[val].identities[i].identity_images[j][2]+`)">
                             <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="`+i+`" class="picture_identity_customer">
                         </a><br/>
-                        <h6 class="mb-2" style="white-space: normal; width:220px; padding:0px 15px;">`+passenger_data_cache[val].identities[i].identity_images[j][2]+`</h6>
+                        <h6 class="mb-2" style="white-space: normal; width:220px; word-break: break-word; padding:0px 15px;">`+passenger_data_cache[val].identities[i].identity_images[j][2]+`</h6>
                         <i>
                             Upload date<br/>
                             `+moment(passenger_data_cache[val].identities[i].identity_images[j][3]).format('DD MMM YYYY - HH:mm')+`
@@ -6636,7 +6665,7 @@ function edit_passenger_cache(val){
                         <a class="demo-img" href="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" data-jbox-image="13showidentityeditpassport`+for_jbox_image+`" title="`+i+` - `+passenger_data_cache[val].identities[i].identity_number+` (`+passenger_data_cache[val].identities[i].identity_images[j][2]+`)">
                             <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="`+i+`" class="picture_identity_customer">
                         </a><br/>
-                        <h6 class="mb-2" style="white-space: normal; width:220px; padding:0px 15px;">`+passenger_data_cache[val].identities[i].identity_images[j][2]+`</h6>
+                        <h6 class="mb-2" style="white-space: normal; width:220px; word-break: break-word; padding:0px 15px;">`+passenger_data_cache[val].identities[i].identity_images[j][2]+`</h6>
                         <i>
                             Upload date<br/>
                             `+moment(passenger_data_cache[val].identities[i].identity_images[j][3]).format('DD MMM YYYY - HH:mm')+`
@@ -7201,7 +7230,7 @@ function pick_passenger_cache_copy(val, identity){
                                                                 <a class="demo-img" href="`+passenger_data_cache[val].identities[data[0]].identity_images[k][0]+`" data-jbox-image="14showidentity`+val+``+data[0]+``+for_jbox_image+`" title="`+data[0]+` - `+passenger_data_cache[val].identities[data[0]].identity_number+` (`+passenger_data_cache[val].identities[data[0]].identity_images[k][2]+`)">
                                                                     <img src="`+passenger_data_cache[val].identities[data[0]].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
                                                                 </a><br/>
-                                                                <h6 class="mb-2" style="white-space: normal; width:220px; padding:0px 15px;">`+passenger_data_cache[val].identities[data[0]].identity_images[k][2]+`</h6>
+                                                                <h6 class="mb-2" style="white-space: normal; width:220px; word-break: break-word; padding:0px 15px;">`+passenger_data_cache[val].identities[data[0]].identity_images[k][2]+`</h6>
                                                                 <i>
                                                                     Upload date<br/>
                                                                     `+moment(passenger_data_cache[val].identities[data[0]].identity_images[k][3]).format('DD MMM YYYY - HH:mm')+`
@@ -7295,7 +7324,7 @@ function pick_passenger_cache_copy(val, identity){
                                                             <a class="demo-img" href="`+passenger_data_cache[val].identities['passport'].identity_images[k][0]+`" data-jbox-image="15showidentity`+val+`passport`+for_jbox_image+`" title="passport - `+passenger_data_cache[val].identities['passport'].identity_number+` (`+passenger_data_cache[val].identities['passport'].identity_images[k][2]+`)">
                                                                 <img src="`+passenger_data_cache[val].identities['passport'].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
                                                             </a><br/>
-                                                            <h6 class="mb-2" style="white-space: normal; width:220px; padding:0px 15px;">`+passenger_data_cache[val].identities['passport'].identity_images[k][2]+`</h6>
+                                                            <h6 class="mb-2" style="white-space: normal; width:220px; word-break: break-word; padding:0px 15px;">`+passenger_data_cache[val].identities['passport'].identity_images[k][2]+`</h6>
                                                             <i>
                                                                 Upload date<br/>
                                                                 `+moment(passenger_data_cache[val].identities['passport'].identity_images[k][3]).format('DD MMM YYYY - HH:mm')+`
@@ -7975,16 +8004,16 @@ function update_passenger_backend(){
                                     document.getElementById('div_avatar_other').innerHTML = '';
                                     document.getElementById('selectedFiles_attachment_edit').innerHTML = '';
                                     document.getElementById('attachment').innerHTML = '';
-                                    document.getElementById('attachment1').innerHTML = '';
-                                    document.getElementById('attachment2').innerHTML = '';
-                                    document.getElementById('attachment3').innerHTML = '';
-                                    document.getElementById('attachment4').innerHTML = '';
                                     document.getElementById('div_avatar').innerHTML = '';
-                                    document.getElementById('files_attachment_edit1').value = '';
-                                    document.getElementById('files_attachment_edit2').value = '';
-                                    document.getElementById('files_attachment_edit3').value = '';
-                                    document.getElementById('files_attachment_edit4').value = '';
                                     document.getElementById('files_attachment_edit').value = '';
+
+                                    for(i=1;i<5;i++){
+                                        document.getElementById('attachment'+i).innerHTML = '';
+                                        $('#passenger_identity_country_of_issued'+i+'_id').val('');
+                                        document.getElementById('files_attachment_edit'+i).value = '';
+                                        document.getElementById('passenger_edit_identity_number'+i).value = '';
+                                    }
+                                    document.getElementById('passenger_edit_phone_table').innerHTML = '';
                                 }catch(err){
                                     console.log(err);
                                 }
@@ -8329,7 +8358,7 @@ function generate_image_identity(counter, id, div_id, label_id, cek_search){
                             <a class="demo-img" href="`+passenger_data_cache[counter].identities[j].identity_images[k][0]+`" data-jbox-image="showidentity`+counter+`allidentity`+for_jbox_image+`" title="`+j+` - `+passenger_data_cache[counter].identities[j].identity_number+` (`+passenger_data_cache[counter].identities[j].identity_images[k][2]+`)">
                                 <img src="`+passenger_data_cache[counter].identities[j].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
                             </a><br/>
-                            <h6 class="mb-2" style="white-space: normal; width:220px; padding:0px 15px;">`+passenger_data_cache[counter].identities[j].identity_images[k][2]+`</h6>
+                            <h6 class="mb-2" style="white-space: normal; width:220px; word-break: break-word; padding:0px 15px;">`+passenger_data_cache[counter].identities[j].identity_images[k][2]+`</h6>
                             <i>
                                 Upload date<br/>
                                 `+moment(passenger_data_cache[counter].identities[j].identity_images[k][3]).format('DD MMM YYYY - HH:mm')+`
@@ -8349,7 +8378,7 @@ function generate_image_identity(counter, id, div_id, label_id, cek_search){
                             <a class="demo-img" href="`+passenger_data[counter].identities[j].identity_images[k][0]+`" data-jbox-image="showidentity`+counter+`allidentity`+for_jbox_image+`" title="`+j+` - `+passenger_data[counter].identities[j].identity_number+` (`+passenger_data[counter].identities[j].identity_images[k][2]+`)">
                                 <img src="`+passenger_data[counter].identities[j].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
                             </a><br/>
-                            <h6 class="mb-2" style="white-space: normal; width:220px; padding:0px 15px;">`+passenger_data[counter].identities[j].identity_images[k][2]+`</h6>
+                            <h6 class="mb-2" style="white-space: normal; width:220px; word-break: break-word; padding:0px 15px;">`+passenger_data[counter].identities[j].identity_images[k][2]+`</h6>
                             <i>
                                 Upload date<br/>
                                 `+moment(passenger_data[counter].identities[j].identity_images[k][3]).format('DD MMM YYYY - HH:mm')+`
@@ -8374,7 +8403,7 @@ function generate_image_identity(counter, id, div_id, label_id, cek_search){
                                 <a class="demo-img" href="`+passenger_data_cache[counter].identities[j].identity_images[k][0]+`" data-jbox-image="showidentity`+counter+``+for_jbox_image+`" title="`+j+` - `+passenger_data_cache[counter].identities[j].identity_number+` (`+passenger_data_cache[counter].identities[j].identity_images[k][2]+`)">
                                     <img src="`+passenger_data_cache[counter].identities[j].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
                                 </a><br/>
-                                <h6 class="mb-2" style="white-space: normal; width:220px; padding:0px 15px;">`+passenger_data_cache[counter].identities[j].identity_images[k][2]+`</h6>
+                                <h6 class="mb-2" style="white-space: normal; width:220px; word-break: break-word; padding:0px 15px;">`+passenger_data_cache[counter].identities[j].identity_images[k][2]+`</h6>
                                 <i>
                                     Upload date<br/>
                                     `+moment(passenger_data_cache[counter].identities[j].identity_images[k][3]).format('DD MMM YYYY - HH:mm')+`
@@ -8398,7 +8427,7 @@ function generate_image_identity(counter, id, div_id, label_id, cek_search){
                                 <a class="demo-img" href="`+passenger_data[counter].identities[j].identity_images[k][0]+`" data-jbox-image="showidentity`+counter+``+for_jbox_image+`" title="`+j+` - `+passenger_data[counter].identities[j].identity_number+` (`+passenger_data[counter].identities[j].identity_images[k][2]+`)">
                                     <img src="`+passenger_data[counter].identities[j].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
                                 </a><br/>
-                                <h6 class="mb-2" style="white-space: normal; width:220px; padding:0px 15px;">`+passenger_data[counter].identities[j].identity_images[k][2]+`</h6>
+                                <h6 class="mb-2" style="white-space: normal; width:220px; word-break: break-word; padding:0px 15px;">`+passenger_data[counter].identities[j].identity_images[k][2]+`</h6>
                                 <i>
                                     Upload date<br/>
                                     `+moment(passenger_data[counter].identities[j].identity_images[k][2]).format('DD MMM YYYY - HH:mm')+`
@@ -8413,7 +8442,14 @@ function generate_image_identity(counter, id, div_id, label_id, cek_search){
     }
 
     if(cek_identity_img == 0){
-        text_identity+=`Image not Found!`;
+        text_identity+=`
+        <div class="row">
+            <div class="col-lg-12">
+                <div style="width:100%; text-align:center; padding:10px 5px 10px 5px; border:1px solid #e3e3e3; background:#fcfcfc;">
+                    <h6>No Image!</h6>
+                </div>
+            </div>
+        </div>`;
     }
 
     document.getElementById(''+div_id+counter).innerHTML = text_identity;
