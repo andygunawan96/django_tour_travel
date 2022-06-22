@@ -6503,9 +6503,9 @@
             $('input[name="adult_birth_date'+i+'"]').daterangepicker({
                 singleDatePicker: true,
                 autoUpdateInput: true,
-                startDate: moment().subtract(18, 'years'),
-                minDate: moment().subtract(59, 'years').subtract(365, 'days'),
-                maxDate: moment().subtract(12, 'years'),
+                startDate: {% if insurance_request.is_senior == True %} moment().subtract(71, 'years') {% else %} moment().subtract(18, 'years') {% endif %},
+                minDate: {% if insurance_request.is_senior == True %} moment().subtract(150, 'years').subtract(365, 'days') {% else %} moment().subtract(70, 'years').subtract(365, 'days') {% endif %},
+                maxDate: {% if insurance_request.is_senior == True %} moment().subtract(70, 'years') {% else %} moment().subtract(0, 'years') {% endif %},
                 showDropdowns: true,
                 opens: 'center',
                 locale: {
