@@ -400,19 +400,19 @@
                         </div>
                     </div>
                     <div class="row" style="margin-top: 20px;">
-                        <div class="col-lg-4">
+                        <div class="col-lg-6">
                             {% if 'book_reservation' in username.co_agent_frontend_security %}
                             <button class="for-show-website next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="tour_hold_booking(0);" style="width:100%;">
                                 {% trans 'Hold Booking' %} <div class="ld ld-ring ld-cycle"></div>
                             </button>
                             {% endif %}
                         </div>
-                        <div align="center" class="col-lg-4">
-                            <button class="for-show-website primary-btn hold-seat-booking-train" type="button" onclick="openInNewTab('https://backend.rodextrip.com/rodextrip/report/pdf/form.itinerary/{{printout_rec}}')" style="width:100%;">
-                                {% trans 'Print Itinerary Form' %}
-                            </button>
-                        </div>
-                        <div class="col-lg-4">
+<!--                        <div align="center" class="col-lg-4">-->
+<!--                            <button class="for-show-website primary-btn hold-seat-booking-train" type="button" onclick="openInNewTab('https://backend.rodextrip.com/rodextrip/report/pdf/form.itinerary/{{printout_rec}}')" style="width:100%;">-->
+<!--                                {% trans 'Print Itinerary Form' %}-->
+<!--                            </button>-->
+<!--                        </div>-->
+                        <div class="col-lg-6">
                             {% if 'issued_reservation' in username.co_agent_frontend_security and 'b2c_limitation' not in username.co_agent_frontend_security and not username.co_job_position_is_request_required %}
                             <button id="final_issued_btn" class="for-show-website next-loading-issued primary-btn hold-seat-booking-train ld-ext-right issued_booking_btn" type="button" style="width:100%;" onclick="tour_hold_booking(1);">
                                 {% trans 'Issued Booking' %}

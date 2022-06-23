@@ -728,6 +728,7 @@ function train_get_detail(){
         <br/>
         <div class="row">`;
             if(parseInt(passengers.adult) > 0){
+                total_tax = 0;
                 total_commission += journeys[i].fares[0].service_charge_summary[0].total_commission*-1;
                 for(j in journeys[i].fares[0].service_charge_summary){
                     price = {
@@ -793,6 +794,7 @@ function train_get_detail(){
             </div>
         </div>
         `;
+        total_price += total_tax;
     }
 
     try{

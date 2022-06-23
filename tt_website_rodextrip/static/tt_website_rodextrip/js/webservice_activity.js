@@ -3403,25 +3403,36 @@ function activity_get_booking(data){
                             </div>
                         </div>
                         <div class="row" style="margin-top: 20px;">
-                            <div class="col-lg-4" id="voucher" style="padding-bottom:10px;">`;
-                   if(msg.result.response.state == 'issued'){
-                        if (msg.result.response.voucher_url.length > 0)
-                        {
-                            text += `<button class="primary-btn hold-seat-booking-train next-loading-ticket ld-ext-right" type="button" onclick="print_activity_ticket();" style="width:100%;">
-                                        Print Voucher
-                                        <div class="ld ld-ring ld-cycle"></div>
-                                     </button>`;
-                        }
-                        else
-                        {
-                            text += `<button class="primary-btn hold-seat-booking-train next-loading-ticket ld-ext-right" type="button" onclick="activity_get_voucher('`+msg.result.response.order_number+`');" style="width:100%;">
-                                        Print Voucher
-                                        <div class="ld ld-ring ld-cycle"></div>
-                                    </button>`;
-                        }
+                            <div class="col-lg-6" id="voucher" style="padding-bottom:10px;">`;
+                   if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
+                       if(msg.result.response.state == 'issued'){
+                            if (msg.result.response.voucher_url.length > 0)
+                            {
+                                text += `<button class="primary-btn hold-seat-booking-train next-loading-ticket ld-ext-right" type="button" onclick="print_activity_ticket();" style="width:100%;">
+                                            Print Voucher
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                         </button>`;
+                            }
+                            else
+                            {
+                                text += `<button class="primary-btn hold-seat-booking-train next-loading-ticket ld-ext-right" type="button" onclick="activity_get_voucher('`+msg.result.response.order_number+`');" style="width:100%;">
+                                            Print Voucher
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>`;
+                            }
+                       }
+                       else if(msg.result.response.state == 'booked')
+                       {
+                            text+=`
+                                <button type="button" id="button-print-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','activity');">
+                                    Print Form
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>`;
+                       }
                    }
                    text += `</div>
-                            <div class="col-lg-4" style="padding-bottom:10px;">`;
+                            <div class="col-lg-6" style="padding-bottom:10px;">`;
+
                    if(msg.result.response.state == 'pending' || msg.result.response.state == 'paid')
                    {
                         text+=`
@@ -3480,11 +3491,7 @@ function activity_get_booking(data){
                             </div>
                         `;
                    }
-
-                   text += `</div>
-                            <div class="col-lg-4" style="padding-bottom:10px;">`;
-
-                   if(msg.result.response.state == 'issued'){
+                   else if(msg.result.response.state == 'issued'){
                         text+=`
                         <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
                             <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>

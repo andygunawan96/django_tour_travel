@@ -4857,7 +4857,7 @@ function airline_set_ssr(val){
                 }
            }else{
                 Swal.fire({
-                  title: msg.result.error_msg,
+                  title: msg.result.error_msg + ', Do you want to continue this book without SSR?',
                   type: 'warning',
                   showCancelButton: true,
                   confirmButtonColor: '#3085d6',
@@ -4933,7 +4933,7 @@ function airline_assign_seats(val){
                 }
            }else{
                 Swal.fire({
-                  title: msg.result.error_msg,
+                  title: msg.result.error_msg  + ', Do you want to continue this book without Seat?',
                   type: 'warning',
                   showCancelButton: true,
                   confirmButtonColor: '#3085d6',
@@ -6198,7 +6198,7 @@ function airline_get_booking(data, sync=false){
                                     if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_pax_identity){
                                         can_change_pax = true;
                                     }
-                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_pax_name){
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_pax_name && user_login.co_agent_frontend_security.includes('process_channel_booking')){
                                         can_change_pax = true;
                                     }
                                }
@@ -6304,7 +6304,7 @@ function airline_get_booking(data, sync=false){
                                     if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_pax_identity){
                                         can_change_pax = true;
                                     }
-                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_pax_name){
+                                    if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_pax_name && user_login.co_agent_frontend_security.includes('process_channel_booking')){
                                         can_change_pax = true;
                                     }
 
@@ -7216,10 +7216,21 @@ function airline_get_booking(data, sync=false){
                        text+=`
                        </div>
                     </div>
-                </div>
+                </div>`;
 
-                <div class="row" style="margin-top:20px;">`;
+                if (msg.result.response.state == 'issued'){
+                    text+=`
+                    <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo">
+                                <label for="is_hide_agent_logo">Hide agent logo on tickets</label>
+                            </div>
+                        </div>
+                    </div>`;
+                }
 
+                text+=`<div class="row" style="margin-top:20px;">`;
                 text+=`
                     <div class="col-lg-6 col-md-6" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){

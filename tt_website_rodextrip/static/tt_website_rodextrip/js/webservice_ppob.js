@@ -973,18 +973,28 @@ function ppob_get_booking(data){
                 }
 
                 if(msg.result.response.provider_booking[0].description != ''){
-                text+=`
-                <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
-                    <h5> Additional Information</h5>
-                    <hr/>
-                    `+msg.result.response.provider_booking[0].description+`
-                </div>
-                `;
+                    text+=`
+                    <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
+                        <h5> Additional Information</h5>
+                        <hr/>
+                        `+msg.result.response.provider_booking[0].description+`
+                    </div>
+                    `;
+                }
 
+                if (msg.result.response.state == 'issued'){
+                    text+=`
+                    <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo">
+                                <label for="is_hide_agent_logo">Hide agent logo on tickets</label>
+                            </div>
+                        </div>
+                    </div>`;
                 }
 
                 text+=`
-
                 <div class="row" style="margin-top:20px;">
                     <div class="col-lg-4" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){

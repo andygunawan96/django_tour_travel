@@ -437,7 +437,7 @@
                                                                         <td>{%if benefit.detail.0 != null %}{{benefit.detail.0}}{% endif %}</td>
                                                                         <td>{%if benefit.detail.1 != null %}{{benefit.detail.1}}{% endif %}</td>
                                                                         <td rowspan="{{benefit.child|length|add:'1'}}" style="display: table-cell; vertical-align: middle; width:15%;">
-                                                                            <label style="color:{{color}}; font-size:15px;">{{benefit.currency}} <script>document.write(getrupiah({{benefit.price}}))</script></label>
+                                                                            <label style="color:{{color}}; font-size:15px;">{{benefit.currency}} <script>document.write(getrupiah({{benefit.price}}))</script> / {{benefit.type_price}}</label>
                                                                             <label class="check_box_custom">
                                                                                 <span class="span-search-ticket" style="color:black;">Select</span>
                                                                                 <input type="checkbox" id="checkbox_add_benefit{{pax_count}}_{{forloop.counter}}" onchange="edit_additional_benefit()"/>
@@ -6503,9 +6503,9 @@
             $('input[name="adult_birth_date'+i+'"]').daterangepicker({
                 singleDatePicker: true,
                 autoUpdateInput: true,
-                startDate: moment().subtract(18, 'years'),
-                minDate: moment().subtract(59, 'years').subtract(365, 'days'),
-                maxDate: moment().subtract(12, 'years'),
+                startDate: {% if insurance_request.is_senior == True %} moment().subtract(71, 'years') {% else %} moment().subtract(18, 'years') {% endif %},
+                minDate: {% if insurance_request.is_senior == True %} moment().subtract(150, 'years').subtract(365, 'days') {% else %} moment().subtract(70, 'years').subtract(365, 'days') {% endif %},
+                maxDate: {% if insurance_request.is_senior == True %} moment().subtract(70, 'years') {% else %} moment().subtract(0, 'years') {% endif %},
                 showDropdowns: true,
                 opens: 'center',
                 locale: {

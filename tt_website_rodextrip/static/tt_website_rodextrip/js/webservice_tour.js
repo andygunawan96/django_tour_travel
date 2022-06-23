@@ -2111,10 +2111,19 @@ function tour_get_booking(order_number)
                                 </div>
                             </div>
                             <div class="row" style="margin-top: 20px;">
-                                <div class="col-lg-4" id="voucher" style="padding-bottom:10px;">`;
+                                <div class="col-lg-6" id="voucher" style="padding-bottom:10px;">`;
+
+                       if(book_obj.state == 'booked')
+                       {
+                            text+=`
+                                <button type="button" id="button-print-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+book_obj.order_number+`', 'itinerary','tour');">
+                                    Print Form
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>`;
+                       }
 
                        text += `</div>
-                                <div class="col-lg-4" style="padding-bottom:10px;">`;
+                                <div class="col-lg-6" style="padding-bottom:10px;">`;
                        if(book_obj.state == 'issued'){
                             text+=`
                                 <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
@@ -2173,9 +2182,6 @@ function tour_get_booking(order_number)
                                 `;
                        }
                        text += `</div>
-                                <div class="col-lg-4" style="padding-bottom:10px;">
-
-                                </div>
                             </div>
                        `;
                     document.getElementById('tour_final_info').innerHTML = text;
