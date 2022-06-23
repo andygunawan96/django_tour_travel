@@ -354,7 +354,8 @@ def sell_insurance(request):
         }
         data = {
             "data": data_insurance,
-            'pax': int(request.POST['total_policy'])
+            'pax': int(request.POST['total_pax']),
+            'package': int(request.POST['total_package'])
         }
 
     except Exception as e:

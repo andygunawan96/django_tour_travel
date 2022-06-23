@@ -4857,7 +4857,7 @@ function airline_set_ssr(val){
                 }
            }else{
                 Swal.fire({
-                  title: msg.result.error_msg,
+                  title: msg.result.error_msg + ', Do you want to continue this book without SSR?',
                   type: 'warning',
                   showCancelButton: true,
                   confirmButtonColor: '#3085d6',
@@ -4933,7 +4933,7 @@ function airline_assign_seats(val){
                 }
            }else{
                 Swal.fire({
-                  title: msg.result.error_msg,
+                  title: msg.result.error_msg  + ', Do you want to continue this book without Seat?',
                   type: 'warning',
                   showCancelButton: true,
                   confirmButtonColor: '#3085d6',
