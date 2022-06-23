@@ -437,7 +437,7 @@
                                                                         <td>{%if benefit.detail.0 != null %}{{benefit.detail.0}}{% endif %}</td>
                                                                         <td>{%if benefit.detail.1 != null %}{{benefit.detail.1}}{% endif %}</td>
                                                                         <td rowspan="{{benefit.child|length|add:'1'}}" style="display: table-cell; vertical-align: middle; width:15%;">
-                                                                            <label style="color:{{color}}; font-size:15px;">{{benefit.currency}} <script>document.write(getrupiah({{benefit.price}}))</script></label>
+                                                                            <label style="color:{{color}}; font-size:15px;">{{benefit.currency}} <script>document.write(getrupiah({{benefit.price}}))</script> / {{benefit.type_price}}</label>
                                                                             <label class="check_box_custom">
                                                                                 <span class="span-search-ticket" style="color:black;">Select</span>
                                                                                 <input type="checkbox" id="checkbox_add_benefit{{pax_count}}_{{forloop.counter}}" onchange="edit_additional_benefit()"/>

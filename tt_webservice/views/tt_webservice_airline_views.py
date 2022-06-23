@@ -4711,10 +4711,10 @@ def search_mobile(request):
                             journey['share_journey'] = False
 
                             for available in available_count:
-                                if (available_seat > available):
+                                if (available_seat > available or available > available_seat and available_seat == 100): ##kalau lebih dari default awal tetap simpan
                                     available_seat = available
 
-                                if (available_seat == 100):
+                                if (available_seat == 100): ## kalau available masih default berarti kosong
                                     available_seat = 0
                                     journey['sold_out'] = True
                                 journey['available_count'] = available_seat

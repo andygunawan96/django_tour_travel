@@ -191,7 +191,6 @@ function insurance_get_config(page=false){
                             }
                         }
                         document.getElementById('insurance_destination_area').innerHTML = choice;
-                        console.log(choice);
                         $('#insurance_destination_area').niceSelect('update');
                     }
 
@@ -812,13 +811,13 @@ function modal_policy(provider,sequence){
                          <div class="col-lg-4">
                             <label>Adult</label>
                             <div class="input-container-search-ticket">
-                                <input type="number" max="`+maxAdult+`" min="`+minAdult+`" value="1" class="form-control" id="total_adult" placeholder="Total Adult " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Adult '">
+                                <input type="number" max="`+maxAdult+`" min="`+minAdult+`" value="`+minAdult+`" class="form-control" id="total_adult" placeholder="Total Adult " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Adult '">
                             </div>
                          </div>
                          <div class="col-lg-4">
                             <label>Child</label>
                             <div class="input-container-search-ticket">
-                                <input type="number" max="`+maxChild+`" min="`+minChild+`" value="0" class="form-control" id="total_child" name="total_child" placeholder="Total Child " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Child '">
+                                <input type="number" max="`+maxChild+`" min="`+minChild+`" value="`+minChild+`" class="form-control" id="total_child" name="total_child" placeholder="Total Child " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Child '">
                             </div>
                          </div>`;
         else
@@ -826,8 +825,8 @@ function modal_policy(provider,sequence){
                          <div class="col-lg-8">
                             <label>Adult</label>
                             <div class="input-container-search-ticket">
-                                <input type="number" max="`+maxAdult+`" min="`+minAdult+`" value="1" class="form-control" id="total_adult" placeholder="Total Adult " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Adult '">
-                                <input type="hidden" max="`+maxChild+`" min="`+minChild+`" value="0" class="form-control" id="total_child" name="total_child" placeholder="Total Child " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Child '">
+                                <input type="number" max="`+maxAdult+`" min="`+minAdult+`" value="`+minAdult+`" class="form-control" id="total_adult" placeholder="Total Adult " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Adult '">
+                                <input type="hidden" max="`+maxChild+`" min="`+minChild+`" value="`+minChild+`" class="form-control" id="total_child" name="total_child" placeholder="Total Child " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Child '">
                             </div>
                          </div>`;
         text+=`
@@ -899,6 +898,7 @@ function modal_policy(provider,sequence){
 function insurance_sell(provider, sequence){
     if(insurance_data[provider][sequence]['type_trip_name'] == 'Individual'){
         document.getElementById("total_pax").disabled = true;
+        document.getElementById("total_adult").value = document.getElementById("total_pax").value
         document.getElementById("insurance_buy_btn").disabled = true;
         $('#insurance_buy_btn').addClass("running");
     }
@@ -917,7 +917,8 @@ function insurance_sell(provider, sequence){
        },
        data: {
             'signature': signature,
-            'total_policy': document.getElementById('total_pax').value,
+            'total_pax': parseInt(document.getElementById('total_adult').value) + parseInt(document.getElementById('total_child').value),
+            'total_package': document.getElementById('total_pax').value,
             'insurance_pick': JSON.stringify(insurance_data[provider][sequence])
        },
        success: function(msg) {
@@ -1635,7 +1636,7 @@ function price_detail(){
     if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
         for(i in insurance_passenger.adult){
             for(j in insurance_passenger.adult[i].data_insurance.addons){
-                additional_price += insurance_passenger.adult[i].data_insurance.addons[j].price;
+                additional_price += insurance_passenger.adult[i].data_insurance.addons[j].total_price;
             }
         }
         if(additional_price != 0){
@@ -5159,7 +5160,7 @@ function edit_additional_benefit(){
             index = parseInt(parseInt(j) + 1);
             if(document.getElementById('checkbox_add_benefit'+pax_counter+'_'+index).checked){
                 additional_benefit_list.push(insurance_pick.additional_benefit[j]);
-                additional_price += insurance_pick.additional_benefit[j].price;
+                additional_price += insurance_pick.additional_benefit[j].total_price;
             }
         }
         if(additional_benefit_list.length > 0){
