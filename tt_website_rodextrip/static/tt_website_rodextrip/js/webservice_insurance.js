@@ -793,6 +793,8 @@ function modal_policy(provider,sequence){
                     <label>Total Pax</label>
                     <div class="input-container-search-ticket">
                         <input type="number" max="`+maxPax+`" min="`+minPax+`" value="`+minPax+`" class="form-control" id="total_pax" name="total_pax" placeholder="Total Pax " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Pax '">
+                        <input type="number" value="1" class="form-control" id="total_adult" placeholder="Total Adult " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Adult '" hidden>
+                        <input type="number" value="0" class="form-control" id="total_child" placeholder="Total Child " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Total Child '" hidden>
                     </div>
                 </div>`;
         text+= `<div class="col-lg-5 col-md-5 col-sm-5">
@@ -898,7 +900,8 @@ function modal_policy(provider,sequence){
 function insurance_sell(provider, sequence){
     if(insurance_data[provider][sequence]['type_trip_name'] == 'Individual'){
         document.getElementById("total_pax").disabled = true;
-        document.getElementById("total_adult").value = document.getElementById("total_pax").value
+        document.getElementById("total_adult").value = '1'
+        document.getElementById("total_child").value = '0'
         document.getElementById("insurance_buy_btn").disabled = true;
         $('#insurance_buy_btn').addClass("running");
     }
