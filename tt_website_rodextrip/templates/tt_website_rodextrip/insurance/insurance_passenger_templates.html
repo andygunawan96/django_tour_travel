@@ -398,7 +398,7 @@
                                         <div class="col-lg-12">
                                             <hr/>
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_additional{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});">
-                                                Additional Benefit <i class="fas fa-plus-square" style="color:{{text_color}}; font-size:18px;"></i>
+                                                Additional Benefit For 1 {% if response.type_trip_name == 'Individu' %} Person {% else %} Package {% endif %} <i class="fas fa-plus-square" style="color:{{text_color}}; font-size:18px;"></i>
                                             </button>
                                             <input type="hidden" id="adult_additional_benefit{{forloop.counter}}" name="adult_additional_benefit{{forloop.counter}}" />
                                             <div id="adult_additional_benefit{{forloop.counter}}_div" class="mt-3 mb-3">
@@ -778,254 +778,389 @@
                                             <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
                                         </div>
 
-                                        <div class="col-lg-12">
-                                            <div id="adult_additional_data_for_insurance{{forloop.counter}}" style="display:none;">
-                                                {% for rec in family %}
-                                                <div id="adult_additional_data_for_insurance{{counter}}_{{forloop.counter}}" style="display:none;">
-                                                    <div class="row">
-                                                        <div class="col-lg-12 col-md-12 col-sm-12">
-                                                            <hr/>
-                                                            <h6 style="width:fit-content; border-bottom:2px solid {{color}};">{% trans 'Relation ' %}{{forloop.counter}}</h6>
-                                                            </div>
-                                                        <div class="col-lg-6">
-                                                            <label style="color:red">*</label>
-                                                            <label>{% trans 'Title' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <div class="form-select-2">
-                                                                    <select id="adult_relation{{counter}}_title{{forloop.counter}}" name="adult_relation{{counter}}_title{{forloop.counter}}" class="nice-select-default">
 
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <div id="adult_relation{{counter}}_relation{{forloop.counter}}_div">
-                                                                <label style="color:red">*</label>
-                                                                <label>{% trans 'Relation' %}</label>
-                                                                <div class="input-container-search-ticket">
-                                                                    <div class="form-select-2">
-                                                                        <select id="adult_relation{{counter}}_relation{{forloop.counter}}" name="adult_relation{{counter}}_relation{{forloop.counter}}" class="nice-select-default">
-
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <br/>
-                                                            <label style="color:red">*</label>
-                                                            <label>{% trans 'First name and middle name (if any)' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" onchange="capitalizeInput('adult_relation{{counter}}_first_name{{forloop.counter}}');" class="form-control" name="adult_relation{{counter}}_first_name{{forloop.counter}}" id="adult_relation{{counter}}_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
-                                                            </div>
-                                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <br/>
-                                                            <label>{% trans 'Last Name' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" onchange="capitalizeInput('adult_relation{{counter}}_last_name{{forloop.counter}}');" class="form-control" name="adult_relation{{counter}}_last_name{{forloop.counter}}" id="adult_relation{{counter}}_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
-                                                            </div>
-                                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <label style="color:red">*</label>
-                                                            <label>{% trans 'Nationality' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <div class="form-select">
-                                                                    <select class="form-control js-example-basic-single" name="adult_relation{{counter}}_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_relation{{counter}}_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_relation{{counter}}_nationality{{forloop.counter}}')" class="nice-select-default">
-                                                                        {% for country in countries %}
-                                                                        <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
-                                                                        {% endfor %}
-                                                                    </select>
-                                                                </div>
-                                                                <input type="hidden" name="adult_relation{{counter}}_nationality{{forloop.counter}}" id="adult_relation{{counter}}_nationality{{forloop.counter}}" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6"></div>
-                                                        <div class="col-lg-6">
-                                                            <label style="color:red">*</label>
-                                                            <label>{% trans 'Place Of Birth' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="adult_relation{{counter}}_place_of_birth{{forloop.counter}}" id="adult_relation{{counter}}_place_of_birth{{forloop.counter}}" placeholder="{% trans 'Place Of Birth' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Place Of Birth '">
-                                                            </div>
-                                                            <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Surabaya</label>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <label style="color:red">*</label>
-                                                            <label>{% trans 'Birth Date' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control date-picker-birth" name="adult_relation{{counter}}_birth_date{{forloop.counter}}" id="adult_relation{{counter}}_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
-                                                                <input type="hidden" class="form-control" name="adult_relation{{counter}}_years_old{{forloop.counter}}" id="adult_relation{{counter}}_years_old{{forloop.counter}}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <label style="color:{%if response.sector_type == 'International'%}red{% else %}white{%endif%};">*</label>
-                                                            <label>{% trans 'Identity' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <div class="form-select" id="default-select">
-                                                                    <select id='adult_relation{{counter}}_identity_type{{forloop.counter}}' name='adult_relation{{counter}}_identity_type{{forloop.counter}}' onchange="change_identity_type(`adult_relation{{counter}}_identity_type{{forloop.counter}}`)">
-
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <label id="adult_relation{{counter}}_identity_number_required{{forloop.counter}}" style="color:{%if response.sector_type == 'International'%}red{% else %}white{%endif%};">*</label>
-                                                            <label>{% trans 'Identity Number' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control" name="adult_relation{{counter}}_passport_number{{forloop.counter}}" id="adult_relation{{counter}}_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <label id="adult_relation{{counter}}_identity_expired_date_required{{forloop.counter}}" style="color:{%if response.sector_type == 'International'%}red{% else %}white{%endif%};">*</label>
-                                                            <label>{% trans 'Identity Expired Date' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_relation{{counter}}_passport_expired_date{{forloop.counter}}" id="adult_relation{{counter}}_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly>
-                                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('adult_relation{{counter}}_passport_expired_date{{forloop.counter}}')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <label id="adult_relation{{counter}}_country_of_issued_required{{forloop.counter}}" style="color:red">*</label>
-                                                            <label>{% trans 'Country of Issued' %}</label>
-                                                            <div class="input-container-search-ticket">
-                                                                <div class="form-select">
-                                                                    <select class="form-control js-example-basic-single" name="adult_relation{{counter}}_passport_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation{{counter}}_passport_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_relation{{counter}}_passport_country_of_issued{{forloop.counter}}')" class="nice-select-default">
-                                                                        <option value="">{% trans 'Country of Issued' %}</option>
-                                                                        {% for country in countries %}
-                                                                        <option value="{{country.name}}">{{country.name}}</option>
-                                                                        {% endfor %}
-                                                                    </select>
-                                                                </div>
-                                                                <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_relation{{counter}}_passport_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_relation{{counter}}_passport_country_of_issued{{forloop.counter}}','');default_data_select2('adult_relation{{counter}}_passport_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                                <input type="hidden" name="adult_relation{{counter}}_passport_country_of_issued{{forloop.counter}}" id="adult_relation{{counter}}_passport_country_of_issued{{forloop.counter}}" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                {% endfor %}
-                                            </div>
-                                            {% if response.provider == 'bcainsurance' %}
-                                            <div id="adult_additional_data_for_insurance_ahli_waris{{forloop.counter}}">
-                                                <div class="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12 mt-2 mb-2">
-                                                        <hr/>
-                                                        <h6 style="width:fit-content; border-bottom:2px solid {{color}};">{% trans 'Beneficiary' %}</h6>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <label style="color:red">*</label>
-                                                        <label>{% trans 'Title' %}</label>
-                                                        <div class="input-container-search-ticket">
-                                                            <div class="form-select-2">
-                                                                <select id="adult_relation_beneficiary_title{{forloop.counter}}" name="adult_relation_beneficiary_title{{forloop.counter}}" class="nice-select-default">
-                                                                    {% for title in titles%}
-                                                                    <option>{{title}}</option>
-                                                                    {% endfor %}
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <label style="color:red">*</label>
-                                                        <label>{% trans 'Relation' %}</label>
-                                                        <div class="input-container-search-ticket">
-                                                            <div class="form-select-2">
-                                                                <select id="adult_relation_beneficiary_relation{{forloop.counter}}" name="adult_relation_beneficiary_relation{{forloop.counter}}" class="nice-select-default">
-
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <br/>
-                                                        <label style="color:red">*</label>
-                                                        <label>{% trans 'First name and middle name (if any)' %}</label>
-                                                        <div class="input-container-search-ticket">
-                                                            <input type="text" onchange="capitalizeInput('adult_relation_beneficiary_first_name{{forloop.counter}}');" class="form-control" name="adult_relation_beneficiary_first_name{{forloop.counter}}" id="adult_relation_beneficiary_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
-                                                        </div>
-                                                        <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <br/>
-                                                        <label>{% trans 'Last Name' %}</label>
-                                                        <div class="input-container-search-ticket">
-                                                            <input type="text" onchange="capitalizeInput('adult_relation_beneficiary_last_name{{forloop.counter}}');" class="form-control" name="adult_relation_beneficiary_last_name{{forloop.counter}}" id="adult_relation_beneficiary_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
-                                                        </div>
-                                                        <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <label style="color:red">*</label>
-                                                        <label>{% trans 'Nationality' %}</label>
-                                                        <div class="input-container-search-ticket">
-                                                            <div class="form-select">
-                                                                <select class="form-control js-example-basic-single" name="adult_relation_beneficiary_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_relation_beneficiary_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_relation_beneficiary_nationality{{forloop.counter}}')" class="nice-select-default">
-                                                                    {% for country in countries %}
-                                                                    <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
-                                                                    {% endfor %}
-                                                                </select>
-                                                            </div>
-                                                            <input type="hidden" name="adult_relation_beneficiary_nationality{{forloop.counter}}" id="adult_relation_beneficiary_nationality{{forloop.counter}}" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <label style="color:red">*</label>
-                                                        <label>{% trans 'Birth Date' %}</label>
-                                                        <div class="input-container-search-ticket">
-                                                            <input type="text" class="form-control date-picker-birth" name="adult_relation_beneficiary_birth_date{{forloop.counter}}" id="adult_relation_beneficiary_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
-                                                            <input type="hidden" class="form-control" name="adult_relation_beneficiary_years_old{{forloop.counter}}" id="adult_relation_beneficiary_years_old{{forloop.counter}}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <label style="color:red;">*</label>
-                                                        <label>{% trans 'Identity' %}</label>
-                                                        <div class="input-container-search-ticket">
-                                                            <div class="form-select" id="default-select">
-                                                                <select id='adult_relation_beneficiary_identity_type{{forloop.counter}}' name='adult_relation_beneficiary_identity_type{{forloop.counter}}' onchange="change_identity_type(`adult_relation_beneficiary_identity_type{{forloop.counter}}`)">
-                                                                    <option value="ktp">NIK/KTP</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <label id="adult_relation_beneficiary_identity_number_required{{forloop.counter}}" style="color:red;">*</label>
-                                                        <label>{% trans 'Identity Number' %}</label>
-                                                        <div class="input-container-search-ticket">
-                                                            <input type="text" class="form-control" name="adult_relation_beneficiary_passport_number{{forloop.counter}}" id="adult_relation_beneficiary_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <label id="adult_relation_beneficiary_passport_identity_expired_date_required{{forloop.counter}}" style="color:white">*</label>
-                                                        <label>{% trans 'Identity Expired Date' %}</label>
-                                                        <div class="input-container-search-ticket">
-                                                            <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_relation_beneficiary_passport_expired_date{{forloop.counter}}" id="adult_relation_beneficiary_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly>
-                                                            <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('adult_relation_beneficiary_passport_expired_date{{forloop.counter}}')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <label id="adult_relation_beneficiary_passport_country_of_issued_required{{forloop.counter}}" style="color:red">*</label>
-                                                        <label>{% trans 'Country of Issued' %}</label>
-                                                        <div class="input-container-search-ticket">
-                                                            <div class="form-select">
-                                                                <select class="form-control js-example-basic-single" name="adult_relation_beneficiary_passport_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation_beneficiary_passport_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_relation_beneficiary_passport_country_of_issued{{forloop.counter}}')" class="nice-select-default">
-                                                                    <option value="">{% trans 'Country of Issued' %}</option>
-                                                                    {% for country in countries %}
-                                                                    <option value="{{country.name}}">{{country.name}}</option>
-                                                                    {% endfor %}
-                                                                </select>
-                                                            </div>
-                                                            <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_relation_beneficiary_passport_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_relation_beneficiary_passport_country_of_issued{{forloop.counter}}','');default_data_select2('adult_relation_beneficiary_passport_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                            <input type="hidden" name="adult_relation_beneficiary_passport_country_of_issued{{forloop.counter}}" id="adult_relation_beneficiary_passport_country_of_issued{{forloop.counter}}" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {% endif %}
-                                        </div>
 
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-lg-12">
+                                <div id="adult_additional_data_for_insurance{{forloop.counter}}" style="display:none;">
+                                    {% for rec in family %}
+                                    <div class="passenger_div" onclick="show_paxs('adult_additional_data_for_insurance_{{counter}}', '{{forloop.counter}}');" style="margin-top:20px;">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                                <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Passenger' %} {{rec.pax_type}} - {{rec.sequence}}</span>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px;display:none;" id="adult_additional_data_for_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="adult_additional_data_for_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="adult_additional_data_for_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #F15A22;">
+                                        <div class="row">
+                                            {% if response.type_trip_name == 'Family' %}
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <h6 style="width:fit-content; border-bottom:2px solid {{color}};">{% trans 'Relation ' %}{{forloop.counter}}</h6>
+                                            </div>
+                                            {% endif %}
+                                            <div class="col-lg-6">
+
+                                            </div>
+                                            <div class="col-lg-6" style="text-align:right;">
+                                                {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                                <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult_relation{{counter}}{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                <button type="button" class="primary-btn" id="adult_relation_clear{{forloop.counter}}" onclick="clear_passenger('adult_relation{{counter}}', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
+                                                {% endif %}
+                                                <div class="modal fade" id="myModal_adult_relation{{counter}}{{forloop.counter}}" role="dialog">
+                                                    <div class="modal-dialog">
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Adult' %} - {{rec.sequence}} <i class="fas fa-address-card"></i></h4>
+                                                                <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">&times;</button>
+                                                            </div>
+                                                            <div class="modal-body" style="text-align:left;">
+                                                                <div class="row">
+                                                                    <div class="col-lg-7 col-md-7 col-sm-7">
+                                                                        <input class="form-control" type="text" id="train_adult_relation{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
+                                                                    <div class="col-lg-5 col-md-5 col-sm-5">
+                                                                        <button type="button" id="search_adult_relation_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation{{counter}}',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-lg-12">
+                                                                        <br/>
+                                                                        <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> {% trans "Using this means you can't change title, first name, and last name" %}</span><br/>
+                                                                        <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> {% trans "Max 100 customers in 1 search" %}</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row loading-pax-train" style="display:none;">
+                                                                    <div class="col-lg-12">
+                                                                        <br/>
+                                                                        <div style="text-align:center">
+                                                                            <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} </span><img src="{{static_path}}img/search.gif" alt="Search" style="height:50px; width:50px;"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div id="search_result_adult_relation{{counter}}{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">{% trans 'Close' %}</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <label style="color:red">*</label>
+                                                <label>{% trans 'Title' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select-2">
+                                                        <select id="adult_relation{{counter}}_title{{forloop.counter}}" name="adult_relation{{counter}}_title{{forloop.counter}}" class="nice-select-default">
+
+                                                        </select>
+                                                        <input type="hidden" class="form-control" name="adult_relation{{counter}}_id{{forloop.counter}}" id="adult_relation{{counter}}_id{{forloop.counter}}">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div id="adult_relation{{counter}}_relation{{forloop.counter}}_div">
+                                                    <label style="color:red">*</label>
+                                                    <label>{% trans 'Relation' %}</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select-2">
+                                                            <select id="adult_relation{{counter}}_relation{{forloop.counter}}" name="adult_relation{{counter}}_relation{{forloop.counter}}" class="nice-select-default">
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <br/>
+                                                <label style="color:red">*</label>
+                                                <label>{% trans 'First name and middle name (if any)' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" onchange="capitalizeInput('adult_relation{{counter}}_first_name{{forloop.counter}}');" class="form-control" name="adult_relation{{counter}}_first_name{{forloop.counter}}" id="adult_relation{{counter}}_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                </div>
+                                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <br/>
+                                                <label>{% trans 'Last Name' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" onchange="capitalizeInput('adult_relation{{counter}}_last_name{{forloop.counter}}');" class="form-control" name="adult_relation{{counter}}_last_name{{forloop.counter}}" id="adult_relation{{counter}}_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                </div>
+                                                <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label style="color:red">*</label>
+                                                <label>{% trans 'Nationality' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="adult_relation{{counter}}_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_relation{{counter}}_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_relation{{counter}}_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                            {% for country in countries %}
+                                                            <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <input type="hidden" name="adult_relation{{counter}}_nationality{{forloop.counter}}" id="adult_relation{{counter}}_nationality{{forloop.counter}}" />
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6"></div>
+                                            <div class="col-lg-6">
+                                                <label style="color:red">*</label>
+                                                <label>{% trans 'Place Of Birth' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control" name="adult_relation{{counter}}_place_of_birth{{forloop.counter}}" id="adult_relation{{counter}}_place_of_birth{{forloop.counter}}" placeholder="{% trans 'Place Of Birth' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Place Of Birth '">
+                                                </div>
+                                                <label style="font-size:12px; padding:0;">{% trans 'Example' %}: Surabaya</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label style="color:red">*</label>
+                                                <label>{% trans 'Birth Date' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control date-picker-birth" name="adult_relation{{counter}}_birth_date{{forloop.counter}}" id="adult_relation{{counter}}_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                                    <input type="hidden" class="form-control" name="adult_relation{{counter}}_years_old{{forloop.counter}}" id="adult_relation{{counter}}_years_old{{forloop.counter}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label style="color:{%if response.sector_type == 'International'%}red{% else %}white{%endif%};">*</label>
+                                                <label id="adult_relation_identity_msg_error{{forloop.counter}}" style="color:red"></label>
+                                                <label>{% trans 'Identity' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select" id="default-select">
+                                                        <select id='adult_relation{{counter}}_id_type{{forloop.counter}}' name='adult_relation{{counter}}_identity_type{{forloop.counter}}' onchange="change_identity_type(`adult_relation{{counter}}_id_type{{forloop.counter}}`)">
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label id="adult_relation{{counter}}_identity_number_required{{forloop.counter}}" style="color:{%if response.sector_type == 'International'%}red{% else %}white{%endif%};">*</label>
+                                                <label>{% trans 'Identity Number' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control" name="adult_relation{{counter}}_passport_number{{forloop.counter}}" id="adult_relation{{counter}}_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label id="adult_relation{{counter}}_identity_expired_date_required{{forloop.counter}}" style="color:{%if response.sector_type == 'International'%}red{% else %}white{%endif%};">*</label>
+                                                <label>{% trans 'Identity Expired Date' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_relation{{counter}}_passport_expired_date{{forloop.counter}}" id="adult_relation{{counter}}_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly>
+                                                    <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('adult_relation{{counter}}_passport_expired_date{{forloop.counter}}')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label id="adult_relation{{counter}}_country_of_issued_required{{forloop.counter}}" style="color:red">*</label>
+                                                <label>{% trans 'Country of Issued' %}</label>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_relation{{counter}}_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                            <option value="">{% trans 'Country of Issued' %}</option>
+                                                            {% for country in countries %}
+                                                            <option value="{{country.name}}">{{country.name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_relation{{counter}}_country_of_issued{{forloop.counter}}','');default_data_select2('adult_relation{{counter}}_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                    <input type="hidden" name="adult_relation{{counter}}_passport_country_of_issued{{forloop.counter}}" id="adult_relation{{counter}}_country_of_issued{{forloop.counter}}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% if response.provider == 'bcainsurance' %}
+                            <div class="col-lg-12">
+                                <div class="passenger_div" onclick="show_paxs('adult_additional_data_for_beneficiary_insurance_{{counter}}', '{{forloop.counter}}');" style="margin-top:20px;">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Beneficiary' %} - {{forloop.counter}}</span>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;display:none;" id="adult_additional_data_for_beneficiary_insurance_{{counter}}_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="adult_additional_data_for_beneficiary_insurance_{{counter}}_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="adult_additional_data_for_beneficiary_insurance_{{counter}}_paxs{{forloop.counter}}" style="display:none;background-color:white; padding:10px; border:1px solid #F15A22;">
+                                    <div id="adult_additional_data_for_insurance_ahli_waris{{forloop.counter}}">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 mt-2 mb-2">
+                                            <h6 style="width:fit-content; border-bottom:2px solid {{color}};">{% trans 'Beneficiary' %}</h6>
+                                        </div>
+                                        <div class="col-lg-6">
+
+                                        </div>
+                                        <div class="col-lg-6" style="text-align:right;">
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult_relation_beneficiary{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" id="adult_beneficiary_clear{{forloop.counter}}" onclick="clear_passenger('adult_relation_beneficiary', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
+                                            {% endif %}
+                                            <div class="modal fade" id="myModal_adult_relation_beneficiary{{forloop.counter}}" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Beneficiary' %} - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
+                                                            <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body" style="text-align:left;">
+                                                            <div class="row">
+                                                                <div class="col-lg-7 col-md-7 col-sm-7">
+                                                                    <input class="form-control" type="text" id="train_adult_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                </div>
+                                                                <div class="col-lg-5 col-md-5 col-sm-5">
+                                                                    <button type="button" id="search_adult_relation_beneficiary_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation_beneficiary',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <br/>
+                                                                    <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> {% trans "Using this means you can't change title, first name, and last name" %}</span><br/>
+                                                                    <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> {% trans "Max 100 customers in 1 search" %}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row loading-pax-train" style="display:none;">
+                                                                <div class="col-lg-12">
+                                                                    <br/>
+                                                                    <div style="text-align:center">
+                                                                        <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} </span><img src="{{static_path}}img/search.gif" alt="Search" style="height:50px; width:50px;"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div id="search_result_adult_relation_beneficiary{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">{% trans 'Close' %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Title' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select-2">
+                                                    <select id="adult_relation_beneficiary_title{{forloop.counter}}" name="adult_relation_beneficiary_title{{forloop.counter}}" class="nice-select-default">
+                                                        {% for title in titles%}
+                                                        <option>{{title}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <input type="hidden" class="form-control" name="adult_relation_beneficiary_id{{forloop.counter}}" id="adult_relation_beneficiary_id{{forloop.counter}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Relation' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select-2">
+                                                    <select id="adult_relation_beneficiary_relation{{forloop.counter}}" name="adult_relation_beneficiary_relation{{forloop.counter}}" class="nice-select-default">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'First name and middle name (if any)' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" onchange="capitalizeInput('adult_relation_beneficiary_first_name{{forloop.counter}}');" class="form-control" name="adult_relation_beneficiary_first_name{{forloop.counter}}" id="adult_relation_beneficiary_first_name{{forloop.counter}}" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label>{% trans 'Last Name' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" onchange="capitalizeInput('adult_relation_beneficiary_last_name{{forloop.counter}}');" class="form-control" name="adult_relation_beneficiary_last_name{{forloop.counter}}" id="adult_relation_beneficiary_last_name{{forloop.counter}}" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Nationality' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="adult_relation_beneficiary_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_relation_beneficiary_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_relation_beneficiary_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                        {% for country in countries %}
+                                                        <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="adult_relation_beneficiary_nationality{{forloop.counter}}" id="adult_relation_beneficiary_nationality{{forloop.counter}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
+                                            <label>{% trans 'Birth Date' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker-birth" name="adult_relation_beneficiary_birth_date{{forloop.counter}}" id="adult_relation_beneficiary_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                                <input type="hidden" class="form-control" name="adult_relation_beneficiary_years_old{{forloop.counter}}" id="adult_relation_beneficiary_years_old{{forloop.counter}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label style="color:red;">*</label>
+                                            <label>{% trans 'Identity' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select" id="default-select">
+                                                    <select id='adult_relation_beneficiary_id_type{{forloop.counter}}' name='adult_relation_beneficiary_identity_type{{forloop.counter}}' onchange="change_identity_type(`adult_relation_beneficiary_id_type{{forloop.counter}}`)">
+                                                        <option value="ktp">NIK/KTP</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label id="adult_relation_beneficiary_identity_number_required{{forloop.counter}}" style="color:red;">*</label>
+                                            <label>{% trans 'Identity Number' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="adult_relation_beneficiary_passport_number{{forloop.counter}}" id="adult_relation_beneficiary_passport_number{{forloop.counter}}" placeholder="{% trans 'Identity Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Identity Number '">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label id="adult_relation_beneficiary_passport_identity_expired_date_required{{forloop.counter}}" style="color:white">*</label>
+                                            <label>{% trans 'Identity Expired Date' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_relation_beneficiary_passport_expired_date{{forloop.counter}}" id="adult_relation_beneficiary_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly>
+                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date_data('adult_relation_beneficiary_passport_expired_date{{forloop.counter}}')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label id="adult_relation_beneficiary_country_of_issued_required{{forloop.counter}}" style="color:red">*</label>
+                                            <label>{% trans 'Country of Issued' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_relation_beneficiary_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                        <option value="">{% trans 'Country of Issued' %}</option>
+                                                        {% for country in countries %}
+                                                        <option value="{{country.name}}">{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <button type="button" class="primary-delete-date" onclick="default_data_select2_html('select2-adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id-container', 'Country of Issued');default_data_select2('adult_relation_beneficiary_country_of_issued{{forloop.counter}}','');default_data_select2('adult_relation_beneficiary_country_of_issued{{forloop.counter}}_id','');"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                <input type="hidden" name="adult_relation_beneficiary_passport_country_of_issued{{forloop.counter}}" id="adult_relation_beneficiary_country_of_issued{{forloop.counter}}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            {% endif %}
                         </div>
                         <br/>
                         {% endwith %}

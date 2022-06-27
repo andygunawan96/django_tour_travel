@@ -266,6 +266,9 @@ function insurance_get_config(page=false){
                     console.log(choice_adult);
                     for(var i=1;i<=parseInt(insurance_request.adult);i++){
                         var counter = 1;
+                        if(insurance_pick.provider == 'zurich'){
+                            document.getElementById('adult_additional_data_for_insurance'+i).style.display = 'block';
+                        }
                         for(var j=1;j<=parseInt(insurance_request.family.adult);j++){
                             if(insurance_pick.type_trip_name == 'Family'){
                                 document.getElementById('adult_relation'+i+'_relation'+counter).innerHTML += choice_adult;
@@ -275,9 +278,8 @@ function insurance_get_config(page=false){
                             }
                             document.getElementById('adult_relation'+i+'_title'+counter).innerHTML = choice_title_adult;
                             $('#adult_relation'+i+'_title'+counter).niceSelect('update');
-                            document.getElementById('adult_additional_data_for_insurance'+i+'_'+counter).style.display = 'block';
-                            document.getElementById('adult_relation'+i+'_identity_type'+counter).innerHTML = choice_identity;
-                            $('#adult_relation'+i+'_identity_type'+counter).niceSelect('update');
+                            document.getElementById('adult_relation'+i+'_id_type'+counter).innerHTML = choice_identity;
+                            $('#adult_relation'+i+'_id_type'+counter).niceSelect('update');
                             counter++;
                         }
                         for(var j=1;j<=parseInt(insurance_request.family.child);j++){
@@ -289,9 +291,8 @@ function insurance_get_config(page=false){
                             }
                             document.getElementById('adult_relation'+i+'_title'+counter).innerHTML = choice_title_child;
                             $('#adult_relation'+i+'_title'+counter).niceSelect('update');
-                            document.getElementById('adult_additional_data_for_insurance'+i+'_'+counter).style.display = 'block';
-                            document.getElementById('adult_relation'+i+'_identity_type'+counter).innerHTML = choice_identity;
-                            $('#adult_relation'+i+'_identity_type'+counter).niceSelect('update');
+                            document.getElementById('adult_relation'+i+'_id_type'+counter).innerHTML = choice_identity;
+                            $('#adult_relation'+i+'_id_type'+counter).niceSelect('update');
                             counter++;
                         }
                         if(insurance_pick.provider == 'bcainsurance'){
@@ -1797,7 +1798,7 @@ function check_passenger(){
             document.getElementById('adult_place_of_birth'+i).style['border-color'] = '#EFEFEF';
         }
         //KTP
-        if(document.getElementById('adult_identity_type'+i).style.display == 'block'){
+        if(document.getElementById('adult_id_type'+i).style.display == 'block'){
             if(document.getElementById('adult_id_type'+i).value == 'ktp'){
                 if(check_ktp(document.getElementById('adult_passport_number'+i).value) == false){
                     error_log+= 'Please fill id number, nik only contain 16 digits for passenger adult '+i+'!</br>\n';
@@ -1947,13 +1948,13 @@ function check_passenger(){
             }
 
             //check identity
-            if(document.getElementById('adult_relation'+i+'_identity_type'+counter).value == ''){
+            if(document.getElementById('adult_relation'+i+'_id_type'+counter).value == ''){
                 error_log+= 'Please choose identity for relation '+counter+'!</br>\n';
-                $("#adult_relation"+i+'_identity_type'+counter).each(function() {
+                $("#adult_relation"+i+'_id_type'+counter).each(function() {
                     $(this).parent().find('.nice-select').css('border', '1px solid red');
                 });
-            }else if(document.getElementById('adult_relation'+i+'_identity_type'+counter).value == 'passport'){
-               if(document.getElementById('adult_relation'+i+'_identity_type'+counter).value == 'passport' && check_passport(document.getElementById('adult_relation'+i+'_passport_number'+counter).value) == false){
+            }else if(document.getElementById('adult_relation'+i+'_id_type'+counter).value == 'passport'){
+               if(document.getElementById('adult_relation'+i+'_id_type'+counter).value == 'passport' && check_passport(document.getElementById('adult_relation'+i+'_passport_number'+counter).value) == false){
                    error_log+= 'Please fill id number, passport only contain more than 6 digits for relation '+counter+'!</br>\n';
                    document.getElementById('adult_relation'+i+'_passport_number'+counter).style['border-color'] = 'red';
                }else{
@@ -1970,19 +1971,19 @@ function check_passenger(){
                         document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).style['border-color'] = 'red';
                    }else
                         document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).style['border-color'] = '#EFEFEF';
-               }if(document.getElementById('adult_relation'+i+'_passport_country_of_issued'+counter).value == '' || document.getElementById('adult_relation'+i+'_passport_country_of_issued'+counter).value == 'Country of Issued'){
+               }if(document.getElementById('adult_relation'+i+'_country_of_issued'+counter).value == '' || document.getElementById('adult_relation'+i+'_country_of_issued'+counter).value == 'Country of Issued'){
                    error_log+= 'Please fill country of issued for relation '+counter+'!</br>\n';
-                   $("#adult_relation"+i+"_passport_country_of_issued"+counter+"_id").each(function() {
+                   $("#adult_relation"+i+"_country_of_issued"+counter+"_id").each(function() {
                      $(this).siblings(".select2-container").css('border', '1px solid red');
                    });
                }else{
-                   $("#adult_relation"+i+"_passport_country_of_issued"+counter+"_id").each(function() {
+                   $("#adult_relation"+i+"_country_of_issued"+counter+"_id").each(function() {
                      $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
                    });
                }
-            }else if(document.getElementById('adult_relation'+i+'_identity_type'+counter).value == 'ktp'){
+            }else if(document.getElementById('adult_relation'+i+'_id_type'+counter).value == 'ktp'){
                 document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).style['border-color'] = '#EFEFEF';
-                $("#adult_relation"+i+'_identity_type'+counter).each(function() {
+                $("#adult_relation"+i+'_id_type'+counter).each(function() {
                     $(this).parent().find('.nice-select').css('border', '0px solid red');
                 });
                 document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).style['border-color'] = '#cdcdcd';
@@ -1991,13 +1992,13 @@ function check_passenger(){
                    document.getElementById('adult_relation'+i+'_passport_number'+counter).style['border-color'] = 'red';
                 }else{
                    document.getElementById('adult_relation'+i+'_passport_number'+counter).style['border-color'] = '#EFEFEF';
-                }if(document.getElementById('adult_relation'+i+'_passport_country_of_issued'+counter).value == '' || document.getElementById('adult_relation'+i+'_passport_country_of_issued'+counter).value == 'Country of Issued'){
+                }if(document.getElementById('adult_relation'+i+'_country_of_issued'+counter).value == '' || document.getElementById('adult_relation'+i+'_country_of_issued'+counter).value == 'Country of Issued'){
                    error_log+= 'Please fill country of issued for relation '+counter+'!</br>\n';
-                   $('#adult_relation'+i+'_passport_country_of_issued'+counter+"_id").each(function() {
+                   $('#adult_relation'+i+'_country_of_issued'+counter+"_id").each(function() {
                      $(this).siblings(".select2-container").css('border', '1px solid red');
                    });
                 }else{
-                   $('#adult_relation'+i+'_passport_country_of_issued'+counter+"_id").each(function() {
+                   $('#adult_relation'+i+'_country_of_issued'+counter+"_id").each(function() {
                      $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
                    });
                 }
@@ -2053,13 +2054,13 @@ function check_passenger(){
             }
 
             //check identity
-            if(document.getElementById('adult_relation'+i+'_identity_type'+counter).value == ''){
+            if(document.getElementById('adult_relation'+i+'_id_type'+counter).value == ''){
                 error_log+= 'Please choose identity for relation '+counter+'!</br>\n';
-                $("#adult_relation"+i+'_identity_type'+counter).each(function() {
+                $("#adult_relation"+i+'_id_type'+counter).each(function() {
                     $(this).parent().find('.nice-select').css('border', '1px solid red');
                 });
-            }else if(document.getElementById('adult_relation'+i+'_identity_type'+counter).value == 'passport'){
-               if(document.getElementById('adult_relation'+i+'_identity_type'+counter).value == 'passport' && check_passport(document.getElementById('adult_relation'+i+'_passport_number'+counter).value) == false){
+            }else if(document.getElementById('adult_relation'+i+'_id_type'+counter).value == 'passport'){
+               if(document.getElementById('adult_relation'+i+'_id_type'+counter).value == 'passport' && check_passport(document.getElementById('adult_relation'+i+'_passport_number'+counter).value) == false){
                    error_log+= 'Please fill id number, passport only contain more than 6 digits for relation '+counter+'!</br>\n';
                    document.getElementById('adult_relation'+i+'_passport_number'+counter).style['border-color'] = 'red';
                }else{
@@ -2076,19 +2077,19 @@ function check_passenger(){
                         document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).style['border-color'] = 'red';
                    }else
                         document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).style['border-color'] = '#EFEFEF';
-               }if(document.getElementById('adult_relation'+i+'_passport_country_of_issued'+counter).value == '' || document.getElementById('adult_relation'+i+'_passport_country_of_issued'+counter).value == 'Country of Issued'){
+               }if(document.getElementById('adult_relation'+i+'_country_of_issued'+counter).value == '' || document.getElementById('adult_relation'+i+'_country_of_issued'+counter).value == 'Country of Issued'){
                    error_log+= 'Please fill country of issued for relation '+counter+'!</br>\n';
-                   $("#adult_relation"+i+"_passport_country_of_issued"+counter+"_id").each(function() {
+                   $("#adult_relation"+i+"_country_of_issued"+counter+"_id").each(function() {
                      $(this).siblings(".select2-container").css('border', '1px solid red');
                    });
                }else{
-                   $("#adult_relation"+i+"_passport_country_of_issued"+counter+"_id").each(function() {
+                   $("#adult_relation"+i+"_country_of_issued"+counter+"_id").each(function() {
                      $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
                    });
                }
-            }else if(document.getElementById('adult_relation'+i+'_identity_type'+counter).value == 'ktp'){
+            }else if(document.getElementById('adult_relation'+i+'_id_type'+counter).value == 'ktp'){
                 document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).style['border-color'] = '#EFEFEF';
-                $("#adult_relation"+i+'_identity_type'+counter).each(function() {
+                $("#adult_relation"+i+'_id_type'+counter).each(function() {
                     $(this).parent().find('.nice-select').css('border', '0px solid red');
                 });
                 document.getElementById('adult_relation'+i+'_passport_expired_date'+counter).style['border-color'] = '#cdcdcd';
@@ -2097,13 +2098,13 @@ function check_passenger(){
                    document.getElementById('adult_relation'+i+'_passport_number'+counter).style['border-color'] = 'red';
                 }else{
                    document.getElementById('adult_relation'+i+'_passport_number'+counter).style['border-color'] = '#EFEFEF';
-                }if(document.getElementById('adult_relation'+i+'_passport_country_of_issued'+counter).value == '' || document.getElementById('adult_relation'+i+'_passport_country_of_issued'+counter).value == 'Country of Issued'){
+                }if(document.getElementById('adult_relation'+i+'_country_of_issued'+counter).value == '' || document.getElementById('adult_relation'+i+'_country_of_issued'+counter).value == 'Country of Issued'){
                    error_log+= 'Please fill country of issued for relation '+counter+'!</br>\n';
-                   $('#adult_relation'+i+'_passport_country_of_issued'+counter+"_id").each(function() {
+                   $('#adult_relation'+i+'_country_of_issued'+counter+"_id").each(function() {
                      $(this).siblings(".select2-container").css('border', '1px solid red');
                    });
                 }else{
-                   $('#adult_relation'+i+'_passport_country_of_issued'+counter+"_id").each(function() {
+                   $('#adult_relation'+i+'_country_of_issued'+counter+"_id").each(function() {
                      $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
                    });
                 }
@@ -2347,19 +2348,19 @@ function check_passenger(){
             }
 
             //CHECK KTP
-            if(document.getElementById('adult_relation_beneficiary_identity_type'+i).value == 'ktp'){
+            if(document.getElementById('adult_relation_beneficiary_id_type'+i).value == 'ktp'){
                 if(check_ktp(document.getElementById('adult_relation_beneficiary_passport_number'+i).value) == false){
                    error_log+= 'Please fill id number, nik only contain 16 digits for beneficiary customer '+i+'!</br>\n';
                    document.getElementById('adult_relation_beneficiary_passport_number'+i).style['border-color'] = 'red';
                 }else{
                    document.getElementById('adult_relation_beneficiary_passport_number'+i).style['border-color'] = '#EFEFEF';
-                }if(document.getElementById('adult_relation_beneficiary_passport_country_of_issued'+i+'_id').value == '' || document.getElementById('adult_relation_beneficiary_passport_country_of_issued'+i+'_id').value == 'Country of Issued'){
+                }if(document.getElementById('adult_relation_beneficiary_country_of_issued'+i).value == '' || document.getElementById('adult_relation_beneficiary_country_of_issued'+i).value == 'Country of Issued'){
                    error_log+= 'Please fill country of issued for beneficiary customer '+i+'!</br>\n';
-                   $("#adult_relation_beneficiary_passport_country_of_issued"+i+"_id").each(function() {
+                   $("#adult_relation_beneficiary_country_of_issued"+i+"_id").each(function() {
                      $(this).siblings(".select2-container").css('border', '1px solid red');
                    });
                 }else{
-                   $("#adult_relation_beneficiary_passport_country_of_issued"+i+"_id").each(function() {
+                   $("#adult_relation_beneficiary_country_of_issued"+i+"_id").each(function() {
                      $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
                    });
                 }
