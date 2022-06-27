@@ -206,12 +206,22 @@ def passenger(request):
             #pax
             adult = []
             family = []
+            sequence = 2
             for i in range(int(request.session['insurance_request_with_passenger']['adult'])):
                 adult.append('')
             for i in range(int(request.session['insurance_request_with_passenger']['family']['adult'])):
-                family.append('')
+                family.append({
+                    "sequence": sequence,
+                    "pax_type": 'Adult'
+                })
+                sequence += 1
+            sequence = 1
             for i in range(int(request.session['insurance_request_with_passenger']['family']['child'])):
-                family.append('')
+                family.append({
+                    "sequence": sequence,
+                    "pax_type": 'Child'
+                })
+                sequence += 1
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
@@ -281,7 +291,7 @@ def review(request):
                         "identity_type": request.POST['adult_relation%s_identity_type%s' % (str(i + 1),counter)],
                         "identity_number": request.POST['adult_relation%s_passport_number%s' % (str(i + 1),counter)],
                         "identity_expdate": request.POST['adult_relation%s_passport_expired_date%s' % (str(i + 1),counter)],
-                        "identity_country_of_issued_name": request.POST['adult_relation%s_passport_country_of_issued%s_id' % (str(i + 1),counter)],
+                        "identity_country_of_issued_name": request.POST['adult_relation%s_passport_country_of_issued%s' % (str(i + 1),counter)],
                         "relation": request.POST.get('adult_relation%s_relation%s' % (str(i + 1),counter), ''),
                         "place_of_birth": request.POST.get('adult_relation%s_place_of_birth%s' % (str(i + 1), counter),''),
                     })
@@ -296,7 +306,7 @@ def review(request):
                         "identity_type": request.POST['adult_relation%s_identity_type%s' % (str(i + 1), counter)],
                         "identity_number": request.POST['adult_relation%s_passport_number%s' % (str(i + 1), counter)],
                         "identity_expdate": request.POST['adult_relation%s_passport_expired_date%s' % (str(i + 1), counter)],
-                        "identity_country_of_issued_name": request.POST['adult_relation%s_passport_country_of_issued%s_id' % (str(i + 1), counter)],
+                        "identity_country_of_issued_name": request.POST['adult_relation%s_passport_country_of_issued%s' % (str(i + 1), counter)],
                         "relation": request.POST.get('adult_relation%s_relation%s' % (str(i + 1), counter), ''),
                         "place_of_birth": request.POST.get('adult_relation%s_place_of_birth%s' % (str(i + 1), counter), ''),
 
@@ -313,7 +323,7 @@ def review(request):
                             "identity_type": request.POST['adult_relation_beneficiary_identity_type' + str(i + 1)],
                             "identity_number": request.POST['adult_relation_beneficiary_passport_number' + str(i + 1)],
                             "identity_expdate": request.POST['adult_relation_beneficiary_passport_expired_date' + str(i + 1)],
-                            "identity_country_of_issued_name": request.POST['adult_relation_beneficiary_passport_country_of_issued' + str(i + 1) + '_id'],
+                            "identity_country_of_issued_name": request.POST['adult_relation_beneficiary_passport_country_of_issued' + str(i + 1)],
                             "relation": request.POST['adult_relation_beneficiary_relation' + str(i + 1)],
                         })
 

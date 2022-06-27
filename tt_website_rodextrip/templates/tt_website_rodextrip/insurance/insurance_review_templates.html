@@ -267,6 +267,14 @@
                                             <td>{{forloop.counter}}</td>
                                             <td>
                                                 <b>{{pax.title}}. {{pax.first_name}} {{pax.last_name}}</b><br/></br>
+                                                {% for relation in pax.data_insurance.relation %}
+                                                <b>Relation {{forloop.counter}} - {{relation.title}}. {{relation.first_name}} {{relation.last_name}} - {{relation.relation}}</b><br/></br>
+                                                {% endfor %}
+
+                                                {% if 'title' in pax.data_insurance.beneficiary %}
+                                                <b>Beneficiary - {{pax.data_insurance.beneficiary.title}}. {{pax.data_insurance.beneficiary.first_name}} {{pax.data_insurance.beneficiary.last_name}} - {{pax.data_insurance.beneficiary.relation}}</b><br/></br>
+                                                {% endif %}
+
                                                 {% if pax.data_insurance.addons|length != 0%}
                                                     {% for addons in pax.data_insurance.addons %}
                                                         {% if forloop.counter == 1%}
