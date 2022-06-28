@@ -6940,3 +6940,23 @@ ul.progress_tabs li.current .image-rounded-icon{
 .modal{
     padding-right:unset !important;
 }
+
+.mytickethotel {
+  position: fixed;
+  top: 85px;
+  right: 55px;
+  z-index: 999;
+  background-color: #f15a22;
+  color: white;
+  height:55px;
+  width:55px;
+  border: 1px solid #cdcdcd;
+  border-radius: 28px;
+  cursor: pointer;
+  outline: none;
+  cursor: pointer;
+}
+
+.mytickethotel:hover {
+  background-color: #C04B21;
+}

@@ -641,7 +641,7 @@ function train_get_detail(){
             $text +=` - `+journeys[i].arrival_date[0] + ' ' + journeys[i].arrival_date[1] +`\n\n`;
         }
         train_detail_text += `
-        <h6 style="cursor:pointer; background:`+color+`; color:`+text_color+`;padding:10px 15px; display:none;" id="train_title_up`+i+`" onclick="show_hide_train(`+i+`);">`;
+        <h6 style="cursor:pointer; background:`+color+`; color:`+text_color+`;padding:10px 15px; display:block;" id="train_title_up`+i+`" onclick="show_hide_train(`+i+`);">`;
         if(i == 0){
             train_detail_text += `Departure - `;
         }else{
@@ -653,7 +653,7 @@ function train_get_detail(){
         `+journeys[i].destination+`
         <i class="fas fa-caret-up" style="float:right; font-size:18px;"></i>
         </h6>
-        <h6 style="cursor:pointer; background:`+color+`; color:`+text_color+`; padding:10px 15px;" id="train_title_down`+i+`" onclick="show_hide_train(`+i+`);">`;
+        <h6 style="cursor:pointer; background:`+color+`; color:`+text_color+`; padding:10px 15px; display:none;" id="train_title_down`+i+`" onclick="show_hide_train(`+i+`);">`;
         if(i == 0){
             train_detail_text += `Departure - `;
         }else{
@@ -666,10 +666,9 @@ function train_get_detail(){
         <i class="fas fa-caret-down" style="float:right; font-size:18px;"></i>
         </h6>
 
-        <div class="col-lg-12" id="train_div_sh`+i+`" style="border:1px solid #cdcdcd; padding:10px 15px; display:none;">
+        <div class="col-lg-12" id="train_div_sh`+i+`" style="border:1px solid #cdcdcd; padding:10px 15px; display:block;">
             <div class="row">
                 <div class="col-lg-12">`;
-
                 if(journeys[i].hasOwnProperty('search_banner')){
                    for(banner_counter in journeys[i].search_banner){
                        var max_banner_date = moment().subtract(parseInt(-1*journeys[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
@@ -725,89 +724,93 @@ function train_get_detail(){
                 </div>
             </div>
         </div>
-        <br/>
-        <div class="row">`;
-            if(parseInt(passengers.adult) > 0){
-                total_tax = 0;
-                total_commission += journeys[i].fares[0].service_charge_summary[0].total_commission*-1;
-                for(j in journeys[i].fares[0].service_charge_summary){
-                    price = {
-                        'fare': 0,
-                        'tax': 0,
-                        'disc': 0
-                    };
-                    for(k in journeys[i].fares[0].service_charge_summary[j].service_charges){
-                        if(k == 0)
-                            price['currency'] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].currency;
-                        if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code == 'fare')
-                            price[journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].amount;
-                        else if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code == 'disc')
-                            price[journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].total;
-                        else if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code != 'rac')
-                            price['tax'] += journeys[i].fares[0].service_charge_summary[j].service_charges[k].total;
-                    }
-                    total_tax += price['tax'];
-                    total_discount += price['disc'];
-                    if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'ADT')
-                        total_price += price['fare'] * parseInt(passengers.adult);
-                    else
-                        total_price += price['fare'] * parseInt(passengers.infant);
-                    if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'ADT' && parseInt(passengers.adult) > 0){
-                        train_detail_text+=`
+        <div style="margin-bottom:15px; padding:15px; border-left:1px solid #cdcdcd;border-right:1px solid #cdcdcd;border-bottom:1px solid #cdcdcd;">
+            <div class="row">`;
+                sub_total_count = 0;
+                if(parseInt(passengers.adult) > 0){
+                    total_commission += journeys[i].fares[0].service_charge_summary[0].total_commission*-1;
+                    for(j in journeys[i].fares[0].service_charge_summary){
+                        price = {
+                            'fare': 0,
+                            'tax': 0,
+                            'disc': 0
+                        };
+                        for(k in journeys[i].fares[0].service_charge_summary[j].service_charges){
+                            if(k == 0)
+                                price['currency'] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].currency;
+                            if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code == 'fare')
+                                price[journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].amount;
+                            else if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code == 'disc')
+                                price[journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code] = journeys[i].fares[0].service_charge_summary[j].service_charges[k].total;
+                            else if(journeys[i].fares[0].service_charge_summary[j].service_charges[k].charge_code != 'rac')
+                                price['tax'] += journeys[i].fares[0].service_charge_summary[j].service_charges[k].total;
+                        }
+                        total_tax += price['tax'];
+                        total_discount += price['disc'];
+
+                        if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'ADT')
+                            total_price += price['fare'] * parseInt(passengers.adult);
+                        else
+                            total_price += price['fare'] * parseInt(passengers.infant);
+
+                        if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'ADT' && parseInt(passengers.adult) > 0){
+                            train_detail_text+=`
                             <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px;">`+parseInt(passengers.adult)+` Adult x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
+                                <span style="font-size:13px;">`+passengers.adult+`x Adult @ `+price['currency']+` `+getrupiah(price['fare'])+`</span>
                             </div>
                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                 <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(passengers.adult))+`</span>
-                            </div>
-                            <div class="col-lg-12">
-                                <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                             </div>`;
-                        $text += passengers.adult+`x Adult @`+price['currency']+' '+getrupiah(price['fare'] + price['tax']/passengers.adult)+`\n`;
-                    }
-                    else if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'INF' && parseInt(passengers.infant) > 0){
-                        train_detail_text+=`
+                            sub_total_count += price['fare'] * parseInt(passengers.adult);
+                            $text += passengers.adult+`x Adult @`+price['currency']+' '+getrupiah(price['fare'] + price['tax']/passengers.adult)+`\n`;
+                        }
+                        else if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'INF' && parseInt(passengers.infant) > 0){
+                            train_detail_text+=`
                             <div class="col-lg-6 col-xs-6" style="text-align:left;">
                                 <span style="font-size:13px;">`+parseInt(passengers.infant)+` Infant x `+price['currency']+` `+getrupiah(0)+`</span>
                             </div>
                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                <span style="font-size:13px;">`+price['currency']+` `+getrupiah(0)+`</span>
-                            </div>
-                            <div class="col-lg-12">
-                                <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
+                                <span style="font-size:13px;">Free</span>
                             </div>`;
-                        $text += passengers.infant+`x Infant Fare @`+price['currency']+' '+getrupiah(0)+`\n`;
+                            sub_total_count += 0;
+                            $text += passengers.infant+`x Infant Fare @`+price['currency']+' '+getrupiah(0)+`\n`;
+                        }
                     }
+    //                $text += '1x Convenience fee '+price['currency']+' '+ getrupiah(journeys[i].fares[0].service_charge_summary[0].total_tax) + '\n\n';
                 }
-//                $text += '1x Convenience fee '+price['currency']+' '+ getrupiah(journeys[i].fares[0].service_charge_summary[0].total_tax) + '\n\n';
-            }
+                train_detail_text+=`
+                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                    <span style="font-size:13px;">1x Convenience fee</span>
+                </div>
+                <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                    <span style="font-size:13px;">`+price['currency']+` `+getrupiah(total_tax)+`</span>
+                </div>`;
 
-            train_detail_text+=`
-            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                <span style="font-size:13px;">1x Convenience fee</span>
-            </div>
-            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                <span style="font-size:13px;">`+price['currency']+` `+getrupiah(total_tax)+`</span>
-            </div>
-            <div class="col-lg-12 mb-3">
+                sub_total_count += total_tax;
 
+                train_detail_text+=`
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                        <span style="font-size:13px; font-weight:bold;">Subtotal</span>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                        <span style="font-size:13px; font-weight:bold;">`+price['currency']+` `+getrupiah(sub_total_count)+`</span>
+                    </div>
+                </div>
             </div>
-        </div>
-        `;
-        total_price += total_tax;
+        </div>`;
     }
 
     try{
         if(total_discount != 0){
             train_detail_text += `
-                <div class="row" style="margin-bottom:5px;">
-                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                        <span style="font-size:13px;font-weight:bold;"><b>Discount</b></span><br>
-                    </div>
-                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                        <span style="font-size:13px;font-weight:bold;"><b>`+price['currency']+` `+getrupiah(total_discount*-1)+`</b></span><br>
-                    </div>
-                </div>`;
+            <div class="row" style="margin-bottom:5px;">
+                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                    <span style="font-size:13px; font-weight:bold;"><b>Discount</b></span><br>
+                </div>
+                <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                    <span style="font-size:13px; font-weight:bold; color:#e04022; font-weight:bold;"> -`+price['currency']+` `+getrupiah(total_discount*-1)+`</span><br>
+                </div>
+            </div>`;
             $text += '‣ Discount: IDR ' +getrupiah(total_discount*-1) + '\n';
         }
     }catch(err){console.log(err);}
@@ -1011,7 +1014,7 @@ function train_detail(){
         <div class="row">
             <div class="col-lg-12">`;
             text += `
-            <h6 style="cursor:pointer; color:`+color+`; display:none;" id="train_title_up`+i+`" onclick="show_hide_train(`+i+`);">`;
+            <h6 style="cursor:pointer; display:block;" id="train_title_up`+i+`" onclick="show_hide_train(`+i+`);">`;
             if(i == 0){
                 text += `Departure - `;
             }else{
@@ -1021,9 +1024,9 @@ function train_detail(){
             `+train_data[i].origin+`
             <i class="fas fa-arrow-right"></i>
             `+train_data[i].destination+`
-            <i class="fas fa-caret-up" style="float:right; font-size:18px;"></i>
+            <i class="fas fa-chevron-up" style="color:`+color+`; float:right; font-size:18px;"></i>
             </h6>
-            <h6 style="cursor:pointer; color:`+color+`;" id="train_title_down`+i+`" onclick="show_hide_train(`+i+`);">`;
+            <h6 style="cursor:pointer; display:none;" id="train_title_down`+i+`" onclick="show_hide_train(`+i+`);">`;
             if(i == 0){
                 text += `Departure - `;
             }else{
@@ -1033,11 +1036,11 @@ function train_detail(){
             `+train_data[i].origin+`
             <i class="fas fa-arrow-right"></i>
             `+train_data[i].destination+`
-            <i class="fas fa-caret-down" style="float:right; font-size:18px;"></i>
+            <i class="fas fa-chevron-down" style="float:right; color:`+color+`; font-size:18px;"></i>
             </h6>
             </div>
 
-            <div class="col-lg-12" id="train_div_sh`+i+`" style="padding:10px 15px; display:none;">
+            <div class="col-lg-12" id="train_div_sh`+i+`" style="padding:10px 15px; display:block;">
                 <div class="row">
                     <div class="col-lg-12">`;
                     if(train_data[i].hasOwnProperty('search_banner')){
@@ -1091,8 +1094,7 @@ function train_detail(){
                 </div>
             </div>
         </div>
-        <br/>
-        <div class="row" style="padding:5px;">`;
+        <div class="row">`;
         price = {
             'fare': 0,
             'tax': 0
@@ -1117,25 +1119,19 @@ function train_detail(){
                     if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty('adult')){
                         text+=`
                             <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px;">`+parseInt(adult)+` Adult x `+price['currency']+` `+getrupiah(price['fare'] + (upsell_price_dict['adult']/parseInt(adult)))+`</span>
+                                <span style="font-size:13px;">`+parseInt(adult)+`x Adult @ `+price['currency']+` `+getrupiah(price['fare'] + (upsell_price_dict['adult']/parseInt(adult)))+`</span>
                             </div>
                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                 <span style="font-size:13px;">`+price['currency']+` `+getrupiah((price['fare'] * parseInt(adult)) + upsell_price_dict['adult'])+`</span>
-                            </div>
-                            <div class="col-lg-12">
-                                <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                             </div>`;
                         $text += adult+`x Adult @`+price['currency']+' '+getrupiah(price['fare'] + (total_tax/adult) + (upsell_price_dict['adult']/parseInt(adult)))+`\n`;
                     }else{
                         text+=`
                             <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px;">`+parseInt(adult)+` Adult x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
+                                <span style="font-size:13px;">`+parseInt(adult)+`x Adult @ `+price['currency']+` `+getrupiah(price['fare'])+`</span>
                             </div>
                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                 <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(adult))+`</span>
-                            </div>
-                            <div class="col-lg-12">
-                                <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                             </div>`;
                         $text += adult+`x Adult @`+price['currency']+' '+getrupiah(price['fare'] + (total_tax/adult))+`\n`;
                     }
@@ -1150,9 +1146,6 @@ function train_detail(){
                     </div>
                     <div class="col-lg-6 col-xs-6" style="text-align:right;">
                         <span style="font-size:13px;">`+price['currency']+` `+getrupiah(0 + upsell_price_dict['infant'])+`</span>
-                    </div>
-                    <div class="col-lg-12">
-                        <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                     </div>`;
                 $text += infant+`x Infant @`+price['currency']+' '+getrupiah(0 + upsell_price_dict['infant']/parseInt(infant))+`\n`;
             }else{
@@ -1162,9 +1155,6 @@ function train_detail(){
                     </div>
                     <div class="col-lg-6 col-xs-6" style="text-align:right;">
                         <span style="font-size:13px;">Free</span>
-                    </div>
-                    <div class="col-lg-12">
-                        <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
                     </div>`;
                 $text += infant+`x Infant @`+price['currency']+' '+getrupiah(0)+`\n`;
             }
@@ -1178,7 +1168,7 @@ function train_detail(){
                 <span style="font-size:13px;">`+price['currency']+` `+getrupiah(train_data[i].fares[0].service_charge_summary[0].total_tax)+`</span>
             </div>
             <div class="col-lg-12">
-                <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
+                <hr/>
             </div>
         </div>`;
     }
@@ -1208,7 +1198,6 @@ function train_detail(){
         console.log(err); // error kalau ada element yg tidak ada
     }
     text+=`
-    <br/>
     <div class="row" style="margin-bottom:5px;">
         <div class="col-lg-6 col-xs-6" style="text-align:left;">
             <span style="font-size:13px;"><b>Total</b></span><br>
