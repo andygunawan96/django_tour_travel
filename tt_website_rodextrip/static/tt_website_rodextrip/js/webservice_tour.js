@@ -2664,6 +2664,7 @@ function table_price_update(msg,type){
     chd_amt = 0;
     inf_amt = 0;
     room_prices = [];
+    total_charge = 0;
     for (i in price_data)
     {
         if(!price_data[i].charge_code.split('.').includes('room'))
@@ -2673,55 +2674,64 @@ function table_price_update(msg,type){
                 if(price_data[i].pax_type == 'ADT')
                 {
                     if(price_data[i].pax_count != 0){
-                        price_txt_adt += `<div class="row">
-                                               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                   <span style="font-size:13px; font-weight:500;">`+price_data[i].pax_count+`x `+price_data[i].description+` <br/>@IDR `+getrupiah(price_data[i].amount)+`</span>
-                                               </div>
-                                               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">
-                                                   <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(price_data[i].total)+`</span>
-                                               </div>
-                                               <div class="col-lg-12">
-                                                   <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
-                                               </div>
-                                          </div>`;
+                        price_txt_adt += `
+                        <div class="row">
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                               <span style="font-size:13px; font-weight:500;">`+price_data[i].pax_count+`x `+price_data[i].description+`</span>
+                           </div>
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"></div>
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align:left;">
+                               @IDR `+getrupiah(price_data[i].amount)+`
+                           </div>
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align: right;">
+                               <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(price_data[i].total)+`</span>
+                           </div>
+                        </div>`;
                         temp_copy_adt += String(price_data[i].pax_count) + ' ' + price_data[i].description + ' @IDR ' + getrupiah(price_data[i].amount) + '\n';
                         grand_total += price_data[i].total;
+                        total_charge += price_data[i].total;
                     }
                 }
                 else if(price_data[i].pax_type == 'CHD')
                 {
                     if(price_data[i].pax_count != 0){
-                        price_txt_chd += `<div class="row">
-                                               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                   <span style="font-size:13px; font-weight:500;">`+price_data[i].pax_count+`x `+price_data[i].description+` <br/>@ IDR `+getrupiah(price_data[i].amount)+`</span>
-                                               </div>
-                                               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">
-                                                   <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(price_data[i].total)+`</span>
-                                               </div>
-                                               <div class="col-lg-12">
-                                                   <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
-                                               </div>
-                                          </div>`;
+                        price_txt_chd += `
+                        <div class="row">
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                               <span style="font-size:13px; font-weight:500;">`+price_data[i].pax_count+`x `+price_data[i].description+`</span>
+                           </div>
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"></div>
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align: left;">
+                               @ IDR `+getrupiah(price_data[i].amount)+`
+                           </div>
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align: right;">
+                               <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(price_data[i].total)+`</span>
+                           </div>
+                        </div>`;
                         temp_copy_chd += String(price_data[i].pax_count) + ' ' + price_data[i].description + ' @IDR ' + getrupiah(price_data[i].amount) + '\n';
                         grand_total += price_data[i].total;
+                        total_charge += price_data[i].total;
                     }
                 }
                 else if(price_data[i].pax_type == 'INF')
                 {
                     if(price_data[i].pax_count != 0){
-                        price_txt_inf += `<div class="row">
-                                               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                   <span style="font-size:13px; font-weight:500;">`+price_data[i].pax_count+`x `+price_data[i].description+` <br/>@ IDR `+getrupiah(price_data[i].amount)+`</span>
-                                               </div>
-                                               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">
-                                                   <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(price_data[i].total)+`</span>
-                                               </div>
-                                               <div class="col-lg-12">
-                                                   <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
-                                               </div>
-                                          </div>`;
+                        price_txt_inf += `
+                        <div class="row">
+                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                 <span style="font-size:13px; font-weight:500;">`+price_data[i].pax_count+`x `+price_data[i].description+`</span>
+                             </div>
+                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"></div>
+                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align:left;">
+                                 @ IDR `+getrupiah(price_data[i].amount)+`
+                             </div>
+                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align: right;">
+                                 <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(price_data[i].total)+`</span>
+                             </div>
+                        </div>`;
                         temp_copy_inf += String(price_data[i].pax_count) + ' ' + price_data[i].description + ' @IDR ' + getrupiah(price_data[i].amount) + '\n';
                         grand_total += price_data[i].total;
+                        total_charge += price_data[i].total;
                     }
                 }
             }
@@ -2729,29 +2739,43 @@ function table_price_update(msg,type){
             {
                 if(price_data[i].pax_count != 0){
                     price_txt2 += `<div class="row">`;
+
+                    if(i == 0){
+                        price_txt2 +=`
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                            <span style="font-size:13px; font-weight:bold;">Charge</span>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">
+
+                        </div>`;
+                    }
                     if(typeof upsell_price_dict !== 'undefined' && price_data[i].pax_type in upsell_price_dict && price_data[i].charge_type == 'FARE' && price_data[i].charge_code == 'fare.flight')
                         price_txt2 += `
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="font-size:13px; font-weight:500;">`+price_data[i].pax_count+`x `+price_data[i].description+` <br/>@ IDR `+getrupiah(price_data[i].amount + (upsell_price_dict[price_data[i].pax_type]/price_data[i].pax_count))+`</span>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">
-                                            <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(price_data[i].total + upsell_price_dict[price_data[i].pax_type])+`</span>
-                                        </div>`;
+                        <div class="col-lg-12" style="text-align:left;">
+                            <span style="font-size:13px; font-weight:500;">`+price_data[i].pax_count+`x `+price_data[i].description+` </span>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align:left;">
+                            @ IDR `+getrupiah(price_data[i].amount + (upsell_price_dict[price_data[i].pax_type]/price_data[i].pax_count))+`
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align: right;">
+                            <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(price_data[i].total + upsell_price_dict[price_data[i].pax_type])+`</span>
+                        </div>`;
                     else
                         price_txt2 += `
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="font-size:13px; font-weight:500;">`+price_data[i].pax_count+`x `+price_data[i].description+` <br/>@ IDR `+getrupiah(price_data[i].amount)+`</span>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">
-                                            <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(price_data[i].total)+`</span>
-                                        </div>`;
+                        <div class="col-lg-12" style="text-align:left;">
+                            <span style="font-size:13px; font-weight:500;">`+price_data[i].pax_count+`x `+price_data[i].description+`</span>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align:left;">
+                            @ IDR `+getrupiah(price_data[i].amount)+`
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align: right;">
+                            <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(price_data[i].total)+`</span>
+                        </div>`;
                     price_txt2 += `
-                                       <div class="col-lg-12">
-                                           <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
-                                       </div>
-                                   </div>`;
+                    </div>`;
                     temp_copy2 += String(price_data[i].pax_count) + ' ' + price_data[i].description + ' @IDR ' + getrupiah(price_data[i].amount) + '\n';
                     grand_total += price_data[i].total;
+                    total_charge += price_data[i].total;
                 }
             }
             else if(price_data[i].charge_code == 'rac')
@@ -2764,22 +2788,26 @@ function table_price_update(msg,type){
             room_prices.push(price_data[i]);
         }
     }
-    price_txt2 += `<div class="row">
+    price_txt2 += `
+    <div class="row mt-2">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-            <span style="font-size:13px; font-weight:500;">Total Charge</span>
+            <span style="font-size:13px; font-weight:bold;">Total Charge</span>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-            <span style="font-size:13px; font-weight:500;" id="total_charge_pd"></span>
+            <span style="font-size:13px; font-weight:bold;" id="total_charge_pd"></span>
+        </div>
+        <div class="col-lg-12">
+            <hr/>
         </div>
     </div>`;
-    total_charge = 0;
     price_txt2 += `<div class="row">
     <div class="col-lg-12">
         <center><h6 style="margin-top:10px; color:`+color+`; display:block; cursor:pointer;" id="price_detail_tour_down" onclick="show_hide_div('price_detail_tour');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
     </div>
-    <div class="col-lg-12 mt-3" id="price_detail_tour_div" style="display:none;">`;
+    <div class="col-lg-12 mt-1" id="price_detail_tour_div" style="display:none;">`;
     for(var j=0; j<room_amount; j++)
     {
+        sub_total_count = 0;
         price_txt2 += `<div class="row"><div class="col-xs-12"><span style="font-weight: bold; color:`+color+`;">Room #`+String(j+1)+`</span></div></div>`;
         temp_copy2 += '\nRoom ' + String(j+1) + '\n';
         found_room_price = false;
@@ -2788,22 +2816,34 @@ function table_price_update(msg,type){
             if(room_prices[k].charge_code.split('.').includes(String(j+1)))
             {
                 found_room_price = true;
-                price_txt2 += `<div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                        <span style="font-size:13px; font-weight:500;">`+room_prices[k].pax_count+`x `+room_prices[k].description+` <br/>@ IDR `+getrupiah(room_prices[k].amount)+`</span>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">
-                                        <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(room_prices[k].total)+`</span>
-                                    </div>
-                                   <div class="col-lg-12">
-                                       <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
-                                   </div>
-                               </div>`;
-                total_charge += room_prices[k].total;
+                price_txt2 += `
+                <div class="row">
+                    <div class="col-lg-12" style="text-align:left;">
+                        <span style="font-size:13px; font-weight:500;">`+room_prices[k].pax_count+`x `+room_prices[k].description+`</span>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align:left;">
+                        @ IDR `+getrupiah(room_prices[k].amount)+`
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align: right;">
+                        <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(room_prices[k].total)+`</span>
+                    </div>
+                </div>`;
+                sub_total_count += room_prices[k].total;
                 grand_total += room_prices[k].total;
                 temp_copy2 += String(room_prices[k].pax_count) + ' ' + room_prices[k].description + ' @IDR ' + getrupiah(room_prices[k].amount) + '\n';
             }
         }
+
+        price_txt2 += `
+        <div class="row mt-2">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                <span style="font-size:13px; font-weight:bold;">Subtotal</span>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                <span style="font-size:13px; font-weight:bold;">IDR `+getrupiah(sub_total_count)+`</span>
+            </div>
+        </div>`;
+
         if (!found_room_price)
         {
             price_txt2 += `<div class="row">

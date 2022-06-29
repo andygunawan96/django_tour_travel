@@ -287,7 +287,7 @@ function activity_table_detail(){
    if(activity_data.name != document.getElementById('product_type_title').innerHTML)
        $test += document.getElementById('product_type_title').innerHTML + '\n';
 
-   var visit_date_txt = document.getElementById('activity_date').value;
+   var visit_date_txt = '<i class="fas fa-calendar-alt"></i> '+document.getElementById('activity_date').value;
    $test +='‣ Visit Date : '+document.getElementById('activity_date').value+
            '\n';
    try{
@@ -304,15 +304,25 @@ function activity_table_detail(){
    try{
        for (price in activity_date.service_charge_summary)
        {
-            text+= `<div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                    <span style="font-size:13px; font-weight:500;">`+activity_date.service_charge_summary[price].pax_count+`x `+activity_date.service_charge_summary[price].pax_type+` @`+activity_date.service_charge_summary[price].service_charges[0].currency+` `;
+            text+= `
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                    <span style="font-size:13px; font-weight:500;">
+                        `+activity_date.service_charge_summary[price].pax_count+`x `;
+
+            if(activity_date.service_charge_summary[price].pax_type == "YCD")
+                text+=`Senior`;
+            else if(activity_date.service_charge_summary[price].pax_type == "ADT")
+                text+=`Adult`;
+            else if(activity_date.service_charge_summary[price].pax_type == "CHD")
+                text+=`Child`;
+            else if(activity_date.service_charge_summary[price].pax_type == "INF")
+                text+=`Infant`;
+
+            text+=` @ `+activity_date.service_charge_summary[price].service_charges[0].currency+``;
             text+= getrupiah(activity_date.service_charge_summary[price].base_price)+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">`+activity_date.service_charge_summary[price].service_charges[0].currency+` `;
             text+= getrupiah(activity_date.service_charge_summary[price].total_price)+`</span></div>`;
-            text+= `<div class="col-lg-12">
-                           <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
-                    </div>
-                   </div>`;
+            text+= `</div>`;
             $test += activity_date.service_charge_summary[price].pax_count + 'x ' + activity_date.service_charge_summary[price].pax_type + ' Price @IDR ' + getrupiah(activity_date.service_charge_summary[price].base_price)+'\n';
             grand_total += activity_date.service_charge_summary[price].total_price;
             grand_commission -= activity_date.service_charge_summary[price].total_commission;
@@ -535,8 +545,18 @@ function activity_table_detail2(pagetype){
        for (pri in price.service_charge_summary)
        {
             text+= `<div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px; font-weight:500;">`+price.service_charge_summary[pri].pax_count+`x `+price.service_charge_summary[pri].pax_type+` @`+price.service_charge_summary[pri].service_charges[0].currency+` `;
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                            <span style="font-size:13px; font-weight:500;">`+price.service_charge_summary[pri].pax_count+`x `;
+
+                if(price.service_charge_summary[pri].pax_type == "YCD")
+                    text+=`Senior`;
+                else if(price.service_charge_summary[pri].pax_type == "ADT")
+                    text+=`Adult`;
+                else if(price.service_charge_summary[pri].pax_type == "CHD")
+                    text+=`Child`;
+                else if(price.service_charge_summary[pri].pax_type == "INF")
+                    text+=`Infant`;
+            text+=`@ `+price.service_charge_summary[pri].service_charges[0].currency+` `;
             if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty(price.service_charge_summary[pri].pax_type)){ //with upsell
                 text+= getrupiah(price.service_charge_summary[pri].base_price + (upsell_price_dict[price.service_charge_summary[pri].pax_type] / price.service_charge_summary[pri].pax_count))+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">`+price.service_charge_summary[pri].service_charges[0].currency+` `;
                 text+= getrupiah(price.service_charge_summary[pri].total_price + (upsell_price_dict[price.service_charge_summary[pri].pax_type]))+`</span></div>`;
@@ -547,10 +567,7 @@ function activity_table_detail2(pagetype){
                 $test += price.service_charge_summary[pri].pax_count + ' ' + price.service_charge_summary[pri].pax_type + ' Price @'+price.service_charge_summary[pri].service_charges[0].currency+' ' + getrupiah(price.service_charge_summary[pri].base_price)+'\n';
             }
 
-            text+= `<div class="col-lg-12">
-                       <hr style="border:1px solid #e0e0e0; margin-top:5px; margin-bottom:5px;"/>
-                   </div>
-               </div>`;
+            text+= `</div>`;
             grand_total += price.service_charge_summary[pri].total_price;
             grand_commission -= price.service_charge_summary[pri].total_commission;
        }
@@ -558,7 +575,7 @@ function activity_table_detail2(pagetype){
        {
            text+= `<div class="row">
                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                            <span style="font-size:13px; font-weight:500;">`+passenger['infant']+`x Infant @IDR 0</span>
+                            <span style="font-size:13px; font-weight:500;">`+passenger['infant']+`x Infant @ IDR 0</span>
                        </div>
                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">
                             <span style="font-size:13px; font-weight:500;">IDR `;

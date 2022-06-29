@@ -66,9 +66,14 @@ function render_payment(){
                 text=`<h4 style="color:`+color+`;">Customer Payment Method</h4><hr/>`;
 
             text+=`
-                <div>
-                    <input type="checkbox" id="is_attach_pay_ref" name="is_attach_pay_ref" value="is_attach_pay_ref" onclick="toggle_show_attach_pay_ref();">
-                    <label for="is_attach_pay_ref">Attach Payment Reference</label>
+                <div class="row">
+                    <div class="col-lg-12 mb-3">
+                        <label class="check_box_custom">
+                            <span class="span-search-ticket" style="color:black;">Attach Payment Reference</span>
+                            <input type="checkbox" id="is_attach_pay_ref" name="is_attach_pay_ref" value="is_attach_pay_ref" onclick="toggle_show_attach_pay_ref();">
+                            <span class="check_box_span_custom"></span>
+                        </label><br/>
+                    </div>
                 </div>
             `;
             text+=`
