@@ -1251,17 +1251,17 @@ def get_customer_list(request):
             for pax in res['result']['response']:
                 try:
                     if pax['gender'] == 'female' and pax['marital_status'] == 'married':
-                        if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger':
+                        if 'adult' in request.POST['passenger_type'] or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger': #buat insurance pakai keyword adult<something> jadi pakai in
                             title = 'MRS'
                         else:
                             title = 'MISS'
                     elif pax['gender'] == 'female':
-                        if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger':
+                        if 'adult' in request.POST['passenger_type'] or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger': #buat insurance pakai keyword adult<something> jadi pakai in
                             title = 'MS'
                         else:
                             title = 'MISS'
                     else:
-                        if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger':
+                        if 'adult' in request.POST['passenger_type'] or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger': #buat insurance pakai keyword adult<something> jadi pakai in
                             title = 'MR'
                         else:
                             title = 'MSTR'
