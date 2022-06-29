@@ -628,10 +628,10 @@
                                             <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('adult_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('adult_ff_request{{counter}}_{{forloop.counter}}')">
                                                         <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                         {% for ff_program in ff.ff_availability %}
-                                                        <option value="{{ff_program.code}}">{{ff_program.name}}</option>
+                                                        <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -943,7 +943,7 @@
                                                     <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="chi;d_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('child_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
                                                         <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                         {% for ff_program in ff.ff_availability %}
-                                                        <option value="{{ff_program.code}}">{{ff_program.name}}</option>
+                                                        <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -1812,7 +1812,7 @@
                                                         <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('adult_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
                                                             <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                             {% for ff_program in ff.ff_availability %}
-                                                            <option value="{{ff_program.code}}">{{ff_program.name}}</option>
+                                                            <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                             {% endfor %}
                                                         </select>
                                                         <input type="hidden" name="adult_ff_request{{counter}}_{{forloop.counter}}" id="adult_ff_request{{counter}}_{{forloop.counter}}" />
@@ -2113,7 +2113,7 @@
                                                         <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="chi;d_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('child_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
                                                             <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                             {% for ff_program in ff.ff_availability %}
-                                                            <option value="{{ff_program.code}}">{{ff_program.name}}</option>
+                                                            <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                             {% endfor %}
                                                         </select>
                                                         <input type="hidden" name="child_ff_request{{counter}}_{{forloop.counter}}" id="child_ff_request{{counter}}_{{forloop.counter}}" />
@@ -2994,7 +2994,7 @@
                                                     <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('adult_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
                                                         <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                         {% for ff_program in ff.ff_availability %}
-                                                        <option value="{{ff_program.code}}">{{ff_program.name}}</option>
+                                                        <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -3309,7 +3309,7 @@
                                                     <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="chi;d_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('child_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
                                                         <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                         {% for ff_program in ff.ff_availability %}
-                                                        <option value="{{ff_program.code}}">{{ff_program.name}}</option>
+                                                        <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -4201,7 +4201,7 @@
                                                 <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('adult_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
                                                     <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                     {% for ff_program in ff.ff_availability %}
-                                                    <option value="{{ff_program.code}}">{{ff_program.name}}</option>
+                                                    <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
@@ -4514,7 +4514,7 @@
                                                 <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="chi;d_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('child_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
                                                     <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                     {% for ff_program in ff.ff_availability %}
-                                                    <option value="{{ff_program.code}}">{{ff_program.name}}</option>
+                                                    <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
@@ -5389,7 +5389,7 @@
                                                     <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('adult_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
                                                         <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                         {% for ff_program in ff.ff_availability %}
-                                                        <option value="{{ff_program.code}}">{{ff_program.name}}</option>
+                                                        <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -5957,7 +5957,7 @@
                                                     <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="chi;d_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('child_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
                                                         <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                         {% for ff_program in ff.ff_availability %}
-                                                        <option value="{{ff_program.code}}">{{ff_program.name}}</option>
+                                                        <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -6581,7 +6581,7 @@
                                                     <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('adult_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
                                                         <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                         {% for ff_program in ff.ff_availability %}
-                                                        <option value="{{ff_program.code}}">{{ff_program.name}}</option>
+                                                        <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -7148,7 +7148,7 @@
                                                     <select class="form-control js-example-basic-single" name="child_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="chi;d_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('child_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
                                                         <option value="">{% trans 'Frequent Flyer Program' %}</option>
                                                         {% for ff_program in ff.ff_availability %}
-                                                        <option value="{{ff_program.code}}">{{ff_program.name}}</option>
+                                                        <option value="{{ff_program.ff_code}}">{{ff_program.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
