@@ -3828,7 +3828,7 @@ function render_price_in_get_price(text, $text, $text_share){
                             </div>
                         </div>
                     </div>`;
-                    sub_total_count += Math.ceil((airline_price[price_counter].CHD.fare * airline_request.child) + (price * airline_request.child));
+                    sub_total_count += Math.ceil((airline_price[price_counter].CHD.fare * airline_request.child) + (price));
 
                     $text_price += airline_request.child + ' Child @'+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(airline_price[i].CHD.fare) + Math.ceil(price / airline_request.child))+'\n';
         //            $text_price += 'Child Tax '+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(price))+'\n';
@@ -3882,7 +3882,7 @@ function render_price_in_get_price(text, $text, $text_share){
                             </div>
                         </div>
                     </div>`;
-                    sub_total_count += Math.ceil((airline_price[price_counter].INF.fare * airline_request.infant) + (price * airline_request.infant));
+                    sub_total_count += Math.ceil((airline_price[price_counter].INF.fare * airline_request.infant) + (price));
 
                     $text_price += airline_request.infant + ' Infant @'+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare) + Math.ceil(price+airline_request.infant))+'\n';
         //            $text_price += 'Infant Tax'+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(price))+'\n';
