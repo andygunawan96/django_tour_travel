@@ -4745,7 +4745,7 @@ function clear_passenger(type, sequence){
             if(typeof ff_request !== 'undefined'){
                 for(j=1;j<=ff_request.length;j++){
                     try{
-                        $('#adult_ff_program_'+sequence+'_'+j).val('').trigger('change');
+                        $('#adult_ff_program_'+sequence+'_'+j+'_id').val('').trigger('change');
                         document.getElementById('adult_ff_value_'+sequence+'_'+j).value = '';
                     }catch(err){console.log(err)}
                 }
@@ -4808,7 +4808,7 @@ function clear_passenger(type, sequence){
             if(typeof ff_request !== 'undefined'){
                 for(j=1;j<=ff_request.length;j++){
                     try{
-                        $('#infant_ff_program_'+sequence+'_'+j).val('').trigger('change');
+                        $('#infant_ff_program_'+sequence+'_'+j+'_id').val('').trigger('change');
                         document.getElementById('infant_ff_value_'+sequence+'_'+j).value = '';
                     }catch(err){console.log(err)}
                 }
@@ -4869,7 +4869,7 @@ function clear_passenger(type, sequence){
         if(typeof ff_request !== 'undefined'){
             for(j=1;j<=ff_request.length;j++){
                 try{
-                    $('#senior_ff_program_'+sequence+'_'+j).val('').trigger('change');
+                    $('#senior_ff_program_'+sequence+'_'+j+'_id').val('').trigger('change');
                     document.getElementById('senior_ff_value_'+sequence+'_'+j).value = '';
                 }catch(err){console.log(err)}
             }
@@ -4926,7 +4926,7 @@ function clear_passenger(type, sequence){
         if(typeof ff_request !== 'undefined'){
             for(j=1;j<=ff_request.length;j++){
                 try{
-                    $('#child_ff_program_'+sequence+'_'+j).val('').trigger('change');
+                    $('#child_ff_program_'+sequence+'_'+j+'_id').val('').trigger('change');
                     document.getElementById('child_ff_value_'+sequence+'_'+j).value = '';
                 }catch(err){console.log(err)}
             }
@@ -5337,7 +5337,7 @@ function clear_passenger(type, sequence){
             if(typeof ff_request !== 'undefined'){
                 for(j=1;j<=ff_request.length;j++){
                     try{
-                        $('#'+type+'_ff_program_'+sequence+'_'+j).val('').trigger('change');
+                        $('#'+type+'_ff_program_'+sequence+'_'+j+'_id').val('').trigger('change');
                         document.getElementById(type+'_ff_value_'+sequence+'_'+j).value = '';
                     }catch(err){console.log(err)}
                 }
