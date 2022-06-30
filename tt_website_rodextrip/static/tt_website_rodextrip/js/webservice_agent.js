@@ -4745,7 +4745,7 @@ function clear_passenger(type, sequence){
             if(typeof ff_request !== 'undefined'){
                 for(j=1;j<=ff_request.length;j++){
                     try{
-                        document.getElementById('adult_ff_program_'+sequence+'_'+j).innerHTML = '';
+                        $('#adult_ff_program_'+sequence+'_'+j).val('').trigger('change');
                         document.getElementById('adult_ff_value_'+sequence+'_'+j).value = '';
                     }catch(err){console.log(err)}
                 }
@@ -4808,7 +4808,7 @@ function clear_passenger(type, sequence){
             if(typeof ff_request !== 'undefined'){
                 for(j=1;j<=ff_request.length;j++){
                     try{
-                        document.getElementById('infant_ff_program_'+sequence+'_'+j).innerHTML = '';
+                        $('#infant_ff_program_'+sequence+'_'+j).val('').trigger('change');
                         document.getElementById('infant_ff_value_'+sequence+'_'+j).value = '';
                     }catch(err){console.log(err)}
                 }
@@ -4869,7 +4869,7 @@ function clear_passenger(type, sequence){
         if(typeof ff_request !== 'undefined'){
             for(j=1;j<=ff_request.length;j++){
                 try{
-                    document.getElementById('senior_ff_program_'+sequence+'_'+j).innerHTML = '';
+                    $('#senior_ff_program_'+sequence+'_'+j).val('').trigger('change');
                     document.getElementById('senior_ff_value_'+sequence+'_'+j).value = '';
                 }catch(err){console.log(err)}
             }
@@ -4926,7 +4926,7 @@ function clear_passenger(type, sequence){
         if(typeof ff_request !== 'undefined'){
             for(j=1;j<=ff_request.length;j++){
                 try{
-                    document.getElementById('child_ff_program_'+sequence+'_'+j).innerHTML = '';
+                    $('#child_ff_program_'+sequence+'_'+j).val('').trigger('change');
                     document.getElementById('child_ff_value_'+sequence+'_'+j).value = '';
                 }catch(err){console.log(err)}
             }
@@ -5332,6 +5332,15 @@ function clear_passenger(type, sequence){
                 document.getElementById(type+'_country_of_issued'+sequence).value = '';
                 document.getElementById('select2-'+type+'_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
                 document.getElementById(type+'_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
+            }
+
+            if(typeof ff_request !== 'undefined'){
+                for(j=1;j<=ff_request.length;j++){
+                    try{
+                        $('#'+type+'_ff_program_'+sequence+'_'+j).val('').trigger('change');
+                        document.getElementById(type+'_ff_value_'+sequence+'_'+j).value = '';
+                    }catch(err){console.log(err)}
+                }
             }
 
         }catch(err){
