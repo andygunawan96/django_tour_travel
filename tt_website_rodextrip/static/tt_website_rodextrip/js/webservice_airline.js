@@ -1511,7 +1511,7 @@ function get_carrier_providers(){
            carrier_to_provider();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline provider list');
+           error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline carrier provider');
            $('.loader-rodextrip').fadeOut();
            $("#barFlightSearch").hide();
            $("#waitFlightSearch").hide();
@@ -3387,18 +3387,6 @@ function get_price_itinerary_request(){
                                                            airline_price.length > resJson.result.response.price_itinerary_provider.length){ //provider
                                                             fare_print = true;
                                                         }
-                                                        for(l in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares){
-                                                            for(m in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details){
-                                                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('BG'))
-                                                                    $text += '• Baggage ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit + '\n';
-                                                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('ML'))
-                                                                    $text += '• Meal ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit + '\n';
-                                                            }
-                                                            if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_type_name)
-                                                                $text += '• Aircraft: ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_type_name + '\n';
-                                                        }
-                                                        $text += '\n';
-
                                                         text+=`</div>`;
                                                         text+=`<div class="col-lg-12 mt-2">`;
                                                         if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares.length > 0){
@@ -3410,6 +3398,23 @@ function get_price_itinerary_request(){
                                                                     text += airline_cabin_class_list[resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].cabin_class]
                                                             }
                                                             text += ` - Class `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[0].class_of_service+`</span>`;
+
+                                                            for(l in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares){
+                                                                for(m in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details){
+                                                                    if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('BG')){
+                                                                        $text += '• Baggage ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit + '\n';
+                                                                        text += `<br/><i class="fas fa-suitcase"></i><span style="color:`+color+`; font-weight:800;"> Baggage - `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit+` </span>`;
+                                                                    }else if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('ML')){
+                                                                        $text += '• Meal ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit + '\n';
+                                                                        text += `<br/><i class="fas fa-suitcase"></i><span style="color:`+color+`; font-weight:800;"> Meal - `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit+` </span>`;
+                                                                    }
+                                                                }
+                                                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_type_name){
+                                                                    $text += '• Aircraft: ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_type_name + '\n';
+                                                                    text += `<br/><i class="fas fa-plane"></i><span style="color:`+color+`; font-weight:800;"> Aircraft - `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_type_name+` </span>`;
+                                                                }
+                                                            }
+                                                            $text += '\n';
                                                         }
                                                         text+=`
                                                         <hr/>
@@ -3823,7 +3828,7 @@ function render_price_in_get_price(text, $text, $text_share){
                             </div>
                         </div>
                     </div>`;
-                    sub_total_count += Math.ceil((airline_price[price_counter].CHD.fare * airline_request.child) + (price * airline_request.child));
+                    sub_total_count += Math.ceil((airline_price[price_counter].CHD.fare * airline_request.child) + (price));
 
                     $text_price += airline_request.child + ' Child @'+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(airline_price[i].CHD.fare) + Math.ceil(price / airline_request.child))+'\n';
         //            $text_price += 'Child Tax '+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(price))+'\n';
@@ -3877,7 +3882,7 @@ function render_price_in_get_price(text, $text, $text_share){
                             </div>
                         </div>
                     </div>`;
-                    sub_total_count += Math.ceil((airline_price[price_counter].INF.fare * airline_request.infant) + (price * airline_request.infant));
+                    sub_total_count += Math.ceil((airline_price[price_counter].INF.fare * airline_request.infant) + (price));
 
                     $text_price += airline_request.infant + ' Infant @'+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare) + Math.ceil(price+airline_request.infant))+'\n';
         //            $text_price += 'Infant Tax'+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(price))+'\n';

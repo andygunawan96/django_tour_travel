@@ -1474,6 +1474,43 @@ function get_customer_list(passenger, number, product){
                                                 </div>`;
                                             }
 
+                                        //FREQUENT FLYERS
+                                        if(msg.result.response[i].hasOwnProperty('frequent_flyers') && msg.result.response[i].frequent_flyers.length > 0){
+                                            if(product == 'airline' || document.URL.split('/')[document.URL.split('/').length-2] == 'passenger' && document.URL.split('/')[document.URL.split('/').length-3] == 'airline'){
+                                                for(x in ff_request){
+                                                    response += `
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <i class="fas fa-id-card"></i> <i>`+ff_request[x].program_name+` `+ff_request[x].sequence+`:</i><br>
+                                                            </div>
+                                                            <div class="col-lg-12">
+                                                                <select class="nice-select-default mb-2" id="frequent_flyer`+i+`_`+x+`" style="width: 100%; display: none;">
+                                                                    <option value="">Frequent Flyer Program</option>`;
+                                                                is_first_ff = true
+                                                                for(y in ff_request[x].ff_availability){
+                                                                    has_ff_number = false;
+                                                                    for(j in msg.result.response[i].frequent_flyers){
+                                                                        if(ff_request[x].ff_availability[y].ff_code == msg.result.response[i].frequent_flyers[j].ff_code){
+                                                                            if(is_first_ff){
+                                                                                response += `<option selected value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
+                                                                                is_first_ff = false;
+                                                                            }else
+                                                                                response += `<option value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
+                                                                            has_ff_number = true;
+                                                                        }
+                                                                    }
+                                                                    if(!has_ff_number)
+                                                                        response += `<option value="`+ff_request[x].ff_availability[y].ff_code+` - ">`+ff_request[x].ff_availability[y].name+` - Input new data</option>`;
+                                                                }
+
+                                                    response +=`
+                                                                </select>
+                                                            </div>
+                                                        </div>`;
+                                                }
+                                            }
+                                        }
+
                                         response+=`
                                             </div>
                                         </div>
@@ -1583,6 +1620,14 @@ function get_customer_list(passenger, number, product){
                                           this.source.removeClass('active').html('See Behaviors <i class="fas fa-chevron-down"></i>');
                                         }
                                     });
+                                }
+                            }
+
+                            if(msg.result.response[i].hasOwnProperty('frequent_flyers') && msg.result.response[i].frequent_flyers.length > 0){
+                                if(product == 'airline' || product == 'cache' && document.URL.split('/')[document.URL.split('/').length-2] == 'passenger' && document.URL.split('/')[document.URL.split('/').length-3] == 'airline'){
+                                    for(x in ff_request){
+                                        $('#frequent_flyer'+i+'_'+x).niceSelect();
+                                    }
                                 }
                             }
                         }
@@ -1942,14 +1987,38 @@ function get_customer_list(passenger, number, product){
                                                 <div class="col-lg-12">
                                                     <div class="form-select">`;
                                         }
-                                        response+=`<select class="phone_chosen_cls_search nice-select-default mb-2" id="identity_chosen`+i+`" onchange="generate_image_identity(`+i+`, 'identity_chosen', 'div_identity_chosen', 'label_title_identity', 'pax')" style="width:100%;">`;
+
                                         if(product == 'cache'){
+                                            response+=`<select class="phone_chosen_cls_search nice-select-default mb-2" id="identity_chosen`+i+`" onchange="generate_image_identity(`+i+`, 'identity_chosen', 'div_identity_chosen', 'label_title_identity', 'pax')" style="width:100%;">`;
                                             response += `<option value="all_identity">All Identity</option>`;
+                                            //print semua yg ada cache
+                                            for(j in msg.result.response[i].identities){
+                                                if(j=='passport' || found_selection == 0 || found_selection.includes(j))
+                                                    response += `<option value="`+j+` - `+msg.result.response[i].identities[j].identity_number+`">`+j.charAt(0).toUpperCase()+j.slice(1)+` - `+msg.result.response[i].identities[j].identity_number+`</option>`;
+                                            }
+                                        }else{
+                                            //print sesuai yg ada pada pilihan
+                                            if(found_selection.length > 0 || msg.result.response[i].identities.hasOwnProperty('passport')){
+                                                response+=`<select class="phone_chosen_cls_search nice-select-default mb-2" id="identity_chosen`+i+`" onchange="generate_image_identity(`+i+`, 'identity_chosen', 'div_identity_chosen', 'label_title_identity', 'pax')" style="width:100%;">`;
+                                                if(found_selection.length > 0){
+                                                    for(x in found_selection){
+                                                        identity_is_found = false;
+                                                        for(j in msg.result.response[i].identities){
+                                                            if(found_selection[x] == j){
+                                                                response += `<option value="`+j+` - `+msg.result.response[i].identities[j].identity_number+`">`+j.charAt(0).toUpperCase()+j.slice(1)+` - `+msg.result.response[i].identities[j].identity_number+`</option>`;
+                                                                identity_is_found = true;
+                                                            }
+                                                        }
+                                                        if(!identity_is_found){
+                                                            response += `<option value="`+found_selection[x]+` - ">`+found_selection[x].charAt(0).toUpperCase()+found_selection[x].slice(1)+` - Input new data</option>`;
+                                                        }
+                                                    }
+                                                }else if(msg.result.response[i].identities.hasOwnProperty('passport')){
+                                                    response += `<option value="passport - `+msg.result.response[i].identities['passport'].identity_number+`">Passport - `+msg.result.response[i].identities['passport'].identity_number+`</option>`;
+                                                }
+                                            }
                                         }
-                                        for(j in msg.result.response[i].identities){
-                                            if(j=='passport' || found_selection == 0 || found_selection.includes(j))
-                                                response += `<option value="`+j+` - `+msg.result.response[i].identities[j].identity_number+`">`+j.charAt(0).toUpperCase()+j.slice(1)+` - `+msg.result.response[i].identities[j].identity_number+`</option>`;
-                                        }
+
 //                                                if(msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection == 0 || msg.result.response[i].identities.hasOwnProperty('passport') == true && found_selection.includes('passport'))
 //                                                    response += `<option value="passport - `+msg.result.response[i].identities.passport.identity_number+`">Passport - `+msg.result.response[i].identities.passport.identity_number+`</option>`;
 //                                                if(msg.result.response[i].identities.hasOwnProperty('ktp') == true && found_selection == 0 || msg.result.response[i].identities.hasOwnProperty('ktp') == true && found_selection.includes('ktp'))
@@ -2009,11 +2078,17 @@ function get_customer_list(passenger, number, product){
                                         }
                                         //identity cenius search passenger di halaman passenger done
                                         else{
-                                            for(j in msg.result.response[i].identities){
-                                                if(j=='passport' || found_selection == 0 || found_selection.includes(j)){
-                                                    response+=`<label style="text-transform: capitalize; text-align:center; font-size:14px;" id="label_title_identity`+i+`">`+j.charAt(0).toUpperCase()+j.slice(1)+` - `+msg.result.response[i].identities[j].identity_number+` Image</label><br/>`;
+                                            for(x in found_selection){
+                                                identity_is_found = false;
+                                                for(j in msg.result.response[i].identities){
+                                                    if(j=='passport' || found_selection == 0 || found_selection.includes(j)){
+                                                        response+=`<label style="text-transform: capitalize; text-align:center; font-size:14px;" id="label_title_identity`+i+`">`+j.charAt(0).toUpperCase()+j.slice(1)+` - `+msg.result.response[i].identities[j].identity_number+` Image</label><br/>`;
+                                                        identity_is_found = true;
+                                                    }
+                                                    break;
                                                 }
-                                                break;
+                                                if(identity_is_found)
+                                                    break;
                                             }
                                             response+=`<div id="div_identity_chosen`+i+`" style="background:white; border:1px solid #cdcdcd; width:100%; margin-bottom:15px; display:inline-flex; overflow-x: auto; white-space: nowrap;">`;
 
@@ -2052,6 +2127,43 @@ function get_customer_list(passenger, number, product){
                                             }
 
                                             response+=`</div>`;
+
+                                        }
+                                        //FREQUENT FLYERS
+                                        if(msg.result.response[i].hasOwnProperty('frequent_flyers') && msg.result.response[i].frequent_flyers.length > 0){
+                                            if(product == 'airline' || product == 'cache' && document.URL.split('/')[document.URL.split('/').length-2] == 'passenger' && document.URL.split('/')[document.URL.split('/').length-3] == 'airline'){
+                                                for(x in ff_request){
+                                                    response += `
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <i class="fas fa-id-card"></i> <i>`+ff_request[x].program_name+` `+ff_request[x].sequence+`:</i><br>
+                                                            </div>
+                                                            <div class="col-lg-12">
+                                                                <select class="nice-select-default mb-2" id="frequent_flyer`+i+`_`+x+`" style="width: 100%; display: none;">
+                                                                    <option value="">Frequent Flyer Program</option>`;
+                                                                is_first_ff = true
+                                                                for(y in ff_request[x].ff_availability){
+                                                                    has_ff_number = false;
+                                                                    for(j in msg.result.response[i].frequent_flyers){
+                                                                        if(ff_request[x].ff_availability[y].ff_code == msg.result.response[i].frequent_flyers[j].ff_code){
+                                                                            if(is_first_ff){
+                                                                                response += `<option selected value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
+                                                                                is_first_ff = false;
+                                                                            }else
+                                                                                response += `<option value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
+                                                                            has_ff_number = true;
+                                                                        }
+                                                                    }
+                                                                    if(!has_ff_number)
+                                                                        response += `<option value="`+ff_request[x].ff_availability[y].ff_code+` - ">`+ff_request[x].ff_availability[y].name+` - Input new data</option>`;
+                                                                }
+
+                                                    response +=`
+                                                                </select>
+                                                            </div>
+                                                        </div>`;
+                                                }
+                                            }
                                         }
 
 
@@ -2150,8 +2262,16 @@ function get_customer_list(passenger, number, product){
 
                                 }
                             }
-
+                            if(msg.result.response[i].hasOwnProperty('frequent_flyers') && msg.result.response[i].frequent_flyers.length > 0){
+                                if(product == 'airline' || product == 'cache' && document.URL.split('/')[document.URL.split('/').length-2] == 'passenger' && document.URL.split('/')[document.URL.split('/').length-3] == 'airline'){
+                                    for(x in ff_request){
+                                        $('#frequent_flyer'+i+'_'+x).niceSelect();
+                                    }
+                                }
+                            }
                         }
+
+
 
                         passenger_data = msg.result.response;
                         $('.loading-pax-train').hide();
@@ -2611,6 +2731,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
             var date2 = null;
             var expired = null;
             var identity_check = true;
+            var new_identity = true;
             if(need_identity != 'none'){
                 if(typeof radios !== 'undefined'){
                     for(i in passenger_data[sequence].identities){
@@ -2622,6 +2743,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                         for (var j = 0, length = radios.length; j < length; j++) {
                             if(expired == null || expired < -1){
                                 if (radios[j].value == i && identity == '' || radios[j].value == i && identity == i) {
+                                    new_identity = false;
                                     identity_check = false;
                                     try{//kalau ada identity type
                                         document.getElementById(type+'_id_type'+passenger_number).value = i;
@@ -2723,10 +2845,18 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                         expired = null;
                     }
                     try{
-                        change_identity_type(type+`_id_type`+passenger_number);
+                        change_identity_type(type+`_id_type`+passenger_number, false);
                     }catch(err){
                         console.log(err); //tidak ada identity type
                     }
+                    if(new_identity){
+                        identity_check = false;
+                        try{//kalau ada identity type
+                            document.getElementById(type+'_id_type'+passenger_number).value = identity;
+                            $('#'+type+'_id_type'+passenger_number).niceSelect('update');
+                        }catch(err){console.log(err)}
+                    }
+
                 }else{
                     //passport
                     try{// kalau ada input identity
@@ -2828,9 +2958,9 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     }
                     //identity copy
                     if(document.getElementById(type+'_id_type'+passenger_number))
-                        change_identity_type(type+`_id_type`+passenger_number);
+                        change_identity_type(type+`_id_type`+passenger_number, false);
                     else if(document.getElementById(type+'_identity_type'+passenger_number))
-                        change_identity_type(type+`_identity_type`+passenger_number);
+                        change_identity_type(type+`_identity_type`+passenger_number, false);
                 }
             }
         }
@@ -2860,6 +2990,20 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     }
                 }
                 data_booker = passenger_data[sequence];
+
+                if(data_booker.hasOwnProperty('frequent_flyers') && data_booker.frequent_flyers.length > 0){
+                    if(product == 'airline' || product == 'cache' && document.URL.split('/')[document.URL.split('/').length-2] == 'passenger' && document.URL.split('/')[document.URL.split('/').length-3] == 'airline'){
+                        if(typeof ff_request !== 'undefined'){
+                            data_booker['frequent_flyer_list'] = [];
+                            for(x in ff_request){
+                                data_booker['frequent_flyer_list'].push({
+                                    "ff_code": document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[0],
+                                    "ff_number": document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[1]
+                                })
+                            }
+                        }
+                    }
+                }
                 if(passenger_data[sequence].face_image.length > 0){
                     text = '';
                     text += `
@@ -3223,6 +3367,19 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                         document.getElementById(type+'_nationality'+passenger_number).value = passenger_data[sequence].nationality_name;
                     }
                     document.getElementById(type+'_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
+                    if(product == 'airline'){
+                        //add frequent flyer
+                        if(typeof ff_request !== 'undefined'){
+                            index_ff = 1;
+                            for(x in ff_request){
+                                if(document.getElementById('frequent_flyer'+sequence+'_'+x).value != ''){
+                                    $("#"+type+"_ff_request"+passenger_number+"_"+index_ff+"_id").select2().val(document.getElementById("frequent_flyer"+sequence+"_"+x).value.split(' - ')[0]).trigger('change');
+                                    document.getElementById('adult_ff_number'+passenger_number+'_'+index_ff).value = document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[1];
+                                }
+                                index_ff++;
+                            }
+                        }
+                    }
 //                    if(product=='airline' || product == 'activity' || product == 'visa' || product == 'tour'){
 //                        try{ //check ada id type di selection klo ada masukkan
 //                            var radios = document.getElementById('adult_id_type'+passenger_number).options;
@@ -4019,10 +4176,10 @@ function copy_booker(val,type,identity){
                 }
                 //identity copy
                 if(document.getElementById('adult_id_type1')){
-                    change_identity_type(`adult_id_type1`);
+                    change_identity_type(`adult_id_type1`, false);
                     $('#adult_id_type1').niceSelect('update');
                 }else if(document.getElementById('adult_identity_type1')){
-                    change_identity_type(`adult_identity_type1`);
+                    change_identity_type(`adult_identity_type1`, false);
                     $('#adult_identity_type1').niceSelect('update');
                 }
             }
@@ -4354,6 +4511,15 @@ function copy_booker(val,type,identity){
               text: "Please clear before copy booker",
             })
         }
+
+        if(typeof ff_request !== 'undefined' && data_booker.hasOwnProperty('frequent_flyer_list')){
+            var index_ff = 1;
+            for(i in data_booker['frequent_flyer_list']){
+                $("#adult_ff_request1_"+index_ff+"_id").val(data_booker['frequent_flyer_list'][i].ff_code).trigger('change');
+                document.getElementById('adult_ff_number1_'+index_ff).value = data_booker['frequent_flyer_list'][i].ff_number;
+                index_ff++;
+            }
+        }
     }else{
         //kosongi avatar
         if(document.getElementById('adult_div_avatar1')){
@@ -4457,6 +4623,15 @@ function copy_booker(val,type,identity){
                 document.getElementById("name_pax0").textContent = "--Fill Passenger--";
             }catch(err){
                 console.log(err); //error kalau id tidak ketemu (medical)
+            }
+        }
+
+        if(typeof ff_request !== 'undefined' && data_booker.hasOwnProperty('frequent_flyer_list')){
+            var index_ff = 1;
+            for(i in ff_request){
+                $("#adult_ff_request1_"+index_ff+"_id").val("").trigger('change');
+                document.getElementById('adult_ff_number1_'+index_ff).value = "";
+                index_ff++;
             }
         }
     }
@@ -4567,6 +4742,14 @@ function clear_passenger(type, sequence){
             document.getElementById('adult_country_of_issued'+sequence).value = '';
             document.getElementById('select2-adult_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
             document.getElementById('adult_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
+            if(typeof ff_request !== 'undefined'){
+                for(j=1;j<=ff_request.length;j++){
+                    try{
+                        $('#adult_ff_request'+sequence+'_'+j+'_id').val('').trigger('change');
+                        document.getElementById('adult_ff_number'+sequence+'_'+j).value = '';
+                    }catch(err){console.log(err)}
+                }
+            }
         }catch(err){
             console.log(err); //error ada field yg tidak ketemu
         }
@@ -4622,6 +4805,14 @@ function clear_passenger(type, sequence){
             document.getElementById('infant_country_of_issued'+sequence).value = '';
             document.getElementById('select2-infant_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
             document.getElementById('infant_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
+            if(typeof ff_request !== 'undefined'){
+                for(j=1;j<=ff_request.length;j++){
+                    try{
+                        $('#infant_ff_request'+sequence+'_'+j+'_id').val('').trigger('change');
+                        document.getElementById('infant_ff_number'+sequence+'_'+j).value = '';
+                    }catch(err){console.log(err)}
+                }
+            }
         }catch(err){
             console.log(err); //error ada field yg tidak ketemu
         }
@@ -4675,6 +4866,14 @@ function clear_passenger(type, sequence){
         document.getElementById('senior_country_of_issued'+sequence).value = '';
         document.getElementById('select2-senior_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
         document.getElementById('senior_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
+        if(typeof ff_request !== 'undefined'){
+            for(j=1;j<=ff_request.length;j++){
+                try{
+                    $('#senior_ff_request'+sequence+'_'+j+'_id').val('').trigger('change');
+                    document.getElementById('senior_ff_number'+sequence+'_'+j).value = '';
+                }catch(err){console.log(err)}
+            }
+        }
     }
     else if(type == 'Child'){
         for(i in passenger_data_pick){
@@ -4724,6 +4923,14 @@ function clear_passenger(type, sequence){
         document.getElementById('child_country_of_issued'+sequence).value = '';
         document.getElementById('select2-child_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
         document.getElementById('child_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
+        if(typeof ff_request !== 'undefined'){
+            for(j=1;j<=ff_request.length;j++){
+                try{
+                    $('#child_ff_request'+sequence+'_'+j+'_id').val('').trigger('change');
+                    document.getElementById('child_ff_number'+sequence+'_'+j).value = '';
+                }catch(err){console.log(err)}
+            }
+        }
     }
     else if(type == 'Medical'){
         Swal.fire({
@@ -5125,6 +5332,15 @@ function clear_passenger(type, sequence){
                 document.getElementById(type+'_country_of_issued'+sequence).value = '';
                 document.getElementById('select2-'+type+'_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
                 document.getElementById(type+'_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
+            }
+
+            if(typeof ff_request !== 'undefined'){
+                for(j=1;j<=ff_request.length;j++){
+                    try{
+                        $('#'+type+'_ff_request'+sequence+'_'+j+'_id').val('').trigger('change');
+                        document.getElementById(type+'_ff_number'+sequence+'_'+j).value = '';
+                    }catch(err){console.log(err)}
+                }
             }
 
         }catch(err){
@@ -6154,6 +6370,43 @@ function get_passenger_cache(type,update_cache=false){
                                                 </div>
                                             </div>`;
                                         }
+
+                                        //FREQUENT FLYERS
+                                        if(msg.result.response[i].hasOwnProperty('frequent_flyers') && msg.result.response[i].frequent_flyers.length > 0){
+                                            if(document.URL.split('/')[document.URL.split('/').length-2] == 'passenger' && document.URL.split('/')[document.URL.split('/').length-3] == 'airline'){
+                                                for(x in ff_request){
+                                                    response += `
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <i class="fas fa-id-card"></i> <i>`+ff_request[x].program_name+` `+ff_request[x].sequence+`:</i><br>
+                                                            </div>
+                                                            <div class="col-lg-12">
+                                                                <select class="nice-select-default mb-2" id="frequent_flyer`+i+`_`+x+`" style="width: 100%; display: none;">
+                                                                    <option value="">Frequent Flyer Program</option>`;
+                                                                is_first_ff = true
+                                                                for(y in ff_request[x].ff_availability){
+                                                                    has_ff_number = false;
+                                                                    for(j in msg.result.response[i].frequent_flyers){
+                                                                        if(ff_request[x].ff_availability[y].ff_code == msg.result.response[i].frequent_flyers[j].ff_code){
+                                                                            if(is_first_ff){
+                                                                                response += `<option selected value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
+                                                                                is_first_ff = false;
+                                                                            }else
+                                                                                response += `<option value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
+                                                                            has_ff_number = true;
+                                                                        }
+                                                                    }
+                                                                    if(!has_ff_number)
+                                                                        response += `<option value="`+ff_request[x].ff_availability[y].ff_code+` - ">`+ff_request[x].ff_availability[y].name+` - Input new data</option>`;
+                                                                }
+
+                                                    response +=`
+                                                                </select>
+                                                            </div>
+                                                        </div>`;
+                                                }
+                                            }
+                                        }
 //                                            if(msg.result.response[i].identities.hasOwnProperty('passport') == true)
 //                                                response+=`<br/> <span><i class="fas fa-passport"></i> <i>Passport:</i> <b>`+msg.result.response[i].identities.passport.identity_number+`</b></span>`;
 //                                            if(msg.result.response[i].identities.hasOwnProperty('ktp') == true)
@@ -6279,6 +6532,13 @@ function get_passenger_cache(type,update_cache=false){
                             }
                         }
 
+                        if(msg.result.response[i].hasOwnProperty('frequent_flyers') && msg.result.response[i].frequent_flyers.length > 0){
+                            if(document.URL.split('/')[document.URL.split('/').length-2] == 'passenger' && document.URL.split('/')[document.URL.split('/').length-3] == 'airline'){
+                                for(x in ff_request){
+                                    $('#frequent_flyer'+i+'_'+x).niceSelect();
+                                }
+                            }
+                        }
                     }
                     $('.phone_chosen_cls').niceSelect();
                     $('.corpor_select_cls').niceSelect();
@@ -7490,9 +7750,24 @@ function pick_passenger_cache_copy(val, identity){
                     }
                     //identity copy
                     if(document.getElementById(passenger_pick+'_id_type'+passenger_pick_number))
-                        change_identity_type(passenger_pick+`_id_type`+passenger_pick_number);
+                        change_identity_type(passenger_pick+`_id_type`+passenger_pick_number, false);
                     else if(document.getElementById(passenger_pick+'_identity_type'+passenger_pick_number))
-                        change_identity_type(passenger_pick+`_identity_type`+passenger_pick_number);
+                        change_identity_type(passenger_pick+`_identity_type`+passenger_pick_number, false);
+                }
+            }
+
+            //add frequent flyer
+            if(typeof ff_request !== 'undefined'){
+                index_ff = 1;
+                for(x in ff_request){
+                    try{
+                        var ff_data = document.getElementById('frequent_flyer'+val + '_' + x).value;
+                        $("#"+passenger_pick+"_ff_request"+passenger_pick_number+"_"+index_ff+"_id").select2().val(ff_data.split(' - ')[0]).trigger('change');
+                        document.getElementById(passenger_pick+'_ff_number'+passenger_pick_number+'_'+index_ff).value = ff_data.split(' - ')[1];
+                    }catch(err){
+                        console.log(err); // error tidak ada id phone_chosen
+                    }
+                    index_ff++;
                 }
             }
         }
@@ -8379,22 +8654,30 @@ function print_fail_issued(){
    })
 }
 
-function change_identity_type(id){
+function change_identity_type(id, automatic_change_number=true){
     try{
         if(document.getElementById(id).value == 'ktp'){
+            if(automatic_change_number)
+                document.getElementById(id.replace('id_type','passport_number')).value = '';
             document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'white';
             document.getElementById(id.replace('id_type','identity_number_required')).style.color = 'red';
             document.getElementById(id.replace('id_type','country_of_issued_required')).style.color = 'red';
         }else if(document.getElementById(id).value == 'passport' || document.getElementById(id).value == 'sim'){
+            if(automatic_change_number)
+                document.getElementById(id.replace('id_type','passport_number')).value = '';
             document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'red';
             document.getElementById(id.replace('id_type','identity_number_required')).style.color = 'red';
             document.getElementById(id.replace('id_type','country_of_issued_required')).style.color = 'red';
         }else if(is_identity_required == 'true'){
             //KALAU ADA BINTANG TETAP ADA TIDAK ADA YG BERUBAH
+            if(automatic_change_number)
+                document.getElementById(id.replace('id_type','passport_number')).value = '';
             document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'red';
             document.getElementById(id.replace('id_type','identity_number_required')).style.color = 'red';
             document.getElementById(id.replace('id_type','country_of_issued_required')).style.color = 'red';
         }else{
+            if(automatic_change_number)
+                document.getElementById(id.replace('id_type','passport_number')).value = '';
             document.getElementById(id.replace('id_type','identity_expired_date_required')).style.color = 'white';
             document.getElementById(id.replace('id_type','identity_number_required')).style.color = 'white';
             document.getElementById(id.replace('id_type','country_of_issued_required')).style.color = 'white';
@@ -8500,25 +8783,31 @@ function generate_image_identity(counter, id, div_id, label_id, cek_search){
             }
         }
         else{
-            for(j in passenger_data[counter].identities){
-                get_dt_identity = ""+j+ " - " +passenger_data[counter].identities[j].identity_number;
-                if(get_value == get_dt_identity){
-                    document.getElementById(''+label_id+counter).innerHTML = get_dt_identity+" Image";
-                    if(passenger_data[counter].identities[j].identity_images.length != 0){
-                        for(k in passenger_data[counter].identities[j].identity_images){
-                            text_identity += `
-                            <div style="width:220px; text-align:center; margin:0px 10px 10px 10px;">
-                                <a class="demo-img" href="`+passenger_data[counter].identities[j].identity_images[k][0]+`" data-jbox-image="showidentity`+counter+``+for_jbox_image+`" title="`+j+` - `+passenger_data[counter].identities[j].identity_number+` (`+passenger_data[counter].identities[j].identity_images[k][2]+`)">
-                                    <img src="`+passenger_data[counter].identities[j].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
-                                </a><br/>
-                                <h6 class="mb-2" style="white-space: normal; width:220px; word-break: break-word; padding:0px 15px;">`+passenger_data[counter].identities[j].identity_images[k][2]+`</h6>
-                                <i>
-                                    Upload date<br/>
-                                    `+moment(passenger_data[counter].identities[j].identity_images[k][2]).format('DD MMM YYYY - HH:mm')+`
-                                </i>
-                            </div>`;
+            if(get_value.split(' - ')[1] == ''){
+                //INPUT DATA BARU
+                document.getElementById(''+label_id+counter).innerHTML = get_value.split(' - ')[0]+" Image";
+            }else{
+                //DATA YG SUDAH ADA
+                for(j in passenger_data[counter].identities){
+                    get_dt_identity = ""+j+ " - " +passenger_data[counter].identities[j].identity_number;
+                    if(get_value == get_dt_identity){
+                        document.getElementById(''+label_id+counter).innerHTML = get_dt_identity+" Image";
+                        if(passenger_data[counter].identities[j].identity_images.length != 0){
+                            for(k in passenger_data[counter].identities[j].identity_images){
+                                text_identity += `
+                                <div style="width:220px; text-align:center; margin:0px 10px 10px 10px;">
+                                    <a class="demo-img" href="`+passenger_data[counter].identities[j].identity_images[k][0]+`" data-jbox-image="showidentity`+counter+``+for_jbox_image+`" title="`+j+` - `+passenger_data[counter].identities[j].identity_number+` (`+passenger_data[counter].identities[j].identity_images[k][2]+`)">
+                                        <img src="`+passenger_data[counter].identities[j].identity_images[k][0]+`" alt="Identity" class="picture_identity_customer">
+                                    </a><br/>
+                                    <h6 class="mb-2" style="white-space: normal; width:220px; word-break: break-word; padding:0px 15px;">`+passenger_data[counter].identities[j].identity_images[k][2]+`</h6>
+                                    <i>
+                                        Upload date<br/>
+                                        `+moment(passenger_data[counter].identities[j].identity_images[k][2]).format('DD MMM YYYY - HH:mm')+`
+                                    </i>
+                                </div>`;
+                            }
+                            cek_identity_img = 1;
                         }
-                        cek_identity_img = 1;
                     }
                 }
             }

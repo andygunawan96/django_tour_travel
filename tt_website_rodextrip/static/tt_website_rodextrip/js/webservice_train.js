@@ -1760,7 +1760,11 @@ function train_get_booking(data){
                    </div>`;
                 }else if(msg.result.response.state == 'booked'){
                    document.getElementById('cancel').hidden = false;
-                   document.getElementById('cancel').innerHTML = `<button class="primary-btn-white" style="width:100%;" id="train_cancel_booking_btn" type="button" onclick="train_cancel_booking();">Cancel Booking <i class="fas fa-times" style="padding-left:5px; color:red; font-size:16px;"></i></button>`;
+                   if(template != 6){
+                        document.getElementById('cancel').innerHTML = `<button class="primary-btn-white" style="width:100%;" id="train_cancel_booking_btn" type="button" onclick="train_cancel_booking();">Cancel Booking <i class="fas fa-times" style="padding-left:5px; color:red; font-size:16px;"></i></button>`;
+                   }else{
+                        document.getElementById('cancel').innerHTML = `<button class="primary-btn-white" style="margin-bottom:0px; width:100%;" id="train_cancel_booking_btn" type="button" onclick="train_cancel_booking();">Cancel Booking <i class="fas fa-times" style="padding-left:5px; color:red; font-size:16px;"></i></button>`;
+                   }
                    document.getElementById('issued-breadcrumb').classList.add("br-active");
                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                    var check_error_msg_provider = 0;

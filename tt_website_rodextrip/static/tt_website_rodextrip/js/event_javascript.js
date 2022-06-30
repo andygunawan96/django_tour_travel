@@ -889,16 +889,16 @@ function render_object(val, new_int){
 
         text+=`
         <div class="row">
-            <div class="col-lg-4" style="text-align:left;">
-                <span style="font-weight:500;">`+option_name_pick+` <br/> ( `+option_qty_pick+` Qty )</span>
+            <div class="col-lg-12" style="text-align:left;">
+                <span style="font-size:13px; font-weight:500;"> `+option_name_pick+`</span>
             </div>
-            <div class="col-lg-4" style="text-align:center;">`;
-                text+='<span style="font-weight:500;"> @ ' + option_currency_pick + ' ' + getrupiah(option_price_pick) + '</span>';
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align:left;">
+                `+option_qty_pick+`x qty @ `+option_currency_pick+` `+getrupiah(option_price_pick)+`
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align: right;">
+                <span style="font-size:13px; font-weight:500;">`+option_currency_pick+` `+getrupiah(option_price)+`</span>
+            </div>`;
             text+=`
-            </div>
-            <div class="col-lg-4" style="text-align:right;">`;
-            text+='<span style="font-weight:500;">' + option_currency_pick + ' ' + getrupiah(option_price) + '</span>';
-        text+=`
             </div>
         </div>`;
     }
@@ -955,23 +955,24 @@ function render_object_from_value(val){
 
         text+=`
         <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:left;">
-                <span style="font-weight:500;">`+val[i].name+` <br/> ( `+val[i].qty+` Qty )</span>
+            <div class="col-lg-12" style="text-align:left;">
+                <span style="font-size:13px; font-weight:500;"> `+val[i].name+`</span>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">`;
-            if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty('ADT')) //with upsell
-                text+='<span style="font-weight:500;"> @ ' + val[i].currency + ' ' + getrupiah(val[i].price + (upsell_price_dict['ADT']/ val[i].qty)) + '</span>';
-            else
-                text+='<span style="font-weight:500;"> @ ' + val[i].currency + ' ' + getrupiah(val[i].price) + '</span>';
-            text+=`
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">`;
-            if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty('ADT')) //with upsell
-                text+='<span style="font-weight:500;">' + val[i].currency + ' ' + getrupiah(val[i].price * val[i].qty + upsell_price_dict['ADT']) + '</span>';
-            else
-                text+='<span style="font-weight:500;">' + val[i].currency + ' ' + getrupiah(val[i].price * val[i].qty) + '</span>';
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align:left;">
+                `+val[i].qty+`x qty @ `+val[i].currency+``;
+                if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty('ADT')) //with upsell
+                    text+=getrupiah(val[i].price + (upsell_price_dict['ADT']/ val[i].qty));
+                else
+                    text+=getrupiah(val[i].price);
         text+=`
             </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2" style="text-align: right;">`;
+                if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty('ADT')) //with upsell
+                    text+='<span style="font-weight:500;">' + val[i].currency + ' ' + getrupiah(val[i].price * val[i].qty + upsell_price_dict['ADT']) + '</span>';
+                else
+                    text+='<span style="font-weight:500;">' + val[i].currency + ' ' + getrupiah(val[i].price * val[i].qty) + '</span>';
+
+        text+=`</div>
         </div>`;
     }
     if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
@@ -1149,7 +1150,7 @@ function hotel_room_pick_button(total_commission){
                 <a href="mailto:?subject=This is the event price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
         }
     text +=`</div>`;
-    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
         text+=`<div class="col-lg-12">`
         text+= print_commission(total_commission,'show_commission_event','IDR', 'commission_val')
         text+=`</div>`
@@ -1157,6 +1158,7 @@ function hotel_room_pick_button(total_commission){
         <div class="col-lg-12">
             <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Hide YPM"/>
         </div>`;
+    }
     text += `
     <div class="col-lg-12" style="padding-top:10px;">
         <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">

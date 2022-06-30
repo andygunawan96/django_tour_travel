@@ -1510,7 +1510,10 @@ function hotel_room_pick(key, key2){
         text += '<h6><span style="color:' +color+ ';">Room #'+ (parseInt(i)+1) + ' </span>'+ hotel_room.rooms[i].description + '</h6>';
         //text += '<span> '+ hotel_room.rooms[i].category + '<span><br/>';
         //text += '<span>Qty: '+ hotel_room.rooms[i].qty + '<span><br/>';
-        text += '<b>Meal Type: ' + hotel_room.meal_type +'</b/><br/>';
+
+        if(hotel_room.meal_type != false){
+            text += '<b>Meal Type: ' + hotel_room.meal_type +'</b/><br/>';
+        }
         //text += '<span style="font-weight:500; padding-top:10px;">Cancellation Policy: </span>';
 
         //$text2 += 'Room Category: '+ hotel_room.rooms[i].category +'\n';
@@ -1568,11 +1571,6 @@ function hotel_room_pick(key, key2){
     document.getElementById('button'+key).classList.add("primary-btn-custom-un");
 
     document.getElementById('hotel_detail_table').innerHTML = text;
-
-    $('html, body').animate({
-        scrollTop: $("#price_detail_div").offset().top - 100
-    }, 500);
-
 }
 function hotel_room_pick_button(){
     document.getElementById('hotel_detail_button').innerHTML = '';
@@ -1606,11 +1604,24 @@ function hotel_room_pick_button(){
     </div>`;
     if(agent_security.includes('book_reservation') == true){
     text += `<div class="col-lg-12">`;
-    text += '<button class="primary-btn" style="width:100%; margin-bottom:10px; margin-top:10px;" type="button" onclick="goto_passenger();">Next</button></div>';
+    text += `
+    <button class="hold-seat-booking-train primary-btn ld-ext-right" style="width:100%; margin-bottom:10px; margin-top:10px;" type="button" onclick="goto_passenger();">
+        Next
+        <div class="ld ld-ring ld-cycle"></div>
+    </button></div>`;
     text += `</div>`;
     }
 
     document.getElementById('hotel_detail_button').innerHTML = text;
+    $('.hold-seat-booking-train').prop('disabled', false);
+    $('.hold-seat-booking-train').removeClass("running");
+
+    $('#button_chart_hotel').show();
+    $("#badge-hotel-notif").addClass("infinite");
+    $("#myModalTicketHotel").modal('show');
+    document.getElementById("badge-hotel-notif").innerHTML = "1";
+    //document.getElementById("badge-train-notif2").innerHTML = "1";
+
     $('#not_room_select').hide();
 }
 
@@ -1646,6 +1657,9 @@ function show_commission_hotel_price_change(type){
 }
 
 function goto_passenger(){
+    $('.hold-seat-booking-train').prop('disabled', true);
+    $('.hold-seat-booking-train').addClass("running");
+
     document.getElementById('hotel_detail_send').value = JSON.stringify(hotel_room);
     document.getElementById('time_limit_input').value = time_limit;
     document.getElementById('goto_passenger').submit();
