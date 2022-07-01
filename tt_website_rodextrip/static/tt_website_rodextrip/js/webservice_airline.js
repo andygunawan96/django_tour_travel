@@ -5034,7 +5034,7 @@ function airline_commit_booking(val){
 //                        document.getElementById('order_number').value = msg.result.response.order_number;
 //                        document.getElementById('airline_issued').submit();
                         Swal.fire({
-                          title: 'Success',
+                          title: "Success, booking has been made. We'll sent you an email for your reservation",
                           type: 'success',
                           showCancelButton: true,
                           confirmButtonColor: '#3085d6',

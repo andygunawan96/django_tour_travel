@@ -2566,16 +2566,29 @@ function train_manual_seat(){
             if(check == 0){
                 //check var
                 if(is_b2c_field.value == true){
-                    send_url_booking('train', btoa(is_b2c_field.order_number), is_b2c_field.order_number);
-                    document.getElementById("passengers").value = JSON.stringify(is_b2c_field.passengers);
-                    document.getElementById("signature").value = is_b2c_field.signature;
-                    document.getElementById("provider").value = is_b2c_field.provider;
-                    document.getElementById("type").value = is_b2c_field.type;
-                    document.getElementById("voucher_code").value = is_b2c_field.voucher_code;
-                    document.getElementById("discount").value = JSON.stringify(is_b2c_field.discount);
-                    document.getElementById("session_time_input").value = is_b2c_field.session_time_input;
-                    document.getElementById("order_number2").value = is_b2c_field.order_number;
-                    document.getElementById('train_issued').submit();
+                    Swal.fire({
+                        title: "Success, booking has been made. We'll sent you an email for your reservation",
+                        type: 'success',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: 'blue',
+                        confirmButtonText: 'Payment',
+                        cancelButtonText: 'View Booking'
+                    }).then((result) => {
+                        if (result.value) {
+                            document.getElementById("passengers").value = JSON.stringify(is_b2c_field.passengers);
+                            document.getElementById("signature").value = is_b2c_field.signature;
+                            document.getElementById("provider").value = is_b2c_field.provider;
+                            document.getElementById("type").value = is_b2c_field.type;
+                            document.getElementById("voucher_code").value = is_b2c_field.voucher_code;
+                            document.getElementById("discount").value = JSON.stringify(is_b2c_field.discount);
+                            document.getElementById("session_time_input").value = is_b2c_field.session_time_input;
+                            document.getElementById("order_number2").value = is_b2c_field.order_number;
+                            document.getElementById('train_issued').submit();
+                        }else{
+                            document.getElementById('train_booking').submit();
+                        }
+                    })
                 }else{
                     document.getElementById('train_booking').submit();
                 }

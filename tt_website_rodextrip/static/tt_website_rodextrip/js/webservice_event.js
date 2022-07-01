@@ -1871,7 +1871,7 @@ function event_create_booking(val,a){
 //                    document.getElementById('order_number').value = msg.result.response.order_number;
 //                    document.getElementById('event_issued').submit();
                     Swal.fire({
-                      title: 'Success',
+                      title: "Success, booking has been made. We'll sent you an email for your reservation",
                       type: 'success',
                       showCancelButton: true,
                       confirmButtonColor: '#3085d6',

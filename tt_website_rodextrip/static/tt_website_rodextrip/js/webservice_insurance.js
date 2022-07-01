@@ -1454,7 +1454,7 @@ function insurance_commit_booking(){
                    if(msg.result.error_code == 0){
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
                             Swal.fire({
-                              title: 'Success',
+                              title: "Success, booking has been made. We'll sent you an email for your reservation",
                               type: 'success',
                               showCancelButton: true,
                               confirmButtonColor: '#3085d6',
