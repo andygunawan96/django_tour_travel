@@ -1968,8 +1968,21 @@ function hotel_issued_booking(val){
                     if(val == 0){
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
                         {
-                            document.getElementById('order_number').value = msg.result.response.order_number;
-                            document.getElementById('hotel_issued').submit();
+                            $('.loader-rodextrip').fadeOut();
+                            Swal.fire({
+                              title: "Success, booking has been made. We'll sent you an email for your reservation",
+                              type: 'success',
+                              showCancelButton: true,
+                              confirmButtonColor: '#3085d6',
+                              cancelButtonColor: 'blue',
+                              confirmButtonText: 'Payment',
+                            }).then((result) => {
+                               $('.hold-seat-booking-train').addClass("running");
+                               $('.hold-seat-booking-train').attr("disabled", true);
+                               document.getElementById('order_number').value = msg.result.response.order_number;
+                               document.getElementById('hotel_issued').submit();
+                            })
+
                         }
                         else
                         {
