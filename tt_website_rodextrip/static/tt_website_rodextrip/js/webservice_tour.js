@@ -1163,7 +1163,7 @@ function commit_booking_tour(val)
 //                        document.getElementById('order_number').value = msg.result.response.order_number;
 //                        document.getElementById('tour_issued').submit();
                         Swal.fire({
-                          title: 'Success',
+                          title: "Success, booking has been made. We'll sent you an email for your reservation",
                           type: 'success',
                           showCancelButton: true,
                           confirmButtonColor: '#3085d6',
@@ -1171,19 +1171,19 @@ function commit_booking_tour(val)
                           confirmButtonText: 'Payment',
                           cancelButtonText: 'View Booking'
                         }).then((result) => {
-                          if (result.value) {
-                            $('.hold-seat-booking-train').addClass("running");
-                            $('.hold-seat-booking-train').attr("disabled", true);
-                            please_wait_transaction();
-                            send_url_booking('tour', btoa(msg.result.response.order_number), msg.result.response.order_number);
-                            document.getElementById('order_number').value = msg.result.response.order_number;
-                            document.getElementById('tour_issued').submit();
+                            if (result.value) {
+                                $('.hold-seat-booking-train').addClass("running");
+                                $('.hold-seat-booking-train').attr("disabled", true);
+                                please_wait_transaction();
+                                send_url_booking('tour', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                                document.getElementById('order_number').value = msg.result.response.order_number;
+                                document.getElementById('tour_issued').submit();
 
-                          }else{
-                            document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
-                        document.getElementById('tour_booking').action = '/tour/booking/' + btoa(msg.result.response.order_number);
-                        document.getElementById('tour_booking').submit();
-                          }
+                            }else{
+                                document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
+                                document.getElementById('tour_booking').action = '/tour/booking/' + btoa(msg.result.response.order_number);
+                                document.getElementById('tour_booking').submit();
+                            }
                         })
                     }else if(user_login.hasOwnProperty('co_job_position_is_request_required') && user_login.co_job_position_is_request_required == true){
                         Swal.fire({

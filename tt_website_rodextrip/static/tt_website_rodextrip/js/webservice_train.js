@@ -513,11 +513,9 @@ function train_search(provider, signature, type){
 }
 
 function check_elapse_time_three_hours(departure){
-  today = new Date();
-  dep = new Date(departure);
-  var diff = parseInt(Math.abs(dep - today)/3600000);
-  if(today > dep)
-    diff *= -1;
+  today = moment();
+  dep = moment(departure);
+  var diff = dep.diff(today, 'hours');
   if(diff >= 3)
     return true;
   else
@@ -540,8 +538,7 @@ function datasearch2(train){
                 train.schedules[i].journeys[j].cabin_class = ['K', 'Economy']
            else if(train.schedules[i].journeys[j].cabin_class == 'B')
                 train.schedules[i].journeys[j].cabin_class = ['B', 'Business']
-           date = train.schedules[i].journeys[j].departure_date;
-           date = date.split(' - ')[0].split(' ')[2] + ' ' + date.split(' - ')[0].split(' ')[1] + ' ' + date.split(' - ')[0].split(' ')[0] + ' ' +date.split(' - ')[1];
+           date = moment(train.schedules[i].journeys[j].departure_date,'DD MMM YYYY - HH:mm').format('YYYY-MM-DD HH:mm');
            train.schedules[i].journeys[j].can_book_three_hours = check_elapse_time_three_hours(date);
            train.schedules[i].journeys[j].can_book_check_arrival_on_next_departure = true;
            train.schedules[i].journeys[j].departure_date = train.schedules[i].journeys[j].departure_date.split(' - ');
@@ -2566,16 +2563,29 @@ function train_manual_seat(){
             if(check == 0){
                 //check var
                 if(is_b2c_field.value == true){
-                    send_url_booking('train', btoa(is_b2c_field.order_number), is_b2c_field.order_number);
-                    document.getElementById("passengers").value = JSON.stringify(is_b2c_field.passengers);
-                    document.getElementById("signature").value = is_b2c_field.signature;
-                    document.getElementById("provider").value = is_b2c_field.provider;
-                    document.getElementById("type").value = is_b2c_field.type;
-                    document.getElementById("voucher_code").value = is_b2c_field.voucher_code;
-                    document.getElementById("discount").value = JSON.stringify(is_b2c_field.discount);
-                    document.getElementById("session_time_input").value = is_b2c_field.session_time_input;
-                    document.getElementById("order_number2").value = is_b2c_field.order_number;
-                    document.getElementById('train_issued').submit();
+                    Swal.fire({
+                        title: "Success, booking has been made. We'll sent you an email for your reservation",
+                        type: 'success',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: 'blue',
+                        confirmButtonText: 'Payment',
+                        cancelButtonText: 'View Booking'
+                    }).then((result) => {
+                        if (result.value) {
+                            document.getElementById("passengers").value = JSON.stringify(is_b2c_field.passengers);
+                            document.getElementById("signature").value = is_b2c_field.signature;
+                            document.getElementById("provider").value = is_b2c_field.provider;
+                            document.getElementById("type").value = is_b2c_field.type;
+                            document.getElementById("voucher_code").value = is_b2c_field.voucher_code;
+                            document.getElementById("discount").value = JSON.stringify(is_b2c_field.discount);
+                            document.getElementById("session_time_input").value = is_b2c_field.session_time_input;
+                            document.getElementById("order_number2").value = is_b2c_field.order_number;
+                            document.getElementById('train_issued').submit();
+                        }else{
+                            document.getElementById('train_booking').submit();
+                        }
+                    })
                 }else{
                     document.getElementById('train_booking').submit();
                 }
