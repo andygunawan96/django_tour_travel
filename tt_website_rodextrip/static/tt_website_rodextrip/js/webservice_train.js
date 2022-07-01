@@ -513,11 +513,9 @@ function train_search(provider, signature, type){
 }
 
 function check_elapse_time_three_hours(departure){
-  today = new Date();
-  dep = new Date(departure);
-  var diff = parseInt(Math.abs(dep - today)/3600000);
-  if(today > dep)
-    diff *= -1;
+  today = moment();
+  dep = moment(departure);
+  var diff = dep.diff(today, 'hours');
   if(diff >= 3)
     return true;
   else
@@ -540,8 +538,7 @@ function datasearch2(train){
                 train.schedules[i].journeys[j].cabin_class = ['K', 'Economy']
            else if(train.schedules[i].journeys[j].cabin_class == 'B')
                 train.schedules[i].journeys[j].cabin_class = ['B', 'Business']
-           date = train.schedules[i].journeys[j].departure_date;
-           date = date.split(' - ')[0].split(' ')[2] + ' ' + date.split(' - ')[0].split(' ')[1] + ' ' + date.split(' - ')[0].split(' ')[0] + ' ' +date.split(' - ')[1];
+           date = moment(train.schedules[i].journeys[j].departure_date,'DD MMM YYYY - HH:mm').format('YYYY-MM-DD HH:mm');
            train.schedules[i].journeys[j].can_book_three_hours = check_elapse_time_three_hours(date);
            train.schedules[i].journeys[j].can_book_check_arrival_on_next_departure = true;
            train.schedules[i].journeys[j].departure_date = train.schedules[i].journeys[j].departure_date.split(' - ');
