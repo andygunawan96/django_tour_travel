@@ -547,11 +547,9 @@ function bus_get_rules(){
 }
 
 function check_elapse_time_three_hours(departure){
-  today = new Date();
-  dep = new Date(departure);
-  var diff = parseInt(Math.abs(dep - today)/3600000);
-  if(today > dep)
-    diff *= -1;
+  today = moment();
+  dep = moment(departure);
+  var diff = dep.diff(today, 'hours');
   if(diff >= 3)
     return true;
   else
@@ -569,8 +567,7 @@ function datasearch2(bus){
            bus.schedules[i].journeys[j].bus_sequence = i;
            price = 0;
            currency = '';
-           date = bus.schedules[i].journeys[j].departure_date;
-           date = date.split(' - ')[0].split(' ')[2] + ' ' + date.split(' - ')[0].split(' ')[1] + ' ' + date.split(' - ')[0].split(' ')[0] + ' ' +date.split(' - ')[1];
+           date = moment(bus.schedules[i].journeys[j].departure_date,'DD MMM YYYY - HH:mm').format('YYYY-MM-DD HH:mm');
            bus.schedules[i].journeys[j].can_book_three_hours = check_elapse_time_three_hours(date);
            bus.schedules[i].journeys[j].can_book_check_arrival_on_next_departure = true;
            bus.schedules[i].journeys[j].departure_date = bus.schedules[i].journeys[j].departure_date.split(' - ');
