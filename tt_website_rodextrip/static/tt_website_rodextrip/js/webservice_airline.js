@@ -733,6 +733,8 @@ function get_airline_data_passenger_page(type='default'){
                infant = airline_request.infant;
                if(msg.hasOwnProperty('pax_cache')){
                     pax_cache_reorder = msg.pax_cache;
+                    if(msg.pax_cache.hasOwnProperty('booker'))
+                        data_booker = msg.pax_cache.booker;
                }
                airline_get_provider_list('passenger');
            }else if(type == 'aftersales'){
@@ -1014,6 +1016,21 @@ function auto_input_pax_cache_reorder(){
             $('#adult_nationality'+index+'_id').val(pax_cache_reorder.adult[x].nationality_name).trigger('change');
             $('#adult_title'+index).niceSelect('update');
             $('#adult_id_type'+index).niceSelect('update');
+            if(typeof ff_request !== 'undefined'){
+                // add ff_request
+                for(y in ff_request){
+                    try{
+                        if(pax_cache_reorder.adult[x].hasOwnProperty('ff_numbers'))
+                            for(z in pax_cache_reorder.adult[x].ff_numbers){
+                                if(x == pax_cache_reorder.adult[x].ff_numbers[z].schedule_id){
+                                    $('#adult_ff_request'+index+'_'+parseInt(y+1)+'_id').val(pax_cache_reorder.adult[x].ff_numbers[z].ff_code).trigger('change');
+                                    document.getElementById('adult_ff_number'+index+'_'+parseInt(y+1)).value = pax_cache_reorder.adult[x].ff_numbers[z].ff_number;
+                                    break;
+                                }
+                            }
+                    }catch(err){console.log(err)}
+                }
+            }
         }
     }
     if(pax_cache_reorder.hasOwnProperty('child')){
