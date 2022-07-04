@@ -5474,13 +5474,13 @@ function check_passenger(adult, child, infant, type=''){
            document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
        }else{
            if(is_identity_required == 'true')
-               if(document.getElementById('adult_id_type'+i).value == '' && document.getElementById('adult_identity_type'+i).style.display == 'block'){
+               if(document.getElementById('adult_id_type'+i).value == '' && document.getElementById('adult_identity_div'+i).style.display == 'block'){
                     error_log+= 'Please fill id type for passenger adult '+i+'!</br>\n';
                     document.getElementById('adult_id_type'+i).style['border-color'] = 'red';
                }
            document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
        }
-       if(document.getElementById('adult_identity_type'+i).style.display == 'block'){
+       if(document.getElementById('adult_identity_div'+i).style.display == 'block'){
            if(document.getElementById('adult_id_type'+i).value != ''){
                 $("#adult_id_type"+i).each(function() {
                     $(this).parent().find('.nice-select').css('border', '1px solid #EFEFEF');
@@ -6373,14 +6373,13 @@ function get_airline_review(){
                             <h5><span style="color:`+color+`;"> `+(parseInt(count_pax)+1)+`.</span>
                             `+passengers.infant[i].title+` `+passengers.infant[i].first_name+` `+ passengers.infant[i].last_name +`</h5>
                             <b>Infant - </b>
-                            Birth Date: <b>`+passengers.infant[i].birth_date+`</b>`;
+                            Birth Date: <b>`+passengers.infant[i].birth_date+`</b>
+                        </div>`;
                         if(passengers.infant[i].identity_type)
                             text+=`
                             <div class="col-lg-12">
                                 <b>`+passengers.infant[i].identity_type.substr(0,1).toUpperCase()+passengers.infant[i].identity_type.substr(1,passengers.infant[i].identity_type.length)+`</b>: <i>`+passengers.infant[i].identity_number+`</i>
                             </div>`;
-                        text+=`
-                        </div>`;
                         count_pax++;
                     }
                 text+=`
