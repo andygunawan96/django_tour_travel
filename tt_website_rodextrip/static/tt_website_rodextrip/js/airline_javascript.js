@@ -4573,7 +4573,23 @@ function airline_detail(type){
                                     else if(price_itinerary_temp[i].journeys[j].segments[k].fares[0].cabin_class == 'F')
                                         text += 'First Class - ';
                                 text+=`Class: ` + price_itinerary_temp[i].journeys[j].segments[k].fares[0].class_of_service;
-                                text+=`</span></div>`;
+                                text+=`</span>`;
+                                for(l in price_itinerary_temp[i].journeys[j].segments[k].fares){
+                                    for(m in price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details){
+                                        if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('BG')){
+                                            $text += '• Baggage ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].unit + '\n';
+                                            text += `<br/><i class="fas fa-suitcase"></i><span style="color:`+color+`; font-weight:800;"> Baggage - `+price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].unit+` </span>`;
+                                        }else if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('ML')){
+                                            $text += '• Meal ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit + '\n';
+                                            text += `<br/><i class="fas fa-suitcase"></i><span style="color:`+color+`; font-weight:800;"> Meal - `+price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].unit+` </span>`;
+                                        }
+                                    }
+                                    if(price_itinerary_temp[i].journeys[j].segments[k].carrier_type_name){
+                                        $text += '• Aircraft: ' + price_itinerary_temp[i].journeys[j].segments[k].carrier_type_name + '\n';
+                                        text += `<br/><i class="fas fa-plane"></i><span style="color:`+color+`; font-weight:800;"> Aircraft - `+price_itinerary_temp[i].journeys[j].segments[k].carrier_type_name+` </span>`;
+                                    }
+                                }
+                                text+=`</div>`;
 
                                 if(k == price_itinerary_temp[i].journeys[j].segments.length-1){
                                     if(provider_list_data[price_itinerary_temp[i].provider].is_post_issued_reschedule)
@@ -4589,16 +4605,7 @@ function airline_detail(type){
         //                                text+=`
         //                                    <br/><span style="font-weight:bold;"><i class="fas fa-check-circle" style="color:#4f9c64;"></i> Refund</span>`;
                                 }
-                                for(l in price_itinerary_temp[i].journeys[j].segments[k].fares){
-                                    for(m in price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details){
-                                        if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('BG'))
-                                            $text += '• Baggage ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].unit + '\n';
-                                        if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('ML'))
-                                            $text += '• Meal ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit + '\n';
-                                    }
-                                    if(price_itinerary_temp[i].journeys[j].segments[k].carrier_type_name)
-                                        $text += '• Aircraft: ' + price_itinerary_temp[i].journeys[j].segments[k].carrier_type_name + '\n';
-                                }
+
                             }
 
                             for(l in price_itinerary_temp[i].journeys[j].segments[k].legs){
@@ -6366,14 +6373,13 @@ function get_airline_review(){
                             <h5><span style="color:`+color+`;"> `+(parseInt(count_pax)+1)+`.</span>
                             `+passengers.infant[i].title+` `+passengers.infant[i].first_name+` `+ passengers.infant[i].last_name +`</h5>
                             <b>Infant - </b>
-                            Birth Date: <b>`+passengers.infant[i].birth_date+`</b>`;
+                            Birth Date: <b>`+passengers.infant[i].birth_date+`</b>
+                        </div>`;
                         if(passengers.infant[i].identity_type)
                             text+=`
                             <div class="col-lg-12">
                                 <b>`+passengers.infant[i].identity_type.substr(0,1).toUpperCase()+passengers.infant[i].identity_type.substr(1,passengers.infant[i].identity_type.length)+`</b>: <i>`+passengers.infant[i].identity_number+`</i>
                             </div>`;
-                        text+=`
-                        </div>`;
                         count_pax++;
                     }
                 text+=`
