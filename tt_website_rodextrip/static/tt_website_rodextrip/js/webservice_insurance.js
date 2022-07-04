@@ -232,8 +232,8 @@ function insurance_get_config(page=false){
                     var choice_city = '<option value="">City</option>';
                     var choice_place_of_birth = '<option value="">Place of Birth</option>';
                     var choice_identity = '<option value="">Choose Identity Type</option>';
-                    var choice_title_adult = '<option value="MR">MR</option><option value="MRS">MRS</option><option value="MS">MS</option>';
-                    var choice_title_child = '<option value="MSTR">MSTR</option><option value="MISS">MISS</option>';
+                    var choice_title_adult = '<option value=""></option><option value="MR">MR</option><option value="MRS">MRS</option><option value="MS">MS</option>';
+                    var choice_title_child = '<option value=""></option><option value="MSTR">MSTR</option><option value="MISS">MISS</option>';
 
                     if(insurance_pick.provider == 'zurich')
                         choice_identity+=`<option value="ktp">KTP/NIK</option>`;
