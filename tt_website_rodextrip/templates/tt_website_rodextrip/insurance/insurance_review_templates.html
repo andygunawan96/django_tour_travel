@@ -256,23 +256,18 @@
                                 <div style="padding:10px;">
                                     <h4> {% trans 'List of Guest(s)' %} </h4>
                                     <hr/>
-                                    <table style="width:100%;" id="list-of-passengers" class="list-of-passenger-class">
-                                        <tr>
-                                            <th style="width:5%;" class="list-of-passenger-left">No</th>
-                                            <th style="width:45%;">{% trans 'Full Name' %}</th>
-                                            <th style="width:25%;">{% trans 'Birth Date' %}</th>
-                                        </tr>
+                                    <table style="width:100%;">
                                         {% for pax in passenger.adult %}
                                         <tr>
-                                            <td>{{forloop.counter}}</td>
                                             <td>
-                                                <b>{{pax.title}}. {{pax.first_name}} {{pax.last_name}}</b><br/></br>
+                                                <b>{{forloop.counter}}. {{pax.title}}. {{pax.first_name}} {{pax.last_name}}</b><br/>
+                                                <span>Birth Date: {{pax.birth_date}}</span><br/>
                                                 {% for relation in pax.data_insurance.relation %}
-                                                <b>Relation {{forloop.counter}} - {{relation.title}}. {{relation.first_name}} {{relation.last_name}} - {{relation.relation}}</b><br/></br>
+                                                <b>Relation {{forloop.counter}}</b><br/>{{relation.title}}. {{relation.first_name}} {{relation.last_name}} - {{relation.relation}}<br/>
                                                 {% endfor %}
 
                                                 {% if 'title' in pax.data_insurance.beneficiary %}
-                                                <b>Beneficiary - {{pax.data_insurance.beneficiary.title}}. {{pax.data_insurance.beneficiary.first_name}} {{pax.data_insurance.beneficiary.last_name}} - {{pax.data_insurance.beneficiary.relation}}</b><br/></br>
+                                                <b>Beneficiary</b><br/>{{pax.data_insurance.beneficiary.title}}. {{pax.data_insurance.beneficiary.first_name}} {{pax.data_insurance.beneficiary.last_name}} - {{pax.data_insurance.beneficiary.relation}}</b><br/>
                                                 {% endif %}
 
                                                 {% if pax.data_insurance.addons|length != 0%}
@@ -291,7 +286,6 @@
                                                 <i>Not Selected</i>
                                                 {% endif %}
                                             </td>
-                                            <td>{{pax.birth_date}}</td>
                                         </tr>
                                         {% endfor %}
                                     </table>
