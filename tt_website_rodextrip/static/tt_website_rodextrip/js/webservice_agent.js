@@ -3929,7 +3929,7 @@ function copy_booker(val,type,identity){
         }catch(err){
             console.log(err); //kalau tidak ada penanda identity required di html
         }
-        if(typeof data_booker !== 'undefined' && data_booker.face_image.length > 0){
+        if(typeof data_booker !== 'undefined' && data_booker.hasOwnProperty('face_image') && data_booker.face_image.length > 0){
             text = '';
             text += `
                 <div class="row">
