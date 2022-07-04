@@ -2993,14 +2993,18 @@ function pick_passenger_copy(type, sequence, product, identity=''){
 
                 if(data_booker.hasOwnProperty('frequent_flyers') && data_booker.frequent_flyers.length > 0){
                     if(product == 'airline' || product == 'cache' && document.URL.split('/')[document.URL.split('/').length-2] == 'passenger' && document.URL.split('/')[document.URL.split('/').length-3] == 'airline'){
-                        if(typeof ff_request !== 'undefined'){
-                            data_booker['frequent_flyer_list'] = [];
-                            for(x in ff_request){
-                                data_booker['frequent_flyer_list'].push({
-                                    "ff_code": document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[0],
-                                    "ff_number": document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[1]
-                                })
+                        try{
+                            if(typeof ff_request !== 'undefined'){
+                                data_booker['frequent_flyer_list'] = [];
+                                for(x in ff_request){
+                                    data_booker['frequent_flyer_list'].push({
+                                        "ff_code": document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[0],
+                                        "ff_number": document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[1]
+                                    })
+                                }
                             }
+                        }catch(err){
+                            console.log(err);
                         }
                     }
                 }
@@ -3369,16 +3373,18 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     document.getElementById(type+'_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
                     if(product == 'airline'){
                         //add frequent flyer
-                        if(typeof ff_request !== 'undefined'){
-                            index_ff = 1;
-                            for(x in ff_request){
-                                if(document.getElementById('frequent_flyer'+sequence+'_'+x).value != ''){
-                                    $("#"+type+"_ff_request"+passenger_number+"_"+index_ff+"_id").select2().val(document.getElementById("frequent_flyer"+sequence+"_"+x).value.split(' - ')[0]).trigger('change');
-                                    document.getElementById('adult_ff_number'+passenger_number+'_'+index_ff).value = document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[1];
+                        try{
+                            if(typeof ff_request !== 'undefined'){
+                                index_ff = 1;
+                                for(x in ff_request){
+                                    if(document.getElementById('frequent_flyer'+sequence+'_'+x).value != ''){
+                                        $("#"+type+"_ff_request"+passenger_number+"_"+index_ff+"_id").select2().val(document.getElementById("frequent_flyer"+sequence+"_"+x).value.split(' - ')[0]).trigger('change');
+                                        document.getElementById('adult_ff_number'+passenger_number+'_'+index_ff).value = document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[1];
+                                    }
+                                    index_ff++;
                                 }
-                                index_ff++;
                             }
-                        }
+                        }catch(err){console.log(err);}
                     }
 //                    if(product=='airline' || product == 'activity' || product == 'visa' || product == 'tour'){
 //                        try{ //check ada id type di selection klo ada masukkan
@@ -4742,14 +4748,16 @@ function clear_passenger(type, sequence){
             document.getElementById('adult_country_of_issued'+sequence).value = '';
             document.getElementById('select2-adult_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
             document.getElementById('adult_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
-            if(typeof ff_request !== 'undefined'){
-                for(j=1;j<=ff_request.length;j++){
-                    try{
-                        $('#adult_ff_request'+sequence+'_'+j+'_id').val('').trigger('change');
-                        document.getElementById('adult_ff_number'+sequence+'_'+j).value = '';
-                    }catch(err){console.log(err)}
+            try{
+                if(typeof ff_request !== 'undefined'){
+                    for(j=1;j<=ff_request.length;j++){
+                        try{
+                            $('#adult_ff_request'+sequence+'_'+j+'_id').val('').trigger('change');
+                            document.getElementById('adult_ff_number'+sequence+'_'+j).value = '';
+                        }catch(err){console.log(err)}
+                    }
                 }
-            }
+            }catch(err){console.log(err);}
         }catch(err){
             console.log(err); //error ada field yg tidak ketemu
         }
@@ -4805,14 +4813,16 @@ function clear_passenger(type, sequence){
             document.getElementById('infant_country_of_issued'+sequence).value = '';
             document.getElementById('select2-infant_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
             document.getElementById('infant_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
-            if(typeof ff_request !== 'undefined'){
-                for(j=1;j<=ff_request.length;j++){
-                    try{
-                        $('#infant_ff_request'+sequence+'_'+j+'_id').val('').trigger('change');
-                        document.getElementById('infant_ff_number'+sequence+'_'+j).value = '';
-                    }catch(err){console.log(err)}
+            try{
+                if(typeof ff_request !== 'undefined'){
+                    for(j=1;j<=ff_request.length;j++){
+                        try{
+                            $('#infant_ff_request'+sequence+'_'+j+'_id').val('').trigger('change');
+                            document.getElementById('infant_ff_number'+sequence+'_'+j).value = '';
+                        }catch(err){console.log(err)}
+                    }
                 }
-            }
+            }catch(err){console.log(err);}
         }catch(err){
             console.log(err); //error ada field yg tidak ketemu
         }
@@ -4866,14 +4876,16 @@ function clear_passenger(type, sequence){
         document.getElementById('senior_country_of_issued'+sequence).value = '';
         document.getElementById('select2-senior_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
         document.getElementById('senior_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
-        if(typeof ff_request !== 'undefined'){
-            for(j=1;j<=ff_request.length;j++){
-                try{
-                    $('#senior_ff_request'+sequence+'_'+j+'_id').val('').trigger('change');
-                    document.getElementById('senior_ff_number'+sequence+'_'+j).value = '';
-                }catch(err){console.log(err)}
+        try{
+            if(typeof ff_request !== 'undefined'){
+                for(j=1;j<=ff_request.length;j++){
+                    try{
+                        $('#senior_ff_request'+sequence+'_'+j+'_id').val('').trigger('change');
+                        document.getElementById('senior_ff_number'+sequence+'_'+j).value = '';
+                    }catch(err){console.log(err)}
+                }
             }
-        }
+        }catch(err){console.log(err);}
     }
     else if(type == 'Child'){
         for(i in passenger_data_pick){
@@ -4923,14 +4935,16 @@ function clear_passenger(type, sequence){
         document.getElementById('child_country_of_issued'+sequence).value = '';
         document.getElementById('select2-child_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
         document.getElementById('child_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
-        if(typeof ff_request !== 'undefined'){
-            for(j=1;j<=ff_request.length;j++){
-                try{
-                    $('#child_ff_request'+sequence+'_'+j+'_id').val('').trigger('change');
-                    document.getElementById('child_ff_number'+sequence+'_'+j).value = '';
-                }catch(err){console.log(err)}
+        try{
+            if(typeof ff_request !== 'undefined'){
+                for(j=1;j<=ff_request.length;j++){
+                    try{
+                        $('#child_ff_request'+sequence+'_'+j+'_id').val('').trigger('change');
+                        document.getElementById('child_ff_number'+sequence+'_'+j).value = '';
+                    }catch(err){console.log(err)}
+                }
             }
-        }
+        }catch(err){console.log(err);}
     }
     else if(type == 'Medical'){
         Swal.fire({
@@ -5333,15 +5347,16 @@ function clear_passenger(type, sequence){
                 document.getElementById('select2-'+type+'_country_of_issued'+sequence+'_id-container').innerHTML = 'Country Of Issued';
                 document.getElementById(type+'_country_of_issued'+sequence+'_id').value = 'Country Of Issued';
             }
-
-            if(typeof ff_request !== 'undefined'){
-                for(j=1;j<=ff_request.length;j++){
-                    try{
-                        $('#'+type+'_ff_request'+sequence+'_'+j+'_id').val('').trigger('change');
-                        document.getElementById(type+'_ff_number'+sequence+'_'+j).value = '';
-                    }catch(err){console.log(err)}
+            try{
+                if(typeof ff_request !== 'undefined'){
+                    for(j=1;j<=ff_request.length;j++){
+                        try{
+                            $('#'+type+'_ff_request'+sequence+'_'+j+'_id').val('').trigger('change');
+                            document.getElementById(type+'_ff_number'+sequence+'_'+j).value = '';
+                        }catch(err){console.log(err)}
+                    }
                 }
-            }
+            }catch(err){console.log(err);}
 
         }catch(err){
             console.log(err); //error ada field yg tidak ketemu
@@ -7757,19 +7772,21 @@ function pick_passenger_cache_copy(val, identity){
             }
 
             //add frequent flyer
-            if(typeof ff_request !== 'undefined'){
-                index_ff = 1;
-                for(x in ff_request){
-                    try{
-                        var ff_data = document.getElementById('frequent_flyer'+val + '_' + x).value;
-                        $("#"+passenger_pick+"_ff_request"+passenger_pick_number+"_"+index_ff+"_id").select2().val(ff_data.split(' - ')[0]).trigger('change');
-                        document.getElementById(passenger_pick+'_ff_number'+passenger_pick_number+'_'+index_ff).value = ff_data.split(' - ')[1];
-                    }catch(err){
-                        console.log(err); // error tidak ada id phone_chosen
+            try{
+                if(typeof ff_request !== 'undefined'){
+                    index_ff = 1;
+                    for(x in ff_request){
+                        try{
+                            var ff_data = document.getElementById('frequent_flyer'+val + '_' + x).value;
+                            $("#"+passenger_pick+"_ff_request"+passenger_pick_number+"_"+index_ff+"_id").select2().val(ff_data.split(' - ')[0]).trigger('change');
+                            document.getElementById(passenger_pick+'_ff_number'+passenger_pick_number+'_'+index_ff).value = ff_data.split(' - ')[1];
+                        }catch(err){
+                            console.log(err); // error tidak ada id phone_chosen
+                        }
+                        index_ff++;
                     }
-                    index_ff++;
                 }
-            }
+            }catch(err){console.log(err);}
         }
 //        try{
 //            if(passenger_data_cache[val].identities.hasOwnProperty('passport') == true){
