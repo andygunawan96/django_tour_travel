@@ -311,7 +311,12 @@ def re_order_set_passengers(request):
                 else:
                     pax_type = 'INF'
             if pax['gender'] == 'male':
-                title = 'MR'
+                if pax_type == 'ADT':
+                    title = 'MR'
+                else:
+                    title = 'MSTR'
+            elif pax['gender'] == 'female' and pax_type != 'ADT':
+                title = 'MISS'
             elif pax['gender'] == 'female' and data_booker['marital_status'] == '':
                 title = 'MS'
             else:
