@@ -263,7 +263,13 @@
                                                 <b>{{forloop.counter}}. {{pax.title}}. {{pax.first_name}} {{pax.last_name}}</b><br/>
                                                 <span>Birth Date: {{pax.birth_date}}</span><br/>
                                                 {% for relation in pax.data_insurance.relation %}
-                                                <b>Relation {{forloop.counter}}</b><br/>{{relation.title}}. {{relation.first_name}} {{relation.last_name}} - {{relation.relation}}<br/>
+                                                <b>Relation {{forloop.counter}}</b>
+                                                <br/>
+                                                {{relation.title}}. {{relation.first_name}} {{relation.last_name}}
+                                                {% if relation.relation != ''%}
+                                                - {{relation.relation}}
+                                                {% endif %}
+                                                <br/>
                                                 {% endfor %}
 
                                                 {% if 'title' in pax.data_insurance.beneficiary %}
