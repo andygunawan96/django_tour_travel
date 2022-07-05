@@ -283,48 +283,48 @@ def review(request):
                 counter = 1
                 for j in range(int(request.session['insurance_request_with_passenger']['family']['adult'])):
                     relation.append({
-                        "title": request.POST['adult_relation%s_title%s' % (str(i + 1),counter)],
-                        "first_name": request.POST['adult_relation%s_first_name%s' % (str(i + 1),counter)],
-                        "last_name": request.POST['adult_relation%s_last_name%s' % (str(i + 1),counter)],
-                        "nationality": request.POST['adult_relation%s_nationality%s_id' % (str(i + 1),counter)],
-                        "birth_date": request.POST['adult_relation%s_birth_date%s' % (str(i + 1),counter)],
-                        "identity_type": request.POST['adult_relation%s_identity_type%s' % (str(i + 1),counter)],
-                        "identity_number": request.POST['adult_relation%s_passport_number%s' % (str(i + 1),counter)],
-                        "identity_expdate": request.POST['adult_relation%s_passport_expired_date%s' % (str(i + 1),counter)],
-                        "identity_country_of_issued_name": request.POST['adult_relation%s_passport_country_of_issued%s' % (str(i + 1),counter)],
-                        "relation": request.POST.get('adult_relation%s_relation%s' % (str(i + 1),counter), ''),
-                        "place_of_birth": request.POST.get('adult_relation%s_place_of_birth%s' % (str(i + 1), counter),''),
+                        "title": request.POST['Adult_relation%s_title%s' % (str(i + 1),counter)],
+                        "first_name": request.POST['Adult_relation%s_first_name%s' % (str(i + 1),counter)],
+                        "last_name": request.POST['Adult_relation%s_last_name%s' % (str(i + 1),counter)],
+                        "nationality": request.POST['Adult_relation%s_nationality%s_id' % (str(i + 1),counter)],
+                        "birth_date": request.POST['Adult_relation%s_birth_date%s' % (str(i + 1),counter)],
+                        "identity_type": request.POST['Adult_relation%s_identity_type%s' % (str(i + 1),counter)],
+                        "identity_number": request.POST['Adult_relation%s_passport_number%s' % (str(i + 1),counter)],
+                        "identity_expdate": request.POST['Adult_relation%s_passport_expired_date%s' % (str(i + 1),counter)],
+                        "identity_country_of_issued_name": request.POST['Adult_relation%s_passport_country_of_issued%s' % (str(i + 1),counter)],
+                        "relation": request.POST.get('Adult_relation%s_relation%s' % (str(i + 1),counter), ''),
+                        "place_of_birth": request.POST.get('Adult_relation%s_place_of_birth%s' % (str(i + 1), counter),''),
                     })
                     counter += 1
                 for j in range(int(request.session['insurance_request_with_passenger']['family']['child'])):
                     relation.append({
-                        "title": request.POST['adult_relation%s_title%s' % (str(i + 1), counter)],
-                        "first_name": request.POST['adult_relation%s_first_name%s' % (str(i + 1), counter)],
-                        "last_name": request.POST['adult_relation%s_last_name%s' % (str(i + 1), counter)],
-                        "nationality": request.POST['adult_relation%s_nationality%s_id' % (str(i + 1), counter)],
-                        "birth_date": request.POST['adult_relation%s_birth_date%s' % (str(i + 1), counter)],
-                        "identity_type": request.POST['adult_relation%s_identity_type%s' % (str(i + 1), counter)],
-                        "identity_number": request.POST['adult_relation%s_passport_number%s' % (str(i + 1), counter)],
-                        "identity_expdate": request.POST['adult_relation%s_passport_expired_date%s' % (str(i + 1), counter)],
-                        "identity_country_of_issued_name": request.POST['adult_relation%s_passport_country_of_issued%s' % (str(i + 1), counter)],
-                        "relation": request.POST.get('adult_relation%s_relation%s' % (str(i + 1), counter), ''),
-                        "place_of_birth": request.POST.get('adult_relation%s_place_of_birth%s' % (str(i + 1), counter), ''),
+                        "title": request.POST['Child_relation%s_title%s' % (str(i + 1), counter)],
+                        "first_name": request.POST['Child_relation%s_first_name%s' % (str(i + 1), counter)],
+                        "last_name": request.POST['Child_relation%s_last_name%s' % (str(i + 1), counter)],
+                        "nationality": request.POST['Child_relation%s_nationality%s_id' % (str(i + 1), counter)],
+                        "birth_date": request.POST['Child_relation%s_birth_date%s' % (str(i + 1), counter)],
+                        "identity_type": request.POST['Child_relation%s_identity_type%s' % (str(i + 1), counter)],
+                        "identity_number": request.POST['Child_relation%s_passport_number%s' % (str(i + 1), counter)],
+                        "identity_expdate": request.POST['Child_relation%s_passport_expired_date%s' % (str(i + 1), counter)],
+                        "identity_country_of_issued_name": request.POST['Child_relation%s_passport_country_of_issued%s' % (str(i + 1), counter)],
+                        "relation": request.POST.get('Child_relation%s_relation%s' % (str(i + 1), counter), ''),
+                        "place_of_birth": request.POST.get('Child_relation%s_place_of_birth%s' % (str(i + 1), counter), ''),
 
                     })
                     counter += 1
                 if request.session['insurance_pick']['provider'] == 'bcainsurance':
-                    if request.POST['adult_relation_beneficiary_first_name' + str(i + 1)]:
+                    if request.POST['Adult_relation_beneficiary_first_name' + str(i + 1)]:
                         ahli_waris.update({
-                            "title": request.POST['adult_relation_beneficiary_title' + str(i + 1)],
-                            "first_name": request.POST['adult_relation_beneficiary_first_name' + str(i + 1)],
-                            "last_name": request.POST['adult_relation_beneficiary_last_name' + str(i + 1)],
-                            "nationality": request.POST['adult_relation_beneficiary_nationality' + str(i + 1) + '_id'],
-                            "birth_date": request.POST['adult_relation_beneficiary_birth_date' + str(i + 1)],
-                            "identity_type": request.POST['adult_relation_beneficiary_identity_type' + str(i + 1)],
-                            "identity_number": request.POST['adult_relation_beneficiary_passport_number' + str(i + 1)],
-                            "identity_expdate": request.POST['adult_relation_beneficiary_passport_expired_date' + str(i + 1)],
-                            "identity_country_of_issued_name": request.POST['adult_relation_beneficiary_passport_country_of_issued' + str(i + 1)],
-                            "relation": request.POST['adult_relation_beneficiary_relation' + str(i + 1)],
+                            "title": request.POST['Adult_relation_beneficiary_title' + str(i + 1)],
+                            "first_name": request.POST['Adult_relation_beneficiary_first_name' + str(i + 1)],
+                            "last_name": request.POST['Adult_relation_beneficiary_last_name' + str(i + 1)],
+                            "nationality": request.POST['Adult_relation_beneficiary_nationality' + str(i + 1) + '_id'],
+                            "birth_date": request.POST['Adult_relation_beneficiary_birth_date' + str(i + 1)],
+                            "identity_type": request.POST['Adult_relation_beneficiary_identity_type' + str(i + 1)],
+                            "identity_number": request.POST['Adult_relation_beneficiary_passport_number' + str(i + 1)],
+                            "identity_expdate": request.POST['Adult_relation_beneficiary_passport_expired_date' + str(i + 1)],
+                            "identity_country_of_issued_name": request.POST['Adult_relation_beneficiary_passport_country_of_issued' + str(i + 1)],
+                            "relation": request.POST['Adult_relation_beneficiary_relation' + str(i + 1)],
                         })
 
                 identity_number = ''
