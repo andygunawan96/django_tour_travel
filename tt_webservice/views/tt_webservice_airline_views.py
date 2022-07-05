@@ -256,7 +256,10 @@ def login(request):
 
 def re_order_set_airline_request(request):
     try:
+        ## UNTUK REORDER SAMPAI PASSENGER
         set_session(request, 'airline_request_%s' % request.POST['signature'], json.loads(request.POST['airline_request']))
+        ## UNTUK REORDER KEMBALI KE SEARCH KARENA TIDAK JADWAL YG SAMA HABIS / TIDAK KETEMU, BELUM ADA SIGNATURE
+        set_session(request, 'airline_request', json.loads(request.POST['airline_request']))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return ERR.get_no_error_api()

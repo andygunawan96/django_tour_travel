@@ -5571,8 +5571,8 @@ function search_reorder(){
                 provider_list_reorder[journey_list_copy[i].segments[j].provider].push(journey_list_copy[i].segments[j].carrier_code)
             airline_request['cabin_class'].push(journey_list_copy[i].segments[j].cabin_class)
         }
-        airline_request['origin'].push(journey_list_copy[i].origin+' - - - ')
-        airline_request['destination'].push(journey_list_copy[i].destination+' - - - ')
+        airline_request['origin'].push(journey_list_copy[i].origin+' - '+journey_list_copy[i].origin_city+' - '+journey_list_copy[i].origin_country+' - '+journey_list_copy[i].origin_name)
+        airline_request['destination'].push(journey_list_copy[i].destination+' - '+journey_list_copy[i].destination_city+' - '+journey_list_copy[i].destination_country+' - '+journey_list_copy[i].destination_name)
         airline_request['departure'].push(journey_list_copy[i].departure_date.split('  ')[0])
         airline_request['return'].push(journey_list_copy[i].departure_date.split('  ')[0])
 
@@ -5581,6 +5581,7 @@ function search_reorder(){
     airline_request['adult'] = adult;
     airline_request['child'] = child;
     airline_request['infant'] = infant;
+    airline_request['counter'] = airline_request['origin'].length.toString();
     if(airline_request['direction'] == 'OW')
         airline_request['is_combo_price'] = "false"
     else
