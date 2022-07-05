@@ -282,9 +282,30 @@ def search(request):
                 set_session(request, 'airline_carriers_request', airline_carriers)
 
                 request.session.modified = True
-            except:
+            except Exception as e:
+                ## TIDAK ADA DATA POST, DARI REORDER
                 airline_request = request.session['airline_request']
-                airline_carriers = request.session['airline_carriers_request']
+                airline_carriers = [{
+                    'All': {
+                        'name': 'All',
+                        'code': 'all',
+                        'is_favorite': False,
+                        'bool': True
+                    }
+                }]
+                for rec in file:
+                    airline_carriers[0][rec] = {
+                        'name': file[rec]['name'],
+                        'display_name': file[rec]['display_name'],
+                        'code': file[rec]['code'],
+                        'icao': file[rec]['icao'],
+                        'call_sign': file[rec]['call_sign'],
+                        'is_favorite': file[rec]['is_favorite'],
+                        'provider': file[rec]['provider'],
+                        'is_excluded_from_b2c': file[rec]['is_excluded_from_b2c'],
+                        'bool': False
+                    }
+                set_session(request, 'airline_carriers_request', airline_carriers)
                 return_date = request.session['airline_request']['departure']
 
             flight = ''
