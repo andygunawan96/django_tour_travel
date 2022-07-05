@@ -2414,7 +2414,8 @@ function pick_passenger_copy(type, sequence, product, identity=''){
         {
             document.getElementById('train_passenger_search_type').value = 'cust_name';
         }
-    }else if(product == 'get_booking_vendor'){
+    }
+    else if(product == 'get_booking_vendor'){
         hide_result_booker_vendor();
         document.getElementById('hide_btn_click').hidden = true;
         document.getElementById('booker_vendor').value = passenger_data[sequence].title + ' ' + passenger_data[sequence].first_name + ' ' + passenger_data[sequence].last_name;
@@ -2436,7 +2437,8 @@ function pick_passenger_copy(type, sequence, product, identity=''){
             $('#customer_parent_booking_from_vendor').niceSelect('update');
         }
 //        get_customer_parent();
-    }else if(type == '' || product == 'issued_offline' || product == 'group_booking'){
+    }
+    else if(type == '' || product == 'issued_offline' || product == 'group_booking'){
         if(type == 'Booker' || type == 'Contact'){
             try{
                 document.getElementById('contact_person').value = passenger_data[sequence].title + ' ' + passenger_data[sequence].first_name + ' ' + passenger_data[sequence].last_name;
@@ -2453,7 +2455,8 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     radio_button('contact');
                 }catch(err){console.log(err);}
             $('#myModal').modal('hide');
-        }else if(product == 'medical'){
+        }
+        else if(product == 'medical'){
             passenger_number++;
 //            document.getElementById('name_pax'+passenger_number).innerHTML = passenger_data[sequence].title + ' ' + passenger_data[sequence].first_name + ' ' + passenger_data[sequence].last_name;
 //            document.getElementById('id_passenger'+passenger_number).value = passenger_data[sequence].id;
@@ -2554,7 +2557,8 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                 })
             }
             //$('#myModalPassenger'+parseInt(passenger_number-1)).modal('hide');
-        }else{
+        }
+        else{
             passenger_number++;
 //            document.getElementById('name_pax'+passenger_number).innerHTML = passenger_data[sequence].title + ' ' + passenger_data[sequence].first_name + ' ' + passenger_data[sequence].last_name;
 //            document.getElementById('id_passenger'+passenger_number).value = passenger_data[sequence].id;
@@ -3160,7 +3164,8 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                   text: "You can't choose same person in 1 booking",
                 })
             }
-        }else if(type == 'Contact'){
+        }
+        else if(type == 'Contact'){
             //change booker
             check = 0;
             if(check == 0){
