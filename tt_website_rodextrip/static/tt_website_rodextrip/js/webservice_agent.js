@@ -490,6 +490,87 @@ function signin_btc(){
     }
 }
 
+function check_session(type=''){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'check_session',
+       },
+       data: {
+            'signature':signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                if(type != ''){
+                    //generate link
+                    url_create_passenger = window.location.href.split('/');
+                    for(i in url_create_passenger)
+                        if(url_create_passenger.length <= 3)
+                            break;
+                        else
+                            url_create_passenger.pop();
+                    url_create_passenger = url_create_passenger.join('/') + '/create_passenger/' + signature;
+                    document.getElementById('create_passenger_link').hidden = false;
+                }
+            }else{
+                if(type == ''){
+                    //signature expired untuk passenger
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Link Expired, Please contact your agent!' ,
+                    }).then((result) => {
+                      window.location.href = '/';
+                    })
+                }else{
+                    //signature expired waktu mau generate
+                    //swall
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Signature expired, please login again!' ,
+                    }).then((result) => {
+                      logout();
+                    })
+                }
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error reset password');
+       },timeout: 60000
+    });
+}
+
+function copy_create_passenger(){
+    const el = document.createElement('textarea');
+    try{
+        el.value = url_create_passenger;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000
+        })
+
+        Toast.fire({
+          type: 'success',
+          title: 'Copied Successfully'
+        })
+    }catch(err){
+        Toast.fire({
+          type: 'danger',
+          title: 'Copied Error'
+        })
+    }
+}
+
 function reset_password_btc(){
     if( $(window).width() > 991){
         if($('#username').val() != ''){
@@ -1016,7 +1097,7 @@ function create_new_passenger(){
                                 }
                                 Swal.fire({
                                    type: 'Success',
-                                   title: 'Created',
+                                   title: 'Success created, customer ' + msg.result.response.seq_id,
                                    text: '',
                                })
                             }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -7515,58 +7596,6 @@ function pick_passenger_cache(val){
             pick_passenger_cache_copy(val, '');
         else
             pick_passenger_cache_copy(val, identity_choose.split(' - ')[0]);
-//        try{
-//            selection = document.getElementById(passenger_pick+'_id_type'+passenger_pick_number).options;
-//        }catch(err){
-//            console.log(err); // kalau tidak ada identity type pada passenger 1
-//        }
-//        try{
-//            if(selection == null)
-//                selection = document.getElementById(passenger_pick+'_identity_type'+passenger_pick_number).options;
-//        }catch(err){
-//            console.log(err); // kalau tidak ada identity type pada passenger 1
-//        }
-//        try{
-//            need_identity = document.getElementById(passenger_pick+'_identity_div'+passenger_pick_number).style.display;
-//        }catch(err){
-//            console.log(err); //kalau tidak ada penanda required identity di html
-//        }
-//        if(selection != null && data.length > 1){
-//            var found_selection = [];
-//            for(i in selection){
-//                for(j in data){
-//                    if(selection[i].value == data[j].split(',')[0]){
-//                        found_selection.push(selection[i].value);
-//                        break;
-//                    }
-//                }
-//            }
-//            console.log(found_selection);
-//            if(found_selection.length == 1 || need_identity == 'none'){
-//                pick_passenger_cache_copy(val, found_selection[0])
-//            }else{
-//                text = '<br/><select id="found_selection" class="form-select">';
-//                for(i in found_selection)
-//                    text += `<option value=`+found_selection[i]+`>`+found_selection[i]+`</option>`;
-//                text += '</select>';
-//                Swal.fire({
-//                  type: 'info',
-//                  title: 'Pick Identity to Copy '  + passenger_pick + ' ' + passenger_pick_number,
-//                  showCancelButton: true,
-//                  showConfirmButton: true,
-//                  showCloseButton: true,
-//                  html: text
-//                }).then((result) => {
-//                  if (result.value) {
-//                    pick_passenger_cache_copy(val,document.getElementById('found_selection').value);
-//                  }else{
-//                    document.getElementsByName('myRadios')[1].checked = true;
-//                  }
-//                });
-//            }
-//        }else{
-//            pick_passenger_cache_copy(val, '');
-//        }
     }else{
         //booker
         pick_passenger_cache_copy(val, '');
