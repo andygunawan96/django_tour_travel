@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
 from tt_webservice.views.tt_webservice_agent_views import *
+from tt_webservice.views.tt_webservice_airline_views import *
 from tt_webservice.views.tt_webservice_payment_views import *
 from tt_webservice.views.tt_webservice_views import *
 import logging
@@ -1345,6 +1346,7 @@ def get_data_template(request, type='home', provider_type = []):
     signup_btb_btn = 'Sign Up agent Here'
     setting_login_page = 'website_name'
     google_tag_manager_key = ''
+    get_frequent_flyer = []
     font = {
         "name": '',
         "font": ''
@@ -1512,6 +1514,8 @@ def get_data_template(request, type='home', provider_type = []):
                     provider_obj['sequence'] = str(last_sequence)
 
         provider_types_sequence = sorted(provider_types_sequence, key=lambda k: int(k['sequence']))
+
+        get_frequent_flyer = get_frequent_flyer_all_data({}, request.session.get('signature', ''))
 
         file = read_cache_with_folder_path("data_cache_template", 90911)
         if file:
@@ -1684,7 +1688,8 @@ def get_data_template(request, type='home', provider_type = []):
         'signup_btb_text': signup_btb_text,
         'signup_btb_btn': signup_btb_btn,
         'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-        'google_tag_manager_key': google_tag_manager_key
+        'google_tag_manager_key': google_tag_manager_key,
+        'get_frequent_flyer': get_frequent_flyer
     }
 
 

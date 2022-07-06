@@ -19,6 +19,7 @@ var pnr_list = [];
 var airline_list_count = 0;
 var captcha_time = 10;
 var choose_airline = null;
+var is_reorder = false;
 var month = {
     '01': 'Jan',
     '02': 'Feb',
@@ -1255,6 +1256,8 @@ function airline_signin(data,type=''){
                 signature = msg.result.response.signature;
                 if(data == '' && type == ''){
                     airline_get_provider_list('search');
+                    if(is_reorder)
+                        re_order_set_pax_signature()
                 }else if(data != '' && type == ''){
                     get_airline_config('home');
                     airline_get_provider_list('get_booking', data); //get booking pindah di dalem get provider list karena jika get booking balik dulu provider error tidak ada
@@ -1311,6 +1314,26 @@ function airline_signin(data,type=''){
        },timeout: 60000
     });
 
+}
+
+function re_order_set_pax_signature(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 're_order_set_pax_signature',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline carrier code list');
+            $('.loader-rodextrip').fadeOut();
+       },timeout: 60000
+    });
 }
 
 function get_carrier_code_list(type, val){
