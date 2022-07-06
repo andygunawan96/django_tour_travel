@@ -157,7 +157,7 @@
                                     </div>
                                     <div class="col-sm-6 mb-2">
                                         <div class="panel panel-n">
-                                            <div class="panel-body-n" style="font-size:14px;">
+                                            <div class="panel-body-n">
                                                 <script>
                                                 document.write(getrupiah(`{{amount}}`));
                                                 </script>
@@ -329,18 +329,22 @@
                 <h3>{% trans 'Transfer Guide' %}</h3><br/>
             </div>
             {% for data_payment in data_payments%}
-            <div class="col-lg-12 div_dropdown" style="padding:0px;" onclick="div_dropdown('{{data_payment.seq_id}}');">
-                <div class="p-3" style="border: 1px solid {{color}};">
-                    <span><b>{{data_payment.heading}}</b></span>
-                    <span class="ion-ios-arrow-down" id="down_{{data_payment.seq_id}}" style="float: right; cursor: pointer; display: inline-block;"><i class="fas fa-caret-down" style="color:{{color}};"></i></span>
-                    <span class="ion-ios-arrow-up" id="up_{{data_payment.seq_id}}" style="float: right; cursor: pointer; display: none;"><i class="fas fa-caret-up" style="color:{{color}};"></i></span>
+            <div class="col-lg-12" style="margin-bottom:20px;">
+                <div class="row">
+                    <div class="col-lg-12 div_dropdown" style="padding:0px;" onclick="div_dropdown('{{data_payment.acquirer_seq_id}}');">
+                        <div class="p-3" style="border: 1px solid {{color}}; cursor:pointer;">
+                            <span style="color:{{color}}; font-weight:bold;">{{data_payment.heading}}</span>
+                            <span class="ion-ios-arrow-down" id="down_{{data_payment.acquirer_seq_id}}" style="float: right; cursor: pointer; display: inline-block;"><i class="fas fa-caret-down" style="color:{{color}};"></i></span>
+                            <span class="ion-ios-arrow-up" id="up_{{data_payment.acquirer_seq_id}}" style="float: right; cursor: pointer; display: none;"><i class="fas fa-caret-up" style="color:{{color}};"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mb-3" id="div_{{data_payment.acquirer_seq_id}}" style="background:white; border:1px solid #cdcdcd; padding:15px; display: none;">
+                        {% autoescape off %}
+                        {{data_payment.html}}
+                        {% endautoescape %}
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-12 mb-3 mt-3" id="div_{{data_payment.seq_id}}" style="padding:0px; display: none;">
-                {% autoescape off %}
-                {{data_payment.html}}
-                {% endautoescape %}
-            </div>
+                </div>
             {% endfor %}
         </div>
     </div>
@@ -447,7 +451,7 @@ try{
                                     </div>
                                     <div class="col-sm-6 mb-2">
                                         <div class="panel panel-n">
-                                            <div class="panel-body-n" style="font-size:14px;">
+                                            <div class="panel-body-n">
                                                 <script>
                                                 document.write(getrupiah(`{{amount}}`));
                                             </script>
