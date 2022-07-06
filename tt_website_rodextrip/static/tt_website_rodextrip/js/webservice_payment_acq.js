@@ -1530,7 +1530,8 @@ function change_top_up_method(){
             text += `
             <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px; display:none;" id="div_`+va_number[i].name+`">
                 <div class="row">
-                    <div class="col-lg-12 mb-1">
+                    <div class="col-lg-1 col-md-1 mb-1" style="text-align:center;"></div>
+                    <div class="col-lg-11 col-md-11 mb-1">
                         <h6 class="mb-2">`+va_number[i].name+`</h6>
                         <b style="color:`+color+`; font-size:20px; padding-right:5px;">`+va_number[i].account_number+`</b>
                         <span onclick="copy_value('`+va_number[i].account_number+`');" style="cursor:pointer; font-weight:500;color:`+color+`; font-size:14px;">
@@ -1543,7 +1544,8 @@ function change_top_up_method(){
 
                     if(va_number[i].description_msg != ''){
                         text+=`
-                        <div class="col-lg-12">
+                        <div class="col-lg-1 col-md-1 mb-1" style="text-align:center;"></div>
+                        <div class="col-lg-11 col-md-11 mb-1">
                             <hr/>
                             <strong>Description: </strong>
                             `+va_number[i].description_msg+`
@@ -1551,7 +1553,8 @@ function change_top_up_method(){
                     }
                     if(va_number[i].html != ''){
                         text+=`
-                        <div class="col-lg-12">
+                        <div class="col-lg-1 col-md-1 mb-1" style="text-align:center;"></div>
+                        <div class="col-lg-11 col-md-11 mb-1">
                             <hr/>
                             `+va_number[i].html+`
                         </div>`;
