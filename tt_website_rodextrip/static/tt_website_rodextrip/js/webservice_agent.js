@@ -5816,7 +5816,7 @@ function get_payment_espay(order_number_full){
         url_back.pop();
         url_back = url_back.join('/');
 //        window.location.href = '/' + type_render + '/booking/' + order_number_id;
-        window.location.href = '/payment/espay/' + order_number_full; //redirect ke dari payment dengan nomor va
+//        window.location.href = '/payment/espay/' + order_number_full; //redirect ke dari payment dengan nomor va //lupa kenapa dulu bikin kyk gini cuman kalau kyk gini ke redirect 2x & jika espay belum response redirect prtama akan muncul payment error fix
     }else
         url_back = window.location.href;
     $.ajax({
