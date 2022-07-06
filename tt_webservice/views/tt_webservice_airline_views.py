@@ -72,6 +72,8 @@ def api_models(request):
             res = set_airline_pick(request)
         elif req_data['action'] == 're_order_set_passengers':
             res = re_order_set_passengers(request)
+        elif req_data['action'] == 're_order_set_pax_signature':
+            res = re_order_set_pax_signature(request)
         elif req_data['action'] == 'get_data_search_page':
             res = get_data_search_page(request)
         elif req_data['action'] == 'get_data_passenger_page':
@@ -88,6 +90,8 @@ def api_models(request):
             res = get_data_seat_page(request)
         elif req_data['action'] == 'get_data':
             res = get_data(request)
+        elif req_data['action'] == 'get_frequent_flyer_all_data':
+            res = get_frequent_flyer_all_data(request)
         elif req_data['action'] == 'get_carrier_providers':
             res = get_carrier_providers(request)
         elif req_data['action'] == 'get_carriers_search':
@@ -354,10 +358,22 @@ def re_order_set_passengers(request):
             'infant': infant,
             'contact': contact
         }
+        ## UNTUK REORDER SAMPAI PASSENGER
         set_session(request, 'airline_create_passengers_%s' % request.POST['signature'], airline_create_passengers)
+        ## UNTUK REORDER KEMBALI KE SEARCH KARENA TIDAK JADWAL YG SAMA HABIS / TIDAK KETEMU, BELUM ADA SIGNATURE
+        set_session(request, 'airline_create_passengers',airline_create_passengers)
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return ERR.get_no_error_api()
+
+def re_order_set_pax_signature(request):
+    try:
+        airline_create_passengers = request.session['airline_create_passengers']
+        set_session(request, 'airline_create_passengers_%s' % request.POST['signature'], airline_create_passengers)
+        res = ERR.get_no_error_api()
+    except:
+        res = ERR.get_error_api(500)
+    return res
 
 def get_data_search_page(request):
     try:
@@ -4388,6 +4404,45 @@ def update_post_pax_identity(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
+def get_frequent_flyer_all_data(request, signature):
+    data_file = read_cache_with_folder_path("frequent_flyer_data", 86400)
+    if not data_file:
+        res = {}
+        try:
+            url_request = url + 'booking/airline'
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_frequent_flyer_all_data",
+                "signature": signature,
+            }
+            data = {}
+            res = send_request_api(request, url_request, headers, data, 'POST', 300)
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+        if res['result']['error_code'] == 0:
+            write_cache_with_folder(res['result']['response'], "frequent_flyer_data")
+            data_file = res['result']['response']
+    res = []
+    if data_file:
+        for ff_list_program in data_file['frequent_flyer_airline_list']:
+            for loyalty_program in ff_list_program['loyalty_programs']:
+                add_data = True
+                for rec in res:
+                    if rec['code'] == loyalty_program['code']:
+                        add_data = False
+                        break
+                if add_data:
+                    res.append({
+                        "name": loyalty_program['name'],
+                        "code": loyalty_program['code'],
+                        "description": loyalty_program['description']
+                    })
+    return res
+
+
+
+##### SEARCH MOBILE ######
 def getDuration(departure_date, departure_time,arrival_date,arrival_time):
     temparrival = arrival_time.split(':')
     tempdeparture = departure_time.split(':')
@@ -4412,7 +4467,6 @@ def getDuration(departure_date, departure_time,arrival_date,arrival_time):
     else:
         duration = str(durationhours) + "h"
     return duration
-
 
 def search_mobile(request):
     # get_data_awal

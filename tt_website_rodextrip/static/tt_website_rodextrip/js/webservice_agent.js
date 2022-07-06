@@ -889,6 +889,26 @@ function create_new_passenger(){
 
             }
        }
+
+       for(i = 1; i<= passenger_ff_data ; i++){
+            try{
+                if(document.getElementById('passenger_ff'+i).value == ''){
+                    error_log+= 'Please choose frequent flyer '+i+'!</br>\n';
+                    document.getElementById('passenger_ff'+i).style['border-color'] = 'red';
+                }else
+                    document.getElementById('passenger_ff'+i).style['border-color'] = '#EFEFEF';
+
+                if(document.getElementById('passenger_ff_number'+i).value == ''){
+                    error_log+= 'Please fill frequent flyer number '+i+'!</br>\n';
+                    document.getElementById('passenger_ff_number'+i).style['border-color'] = 'red';
+                }else
+                    document.getElementById('passenger_ff_number'+i).style['border-color'] = '#EFEFEF';
+
+            }catch(err){
+
+            }
+       }
+
        if(error_log == ''){
            passenger.title = document.getElementById('passenger_title').value;
            passenger.first_name = document.getElementById('passenger_first_name').value;
@@ -898,11 +918,23 @@ function create_new_passenger(){
            passenger.email = document.getElementById('passenger_email').value;
            phone = [];
            identity = {};
+           ff_numbers = [];
            for(i = 1; i<= passenger_data_phone ; i++){
                 try{
                     phone.push({
                         'calling_code': document.getElementById('passenger_phone_code'+i).value,
                         'calling_number': document.getElementById('passenger_phone_number'+i).value
+                    })
+                }catch(err){
+
+                }
+           }
+
+           for(i = 1; i<= passenger_ff_data ; i++){
+                try{
+                    ff_numbers.push({
+                        'ff_code': document.getElementById('passenger_ff'+i+'_id').value,
+                        'ff_number': document.getElementById('passenger_ff_number'+i).value
                     })
                 }catch(err){
 
@@ -928,6 +960,7 @@ function create_new_passenger(){
            }
            passenger.phone = phone;
            passenger.identity = identity;
+           passenger.ff_numbers = ff_numbers;
            var formData = new FormData($('#form_identity_passenger').get(0));
            formData.append('signature', signature)
            getToken();
@@ -975,6 +1008,8 @@ function create_new_passenger(){
                                     }
                                     document.getElementById('passenger_phone_table').innerHTML = '';
                                     passenger_data_phone = 0;
+                                    document.getElementById('passenger_frequent_flyer_table').innerHTML = '';
+                                    passenger_ff_data = 0;
                                     document.getElementById('create_new_passenger_btn').disabled = false;
                                 }catch(err){
                                     console.log(err);
@@ -2129,42 +2164,6 @@ function get_customer_list(passenger, number, product){
                                             response+=`</div>`;
 
                                         }
-                                        //FREQUENT FLYERS
-                                        if(msg.result.response[i].hasOwnProperty('frequent_flyers') && msg.result.response[i].frequent_flyers.length > 0){
-                                            if(product == 'airline' || product == 'cache' && document.URL.split('/')[document.URL.split('/').length-2] == 'passenger' && document.URL.split('/')[document.URL.split('/').length-3] == 'airline'){
-                                                for(x in ff_request){
-                                                    response += `
-                                                        <div class="row">
-                                                            <div class="col-lg-12">
-                                                                <i class="fas fa-id-card"></i> <i>`+ff_request[x].program_name+` `+ff_request[x].sequence+`:</i><br>
-                                                            </div>
-                                                            <div class="col-lg-12">
-                                                                <select class="nice-select-default mb-2" id="frequent_flyer`+i+`_`+x+`" style="width: 100%; display: none;">
-                                                                    <option value="">Frequent Flyer Program</option>`;
-                                                                is_first_ff = true
-                                                                for(y in ff_request[x].ff_availability){
-                                                                    has_ff_number = false;
-                                                                    for(j in msg.result.response[i].frequent_flyers){
-                                                                        if(ff_request[x].ff_availability[y].ff_code == msg.result.response[i].frequent_flyers[j].ff_code){
-                                                                            if(is_first_ff){
-                                                                                response += `<option selected value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
-                                                                                is_first_ff = false;
-                                                                            }else
-                                                                                response += `<option value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
-                                                                            has_ff_number = true;
-                                                                        }
-                                                                    }
-                                                                    if(!has_ff_number)
-                                                                        response += `<option value="`+ff_request[x].ff_availability[y].ff_code+` - ">`+ff_request[x].ff_availability[y].name+` - Input new data</option>`;
-                                                                }
-
-                                                    response +=`
-                                                                </select>
-                                                            </div>
-                                                        </div>`;
-                                                }
-                                            }
-                                        }
 
 
                                     }
@@ -2179,7 +2178,62 @@ function get_customer_list(passenger, number, product){
                                             </div>
                                         </div>`;
                                     }
+                                    //FREQUENT FLYERS
+                                    if(msg.result.response[i].hasOwnProperty('frequent_flyers') && msg.result.response[i].frequent_flyers.length > 0){
+                                        if(product == 'airline' || product == 'cache' && document.URL.split('/')[document.URL.split('/').length-2] == 'passenger' && document.URL.split('/')[document.URL.split('/').length-3] == 'airline'){
+                                            for(x in ff_request){
+                                                response += `
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <i class="fas fa-id-card"></i> <i>`+ff_request[x].program_name+` `+ff_request[x].sequence+`:</i><br>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <select class="nice-select-default mb-2" id="frequent_flyer`+i+`_`+x+`" style="width: 100%; display: none;">
+                                                                <option value="">Frequent Flyer Program</option>`;
+                                                            is_first_ff = true
+                                                            for(y in ff_request[x].ff_availability){
+                                                                has_ff_number = false;
+                                                                for(j in msg.result.response[i].frequent_flyers){
+                                                                    if(ff_request[x].ff_availability[y].ff_code == msg.result.response[i].frequent_flyers[j].ff_code){
+                                                                        if(is_first_ff){
+                                                                            response += `<option selected value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
+                                                                            is_first_ff = false;
+                                                                        }else
+                                                                            response += `<option value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
+                                                                        has_ff_number = true;
+                                                                    }
+                                                                }
+                                                                if(!has_ff_number)
+                                                                    response += `<option value="`+ff_request[x].ff_availability[y].ff_code+` - ">`+ff_request[x].ff_availability[y].name+` - Input new data</option>`;
+                                                            }
 
+                                                response +=`
+                                                            </select>
+                                                        </div>
+                                                    </div>`;
+                                            }
+                                        }else if(product == 'cache'){
+                                            response += `
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <i class="fas fa-id-card"></i> <i>Frequent Flyer Data:</i><br>
+                                                    </div>`;
+                                            for(j in msg.result.response[i].frequent_flyers){
+                                                for(x in frequent_flyer_data){
+                                                    if(frequent_flyer_data[x].code == msg.result.response[i].frequent_flyers[j].ff_code){
+                                                        response += `
+                                                    <div class="col-lg-12">
+                                                        <span>`+frequent_flyer_data[x].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</span>
+                                                    </div>`;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+
+                                            response +=`
+                                                </div>`;
+                                        }
+                                    }
                                 response+=`
                                 </div>
                             </div>`;
@@ -5762,7 +5816,7 @@ function get_payment_espay(order_number_full){
         url_back.pop();
         url_back = url_back.join('/');
 //        window.location.href = '/' + type_render + '/booking/' + order_number_id;
-        window.location.href = '/payment/espay/' + order_number_full; //redirect ke dari payment dengan nomor va
+//        window.location.href = '/payment/espay/' + order_number_full; //redirect ke dari payment dengan nomor va //lupa kenapa dulu bikin kyk gini cuman kalau kyk gini ke redirect 2x & jika espay belum response redirect prtama akan muncul payment error fix
     }else
         url_back = window.location.href;
     $.ajax({
@@ -6394,6 +6448,26 @@ function get_passenger_cache(type,update_cache=false){
                                                             </div>
                                                         </div>`;
                                                 }
+                                            }else{
+                                                response += `
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <i class="fas fa-id-card"></i> <i>Frequent Flyer Data:</i><br>
+                                                        </div>`;
+                                                for(j in msg.result.response[i].frequent_flyers){
+                                                    for(x in frequent_flyer_data){
+                                                        if(frequent_flyer_data[x].code == msg.result.response[i].frequent_flyers[j].ff_code){
+                                                            response += `
+                                                        <div class="col-lg-12">
+                                                            <span>`+frequent_flyer_data[x].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</span>
+                                                        </div>`;
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+
+                                                response +=`
+                                                    </div>`;
                                             }
                                         }
 //                                            if(msg.result.response[i].identities.hasOwnProperty('passport') == true)
@@ -6647,6 +6721,7 @@ function edit_passenger_cache(val){
     document.getElementById('passenger_edit_phone_table').innerHTML = '';
 
     passenger_data_edit_phone = 0;
+    passenger_data_edit_ff = 0;
     passenger_cache_pick = val;
     //avatar
     if(passenger_data_cache[val].face_image.length > 0){
@@ -6757,6 +6832,48 @@ function edit_passenger_cache(val){
             $('#passenger_edit_phone_code'+parseInt(parseInt(i)+1)+'_id').select2();
         }
     }
+
+    text = '';
+    if(passenger_data_cache[val].hasOwnProperty('frequent_flyers') && passenger_data_cache[val].frequent_flyers.length != 0){
+        for(i in passenger_data_cache[val].frequent_flyers){
+            text+=`
+                <div class='row' id="ff`+parseInt(parseInt(i)+1)+`_id">
+                    <div class="col-sm-5">
+                        <label>Frequent Flyer</label><br/>
+                        <div class="form-select">
+                            <select class="form-control js-example-basic-single" name="passenger_edit_ff`+parseInt(parseInt(i)+1)+`_id" style="width:100%;" id="passenger_edit_ff`+parseInt(parseInt(i)+1)+`_id">`;
+                                for(j in frequent_flyer_data){
+                                    text += `<option value="`+frequent_flyer_data[j].code+`"`;
+                                    if(passenger_data_cache[val].frequent_flyers[i].ff_code == frequent_flyer_data[j].code)
+                                        text += `selected`;
+                                    text+=`>`+frequent_flyer_data[j].name+`</option>`;
+                                }
+                            text+=`</select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Frequent Flyer Number</label><br/>
+                        <div class="form-select">
+                            <div class="input-container-search-ticket">
+                                <input type="text" class="form-control" name="passenger_edit_ff_number`+parseInt(parseInt(i)+1)+`" id="passenger_edit_ff_number`+parseInt(parseInt(i)+1)+`" placeholder="Frequent Flyer Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Frequent Flyer Number '" value="`+passenger_data_cache[val].frequent_flyers[i].ff_number+`">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1" style="margin-top:25px;">
+                        <button type="button" class="primary-delete-date" onclick="delete_frequent_flyer_cache(`+parseInt(parseInt(i)+1)+`)">
+                            <i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i>
+                        </button>
+                    </div>
+                </div>`;
+
+            passenger_data_edit_ff = parseInt(parseInt(i) + 1)
+        }
+        document.getElementById('passenger_edit_ff_table').innerHTML = text;
+        for(i in passenger_data_cache[val].frequent_flyers){
+            $('#passenger_edit_ff'+parseInt(parseInt(i)+1)+'_id').select2();
+        }
+    }
+
     document.getElementById('attachment').innerHTML = '';
     document.getElementById('attachment1').innerHTML = '';
     document.getElementById('attachment2').innerHTML = '';
@@ -7124,7 +7241,6 @@ function delete_phone_passenger_cache(val){
     }
 }
 
-
 function add_phone_passenger_edit_cache(){
     text = '';
     var node = document.createElement("div");
@@ -7202,6 +7318,91 @@ function add_phone_passenger_cache(){
     document.getElementById('passenger_phone_table').innerHTML += text;
     document.getElementById('passenger_phone_code'+passenger_data_phone).value = '62';
     $('#passenger_phone_code'+passenger_data_phone+'_id').select2();
+}
+
+function add_frequent_flyer_edit_cache(){
+    text = '';
+    var node = document.createElement("div");
+    node.setAttribute('id', "ff`+passenger_data_edit_ff+`_id");
+    passenger_data_edit_ff = parseInt(parseInt(passenger_data_edit_ff) + 1);
+    text+=`
+        <div class='row' id="ff`+passenger_data_edit_ff+`_id">
+            <div class="col-sm-5">
+                <label>Frequent Flyer</label><br/>
+                <div class="form-select">
+                    <select class="form-control js-example-basic-single" name="passenger_edit_ff`+passenger_data_edit_ff+`_id" style="width:100%;" id="passenger_edit_ff`+passenger_data_edit_ff+`_id" placeholder="Nationality">
+                        <option val="">Frequent Flyer</option>`;
+                        for(j in frequent_flyer_data){
+                            text += `<option value="`+frequent_flyer_data[j].code+`">`+frequent_flyer_data[j].name+`</option>`;
+                        }
+                    text+=`</select>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label>Frequent Flyer Number</label><br/>
+                <div class="form-select">
+                    <div class="input-container-search-ticket">
+                        <input type="text" class="form-control" name="passenger_edit_ff_number`+passenger_data_edit_ff+`" id="passenger_edit_ff_number`+passenger_data_edit_ff+`" placeholder="Frequent Flyer Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Frequent Flyer Number '" value="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-1" style="margin-top:25px;">
+                <button type="button" class="primary-delete-date" onclick="delete_frequent_flyer_cache(`+passenger_data_edit_ff+`)">
+                    <i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i>
+                </button>
+            </div>
+        </div>`;
+    node.innerHTML = text;
+    document.getElementById('passenger_edit_ff_table').appendChild(node);
+    $('#passenger_edit_ff'+passenger_data_edit_ff+'_id').select2();
+}
+
+function add_frequent_flyer_cache(){
+    text = '';
+    passenger_ff_data = passenger_ff_data + 1;
+    text+=`
+        <div class='row' id="ff`+passenger_ff_data+`_id">
+            <div class="col-sm-5">
+                <label>Frequent Flyer</label><br/>
+                <div class="form-select">
+                    <select class="form-control js-example-basic-single" name="passenger_ff`+passenger_ff_data+`_id" style="width:100%;" id="passenger_ff`+passenger_ff_data+`_id" placeholder="Nationality" onchange="auto_complete('passenger_ff`+passenger_ff_data+`')" class="nice-select-default">
+                        <option val="">Frequent Flyer</option>`;
+                        for(j in frequent_flyer_data){
+                            text += `<option value="`+frequent_flyer_data[j].code+`">`+frequent_flyer_data[j].name+`</option>`;
+                        }
+                    text+=`</select>
+                </div>
+                <input type="hidden" name="passenger_ff`+passenger_ff_data+`" id="passenger_ff`+passenger_ff_data+`" />
+            </div>
+            <div class="col-sm-6">
+                <label>Frequent Flyer Number</label><br/>
+                <div class="form-select">
+                    <div class="input-container-search-ticket">
+                        <input type="text" class="form-control" name="passenger_ff_number`+passenger_ff_data+`" id="passenger_ff_number`+passenger_ff_data+`" placeholder="Frequent Flyer Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Frequent Flyer Number '" value="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-1" style="margin-top:25px;">
+                <button type="button" class="primary-delete-date" onclick="delete_frequent_flyer_cache(`+passenger_ff_data+`)">
+                    <i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i>
+                </button>
+            </div>
+        </div>`;
+    document.getElementById('passenger_frequent_flyer_table').innerHTML += text;
+    $('#passenger_ff'+passenger_ff_data+'_id').select2();
+}
+
+function delete_frequent_flyer_cache(val){
+    try{
+        document.getElementById(`ff`+val+`_id`).remove();
+    }catch(err){
+        console.log(err); //error tidak ada element ff passenger
+        try{
+            document.getElementById(`ff_cache`+val+`_id`).remove();
+        }catch(err){
+            console.log(err); //error tidak ada element ff cache
+        }
+    }
 }
 
 function get_countries(){
@@ -8192,26 +8393,6 @@ function update_passenger_backend(){
         }else{
            document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
         }
-//        if(document.getElementById('passenger_edit_identity_number'+i).value != '' ||
-//           document.getElementById('passenger_edit_identity_expired_date'+i).value != '' ||
-//           document.getElementById('passenger_identity_country_of_issued'+i).value != ''){
-//           if(document.getElementById('passenger_edit_identity_number'+i).value == ''){
-//               error_log+= 'Please fill '+identity_type+' number !</br>\n';
-//               document.getElementById('passenger_edit_identity_number'+i).style['border-color'] = 'red';
-//           }else{
-//               document.getElementById('passenger_edit_identity_number'+i).style['border-color'] = '#EFEFEF';
-//           }if(document.getElementById('passenger_edit_identity_expired_date'+i).value == ''){
-//               error_log+= 'Please fill '+identity_type+' expired date !</br>\n';
-//               document.getElementById('passenger_edit_identity_expired_date'+i).style['border-color'] = 'red';
-//           }else{
-//               document.getElementById('passenger_edit_identity_expired_date'+i).style['border-color'] = '#EFEFEF';
-//           }if(document.getElementById('passenger_edit_identity_country_of_issued'+i).value == ''){
-//               error_log+= 'Please fill '+identity_type+' country of issued !</br>\n';
-//               document.getElementById('passenger_edit_identity_country_of_issued'+i).style['border-color'] = 'red';
-//           }else{
-//               document.getElementById('passenger_edit_identity_country_of_issued'+i).style['border-color'] = '#EFEFEF';
-//           }
-//        }
     }
     try{
         for(i = 1; i<= passenger_data_edit_phone ; i++){
@@ -8226,6 +8407,40 @@ function update_passenger_backend(){
             }
         }
     }catch(err){
+
+    }
+    ff_numbers = [];
+    try{
+        for(i = 1; i<= passenger_data_edit_ff ; i++){
+            try{
+                is_same_ff = false
+                if(document.getElementById('passenger_edit_ff'+i+'_id').value == '' || document.getElementById('passenger_edit_ff'+i+'_id').value == 'Frequent Flyer'){
+                    error_log+= 'Please choose frequent flyer '+i+'!</br>\n';
+                    document.getElementById('passenger_edit_ff'+i+'_id').style['border-color'] = 'red';
+                }else{
+                    for(j in ff_numbers){
+                        if(ff_numbers[j] == document.getElementById('passenger_edit_ff'+i+'_id').value){
+                            is_same_ff = true;
+                        }
+                    }
+                    if(!is_same_ff){
+                        ff_numbers.push(document.getElementById('passenger_edit_ff'+i+'_id').value);
+                        document.getElementById('passenger_edit_ff'+i+'_id').style['border-color'] = '#EFEFEF';
+                    }else{
+                        error_log+= 'Same frequent flyer '+i+', please change!</br>\n';
+                        document.getElementById('passenger_edit_ff'+i+'_id').style['border-color'] = 'red';
+                    }
+                }if(document.getElementById('passenger_edit_ff_number'+i).value == ''){
+                    error_log+= 'Please fill frequent flyer number '+i+'!</br>\n';
+                    document.getElementById('passenger_edit_ff_number'+i).style['border-color'] = 'red';
+                }else
+                    document.getElementById('passenger_edit_ff_number'+i).style['border-color'] = '#EFEFEF';
+            }catch(err){
+                console.log(err);
+            }
+        }
+    }catch(err){
+
     }
     if(error_log == ''){
         var formData = new FormData($('#form_identity_passenger_edit').get(0));
@@ -8265,12 +8480,28 @@ function update_passenger_backend(){
                     }
                     phone = [];
                     identity = {};
+                    ff_numbers = [];
                     try{
                         for(i = 1; i<= passenger_data_edit_phone ; i++){
                             try{
                                 phone.push({
                                     'calling_code': document.getElementById('passenger_edit_phone_code'+i).value,
                                     'calling_number': document.getElementById('passenger_edit_phone_number'+i).value
+                                })
+                            }catch(err){
+
+                            }
+                        }
+                    }catch(err){
+
+                    }
+
+                    try{
+                        for(i = 1; i<= passenger_data_edit_ff ; i++){
+                            try{
+                                ff_numbers.push({
+                                    'ff_code': document.getElementById('passenger_edit_ff'+i+'_id').value,
+                                    'ff_number': document.getElementById('passenger_edit_ff_number'+i).value
                                 })
                             }catch(err){
 
@@ -8327,7 +8558,8 @@ function update_passenger_backend(){
                         'image': img_list,
                         'seq_id': passenger_data_cache[passenger_cache_pick].seq_id,
                         'birth_date': birth_date,
-                        'title': title
+                        'title': title,
+                        'ff_numbers': ff_numbers
                     }
                     $.ajax({
                        type: "POST",

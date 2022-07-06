@@ -43,6 +43,7 @@
     agent_security = agent_security.replace(/True/g, '""');
     agent_security = JSON.parse(agent_security.replace(/&#39;/g, '"'));
     passenger_data_phone = 0;
+    passenger_ff_data = 0;
     try{ // buat halaman passenger
         document.getElementById("train_booker_search").addEventListener("keyup", function(event) {
             if (event.keyCode === 13) {
@@ -53,6 +54,13 @@
               }
           });
     }catch(err){
+    }
+    try{
+        frequent_flyer_data = `{{get_frequent_flyer}}`;
+        frequent_flyer_data = frequent_flyer_data.replace(/&#39;/g,'"');
+        frequent_flyer_data = JSON.parse(frequent_flyer_data);
+    }catch(err){
+        frequent_flyer_data = []
     }
 </script>
 {%if "p_cache_1" in username.co_agent_frontend_security%}
@@ -659,6 +667,10 @@
                             <button class="primary-btn-ticket" type="button" onclick="add_phone_passenger_cache();">{% trans 'Add phone' %} <i class="fas fa-plus"></i> </button>
                             <div id="passenger_phone_table" style="margin-top:15px;"></div>
                         </div>
+                        <div class="col-lg-12" style="margin-top:15px; margin-bottom:15px;">
+                            <button class="primary-btn-ticket" type="button" onclick="add_frequent_flyer_cache();">{% trans 'Add Frequent Flyer' %} <i class="fas fa-plus"></i> </button>
+                            <div id="passenger_frequent_flyer_table" style="margin-top:15px;"></div>
+                        </div>
                         <div class="col-lg-12" style="margin-top:15px; text-align:center;">
                             <input type="button" id="create_new_passenger_btn" class="primary-btn" onclick="create_new_passenger();" value="Create new passenger"/>
                         </div>
@@ -1045,6 +1057,10 @@
                                     <div class="col-lg-12" style="margin-top:15px; margin-bottom:15px;">
                                         <button class="primary-btn-ticket" type="button" onclick="add_phone_passenger_cache();">{% trans 'Add phone' %} <i class="fas fa-plus"></i> </button>
                                         <div id="passenger_phone_table" style="margin-top:15px;"></div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-top:15px; margin-bottom:15px;">
+                                        <button class="primary-btn-ticket" type="button" onclick="add_frequent_flyer_cache();">{% trans 'Add Frequent Flyer' %} <i class="fas fa-plus"></i> </button>
+                                        <div id="passenger_frequent_flyer_table" style="margin-top:15px;"></div>
                                     </div>
                                     <div class="col-lg-12" style="margin-top:15px; text-align:center;">
                                         <input type="button" id="create_new_passenger_btn" class="primary-btn" onclick="create_new_passenger();" value="Create new passenger"/>
@@ -1434,6 +1450,10 @@
                                 <button class="primary-btn-ticket" type="button" onclick="add_phone_passenger_cache();">{% trans 'Add phone' %} <i class="fas fa-plus"></i> </button>
                                 <div id="passenger_phone_table" style="margin-top:15px;"></div>
                             </div>
+                            <div class="col-lg-12" style="margin-top:15px; margin-bottom:15px;">
+                                <button class="primary-btn-ticket" type="button" onclick="add_frequent_flyer_cache();">{% trans 'Add Frequent Flyer' %} <i class="fas fa-plus"></i> </button>
+                                <div id="passenger_frequent_flyer_table" style="margin-top:15px;"></div>
+                            </div>
                             <div class="col-lg-12" style="margin-top:15px; text-align:center;">
                                 <input type="button" id="create_new_passenger_btn" class="primary-btn" onclick="create_new_passenger();" value="Create new passenger"/>
                             </div>
@@ -1821,6 +1841,10 @@
                             <div class="col-lg-12" style="margin-top:15px; margin-bottom:15px;">
                                 <button class="primary-btn-ticket" type="button" onclick="add_phone_passenger_cache();">{% trans 'Add phone' %} <i class="fas fa-plus"></i> </button>
                                 <div id="passenger_phone_table" style="margin-top:15px;"></div>
+                            </div>
+                            <div class="col-lg-12" style="margin-top:15px; margin-bottom:15px;">
+                                <button class="primary-btn-ticket" type="button" onclick="add_frequent_flyer_cache();">{% trans 'Add Frequent Flyer' %} <i class="fas fa-plus"></i> </button>
+                                <div id="passenger_frequent_flyer_table" style="margin-top:15px;"></div>
                             </div>
                             <div class="col-lg-12" style="margin-top:15px; text-align:center;">
                                 <input type="button" id="create_new_passenger_btn" class="primary-btn" onclick="create_new_passenger();" value="Create new passenger"/>
@@ -2220,6 +2244,10 @@
                                 <button class="primary-btn-ticket" type="button" onclick="add_phone_passenger_cache();">{% trans 'Add phone' %} <i class="fas fa-plus"></i> </button>
                                 <div id="passenger_phone_table" style="margin-top:15px;"></div>
                             </div>
+                            <div class="col-lg-12" style="margin-top:15px; margin-bottom:15px;">
+                                <button class="primary-btn-ticket" type="button" onclick="add_frequent_flyer_cache();">{% trans 'Add Frequent Flyer' %} <i class="fas fa-plus"></i> </button>
+                                <div id="passenger_frequent_flyer_table" style="margin-top:15px;"></div>
+                            </div>
                             <div class="col-lg-12" style="margin-top:15px; text-align:center;">
                                 <input type="button" id="create_new_passenger_btn" class="primary-btn" onclick="create_new_passenger();" value="Create new passenger"/>
                             </div>
@@ -2617,6 +2645,10 @@
                             <div class="col-lg-12" style="margin-top:15px; margin-bottom:15px;">
                                 <button class="primary-btn-ticket" type="button" onclick="add_phone_passenger_cache();">{% trans 'Add phone' %} <i class="fas fa-plus"></i> </button>
                                 <div id="passenger_phone_table" style="margin-top:15px;"></div>
+                            </div>
+                            <div class="col-lg-12" style="margin-top:15px; margin-bottom:15px;">
+                                <button class="primary-btn-ticket" type="button" onclick="add_frequent_flyer_cache();">{% trans 'Add Frequent Flyer' %} <i class="fas fa-plus"></i> </button>
+                                <div id="passenger_frequent_flyer_table" style="margin-top:15px;"></div>
                             </div>
                             <div class="col-lg-12" style="margin-top:15px; text-align:center;">
                                 <input type="button" id="create_new_passenger_btn" class="primary-btn" onclick="create_new_passenger();" value="Create new passenger"/>
@@ -3016,6 +3048,12 @@
                                 </div>
                                 <div id="passenger_edit_phone_table" style="margin-top:15px;"></div>
                             </div>
+                            <div class="col-lg-12" style="margin-top:15px;">
+                                <div>
+                                    <button class="primary-btn-ticket" type="button" onclick="add_frequent_flyer_edit_cache();">{% trans 'Add Frequent Flyer' %} <i class="fas fa-plus"></i></button>
+                                </div>
+                                <div id="passenger_edit_ff_table" style="margin-top:15px;"></div>
+                            </div>
                             <div class="col-lg-12" style="margin-top:15px; text-align:center;">
                                 <input type="button" class="primary-btn" id="update_passenger_customer" onclick="update_passenger_backend();" value="Update passenger"/>
                             </div>
@@ -3398,6 +3436,12 @@
                                             <button class="primary-btn-ticket" type="button" onclick="add_phone_passenger_edit_cache();">{% trans 'Add phone' %} <i class="fas fa-plus"></i></button>
                                         </div>
                                         <div id="passenger_edit_phone_table" style="margin-top:15px;"></div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-top:15px;">
+                                        <div>
+                                            <button class="primary-btn-ticket" type="button" onclick="add_frequent_flyer_edit_cache();">{% trans 'Add Frequent Flyer' %} <i class="fas fa-plus"></i></button>
+                                        </div>
+                                        <div id="passenger_edit_ff_table" style="margin-top:15px;"></div>
                                     </div>
                                     <div class="col-lg-12" style="margin-top:15px; text-align:center;">
                                         <input type="button" class="primary-btn" id="update_passenger_customer" onclick="update_passenger_backend();" value="Update passenger"/>
@@ -3782,6 +3826,12 @@
                                 </div>
                                 <div id="passenger_edit_phone_table" style="margin-top:15px;"></div>
                             </div>
+                            <div class="col-lg-12" style="margin-top:15px;">
+                                <div>
+                                    <button class="primary-btn-ticket" type="button" onclick="add_frequent_flyer_edit_cache();">{% trans 'Add Frequent Flyer' %} <i class="fas fa-plus"></i></button>
+                                </div>
+                                <div id="passenger_edit_ff_table" style="margin-top:15px;"></div>
+                            </div>
                             <div class="col-lg-12" style="margin-top:15px; text-align:center;">
                                 <input type="button" class="primary-btn" id="update_passenger_customer" onclick="update_passenger_backend();" value="Update passenger"/>
                             </div>
@@ -4162,6 +4212,12 @@
                                     <button class="primary-btn-ticket" type="button" onclick="add_phone_passenger_edit_cache();">{% trans 'Add phone' %} <i class="fas fa-plus"></i></button>
                                 </div>
                                 <div id="passenger_edit_phone_table" style="margin-top:15px;"></div>
+                            </div>
+                            <div class="col-lg-12" style="margin-top:15px;">
+                                <div>
+                                    <button class="primary-btn-ticket" type="button" onclick="add_frequent_flyer_edit_cache();">{% trans 'Add Frequent Flyer' %} <i class="fas fa-plus"></i></button>
+                                </div>
+                                <div id="passenger_edit_ff_table" style="margin-top:15px;"></div>
                             </div>
                             <div class="col-lg-12" style="margin-top:15px; text-align:center;">
                                 <input type="button" class="primary-btn" id="update_passenger_customer" onclick="update_passenger_backend();" value="Update passenger"/>
@@ -4555,6 +4611,12 @@
                                 </div>
                                 <div id="passenger_edit_phone_table" style="margin-top:15px;"></div>
                             </div>
+                            <div class="col-lg-12" style="margin-top:15px;">
+                                <div>
+                                    <button class="primary-btn-ticket" type="button" onclick="add_frequent_flyer_edit_cache();">{% trans 'Add Frequent Flyer' %} <i class="fas fa-plus"></i></button>
+                                </div>
+                                <div id="passenger_edit_ff_table" style="margin-top:15px;"></div>
+                            </div>
                             <div class="col-lg-12" style="margin-top:15px; text-align:center;">
                                 <input type="button" class="primary-btn" id="update_passenger_customer" onclick="update_passenger_backend();" value="Update passenger"/>
                             </div>
@@ -4946,6 +5008,12 @@
                                     <button class="primary-btn-ticket" type="button" onclick="add_phone_passenger_edit_cache();">{% trans 'Add phone' %} <i class="fas fa-plus"></i></button>
                                 </div>
                                 <div id="passenger_edit_phone_table" style="margin-top:15px;"></div>
+                            </div>
+                            <div class="col-lg-12" style="margin-top:15px;">
+                                <div>
+                                    <button class="primary-btn-ticket" type="button" onclick="add_frequent_flyer_edit_cache();">{% trans 'Add Frequent Flyer' %} <i class="fas fa-plus"></i></button>
+                                </div>
+                                <div id="passenger_edit_ff_table" style="margin-top:15px;"></div>
                             </div>
                             <div class="col-lg-12" style="margin-top:15px; text-align:center;">
                                 <input type="button" class="primary-btn" id="update_passenger_customer" onclick="update_passenger_backend();" value="Update passenger"/>
