@@ -1532,14 +1532,15 @@ function change_top_up_method(){
                 <div class="row">
                     <div class="col-lg-1 col-md-1 mb-1" style="text-align:center;"></div>
                     <div class="col-lg-11 col-md-11 mb-1">
-                        <h6 class="mb-2">`+va_number[i].name+`</h6>
+                        <b class="mb-2">`+va_number[i].name+`</b><br/>
                         <b style="color:`+color+`; font-size:20px; padding-right:5px;">`+va_number[i].account_number+`</b>
                         <span onclick="copy_value('`+va_number[i].account_number+`');" style="cursor:pointer; font-weight:500;color:`+color+`; font-size:14px;">
                             COPY <i class="fas fa-copy"></i>
                         </span>
 
-                        <hr/>Fee Top Up (exclude bank charges)<br/>
-                        <b>`+va_number[i].currency+` `+getrupiah(va_number[i].price_component.fee)+`</b>
+                        <hr/>
+                        <strong>Fee Top Up (exclude bank charges): </strong><br/>
+                        <span>`+va_number[i].currency+` `+getrupiah(va_number[i].price_component.fee)+`</span>
                     </div>`;
 
                     if(va_number[i].description_msg != ''){
@@ -1547,7 +1548,7 @@ function change_top_up_method(){
                         <div class="col-lg-1 col-md-1 mb-1" style="text-align:center;"></div>
                         <div class="col-lg-11 col-md-11 mb-1">
                             <hr/>
-                            <strong>Description: </strong>
+                            <strong>Description: </strong><br/>
                             `+va_number[i].description_msg+`
                         </div>`;
                     }
@@ -1556,6 +1557,7 @@ function change_top_up_method(){
                         <div class="col-lg-1 col-md-1 mb-1" style="text-align:center;"></div>
                         <div class="col-lg-11 col-md-11 mb-1">
                             <hr/>
+                            <strong>Guide: </strong><br/>
                             `+va_number[i].html+`
                         </div>`;
                     }
@@ -1596,6 +1598,7 @@ function change_top_up_method(){
                                 </div>
                             </div>
                             <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding:15px; display:none;" id="div_other_bank">
+                                <strong>Guide: </strong><br/>
                                 `+payment_how_to_obj[i][j].html+`
                             </div>`;
                         }
