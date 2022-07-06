@@ -1410,7 +1410,7 @@ function get_va_number(){
             text += `
                 <div class="col-lg-12" id="radio_top_up" style="padding:0px; text-align:left;margin-bottom:10px;" onchange="change_top_up_method();">
                     <label class="radio-button-custom" style="margin-bottom:0px;">
-                        <span style="font-size:13px; color:`+color+`;"> `+name+` Gateway</span>
+                        <span style="font-size:13px;"> `+name+` Gateway</span>
                         <input type="radio" checked="checked" name="top_up_radio" value="`+name+`">
                         <span class="checkmark-radio"></span>
                     </label>`;
@@ -1418,7 +1418,7 @@ function get_va_number(){
                         if(msg.result.response.va.length != 0)
                         text+=`
                         <label class="radio-button-custom" style="margin-bottom:0px;">
-                            <span style="font-size:13px; color:`+color+`;"> Top Up real time 24 hours All Bank</span>
+                            <span style="font-size:13px;"> Top Up real time 24 hours All Bank</span>
                             <input type="radio" name="top_up_radio" value="online_payment">
                             <span class="checkmark-radio"></span>
                         </label>`;
@@ -1472,189 +1472,225 @@ function change_top_up_method(){
         }
     }
     if(top_up_select == 'online_payment'){
-        text = `<div class="col-sm-12" data-id="253" data-token="">`;
+        text = `<div class="col-sm-12" data-id="253" data-token="">
+        <div class="row">`;
         for(i in va_number){
-            if(i != 0)
-                text += `<br/>`;
-            text += `
-                    <div class="row">
-                        <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:15px;">
-                            <div class="row">
-                                <div class="col-lg-2 mb-1" style="text-align:center;">`;
-                                    if(va_number[i].image){
-                                        text+=`<img width="auto" height="50px" alt="Logo `+va_number[i].name+`" src="`+va_number[i].image+`"/>`;
-                                    }else{
-                                        text+=`<img width="auto" height="50px" alt="Logo `+va_number[i].name+`" src="/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg"/>`;
-                                    }
-                                text+=`
-                                </div>
-                                <div class="col-lg-5 mb-1">
-                                    `+va_number[i].name+`<br/>
-                                    <strong style="font-size:16px; padding-right:5px;">`+va_number[i].account_number+`</strong>
-                                    <span onclick="copy_value('`+va_number[i].account_number+`');" style="cursor:pointer; font-weight:500;color:`+color+`; font-size:14px;">
-                                        Copy <i class="fas fa-copy"></i>
-                                    </span>
-                                </div>
-                                <div class="col-lg-5 mb-1">
-                                    Fee Top Up (exclude bank charges)<br/>
-                                    <strong style="font-size:16px;">`+va_number[i].currency+` `+getrupiah(va_number[i].price_component.fee)+`</strong>
-                                </div>`;
-
-                                if(va_number[i].description_msg != ''){
-                                    text+=`
-                                    <div class="col-lg-2" style="text-align:center;"></div>
-                                    <div class="col-lg-10">
-                                        <strong>Description: </strong>
-                                        `+va_number[i].description_msg+`
-                                    </div>`;
-                                }
-                                text+=`
-                            </div>
-                        </div>
+            text+=`
+            <div class="col-lg-12" style="cursor:pointer; background:`+text_color+`; border:1px solid #cdcdcd; padding:15px; display:none;" id="up_`+va_number[i].name+`" onclick="div_dropdown('`+va_number[i].name+`');">
+                <div class="row">
+                    <div class="col-lg-1 col-md-1 mb-1" style="text-align:center;">`;
+                    if(va_number[i].image){
+                        text+=`<img width="auto" height="30px" alt="Logo `+va_number[i].name+`" src="`+va_number[i].image+`"/>`;
+                    }else{
+                        text+=`<img width="auto" height="30px" alt="Logo `+va_number[i].name+`" src="/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg"/>`;
+                    }
+                    text+=`
                     </div>
-            `;
-        }
-
-        text+=`<div>
-            <br/>
-            <div id="mandiri_va_acquirer">
-                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">`;
-                for(i in payment_how_to_obj){
-                    if(i != 'other'){
-                        for(j in payment_how_to_obj[i]){
-                            if(payment_how_to_obj[i][j].heading != '')
-                                text+=`<div class="panel panel-default">
-                                        <div class="panel-heading-sgo" role="tab" id="headingFour">
-                                            <h4 class="panel-title">
-                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#`+payment_how_to_obj[i][j].acquirer_seq_id+`" aria-expanded="false" aria-controls="`+payment_how_to_obj[i][j].acquirer_seq_id+`">
-                                                    `+payment_how_to_obj[i][j].heading+`
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div id="`+payment_how_to_obj[i][j].acquirer_seq_id+`" class="panel-collapse collapse" role="tabpanel" aria-labelledby="`+payment_how_to_obj[i][j].acquirer_seq_id+`" style="height: 0px;">
-                                            <div class="panel-body">
-                                                `+payment_how_to_obj[i][j].html+`
-                                            </div>
-                                        </div>
-                                    </div>`
-                        }
-                    }
-                }
-                for(i in payment_how_to_obj){
-                    if(i == 'other'){
-                        for(j in payment_how_to_obj[i]){
-                            if(payment_how_to_obj[i][j].heading != '')
-                                text+=`<div class="panel panel-default">
-                                        <div class="panel-heading-sgo" role="tab" id="headingFour">
-                                            <h4 class="panel-title">
-                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#`+payment_how_to_obj[i][j].acquirer_seq_id+`" aria-expanded="false" aria-controls="`+payment_how_to_obj[i][j].acquirer_seq_id+`">
-                                                    `+payment_how_to_obj[i][j].heading+`
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div id="`+payment_how_to_obj[i][j].acquirer_seq_id+`" class="panel-collapse collapse" role="tabpanel" aria-labelledby="`+payment_how_to_obj[i][j].acquirer_seq_id+`" style="height: 0px;">
-                                            <div class="panel-body">
-                                                `+payment_how_to_obj[i][j].html+`
-                                            </div>
-                                        </div>
-                                    </div>`
-                        }
-                    }
-                }
-                text+=`
-
-                <button type="button" onclick="window.location.href='/'" class="primary-btn pull-right">
-                    Back to Home <i class="fas fa-home"></i>
-                </button>
-
-
-                <script type="text/javascript" src="/tt_payment_gw_edc/static/src/js/jquery.payment.js"></script>
+                    <div class="col-lg-11 col-md-11" style="display: flex;align-items: center;">
+                        <h6>`;
+                           if(va_number[i].heading){
+                                text+=va_number[i].heading;
+                            }else{
+                                text+=va_number[i].name;
+                            }
+                        text+=`
+                            <b style="padding-left:10px;padding-right:10px; color:`+color+`">
+                                <i class="fas fa-chevron-up"></i>
+                            </b>
+                        </h6>
+                    </div>
+                </div>
             </div>
+            <div class="col-lg-12 mb-3" style="cursor:pointer; background:`+text_color+`; border:1px solid #cdcdcd; padding:15px; display:block;" id="down_`+va_number[i].name+`" onclick="div_dropdown('`+va_number[i].name+`');">
+                <div class="row">
+                    <div class="col-lg-1 col-md-1 mb-1" style="text-align:center;">`;
+                    if(va_number[i].image){
+                        text+=`<img width="auto" height="30px" alt="Logo `+va_number[i].name+`" src="`+va_number[i].image+`"/>`;
+                    }else{
+                        text+=`<img width="auto" height="30px" alt="Logo `+va_number[i].name+`" src="/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg"/>`;
+                    }
+                    text+=`
+                    </div>
+                    <div class="col-lg-11 col-md-11" style="display: flex;align-items: center;">
+                        <h6>`;
+                           if(va_number[i].heading){
+                                text+=va_number[i].heading;
+                            }else{
+                                text+=va_number[i].name;
+                            }
+                        text+=`
+                            <b style="padding-left:10px;padding-right:10px; color:`+color+`">
+                                <i class="fas fa-chevron-down"></i>
+                            </b>
+                        </h6>
+                    </div>
+                </div>
+            </div>`;
+
+            text += `
+            <div class="col-lg-12 mb-3" style="background:white; border:1px solid #cdcdcd; padding:15px; display:none;" id="div_`+va_number[i].name+`">
+                <div class="row">
+                    <div class="col-lg-12 mb-1">
+                        <h6 class="mb-2">`+va_number[i].name+`</h6>
+                        <b style="color:`+color+`; font-size:20px; padding-right:5px;">`+va_number[i].account_number+`</b>
+                        <span onclick="copy_value('`+va_number[i].account_number+`');" style="cursor:pointer; font-weight:500;color:`+color+`; font-size:14px;">
+                            COPY <i class="fas fa-copy"></i>
+                        </span>
+
+                        <hr/>Fee Top Up (exclude bank charges)<br/>
+                        <b>`+va_number[i].currency+` `+getrupiah(va_number[i].price_component.fee)+`</b>
+                    </div>`;
+
+                    if(va_number[i].description_msg != ''){
+                        text+=`
+                        <div class="col-lg-12">
+                            <hr/>
+                            <strong>Description: </strong>
+                            `+va_number[i].description_msg+`
+                        </div>`;
+                    }
+                    if(va_number[i].html != ''){
+                        text+=`
+                        <div class="col-lg-12">
+                            <hr/>
+                            `+va_number[i].html+`
+                        </div>`;
+                    }
+                    text+=`
+                </div>
+            </div>`;
+        }
+        text+=`
+        </div>
+        <div class="row">`;
+            for(i in payment_how_to_obj){
+                if(i == 'other'){
+                    for(j in payment_how_to_obj[i]){
+                        if(payment_how_to_obj[i][j].heading != ''){
+                            text+=`
+                            <div class="col-lg-12" style="cursor:pointer; background:`+text_color+`; border:1px solid #cdcdcd; padding:15px; display:none;" id="up_other_bank" onclick="div_dropdown('other_bank');">
+                                <div class="row">
+                                    <div class="col-lg-12" style="height:30px; display: flex;align-items: center;">
+                                        <h6>
+                                            `+payment_how_to_obj[i][j].heading+`
+                                             <b style="padding-left:10px;padding-right:10px; color:`+color+`">
+                                                 <i class="fas fa-chevron-up"></i>
+                                             </b>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12" style="cursor:pointer; background:`+text_color+`; border:1px solid #cdcdcd; padding:15px; display:block;" id="down_other_bank" onclick="div_dropdown('other_bank');">
+                                <div class="row">
+                                    <div class="col-lg-12" style="height:30px; display: flex;align-items: center;">
+                                        <h6>
+                                            `+payment_how_to_obj[i][j].heading+`
+                                             <b style="padding-left:10px;padding-right:10px; color:`+color+`">
+                                                 <i class="fas fa-chevron-down"></i>
+                                             </b>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding:15px; display:none;" id="div_other_bank">
+                                `+payment_how_to_obj[i][j].html+`
+                            </div>`;
+                        }
+                    }
+                }
+            }
+            text+=`
+            <script type="text/javascript" src="/tt_payment_gw_edc/static/src/js/jquery.payment.js"></script>
         </div>
     </div>`;
     }else{
         text = `
-            <div class="col-lg-12">
-                <h3>TOP UP SALDO</h3>
-            </div>
-
-            <div class="col-lg-12">
-                <span>Amount</span><br/>
-                <div class="input-container-search-ticket">
-                    <input min="50000" step="50000" name="amount" id="amount" class="form-control" required="required" onkeyup="`;
-        text+=`total_price_top_up();`;
-        text+=`" placeholder="Min IDR 50,000">
+        <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>TOP UP SALDO</h3>
                 </div>
-            </div>
-
-            <div class="col-lg-12">
-                <span>Total</span><br/>
-                <div class="input-container-search-ticket">
-                    <input type="text" style="background-color:#eee;" class="form-control" id="total_amount" name="total_amount" tabindex="1" readonly="readonly"/>
-                </div>
-            </div>
-
-            <!--<div class="col-lg-12">-->
-            <!--<span>Payment Method</span><br/>-->
-            <!--<div class="input-container-search-ticket btn-group">-->
-            <!--<div class="form-select" id="default-select">-->
-            <!--<select id="payment_method" name="payment_method" required="required">-->
-            <!--<option id="rodex_gateway" value="rodex_gateway">Rodex Gateway (8AM - 8PM)</option>-->
-            <!--&lt;!&ndash;<option id="online_payment" value="online_payment">Online Payment</option>&ndash;&gt;-->
-            <!--</select>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-
-
-            <div class="col-lg-12" style="margin-top:15px;">
-                <div id="footer-info" class="footer-info">
-                    <label class="check_box_custom">
-                        <span class="span-search-ticket" style="color:black;margin-bottom:20px;">I've read and accept the <a class="highlight" data-toggle="modal" data-target="#tacModal" style="text-decoration: underline; color:blue;">Terms &amp; Conditions</a> of `+web_name+` top up</span>
-                        <input type="checkbox" name="tac_checkbox" id="tac_checkbox" required="required">
-                        <span class="check_box_span_custom"></span>
-                    </label>
-                </div>
-            </div>
-            <div class="col-lg-12" style="margin-top:15px;">
-                <button type="button" id="submit_name" class="payment_acq_btn primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="check_top_up();" style="width:100%;">
-                    Submit
-                    <div class="ld ld-ring ld-cycle"></div>
-                </button>
-            </div>
-
-            <div class="modal fade" id="tacModal" role="dialog">
-                <div class="modal-dialog">
-
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" style="color:`+text_color+`;">Term & Condition </h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="col-lg-12">
+                    <span>Amount</span><br/>
+                    <div class="input-container-search-ticket">
+                        <input min="50000" step="50000" name="amount" id="amount" class="form-control" required="required" onkeyup="`;
+                text+=`total_price_top_up();`;
+                text+=`" placeholder="Min IDR 50,000">
                         </div>
-                        <div class="modal-body">
-                            <div class="modal-body">
-                                <ol id="topup_tac">
-                                    <h6>BANK TRANSFER / CASH</h6>
-                                    <li>1. Before you click SUBMIT, please make sure you have inputted the correct amount of TOP UP. If there is a mismatch data, such as the transferred amount/bank account is different from the requested amount/bank account, so the TOP UP will be approved by tomorrow (D+1).<br></li>
-                                    <li>2. Bank Transfer / CASH TOP UP can be used on Monday-Sunday: 8 AM - 8 PM (GMT +7)<br></li>
-                                    <li>3. Bank Transfer (BCA or Mandiri) auto validate in 15 minutes<br></li>
-                                    <h6>National Holiday included</h6>
-                                    <h6>For CASH you have to send money to RODEX HO (Jl. Raya Darmo 177 B Surabaya)</h6><br/>
-                                    <h6>VIRTUAL ACCOUNT</h6>
+                    </div>
 
-                                    <li>1. Top Up Transaction from ATM / LLG open for 24 hours. Balance will be added automatically (REAL TIME) after payment. Top up fee will be charged to user and if there's other charge for LLG it will be charged to user too. LLG will be added ± 2 hours from payment.<br><br></li>
-                                    <h6>MANDIRI INTERNET BANKING</h6>
-                                    <li>1. Transaction Top up from internet banking mandiri open for 24 hours. Balance will be added automatically (REAL TIME) after payment with additional admin Top Up.<br><br></li>
-                                </ol>
+                <div class="col-lg-12">
+                    <span>Total</span><br/>
+                    <div class="input-container-search-ticket">
+                        <input type="text" style="background-color:#eee;" class="form-control" id="total_amount" name="total_amount" tabindex="1" readonly="readonly"/>
+                    </div>
+                </div>
+
+                <!--<div class="col-lg-12">-->
+                <!--<span>Payment Method</span><br/>-->
+                <!--<div class="input-container-search-ticket btn-group">-->
+                <!--<div class="form-select" id="default-select">-->
+                <!--<select id="payment_method" name="payment_method" required="required">-->
+                <!--<option id="rodex_gateway" value="rodex_gateway">Rodex Gateway (8AM - 8PM)</option>-->
+                <!--&lt;!&ndash;<option id="online_payment" value="online_payment">Online Payment</option>&ndash;&gt;-->
+                <!--</select>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+
+
+                <div class="col-lg-12" style="margin-top:15px;">
+                    <div id="footer-info" class="footer-info">
+                        <label class="check_box_custom">
+                            <span class="span-search-ticket" style="color:black;margin-bottom:20px;">I've read and accept the <a class="highlight" data-toggle="modal" data-target="#tacModal" style="text-decoration: underline; color:blue;">Terms &amp; Conditions</a> of `+web_name+` top up</span>
+                            <input type="checkbox" name="tac_checkbox" id="tac_checkbox" required="required">
+                            <span class="check_box_span_custom"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-lg-12" style="margin-top:15px;">
+                    <button type="button" id="submit_name" class="payment_acq_btn primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="check_top_up();" style="width:100%;">
+                        Submit
+                        <div class="ld ld-ring ld-cycle"></div>
+                    </button>
+                </div>
+
+                <div class="modal fade" id="tacModal" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:`+text_color+`;">Term & Condition </h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <div class="modal-body">
+                                <div class="modal-body">
+                                    <ol id="topup_tac">
+                                        <h6>BANK TRANSFER / CASH</h6>
+                                        <li>1. Before you click SUBMIT, please make sure you have inputted the correct amount of TOP UP. If there is a mismatch data, such as the transferred amount/bank account is different from the requested amount/bank account, so the TOP UP will be approved by tomorrow (D+1).<br></li>
+                                        <li>2. Bank Transfer / CASH TOP UP can be used on Monday-Sunday: 8 AM - 8 PM (GMT +7)<br></li>
+                                        <li>3. Bank Transfer (BCA or Mandiri) auto validate in 15 minutes<br></li>
+                                        <h6>National Holiday included</h6>
+                                        <h6>For CASH you have to send money to RODEX HO (Jl. Raya Darmo 177 B Surabaya)</h6><br/>
+                                        <h6>VIRTUAL ACCOUNT</h6>
+
+                                        <li>1. Top Up Transaction from ATM / LLG open for 24 hours. Balance will be added automatically (REAL TIME) after payment. Top up fee will be charged to user and if there's other charge for LLG it will be charged to user too. LLG will be added ± 2 hours from payment.<br><br></li>
+                                        <h6>MANDIRI INTERNET BANKING</h6>
+                                        <li>1. Transaction Top up from internet banking mandiri open for 24 hours. Balance will be added automatically (REAL TIME) after payment with additional admin Top Up.<br><br></li>
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>`;
+
+            </div>
+        </div>`;
         get_term = true;
     }
     document.getElementById('top_up_div').innerHTML = text;

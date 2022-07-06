@@ -3820,5 +3820,4 @@ function show_loading_reorder(product){
     }
     document.getElementById("viewWaitingTransaction").innerHTML = custom_waiting;
     $("#waitingTransaction").modal('show');
-
 }
