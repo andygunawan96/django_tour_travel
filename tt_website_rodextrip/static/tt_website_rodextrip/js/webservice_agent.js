@@ -511,8 +511,7 @@ function check_session(type=''){
                             break;
                         else
                             url_create_passenger.pop();
-                    url_create_passenger = url_create_passenger.join('/') + '/create_passenger/' + signature;
-                    document.getElementById('create_passenger_link').hidden = false;
+                    copy_create_passenger(url_create_passenger.join('/') + '/create_passenger/' + signature);
                 }
             }else{
                 if(type == ''){
