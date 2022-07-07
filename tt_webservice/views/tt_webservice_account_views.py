@@ -77,6 +77,8 @@ def api_models(request):
             res = signin(request)
         elif req_data['action'] == 'check_session':
             res = check_session(request)
+        elif req_data['action'] == 'update_session':
+            res = update_session(request)
         elif req_data['action'] == 'signup_user':
             res = signup_user(request)
         elif req_data['action'] == 'get_balance':
@@ -200,21 +202,24 @@ def check_session(request):
     try:
         data = {}
     except Exception as e:
+        _logger.error('ERROR check session\n' + str(e) + '\n' + traceback.format_exc())
+    url_request = url + 'session'
+    res = send_request_api(request, url_request, headers, data, 'POST', 30)
+    return res
+
+def update_session(request):
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "update_session",
+        "signature": request.POST['signature']
+    }
+    try:
+        data = {}
+    except Exception as e:
         _logger.error('ERROR update session\n' + str(e) + '\n' + traceback.format_exc())
     url_request = url + 'session'
     res = send_request_api(request, url_request, headers, data, 'POST', 30)
-    try:
-        if res['result']['error_code'] == 0:
-            request.session.set_expiry(3 * 60 * 60)  # jam detik menit
-
-        else:
-            _logger.error('ERROR SIGNIN_agent SOMETHING WHEN WRONG ' + json.dumps(res))
-
-    except Exception as e:
-        _logger.error('ERROR SIGNIN\n' + str(e) + '\n' + traceback.format_exc())
-        # pass
-        # # logging.getLogger("error logger").error('testing')
-        # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def signup_user(request):
