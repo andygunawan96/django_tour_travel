@@ -490,7 +490,7 @@ function signin_btc(){
     }
 }
 
-function check_session(type=''){
+function check_session(){
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -502,38 +502,53 @@ function check_session(type=''){
        },
        success: function(msg) {
             console.log(msg);
+            if(msg.result.error_code != 0){
+                //signature expired untuk passenger
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Expired, Please contact your agent!' ,
+                }).then((result) => {
+                  window.location.href = '/';
+                })
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error reset password');
+       },timeout: 60000
+    });
+}
+
+function generate_url_create_passenger(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'update_session',
+       },
+       data: {
+            'signature':signature,
+       },
+       success: function(msg) {
+            console.log(msg);
             if(msg.result.error_code == 0){
-                if(type != ''){
-                    //generate link
-                    url_create_passenger = window.location.href.split('/');
-                    for(i in url_create_passenger)
-                        if(url_create_passenger.length <= 3)
-                            break;
-                        else
-                            url_create_passenger.pop();
-                    copy_create_passenger(url_create_passenger.join('/') + '/create_passenger/' + signature);
-                }
+                //generate link
+                url_create_passenger = window.location.href.split('/');
+                for(i in url_create_passenger)
+                    if(url_create_passenger.length <= 3)
+                        break;
+                    else
+                        url_create_passenger.pop();
+                copy_create_passenger(url_create_passenger.join('/') + '/create_passenger/' + signature);
             }else{
-                if(type == ''){
-                    //signature expired untuk passenger
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Expired, Please contact your agent!' ,
-                    }).then((result) => {
-                      window.location.href = '/';
-                    })
-                }else{
-                    //signature expired waktu mau generate
-                    //swall
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Signature expired, please login again!' ,
-                    }).then((result) => {
-                      logout();
-                    })
-                }
+                //signature expired waktu mau generate
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Signature expired, please login again!' ,
+                }).then((result) => {
+                  logout();
+                })
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
