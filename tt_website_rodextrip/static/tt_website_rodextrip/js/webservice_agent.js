@@ -7365,6 +7365,7 @@ function add_phone_passenger_edit_cache(){
 function add_phone_passenger_cache(){
     text = '';
     passenger_data_phone = passenger_data_phone + 1;
+    var node = document.createElement("div");
     text+=`
         <div class='row' id="phone`+passenger_data_phone+`_id">
             <div class="col-sm-5">
@@ -7395,7 +7396,8 @@ function add_phone_passenger_cache(){
                 </button>
             </div>
         </div>`;
-    document.getElementById('passenger_phone_table').innerHTML += text;
+    node.innerHTML = text;
+    document.getElementById('passenger_phone_table').appendChild(node);
     document.getElementById('passenger_phone_code'+passenger_data_phone).value = '62';
     $('#passenger_phone_code'+passenger_data_phone+'_id').select2();
 }
@@ -7440,6 +7442,7 @@ function add_frequent_flyer_edit_cache(){
 function add_frequent_flyer_cache(){
     text = '';
     passenger_ff_data = passenger_ff_data + 1;
+    var node = document.createElement("div");
     text+=`
         <div class='row' id="ff`+passenger_ff_data+`_id">
             <div class="col-sm-5">
@@ -7468,7 +7471,8 @@ function add_frequent_flyer_cache(){
                 </button>
             </div>
         </div>`;
-    document.getElementById('passenger_frequent_flyer_table').innerHTML += text;
+    node.innerHTML = text;
+    document.getElementById('passenger_frequent_flyer_table').appendChild(node);
     $('#passenger_ff'+passenger_ff_data+'_id').select2();
 }
 
