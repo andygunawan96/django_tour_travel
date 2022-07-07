@@ -511,8 +511,7 @@ function check_session(type=''){
                             break;
                         else
                             url_create_passenger.pop();
-                    url_create_passenger = url_create_passenger.join('/') + '/create_passenger/' + signature;
-                    document.getElementById('create_passenger_link').hidden = false;
+                    copy_create_passenger(url_create_passenger.join('/') + '/create_passenger/' + signature);
                 }
             }else{
                 if(type == ''){
@@ -543,10 +542,10 @@ function check_session(type=''){
     });
 }
 
-function copy_create_passenger(){
-    const el = document.createElement('textarea');
+function copy_create_passenger(url){
     try{
-        el.value = url_create_passenger;
+        const el = document.createElement('textarea');
+        el.value = url;
         document.body.appendChild(el);
         el.select();
         document.execCommand('copy');
@@ -921,11 +920,11 @@ function create_new_passenger(){
                    document.getElementById('passenger_identity_expired_date'+i).style['border-color'] = 'red';
                }else{
                    document.getElementById('passenger_identity_expired_date'+i).style['border-color'] = '#EFEFEF';
-               }if(document.getElementById('passenger_identity_expired_date'+i).value == ''){
+               }if(document.getElementById('passenger_identity_country_of_issued'+i+'_id').value == '' || document.getElementById('passenger_identity_country_of_issued'+i+'_id').value == 'Country Of Issued'){
                    error_log+= 'Please fill '+identity_type+' country of issued!</br>\n';
-                   document.getElementById('passenger_identity_country_of_issued'+i).style['border-color'] = 'red';
+                   document.getElementById('passenger_identity_country_of_issued'+i+'_id').style['border-color'] = 'red';
                }else{
-                   document.getElementById('passenger_identity_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+                   document.getElementById('passenger_identity_country_of_issued'+i+'_id').style['border-color'] = '#EFEFEF';
                }
             }
             if(i == 4 && document.getElementById('passenger_identity_number'+i).value != '' && document.getElementById('passenger_identity_number'+i).value.length < 6){
@@ -1035,7 +1034,7 @@ function create_new_passenger(){
                         'identity_type': identity_type,
                         'identity_number': document.getElementById('passenger_identity_number'+i).value,
                         'identity_expdate': document.getElementById('passenger_identity_expired_date'+i).value,
-                        'identity_country_of_issued_name': document.getElementById('passenger_identity_country_of_issued'+i).value
+                        'identity_country_of_issued_name': document.getElementById('passenger_identity_country_of_issued'+i+'_id').value
                     };
                 }
            }
@@ -1081,7 +1080,7 @@ function create_new_passenger(){
                                     for(i=1;i<5;i++){
                                         document.getElementById('passenger_identity_number'+i).value = '';
                                         document.getElementById('passenger_identity_expired_date'+i).value = '';
-                                        $('#passenger_identity_country_of_issued'+i+'_id').val('');
+                                        $('#passenger_identity_country_of_issued'+i+'_id').val('').trigger('change');
 //                                        document.getElementById('passenger_identity_country_of_issued'+i+'_id').value = '';
 //                                        document.getElementById('select2-passenger_identity_country_of_issued'+i+'_id-container').innerHTML = 'Country of Issued';
                                         document.getElementById('files_attachment'+i).value = '';
