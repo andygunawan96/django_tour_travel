@@ -519,7 +519,7 @@ function check_session(type=''){
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Link Expired, Please contact your agent!' ,
+                      html: '<span style="color: #ff9900;">Expired, Please contact your agent!' ,
                     }).then((result) => {
                       window.location.href = '/';
                     })
@@ -1086,6 +1086,8 @@ function create_new_passenger(){
                                         document.getElementById('files_attachment'+i).value = '';
                                         document.getElementById('selectedFiles_attachment'+i).innerHTML = '';
                                     }
+                                    document.getElementById('files_attachment').value = '';
+                                    document.getElementById('selectedFiles_attachment').innerHTML = '';
                                     document.getElementById('passenger_phone_table').innerHTML = '';
                                     passenger_data_phone = 0;
                                     document.getElementById('passenger_frequent_flyer_table').innerHTML = '';
