@@ -19,6 +19,7 @@ var pnr_list = [];
 var airline_list_count = 0;
 var captcha_time = 10;
 var choose_airline = null;
+var is_reorder = false;
 var month = {
     '01': 'Jan',
     '02': 'Feb',
@@ -1255,6 +1256,8 @@ function airline_signin(data,type=''){
                 signature = msg.result.response.signature;
                 if(data == '' && type == ''){
                     airline_get_provider_list('search');
+                    if(is_reorder)
+                        re_order_set_pax_signature()
                 }else if(data != '' && type == ''){
                     get_airline_config('home');
                     airline_get_provider_list('get_booking', data); //get booking pindah di dalem get provider list karena jika get booking balik dulu provider error tidak ada
@@ -1311,6 +1314,26 @@ function airline_signin(data,type=''){
        },timeout: 60000
     });
 
+}
+
+function re_order_set_pax_signature(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 're_order_set_pax_signature',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error airline carrier code list');
+            $('.loader-rodextrip').fadeOut();
+       },timeout: 60000
+    });
 }
 
 function get_carrier_code_list(type, val){
@@ -3778,10 +3801,9 @@ function render_price_in_get_price(text, $text, $text_share){
                     text+=`
                     <div class="col-lg-12">
                         <div style="padding:15px; border-right:1px solid #cdcdcd; border-left:1px solid #cdcdcd;">
-                            <h6>`+airline_request.adult+`x Adult</h6>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                    <span style="font-size:13px; font-weight:500;">Fare @ `+airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare))+`</span><br/>
+                                    <span style="font-size:13px; font-weight:500;"><b>`+airline_request.adult+`x</b> Adult Fare @ `+airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare))+`</span><br/>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                     <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].ADT.currency+` `+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare * airline_request.adult))+`</span>
@@ -3828,10 +3850,9 @@ function render_price_in_get_price(text, $text, $text_share){
                     text+=`
                     <div class="col-lg-12">
                         <div style="padding:15px; border-right:1px solid #cdcdcd; border-left:1px solid #cdcdcd;">
-                            <h6>`+airline_request.child+`x Child</h6>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                    <span style="font-size:13px; font-weight:500;">Fare @ `+airline_price[price_counter].CHD.currency+' '+getrupiah(Math.ceil(airline_price[price_counter].CHD.fare))+`</span><br/>
+                                    <span style="font-size:13px; font-weight:500;"><b>`+airline_request.child+`x</b> Child Fare @ `+airline_price[price_counter].CHD.currency+' '+getrupiah(Math.ceil(airline_price[price_counter].CHD.fare))+`</span><br/>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                     <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].CHD.currency+` `+getrupiah(Math.ceil(airline_price[price_counter].CHD.fare * airline_request.child))+`</span>
@@ -3882,10 +3903,9 @@ function render_price_in_get_price(text, $text, $text_share){
                     text+=`
                     <div class="col-lg-12">
                         <div style="padding:15px; border-right:1px solid #cdcdcd; border-left:1px solid #cdcdcd;">
-                            <h6>`+airline_request.infant+`x Infant</h6>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                    <span style="font-size:13px; font-weight:500;">Fare @ `+airline_price[price_counter].INF.currency+' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare))+`</span><br/>
+                                    <span style="font-size:13px; font-weight:500;"><b>`+airline_request.infant+`x</b> Infant Fare @ `+airline_price[price_counter].INF.currency+' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare))+`</span><br/>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                     <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].INF.currency+` `+getrupiah(Math.ceil(airline_price[price_counter].INF.fare * airline_request.infant))+`</span>
@@ -5574,8 +5594,8 @@ function search_reorder(){
                 provider_list_reorder[journey_list_copy[i].segments[j].provider].push(journey_list_copy[i].segments[j].carrier_code)
             airline_request['cabin_class'].push(journey_list_copy[i].segments[j].cabin_class)
         }
-        airline_request['origin'].push(journey_list_copy[i].origin+' - - - ')
-        airline_request['destination'].push(journey_list_copy[i].destination+' - - - ')
+        airline_request['origin'].push(journey_list_copy[i].origin+' - '+journey_list_copy[i].origin_city+' - '+journey_list_copy[i].origin_country+' - '+journey_list_copy[i].origin_name)
+        airline_request['destination'].push(journey_list_copy[i].destination+' - '+journey_list_copy[i].destination_city+' - '+journey_list_copy[i].destination_country+' - '+journey_list_copy[i].destination_name)
         airline_request['departure'].push(journey_list_copy[i].departure_date.split('  ')[0])
         airline_request['return'].push(journey_list_copy[i].departure_date.split('  ')[0])
 
@@ -5584,6 +5604,7 @@ function search_reorder(){
     airline_request['adult'] = adult;
     airline_request['child'] = child;
     airline_request['infant'] = infant;
+    airline_request['counter'] = airline_request['origin'].length.toString();
     if(airline_request['direction'] == 'OW')
         airline_request['is_combo_price'] = "false"
     else

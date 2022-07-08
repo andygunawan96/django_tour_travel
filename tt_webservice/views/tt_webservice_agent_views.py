@@ -481,16 +481,20 @@ def get_new_cache(signature, type='all'):
                 _logger.info("ERROR GET CACHE FROM ISSUED OFFLINE AUTOCOMPLETE " + json.dumps(res_config_issued_offline) + '\n' + str(e) + '\n' + traceback.format_exc())
             # return res
 
-            # train
-            # data = {}
-            # headers = {
-            #     "Accept": "application/json,text/html,application/xml",
-            #     "Content-Type": "application/json",
-            #     "action": "get_origins",
-            #     "signature": request.session['signature'],
-            # }
-            #
-            # res_origin_train = util.send_request(url=url + 'train/session', data=data, headers=headers, method='POST')
+            url_request = url + 'booking/airline'
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_frequent_flyer_all_data",
+                "signature": signature,
+            }
+            data = {}
+            ff_request = send_request_api({}, url_request, headers, data, 'POST', 300)
+            try:
+                if ff_request['result']['error_code'] == 0:
+                    write_cache_with_folder(ff_request['result']['response'], "frequent_flyer_data")
+            except Exception as e:
+                _logger.error(str(e) + '\n' + traceback.format_exc())
 
             # activity
             data = {}
@@ -1251,17 +1255,17 @@ def get_customer_list(request):
             for pax in res['result']['response']:
                 try:
                     if pax['gender'] == 'female' and pax['marital_status'] == 'married':
-                        if 'adult' in request.POST['passenger_type'] or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger': #buat insurance pakai keyword adult<something> jadi pakai in
+                        if 'Adult' in request.POST['passenger_type'] or request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger': #buat insurance pakai keyword adult<something> jadi pakai in
                             title = 'MRS'
                         else:
                             title = 'MISS'
                     elif pax['gender'] == 'female':
-                        if 'adult' in request.POST['passenger_type'] or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger': #buat insurance pakai keyword adult<something> jadi pakai in
+                        if 'Adult' in request.POST['passenger_type'] or request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger': #buat insurance pakai keyword adult<something> jadi pakai in
                             title = 'MS'
                         else:
                             title = 'MISS'
                     else:
-                        if 'adult' in request.POST['passenger_type'] or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger': #buat insurance pakai keyword adult<something> jadi pakai in
+                        if 'Adult' in request.POST['passenger_type'] or request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'contact' or request.POST['passenger_type'] == 'passenger': #buat insurance pakai keyword adult<something> jadi pakai in
                             title = 'MR'
                         else:
                             title = 'MSTR'

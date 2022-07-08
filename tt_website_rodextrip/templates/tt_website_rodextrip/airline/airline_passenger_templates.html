@@ -841,45 +841,44 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
-                                            <label>Identity Photo</label><br>
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image</button>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
-                                                <div class="modal-dialog">
+                                        <div class="col-lg-12" id="child_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                    <label>Identity Photo</label><br>
+                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image</button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
+                                                        <div class="modal-dialog">
 
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
-                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
-                                                        </div>
-                                                        <div class="modal-body">
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                    <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
+                                                                </div>
+                                                                <div class="modal-body">
 
-                                                            Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+                                                                    Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
 
-                                                            <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control o_website_form_input" id="child_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
+                                                                    <div class="input-container-search-ticket">
+                                                                        <input type="text" class="form-control o_website_form_input" id="child_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    </div>
+                                                                    <div id="child_attachment_identity{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
+                                                                </div>
                                                             </div>
-                                                            <div id="child_attachment_identity{{forloop.counter}}">
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                        </div>
-
-                                        <div class="col-lg-12" id="child_identity_type{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
-                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                </div>
                                                 <div class="col-lg-6">
                                                     {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
@@ -1120,45 +1119,44 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar_identity{{forloop.counter}}" hidden>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
-                                            <label>Identity Photo</label><br>
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_infant{{forloop.counter}}">Upload Image</button>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="myModal_attachment_identity_infant{{forloop.counter}}" data-keyboard="false">
-                                                <div class="modal-dialog">
+                                        <div class="col-lg-12" id="infant_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar_identity{{forloop.counter}}" hidden>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                    <label>Identity Photo</label><br>
+                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_infant{{forloop.counter}}">Upload Image</button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="myModal_attachment_identity_infant{{forloop.counter}}" data-keyboard="false">
+                                                        <div class="modal-dialog">
 
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
-                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
-                                                        </div>
-                                                        <div class="modal-body">
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                    <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
+                                                                </div>
+                                                                <div class="modal-body">
 
-                                                            Files: <input type="file" id="infant_files_attachment_identity{{forloop.counter}}" name="infant_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+                                                                    Files: <input type="file" id="infant_files_attachment_identity{{forloop.counter}}" name="infant_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
 
-                                                            <div id="selectedFiles_infant_files_identity{{forloop.counter}}"></div>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control o_website_form_input" id="infant_description_attachment_identity{{forloop.counter}}" name="infant_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    <div id="selectedFiles_infant_files_identity{{forloop.counter}}"></div>
+                                                                    <div class="input-container-search-ticket">
+                                                                        <input type="text" class="form-control o_website_form_input" id="infant_description_attachment_identity{{forloop.counter}}" name="infant_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    </div>
+                                                                    <div id="infant_attachment_identity{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">Close</button>
+                                                                </div>
                                                             </div>
-                                                            <div id="infant_attachment_identity{{forloop.counter}}">
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">Close</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                        </div>
-
-                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
-                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                </div>
                                                 <div class="col-lg-6">
                                                     {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
@@ -2014,45 +2012,46 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
-                                                    <label>Identity Photo</label><br>
-                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image</button>
-                                                    <!-- Modal -->
-                                                    <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
-                                                        <div class="modal-dialog">
 
-                                                            <!-- Modal content-->
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
-                                                                    <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
-                                                                </div>
-                                                                <div class="modal-body">
+                                                <div class="col-lg-12" id="child_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                                    <div class="row">
 
-                                                                    Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                            <label>Identity Photo</label><br>
+                                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image</button>
+                                                            <!-- Modal -->
+                                                            <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
+                                                                <div class="modal-dialog">
 
-                                                                    <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
-                                                                    <div class="input-container-search-ticket">
-                                                                        <input type="text" class="form-control o_website_form_input" id="child_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    <!-- Modal content-->
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+
+                                                                            Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                            <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
+                                                                            <div class="input-container-search-ticket">
+                                                                                <input type="text" class="form-control o_website_form_input" id="child_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                            </div>
+                                                                            <div id="child_attachment_identity{{forloop.counter}}">
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
+                                                                        </div>
                                                                     </div>
-                                                                    <div id="child_attachment_identity{{forloop.counter}}">
-
-                                                                    </div>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                                </div>
-
-                                                <div class="col-lg-12" id="child_identity_type{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
-                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        </div>
                                                         <div class="col-lg-6 mb-3">
                                                             {% if is_identity_required == True %}
                                                             <label style="color:red">*</label>
@@ -2283,45 +2282,44 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar_identity{{forloop.counter}}" hidden>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
-                                                    <label>Identity Photo</label><br>
-                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_infant{{forloop.counter}}">Upload Image</button>
-                                                    <!-- Modal -->
-                                                    <div class="modal fade" id="myModal_attachment_identity_infant{{forloop.counter}}" data-keyboard="false">
-                                                        <div class="modal-dialog">
+                                                <div class="col-lg-12" id="infant_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar_identity{{forloop.counter}}" hidden>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                            <label>Identity Photo</label><br>
+                                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_infant{{forloop.counter}}">Upload Image</button>
+                                                            <!-- Modal -->
+                                                            <div class="modal fade" id="myModal_attachment_identity_infant{{forloop.counter}}" data-keyboard="false">
+                                                                <div class="modal-dialog">
 
-                                                            <!-- Modal content-->
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
-                                                                    <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
-                                                                </div>
-                                                                <div class="modal-body">
+                                                                    <!-- Modal content-->
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
+                                                                        </div>
+                                                                        <div class="modal-body">
 
-                                                                    Files: <input type="file" id="infant_files_attachment_identity{{forloop.counter}}" name="infant_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+                                                                            Files: <input type="file" id="infant_files_attachment_identity{{forloop.counter}}" name="infant_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
 
-                                                                    <div id="selectedFiles_infant_files_identity{{forloop.counter}}"></div>
-                                                                    <div class="input-container-search-ticket">
-                                                                        <input type="text" class="form-control o_website_form_input" id="infant_description_attachment_identity{{forloop.counter}}" name="infant_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                            <div id="selectedFiles_infant_files_identity{{forloop.counter}}"></div>
+                                                                            <div class="input-container-search-ticket">
+                                                                                <input type="text" class="form-control o_website_form_input" id="infant_description_attachment_identity{{forloop.counter}}" name="infant_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                            </div>
+                                                                            <div id="infant_attachment_identity{{forloop.counter}}">
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">Close</button>
+                                                                        </div>
                                                                     </div>
-                                                                    <div id="infant_attachment_identity{{forloop.counter}}">
-
-                                                                    </div>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">Close</button>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                                </div>
-
-                                                <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
-                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        </div>
                                                         <div class="col-lg-6 mb-3">
                                                             {% if is_identity_required == True %}
                                                             <label style="color:red">*</label>
@@ -3205,45 +3203,45 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
-                                            <label>Identity Photo</label><br>
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image</button>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
-                                                <div class="modal-dialog">
+                                        <div class="col-lg-12" id="child_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                            <div class="row">
 
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
-                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
-                                                        </div>
-                                                        <div class="modal-body">
+                                                <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                    <label>Identity Photo</label><br>
+                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image</button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
+                                                        <div class="modal-dialog">
 
-                                                            Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                    <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
+                                                                </div>
+                                                                <div class="modal-body">
 
-                                                            <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control o_website_form_input" id="child_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                    <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
+                                                                    <div class="input-container-search-ticket">
+                                                                        <input type="text" class="form-control o_website_form_input" id="child_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    </div>
+                                                                    <div id="child_attachment_identity{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
+                                                                </div>
                                                             </div>
-                                                            <div id="child_attachment_identity{{forloop.counter}}">
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                        </div>
-
-                                        <div class="col-lg-12" id="child_identity_type{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
-                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                </div>
                                                 <div class="col-lg-6">
                                                     {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
@@ -3486,45 +3484,44 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar_identity{{forloop.counter}}" hidden>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
-                                            <label>Identity Photo</label><br>
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_infant{{forloop.counter}}">Upload Image</button>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="myModal_attachment_identity_infant{{forloop.counter}}" data-keyboard="false">
-                                                <div class="modal-dialog">
+                                        <div class="col-lg-12" id="infant_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar_identity{{forloop.counter}}" hidden>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                    <label>Identity Photo</label><br>
+                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_infant{{forloop.counter}}">Upload Image</button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="myModal_attachment_identity_infant{{forloop.counter}}" data-keyboard="false">
+                                                        <div class="modal-dialog">
 
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
-                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
-                                                        </div>
-                                                        <div class="modal-body">
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                    <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
+                                                                </div>
+                                                                <div class="modal-body">
 
-                                                            Files: <input type="file" id="infant_files_attachment_identity{{forloop.counter}}" name="infant_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+                                                                    Files: <input type="file" id="infant_files_attachment_identity{{forloop.counter}}" name="infant_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
 
-                                                            <div id="selectedFiles_infant_files_identity{{forloop.counter}}"></div>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control o_website_form_input" id="infant_description_attachment_identity{{forloop.counter}}" name="infant_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    <div id="selectedFiles_infant_files_identity{{forloop.counter}}"></div>
+                                                                    <div class="input-container-search-ticket">
+                                                                        <input type="text" class="form-control o_website_form_input" id="infant_description_attachment_identity{{forloop.counter}}" name="infant_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    </div>
+                                                                    <div id="infant_attachment_identity{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">Close</button>
+                                                                </div>
                                                             </div>
-                                                            <div id="infant_attachment_identity{{forloop.counter}}">
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">Close</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                        </div>
-
-                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
-                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                </div>
                                                 <div class="col-lg-6">
                                                     {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
@@ -4097,43 +4094,6 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar_identity{{forloop.counter}}" hidden>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
-                                        <label>Identity Photo</label><br>
-                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_adult{{forloop.counter}}">Upload Image</button>
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="myModal_attachment_identity_adult{{forloop.counter}}" data-keyboard="false">
-                                            <div class="modal-dialog">
-
-                                                <!-- Modal content-->
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:white;">Identity Photo</h4>
-                                                        <button type="button" class="close" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">×</button>
-                                                    </div>
-                                                    <div class="modal-body">
-
-                                                        Files: <input type="file" id="adult_files_attachment_identity{{forloop.counter}}" name="adult_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
-
-                                                        <div id="selectedFiles_adult_files_identity{{forloop.counter}}"></div>
-                                                        <div class="input-container-search-ticket">
-                                                            <input type="text" class="form-control o_website_form_input" id="adult_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
-                                                        </div>
-                                                        <div id="adult_attachment_identity{{forloop.counter}}">
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_adult{{forloop.counter}}').modal('hide');">Close</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                    </div>
-
                                     <div class="col-lg-12" id="adult_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 col-sm-12" id="adult_div_avatar_identity{{forloop.counter}}" hidden>
@@ -4446,45 +4406,44 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
-                                        <label>Identity Photo</label><br>
-                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image</button>
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
-                                            <div class="modal-dialog">
+                                    <div class="col-lg-12" id="child_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                <label>Identity Photo</label><br>
+                                                <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image</button>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
+                                                    <div class="modal-dialog">
 
-                                                <!-- Modal content-->
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:white;">Identity Photo</h4>
-                                                        <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
-                                                    </div>
-                                                    <div class="modal-body">
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
+                                                            </div>
+                                                            <div class="modal-body">
 
-                                                        Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+                                                                Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
 
-                                                        <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
-                                                        <div class="input-container-search-ticket">
-                                                            <input type="text" class="form-control o_website_form_input" id="child_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
+                                                                <div class="input-container-search-ticket">
+                                                                    <input type="text" class="form-control o_website_form_input" id="child_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                </div>
+                                                                <div id="child_attachment_identity{{forloop.counter}}">
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
+                                                            </div>
                                                         </div>
-                                                        <div id="child_attachment_identity{{forloop.counter}}">
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                    </div>
-
-                                    <div class="col-lg-12" id="child_identity_type{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
-                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                            </div>
                                             <div class="col-lg-6 mb-3">
                                                 {% if is_identity_required == True %}
                                                 <label style="color:red">*</label>
@@ -4725,45 +4684,45 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar_identity{{forloop.counter}}" hidden>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
-                                        <label>Identity Photo</label><br>
-                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_infant{{forloop.counter}}">Upload Image</button>
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="myModal_attachment_identity_infant{{forloop.counter}}" data-keyboard="false">
-                                            <div class="modal-dialog">
+                                    <div class="col-lg-12" id="infant_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                        <div class="row">
 
-                                                <!-- Modal content-->
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:white;">Identity Photo</h4>
-                                                        <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
-                                                    </div>
-                                                    <div class="modal-body">
+                                            <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar_identity{{forloop.counter}}" hidden>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                <label>Identity Photo</label><br>
+                                                <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_infant{{forloop.counter}}">Upload Image</button>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="myModal_attachment_identity_infant{{forloop.counter}}" data-keyboard="false">
+                                                    <div class="modal-dialog">
 
-                                                        Files: <input type="file" id="infant_files_attachment_identity{{forloop.counter}}" name="infant_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
+                                                            </div>
+                                                            <div class="modal-body">
 
-                                                        <div id="selectedFiles_infant_files_identity{{forloop.counter}}"></div>
-                                                        <div class="input-container-search-ticket">
-                                                            <input type="text" class="form-control o_website_form_input" id="infant_description_attachment_identity{{forloop.counter}}" name="infant_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                Files: <input type="file" id="infant_files_attachment_identity{{forloop.counter}}" name="infant_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                <div id="selectedFiles_infant_files_identity{{forloop.counter}}"></div>
+                                                                <div class="input-container-search-ticket">
+                                                                    <input type="text" class="form-control o_website_form_input" id="infant_description_attachment_identity{{forloop.counter}}" name="infant_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                </div>
+                                                                <div id="infant_attachment_identity{{forloop.counter}}">
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">Close</button>
+                                                            </div>
                                                         </div>
-                                                        <div id="infant_attachment_identity{{forloop.counter}}">
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                    </div>
-
-                                    <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
-                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                            </div>
                                             <div class="col-lg-6 mb-3">
                                                 {% if is_identity_required == True %}
                                                 <label style="color:red">*</label>
@@ -5633,45 +5592,45 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
-                                            <label>Identity Photo</label><br>
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image</button>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
-                                                <div class="modal-dialog">
+                                        <div class="col-lg-12" id="child_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                            <div class="row">
 
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
-                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
-                                                        </div>
-                                                        <div class="modal-body">
+                                                <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                    <label>Identity Photo</label><br>
+                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image</button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
+                                                        <div class="modal-dialog">
 
-                                                            Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                    <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
+                                                                </div>
+                                                                <div class="modal-body">
 
-                                                            <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control o_website_form_input" id="child_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+
+                                                                    <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
+                                                                    <div class="input-container-search-ticket">
+                                                                        <input type="text" class="form-control o_website_form_input" id="child_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    </div>
+                                                                    <div id="child_attachment_identity{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
+                                                                </div>
                                                             </div>
-                                                            <div id="child_attachment_identity{{forloop.counter}}">
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                        </div>
-
-                                        <div class="col-lg-12" id="child_identity_type{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
-                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                </div>
                                                 <div class="col-lg-6 mb-3">
                                                     {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
@@ -5888,45 +5847,44 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar_identity{{forloop.counter}}" hidden>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
-                                            <label>Identity Photo</label><br>
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_infant{{forloop.counter}}">Upload Image</button>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="myModal_attachment_identity_infant{{forloop.counter}}" data-keyboard="false">
-                                                <div class="modal-dialog">
+                                        <div class="col-lg-12" id="infant_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar_identity{{forloop.counter}}" hidden>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                    <label>Identity Photo</label><br>
+                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_infant{{forloop.counter}}">Upload Image</button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="myModal_attachment_identity_infant{{forloop.counter}}" data-keyboard="false">
+                                                        <div class="modal-dialog">
 
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
-                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
-                                                        </div>
-                                                        <div class="modal-body">
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                    <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
+                                                                </div>
+                                                                <div class="modal-body">
 
-                                                            Files: <input type="file" id="infant_files_attachment_identity{{forloop.counter}}" name="infant_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+                                                                    Files: <input type="file" id="infant_files_attachment_identity{{forloop.counter}}" name="infant_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
 
-                                                            <div id="selectedFiles_infant_files_identity{{forloop.counter}}"></div>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control o_website_form_input" id="infant_description_attachment_identity{{forloop.counter}}" name="infant_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    <div id="selectedFiles_infant_files_identity{{forloop.counter}}"></div>
+                                                                    <div class="input-container-search-ticket">
+                                                                        <input type="text" class="form-control o_website_form_input" id="infant_description_attachment_identity{{forloop.counter}}" name="infant_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    </div>
+                                                                    <div id="infant_attachment_identity{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">Close</button>
+                                                                </div>
                                                             </div>
-                                                            <div id="infant_attachment_identity{{forloop.counter}}">
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">Close</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                        </div>
-
-                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
-                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                </div>
                                                 <div class="col-lg-6 mb-3">
                                                     <label id="infant_identity_number_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'ID Type' %}</label>
@@ -6823,45 +6781,44 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
-                                            <label>Identity Photo</label><br>
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image</button>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
-                                                <div class="modal-dialog">
+                                        <div class="col-lg-12" id="child_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12" id="child_div_avatar_identity{{forloop.counter}}" hidden>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                    <label>Identity Photo</label><br>
+                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_child{{forloop.counter}}">Upload Image</button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="myModal_attachment_identity_child{{forloop.counter}}" data-keyboard="false">
+                                                        <div class="modal-dialog">
 
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
-                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
-                                                        </div>
-                                                        <div class="modal-body">
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                    <button type="button" class="close" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">×</button>
+                                                                </div>
+                                                                <div class="modal-body">
 
-                                                            Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+                                                                    Files: <input type="file" id="child_files_attachment_identity{{forloop.counter}}" name="child_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
 
-                                                            <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control o_website_form_input" id="child_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    <div id="selectedFiles_child_files_identity{{forloop.counter}}"></div>
+                                                                    <div class="input-container-search-ticket">
+                                                                        <input type="text" class="form-control o_website_form_input" id="child_description_attachment_identity{{forloop.counter}}" name="adult_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    </div>
+                                                                    <div id="child_attachment_identity{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
+                                                                </div>
                                                             </div>
-                                                            <div id="child_attachment_identity{{forloop.counter}}">
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_child{{forloop.counter}}').modal('hide');">Close</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                        </div>
-
-                                        <div class="col-lg-12" id="child_identity_type{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
-                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                </div>
                                                 <div class="col-lg-6">
                                                     {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>
@@ -7078,45 +7035,44 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar_identity{{forloop.counter}}" hidden>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
-                                            <label>Identity Photo</label><br>
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_infant{{forloop.counter}}">Upload Image</button>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="myModal_attachment_identity_infant{{forloop.counter}}" data-keyboard="false">
-                                                <div class="modal-dialog">
+                                        <div class="col-lg-12" id="infant_identity_div{{forloop.counter}}" style="{% if is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12" id="infant_div_avatar_identity{{forloop.counter}}" hidden>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                    <label>Identity Photo</label><br>
+                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_identity_infant{{forloop.counter}}">Upload Image</button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="myModal_attachment_identity_infant{{forloop.counter}}" data-keyboard="false">
+                                                        <div class="modal-dialog">
 
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:white;">Identity Photo</h4>
-                                                            <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
-                                                        </div>
-                                                        <div class="modal-body">
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title" style="color:white;">Identity Photo</h4>
+                                                                    <button type="button" class="close" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">×</button>
+                                                                </div>
+                                                                <div class="modal-body">
 
-                                                            Files: <input type="file" id="infant_files_attachment_identity{{forloop.counter}}" name="infant_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
+                                                                    Files: <input type="file" id="infant_files_attachment_identity{{forloop.counter}}" name="infant_files_attachment_identity{{forloop.counter}}" accept="image/*"><br>
 
-                                                            <div id="selectedFiles_infant_files_identity{{forloop.counter}}"></div>
-                                                            <div class="input-container-search-ticket">
-                                                                <input type="text" class="form-control o_website_form_input" id="infant_description_attachment_identity{{forloop.counter}}" name="infant_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    <div id="selectedFiles_infant_files_identity{{forloop.counter}}"></div>
+                                                                    <div class="input-container-search-ticket">
+                                                                        <input type="text" class="form-control o_website_form_input" id="infant_description_attachment_identity{{forloop.counter}}" name="infant_description_attachment_identity{{forloop.counter}}" placeholder="Description">
+                                                                    </div>
+                                                                    <div id="infant_attachment_identity{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">Close</button>
+                                                                </div>
                                                             </div>
-                                                            <div id="infant_attachment_identity{{forloop.counter}}">
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" onclick="$('#myModal_attachment_identity_infant{{forloop.counter}}').modal('hide');">Close</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                        </div>
-
-                                        <div class="col-lg-12" id="infant_identity_type{{forloop.counter}}" style="{% if is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
-                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                </div>
                                                 <div class="col-lg-6">
                                                     {% if is_identity_required == True %}
                                                     <label style="color:red">*</label>

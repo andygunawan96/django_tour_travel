@@ -69,6 +69,10 @@
         airline_provider_list[i] = {};
     }
     template = {{template}};
+
+    {% if is_reorder == True %}
+        is_reorder = true;
+    {% endif%}
 </script>
 <style>
     ul {

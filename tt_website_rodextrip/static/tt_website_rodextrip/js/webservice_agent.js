@@ -490,6 +490,101 @@ function signin_btc(){
     }
 }
 
+function check_session(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'check_session',
+       },
+       data: {
+            'signature':signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code != 0){
+                //signature expired untuk passenger
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Expired, Please contact your agent!' ,
+                }).then((result) => {
+                  window.location.href = '/';
+                })
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error reset password');
+       },timeout: 60000
+    });
+}
+
+function generate_url_create_passenger(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'update_session',
+       },
+       data: {
+            'signature':signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                //generate link
+                url_create_passenger = window.location.href.split('/');
+                for(i in url_create_passenger)
+                    if(url_create_passenger.length <= 3)
+                        break;
+                    else
+                        url_create_passenger.pop();
+                copy_create_passenger(url_create_passenger.join('/') + '/create_passenger/' + signature);
+            }else{
+                //signature expired waktu mau generate
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Signature expired, please login again!' ,
+                }).then((result) => {
+                  logout();
+                })
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error reset password');
+       },timeout: 60000
+    });
+}
+
+function copy_create_passenger(url){
+    try{
+        const el = document.createElement('textarea');
+        el.value = url;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000
+        })
+
+        Toast.fire({
+          type: 'success',
+          title: 'Copied Successfully'
+        })
+    }catch(err){
+        Toast.fire({
+          type: 'danger',
+          title: 'Copied Error'
+        })
+    }
+}
+
 function reset_password_btc(){
     if( $(window).width() > 991){
         if($('#username').val() != ''){
@@ -840,11 +935,11 @@ function create_new_passenger(){
                    document.getElementById('passenger_identity_expired_date'+i).style['border-color'] = 'red';
                }else{
                    document.getElementById('passenger_identity_expired_date'+i).style['border-color'] = '#EFEFEF';
-               }if(document.getElementById('passenger_identity_expired_date'+i).value == ''){
+               }if(document.getElementById('passenger_identity_country_of_issued'+i+'_id').value == '' || document.getElementById('passenger_identity_country_of_issued'+i+'_id').value == 'Country Of Issued'){
                    error_log+= 'Please fill '+identity_type+' country of issued!</br>\n';
-                   document.getElementById('passenger_identity_country_of_issued'+i).style['border-color'] = 'red';
+                   document.getElementById('passenger_identity_country_of_issued'+i+'_id').style['border-color'] = 'red';
                }else{
-                   document.getElementById('passenger_identity_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+                   document.getElementById('passenger_identity_country_of_issued'+i+'_id').style['border-color'] = '#EFEFEF';
                }
             }
             if(i == 4 && document.getElementById('passenger_identity_number'+i).value != '' && document.getElementById('passenger_identity_number'+i).value.length < 6){
@@ -889,6 +984,26 @@ function create_new_passenger(){
 
             }
        }
+
+       for(i = 1; i<= passenger_ff_data ; i++){
+            try{
+                if(document.getElementById('passenger_ff'+i).value == ''){
+                    error_log+= 'Please choose frequent flyer '+i+'!</br>\n';
+                    document.getElementById('passenger_ff'+i).style['border-color'] = 'red';
+                }else
+                    document.getElementById('passenger_ff'+i).style['border-color'] = '#EFEFEF';
+
+                if(document.getElementById('passenger_ff_number'+i).value == ''){
+                    error_log+= 'Please fill frequent flyer number '+i+'!</br>\n';
+                    document.getElementById('passenger_ff_number'+i).style['border-color'] = 'red';
+                }else
+                    document.getElementById('passenger_ff_number'+i).style['border-color'] = '#EFEFEF';
+
+            }catch(err){
+
+            }
+       }
+
        if(error_log == ''){
            passenger.title = document.getElementById('passenger_title').value;
            passenger.first_name = document.getElementById('passenger_first_name').value;
@@ -898,11 +1013,23 @@ function create_new_passenger(){
            passenger.email = document.getElementById('passenger_email').value;
            phone = [];
            identity = {};
+           ff_numbers = [];
            for(i = 1; i<= passenger_data_phone ; i++){
                 try{
                     phone.push({
                         'calling_code': document.getElementById('passenger_phone_code'+i).value,
                         'calling_number': document.getElementById('passenger_phone_number'+i).value
+                    })
+                }catch(err){
+
+                }
+           }
+
+           for(i = 1; i<= passenger_ff_data ; i++){
+                try{
+                    ff_numbers.push({
+                        'ff_code': document.getElementById('passenger_ff'+i+'_id').value,
+                        'ff_number': document.getElementById('passenger_ff_number'+i).value
                     })
                 }catch(err){
 
@@ -922,12 +1049,13 @@ function create_new_passenger(){
                         'identity_type': identity_type,
                         'identity_number': document.getElementById('passenger_identity_number'+i).value,
                         'identity_expdate': document.getElementById('passenger_identity_expired_date'+i).value,
-                        'identity_country_of_issued_name': document.getElementById('passenger_identity_country_of_issued'+i).value
+                        'identity_country_of_issued_name': document.getElementById('passenger_identity_country_of_issued'+i+'_id').value
                     };
                 }
            }
            passenger.phone = phone;
            passenger.identity = identity;
+           passenger.ff_numbers = ff_numbers;
            var formData = new FormData($('#form_identity_passenger').get(0));
            formData.append('signature', signature)
            getToken();
@@ -967,21 +1095,25 @@ function create_new_passenger(){
                                     for(i=1;i<5;i++){
                                         document.getElementById('passenger_identity_number'+i).value = '';
                                         document.getElementById('passenger_identity_expired_date'+i).value = '';
-                                        $('#passenger_identity_country_of_issued'+i+'_id').val('');
+                                        $('#passenger_identity_country_of_issued'+i+'_id').val('').trigger('change');
 //                                        document.getElementById('passenger_identity_country_of_issued'+i+'_id').value = '';
 //                                        document.getElementById('select2-passenger_identity_country_of_issued'+i+'_id-container').innerHTML = 'Country of Issued';
                                         document.getElementById('files_attachment'+i).value = '';
                                         document.getElementById('selectedFiles_attachment'+i).innerHTML = '';
                                     }
+                                    document.getElementById('files_attachment').value = '';
+                                    document.getElementById('selectedFiles_attachment').innerHTML = '';
                                     document.getElementById('passenger_phone_table').innerHTML = '';
                                     passenger_data_phone = 0;
+                                    document.getElementById('passenger_frequent_flyer_table').innerHTML = '';
+                                    passenger_ff_data = 0;
                                     document.getElementById('create_new_passenger_btn').disabled = false;
                                 }catch(err){
                                     console.log(err);
                                 }
                                 Swal.fire({
                                    type: 'Success',
-                                   title: 'Created',
+                                   title: 'Success created, customer ' + msg.result.response.seq_id,
                                    text: '',
                                })
                             }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -2129,42 +2261,6 @@ function get_customer_list(passenger, number, product){
                                             response+=`</div>`;
 
                                         }
-                                        //FREQUENT FLYERS
-                                        if(msg.result.response[i].hasOwnProperty('frequent_flyers') && msg.result.response[i].frequent_flyers.length > 0){
-                                            if(product == 'airline' || product == 'cache' && document.URL.split('/')[document.URL.split('/').length-2] == 'passenger' && document.URL.split('/')[document.URL.split('/').length-3] == 'airline'){
-                                                for(x in ff_request){
-                                                    response += `
-                                                        <div class="row">
-                                                            <div class="col-lg-12">
-                                                                <i class="fas fa-id-card"></i> <i>`+ff_request[x].program_name+` `+ff_request[x].sequence+`:</i><br>
-                                                            </div>
-                                                            <div class="col-lg-12">
-                                                                <select class="nice-select-default mb-2" id="frequent_flyer`+i+`_`+x+`" style="width: 100%; display: none;">
-                                                                    <option value="">Frequent Flyer Program</option>`;
-                                                                is_first_ff = true
-                                                                for(y in ff_request[x].ff_availability){
-                                                                    has_ff_number = false;
-                                                                    for(j in msg.result.response[i].frequent_flyers){
-                                                                        if(ff_request[x].ff_availability[y].ff_code == msg.result.response[i].frequent_flyers[j].ff_code){
-                                                                            if(is_first_ff){
-                                                                                response += `<option selected value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
-                                                                                is_first_ff = false;
-                                                                            }else
-                                                                                response += `<option value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
-                                                                            has_ff_number = true;
-                                                                        }
-                                                                    }
-                                                                    if(!has_ff_number)
-                                                                        response += `<option value="`+ff_request[x].ff_availability[y].ff_code+` - ">`+ff_request[x].ff_availability[y].name+` - Input new data</option>`;
-                                                                }
-
-                                                    response +=`
-                                                                </select>
-                                                            </div>
-                                                        </div>`;
-                                                }
-                                            }
-                                        }
 
 
                                     }
@@ -2179,7 +2275,62 @@ function get_customer_list(passenger, number, product){
                                             </div>
                                         </div>`;
                                     }
+                                    //FREQUENT FLYERS
+                                    if(msg.result.response[i].hasOwnProperty('frequent_flyers') && msg.result.response[i].frequent_flyers.length > 0){
+                                        if(product == 'airline' || product == 'cache' && document.URL.split('/')[document.URL.split('/').length-2] == 'passenger' && document.URL.split('/')[document.URL.split('/').length-3] == 'airline'){
+                                            for(x in ff_request){
+                                                response += `
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <i class="fas fa-id-card"></i> <i>`+ff_request[x].program_name+` `+ff_request[x].sequence+`:</i><br>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <select class="nice-select-default mb-2" id="frequent_flyer`+i+`_`+x+`" style="width: 100%; display: none;">
+                                                                <option value="">Frequent Flyer Program</option>`;
+                                                            is_first_ff = true
+                                                            for(y in ff_request[x].ff_availability){
+                                                                has_ff_number = false;
+                                                                for(j in msg.result.response[i].frequent_flyers){
+                                                                    if(ff_request[x].ff_availability[y].ff_code == msg.result.response[i].frequent_flyers[j].ff_code){
+                                                                        if(is_first_ff){
+                                                                            response += `<option selected value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
+                                                                            is_first_ff = false;
+                                                                        }else
+                                                                            response += `<option value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
+                                                                        has_ff_number = true;
+                                                                    }
+                                                                }
+                                                                if(!has_ff_number)
+                                                                    response += `<option value="`+ff_request[x].ff_availability[y].ff_code+` - ">`+ff_request[x].ff_availability[y].name+` - Input new data</option>`;
+                                                            }
 
+                                                response +=`
+                                                            </select>
+                                                        </div>
+                                                    </div>`;
+                                            }
+                                        }else if(product == 'cache'){
+                                            response += `
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <i class="fas fa-id-card"></i> <i>Frequent Flyer Data:</i><br>
+                                                    </div>`;
+                                            for(j in msg.result.response[i].frequent_flyers){
+                                                for(x in frequent_flyer_data){
+                                                    if(frequent_flyer_data[x].code == msg.result.response[i].frequent_flyers[j].ff_code){
+                                                        response += `
+                                                    <div class="col-lg-12">
+                                                        <span>`+frequent_flyer_data[x].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</span>
+                                                    </div>`;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+
+                                            response +=`
+                                                </div>`;
+                                        }
+                                    }
                                 response+=`
                                 </div>
                             </div>`;
@@ -2414,7 +2565,8 @@ function pick_passenger_copy(type, sequence, product, identity=''){
         {
             document.getElementById('train_passenger_search_type').value = 'cust_name';
         }
-    }else if(product == 'get_booking_vendor'){
+    }
+    else if(product == 'get_booking_vendor'){
         hide_result_booker_vendor();
         document.getElementById('hide_btn_click').hidden = true;
         document.getElementById('booker_vendor').value = passenger_data[sequence].title + ' ' + passenger_data[sequence].first_name + ' ' + passenger_data[sequence].last_name;
@@ -2436,7 +2588,8 @@ function pick_passenger_copy(type, sequence, product, identity=''){
             $('#customer_parent_booking_from_vendor').niceSelect('update');
         }
 //        get_customer_parent();
-    }else if(type == '' || product == 'issued_offline' || product == 'group_booking'){
+    }
+    else if(type == '' || product == 'issued_offline' || product == 'group_booking'){
         if(type == 'Booker' || type == 'Contact'){
             try{
                 document.getElementById('contact_person').value = passenger_data[sequence].title + ' ' + passenger_data[sequence].first_name + ' ' + passenger_data[sequence].last_name;
@@ -2453,7 +2606,8 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     radio_button('contact');
                 }catch(err){console.log(err);}
             $('#myModal').modal('hide');
-        }else if(product == 'medical'){
+        }
+        else if(product == 'medical'){
             passenger_number++;
 //            document.getElementById('name_pax'+passenger_number).innerHTML = passenger_data[sequence].title + ' ' + passenger_data[sequence].first_name + ' ' + passenger_data[sequence].last_name;
 //            document.getElementById('id_passenger'+passenger_number).value = passenger_data[sequence].id;
@@ -2554,7 +2708,8 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                 })
             }
             //$('#myModalPassenger'+parseInt(passenger_number-1)).modal('hide');
-        }else{
+        }
+        else{
             passenger_number++;
 //            document.getElementById('name_pax'+passenger_number).innerHTML = passenger_data[sequence].title + ' ' + passenger_data[sequence].first_name + ' ' + passenger_data[sequence].last_name;
 //            document.getElementById('id_passenger'+passenger_number).value = passenger_data[sequence].id;
@@ -3160,7 +3315,8 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                   text: "You can't choose same person in 1 booking",
                 })
             }
-        }else if(type == 'Contact'){
+        }
+        else if(type == 'Contact'){
             //change booker
             check = 0;
             if(check == 0){
@@ -3310,7 +3466,9 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                   text: "You can't choose same person in 1 booking",
                 })
             }
-        }else if(type.includes('adult')){
+        }
+        else if(type.includes('Adult') || type.includes('Child')){
+            //for insurance additional_data teropong
             if(document.getElementById(type+'_id'+passenger_number).value == ''){
                 check = 0;
                 for(i in passenger_data_pick){
@@ -3319,7 +3477,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                 }
                 if(check == 0){
                     for(i in passenger_data_pick){
-                        if(passenger_data_pick[i].sequence == 'adult'+passenger_number){
+                        if(passenger_data_pick[i].sequence == 'relation'+passenger_number){
                             passenger_data_pick.splice(i,1);
                             break;
                         }
@@ -3386,109 +3544,6 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                             }
                         }catch(err){console.log(err);}
                     }
-//                    if(product=='airline' || product == 'activity' || product == 'visa' || product == 'tour'){
-//                        try{ //check ada id type di selection klo ada masukkan
-//                            var radios = document.getElementById('adult_id_type'+passenger_number).options;
-//                            var found = false;
-//                            for (var j = 0, length = radios.length; j < length; j++) {
-//                                for(i in passenger_data[sequence].identities){
-//                                    if(radios[j].value == i && i == 'passport'){
-//                                        var date1 = moment(passenger_data[sequence].identities.passport.identity_expdate);
-//                                        var date2 = moment();
-//                                        var expired = date2.diff(date1, 'days');
-//                                        if(expired < -180){
-//                                            document.getElementById('adult_passport_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
-//                                            document.getElementById('adult_passport_number'+passenger_number).readOnly = true;
-//                                            if(passenger_data[sequence].identities.passport.identity_country_of_issued_name != '' && passenger_data[sequence].identities.passport.identity_country_of_issued_name != undefined){
-//                                                document.getElementById('select2-adult_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
-//                                                document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
-//                                                auto_complete('adult_country_of_issued'+passenger_number);
-//                                                document.getElementById('adult_country_of_issued'+passenger_number).readOnly = true;
-//                                                try{ //yg ada id_type di update
-//                                                    document.getElementById('adult_id_type'+passenger_number).value = 'passport';
-//                                                    $('#adult_id_type'+passenger_number).niceSelect('update');
-//                                                }catch(err){}
-//                                            }
-//                                            if(passenger_data[sequence].identities.passport.identity_expdate != '' && passenger_data[sequence].identities.passport.identity_expdate != undefined){
-//                                                document.getElementById('adult_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities.passport.identity_expdate;
-//                                            }
-//                                        }
-//                                    }else if (radios[j].value == i) {
-//                                        document.getElementById('adult_id_type'+passenger_number).value = i;
-//                                        document.getElementById('adult_passport_number'+passenger_number).value = passenger_data[sequence].identities[i].identity_number;
-//                                        document.getElementById('adult_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities[i].identity_expdate;
-//
-//                                        document.getElementById('select2-adult_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities[i].identity_country_of_issued_name;
-//                                        document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].identities[i].identity_country_of_issued_name;
-//                                        auto_complete('adult_country_of_issued'+passenger_number);
-//                                        document.getElementById('adult_country_of_issued'+passenger_number).readOnly = true;
-//
-//                                        $('#adult_id_type'+passenger_number).niceSelect('update');
-//                                        found = true;
-//                                        break;
-//                                    }
-//                                }
-//                                if(found)
-//                                    break;
-//                            }
-//                        }catch(err){console.log(err);}
-//                        //document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
-//                    }else if(product == 'train'){
-//                        if(passenger_data[sequence].identities.hasOwnProperty('passport') == true){
-//                            document.getElementById('adult_id_type'+passenger_number).value = 'passport';
-//                            document.getElementById('adult_passport_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
-//                            document.getElementById('adult_passport_number'+passenger_number).readOnly = true;
-//                            if(passenger_data[sequence].identities.passport.identity_country_of_issued_name != '' && passenger_data[sequence].identities.passport.identity_country_of_issued_name != undefined){
-//                                document.getElementById('select2-adult_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
-//                                document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
-//                                auto_complete('adult_country_of_issued'+passenger_number);
-//                                document.getElementById('adult_country_of_issued'+passenger_number).readOnly = true;
-//                            }
-//                            if(passenger_data[sequence].identities.passport.identity_expdate != '' && passenger_data[sequence].identities.passport.identity_expdate != undefined){
-//                                document.getElementById('adult_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities.passport.identity_expdate;
-//                            }
-//                        }else if(passenger_data[sequence].identities.hasOwnProperty('sim') == true){
-//                            document.getElementById('adult_id_type'+passenger_number).value = 'sim';
-//                            document.getElementById('adult_passport_number'+passenger_number).value = passenger_data[sequence].identities.sim.identity_number;
-//                            document.getElementById('adult_passport_number'+passenger_number).readOnly = true;
-//                            if(passenger_data[sequence].identities.sim.identity_country_of_issued_name != '' && passenger_data[sequence].identities.sim.identity_country_of_issued_name != undefined){
-//                                document.getElementById('select2-adult_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities.sim.identity_country_of_issued_name;
-//                                document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].identities.sim.identity_country_of_issued_name;
-//                                auto_complete('adult_country_of_issued'+passenger_number);
-//                                document.getElementById('adult_country_of_issued'+passenger_number).readOnly = true;
-//                            }
-//                            if(passenger_data[sequence].identities.sim.identity_expdate != '' && passenger_data[sequence].identities.sim.identity_expdate != undefined){
-//                                document.getElementById('adult_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities.sim.identity_expdate;
-//                            }
-//                        }else if(passenger_data[sequence].identities.hasOwnProperty('ktp') == true){
-//                            document.getElementById('adult_id_type'+passenger_number).value = 'ktp';
-//                            document.getElementById('adult_passport_number'+passenger_number).value = passenger_data[sequence].identities.ktp.identity_number;
-//                            document.getElementById('adult_passport_number'+passenger_number).readOnly = true;
-//                            if(passenger_data[sequence].identities.ktp.identity_country_of_issued_name != '' && passenger_data[sequence].identities.ktp.identity_country_of_issued_name != undefined){
-//                                document.getElementById('select2-adult_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities.ktp.identity_country_of_issued_name;
-//                                document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].identities.ktp.identity_country_of_issued_name;
-//                                auto_complete('adult_country_of_issued'+passenger_number);
-//                                document.getElementById('adult_country_of_issued'+passenger_number).readOnly = true;
-//                            }
-//                            if(passenger_data[sequence].identities.ktp.identity_expdate != '' && passenger_data[sequence].identities.ktp.identity_expdate != undefined){
-//                                document.getElementById('adult_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities.ktp.identity_expdate;
-//                            }
-//                        }else if(passenger_data[sequence].identities.hasOwnProperty('other') == true){
-//                            document.getElementById('adult_id_type'+passenger_number).value = 'other';
-//                            document.getElementById('adult_passport_number'+passenger_number).value = passenger_data[sequence].identities.other.identity_number;
-//                            document.getElementById('adult_passport_number'+passenger_number).readOnly = true;
-//                            if(passenger_data[sequence].identities.other.identity_country_of_issued_name != '' && passenger_data[sequence].identities.other.identity_country_of_issued_name != undefined){
-//                                document.getElementById('select2-adult_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities.other.identity_country_of_issued_name;
-//                                document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].identities.other.identity_country_of_issued_name;
-//                                auto_complete('adult_country_of_issued'+passenger_number);
-//                                document.getElementById('adult_country_of_issued'+passenger_number).readOnly = true;
-//                            }
-//                            if(passenger_data[sequence].identities.passport.identity_expdate != '' && passenger_data[sequence].identities.passport.identity_expdate != undefined){
-//                                document.getElementById('adult_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities.passport.identity_expdate;
-//                            }
-//                        }
-//                        $('#adult_id_type'+passenger_number).niceSelect('update');
-//                    }
                     if(document.getElementById(type+'_email'+passenger_number))
                         document.getElementById(type+'_email'+passenger_number).value = passenger_data[sequence].email;
                     try{
@@ -3527,7 +3582,128 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                   text: "Please clear before pick passenger",
               })
             }
-        }else if(type == 'child'){
+        }
+        else if(type == 'adult'){
+            if(document.getElementById('adult_id'+passenger_number).value == ''){
+                check = 0;
+                for(i in passenger_data_pick){
+                    if(passenger_data_pick[i].seq_id == passenger_data[sequence].seq_id)
+                        check = 1;
+                }
+                if(check == 0){
+                    for(i in passenger_data_pick){
+                        if(passenger_data_pick[i].sequence == 'adult'+passenger_number){
+                            passenger_data_pick.splice(i,1);
+                            break;
+                        }
+                    }
+                    if(passenger_data[sequence].face_image.length > 0){
+                        text = '';
+                        text += `
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:center;">
+                                    <img src="`+passenger_data[sequence].face_image[0]+`" alt="User" class="picture_passenger_agent">
+                                </div>
+                            </div>
+                        `;
+                        if(document.getElementById('adult_div_avatar'+passenger_number)){
+                            document.getElementById('adult_div_avatar'+passenger_number).innerHTML = text
+                            document.getElementById('adult_div_avatar'+passenger_number).hidden = false;
+                        }
+                    }else{
+                        if(document.getElementById('adult_div_avatar'+passenger_number))
+                            document.getElementById('adult_div_avatar'+passenger_number).hidden = true;
+                    }
+                    document.getElementById('adult_title'+passenger_number).value = passenger_data[sequence].title;
+                    for(i in document.getElementById('adult_title'+passenger_number).options){
+                        document.getElementById('adult_title'+passenger_number).options[i].disabled = false;
+                    }
+                    for(i in document.getElementById('adult_title'+passenger_number).options){
+                        if(document.getElementById('adult_title'+passenger_number).options[i].selected != true)
+                            document.getElementById('adult_title'+passenger_number).options[i].disabled = true;
+                    }
+                    $('#adult_title'+passenger_number).niceSelect('update');
+                    document.getElementById('adult_first_name'+passenger_number).value = passenger_data[sequence].first_name;
+                    document.getElementById('adult_first_name'+passenger_number).readOnly = true;
+                    document.getElementById('adult_last_name'+passenger_number).value = passenger_data[sequence].last_name;
+                    document.getElementById('adult_last_name'+passenger_number).readOnly = true;
+                    try{
+                        document.getElementById('adult_behaviors'+passenger_number).value = JSON.stringify(passenger_data[sequence].behaviors);
+                        //belum semua product di tambahkan
+                    }catch(err){console.log(err);}
+
+    //                capitalizeInput('adult_first_name'+passenger_number);
+    //                passenger_data[sequence].first_name = document.getElementById('adult_first_name'+passenger_number).value;
+    //                capitalizeInput('adult_last_name'+passenger_number);
+    //                passenger_data[sequence].last_name = document.getElementById('adult_last_name'+passenger_number).value;
+
+                    document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_name;
+                    if(passenger_data[sequence].nationality_name != '' && passenger_data[sequence].nationality_name != ''){
+                        document.getElementById('select2-adult_nationality'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].nationality_name;
+                        document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_name;
+                    }
+                    document.getElementById('adult_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
+//                    if(product=='airline' || product == 'activity' || product == 'visa' || product == 'tour'){
+//                        if(passenger_data[sequence].identities.hasOwnProperty('passport') == true){
+//                            var date1 = moment(passenger_data[sequence].identities.passport.identity_expdate);
+//                            var date2 = moment();
+//                            var expired = date2.diff(date1, 'days');
+//                            if(expired < -180){
+//                                document.getElementById('adult_passport_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
+//                                document.getElementById('adult_passport_number'+passenger_number).readOnly = true;
+//                                if(passenger_data[sequence].identities.passport.identity_country_of_issued_name != '' && passenger_data[sequence].identities.passport.identity_country_of_issued_name != undefined){
+//                                    document.getElementById('select2-adult_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
+//                                    document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].identities.passport.identity_country_of_issued_name;
+//                                    auto_complete('adult_country_of_issued'+passenger_number);
+//                                    document.getElementById('adult_country_of_issued'+passenger_number).readOnly = true;
+//                                    try{ //yg ada id_type di update
+//                                        document.getElementById('adult_id_type'+passenger_number).value = 'passport';
+//                                        $('#adult_id_type'+passenger_number).niceSelect('update');
+//                                    }catch(err){}
+//                                }
+//                                if(passenger_data[sequence].identities.passport.identity_expdate != '' && passenger_data[sequence].identities.passport.identity_expdate != undefined){
+//                                    document.getElementById('adult_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities.passport.identity_expdate;
+//                                }
+//                            }
+//                        }
+//                        //document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
+//                    }
+                    passenger_data_pick.push(passenger_data[sequence]);
+                    passenger_data_pick[passenger_data_pick.length-1].sequence = 'adult'+passenger_number;
+                    document.getElementById('adult_id'+passenger_number).value = passenger_data[sequence].seq_id;
+                    if(document.getElementById('adult_passport_passport_number'+passenger_number)){
+                        if(passenger_data[sequence].hasOwnProperty('identities') && passenger_data[sequence]['identities'].hasOwnProperty('passport')){
+                            document.getElementById('adult_passport_passport_number'+passenger_number).value = passenger_data[sequence]['identities']['passport'].identity_number;
+                            document.getElementById('adult_passport_passport_expired_date'+passenger_number).value = passenger_data[sequence]['identities']['passport'].identity_expdate;
+                            $('#adult_passport_passport_country_of_issued'+passenger_number+'_id').val(passenger_data[sequence]['identities']['passport'].identity_country_of_issued_name).trigger('change');
+                        }
+                    }
+                    auto_complete('adult_nationality'+passenger_number);
+        //            if (document.getElementById("default-select")) {
+        //                $('#adult_nationality'+passenger_number+'_id').niceSelect('update');
+        //                $('#adult_nationality1_id').niceSelect('update');
+        //            };
+                    $('#adult_nationality'+passenger_number+'_id').niceSelect('update');
+                    $('#adult_country_of_issued'+passenger_number).niceSelect('update');
+                    $('#myModal_adult'+passenger_number).modal('hide');
+                    document.getElementById('train_adult'+passenger_number+'_search').value = '';
+                    document.getElementById('search_result_adult'+passenger_number).innerHTML = '';
+                }else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      text: "You can't choose same person in 1 booking",
+                  })
+                }
+            }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  text: "Please clear before pick passenger",
+              })
+            }
+        }
+        else if(type == 'child'){
             if(document.getElementById('child_id'+passenger_number).value == ''){
                 check = 0;
                 for(i in passenger_data_pick){
@@ -3639,7 +3815,8 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                   text: "Please clear before pick passenger",
               })
             }
-        }else if(type == 'infant'){
+        }
+        else if(type == 'infant'){
             if(document.getElementById('infant_id'+passenger_number).value == ''){
                 check = 0;
                 for(i in passenger_data_pick){
@@ -3746,7 +3923,8 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                   text: "Please clear before pick passenger",
               })
             }
-        }else if(type == 'senior'){
+        }
+        else if(type == 'senior'){
             if(document.getElementById('senior_id'+passenger_number).value == ''){
                 check = 0;
                 for(i in passenger_data_pick){
@@ -4280,7 +4458,8 @@ function copy_booker(val,type,identity){
                   html: msg,
                 })
             }
-        }else if(type == 'medical'){
+        }
+        else if(type == 'medical'){
             if(document.getElementById('booker_title').value != '' &&
                document.getElementById('booker_first_name').value != '' &&
                document.getElementById('booker_nationality').value != '' &&
@@ -4382,7 +4561,8 @@ function copy_booker(val,type,identity){
                   html: msg,
                 })
             }
-        }else if(document.getElementById('adult_id1').value == '' || document.getElementById('adult_id1').value == document.getElementById('booker_id').value){
+        }
+        else if(document.getElementById('adult_id1').value == '' || document.getElementById('adult_id1').value == document.getElementById('booker_id').value){
             for(i in passenger_data_pick){
                 if(passenger_data_pick[i].sequence == 'adult1'){
                     passenger_data_pick.splice(i,1);
@@ -4432,76 +4612,14 @@ function copy_booker(val,type,identity){
                     console.log(err); // error tidak ada fungsi check_years_old / tidak ada field birth_date
                 }
             }
-            if(type == 'train'){
-                document.getElementById('adult_phone_code1').value = document.getElementById('booker_phone_code').value;
-                document.getElementById('adult_phone1').value = document.getElementById('booker_phone').value;
-//                if(document.getElementById('booker_id_type').value != ''){
-//                    document.getElementById('adult_id_type1').value = document.getElementById('booker_id_type').value;
-//                    $('#adult_id_type1').niceSelect('update');
-//                    if(document.getElementById('booker_id_number').value != 'undefined' && document.getElementById('booker_id_number').value != '')
-//                        document.getElementById('adult_passport_number1').value = document.getElementById('booker_id_number').value;
-//                    if(document.getElementById('booker_exp_date').value != 'undefined' && document.getElementById('booker_exp_date').value != '')
-//                        document.getElementById('adult_passport_expired_date1').value = document.getElementById('booker_exp_date').value;
-//                    if(document.getElementById('booker_country_of_issued').value != 'undefined' && document.getElementById('booker_country_of_issued').value != ''){
-//                        document.getElementById('select2-adult_country_of_issued1_id-container').innerHTML = document.getElementById('booker_country_of_issued').value;
-//                        document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
-//                    }
-//                }
-            }else if(type == 'airline' || type == 'activity' || type == 'tour' || type == 'visa'){
-                //check 6 bulan
-//                var date1 = moment(document.getElementById('booker_exp_date').value);
-//                var date2 = moment();
-//                var expired = date2.diff(date1, 'days');
-//                if(expired < -180){
-//                    try{ //check ada id type di selection klo ada masukkan
-//                        var radios = document.getElementsByName('adult_identity_type1');
-//                        for (var j = 0, length = radios.length; j < length; j++) {
-//                            if (radios[j].value == document.getElementById('booker_id_type').value) {
-//                                if(document.getElementById('booker_id_type').value != 'undefined' && document.getElementById('booker_id_type').value != ''){
-//                                    document.getElementById('adult_id_type1').value = 'passport';
-//                                    if(document.getElementById('booker_id_number').value != 'undefined' && document.getElementById('booker_id_number').value != '')
-//                                        document.getElementById('adult_passport_number1').value = document.getElementById('booker_id_number').value;
-//                                    if(document.getElementById('booker_exp_date').value != 'undefined' && document.getElementById('booker_exp_date').value != '')
-//                                        document.getElementById('adult_passport_expired_date1').value = document.getElementById('booker_exp_date').value;
-//                                    if(document.getElementById('booker_country_of_issued').value != 'undefined' && document.getElementById('booker_country_of_issued').value != ''){
-//                                        document.getElementById('select2-adult_country_of_issued1_id-container').innerHTML = document.getElementById('booker_country_of_issued').value;
-//                                        document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
-//                                    }
-//                                    $('#adult_id_type1').niceSelect('update');
-//                                }
-//                            }
-//                        }
-//                    }catch(err){console.log(err);}
-//
-//                }
+            if(document.getElementById('adult_passport_passport_number1')){
+                if(data_booker.hasOwnProperty('identities') && data_booker['identities'].hasOwnProperty('passport')){
+                    document.getElementById('adult_passport_passport_number1').value = data_booker['identities']['passport'].identity_number;
+                    document.getElementById('adult_passport_passport_expired_date1').value = data_booker['identities']['passport'].identity_expdate;
+                    $('#adult_passport_passport_country_of_issued1_id').val(data_booker['identities']['passport'].identity_country_of_issued_name).trigger('change');
+                }
             }
 
-
-//            var date1 = moment(document.getElementById('booker_exp_date').value);
-//            var date2 = moment();
-//            var expired = date2.diff(date1, 'days');
-//            if(expired < -180){
-//                try{ //check ada id type di selection klo ada masukkan
-//                    var radios = document.getElementsByName('adult_identity_type1');
-//                    for (var j = 0, length = radios.length; j < length; j++) {
-//                        if (radios[j].value == document.getElementById('booker_id_type').value) {
-//                            if(document.getElementById('booker_id_type').value != 'undefined' && document.getElementById('booker_id_type').value != ''){
-//                                document.getElementById('adult_id_type1').value = 'passport';
-//                                if(document.getElementById('booker_id_number').value != 'undefined' && document.getElementById('booker_id_number').value != '')
-//                                    document.getElementById('adult_passport_number1').value = document.getElementById('booker_id_number').value;
-//                                if(document.getElementById('booker_exp_date').value != 'undefined' && document.getElementById('booker_exp_date').value != '')
-//                                    document.getElementById('adult_passport_expired_date1').value = document.getElementById('booker_exp_date').value;
-//                                if(document.getElementById('booker_country_of_issued').value != 'undefined' && document.getElementById('booker_country_of_issued').value != ''){
-//                                    document.getElementById('select2-adult_country_of_issued1_id-container').innerHTML = document.getElementById('booker_country_of_issued').value;
-//                                    document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
-//                                }
-//                                $('#adult_id_type1').niceSelect('update');
-//                            }
-//                        }
-//                    }
-//                }catch(err){console.log(err);}
-//
-//            }
             document.getElementById('adult_nationality1_id').disabled = true;
             document.getElementById('adult_email1').readOnly = true;
             document.getElementById('adult_phone1').readOnly = true;
@@ -4509,7 +4627,8 @@ function copy_booker(val,type,identity){
             if(document.getElementById('adult_birth_date1').value != '' && document.getElementById('booker_birth_date').value != '')
                 document.getElementById('adult_birth_date1').disabled = true;
             document.getElementById('adult_id1').value = document.getElementById('booker_id').value;
-        }else{
+        }
+        else{
             document.getElementsByName('myRadios')[1].checked = true;
             Swal.fire({
               type: 'error',
@@ -4639,6 +4758,12 @@ function copy_booker(val,type,identity){
                 document.getElementById('adult_ff_number1_'+index_ff).value = "";
                 index_ff++;
             }
+        }
+
+        if(document.getElementById('adult_passport_passport_number1')){
+            document.getElementById('adult_passport_passport_number1').value = '';
+            document.getElementById('adult_passport_passport_expired_date1').value = '';
+            $('#adult_passport_passport_country_of_issued1_id').val('').trigger('change');
         }
     }
 }
@@ -5788,7 +5913,7 @@ function get_payment_espay(order_number_full){
         url_back.pop();
         url_back = url_back.join('/');
 //        window.location.href = '/' + type_render + '/booking/' + order_number_id;
-        window.location.href = '/payment/espay/' + order_number_full; //redirect ke dari payment dengan nomor va
+//        window.location.href = '/payment/espay/' + order_number_full; //redirect ke dari payment dengan nomor va //lupa kenapa dulu bikin kyk gini cuman kalau kyk gini ke redirect 2x & jika espay belum response redirect prtama akan muncul payment error fix
     }else
         url_back = window.location.href;
     $.ajax({
@@ -6420,6 +6545,26 @@ function get_passenger_cache(type,update_cache=false){
                                                             </div>
                                                         </div>`;
                                                 }
+                                            }else{
+                                                response += `
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <i class="fas fa-id-card"></i> <i>Frequent Flyer Data:</i><br>
+                                                        </div>`;
+                                                for(j in msg.result.response[i].frequent_flyers){
+                                                    for(x in frequent_flyer_data){
+                                                        if(frequent_flyer_data[x].code == msg.result.response[i].frequent_flyers[j].ff_code){
+                                                            response += `
+                                                        <div class="col-lg-12">
+                                                            <span>`+frequent_flyer_data[x].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</span>
+                                                        </div>`;
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+
+                                                response +=`
+                                                    </div>`;
                                             }
                                         }
 //                                            if(msg.result.response[i].identities.hasOwnProperty('passport') == true)
@@ -6673,6 +6818,7 @@ function edit_passenger_cache(val){
     document.getElementById('passenger_edit_phone_table').innerHTML = '';
 
     passenger_data_edit_phone = 0;
+    passenger_data_edit_ff = 0;
     passenger_cache_pick = val;
     //avatar
     if(passenger_data_cache[val].face_image.length > 0){
@@ -6783,6 +6929,48 @@ function edit_passenger_cache(val){
             $('#passenger_edit_phone_code'+parseInt(parseInt(i)+1)+'_id').select2();
         }
     }
+
+    text = '';
+    if(passenger_data_cache[val].hasOwnProperty('frequent_flyers') && passenger_data_cache[val].frequent_flyers.length != 0){
+        for(i in passenger_data_cache[val].frequent_flyers){
+            text+=`
+                <div class='row' id="ff`+parseInt(parseInt(i)+1)+`_id">
+                    <div class="col-sm-5">
+                        <label>Frequent Flyer</label><br/>
+                        <div class="form-select">
+                            <select class="form-control js-example-basic-single" name="passenger_edit_ff`+parseInt(parseInt(i)+1)+`_id" style="width:100%;" id="passenger_edit_ff`+parseInt(parseInt(i)+1)+`_id">`;
+                                for(j in frequent_flyer_data){
+                                    text += `<option value="`+frequent_flyer_data[j].code+`"`;
+                                    if(passenger_data_cache[val].frequent_flyers[i].ff_code == frequent_flyer_data[j].code)
+                                        text += `selected`;
+                                    text+=`>`+frequent_flyer_data[j].name+`</option>`;
+                                }
+                            text+=`</select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Frequent Flyer Number</label><br/>
+                        <div class="form-select">
+                            <div class="input-container-search-ticket">
+                                <input type="text" class="form-control" name="passenger_edit_ff_number`+parseInt(parseInt(i)+1)+`" id="passenger_edit_ff_number`+parseInt(parseInt(i)+1)+`" placeholder="Frequent Flyer Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Frequent Flyer Number '" value="`+passenger_data_cache[val].frequent_flyers[i].ff_number+`">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1" style="margin-top:25px;">
+                        <button type="button" class="primary-delete-date" onclick="delete_frequent_flyer_cache(`+parseInt(parseInt(i)+1)+`)">
+                            <i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i>
+                        </button>
+                    </div>
+                </div>`;
+
+            passenger_data_edit_ff = parseInt(parseInt(i) + 1)
+        }
+        document.getElementById('passenger_edit_ff_table').innerHTML = text;
+        for(i in passenger_data_cache[val].frequent_flyers){
+            $('#passenger_edit_ff'+parseInt(parseInt(i)+1)+'_id').select2();
+        }
+    }
+
     document.getElementById('attachment').innerHTML = '';
     document.getElementById('attachment1').innerHTML = '';
     document.getElementById('attachment2').innerHTML = '';
@@ -7150,7 +7338,6 @@ function delete_phone_passenger_cache(val){
     }
 }
 
-
 function add_phone_passenger_edit_cache(){
     text = '';
     var node = document.createElement("div");
@@ -7195,6 +7382,7 @@ function add_phone_passenger_edit_cache(){
 function add_phone_passenger_cache(){
     text = '';
     passenger_data_phone = passenger_data_phone + 1;
+    var node = document.createElement("div");
     text+=`
         <div class='row' id="phone`+passenger_data_phone+`_id">
             <div class="col-sm-5">
@@ -7225,9 +7413,97 @@ function add_phone_passenger_cache(){
                 </button>
             </div>
         </div>`;
-    document.getElementById('passenger_phone_table').innerHTML += text;
+    node.innerHTML = text;
+    document.getElementById('passenger_phone_table').appendChild(node);
     document.getElementById('passenger_phone_code'+passenger_data_phone).value = '62';
     $('#passenger_phone_code'+passenger_data_phone+'_id').select2();
+}
+
+function add_frequent_flyer_edit_cache(){
+    text = '';
+    var node = document.createElement("div");
+    node.setAttribute('id', "ff`+passenger_data_edit_ff+`_id");
+    passenger_data_edit_ff = parseInt(parseInt(passenger_data_edit_ff) + 1);
+    text+=`
+        <div class='row' id="ff`+passenger_data_edit_ff+`_id">
+            <div class="col-sm-5">
+                <label>Frequent Flyer</label><br/>
+                <div class="form-select">
+                    <select class="form-control js-example-basic-single" name="passenger_edit_ff`+passenger_data_edit_ff+`_id" style="width:100%;" id="passenger_edit_ff`+passenger_data_edit_ff+`_id" placeholder="Nationality">
+                        <option val="">Frequent Flyer</option>`;
+                        for(j in frequent_flyer_data){
+                            text += `<option value="`+frequent_flyer_data[j].code+`">`+frequent_flyer_data[j].name+`</option>`;
+                        }
+                    text+=`</select>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label>Frequent Flyer Number</label><br/>
+                <div class="form-select">
+                    <div class="input-container-search-ticket">
+                        <input type="text" class="form-control" name="passenger_edit_ff_number`+passenger_data_edit_ff+`" id="passenger_edit_ff_number`+passenger_data_edit_ff+`" placeholder="Frequent Flyer Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Frequent Flyer Number '" value="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-1" style="margin-top:25px;">
+                <button type="button" class="primary-delete-date" onclick="delete_frequent_flyer_cache(`+passenger_data_edit_ff+`)">
+                    <i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i>
+                </button>
+            </div>
+        </div>`;
+    node.innerHTML = text;
+    document.getElementById('passenger_edit_ff_table').appendChild(node);
+    $('#passenger_edit_ff'+passenger_data_edit_ff+'_id').select2();
+}
+
+function add_frequent_flyer_cache(){
+    text = '';
+    passenger_ff_data = passenger_ff_data + 1;
+    var node = document.createElement("div");
+    text+=`
+        <div class='row' id="ff`+passenger_ff_data+`_id">
+            <div class="col-sm-5">
+                <label>Frequent Flyer</label><br/>
+                <div class="form-select">
+                    <select class="form-control js-example-basic-single" name="passenger_ff`+passenger_ff_data+`_id" style="width:100%;" id="passenger_ff`+passenger_ff_data+`_id" placeholder="Nationality" onchange="auto_complete('passenger_ff`+passenger_ff_data+`')" class="nice-select-default">
+                        <option val="">Frequent Flyer</option>`;
+                        for(j in frequent_flyer_data){
+                            text += `<option value="`+frequent_flyer_data[j].code+`">`+frequent_flyer_data[j].name+`</option>`;
+                        }
+                    text+=`</select>
+                </div>
+                <input type="hidden" name="passenger_ff`+passenger_ff_data+`" id="passenger_ff`+passenger_ff_data+`" />
+            </div>
+            <div class="col-sm-6">
+                <label>Frequent Flyer Number</label><br/>
+                <div class="form-select">
+                    <div class="input-container-search-ticket">
+                        <input type="text" class="form-control" name="passenger_ff_number`+passenger_ff_data+`" id="passenger_ff_number`+passenger_ff_data+`" placeholder="Frequent Flyer Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Frequent Flyer Number '" value="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-1" style="margin-top:25px;">
+                <button type="button" class="primary-delete-date" onclick="delete_frequent_flyer_cache(`+passenger_ff_data+`)">
+                    <i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i>
+                </button>
+            </div>
+        </div>`;
+    node.innerHTML = text;
+    document.getElementById('passenger_frequent_flyer_table').appendChild(node);
+    $('#passenger_ff'+passenger_ff_data+'_id').select2();
+}
+
+function delete_frequent_flyer_cache(val){
+    try{
+        document.getElementById(`ff`+val+`_id`).remove();
+    }catch(err){
+        console.log(err); //error tidak ada element ff passenger
+        try{
+            document.getElementById(`ff_cache`+val+`_id`).remove();
+        }catch(err){
+            console.log(err); //error tidak ada element ff cache
+        }
+    }
 }
 
 function get_countries(){
@@ -7340,58 +7616,6 @@ function pick_passenger_cache(val){
             pick_passenger_cache_copy(val, '');
         else
             pick_passenger_cache_copy(val, identity_choose.split(' - ')[0]);
-//        try{
-//            selection = document.getElementById(passenger_pick+'_id_type'+passenger_pick_number).options;
-//        }catch(err){
-//            console.log(err); // kalau tidak ada identity type pada passenger 1
-//        }
-//        try{
-//            if(selection == null)
-//                selection = document.getElementById(passenger_pick+'_identity_type'+passenger_pick_number).options;
-//        }catch(err){
-//            console.log(err); // kalau tidak ada identity type pada passenger 1
-//        }
-//        try{
-//            need_identity = document.getElementById(passenger_pick+'_identity_div'+passenger_pick_number).style.display;
-//        }catch(err){
-//            console.log(err); //kalau tidak ada penanda required identity di html
-//        }
-//        if(selection != null && data.length > 1){
-//            var found_selection = [];
-//            for(i in selection){
-//                for(j in data){
-//                    if(selection[i].value == data[j].split(',')[0]){
-//                        found_selection.push(selection[i].value);
-//                        break;
-//                    }
-//                }
-//            }
-//            console.log(found_selection);
-//            if(found_selection.length == 1 || need_identity == 'none'){
-//                pick_passenger_cache_copy(val, found_selection[0])
-//            }else{
-//                text = '<br/><select id="found_selection" class="form-select">';
-//                for(i in found_selection)
-//                    text += `<option value=`+found_selection[i]+`>`+found_selection[i]+`</option>`;
-//                text += '</select>';
-//                Swal.fire({
-//                  type: 'info',
-//                  title: 'Pick Identity to Copy '  + passenger_pick + ' ' + passenger_pick_number,
-//                  showCancelButton: true,
-//                  showConfirmButton: true,
-//                  showCloseButton: true,
-//                  html: text
-//                }).then((result) => {
-//                  if (result.value) {
-//                    pick_passenger_cache_copy(val,document.getElementById('found_selection').value);
-//                  }else{
-//                    document.getElementsByName('myRadios')[1].checked = true;
-//                  }
-//                });
-//            }
-//        }else{
-//            pick_passenger_cache_copy(val, '');
-//        }
     }else{
         //booker
         pick_passenger_cache_copy(val, '');
@@ -8218,26 +8442,6 @@ function update_passenger_backend(){
         }else{
            document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
         }
-//        if(document.getElementById('passenger_edit_identity_number'+i).value != '' ||
-//           document.getElementById('passenger_edit_identity_expired_date'+i).value != '' ||
-//           document.getElementById('passenger_identity_country_of_issued'+i).value != ''){
-//           if(document.getElementById('passenger_edit_identity_number'+i).value == ''){
-//               error_log+= 'Please fill '+identity_type+' number !</br>\n';
-//               document.getElementById('passenger_edit_identity_number'+i).style['border-color'] = 'red';
-//           }else{
-//               document.getElementById('passenger_edit_identity_number'+i).style['border-color'] = '#EFEFEF';
-//           }if(document.getElementById('passenger_edit_identity_expired_date'+i).value == ''){
-//               error_log+= 'Please fill '+identity_type+' expired date !</br>\n';
-//               document.getElementById('passenger_edit_identity_expired_date'+i).style['border-color'] = 'red';
-//           }else{
-//               document.getElementById('passenger_edit_identity_expired_date'+i).style['border-color'] = '#EFEFEF';
-//           }if(document.getElementById('passenger_edit_identity_country_of_issued'+i).value == ''){
-//               error_log+= 'Please fill '+identity_type+' country of issued !</br>\n';
-//               document.getElementById('passenger_edit_identity_country_of_issued'+i).style['border-color'] = 'red';
-//           }else{
-//               document.getElementById('passenger_edit_identity_country_of_issued'+i).style['border-color'] = '#EFEFEF';
-//           }
-//        }
     }
     try{
         for(i = 1; i<= passenger_data_edit_phone ; i++){
@@ -8252,6 +8456,40 @@ function update_passenger_backend(){
             }
         }
     }catch(err){
+
+    }
+    ff_numbers = [];
+    try{
+        for(i = 1; i<= passenger_data_edit_ff ; i++){
+            try{
+                is_same_ff = false
+                if(document.getElementById('passenger_edit_ff'+i+'_id').value == '' || document.getElementById('passenger_edit_ff'+i+'_id').value == 'Frequent Flyer'){
+                    error_log+= 'Please choose frequent flyer '+i+'!</br>\n';
+                    document.getElementById('passenger_edit_ff'+i+'_id').style['border-color'] = 'red';
+                }else{
+                    for(j in ff_numbers){
+                        if(ff_numbers[j] == document.getElementById('passenger_edit_ff'+i+'_id').value){
+                            is_same_ff = true;
+                        }
+                    }
+                    if(!is_same_ff){
+                        ff_numbers.push(document.getElementById('passenger_edit_ff'+i+'_id').value);
+                        document.getElementById('passenger_edit_ff'+i+'_id').style['border-color'] = '#EFEFEF';
+                    }else{
+                        error_log+= 'Same frequent flyer '+i+', please change!</br>\n';
+                        document.getElementById('passenger_edit_ff'+i+'_id').style['border-color'] = 'red';
+                    }
+                }if(document.getElementById('passenger_edit_ff_number'+i).value == ''){
+                    error_log+= 'Please fill frequent flyer number '+i+'!</br>\n';
+                    document.getElementById('passenger_edit_ff_number'+i).style['border-color'] = 'red';
+                }else
+                    document.getElementById('passenger_edit_ff_number'+i).style['border-color'] = '#EFEFEF';
+            }catch(err){
+                console.log(err);
+            }
+        }
+    }catch(err){
+
     }
     if(error_log == ''){
         var formData = new FormData($('#form_identity_passenger_edit').get(0));
@@ -8291,12 +8529,28 @@ function update_passenger_backend(){
                     }
                     phone = [];
                     identity = {};
+                    ff_numbers = [];
                     try{
                         for(i = 1; i<= passenger_data_edit_phone ; i++){
                             try{
                                 phone.push({
                                     'calling_code': document.getElementById('passenger_edit_phone_code'+i).value,
                                     'calling_number': document.getElementById('passenger_edit_phone_number'+i).value
+                                })
+                            }catch(err){
+
+                            }
+                        }
+                    }catch(err){
+
+                    }
+
+                    try{
+                        for(i = 1; i<= passenger_data_edit_ff ; i++){
+                            try{
+                                ff_numbers.push({
+                                    'ff_code': document.getElementById('passenger_edit_ff'+i+'_id').value,
+                                    'ff_number': document.getElementById('passenger_edit_ff_number'+i).value
                                 })
                             }catch(err){
 
@@ -8353,7 +8607,8 @@ function update_passenger_backend(){
                         'image': img_list,
                         'seq_id': passenger_data_cache[passenger_cache_pick].seq_id,
                         'birth_date': birth_date,
-                        'title': title
+                        'title': title,
+                        'ff_numbers': ff_numbers
                     }
                     $.ajax({
                        type: "POST",

@@ -930,6 +930,8 @@ function sort(response, check_filter){
                                                     }
                                                     arr[j][1].price = price;
                                                     arr[j][1].price_without_discount = price_without_discount;
+                                                    price_without_discount = 0;
+                                                    price = 0;
                                                 }
 
                                                 //check disni tampilkan harga discount

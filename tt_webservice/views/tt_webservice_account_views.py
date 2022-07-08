@@ -75,6 +75,10 @@ def api_models(request):
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'signin':
             res = signin(request)
+        elif req_data['action'] == 'check_session':
+            res = check_session(request)
+        elif req_data['action'] == 'update_session':
+            res = update_session(request)
         elif req_data['action'] == 'signup_user':
             res = signup_user(request)
         elif req_data['action'] == 'get_balance':
@@ -186,6 +190,36 @@ def signin(request):
         # pass
         # # logging.getLogger("error logger").error('testing')
         # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def check_session(request):
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "check_session",
+        "signature": request.POST['signature']
+    }
+    try:
+        data = {}
+    except Exception as e:
+        _logger.error('ERROR check session\n' + str(e) + '\n' + traceback.format_exc())
+    url_request = url + 'session'
+    res = send_request_api(request, url_request, headers, data, 'POST', 30)
+    return res
+
+def update_session(request):
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "update_session",
+        "signature": request.POST['signature']
+    }
+    try:
+        data = {}
+    except Exception as e:
+        _logger.error('ERROR update session\n' + str(e) + '\n' + traceback.format_exc())
+    url_request = url + 'session'
+    res = send_request_api(request, url_request, headers, data, 'POST', 30)
     return res
 
 def signup_user(request):

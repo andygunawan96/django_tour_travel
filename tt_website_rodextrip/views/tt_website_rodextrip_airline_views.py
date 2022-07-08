@@ -100,6 +100,7 @@ def search(request):
             response = get_cache_data(cache_version)
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
+            is_reorder = False
             for i in airline_country:
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
@@ -282,9 +283,31 @@ def search(request):
                 set_session(request, 'airline_carriers_request', airline_carriers)
 
                 request.session.modified = True
-            except:
+            except Exception as e:
+                ## TIDAK ADA DATA POST, DARI REORDER
                 airline_request = request.session['airline_request']
-                airline_carriers = request.session['airline_carriers_request']
+                airline_carriers = [{
+                    'All': {
+                        'name': 'All',
+                        'code': 'all',
+                        'is_favorite': False,
+                        'bool': True
+                    }
+                }]
+                for rec in file:
+                    airline_carriers[0][rec] = {
+                        'name': file[rec]['name'],
+                        'display_name': file[rec]['display_name'],
+                        'code': file[rec]['code'],
+                        'icao': file[rec]['icao'],
+                        'call_sign': file[rec]['call_sign'],
+                        'is_favorite': file[rec]['is_favorite'],
+                        'provider': file[rec]['provider'],
+                        'is_excluded_from_b2c': file[rec]['is_excluded_from_b2c'],
+                        'bool': False
+                    }
+                set_session(request, 'airline_carriers_request', airline_carriers)
+                is_reorder = True
                 return_date = request.session['airline_request']['departure']
 
             flight = ''
@@ -335,6 +358,7 @@ def search(request):
                 'signature': request.session['signature'],
                 'time_limit': 1200,
                 'static_path_url_server': get_url_static_path(),
+                'is_reorder': is_reorder
                 # 'co_uid': request.session['co_uid'],
                 # 'cookies': json.dumps(res['result']['cookies']),
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],

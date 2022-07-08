@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
 from tt_webservice.views.tt_webservice_agent_views import *
+from tt_webservice.views.tt_webservice_airline_views import *
 from tt_webservice.views.tt_webservice_payment_views import *
 from tt_webservice.views.tt_webservice_views import *
 import logging
@@ -997,6 +998,36 @@ def reservation_request(request):
         raise Exception('Make response code 500!')
     return render(request, MODEL_NAME+'/backend/reservation_request_templates.html', values)
 
+def create_passenger_request(request, signature):
+    try:
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
+        airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
+        values = get_data_template(request)
+
+        if translation.LANGUAGE_SESSION_KEY in request.session:
+            del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+        values.update({
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+            'username': {},
+            'static_path_url_server': get_url_static_path(),
+            'javascript_version': javascript_version,
+            'signature': signature,
+            'countries': airline_country,
+            'phone_code': phone_code,
+        })
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+        raise Exception('Make response code 500!')
+    return render(request, MODEL_NAME+'/create_passenger_agent_templates.html', values)
+
 def get_reservation_request(request, request_number):
     try:
         javascript_version = get_javascript_version()
@@ -1345,6 +1376,7 @@ def get_data_template(request, type='home', provider_type = []):
     signup_btb_btn = 'Sign Up agent Here'
     setting_login_page = 'website_name'
     google_tag_manager_key = ''
+    get_frequent_flyer = []
     font = {
         "name": '',
         "font": ''
@@ -1512,6 +1544,8 @@ def get_data_template(request, type='home', provider_type = []):
                     provider_obj['sequence'] = str(last_sequence)
 
         provider_types_sequence = sorted(provider_types_sequence, key=lambda k: int(k['sequence']))
+
+        get_frequent_flyer = get_frequent_flyer_all_data({}, request.session.get('signature', ''))
 
         file = read_cache_with_folder_path("data_cache_template", 90911)
         if file:
@@ -1684,7 +1718,8 @@ def get_data_template(request, type='home', provider_type = []):
         'signup_btb_text': signup_btb_text,
         'signup_btb_btn': signup_btb_btn,
         'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-        'google_tag_manager_key': google_tag_manager_key
+        'google_tag_manager_key': google_tag_manager_key,
+        'get_frequent_flyer': get_frequent_flyer
     }
 
 
