@@ -992,15 +992,29 @@ function create_new_passenger(){
 
             }
        }
-
+       ff_numbers = [];
        for(i = 1; i<= passenger_ff_data ; i++){
             try{
                 if(document.getElementById('passenger_ff'+i).value == ''){
                     error_log+= 'Please choose frequent flyer '+i+'!</br>\n';
                     document.getElementById('passenger_ff'+i).style['border-color'] = 'red';
-                }else
-                    document.getElementById('passenger_ff'+i).style['border-color'] = '#EFEFEF';
+                }else{
+                    is_same_ff = false;
+                    for(j in ff_numbers){
+                        if(ff_numbers[j] == document.getElementById('passenger_ff'+i+'_id').value){
+                            is_same_ff = true;
+                        }
+                    }
+                    if(!is_same_ff){
+                        ff_numbers.push(document.getElementById('passenger_ff'+i+'_id').value);
+                        document.getElementById('passenger_ff'+i).style['border-color'] = '#EFEFEF';
+                    }else{
+                        error_log+= 'Same frequent flyer '+i+', please change!</br>\n';
+                        document.getElementById('passenger_edit_ff'+i+'_id').style['border-color'] = 'red';
+                    }
 
+
+                }
                 if(document.getElementById('passenger_ff_number'+i).value == ''){
                     error_log+= 'Please fill frequent flyer number '+i+'!</br>\n';
                     document.getElementById('passenger_ff_number'+i).style['border-color'] = 'red';
