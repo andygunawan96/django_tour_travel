@@ -38,6 +38,7 @@
                                     <div class="input-container-search-ticket">
                                         <div class="form-select-2" id="default-select" style="width:100%;">
                                             <select id="b2c_title" name="b2c_title" class="nice-select-default">
+                                                <option value=""></option>
                                                 <option value="MR">MR</option>
                                                 <option value="MRS">MRS</option>
                                                 <option value="MS">MS</option>
@@ -107,7 +108,7 @@
 
                                 <div class="col-lg-12" style="text-align:center;">
                                     <hr/>
-                                    <button type="button" class="primary-btn-ticket" data-dismiss="modal" onclick="signup_b2c();">{% trans 'Sign Up Now' %}</button>
+                                    <button type="button" class="primary-btn-ticket ld-ext-right" onclick="signup_b2c();" id="b2c_signup_btn">{% trans 'Sign Up Now' %}<div class="ld ld-ring ld-cycle"></div></button>
                                 </div>
                                 {%if template == 6%}
                                 <div class="col-lg-12 mt-3" style="text-align:center;">

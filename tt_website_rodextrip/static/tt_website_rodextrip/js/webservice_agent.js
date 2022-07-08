@@ -771,7 +771,9 @@ function signup_b2c(){
         error_log+= 'Phone number only contain number 8 - 12 digits!<br/>';
     if(check_email(document.getElementById('b2c_email').value)==false)
         error_log += 'Please fill email<br/>';
-    if(error_log == '')
+    if(error_log == ''){
+        $('#b2c_signup_btn').addClass("running");
+        $('#b2c_signup_btn').attr("disabled", true);
         $.ajax({
            type: "POST",
            url: "/webservice/account",
@@ -793,11 +795,16 @@ function signup_b2c(){
                     document.getElementById('b2c_last_name').value = '';
                     document.getElementById('b2c_email').value = '';
                     document.getElementById('b2c_phone').value = '';
+                    document.getElementById('b2c_title').value = '';
+                    $('#b2c_nationality_id').val("ID").trigger('change');
+                    $('#b2c_phone_code_id').val("62").trigger('change');
+                    $('#b2c_title').niceSelect('update');
                     Swal.fire({
                       type: 'success',
                       title: 'Create User!',
                       text: 'Please check your email',
                     });
+                    $('#myModalb2c').modal('hide');
                 }else{
                     Swal.fire({
                       type: 'error',
@@ -805,13 +812,14 @@ function signup_b2c(){
                       html: '<span style="color: red;">'+msg.result.error_msg+' </span>',
                     })
                 }
-
+                $('#b2c_signup_btn').removeClass("running");
+                $('#b2c_signup_btn').attr("disabled", false);
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error url server');
            },timeout: 60000
         });
-    else{
+    }else{
         console.log(error_log);
         Swal.fire({
           type: 'error',
