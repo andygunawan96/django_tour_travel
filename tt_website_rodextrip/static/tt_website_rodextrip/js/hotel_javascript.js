@@ -1464,6 +1464,9 @@ function hotel_room_pick(key, key2){
     document.getElementById('hotel_detail_table').innerHTML = '';
     $text2 = "";
     $text_share2 = "";
+    $('#button_chart_hotel').show();
+    $("#badge-hotel-notif").addClass("infinite");
+    $("#myModalTicketHotel").modal('show');
 
     if(hotel_room_detail_pick != null){
         document.getElementById('button'+hotel_room_detail_pick).innerHTML = 'Choose';
@@ -1618,9 +1621,6 @@ function hotel_room_pick_button(){
     $('.hold-seat-booking-train').prop('disabled', false);
     $('.hold-seat-booking-train').removeClass("running");
 
-    $('#button_chart_hotel').show();
-    $("#badge-hotel-notif").addClass("infinite");
-    $("#myModalTicketHotel").modal('show');
     document.getElementById("badge-hotel-notif").innerHTML = "1";
     //document.getElementById("badge-train-notif2").innerHTML = "1";
 

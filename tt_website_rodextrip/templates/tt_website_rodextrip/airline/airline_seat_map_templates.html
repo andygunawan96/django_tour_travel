@@ -298,7 +298,10 @@ img {vertical-align: middle;}
       for (i = 0; i < x.length; i++) {
          x[i].style.display = "none";
       }
-      x[slideIndex[no]-1].style.display = "block";
+      if(x.length > slideIndex[no]-1) //check max length
+        x[slideIndex[no]-1].style.display = "block";
+      else
+        x[0].style.display = "block";
       //wagon = slideIndex[no]-1;
     }
 </script>

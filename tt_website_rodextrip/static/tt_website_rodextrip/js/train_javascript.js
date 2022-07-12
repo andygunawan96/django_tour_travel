@@ -1894,15 +1894,15 @@ function filtering(type){
         }
         //filter arrival departure
         if(journeys.length > 0){
-            copy_data = JSON.parse(JSON.stringify(data));
+            copy_data_list = JSON.parse(JSON.stringify(data));
             if(train_request.departure[journeys.length-1] == train_request.departure[journeys.length]){
                 temp_data = [];
-                for(i in copy_data){
+                for(i in copy_data_list){
                     if(parseInt(journeys[journeys.length-1].arrival_date[1].split(':')[0])*60 + parseInt(journeys[journeys.length-1].arrival_date[1].split(':')[1]) > parseInt(copy_data[i].departure_date[1].split(':')[0])*60 + parseInt(copy_data[i].departure_date[1].split(':')[1]))
-                        copy_data[i].can_book_check_arrival_on_next_departure = false;
+                        copy_data_list[i].can_book_check_arrival_on_next_departure = false;
                     else
-                        copy_data[i].can_book_check_arrival_on_next_departure = true;
-                    temp_data.push(copy_data[i]);
+                        copy_data_list[i].can_book_check_arrival_on_next_departure = true;
+                    temp_data.push(copy_data_list[i]);
                 }
                 data = temp_data;
                 temp_data = [];

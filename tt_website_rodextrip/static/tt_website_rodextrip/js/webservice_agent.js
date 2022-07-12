@@ -771,7 +771,9 @@ function signup_b2c(){
         error_log+= 'Phone number only contain number 8 - 12 digits!<br/>';
     if(check_email(document.getElementById('b2c_email').value)==false)
         error_log += 'Please fill email<br/>';
-    if(error_log == '')
+    if(error_log == ''){
+        $('#b2c_signup_btn').addClass("running");
+        $('#b2c_signup_btn').attr("disabled", true);
         $.ajax({
            type: "POST",
            url: "/webservice/account",
@@ -793,11 +795,16 @@ function signup_b2c(){
                     document.getElementById('b2c_last_name').value = '';
                     document.getElementById('b2c_email').value = '';
                     document.getElementById('b2c_phone').value = '';
+                    document.getElementById('b2c_title').value = '';
+                    $('#b2c_nationality_id').val("ID").trigger('change');
+                    $('#b2c_phone_code_id').val("62").trigger('change');
+                    $('#b2c_title').niceSelect('update');
                     Swal.fire({
                       type: 'success',
                       title: 'Create User!',
                       text: 'Please check your email',
                     });
+                    $('#myModalb2c').modal('hide');
                 }else{
                     Swal.fire({
                       type: 'error',
@@ -805,13 +812,14 @@ function signup_b2c(){
                       html: '<span style="color: red;">'+msg.result.error_msg+' </span>',
                     })
                 }
-
+                $('#b2c_signup_btn').removeClass("running");
+                $('#b2c_signup_btn').attr("disabled", false);
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error url server');
            },timeout: 60000
         });
-    else{
+    }else{
         console.log(error_log);
         Swal.fire({
           type: 'error',
@@ -984,15 +992,29 @@ function create_new_passenger(){
 
             }
        }
-
+       ff_numbers = [];
        for(i = 1; i<= passenger_ff_data ; i++){
             try{
                 if(document.getElementById('passenger_ff'+i).value == ''){
                     error_log+= 'Please choose frequent flyer '+i+'!</br>\n';
                     document.getElementById('passenger_ff'+i).style['border-color'] = 'red';
-                }else
-                    document.getElementById('passenger_ff'+i).style['border-color'] = '#EFEFEF';
+                }else{
+                    is_same_ff = false;
+                    for(j in ff_numbers){
+                        if(ff_numbers[j] == document.getElementById('passenger_ff'+i+'_id').value){
+                            is_same_ff = true;
+                        }
+                    }
+                    if(!is_same_ff){
+                        ff_numbers.push(document.getElementById('passenger_ff'+i+'_id').value);
+                        document.getElementById('passenger_ff'+i).style['border-color'] = '#EFEFEF';
+                    }else{
+                        error_log+= 'Same frequent flyer '+i+', please change!</br>\n';
+                        document.getElementById('passenger_edit_ff'+i+'_id').style['border-color'] = 'red';
+                    }
 
+
+                }
                 if(document.getElementById('passenger_ff_number'+i).value == ''){
                     error_log+= 'Please fill frequent flyer number '+i+'!</br>\n';
                     document.getElementById('passenger_ff_number'+i).style['border-color'] = 'red';

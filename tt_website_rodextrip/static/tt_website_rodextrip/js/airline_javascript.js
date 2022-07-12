@@ -4577,7 +4577,10 @@ function airline_detail(type){
                                 for(l in price_itinerary_temp[i].journeys[j].segments[k].fares){
                                     for(m in price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details){
                                         if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('BG')){
-                                            $text += '• Baggage ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].unit + '\n';
+                                            $text += '• Baggage ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].unit;
+                                            if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name != '' && price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name != 'default_ssr')
+                                                $text += price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name;
+                                            $text += '\n';
                                             text += `<br/><i class="fas fa-suitcase"></i><span style="color:`+color+`; font-weight:800;"> Baggage - `+price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].unit+` </span>`;
                                         }else if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('ML')){
                                             $text += '• Meal ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit + '\n';
