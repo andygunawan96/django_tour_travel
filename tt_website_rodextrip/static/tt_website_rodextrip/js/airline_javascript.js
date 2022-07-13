@@ -1887,14 +1887,17 @@ function filtering(type){
        if(check_transit_duration == 1){
            data.forEach((obj)=> {
                transit_time = 0;
-               //dari check per segment terbesar di ganti ke journey
-               if(obj.elapsed_time != ''){
-                   journey_time = obj.elapsed_time.split(':');
-                   transit_time += parseInt(journey_time[0]) * 86400;
-                   transit_time += parseInt(journey_time[1]) * 3600;
-                   transit_time += parseInt(journey_time[2]) * 60;
-                   transit_time += parseInt(journey_time[3]);
-               }
+               obj.segments.forEach((segments)=> {
+                   time_segment = 0;
+                   transit_duration = segments.transit_duration.split(':');
+                   if(transit_duration.length == 4){ //check transit duration kalau segment pertama hanya ""
+                       transit_time += parseInt(transit_duration[0]) * 86400;
+                       transit_time += parseInt(transit_duration[1]) * 3600;
+                       transit_time += parseInt(transit_duration[2]) * 60;
+                       transit_time += parseInt(transit_duration[3]);
+                   }
+               });
+               console.log(transit_time);
                check = 0;
                transit_duration_list.forEach((obj1)=> {
                    if(obj1.status == true && check == 0){
