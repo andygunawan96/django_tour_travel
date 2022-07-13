@@ -1887,25 +1887,14 @@ function filtering(type){
        if(check_transit_duration == 1){
            data.forEach((obj)=> {
                transit_time = 0;
-               obj.segments.forEach((segments)=> {
-                   time_segment = 0;
-                   segment_time = segments.transit_duration.split(' ');
-
-                   for(i in segment_time){
-                       if(segment_time[i].substr(1,1) == 'd'){
-                           time_segment += parseInt(segment_time[i]) * 86400;
-                       }else if(segment_time[i].substr(1,1) == 'h'){
-                           time_segment += parseInt(segment_time[i]) * 3600;
-                       }else if(segment_time[i].substr(1,1) == 'm'){
-                           time_segment += parseInt(segment_time[i]) * 60;
-                       }else if(segment_time[i].substr(1,1) == 's'){
-                           time_segment += parseInt(segment_time[i]);
-                       }
-                   }
-                   if(transit_time < time_segment){
-                       transit_time = time_segment;
-                   }
-               });
+               //dari check per segment terbesar di ganti ke journey
+               if(obj.elapsed_time != ''){
+                   journey_time = obj.elapsed_time.split(':');
+                   transit_time += parseInt(journey_time[0]) * 86400;
+                   transit_time += parseInt(journey_time[1]) * 3600;
+                   transit_time += parseInt(journey_time[2]) * 60;
+                   transit_time += parseInt(journey_time[3]);
+               }
                check = 0;
                transit_duration_list.forEach((obj1)=> {
                    if(obj1.status == true && check == 0){
