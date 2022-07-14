@@ -4662,8 +4662,10 @@ function copy_booker(val,type,identity){
         if(typeof ff_request !== 'undefined' && data_booker.hasOwnProperty('frequent_flyer_list')){
             var index_ff = 1;
             for(i in data_booker['frequent_flyer_list']){
-                $("#adult_ff_request1_"+index_ff+"_id").val(data_booker['frequent_flyer_list'][i].ff_code).trigger('change');
-                document.getElementById('adult_ff_number1_'+index_ff).value = data_booker['frequent_flyer_list'][i].ff_number;
+                if(data_booker['frequent_flyer_list'][i].ff_code != ''){
+                    $("#adult_ff_request1_"+index_ff+"_id").val(data_booker['frequent_flyer_list'][i].ff_code).trigger('change');
+                    document.getElementById('adult_ff_number1_'+index_ff).value = data_booker['frequent_flyer_list'][i].ff_number;
+                }
                 index_ff++;
             }
         }

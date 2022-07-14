@@ -2548,6 +2548,40 @@ function change_fare(journey, segment, fares){
                     break;
                 }else if(airline[journey].segments[i].fares[j].group_fare_id == group_fares){
                     document.getElementsByName('journey'+journey+'segment'+i+'fare')[parseInt(j)].checked = true;
+                    temp_seat_name = airline[journey].segments[i].fares[j].class_of_service+' -';
+                    if(airline[journey].segments[i].fares[j].cabin_class != ''){
+                        if(airline[journey].segments[i].fares[j].cabin_class == 'Y'){
+                            temp_seat_name += ' (Economy)';
+                        }
+                        else if(airline[journey].carrier_code_list.includes('QG') && airline[journey].segments[i].fares[j].cabin_class == 'W'){
+                            temp_seat_name += ' (Royal Green)';
+                        }
+                        else if(airline[journey].segments[i].fares[j].cabin_class == 'W'){
+                            temp_seat_name += ' (Premium Economy)';
+                        }
+                        else if(airline[journey].segments[i].fares[j].cabin_class == 'C'){
+                            temp_seat_name += ' (Business)';
+                        }
+                        else if(airline[journey].segments[i].fares[j].cabin_class == 'F'){
+                            temp_seat_name += ' (First Class)';
+                        }
+                    }
+                    temporary_total_price = 0;
+                    for(k in airline[journey].segments[i].fares[j].service_charge_summary){
+                        //hanya ambil yg pertama karena adult
+                        temporary_total_price += airline[journey].segments[i].fares[j].service_charge_summary[k].base_price;
+                        break;
+                    }
+                    if(airline_request.adult + airline_request.child > airline[journey].segments[i].fares[j].available_count){
+                        temp_seat_name += ' - SOLD OUT';
+                    }else{
+                        if(temporary_total_price == 0){
+                            temp_seat_name += ' - Choose to view price';
+                        }else{
+                            temp_seat_name += ' - '+airline[journey].currency + ' ' + getrupiah(temporary_total_price);
+                        }
+                    }
+                    change_seat_span(journey,i, temp_seat_name)
                     break;
                 }
             }
@@ -2557,10 +2591,9 @@ function change_fare(journey, segment, fares){
         for (var j = 0, length = radios.length; j < length; j++) {
             if (radios[j].checked) {
                 // do whatever you want with the checked radio
-                temp = document.getElementById('journey'+journey+'segment'+i+'fare'+(radios[j].value)).innerHTML;
+//                temp = document.getElementById('journey'+journey+'segment'+i+'fare'+(radios[j].value)).innerHTML;
 //                price += parseInt(temp.replace( /[^\d.]/g, '' ));
                 airline[journey].segments[i].fare_pick = parseInt(j);
-                // only one radio can be logically checked, don't check the rest
                 break;
             }
         }
