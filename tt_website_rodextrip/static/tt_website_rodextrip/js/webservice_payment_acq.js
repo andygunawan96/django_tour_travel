@@ -1480,9 +1480,9 @@ function change_top_up_method(){
                 <div class="row">
                     <div class="col-lg-1 col-md-1 mb-1" style="text-align:center;">`;
                     if(va_number[i].image){
-                        text+=`<img width="auto" height="30px" alt="Logo `+va_number[i].name+`" src="`+va_number[i].image+`"/>`;
+                        text+=`<img style="width:auto; height:30px;" alt="Logo `+va_number[i].name+`" src="`+va_number[i].image+`"/>`;
                     }else{
-                        text+=`<img width="auto" height="30px" alt="Logo `+va_number[i].name+`" src="/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg"/>`;
+                        text+=`<img style="width:auto; height:30px;" alt="Logo `+va_number[i].name+`" src="/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg"/>`;
                     }
                     text+=`
                     </div>
@@ -1505,9 +1505,9 @@ function change_top_up_method(){
                 <div class="row">
                     <div class="col-lg-1 col-md-1 mb-1" style="text-align:center;">`;
                     if(va_number[i].image){
-                        text+=`<img width="auto" height="30px" alt="Logo `+va_number[i].name+`" src="`+va_number[i].image+`"/>`;
+                        text+=`<img style="width:auto; height:30px;" alt="Logo `+va_number[i].name+`" src="`+va_number[i].image+`"/>`;
                     }else{
-                        text+=`<img width="auto" height="30px" alt="Logo `+va_number[i].name+`" src="/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg"/>`;
+                        text+=`<img style="width:auto; height:30px;" alt="Logo `+va_number[i].name+`" src="/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg"/>`;
                     }
                     text+=`
                     </div>
