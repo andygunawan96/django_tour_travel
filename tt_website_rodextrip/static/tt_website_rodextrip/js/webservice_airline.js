@@ -8349,7 +8349,7 @@ function check_refund_partial_btn(){
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
                     document.getElementById('captcha').innerHTML = `
-                        <input type="checkbox" id="is_quick_refund"><label for="is_quick_refund">  Quick Refund</label>
+                        <input type="checkbox" id="is_quick_refund" onclick="hide_cancel_div();"><label for="is_quick_refund">  Quick Refund</label>
                         <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
                             Check Refund Price
                             <div class="ld ld-ring ld-cycle"></div>
@@ -12743,7 +12743,7 @@ function captcha_time_limit_airline(){
             document.getElementById('elapse_time_captcha').innerHTML += ((captcha_time - time_limit_captcha)%60) +`s`;
         }else{
             document.getElementById('captcha').innerHTML = `
-                <input type="checkbox" id="is_quick_refund"><label for="is_quick_refund">  Quick Refund</label>
+                <input type="checkbox" id="is_quick_refund" onclick="hide_cancel_div();"><label for="is_quick_refund">  Quick Refund</label>
                 <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
                     Check Refund Price
                     <div class="ld ld-ring ld-cycle"></div>
@@ -12892,7 +12892,7 @@ function airline_get_booking_refund(data){
                         //document.getElementById('captcha').hidden = false;
 //                        document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="check_refund_partial_btn();" value="Check Refund Price Partial"><hr/>`;
                         document.getElementById('captcha').innerHTML = `
-                            <input type="checkbox" id="is_quick_refund"><label for="is_quick_refund">  Quick Refund</label>
+                            <input type="checkbox" id="is_quick_refund" onclick="hide_cancel_div();"><label for="is_quick_refund">  Quick Refund</label>
                             <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
                                 Check Refund Price
                                 <div class="ld ld-ring ld-cycle"></div>
@@ -14736,7 +14736,7 @@ function check_refund_partial_btn_v2(){
                     $('.hold-seat-booking-train').removeClass("running");
                     document.getElementById('captcha').innerHTML = `
                         <!--<button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">-->
-                        <input type="checkbox" id="is_quick_refund"><label for="is_quick_refund">  Quick Refund</label>
+                        <input type="checkbox" id="is_quick_refund" onclick="hide_cancel_div();"><label for="is_quick_refund">  Quick Refund</label>
                         <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login_v2();">
                             Check Refund Price
                             <div class="ld ld-ring ld-cycle"></div>
@@ -15003,6 +15003,11 @@ function cancel_reservation_airline_v2(){
             airline_get_booking_refund(airline_get_detail.result.response.order_number);
        },timeout: 300000
     });
+}
+
+function hide_cancel_div(){
+    document.getElementById('cancel').hidden = true;
+    document.getElementById('cancel').innerHTML = '';
 }
 
 function upload_image(){
