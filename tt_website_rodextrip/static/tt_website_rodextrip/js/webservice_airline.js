@@ -8162,6 +8162,14 @@ function check_refund_partial_btn(){
             }
         }
     }
+    if(document.getElementById("is_quick_refund") && document.getElementById("is_quick_refund").checked == true)
+    {
+        ref_type = "quick";
+    }
+    else
+    {
+        ref_type = "regular";
+    }
     $.ajax({
            type: "POST",
            url: "/webservice/airline",
@@ -8172,6 +8180,7 @@ function check_refund_partial_btn(){
                'order_number': airline_get_detail.result.response.order_number,
                'signature': signature,
                'passengers': JSON.stringify(passengers),
+               'refund_type': ref_type,
                'captcha':JSON.stringify(captcha)
            },
            success: function(msg) {
@@ -8340,6 +8349,7 @@ function check_refund_partial_btn(){
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
                     document.getElementById('captcha').innerHTML = `
+                        <input type="checkbox" id="is_quick_refund"><label for="is_quick_refund">  Quick Refund</label>
                         <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
                             Check Refund Price
                             <div class="ld ld-ring ld-cycle"></div>
@@ -8522,6 +8532,14 @@ function cancel_reservation_airline(){
         //console.log( index + ": " + $('.refund_pax:checkbox:checked')[0].id );
         passengers.push($('.refund_pax:checkbox:checked')[index].id);
     });
+    if(document.getElementById("is_quick_refund") && document.getElementById("is_quick_refund").checked == true)
+    {
+        ref_type = "quick";
+    }
+    else
+    {
+        ref_type = "regular";
+    }
     $.ajax({
            type: "POST",
        url: "/webservice/airline",
@@ -8532,6 +8550,7 @@ function cancel_reservation_airline(){
            'order_number': airline_get_detail.result.response.order_number,
            'signature': signature,
            'passengers': JSON.stringify(passengers),
+           'refund_type': ref_type
        },
        success: function(msg) {
            if(msg.result.error_code == 0){
@@ -12724,6 +12743,7 @@ function captcha_time_limit_airline(){
             document.getElementById('elapse_time_captcha').innerHTML += ((captcha_time - time_limit_captcha)%60) +`s`;
         }else{
             document.getElementById('captcha').innerHTML = `
+                <input type="checkbox" id="is_quick_refund"><label for="is_quick_refund">  Quick Refund</label>
                 <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
                     Check Refund Price
                     <div class="ld ld-ring ld-cycle"></div>
@@ -12872,6 +12892,7 @@ function airline_get_booking_refund(data){
                         //document.getElementById('captcha').hidden = false;
 //                        document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="check_refund_partial_btn();" value="Check Refund Price Partial"><hr/>`;
                         document.getElementById('captcha').innerHTML = `
+                            <input type="checkbox" id="is_quick_refund"><label for="is_quick_refund">  Quick Refund</label>
                             <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
                                 Check Refund Price
                                 <div class="ld ld-ring ld-cycle"></div>
@@ -12961,7 +12982,9 @@ function airline_get_booking_refund(data){
                                     };
                                 text+=`<h6>Flight `+flight_counter+`</h6>`;
                                 if(moment().format('YYYY-MM-DD HH:mm:ss') < msg.result.response.provider_bookings[i].departure_date)
-                                    text+=`<input type="checkbox" id="pnr_`+i+`_`+j+`" onclick="pnr_refund_onclick('pnr_`+i+`_`+j+`','pnr');"><label for="pnr`+i+`">  Refund</label>`;
+                                {
+                                    text+=`<input type="checkbox" id="pnr_`+i+`_`+j+`" onclick="pnr_refund_onclick('pnr_`+i+`_`+j+`','pnr');"><label for="pnr_`+i+`_`+j+`">  Refund</label>`;
+                                }
                                 $text += 'Flight '+ flight_counter+'\n';
                                 flight_counter++;
                             }
@@ -13561,7 +13584,6 @@ function pnr_refund_onclick(val, type){
         document.getElementById('refund_detail').style.display = 'none';
         document.getElementById('refund_detail').innerHTML = '';
         document.getElementById('cancel').hidden = true;
-        document.getElementById('refund_detail').innerHTML = '';
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
@@ -14524,6 +14546,14 @@ function check_refund_partial_btn_v2(){
                 captcha[refund_msg.result.response[i].pnr] = '';
         }
     }
+    if(document.getElementById("is_quick_refund") && document.getElementById("is_quick_refund").checked == true)
+    {
+        ref_type = "quick";
+    }
+    else
+    {
+        ref_type = "regular";
+    }
     $.ajax({
            type: "POST",
            url: "/webservice/airline",
@@ -14535,6 +14565,7 @@ function check_refund_partial_btn_v2(){
                'signature': signature,
                'passengers': JSON.stringify(passengers),
                'booking': JSON.stringify(airline_get_detail),
+               'refund_type': ref_type,
                'captcha':JSON.stringify(captcha)
            },
            success: function(msg) {
@@ -14705,7 +14736,8 @@ function check_refund_partial_btn_v2(){
                     $('.hold-seat-booking-train').removeClass("running");
                     document.getElementById('captcha').innerHTML = `
                         <!--<button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">-->
-                            <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login_v2();">
+                        <input type="checkbox" id="is_quick_refund"><label for="is_quick_refund">  Quick Refund</label>
+                        <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login_v2();">
                             Check Refund Price
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
@@ -14784,6 +14816,14 @@ function cancel_btn_v2(){
                 }
             }
             total = 0;
+            if(document.getElementById("is_quick_refund") && document.getElementById("is_quick_refund").checked == true)
+            {
+                ref_type = "quick";
+            }
+            else
+            {
+                ref_type = "regular";
+            }
 //            for(i in pnr_refund_list){
 //                for(j in pnr_refund_list[i]){
 //                    total = parseInt(document.getElementById(pnr_refund_list[i][j]).value.split(',').join(''));
@@ -14812,6 +14852,7 @@ function cancel_btn_v2(){
                    'order_number': airline_get_detail.result.response.order_number,
                    'signature': signature,
                    'passengers': JSON.stringify(passengers),
+                   'refund_type': ref_type,
 //                   'list_price_refund': JSON.stringify(list_price_refund),
                    'provider': JSON.stringify(provider),
                    'remarks': JSON.stringify(passengers_remarks),
@@ -14876,6 +14917,14 @@ function cancel_reservation_airline_v2(){
         //console.log( index + ": " + $('.refund_pax:checkbox:checked')[0].id );
         passengers.push($('.refund_pax:checkbox:checked')[index].id);
     });
+    if(document.getElementById("is_quick_refund") && document.getElementById("is_quick_refund").checked == true)
+    {
+        ref_type = "quick";
+    }
+    else
+    {
+        ref_type = "regular";
+    }
     $.ajax({
            type: "POST",
        url: "/webservice/airline",
@@ -14886,6 +14935,7 @@ function cancel_reservation_airline_v2(){
            'order_number': airline_get_detail.result.response.order_number,
            'signature': signature,
            'passengers': JSON.stringify(passengers),
+           'refund_type': ref_type,
            'refund_response': JSON.stringify(airline_refund_response)
        },
        success: function(msg) {
