@@ -857,8 +857,11 @@ function event_get_booking(data){
             if (msg.result.response.state  == 'issued') {
                 hide_logo_text=`
                     <div class="col-lg-12" style="border:1px solid #cdcdcd; background-color:white; padding-top:15px; padding-bottom:15px; margin-bottom:20px;" id="event_hide_logo_opt_cont">
-                        <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo">
-                        <label for="is_hide_agent_logo">Hide agent logo on tickets</label>
+                        <label class="check_box_custom">
+                            <span class="span-search-ticket" style="color:black;">Hide agent logo on tickets</span>
+                            <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo"/>
+                            <span class="check_box_span_custom"></span>
+                        </label>
                     </div>
                 `;
                 document.getElementById('event_hide_agent_logo_opt').innerHTML = hide_logo_text;
