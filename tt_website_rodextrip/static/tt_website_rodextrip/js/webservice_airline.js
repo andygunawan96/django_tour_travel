@@ -7484,10 +7484,19 @@ function airline_get_booking(data, sync=false){
                                 price_arr_repricing[msg.result.response.passengers[j].pax_type] = {}
                                 pax_type_repricing.push([msg.result.response.passengers[j].pax_type, msg.result.response.passengers[j].pax_type]);
                             }
-                            price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name] = {
-                                'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                                'Tax': price['TAX'] + price['ROC'],
-                                'Repricing': price['CSC']
+                            // fix agar tidak tumpuk harga pnr pertama
+                            if(price_arr_repricing[msg.result.response.passengers[j].pax_type].hasOwnProperty(msg.result.response.passengers[j].name)){
+                                price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name] = {
+                                    'Fare': price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name]['Fare'] +  price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
+                                    'Tax': price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name]['Tax'] +  price['TAX'] + price['ROC'],
+                                    'Repricing': price['CSC']
+                                }
+                            }else{
+                                price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name] = {
+                                    'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
+                                    'Tax': price['TAX'] + price['ROC'],
+                                    'Repricing': price['CSC']
+                                }
                             }
                             text_repricing = `
                             <div class="col-lg-12">

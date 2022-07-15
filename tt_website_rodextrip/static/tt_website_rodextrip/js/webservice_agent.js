@@ -1632,35 +1632,37 @@ function get_customer_list(passenger, number, product){
                                         if(msg.result.response[i].hasOwnProperty('frequent_flyers') && msg.result.response[i].frequent_flyers.length > 0){
                                             if(product == 'airline' || document.URL.split('/')[document.URL.split('/').length-2] == 'passenger' && document.URL.split('/')[document.URL.split('/').length-3] == 'airline'){
                                                 for(x in ff_request){
-                                                    response += `
-                                                        <div class="row">
-                                                            <div class="col-lg-12">
-                                                                <i class="fas fa-id-card"></i> <i>`+ff_request[x].program_name+` `+ff_request[x].sequence+`:</i><br>
-                                                            </div>
-                                                            <div class="col-lg-12">
-                                                                <select class="nice-select-default mb-2" id="frequent_flyer`+i+`_`+x+`" style="width: 100%; display: none;">
-                                                                    <option value="">Frequent Flyer Program</option>`;
-                                                                is_first_ff = true
-                                                                for(y in ff_request[x].ff_availability){
-                                                                    has_ff_number = false;
-                                                                    for(j in msg.result.response[i].frequent_flyers){
-                                                                        if(ff_request[x].ff_availability[y].ff_code == msg.result.response[i].frequent_flyers[j].ff_code){
-                                                                            if(is_first_ff){
-                                                                                response += `<option selected value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
-                                                                                is_first_ff = false;
-                                                                            }else
-                                                                                response += `<option value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
-                                                                            has_ff_number = true;
+                                                    if(ff_request[x].hasOwnProperty('error_code') == false){ //ff request error tidak di tampilkan
+                                                        response += `
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <i class="fas fa-id-card"></i> <i>`+ff_request[x].program_name+` `+ff_request[x].sequence+`:</i><br>
+                                                                </div>
+                                                                <div class="col-lg-12">
+                                                                    <select class="nice-select-default mb-2" id="frequent_flyer`+i+`_`+x+`" style="width: 100%; display: none;">
+                                                                        <option value="">Frequent Flyer Program</option>`;
+                                                                    is_first_ff = true
+                                                                    for(y in ff_request[x].ff_availability){
+                                                                        has_ff_number = false;
+                                                                        for(j in msg.result.response[i].frequent_flyers){
+                                                                            if(ff_request[x].ff_availability[y].ff_code == msg.result.response[i].frequent_flyers[j].ff_code){
+                                                                                if(is_first_ff){
+                                                                                    response += `<option selected value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
+                                                                                    is_first_ff = false;
+                                                                                }else
+                                                                                    response += `<option value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
+                                                                                has_ff_number = true;
+                                                                            }
                                                                         }
+                                                                        if(!has_ff_number)
+                                                                            response += `<option value="`+ff_request[x].ff_availability[y].ff_code+` - ">`+ff_request[x].ff_availability[y].name+` - Input new data</option>`;
                                                                     }
-                                                                    if(!has_ff_number)
-                                                                        response += `<option value="`+ff_request[x].ff_availability[y].ff_code+` - ">`+ff_request[x].ff_availability[y].name+` - Input new data</option>`;
-                                                                }
 
-                                                    response +=`
-                                                                </select>
-                                                            </div>
-                                                        </div>`;
+                                                        response +=`
+                                                                    </select>
+                                                                </div>
+                                                            </div>`;
+                                                    }
                                                 }
                                             }
                                         }
@@ -2301,35 +2303,37 @@ function get_customer_list(passenger, number, product){
                                     if(msg.result.response[i].hasOwnProperty('frequent_flyers') && msg.result.response[i].frequent_flyers.length > 0){
                                         if(product == 'airline' || product == 'cache' && document.URL.split('/')[document.URL.split('/').length-2] == 'passenger' && document.URL.split('/')[document.URL.split('/').length-3] == 'airline'){
                                             for(x in ff_request){
-                                                response += `
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <i class="fas fa-id-card"></i> <i>`+ff_request[x].program_name+` `+ff_request[x].sequence+`:</i><br>
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <select class="nice-select-default mb-2" id="frequent_flyer`+i+`_`+x+`" style="width: 100%; display: none;">
-                                                                <option value="">Frequent Flyer Program</option>`;
-                                                            is_first_ff = true
-                                                            for(y in ff_request[x].ff_availability){
-                                                                has_ff_number = false;
-                                                                for(j in msg.result.response[i].frequent_flyers){
-                                                                    if(ff_request[x].ff_availability[y].ff_code == msg.result.response[i].frequent_flyers[j].ff_code){
-                                                                        if(is_first_ff){
-                                                                            response += `<option selected value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
-                                                                            is_first_ff = false;
-                                                                        }else
-                                                                            response += `<option value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
-                                                                        has_ff_number = true;
+                                                if(ff_request[x].hasOwnProperty('error_code') == false){ // ff request error tidak di tampilkan
+                                                    response += `
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <i class="fas fa-id-card"></i> <i>`+ff_request[x].program_name+` `+ff_request[x].sequence+`:</i><br>
+                                                            </div>
+                                                            <div class="col-lg-12">
+                                                                <select class="nice-select-default mb-2" id="frequent_flyer`+i+`_`+x+`" style="width: 100%; display: none;">
+                                                                    <option value="">Frequent Flyer Program</option>`;
+                                                                is_first_ff = true
+                                                                for(y in ff_request[x].ff_availability){
+                                                                    has_ff_number = false;
+                                                                    for(j in msg.result.response[i].frequent_flyers){
+                                                                        if(ff_request[x].ff_availability[y].ff_code == msg.result.response[i].frequent_flyers[j].ff_code){
+                                                                            if(is_first_ff){
+                                                                                response += `<option selected value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
+                                                                                is_first_ff = false;
+                                                                            }else
+                                                                                response += `<option value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
+                                                                            has_ff_number = true;
+                                                                        }
                                                                     }
+                                                                    if(!has_ff_number)
+                                                                        response += `<option value="`+ff_request[x].ff_availability[y].ff_code+` - ">`+ff_request[x].ff_availability[y].name+` - Input new data</option>`;
                                                                 }
-                                                                if(!has_ff_number)
-                                                                    response += `<option value="`+ff_request[x].ff_availability[y].ff_code+` - ">`+ff_request[x].ff_availability[y].name+` - Input new data</option>`;
-                                                            }
 
-                                                response +=`
-                                                            </select>
-                                                        </div>
-                                                    </div>`;
+                                                    response +=`
+                                                                </select>
+                                                            </div>
+                                                        </div>`;
+                                                }
                                             }
                                         }else if(product == 'cache'){
                                             response += `
@@ -2708,7 +2712,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     var phone = document.getElementById('phone_chosen'+sequence).value;
                     document.getElementById('adult_phone_code'+passenger_number).value = phone.split(' - ')[0];
                     document.getElementById('select2-adult_phone_code'+passenger_number+'_id-container').value = phone.split(' - ')[0];
-                    document.getElementById('adult_phone'+passenger_number).value = phone.split(' - ')[1];
+                    document.getElementById('adult_phone'+passenger_number).value = phone.split(' - ')[1] != undefined ? phone.split(' - ')[1] : ''; // kalau undefined tidak di copy
                 }catch(err){
                     console.log(err);
                 }
@@ -2877,7 +2881,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
             try{
                 var phone = document.getElementById('phone_chosen'+sequence).value;
                 document.getElementById(passenger_pick+'_phone_code'+passenger_pick_number).value = phone.split(' - ')[0];
-                document.getElementById(passenger_pick+'_phone'+passenger_pick_number).value = phone.split(' - ')[1];
+                document.getElementById(passenger_pick+'_phone'+passenger_pick_number).value = phone.split(' - ')[1] != undefined ? phone.split(' - ')[1] : ''; // kalau undefined tidak di copy
             }catch(err){
 
             }
@@ -3174,10 +3178,20 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                             if(typeof ff_request !== 'undefined'){
                                 data_booker['frequent_flyer_list'] = [];
                                 for(x in ff_request){
-                                    data_booker['frequent_flyer_list'].push({
-                                        "ff_code": document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[0],
-                                        "ff_number": document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[1]
-                                    })
+                                    if(ff_request[x].hasOwnProperty('error_code') == false){
+                                        try{
+                                            data_booker['frequent_flyer_list'].push({
+                                                "ff_code": document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[0],
+                                                "ff_number": document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[1]
+                                            })
+                                        }catch(err){console.log(err);}
+                                    }else{
+                                        // default kalau ff error agar sesuai dengan code di tampilan
+                                        data_booker['frequent_flyer_list'].push({
+                                            "ff_code": '',
+                                            "ff_number": ''
+                                        })
+                                    }
                                 }
                             }
                         }catch(err){
@@ -3237,7 +3251,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     if(phone != false){
                         document.getElementById('booker_phone_code').value = phone.split(' - ')[0];
                         document.getElementById('select2-booker_phone_code_id-container').innerHTML = phone.split(' - ')[0];
-                        document.getElementById('booker_phone').value = phone.split(' - ')[1];
+                        document.getElementById('booker_phone').value = phone.split(' - ')[1] != undefined ? phone.split(' - ')[1] : ''; // kalau undefined tidak di copy
                     }
                 }catch(err){
                     try{ //ambil paling pertama untuk cor por
@@ -3388,7 +3402,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     if(phone != false){
                         document.getElementById('contact_phone_code').value = phone.split(' - ')[0];
                         document.getElementById('select2-contact_phone_code_id-container').innerHTML = phone.split(' - ')[0];
-                        document.getElementById('contact_phone').value = phone.split(' - ')[1];
+                        document.getElementById('contact_phone').value = phone.split(' - ')[1] != undefined ? phone.split(' - ')[1] : ''; // kalau undefined tidak di copy
                     }
                 }catch(err){
                     try{ //ambil paling pertama untuk cor por
@@ -3557,10 +3571,12 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                             if(typeof ff_request !== 'undefined'){
                                 index_ff = 1;
                                 for(x in ff_request){
-                                    if(document.getElementById('frequent_flyer'+sequence+'_'+x).value != ''){
-                                        $("#"+type+"_ff_request"+passenger_number+"_"+index_ff+"_id").select2().val(document.getElementById("frequent_flyer"+sequence+"_"+x).value.split(' - ')[0]).trigger('change');
-                                        document.getElementById('adult_ff_number'+passenger_number+'_'+index_ff).value = document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[1];
-                                    }
+                                    try{
+                                        if(document.getElementById('frequent_flyer'+sequence+'_'+x).value != ''){
+                                            $("#"+type+"_ff_request"+passenger_number+"_"+index_ff+"_id").select2().val(document.getElementById("frequent_flyer"+sequence+"_"+x).value.split(' - ')[0]).trigger('change');
+                                            document.getElementById('adult_ff_number'+passenger_number+'_'+index_ff).value = document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[1];
+                                        }
+                                    }catch(err){console.log(err)}
                                     index_ff++;
                                 }
                             }
@@ -3571,7 +3587,7 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     try{
                         var phone = document.getElementById('phone_chosen'+sequence).value;
                         document.getElementById(passenger_pick+'_phone_code'+passenger_number).value = phone.split(' - ')[0];
-                        document.getElementById(passenger_pick+'_phone'+passenger_number).value = phone.split(' - ')[1];
+                        document.getElementById(passenger_pick+'_phone'+passenger_number).value = phone.split(' - ')[1] != undefined ? phone.split(' - ')[1] : ''; // jika undefined tidak di copy
                         document.getElementById('select2-'+type+'_phone_code'+passenger_number+'_id-container').innerHTML = phone.split(' - ')[0];
                     }catch(err){
                         console.log(err);
@@ -3705,6 +3721,23 @@ function pick_passenger_copy(type, sequence, product, identity=''){
         //                $('#adult_nationality'+passenger_number+'_id').niceSelect('update');
         //                $('#adult_nationality1_id').niceSelect('update');
         //            };
+                    if(product == 'airline'){
+                        //add frequent flyer
+                        try{
+                            if(typeof ff_request !== 'undefined'){
+                                index_ff = 1;
+                                for(x in ff_request){
+                                    try{
+                                        if(document.getElementById('frequent_flyer'+sequence+'_'+x).value != ''){
+                                            $("#adult_ff_request"+passenger_number+"_"+index_ff+"_id").select2().val(document.getElementById("frequent_flyer"+sequence+"_"+x).value.split(' - ')[0]).trigger('change');
+                                            document.getElementById('adult_ff_number'+passenger_number+'_'+index_ff).value = document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[1];
+                                        }
+                                    }catch(err){console.log(err)}
+                                    index_ff++;
+                                }
+                            }
+                        }catch(err){console.log(err);}
+                    }
                     $('#adult_nationality'+passenger_number+'_id').niceSelect('update');
                     $('#adult_country_of_issued'+passenger_number).niceSelect('update');
                     $('#myModal_adult'+passenger_number).modal('hide');
@@ -3818,6 +3851,23 @@ function pick_passenger_copy(type, sequence, product, identity=''){
         //                $('#adult_nationality'+passenger_number+'_id').niceSelect('update');
         //                $('#adult_nationality1_id').niceSelect('update');
         //            };
+                    if(product == 'airline'){
+                        //add frequent flyer
+                        try{
+                            if(typeof ff_request !== 'undefined'){
+                                index_ff = 1;
+                                for(x in ff_request){
+                                    try{
+                                        if(document.getElementById('frequent_flyer'+sequence+'_'+x).value != ''){
+                                            $("#child_ff_request"+passenger_number+"_"+index_ff+"_id").select2().val(document.getElementById("frequent_flyer"+sequence+"_"+x).value.split(' - ')[0]).trigger('change');
+                                            document.getElementById('child_ff_number'+passenger_number+'_'+index_ff).value = document.getElementById('frequent_flyer'+sequence+'_'+x).value.split(' - ')[1];
+                                        }
+                                    }catch(err){console.log(err)}
+                                    index_ff++;
+                                }
+                            }
+                        }catch(err){console.log(err);}
+                    }
                     $('#child_nationality'+passenger_number+'_id').niceSelect('update');
                     $('#child_country_of_issued'+passenger_number).niceSelect('update');
                     $('#myModal_child'+passenger_number).modal('hide');
@@ -4662,10 +4712,12 @@ function copy_booker(val,type,identity){
         if(typeof ff_request !== 'undefined' && data_booker.hasOwnProperty('frequent_flyer_list')){
             var index_ff = 1;
             for(i in data_booker['frequent_flyer_list']){
-                if(data_booker['frequent_flyer_list'][i].ff_code != ''){
-                    $("#adult_ff_request1_"+index_ff+"_id").val(data_booker['frequent_flyer_list'][i].ff_code).trigger('change');
-                    document.getElementById('adult_ff_number1_'+index_ff).value = data_booker['frequent_flyer_list'][i].ff_number;
-                }
+                try{
+                    if(data_booker['frequent_flyer_list'][i].ff_code != ''){
+                        $("#adult_ff_request1_"+index_ff+"_id").val(data_booker['frequent_flyer_list'][i].ff_code).trigger('change');
+                        document.getElementById('adult_ff_number1_'+index_ff).value = data_booker['frequent_flyer_list'][i].ff_number;
+                    }
+                }catch(err){console.log(err);}
                 index_ff++;
             }
         }
@@ -6539,35 +6591,37 @@ function get_passenger_cache(type,update_cache=false){
                                         if(msg.result.response[i].hasOwnProperty('frequent_flyers') && msg.result.response[i].frequent_flyers.length > 0){
                                             if(document.URL.split('/')[document.URL.split('/').length-2] == 'passenger' && document.URL.split('/')[document.URL.split('/').length-3] == 'airline'){
                                                 for(x in ff_request){
-                                                    response += `
-                                                        <div class="row">
-                                                            <div class="col-lg-12">
-                                                                <i class="fas fa-id-card"></i> <i>`+ff_request[x].program_name+` `+ff_request[x].sequence+`:</i><br>
-                                                            </div>
-                                                            <div class="col-lg-12">
-                                                                <select class="nice-select-default mb-2" id="frequent_flyer`+i+`_`+x+`" style="width: 100%; display: none;">
-                                                                    <option value="">Frequent Flyer Program</option>`;
-                                                                is_first_ff = true
-                                                                for(y in ff_request[x].ff_availability){
-                                                                    has_ff_number = false;
-                                                                    for(j in msg.result.response[i].frequent_flyers){
-                                                                        if(ff_request[x].ff_availability[y].ff_code == msg.result.response[i].frequent_flyers[j].ff_code){
-                                                                            if(is_first_ff){
-                                                                                response += `<option selected value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
-                                                                                is_first_ff = false;
-                                                                            }else
-                                                                                response += `<option value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
-                                                                            has_ff_number = true;
+                                                    if(ff_request[x].hasOwnProperty('error_code') == false){ // ff request error tidak di tampilkan
+                                                        response += `
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <i class="fas fa-id-card"></i> <i>`+ff_request[x].program_name+` `+ff_request[x].sequence+`:</i><br>
+                                                                </div>
+                                                                <div class="col-lg-12">
+                                                                    <select class="nice-select-default mb-2" id="frequent_flyer`+i+`_`+x+`" style="width: 100%; display: none;">
+                                                                        <option value="">Frequent Flyer Program</option>`;
+                                                                    is_first_ff = true
+                                                                    for(y in ff_request[x].ff_availability){
+                                                                        has_ff_number = false;
+                                                                        for(j in msg.result.response[i].frequent_flyers){
+                                                                            if(ff_request[x].ff_availability[y].ff_code == msg.result.response[i].frequent_flyers[j].ff_code){
+                                                                                if(is_first_ff){
+                                                                                    response += `<option selected value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
+                                                                                    is_first_ff = false;
+                                                                                }else
+                                                                                    response += `<option value="`+msg.result.response[i].frequent_flyers[j].ff_code+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`">`+ff_request[x].ff_availability[y].name+` - `+msg.result.response[i].frequent_flyers[j].ff_number+`</option>`;
+                                                                                has_ff_number = true;
+                                                                            }
                                                                         }
+                                                                        if(!has_ff_number)
+                                                                            response += `<option value="`+ff_request[x].ff_availability[y].ff_code+` - ">`+ff_request[x].ff_availability[y].name+` - Input new data</option>`;
                                                                     }
-                                                                    if(!has_ff_number)
-                                                                        response += `<option value="`+ff_request[x].ff_availability[y].ff_code+` - ">`+ff_request[x].ff_availability[y].name+` - Input new data</option>`;
-                                                                }
 
-                                                    response +=`
-                                                                </select>
-                                                            </div>
-                                                        </div>`;
+                                                        response +=`
+                                                                    </select>
+                                                                </div>
+                                                            </div>`;
+                                                    }
                                                 }
                                             }else{
                                                 response += `
@@ -6746,15 +6800,21 @@ function move_pax_cache(){
     for(i in passenger_data_cache){
         cache_check = 0;
         if(document.getElementById('selection_type'+i).value){
-            if(document.getElementById('identity_chosen'+i).value == "all_identity"){
-                cache_error_log+= 'Please choose identity type for user '+(parseInt(i)+1)+'!</br>\n';
-                $("#identity_chosen"+i).each(function() {
-                    $(this).parent().find('.nice-select').css('border', '1px solid red');
-                });
+            if(document.getElementById('identity_chosen'+i)){
+                //jika ada identity
+                if(document.getElementById('identity_chosen'+i).value == "all_identity"){
+                    cache_error_log+= 'Please choose identity type for user '+(parseInt(i)+1)+'!</br>\n';
+                    $("#identity_chosen"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid red');
+                    });
+                }else{
+                    $("#identity_chosen"+i).each(function() {
+                        $(this).parent().find('.nice-select').css('border', '1px solid #cdcdcd');
+                    });
+                    cache_check = 1;
+                }
             }else{
-                $("#identity_chosen"+i).each(function() {
-                    $(this).parent().find('.nice-select').css('border', '1px solid #cdcdcd');
-                });
+                // copy no identity
                 cache_check = 1;
             }
         }else{
@@ -7702,7 +7762,7 @@ function pick_passenger_cache_copy(val, identity){
         try{
             var phone = document.getElementById('phone_chosen'+val).value;
             document.getElementById(passenger_pick+'_phone_code'+passenger_pick_number).value = phone.split(' - ')[0];
-            document.getElementById(passenger_pick+'_phone'+passenger_pick_number).value = phone.split(' - ')[1];
+            document.getElementById(passenger_pick+'_phone'+passenger_pick_number).value = phone.split(' - ')[1] != undefined ? phone.split(' - ')[1] : ''; // jika undefined tidak di copy
         }catch(err){
             console.log(err); // error tidak ada id phone_chosen
         }
