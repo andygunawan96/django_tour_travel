@@ -6665,10 +6665,18 @@ function airline_get_booking(data, sync=false){
                                         <div class="col-lg-8" style="padding-top:10px;">`;
 
                                     for(l in msg.result.response.provider_bookings[i].journeys[j].segments[k].legs){
-                                        try{
-                                            $text += airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name + ' ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
-                                        }catch(err){
-                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code + ' ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
+                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].hasOwnProperty('operating_airline_code') && msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code != msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code && msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code != ''){
+                                            try{
+                                                text+=`Operated By `+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code].name+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
+                                            }catch(err){
+                                                text+=`Operated By `+msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
+                                            }
+                                        }else{
+                                            try{
+                                                $text += airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name + ' ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
+                                            }catch(err){
+                                                $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code + ' ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
+                                            }
                                         }
                                         if(cabin_class != '')
                                             $text += ' ' + cabin_class + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].class_of_service + ')';
