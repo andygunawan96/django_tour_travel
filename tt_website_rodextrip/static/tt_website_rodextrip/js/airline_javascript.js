@@ -4382,7 +4382,7 @@ function airline_detail(type){
         <div class="row">
             <div class="col-lg-12">
                 <div class="row">`;
-                flight_count = 0;
+                flight_count = 1;
                 for(i in price_itinerary_temp){
                     for(j in price_itinerary_temp[i].journeys){
                         is_citilink = false;
@@ -4472,10 +4472,10 @@ function airline_detail(type){
                             }
                             for(l in price_itinerary_temp[i].journeys[j].segments[k].fares){
                                 if(is_citilink && price_itinerary_temp[i].journeys[j].segments[k].fares[l].cabin_class == 'W')
-                                    $text += airline_cabin_class_list['W1'] + ' (' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].class_of_service + ')';
+                                    $text += airline_cabin_class_list['W1'];
                                 else
                                     $text += airline_cabin_class_list[price_itinerary_temp[i].journeys[j].segments[k].fares[l].cabin_class];
-                                $text += ' (' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].class_of_service + ')\n';
+                                $text += ' [' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].class_of_service + ']\n';
                             }
                             //OPERATED BY
                             try{
@@ -6848,8 +6848,8 @@ function get_checked_copy_result(){
                                 var change_radios = document.getElementsByName(id_class_of_service);
                                 for (var j = 0, length = change_radios.length; j < length; j++) {
                                     if (change_radios[j].checked && i == j) {
-                                        text+=`<br/><span>`+$(this).html().replace(' ','').split('(')[4].split(')')[0]+` (`+$(this).html().split('(')[0].replace('\n','').replace(/ /g,'')+`)</span>`;
-                                        $text += $(this).html().replace(' ','').split('(')[4].split(')')[0]+` (`+$(this).html().split('(')[0].replace('\n','').replace(/ /g,'')+`)`;
+                                        text+=`<br/><span>`+$(this).html().replace(' ','').split('(')[4].split(')')[0]+` [`+$(this).html().split('(')[0].replace('\n','').replace(/ /g,'')+`]</span>`;
+                                        $text += $(this).html().replace(' ','').split('(')[4].split(')')[0]+` [`+$(this).html().split('(')[0].replace('\n','').replace(/ /g,'')+`]`;
                                         break;
                                     }
                                 }
@@ -6859,8 +6859,8 @@ function get_checked_copy_result(){
 
                     parent_po.find('.copy_operated_by').each(function(obj) {
                         if($(this).html() != undefined){
-                            text+=`<span> (`+$(this).html()+`)</span>`;
-                            $text += ' ('+$(this).html()+')';
+                            text+=`<span> [`+$(this).html()+`]</span>`;
+                            $text += ' ['+$(this).html()+']';
                         }
                     });
                     text+=`<br/>`;
