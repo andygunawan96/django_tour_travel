@@ -3374,7 +3374,7 @@ function get_price_itinerary_request(){
                                                                 else
                                                                     $text += airline_cabin_class_list[resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class];
                                                             }
-                                                            $text += ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].class_of_service + ')\n';
+                                                            $text += ' [' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].class_of_service + ']\n';
                                                         }
                                                         //operated by
                                                         try{
@@ -6679,9 +6679,9 @@ function airline_get_booking(data, sync=false){
                                             }
                                         }
                                         if(cabin_class != '')
-                                            $text += ' ' + cabin_class + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].class_of_service + ')';
+                                            $text += ' ' + cabin_class + ' [' + msg.result.response.provider_bookings[i].journeys[j].segments[k].class_of_service + ']';
                                         else
-                                            $text += ' ' + cabin_class + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].class_of_service + ')';
+                                            $text += ' ' + cabin_class + ' [' + msg.result.response.provider_bookings[i].journeys[j].segments[k].class_of_service + ']';
 
 //                                        $text += '\n\n';
 //                                        $text += '‣ Departure:\n';
