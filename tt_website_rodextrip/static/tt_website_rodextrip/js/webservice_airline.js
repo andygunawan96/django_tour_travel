@@ -7223,6 +7223,7 @@ function airline_get_booking(data, sync=false){
                                                                 fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].origin = msg.result.response.provider_bookings[j].journeys[k].origin;
                                                                 fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].destination = msg.result.response.provider_bookings[j].journeys[k].destination;
                                                                 fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].departure_date = msg.result.response.provider_bookings[j].journeys[k].departure_date;
+                                                                fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].pnr = msg.result.response.passengers[pax].fees[i].pnr;
                                                                 break;
                                                             }
                                                             for(l in msg.result.response.provider_bookings[j].journeys[k].segments){
@@ -7231,6 +7232,7 @@ function airline_get_booking(data, sync=false){
                                                                     fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].origin = msg.result.response.provider_bookings[j].journeys[k].segments[l].origin;
                                                                     fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].destination = msg.result.response.provider_bookings[j].journeys[k].segments[l].destination;
                                                                     fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].departure_date = msg.result.response.provider_bookings[j].journeys[k].segments[l].departure_date;
+                                                                    fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].pnr = msg.result.response.passengers[pax].fees[i].pnr;
                                                                     break;
                                                                 }
                                                             }
@@ -7578,18 +7580,20 @@ function airline_get_booking(data, sync=false){
                                     journey_code.push(msg.result.response.provider_bookings[i].journeys[k].segments[l].segment_code)
                                 }
                             }
-                            counter_ssr = 0;
+                            $text_ssr = '';
                             for(k in msg.result.response.passengers[j].fees_dict){
-                                if(counter_ssr == 0)
-                                    $text += 'SSR Request:\n';
-                                $text += msg.result.response.passengers[j].fees_dict[k].origin + ' → ' + msg.result.response.passengers[j].fees_dict[k].destination+'\n';
-                                for(l in msg.result.response.passengers[j].fees_dict[k].fees){
-                                    $text += msg.result.response.passengers[j].fees_dict[k].fees[l].fee_category+': '+msg.result.response.passengers[j].fees_dict[k].fees[l].fee_name + '\n';
+                                if(msg.result.response.passengers[j].fees_dict[k].pnr == msg.result.response.provider_bookings[i].pnr){
+                                    if($text_ssr == '')
+                                        $text_ssr += 'SSR Request:\n';
+                                    $text_ssr += msg.result.response.passengers[j].fees_dict[k].origin + ' → ' + msg.result.response.passengers[j].fees_dict[k].destination+'\n';
+                                    for(l in msg.result.response.passengers[j].fees_dict[k].fees){
+                                        $text_ssr += msg.result.response.passengers[j].fees_dict[k].fees[l].fee_category+': '+msg.result.response.passengers[j].fees_dict[k].fees[l].fee_name + '\n';
+                                    }
+                                    if(Object.keys(msg.result.response.passengers[j].fees_dict).length != counter_ssr)
+                                        $text_ssr += '\n';
                                 }
-                                if(Object.keys(msg.result.response.passengers[j].fees_dict).length != counter_ssr)
-                                    $text += '\n';
-                                counter_ssr++;
                             }
+                            $text += $text_ssr;
                             $text += '['+msg.result.response.provider_bookings[i].pnr+'] '
 
                             if(counter_service_charge == 0){ // with upsell pnr pertama
