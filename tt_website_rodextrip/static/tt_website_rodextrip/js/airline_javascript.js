@@ -4382,14 +4382,13 @@ function airline_detail(type){
         <div class="row">
             <div class="col-lg-12">
                 <div class="row">`;
-                flight_count = 1;
+                flight_count = 0;
                 for(i in price_itinerary_temp){
                     for(j in price_itinerary_temp[i].journeys){
                         is_citilink = false;
                         if(price_itinerary_temp[i].journeys[j].carrier_code_list.includes('QG')){
                             is_citilink = true;
                         }
-                        $text +='*Flight '+flight_count+'*\n';
                         if(i == 0 && j == 0 && Boolean(price_itinerary.is_combo_price) == true && price_itinerary_temp.length > 1){
                             text += `<h6>Special Price</h6>`;
                             $text +='Special Price\n';
@@ -4397,6 +4396,7 @@ function airline_detail(type){
                             text+=`<hr/>`;
                         }
                         flight_count++;
+                        $text +='*Flight '+flight_count+'*\n';
                         if(flight_count != 1){
                             text+=`<div class="col-lg-12"><hr/></div>`;
                         }
@@ -5516,7 +5516,7 @@ function check_passenger(adult, child, infant, type=''){
                                 document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
                            }else
                                 document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('adult_country_of_issued'+i).value == ''){
+                       }if(document.getElementById('adult_country_of_issued'+i).value == '' || document.getElementById('adult_country_of_issued'+i).value == 'Country of Issued'){
                            error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
                             $("#adult_country_of_issued"+i+"_id").each(function() {
                               $(this).siblings(".select2-container").css('border', '1px solid red');
@@ -5751,7 +5751,7 @@ function check_passenger(adult, child, infant, type=''){
                                 document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
                            }else
                                 document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('child_country_of_issued'+i).value == ''){
+                       }if(document.getElementById('child_country_of_issued'+i).value == '' || document.getElementById('child_country_of_issued'+i).value == 'Country of Issued'){
                            error_log+= 'Please fill country of issued for passenger child '+i+'!</br>\n';
                            $("#child_country_of_issued"+i+"_id").each(function() {
                              $(this).siblings(".select2-container").css('border', '1px solid red');
@@ -5992,7 +5992,7 @@ function check_passenger(adult, child, infant, type=''){
                                 document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
                            }else
                                 document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('infant_country_of_issued'+i).value == ''){
+                       }if(document.getElementById('infant_country_of_issued'+i).value == '' || document.getElementById('infant_country_of_issued'+i).value == 'Country of Issued'){
                            error_log+= 'Please fill country of issued for passenger infant '+i+'!</br>\n';
                            $("#infant_country_of_issued"+i+"_id").each(function() {
                              $(this).siblings(".select2-container").css('border', '1px solid red');
