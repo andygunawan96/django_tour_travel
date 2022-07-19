@@ -7580,6 +7580,7 @@ function airline_get_booking(data, sync=false){
                                     journey_code.push(msg.result.response.provider_bookings[i].journeys[k].segments[l].segment_code)
                                 }
                             }
+                            counter_ssr = 0;
                             $text_ssr = '';
                             for(k in msg.result.response.passengers[j].fees_dict){
                                 if(msg.result.response.passengers[j].fees_dict[k].pnr == msg.result.response.provider_bookings[i].pnr){
@@ -7591,6 +7592,7 @@ function airline_get_booking(data, sync=false){
                                     }
                                     if(Object.keys(msg.result.response.passengers[j].fees_dict).length != counter_ssr)
                                         $text_ssr += '\n';
+                                    counter_ssr++;
                                 }
                             }
                             $text += $text_ssr;
