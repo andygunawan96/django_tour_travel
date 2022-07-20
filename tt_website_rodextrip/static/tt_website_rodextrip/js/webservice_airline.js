@@ -3897,7 +3897,7 @@ function render_price_in_get_price(text, $text, $text_share){
                                     <span style="font-size:13px; font-weight:500;">Tax & Charges</span>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].CHD.currency+` `+getrupiah(Math.ceil(price * airline_request.child))+`</span>
+                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].CHD.currency+` `+getrupiah(Math.ceil(price))+`</span>
                                 </div>
                             </div>
                         </div>
@@ -3950,7 +3950,7 @@ function render_price_in_get_price(text, $text, $text_share){
                                     <span style="font-size:13px; font-weight:500;">Tax & Charges</span>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].INF.currency+` `+getrupiah(Math.ceil(price * airline_request.infant))+`</span>
+                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].INF.currency+` `+getrupiah(Math.ceil(price))+`</span>
                                 </div>
                             </div>
                         </div>
