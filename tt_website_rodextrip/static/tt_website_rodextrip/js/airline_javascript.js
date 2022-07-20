@@ -4389,7 +4389,6 @@ function airline_detail(type){
                         if(price_itinerary_temp[i].journeys[j].carrier_code_list.includes('QG')){
                             is_citilink = true;
                         }
-                        $text +='*Flight '+flight_count+'*\n';
                         if(i == 0 && j == 0 && Boolean(price_itinerary.is_combo_price) == true && price_itinerary_temp.length > 1){
                             text += `<h6>Special Price</h6>`;
                             $text +='Special Price\n';
@@ -4397,6 +4396,7 @@ function airline_detail(type){
                             text+=`<hr/>`;
                         }
                         flight_count++;
+                        $text +='*Flight '+flight_count+'*\n';
                         if(flight_count != 1){
                             text+=`<div class="col-lg-12"><hr/></div>`;
                         }
@@ -4472,10 +4472,10 @@ function airline_detail(type){
                             }
                             for(l in price_itinerary_temp[i].journeys[j].segments[k].fares){
                                 if(is_citilink && price_itinerary_temp[i].journeys[j].segments[k].fares[l].cabin_class == 'W')
-                                    $text += airline_cabin_class_list['W1'] + ' (' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].class_of_service + ')';
+                                    $text += airline_cabin_class_list['W1'];
                                 else
                                     $text += airline_cabin_class_list[price_itinerary_temp[i].journeys[j].segments[k].fares[l].cabin_class];
-                                $text += ' (' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].class_of_service + ')\n';
+                                $text += ' [' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].class_of_service + ']\n';
                             }
                             //OPERATED BY
                             try{
@@ -5391,25 +5391,17 @@ function check_passenger(adult, child, infant, type=''){
             }
        }
    }
-   var is_provider_lionair = false;
+   // di ubah ke true karena kalau false salah 1 lion akan ke bypass rule lion 15 jul 2022
+   var is_provider_lionair = true;
+   var list_carrier_lion_air = ['JT', 'IW', 'ID', 'IU', 'OD'];
    if(typeof airline_pick !== 'undefined'){
        for(x in airline_pick){
             for(y in airline_pick[x].journeys){
                 for(z in airline_pick[x].journeys[y].segments){
-                    if(airline_pick[x].journeys[y].segments[z].carrier_code.includes('JT') ||
-                       airline_pick[x].journeys[y].segments[z].carrier_code.includes('IW') ||
-                       airline_pick[x].journeys[y].segments[z].carrier_code.includes('ID') ||
-                       airline_pick[x].journeys[y].segments[z].carrier_code.includes('IU') ||
-                       airline_pick[x].journeys[y].segments[z].carrier_code.includes('OD'))
-                       is_provider_lionair = true
-                    if(is_provider_lionair)
-                        break;
+                    if(is_provider_lionair && list_carrier_lion_air.includes(airline_pick[x].journeys[y].segments[z].carrier_code) == false)
+                       is_provider_lionair = false
                 }
-                if(is_provider_lionair)
-                    break;
             }
-            if(is_provider_lionair)
-                break;
        }
    }
    //adult
@@ -5524,7 +5516,7 @@ function check_passenger(adult, child, infant, type=''){
                                 document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
                            }else
                                 document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('adult_country_of_issued'+i).value == ''){
+                       }if(document.getElementById('adult_country_of_issued'+i).value == '' || document.getElementById('adult_country_of_issued'+i).value == 'Country of Issued'){
                            error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
                             $("#adult_country_of_issued"+i+"_id").each(function() {
                               $(this).siblings(".select2-container").css('border', '1px solid red');
@@ -5616,22 +5608,26 @@ function check_passenger(adult, child, infant, type=''){
        }
        if(typeof ff_request !== 'undefined'){
            if(ff_request.length != 0 && check_ff == 1){
+               var index_ff = 0;
                for(j=1;j<=ff_request.length;j++){
-                    error_ff = true
-                    if(document.getElementById('adult_ff_request'+i+'_'+j).value != '' && document.getElementById('adult_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != '')
-                        error_ff = false
-                    else if(document.getElementById('adult_ff_request'+i+'_'+j).value == '' && document.getElementById('adult_ff_number'+i+'_'+j).value != '' ||
-                            document.getElementById('adult_ff_request'+i+'_'+j).value == 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != ''){
-                        error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger adult '+i+'!</br>\n';
-                        document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
-                    }else if(document.getElementById('adult_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value == '' &&
-                        document.getElementById('adult_ff_request'+i+'_'+j).value != '' && document.getElementById('adult_ff_number'+i+'_'+j).value == ''){
-                        error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger adult '+i+'!</br>\n';
-                        document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
-                    }
-                    if(error_ff == false){
-                        document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = '#EFEFEF';
-                        document.getElementById('adult_ff_request'+i+'_'+j).style['border-color'] = '#EFEFEF';
+                    index_ff = j-1;
+                    if(ff_request[index_ff].hasOwnProperty('error_code') == false){
+                        error_ff = true
+                        if(document.getElementById('adult_ff_request'+i+'_'+j).value != '' && document.getElementById('adult_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != '')
+                            error_ff = false
+                        else if(document.getElementById('adult_ff_request'+i+'_'+j).value == '' && document.getElementById('adult_ff_number'+i+'_'+j).value != '' ||
+                                document.getElementById('adult_ff_request'+i+'_'+j).value == 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != ''){
+                            error_log+= 'Please choose Frequent Flyer Program Journey '+j+' for passenger adult '+i+'!</br>\n';
+                            document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                        }else if(document.getElementById('adult_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value == '' &&
+                            document.getElementById('adult_ff_request'+i+'_'+j).value != '' && document.getElementById('adult_ff_number'+i+'_'+j).value == ''){
+                            error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger adult '+i+'!</br>\n';
+                            document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                        }
+                        if(error_ff == false){
+                            document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = '#EFEFEF';
+                            document.getElementById('adult_ff_request'+i+'_'+j).style['border-color'] = '#EFEFEF';
+                        }
                     }
                }
            }
@@ -5755,7 +5751,7 @@ function check_passenger(adult, child, infant, type=''){
                                 document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
                            }else
                                 document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('child_country_of_issued'+i).value == ''){
+                       }if(document.getElementById('child_country_of_issued'+i).value == '' || document.getElementById('child_country_of_issued'+i).value == 'Country of Issued'){
                            error_log+= 'Please fill country of issued for passenger child '+i+'!</br>\n';
                            $("#child_country_of_issued"+i+"_id").each(function() {
                              $(this).siblings(".select2-container").css('border', '1px solid red');
@@ -5862,17 +5858,20 @@ function check_passenger(adult, child, infant, type=''){
        if(typeof ff_request !== 'undefined'){
            if(ff_request.length != 0 && check_ff == 1){
                for(j=1;j<=ff_request.length;j++){
-                    if(document.getElementById('child_ff_request'+i+'_'+j).value != '' && document.getElementById('child_ff_number'+i+'_'+j).value != '' ||
-                       document.getElementById('child_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('child_ff_number'+i+'_'+j).value != ''){
+                    index_ff = j-1;
+                    if(ff_request[index_ff].hasOwnProperty('error_code') == false){
+                        if(document.getElementById('child_ff_request'+i+'_'+j).value != '' && document.getElementById('child_ff_number'+i+'_'+j).value != '' ||
+                           document.getElementById('child_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('child_ff_number'+i+'_'+j).value != ''){
 
-                        error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger child '+i+'!</br>\n';
-                        document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = 'red';
-                    }else if(document.getElementById('child_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('child_ff_number'+i+'_'+j).value != ''){
-                        error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger child '+i+'!</br>\n';
-                        document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = 'red';
-                    }else{
-                        document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = '#EFEFEF';
-                        document.getElementById('child_ff_request'+i+'_'+j).style['border-color'] = '#EFEFEF';
+                            error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger child '+i+'!</br>\n';
+                            document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                        }else if(document.getElementById('child_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('child_ff_number'+i+'_'+j).value != ''){
+                            error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger child '+i+'!</br>\n';
+                            document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                        }else{
+                            document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = '#EFEFEF';
+                            document.getElementById('child_ff_request'+i+'_'+j).style['border-color'] = '#EFEFEF';
+                        }
                     }
                }
            }
@@ -5996,7 +5995,7 @@ function check_passenger(adult, child, infant, type=''){
                                 document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
                            }else
                                 document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-                       }if(document.getElementById('infant_country_of_issued'+i).value == ''){
+                       }if(document.getElementById('infant_country_of_issued'+i).value == '' || document.getElementById('infant_country_of_issued'+i).value == 'Country of Issued'){
                            error_log+= 'Please fill country of issued for passenger infant '+i+'!</br>\n';
                            $("#infant_country_of_issued"+i+"_id").each(function() {
                              $(this).siblings(".select2-container").css('border', '1px solid red');
@@ -6852,8 +6851,8 @@ function get_checked_copy_result(){
                                 var change_radios = document.getElementsByName(id_class_of_service);
                                 for (var j = 0, length = change_radios.length; j < length; j++) {
                                     if (change_radios[j].checked && i == j) {
-                                        text+=`<br/><span>`+$(this).html().replace(' ','').split('(')[4].split(')')[0]+` (`+$(this).html().split('(')[0].replace('\n','').replace(/ /g,'')+`)</span>`;
-                                        $text += $(this).html().replace(' ','').split('(')[4].split(')')[0]+` (`+$(this).html().split('(')[0].replace('\n','').replace(/ /g,'')+`)`;
+                                        text+=`<br/><span>`+$(this).html().replace(' ','').split('(')[4].split(')')[0]+` [`+$(this).html().split('(')[0].replace('\n','').replace(/ /g,'')+`]</span>`;
+                                        $text += $(this).html().replace(' ','').split('(')[4].split(')')[0]+` [`+$(this).html().split('(')[0].replace('\n','').replace(/ /g,'')+`]`;
                                         break;
                                     }
                                 }
@@ -6863,8 +6862,8 @@ function get_checked_copy_result(){
 
                     parent_po.find('.copy_operated_by').each(function(obj) {
                         if($(this).html() != undefined){
-                            text+=`<span> (`+$(this).html()+`)</span>`;
-                            $text += ' ('+$(this).html()+')';
+                            text+=`<span> [`+$(this).html()+`]</span>`;
+                            $text += ' ['+$(this).html()+']';
                         }
                     });
                     text+=`<br/>`;

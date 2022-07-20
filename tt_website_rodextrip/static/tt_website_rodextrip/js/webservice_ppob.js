@@ -987,8 +987,11 @@ function ppob_get_booking(data){
                     <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
                         <div class="row">
                             <div class="col-lg-12 col-md-12">
-                                <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo">
-                                <label for="is_hide_agent_logo">Hide agent logo on tickets</label>
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Hide agent logo on tickets</span>
+                                    <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo"/>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
                             </div>
                         </div>
                     </div>`;

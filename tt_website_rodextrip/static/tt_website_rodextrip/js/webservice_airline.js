@@ -2548,6 +2548,40 @@ function change_fare(journey, segment, fares){
                     break;
                 }else if(airline[journey].segments[i].fares[j].group_fare_id == group_fares){
                     document.getElementsByName('journey'+journey+'segment'+i+'fare')[parseInt(j)].checked = true;
+                    temp_seat_name = airline[journey].segments[i].fares[j].class_of_service+' -';
+                    if(airline[journey].segments[i].fares[j].cabin_class != ''){
+                        if(airline[journey].segments[i].fares[j].cabin_class == 'Y'){
+                            temp_seat_name += ' (Economy)';
+                        }
+                        else if(airline[journey].carrier_code_list.includes('QG') && airline[journey].segments[i].fares[j].cabin_class == 'W'){
+                            temp_seat_name += ' (Royal Green)';
+                        }
+                        else if(airline[journey].segments[i].fares[j].cabin_class == 'W'){
+                            temp_seat_name += ' (Premium Economy)';
+                        }
+                        else if(airline[journey].segments[i].fares[j].cabin_class == 'C'){
+                            temp_seat_name += ' (Business)';
+                        }
+                        else if(airline[journey].segments[i].fares[j].cabin_class == 'F'){
+                            temp_seat_name += ' (First Class)';
+                        }
+                    }
+                    temporary_total_price = 0;
+                    for(k in airline[journey].segments[i].fares[j].service_charge_summary){
+                        //hanya ambil yg pertama karena adult
+                        temporary_total_price += airline[journey].segments[i].fares[j].service_charge_summary[k].base_price;
+                        break;
+                    }
+                    if(airline_request.adult + airline_request.child > airline[journey].segments[i].fares[j].available_count){
+                        temp_seat_name += ' - SOLD OUT';
+                    }else{
+                        if(temporary_total_price == 0){
+                            temp_seat_name += ' - Choose to view price';
+                        }else{
+                            temp_seat_name += ' - '+airline[journey].currency + ' ' + getrupiah(temporary_total_price);
+                        }
+                    }
+                    change_seat_span(journey,i, temp_seat_name)
                     break;
                 }
             }
@@ -2557,10 +2591,9 @@ function change_fare(journey, segment, fares){
         for (var j = 0, length = radios.length; j < length; j++) {
             if (radios[j].checked) {
                 // do whatever you want with the checked radio
-                temp = document.getElementById('journey'+journey+'segment'+i+'fare'+(radios[j].value)).innerHTML;
+//                temp = document.getElementById('journey'+journey+'segment'+i+'fare'+(radios[j].value)).innerHTML;
 //                price += parseInt(temp.replace( /[^\d.]/g, '' ));
                 airline[journey].segments[i].fare_pick = parseInt(j);
-                // only one radio can be logically checked, don't check the rest
                 break;
             }
         }
@@ -3341,7 +3374,7 @@ function get_price_itinerary_request(){
                                                                 else
                                                                     $text += airline_cabin_class_list[resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].cabin_class];
                                                             }
-                                                            $text += ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].class_of_service + ')\n';
+                                                            $text += ' [' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].class_of_service + ']\n';
                                                         }
                                                         //operated by
                                                         try{
@@ -3864,7 +3897,7 @@ function render_price_in_get_price(text, $text, $text_share){
                                     <span style="font-size:13px; font-weight:500;">Tax & Charges</span>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].CHD.currency+` `+getrupiah(Math.ceil(price * airline_request.child))+`</span>
+                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].CHD.currency+` `+getrupiah(Math.ceil(price))+`</span>
                                 </div>
                             </div>
                         </div>
@@ -3917,7 +3950,7 @@ function render_price_in_get_price(text, $text, $text_share){
                                     <span style="font-size:13px; font-weight:500;">Tax & Charges</span>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].INF.currency+` `+getrupiah(Math.ceil(price * airline_request.infant))+`</span>
+                                    <span style="font-size:13px; font-weight:500;">`+airline_price[price_counter].INF.currency+` `+getrupiah(Math.ceil(price))+`</span>
                                 </div>
                             </div>
                         </div>
@@ -6632,15 +6665,23 @@ function airline_get_booking(data, sync=false){
                                         <div class="col-lg-8" style="padding-top:10px;">`;
 
                                     for(l in msg.result.response.provider_bookings[i].journeys[j].segments[k].legs){
-                                        try{
-                                            $text += airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name + ' ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
-                                        }catch(err){
-                                            $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code + ' ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
+                                        if(msg.result.response.provider_bookings[i].journeys[j].segments[k].hasOwnProperty('operating_airline_code') && msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code != msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code && msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code != ''){
+                                            try{
+                                                $text+=`Operated By `+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code].name+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
+                                            }catch(err){
+                                                $text+=`Operated By `+msg.result.response.provider_bookings[i].journeys[j].segments[k].operating_airline_code+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
+                                            }
+                                        }else{
+                                            try{
+                                                $text += airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name + ' ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
+                                            }catch(err){
+                                                $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code + ' ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
+                                            }
                                         }
                                         if(cabin_class != '')
-                                            $text += ' ' + cabin_class + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].class_of_service + ')';
+                                            $text += ' ' + cabin_class + ' [' + msg.result.response.provider_bookings[i].journeys[j].segments[k].class_of_service + ']';
                                         else
-                                            $text += ' ' + cabin_class + ' (' + msg.result.response.provider_bookings[i].journeys[j].segments[k].class_of_service + ')';
+                                            $text += ' ' + cabin_class + ' [' + msg.result.response.provider_bookings[i].journeys[j].segments[k].class_of_service + ']';
 
 //                                        $text += '\n\n';
 //                                        $text += '‣ Departure:\n';
@@ -7182,6 +7223,7 @@ function airline_get_booking(data, sync=false){
                                                                 fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].origin = msg.result.response.provider_bookings[j].journeys[k].origin;
                                                                 fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].destination = msg.result.response.provider_bookings[j].journeys[k].destination;
                                                                 fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].departure_date = msg.result.response.provider_bookings[j].journeys[k].departure_date;
+                                                                fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].pnr = msg.result.response.passengers[pax].fees[i].pnr;
                                                                 break;
                                                             }
                                                             for(l in msg.result.response.provider_bookings[j].journeys[k].segments){
@@ -7190,6 +7232,7 @@ function airline_get_booking(data, sync=false){
                                                                     fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].origin = msg.result.response.provider_bookings[j].journeys[k].segments[l].origin;
                                                                     fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].destination = msg.result.response.provider_bookings[j].journeys[k].segments[l].destination;
                                                                     fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].departure_date = msg.result.response.provider_bookings[j].journeys[k].segments[l].departure_date;
+                                                                    fee_dict[msg.result.response.passengers[pax].fees[i].journey_code].pnr = msg.result.response.passengers[pax].fees[i].pnr;
                                                                     break;
                                                                 }
                                                             }
@@ -7271,8 +7314,11 @@ function airline_get_booking(data, sync=false){
                     <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
                         <div class="row">
                             <div class="col-lg-12 col-md-12">
-                                <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo">
-                                <label for="is_hide_agent_logo">Hide agent logo on tickets</label>
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Hide agent logo on tickets</span>
+                                    <input type="checkbox" id="is_hide_agent_logo" name="is_hide_agent_logo"/>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
                             </div>
                         </div>
                     </div>`;
@@ -7451,10 +7497,19 @@ function airline_get_booking(data, sync=false){
                                 price_arr_repricing[msg.result.response.passengers[j].pax_type] = {}
                                 pax_type_repricing.push([msg.result.response.passengers[j].pax_type, msg.result.response.passengers[j].pax_type]);
                             }
-                            price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name] = {
-                                'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                                'Tax': price['TAX'] + price['ROC'],
-                                'Repricing': price['CSC']
+                            // fix agar tidak tumpuk harga pnr pertama
+                            if(price_arr_repricing[msg.result.response.passengers[j].pax_type].hasOwnProperty(msg.result.response.passengers[j].name)){
+                                price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name] = {
+                                    'Fare': price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name]['Fare'] +  price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
+                                    'Tax': price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name]['Tax'] +  price['TAX'] + price['ROC'],
+                                    'Repricing': price['CSC']
+                                }
+                            }else{
+                                price_arr_repricing[msg.result.response.passengers[j].pax_type][msg.result.response.passengers[j].name] = {
+                                    'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
+                                    'Tax': price['TAX'] + price['ROC'],
+                                    'Repricing': price['CSC']
+                                }
                             }
                             text_repricing = `
                             <div class="col-lg-12">
@@ -7526,17 +7581,21 @@ function airline_get_booking(data, sync=false){
                                 }
                             }
                             counter_ssr = 0;
+                            $text_ssr = '';
                             for(k in msg.result.response.passengers[j].fees_dict){
-                                if(counter_ssr == 0)
-                                    $text += 'SSR Request:\n';
-                                $text += msg.result.response.passengers[j].fees_dict[k].origin + ' → ' + msg.result.response.passengers[j].fees_dict[k].destination+'\n';
-                                for(l in msg.result.response.passengers[j].fees_dict[k].fees){
-                                    $text += msg.result.response.passengers[j].fees_dict[k].fees[l].fee_category+': '+msg.result.response.passengers[j].fees_dict[k].fees[l].fee_name + '\n';
+                                if(msg.result.response.passengers[j].fees_dict[k].pnr == msg.result.response.provider_bookings[i].pnr){
+                                    if($text_ssr == '')
+                                        $text_ssr += 'SSR Request:\n';
+                                    $text_ssr += msg.result.response.passengers[j].fees_dict[k].origin + ' → ' + msg.result.response.passengers[j].fees_dict[k].destination+'\n';
+                                    for(l in msg.result.response.passengers[j].fees_dict[k].fees){
+                                        $text_ssr += msg.result.response.passengers[j].fees_dict[k].fees[l].fee_category+': '+msg.result.response.passengers[j].fees_dict[k].fees[l].fee_name + '\n';
+                                    }
+                                    if(Object.keys(msg.result.response.passengers[j].fees_dict).length != counter_ssr)
+                                        $text_ssr += '\n';
+                                    counter_ssr++;
                                 }
-                                if(Object.keys(msg.result.response.passengers[j].fees_dict).length != counter_ssr)
-                                    $text += '\n';
-                                counter_ssr++;
                             }
+                            $text += $text_ssr;
                             $text += '['+msg.result.response.provider_bookings[i].pnr+'] '
 
                             if(counter_service_charge == 0){ // with upsell pnr pertama
@@ -8129,6 +8188,14 @@ function check_refund_partial_btn(){
             }
         }
     }
+    if(document.getElementById("is_quick_refund") && document.getElementById("is_quick_refund").checked == true)
+    {
+        ref_type = "quick";
+    }
+    else
+    {
+        ref_type = "regular";
+    }
     $.ajax({
            type: "POST",
            url: "/webservice/airline",
@@ -8139,6 +8206,7 @@ function check_refund_partial_btn(){
                'order_number': airline_get_detail.result.response.order_number,
                'signature': signature,
                'passengers': JSON.stringify(passengers),
+               'refund_type': ref_type,
                'captcha':JSON.stringify(captcha)
            },
            success: function(msg) {
@@ -8307,6 +8375,7 @@ function check_refund_partial_btn(){
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
                     document.getElementById('captcha').innerHTML = `
+                        <input type="checkbox" id="is_quick_refund" onclick="hide_cancel_div();"><label for="is_quick_refund">  Quick Refund</label>
                         <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
                             Check Refund Price
                             <div class="ld ld-ring ld-cycle"></div>
@@ -8489,6 +8558,14 @@ function cancel_reservation_airline(){
         //console.log( index + ": " + $('.refund_pax:checkbox:checked')[0].id );
         passengers.push($('.refund_pax:checkbox:checked')[index].id);
     });
+    if(document.getElementById("is_quick_refund") && document.getElementById("is_quick_refund").checked == true)
+    {
+        ref_type = "quick";
+    }
+    else
+    {
+        ref_type = "regular";
+    }
     $.ajax({
            type: "POST",
        url: "/webservice/airline",
@@ -8499,6 +8576,7 @@ function cancel_reservation_airline(){
            'order_number': airline_get_detail.result.response.order_number,
            'signature': signature,
            'passengers': JSON.stringify(passengers),
+           'refund_type': ref_type
        },
        success: function(msg) {
            if(msg.result.error_code == 0){
@@ -12691,6 +12769,7 @@ function captcha_time_limit_airline(){
             document.getElementById('elapse_time_captcha').innerHTML += ((captcha_time - time_limit_captcha)%60) +`s`;
         }else{
             document.getElementById('captcha').innerHTML = `
+                <input type="checkbox" id="is_quick_refund" onclick="hide_cancel_div();"><label for="is_quick_refund">  Quick Refund</label>
                 <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
                     Check Refund Price
                     <div class="ld ld-ring ld-cycle"></div>
@@ -12839,6 +12918,7 @@ function airline_get_booking_refund(data){
                         //document.getElementById('captcha').hidden = false;
 //                        document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="check_refund_partial_btn();" value="Check Refund Price Partial"><hr/>`;
                         document.getElementById('captcha').innerHTML = `
+                            <input type="checkbox" id="is_quick_refund" onclick="hide_cancel_div();"><label for="is_quick_refund">  Quick Refund</label>
                             <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
                                 Check Refund Price
                                 <div class="ld ld-ring ld-cycle"></div>
@@ -12928,7 +13008,9 @@ function airline_get_booking_refund(data){
                                     };
                                 text+=`<h6>Flight `+flight_counter+`</h6>`;
                                 if(moment().format('YYYY-MM-DD HH:mm:ss') < msg.result.response.provider_bookings[i].departure_date)
-                                    text+=`<input type="checkbox" id="pnr_`+i+`_`+j+`" onclick="pnr_refund_onclick('pnr_`+i+`_`+j+`','pnr');"><label for="pnr`+i+`">  Refund</label>`;
+                                {
+                                    text+=`<input type="checkbox" id="pnr_`+i+`_`+j+`" onclick="pnr_refund_onclick('pnr_`+i+`_`+j+`','pnr');"><label for="pnr_`+i+`_`+j+`">  Refund</label>`;
+                                }
                                 $text += 'Flight '+ flight_counter+'\n';
                                 flight_counter++;
                             }
@@ -13528,7 +13610,6 @@ function pnr_refund_onclick(val, type){
         document.getElementById('refund_detail').style.display = 'none';
         document.getElementById('refund_detail').innerHTML = '';
         document.getElementById('cancel').hidden = true;
-        document.getElementById('refund_detail').innerHTML = '';
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
@@ -14491,6 +14572,14 @@ function check_refund_partial_btn_v2(){
                 captcha[refund_msg.result.response[i].pnr] = '';
         }
     }
+    if(document.getElementById("is_quick_refund") && document.getElementById("is_quick_refund").checked == true)
+    {
+        ref_type = "quick";
+    }
+    else
+    {
+        ref_type = "regular";
+    }
     $.ajax({
            type: "POST",
            url: "/webservice/airline",
@@ -14502,6 +14591,7 @@ function check_refund_partial_btn_v2(){
                'signature': signature,
                'passengers': JSON.stringify(passengers),
                'booking': JSON.stringify(airline_get_detail),
+               'refund_type': ref_type,
                'captcha':JSON.stringify(captcha)
            },
            success: function(msg) {
@@ -14672,7 +14762,8 @@ function check_refund_partial_btn_v2(){
                     $('.hold-seat-booking-train').removeClass("running");
                     document.getElementById('captcha').innerHTML = `
                         <!--<button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">-->
-                            <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login_v2();">
+                        <input type="checkbox" id="is_quick_refund" onclick="hide_cancel_div();"><label for="is_quick_refund">  Quick Refund</label>
+                        <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login_v2();">
                             Check Refund Price
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
@@ -14751,6 +14842,14 @@ function cancel_btn_v2(){
                 }
             }
             total = 0;
+            if(document.getElementById("is_quick_refund") && document.getElementById("is_quick_refund").checked == true)
+            {
+                ref_type = "quick";
+            }
+            else
+            {
+                ref_type = "regular";
+            }
 //            for(i in pnr_refund_list){
 //                for(j in pnr_refund_list[i]){
 //                    total = parseInt(document.getElementById(pnr_refund_list[i][j]).value.split(',').join(''));
@@ -14779,6 +14878,7 @@ function cancel_btn_v2(){
                    'order_number': airline_get_detail.result.response.order_number,
                    'signature': signature,
                    'passengers': JSON.stringify(passengers),
+                   'refund_type': ref_type,
 //                   'list_price_refund': JSON.stringify(list_price_refund),
                    'provider': JSON.stringify(provider),
                    'remarks': JSON.stringify(passengers_remarks),
@@ -14843,6 +14943,14 @@ function cancel_reservation_airline_v2(){
         //console.log( index + ": " + $('.refund_pax:checkbox:checked')[0].id );
         passengers.push($('.refund_pax:checkbox:checked')[index].id);
     });
+    if(document.getElementById("is_quick_refund") && document.getElementById("is_quick_refund").checked == true)
+    {
+        ref_type = "quick";
+    }
+    else
+    {
+        ref_type = "regular";
+    }
     $.ajax({
            type: "POST",
        url: "/webservice/airline",
@@ -14853,6 +14961,7 @@ function cancel_reservation_airline_v2(){
            'order_number': airline_get_detail.result.response.order_number,
            'signature': signature,
            'passengers': JSON.stringify(passengers),
+           'refund_type': ref_type,
            'refund_response': JSON.stringify(airline_refund_response)
        },
        success: function(msg) {
@@ -14920,6 +15029,11 @@ function cancel_reservation_airline_v2(){
             airline_get_booking_refund(airline_get_detail.result.response.order_number);
        },timeout: 300000
     });
+}
+
+function hide_cancel_div(){
+    document.getElementById('cancel').hidden = true;
+    document.getElementById('cancel').innerHTML = '';
 }
 
 function upload_image(){

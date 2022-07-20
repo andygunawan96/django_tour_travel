@@ -2198,6 +2198,10 @@ def update_refund_booking(request):
             'order_number': request.POST['order_number'],
             'provider_bookings': provider_bookings
         }
+        if request.POST.get('refund_type'):
+            data.update({
+                "refund_type": request.POST['refund_type']
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -2228,6 +2232,10 @@ def cancel(request):
             'passengers': request.POST.get('passengers') and compute_pax_js(request.POST['passengers']) or [],
             'provider_bookings': request.POST.get('passengers') and compute_pax_js_new(request.POST['passengers']) or data_booking['result']['response']['provider_bookings']
         }
+        if request.POST.get('refund_type'):
+            data.update({
+                "refund_type": request.POST['refund_type']
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -3131,6 +3139,10 @@ def get_refund_booking(request):
             'provider_bookings': request.POST.get('passengers') and compute_pax_js_new(request.POST['passengers']) or [],
             "captcha": json.loads(request.POST['captcha']),
         }
+        if request.POST.get('refund_type'):
+            data.update({
+                "refund_type": request.POST['refund_type']
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -4164,6 +4176,10 @@ def get_cancel_booking(request):
             "schedules": schedules,
             "order_number": airline_get_booking['result']['response']['order_number']
         }
+        if request.POST.get('refund_type'):
+            data.update({
+                "refund_type": request.POST['refund_type']
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -4238,6 +4254,10 @@ def update_refund_booking_v2(request):
             'order_number': request.POST['order_number'],
             'schedules': schedules
         }
+        if request.POST.get('refund_type'):
+            data.update({
+                "refund_type": request.POST['refund_type']
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -4266,6 +4286,10 @@ def cancel_v2(request):
             'order_number': request.POST['order_number'],
             'schedules': schedules
         }
+        if request.POST.get('refund_type'):
+            data.update({
+                "refund_type": request.POST['refund_type']
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

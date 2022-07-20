@@ -78,18 +78,21 @@
     </div>
 </section>
 {% elif template == 2 %}
-<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
         <div class="row">
-            <div class="hotel-search-form-area" style="bottom:0px; padding-left:15px; padding-right:15px;">
-                <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset;">
+            <div class="hotel-search-form-area" style="width:100%; bottom:0px; padding-left:15px; padding-right:15px;">
+                <div class="hotel-search-form" style="padding:unset; box-shadow:unset;">
                     <form action="{% url 'tt_website_rodextrip:top_up_history'%}" name="top_up_form" method="POST" id="top_up_form" class="form-wrap" style="padding:15px !important;">
                         {% csrf_token %}
                         <div class="row">
-                            <div class="col-lg-12" style="border:1px solid #cdcdcd; background:white; padding:20px;" id="top_up_method_div">
-                                <div class="row" style="text-align:left; padding:15px;" id="top_up_div">
+                            <div class="col-lg-12 mb-3" style="padding:0px;">
+                                <button type="button" onclick="window.location.href='/'" class="primary-btn pull-right">
+                                    Back to Home <i class="fas fa-home"></i>
+                                </button>
+                            </div>
 
-                                </div>
+                            <div class="col-lg-12 mb-3" style="border:1px solid #cdcdcd; background:white; padding:10px 15px 10px 15px;" id="top_up_method_div">
                                 <div id="loading_payment_acq" style="display:none;">
                                     <div class="sk-circle">
                                         <div class="sk-circle1 sk-child"></div>
@@ -112,6 +115,12 @@
 
                                 </div>
                             </div>
+
+                            <div class="col-lg-12">
+                                <div class="row" style="text-align:left;" id="top_up_div">
+
+                                </div>
+                            </div>
                             <!--<div class="col-lg-4" style="padding-bottom:20px;">-->
 
                             <!--</div>-->
@@ -126,14 +135,17 @@
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;background: #f7f7f7;">
     <div class="container">
         <div class="row">
-            <div class="header-right" style="bottom:0px; padding-left:15px; padding-right:15px; background:unset; border:unset;">
+            <div class="header-right" style="width:100%; bottom:0px; padding-left:15px; padding-right:15px; background:unset; border:unset;">
                 <form action="{% url 'tt_website_rodextrip:top_up_history'%}" name="top_up_form" method="POST" id="top_up_form" class="form-wrap" style="padding:15px !important;">
                     {% csrf_token %}
                     <div class="row">
-                        <div class="col-lg-12" style="border:1px solid #cdcdcd; background:white; padding:20px;" id="top_up_method_div">
-                            <div class="row" style="text-align:left; padding:15px;" id="top_up_div">
+                        <div class="col-lg-12 mb-3" style="padding:0px;">
+                            <button type="button" onclick="window.location.href='/'" class="primary-btn pull-right">
+                                Back to Home <i class="fas fa-home"></i>
+                            </button>
+                        </div>
 
-                            </div>
+                        <div class="col-lg-12 mb-3" style="border:1px solid #cdcdcd; background:white; padding:15px 15px 10px 15px;" id="top_up_method_div">
                             <div id="loading_payment_acq" style="display:none;">
                                 <div class="sk-circle">
                                     <div class="sk-circle1 sk-child"></div>
@@ -156,6 +168,13 @@
 
                             </div>
                         </div>
+
+                        <div class="col-lg-12">
+                            <div class="row" style="text-align:left;" id="top_up_div">
+
+                            </div>
+                        </div>
+
                         <!--<div class="col-lg-4" style="padding-bottom:20px;">-->
 
                         <!--</div>-->
@@ -166,17 +185,20 @@
     </div>
 </section>
 {% elif template == 4 %}
-<section class="destinations-area" style="padding-top:50px; padding-bottom:50px;background: #f7f7f7;">
+<section class="destinations-area" style="background:#f7f7f7; padding-top:50px; padding-bottom:50px;background: #f7f7f7;">
     <div class="container">
         <div class="row">
-            <div class="header-right" style="bottom:0px; padding-left:15px; padding-right:15px; background:unset; border:unset;">
+            <div class="header-right" style="width:100%; bottom:0px; padding-left:15px; padding-right:15px; background:unset; border:unset;">
                 <form action="{% url 'tt_website_rodextrip:top_up_history'%}" name="top_up_form" method="POST" id="top_up_form" class="form-wrap" style="padding:15px !important;">
                     {% csrf_token %}
                     <div class="row">
-                        <div class="col-lg-12" style="border:1px solid #cdcdcd; background:white; padding:20px;" id="top_up_method_div">
-                            <div class="row" style="text-align:left; padding:15px;" id="top_up_div">
+                        <div class="col-lg-12 mb-3" style="padding:0px;">
+                            <button type="button" onclick="window.location.href='/'" class="primary-btn pull-right">
+                                Back to Home <i class="fas fa-home"></i>
+                            </button>
+                        </div>
 
-                            </div>
+                        <div class="col-lg-12 mb-3" style="border:1px solid #cdcdcd; background:white; padding:15px 15px 10px 15px;" id="top_up_method_div">
                             <div id="loading_payment_acq" style="display:none;">
                                 <div class="sk-circle">
                                     <div class="sk-circle1 sk-child"></div>
@@ -199,6 +221,13 @@
 
                             </div>
                         </div>
+
+                        <div class="col-lg-12">
+                            <div class="row" style="text-align:left;" id="top_up_div">
+
+                            </div>
+                        </div>
+
                         <!--<div class="col-lg-4" style="padding-bottom:20px;">-->
 
                         <!--</div>-->
@@ -210,17 +239,20 @@
 </section>
 {% elif template == 5 %}
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
-<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+<section class="destinations-area" style="background:#f7f7f7; padding-top:30px; padding-bottom:40px;">
     <div class="container">
         <div class="row">
-            <div class="banner-right" style="margin-bottom:25px;">
+            <div class="banner-right" style="width:100%; margin-bottom:25px;">
                 <form action="{% url 'tt_website_rodextrip:top_up_history'%}" name="top_up_form" method="POST" id="top_up_form" class="form-wrap" style="padding:15px !important;">
                     {% csrf_token %}
                     <div class="row">
-                        <div class="col-lg-12" style="border:1px solid #cdcdcd; background:white; padding:20px;" id="top_up_method_div">
-                            <div class="row" style="text-align:left; padding:15px;" id="top_up_div">
+                        <div class="col-lg-12 mb-3" style="padding:0px;">
+                            <button type="button" onclick="window.location.href='/'" class="primary-btn pull-right">
+                                Back to Home <i class="fas fa-home"></i>
+                            </button>
+                        </div>
 
-                            </div>
+                        <div class="col-lg-12 mb-3" style="border:1px solid #cdcdcd; background:white; padding:20px 15px 10px 15px;" id="top_up_method_div">
                             <div id="loading_payment_acq" style="display:none;">
                                 <div class="sk-circle">
                                     <div class="sk-circle1 sk-child"></div>
@@ -242,6 +274,13 @@
 
                             </div>
                         </div>
+
+                        <div class="col-lg-12">
+                            <div class="row" style="text-align:left;" id="top_up_div">
+
+                            </div>
+                        </div>
+
                         <!--<div class="col-lg-4" style="padding-bottom:20px;">-->
 
                         <!--</div>-->
@@ -253,17 +292,20 @@
 </section>
 {% elif template == 6 %}
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
-<section class="destinations-area" style="padding-top:50px; padding-bottom:40px;">
+<section class="destinations-area" style="background:#f7f7f7; padding-top:50px; padding-bottom:40px;">
     <div class="container">
         <div class="row">
-            <div class="banner-right" style="margin-bottom:25px;">
+            <div class="banner-right" style="width:100%; margin-bottom:25px;">
                 <form action="{% url 'tt_website_rodextrip:top_up_history'%}" name="top_up_form" method="POST" id="top_up_form" class="form-wrap" style="padding:15px !important;">
                     {% csrf_token %}
                     <div class="row">
-                        <div class="col-lg-12" style="border:1px solid #cdcdcd; background:white; padding:20px;" id="top_up_method_div">
-                            <div class="row" style="text-align:left; padding:15px;" id="top_up_div">
+                        <div class="col-lg-12 mb-3" style="padding:0px;">
+                            <button type="button" onclick="window.location.href='/'" class="primary-btn pull-right">
+                                Back to Home <i class="fas fa-home"></i>
+                            </button>
+                        </div>
 
-                            </div>
+                        <div class="col-lg-12 mb-3" style="border:1px solid #cdcdcd; background:white; padding:5px 15px 10px 15px;" id="top_up_method_div">
                             <div id="loading_payment_acq" style="display:none;">
                                 <div class="sk-circle">
                                     <div class="sk-circle1 sk-child"></div>
@@ -285,6 +327,13 @@
 
                             </div>
                         </div>
+
+                        <div class="col-lg-12">
+                            <div class="row" style="text-align:left;" id="top_up_div">
+
+                            </div>
+                        </div>
+
                         <!--<div class="col-lg-4" style="padding-bottom:20px;">-->
 
                         <!--</div>-->
