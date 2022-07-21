@@ -855,7 +855,7 @@ def ssr(request, signature):
                                             for availability in ssr_provider['ssr_availability'][provider]:
                                                 for ssr in availability['ssrs']:
                                                     if ssr.get('fee_code'):
-                                                        if fee['fee_code'] in ssr.get('fee_code'):
+                                                        if fee['fee_code'] == ssr.get('fee_code') and fee['journey_code'] == ssr['journey_code']:
                                                             adult[len(adult) - 1]['ssr_list'].append({
                                                                 "fee_code": fee['fee_code'],
                                                                 "journey_code": ssr['journey_code'],
@@ -863,7 +863,7 @@ def ssr(request, signature):
                                                                 "price": fee['amount']
                                                             })
                                                     elif ssr.get('ssr_code'):
-                                                        if fee['fee_code'] in ssr.get('ssr_code'):
+                                                        if fee['fee_code'] == ssr.get('ssr_code') and fee['journey_code'] == ssr['journey_code']:
                                                             adult[len(adult) - 1]['ssr_list'].append({
                                                                 "fee_code": fee['fee_code'],
                                                                 "journey_code": ssr['journey_code'],
@@ -955,7 +955,7 @@ def ssr(request, signature):
                     'price': '',
                     'additional_price': '',
                     'airline_pick': '',
-                    'signature': request.session['airline_signature'],
+                    'signature': signature,
                     'time_limit': '',
                 })
         except Exception as e:

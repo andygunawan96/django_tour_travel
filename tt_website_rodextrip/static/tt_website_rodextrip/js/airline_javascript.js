@@ -103,6 +103,18 @@ var sorting_list = [
     },{
         value:'Latest Arrival',
         status: false
+    },{
+        value:'Shortest Duration',
+        status: false
+    },{
+        value:'Highest Duration',
+        status: false
+    },{
+        value:'Shortest Transit Duration',
+        status: false
+    },{
+        value:'Highest Transit Duration',
+        status: false
     }
 ]
 
@@ -118,6 +130,12 @@ var sorting_list2 = [
         status: false
     },{
         value:'Arrival',
+        status: false
+    },{
+        value:'Duration',
+        status: false
+    },{
+        value:'Transit Duration',
         status: false
     }
 ]
@@ -1974,6 +1992,26 @@ function sort_button(value){
            document.getElementById("img-sort-down-arrival").style.display = "block";
            document.getElementById("img-sort-up-arrival").style.display = "none";
        }
+   }else if(value == 'duration'){
+       if(sorting_value == '' || sorting_value == 'Shortest Duration'){
+           sorting_value = 'Highest Duration';
+           document.getElementById("img-sort-down-duration").style.display = "none";
+           document.getElementById("img-sort-up-duration").style.display = "block";
+       }else{
+           sorting_value = 'Shortest Duration';
+           document.getElementById("img-sort-down-duration").style.display = "block";
+           document.getElementById("img-sort-up-duration").style.display = "none";
+       }
+   }else if(value == 'transit duration'){
+       if(sorting_value == '' || sorting_value == 'Shortest Transit Duration'){
+           sorting_value = 'Highest Transit Duration';
+           document.getElementById("img-sort-down-transit duration").style.display = "none";
+           document.getElementById("img-sort-up-transit duration").style.display = "block";
+       }else{
+           sorting_value = 'Shortest Transit Duration';
+           document.getElementById("img-sort-down-transit duration").style.display = "block";
+           document.getElementById("img-sort-up-transit duration").style.display = "none";
+       }
    }else{
        sorting_value = value;
    }
@@ -2099,6 +2137,39 @@ function sort(){
                     }
                 }else if(sorting == 'Latest Arrival'){
                     if(airline[i].arrival_date.split(', ')[1].split(' - ')[1] < airline[j].arrival_date.split(', ')[1].split(' - ')[1]){
+                        var temp = airline[i];
+                        airline[i] = airline[j];
+                        airline[j] = temp;
+                    }
+                }else if(sorting == 'Shortest Duration'){
+                    // first index i, second index j
+                    airline_first_elapsed_time = airline[i].elapsed_time.split(':');
+                    airline_first_elapsed_time = (parseInt(airline_first_elapsed_time[0]) * 86400) + (parseInt(airline_first_elapsed_time[1]) * 3600) + (parseInt(airline_first_elapsed_time[2]) * 60) + (parseInt(airline_first_elapsed_time[3]));
+                    airline_second_elapsed_time = airline[j].elapsed_time.split(':');
+                    airline_second_elapsed_time = (parseInt(airline_second_elapsed_time[0]) * 86400) + (parseInt(airline_second_elapsed_time[1]) * 3600) + (parseInt(airline_second_elapsed_time[2]) * 60) + (parseInt(airline_second_elapsed_time[3]));
+                    if(airline_first_elapsed_time > airline_second_elapsed_time){
+                        var temp = airline[i];
+                        airline[i] = airline[j];
+                        airline[j] = temp;
+                    }
+                }else if(sorting == 'Highest Duration'){
+                    airline_first_elapsed_time = airline[i].elapsed_time.split(':');
+                    airline_first_elapsed_time = (parseInt(airline_first_elapsed_time[0]) * 86400) + (parseInt(airline_first_elapsed_time[1]) * 3600) + (parseInt(airline_first_elapsed_time[2]) * 60) + parseInt(airline_first_elapsed_time[3]);
+                    airline_second_elapsed_time = airline[j].elapsed_time.split(':');
+                    airline_second_elapsed_time = (parseInt(airline_second_elapsed_time[0]) * 86400) + (parseInt(airline_second_elapsed_time[1]) * 3600) + (parseInt(airline_second_elapsed_time[2]) * 60) + parseInt(airline_second_elapsed_time[3]);
+                    if(airline_first_elapsed_time < airline_second_elapsed_time){
+                        var temp = airline[i];
+                        airline[i] = airline[j];
+                        airline[j] = temp;
+                    }
+                }else if(sorting == 'Shortest Transit Duration'){
+                    if(airline[i].transit_duration_in_sec > airline[j].transit_duration_in_sec){
+                        var temp = airline[i];
+                        airline[i] = airline[j];
+                        airline[j] = temp;
+                    }
+                }else if(sorting == 'Highest Transit Duration'){
+                    if(airline[i].transit_duration_in_sec < airline[j].transit_duration_in_sec){
                         var temp = airline[i];
                         airline[i] = airline[j];
                         airline[j] = temp;

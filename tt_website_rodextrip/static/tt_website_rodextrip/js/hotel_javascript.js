@@ -2063,7 +2063,7 @@ function hotel_detail(old_cancellation_policy){
         $text2 += 'Room #' + (parseInt(i)+1) + ' ' + hotel_price.rooms[i].description +'\n';
         //$text2 += hotel_price.rooms[i].qty +' room(s) \n';
 //        $text2 += 'Meal Type: '+ hotel_price.meal_type +'\n \n';
-        $text2 += 'Meal Type: '+ hotel_price.meal_type;
+        $text2 += 'Meal Type: '+ hotel_price.meal_type + '\n';
 
         text += `<div class="row">`;
         for(j in hotel_price.rooms[i].nightly_prices){
@@ -2114,6 +2114,10 @@ function hotel_detail(old_cancellation_policy){
         else
             $text2 += 'Total: IDR ' + getrupiah(hotel_price.rooms[i].price_total) + '\n\n';
         text += `</div>`;
+    }
+
+    if(typeof(special_request) !== 'undefined'){
+        $text2 += 'Special Request:\n' + special_request + '\n';
     }
     if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
 
@@ -3161,4 +3165,26 @@ function render_room_hotel(data_room_hotel_list){
         }
     });
     $('#loading-detail-hotel').hide();
+}
+
+function auto_update_special_request(id, value){
+    if(document.getElementById(id).value.includes(value)){
+        temp_special_request = document.getElementById(id).value.split('\n');
+        for(i in temp_special_request)
+            if(temp_special_request[i].includes(value)){
+                temp_special_request.splice(i, 1);
+                break;
+            }
+        document.getElementById(id).value = temp_special_request.join('\n');
+    }else{
+        var value_update = '';
+        if(document.getElementById(id).value != '')
+            value_update += '\n';
+        value_update += value;
+        if(value != 'Non-Smoking')
+            value_update+= ':';
+        document.getElementById(id).value += value_update;
+
+    }
+
 }

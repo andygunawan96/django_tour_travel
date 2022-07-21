@@ -108,6 +108,8 @@
                                 {% if backend_url != ''%}
                             <li><a href="" id="backend_btn">Backend</a></li>
                                 {% endif %}
+                            {% endif %}
+                            {% if username.co_user_login != 'agent_b2c' %}
                             <li><a href="{% url 'tt_website_rodextrip:history_transaction'%}">History Transaction</a></li>
                             {% endif %}
                             <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
@@ -141,6 +143,10 @@
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
                             <li><a href="" id="backend_btn2">Backend</a></li>
                             {% endif %}
+                            {% if username.co_user_login != 'agent_b2c' %}
+                            <li><a href="{% url 'tt_website_rodextrip:history_transaction'%}">History Transaction</a></li>
+                            {% endif %}
+
                             <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
                             <li>
                                 <a>
@@ -381,6 +387,8 @@
                                         {% if backend_url != ''%}
                                     <li><a href="" id="backend_btn">Backend</a></li>
                                         {% endif %}
+                                    {% endif %}
+                                    {% if username.co_user_login != 'agent_b2c' %}
                                     <li><a href="{% url 'tt_website_rodextrip:history_transaction'%}">History Transaction</a></li>
                                     {% endif %}
                                     <li style="z-index:5;">
@@ -415,6 +423,9 @@
                                     {% endif %}
                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
                                     <li class="pt5"><a href="" id="backend_btn2">Backend</a></li>
+                                    {% endif %}
+                                    {% if username.co_user_login != 'agent_b2c' %}
+                                    <li class="pt5"><a href="{% url 'tt_website_rodextrip:history_transaction'%}">History Transaction</a></li>
                                     {% endif %}
                                     <li style="z-index:5;">
                                         <a>
@@ -606,6 +617,8 @@
                                     {% if backend_url != ''%}
                                 <li><a href="" id="backend_btn">Backend</a></li>
                                     {% endif %}
+                                {% endif %}
+                                {% if username.co_user_login != 'agent_b2c' %}
                                 <li><a href="{% url 'tt_website_rodextrip:history_transaction'%}">History Transaction</a></li>
                                 {% endif %}
                                 <li>
@@ -640,6 +653,9 @@
                                 {% endif %}
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
                                 <li><a href="" id="backend_btn2">Backend</a></li>
+                                {% endif %}
+                                {% if username.co_user_login != 'agent_b2c' %}
+                                <li><a href="{% url 'tt_website_rodextrip:history_transaction'%}">History Transaction</a></li>
                                 {% endif %}
                                 <li>
                                     <a>
@@ -831,6 +847,8 @@
                                     {% if backend_url != ''%}
                                 <li><a href="" id="backend_btn">Backend</a></li>
                                     {% endif %}
+                                {% endif %}
+                                {% if username.co_user_login != 'agent_b2c' %}
                                 <li><a href="{% url 'tt_website_rodextrip:history_transaction'%}">History Transaction</a></li>
                                 {% endif %}
                                 <li>
@@ -863,6 +881,9 @@
                                 {% endif %}
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
                                 <li><a href="" id="backend_btn2">Backend</a></li>
+                                {% endif %}
+                                {% if username.co_user_login != 'agent_b2c' %}
+                                <li><a href="{% url 'tt_website_rodextrip:history_transaction'%}">History Transaction</a></li>
                                 {% endif %}
                                 <li>
                                     <a>
@@ -1057,6 +1078,8 @@
                                 {% if backend_url != ''%}
                             <li><a href="" id="backend_btn">Backend</a></li>
                                 {% endif %}
+                            {% endif %}
+                            {% if username.co_user_login != 'agent_b2c' %}
                             <li><a href="{% url 'tt_website_rodextrip:history_transaction'%}">History Transaction</a></li>
                             {% endif %}
                             <li>
@@ -1088,6 +1111,9 @@
                             {% endif %}
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
                             <li><a href="" id="backend_btn2">Backend</a></li>
+                            {% endif %}
+                            {% if username.co_user_login != 'agent_b2c' %}
+                            <li><a href="{% url 'tt_website_rodextrip:history_transaction'%}">History Transaction</a></li>
                             {% endif %}
                             <li>
                                 <a>
@@ -1235,6 +1261,8 @@
                             {% if backend_url != ''%}
                         <li><a href="" id="backend_btn">Backend</a></li>
                             {% endif %}
+                        {% endif %}
+                        {% if username.co_user_login != 'agent_b2c' %}
                         <li><a href="{% url 'tt_website_rodextrip:history_transaction'%}">History Transaction</a></li>
                         {% endif %}
                         <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
@@ -1255,6 +1283,9 @@
                         {% endif %}
                         {% if 'b2c_limitation' not in username.co_agent_frontend_security and backend_url != '' %}
                         <li><a href="" id="backend_btn2">Backend</a></li>
+                        {% endif %}
+                        {% if username.co_user_login != 'agent_b2c' %}
+                        <li><a href="{% url 'tt_website_rodextrip:history_transaction'%}">History Transaction</a></li>
                         {% endif %}
                         <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
                         <li>
