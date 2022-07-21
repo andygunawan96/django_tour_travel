@@ -523,7 +523,8 @@ function hotel_review_page(){
             hotel = msg.hotel;
             //upsell_price = {{upsell}};
             hotel_price = msg.hotel_price;
-            cancellation_policy = msg.cancellation_policy
+            cancellation_policy = msg.cancellation_policy;
+            special_request = msg.special_request;
             hotel_detail(cancellation_policy);
             hotel_facility_request(facilities);
             hotel_provision(hotel_price.price_code, hotel_price.provider);

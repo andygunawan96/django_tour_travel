@@ -1090,7 +1090,6 @@ function get_airline_data_review_page(){
        },
        success: function(msg) {
            airline_pick = msg.airline_pick;
-           airline_get_price_request = msg.airline_get_price_request;
            price_itinerary = msg.price_itinerary;
            airline_carriers = msg.airline_carriers;
            airline_ssr_request = msg.airline_ssr_request;
@@ -2424,6 +2423,7 @@ function datasearch2(airline){
            can_book_schedule = true;
            can_book = true;
            has_fare_details = true;
+           transit_duration_in_sec = 0;
            for(k in airline.schedules[i].journeys[j].segments){
                if(airline.schedules[i].journeys[j].segments[k].fares.length == 0)
                     can_book = false;
@@ -2502,7 +2502,12 @@ function datasearch2(airline){
                    airline.schedules[i].journeys[j].operated_by_carrier_code = airline.schedules[i].journeys[j].segments[k].operating_airline_code;
                    airline.schedules[i].journeys[j].operated_by = false;
                }
+               if(airline.schedules[i].journeys[j].segments[k].transit_duration != ''){
+                    transit_duration = airline.schedules[i].journeys[j].segments[k].transit_duration.split(':');
+                    transit_duration_in_sec += (parseInt(transit_duration[0]) * 86400) + (parseInt(transit_duration[1]) * 3600) + (parseInt(transit_duration[2]) * 60) + parseInt(transit_duration[3]);
+               }
            }
+           airline.schedules[i].journeys[j].transit_duration_in_sec = transit_duration_in_sec;
            airline.schedules[i].journeys[j].total_price = price;
            if(available_count == 100)
                available_count = 0;
