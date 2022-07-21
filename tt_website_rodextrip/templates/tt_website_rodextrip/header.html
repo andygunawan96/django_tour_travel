@@ -358,7 +358,6 @@
 <!--                                            <li><a href="/registration">{% trans 'Register Agent' %}</a></li>-->
 <!--                                        </ul>-->
 <!--                                    </li>-->
-                                    <li><a style="cursor:pointer;" data-toggle="modal" data-target="#myModalb2c">Sign Up</a></li>
                                     {% if "admin" in username.co_agent_frontend_security %}
                                     <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
                                     {% endif %}
@@ -393,7 +392,6 @@
 
                             <li class="notification-mobile" style="display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" alt="Photo Profile" class="image-rounded-profile"/> {{username.co_user_login}}</a>
                                 <ul class="dropdown">
-                                    <li><a style="cursor:pointer;" data-toggle="modal" data-target="#myModalb2c">Sign Up</a></li>
 
                                     {% if "admin" in username.co_agent_frontend_security %}
                                     <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
@@ -583,7 +581,6 @@
                         {% if username.co_user_login != '' %}
                         <li class="menu-has-children notification-pc" style="cursor:pointer;"><a title="{{username.co_user_login}}" style="font-weight:700; color:white; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
                             <ul>
-                                <li><a data-toggle="modal" data-target="#myModalb2c">Sign Up</a></li>
                                 {% if "admin" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
                                 {% endif %}
@@ -619,7 +616,6 @@
                         </li>
                         <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none"><a href="#"><img src="{{static_path}}images/noprofile.png" alt="Photo Profile" class="image-rounded-profile"/> {{username.co_user_login}}</a>
                             <ul>
-                                <li><a data-toggle="modal" data-target="#myModalb2c">Sign Up</a></li>
                                 {% if "admin" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
                                 {% endif %}
@@ -808,7 +804,6 @@
                         {% if username.co_user_login != '' %}
                         <li class="has-children notification-pc" style="display:inline-flex;"><a href="#" title="{{username.co_user_login}}" style="font-weight:700; display:inline-block; overflow: hidden; overflow: -moz-hidden-unscrollable; text-overflow: ellipsis; white-space: nowrap; max-width:100px;">{{username.co_user_login}}</a>
                             <ul class="dropdown">
-                                <li><a style="cursor:pointer;" data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %}</a></li>
                                 {% if "admin" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
                                 {% endif %}
@@ -842,7 +837,6 @@
                         </li>
                         <li class="has-children notification-mobile" style="display:none;"><a href="#" title="{{username.co_user_login}}"><img src="{{static_path}}images/noprofile.png" alt="Photo Profile" class="image-rounded-profile"/> {{username.co_user_login}}</a>
                             <ul class="dropdown">
-                                <li><a style="cursor:pointer;" data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %}</a></li>
                                 {% if "admin" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
                                 {% endif %}

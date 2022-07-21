@@ -6149,17 +6149,11 @@ function del_passenger_cache(sequence){
             'index': sequence
        },
        success: function(msg) {
-        if(msg.result.error_code == 0){
-             Swal.fire({
-               type: 'success',
-               title: 'Success!',
-               text: "Delete Success!",
-             })
-        }else{
+        if(msg.result.error_code != 0){
              Swal.fire({
                type: 'error',
                title: 'Oops!',
-               text: "Delete Error!",
+               text: "Error!",
              })
         }
         radio_button('pax_cache');
@@ -6244,7 +6238,7 @@ function get_passenger_cache(type,update_cache=false){
                                     response+=`<label style="border-bottom:2px solid `+color+`; cursor:pointer;" onclick="edit_passenger_cache(`+i+`);">Edit <i class="fas fa-pen" style="font-size:18px; color:`+color+`;"></i></label>`;
                                 }
                                 response+=`<label style="margin-right:13px;margin-left:13px;"></label>`;
-                                response+=`<label style="border-bottom:2px solid #ff3030; cursor:pointer;" onclick="del_passenger_cache(`+i+`);">Remove <i class="fas fa-trash-alt" style="font-size:18px; color:#ff3030;"></i></label>`;
+                                response+=`<label style="cursor:pointer;" onclick="del_passenger_cache(`+i+`);"><i class="fas fa-times" style="font-size:18px; color:#ff3030;"></i></label>`;
                             response+=`
                             </div>
                             <div class="col-lg-5 col-md-5">

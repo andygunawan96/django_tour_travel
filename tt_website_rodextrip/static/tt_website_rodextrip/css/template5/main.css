@@ -8710,6 +8710,20 @@ ul.progress_tabs li.current .image-rounded-icon{
     border-left:10px solid #f15a22;
 }
 
+.single_border_custom_top{
+    border-top:8px solid #f15a22;
+}
+.single_border_custom_right{
+    border-right:8px solid #f15a22;
+}
+.single_border_custom_bottom{
+    border-bottom:8px solid #f15a22;
+}
+.single_border_custom_left{
+    border-left:8px solid #f15a22;
+}
+
+
 .modal{
     padding-right:unset !important;
 }
