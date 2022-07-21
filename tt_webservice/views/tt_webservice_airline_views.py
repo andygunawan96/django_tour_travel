@@ -420,11 +420,10 @@ def get_data_passenger_page(request):
     return res
 
 def get_data_review_page(request):
+    res = {}
     try:
-        res = {}
         res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
         res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
-        res['airline_get_price_request'] = request.session['airline_get_price_request_%s' % request.POST['signature']]
         res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
         file = read_cache_with_folder_path("get_airline_carriers", 90911)
         if file:
@@ -450,7 +449,7 @@ def get_data_review_page(request):
                         res['price_itinerary']['sell_journey_provider'][idx]['is_seat'] = True
                     else:
                         res['price_itinerary']['sell_journey_provider'][idx]['is_seat'] = False
-
+        # res['airline_get_price_request'] = request.session['airline_get_price_request_%s' % request.POST['signature']]
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -504,6 +503,7 @@ def get_data_ssr_page(request):
                 passenger.append(pax)
             res['passengers'] = passenger
             res['airline_getbooking'] = request.session['airline_get_booking_response']['result']['response']
+            res['ssrs'] = request.session['airline_ssrs_aftersales_%s' % request.POST['signature']]
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -4632,9 +4632,13 @@ def search_mobile(request):
                         arrival_return = []
                         totalprice = 0
                         total_price_with_discount = 0
+                        elapsed_time = journey['elapsed_time'].split(':')
+                        journey['elapsed_time_in_sec'] = (int(elapsed_time[0])*86400) + (int(elapsed_time[1])*3600) + (int(elapsed_time[2])*60) + int(elapsed_time[3])
+                        elapsed_time_transit_duration_in_sec = 0
                         for idy, segment in enumerate(journey['segments']):
-                            # for leg in segment['legs']:
-                            #     pass
+                            if segment['transit_duration'] != '':
+                                elapsed_time_transit_duration = segment['transit_duration'].split(':')
+                                elapsed_time_transit_duration_in_sec += (int(elapsed_time_transit_duration[0])*86400) + (int(elapsed_time_transit_duration[1])*3600) + (int(elapsed_time_transit_duration[2])*60) + int(elapsed_time_transit_duration[3])
                             segment['transit_duration_list'] = segment['transit_duration'].split(':')
                             check = 0
                             origin_found = False
@@ -4780,6 +4784,8 @@ def search_mobile(request):
                                 fare['journey_code'] = journey['journey_code']
                             if choose_fare:
                                 check_segment_fare = False
+
+                        journey['elapsed_time_transit_duration_in_sec'] = elapsed_time_transit_duration_in_sec
                         if choose_fare == False and check_segment_fare:
                             if totalprice % 1 != 0:
                                 totalprice = math.ceil(totalprice)
