@@ -685,36 +685,60 @@
                             {% for room in rooms %}
                             <h6>{% trans 'Room' %} {{room}}:</h6>
                             <div class="row">
-                                <div class="col-lg-3">
+                                <div class="col-lg-12">
                                     <label class="check_box_custom">
                                         <span style="font-size:13px;">Non-Smoking</span>
                                         <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Non-Smoking');" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-12" {% if hotel_search.room == 1%} hidden {% endif %}>
                                     <label class="check_box_custom">
-                                        <span style="font-size:13px;">Floor</span>
-                                        <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Floor');" />
+                                        <span style="font-size:13px;">Connecting Rooms</span>
+                                        <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Connecting Room');" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-12">
+                                    <label class="check_box_custom">
+                                        <span style="font-size:13px;">High Floor</span>
+                                        <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'High Floor');" />
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
                                     <label class="check_box_custom">
                                         <span style="font-size:13px;">Bed Type</span>
-                                        <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Bed Type');" />
+                                        <input type="checkbox" onclick="update_special_request_show_text('bed_type_request_{{room}}');" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
+                                    <div class="row" id="bed_type_request_{{room}}" hidden>
+                                        <div class="col-lg-6">
+                                            <label class="radio-button-custom">
+                                                <span style="font-size:14px; font-weight:500;">TWIN BED<br></span>
+                                                <input type="radio" name="radio_bed_type" value="TWIN BED" onclick="">
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label class="radio-button-custom">
+                                                <span style="font-size:14px; font-weight:500;">DOUBLE / KING BED<br></span>
+                                                <input type="radio" name="radio_bed_type" value="DOUBLE / KING BED" onclick="">
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-12">
                                     <label class="check_box_custom">
                                         <span style="font-size:13px;">Other</span>
-                                        <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Other');" />
+                                        <input type="checkbox" onclick="update_special_request_show_text('other_request_{{room}}');" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
+                                    <textarea hidden rows="3" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="other_request_{{room}}"></textarea>
                                 </div>
                             </div>
-                            <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
+                            <textarea hidden rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
                             {% endfor %}
                             <h6>{% trans 'Early' %}/{% trans 'Late' %} {% trans 'Check-In' %}:</h6>
                             <textarea rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="late_ci" name="late_ci"></textarea>
@@ -1410,36 +1434,60 @@
                                 {% for room in rooms %}
                                 <h6>{% trans 'Room' %} {{room}}:</h6>
                                 <div class="row">
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-12">
                                         <label class="check_box_custom">
                                             <span style="font-size:13px;">Non-Smoking</span>
                                             <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Non-Smoking');" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-12" {% if hotel_search.room == 1%} hidden {% endif %}>
                                         <label class="check_box_custom">
-                                            <span style="font-size:13px;">Floor</span>
-                                            <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Floor');" />
+                                            <span style="font-size:13px;">Connecting Rooms</span>
+                                            <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Connecting Room');" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-12">
+                                        <label class="check_box_custom">
+                                            <span style="font-size:13px;">High Floor</span>
+                                            <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'High Floor');" />
+                                            <span class="check_box_span_custom"></span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
                                         <label class="check_box_custom">
                                             <span style="font-size:13px;">Bed Type</span>
-                                            <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Bed Type');" />
+                                            <input type="checkbox" onclick="update_special_request_show_text('bed_type_request_{{room}}');" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
+                                        <div class="row" id="bed_type_request_{{room}}" hidden>
+                                            <div class="col-lg-6">
+                                                <label class="radio-button-custom">
+                                                    <span style="font-size:14px; font-weight:500;">TWIN BED<br></span>
+                                                    <input type="radio" name="radio_bed_type" value="TWIN BED" onclick="">
+                                                    <span class="checkmark-radio"></span>
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label class="radio-button-custom">
+                                                    <span style="font-size:14px; font-weight:500;">DOUBLE / KING BED<br></span>
+                                                    <input type="radio" name="radio_bed_type" value="DOUBLE / KING BED" onclick="">
+                                                    <span class="checkmark-radio"></span>
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-12">
                                         <label class="check_box_custom">
                                             <span style="font-size:13px;">Other</span>
-                                            <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Other');" />
+                                            <input type="checkbox" onclick="update_special_request_show_text('other_request_{{room}}');" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
+                                        <textarea hidden rows="3" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="other_request_{{room}}"></textarea>
                                     </div>
                                 </div>
-                                <textarea rows="2" cols="50" class="form-control" style="{%if template == 2%} height:70px; line-height:22px;{% endif %} font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
+                                <textarea hidden rows="2" cols="50" class="form-control" style="{%if template == 2%} height:70px; line-height:22px;{% endif %} font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
                                 {% endfor %}
                                 <h6>{% trans 'Early' %}/{% trans 'Late' %} {% trans 'Check-In' %}:</h6>
                                 <textarea rows="1" cols="50" class="form-control" style="{%if template == 2%} height:70px; line-height:22px;{% endif %} font-size:13px; border-radius:unset; resize: none;" type="text" id="late_ci" name="late_ci"></textarea>
@@ -2144,36 +2192,60 @@
                             {% for room in rooms %}
                             <h6>{% trans 'Room' %} {{room}}:</h6>
                             <div class="row">
-                                <div class="col-lg-3">
+                                <div class="col-lg-12">
                                     <label class="check_box_custom">
                                         <span style="font-size:13px;">Non-Smoking</span>
                                         <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Non-Smoking');" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-12" {% if hotel_search.room == 1%} hidden {% endif %}>
                                     <label class="check_box_custom">
-                                        <span style="font-size:13px;">Floor</span>
-                                        <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Floor');" />
+                                        <span style="font-size:13px;">Connecting Rooms</span>
+                                        <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Connecting Room');" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-12">
+                                    <label class="check_box_custom">
+                                        <span style="font-size:13px;">High Floor</span>
+                                        <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'High Floor');" />
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
                                     <label class="check_box_custom">
                                         <span style="font-size:13px;">Bed Type</span>
-                                        <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Bed Type');" />
+                                        <input type="checkbox" onclick="update_special_request_show_text('bed_type_request_{{room}}');" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
+                                    <div class="row" id="bed_type_request_{{room}}" hidden>
+                                        <div class="col-lg-6">
+                                            <label class="radio-button-custom">
+                                                <span style="font-size:14px; font-weight:500;">TWIN BED<br></span>
+                                                <input type="radio" name="radio_bed_type" value="TWIN BED" onclick="">
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label class="radio-button-custom">
+                                                <span style="font-size:14px; font-weight:500;">DOUBLE / KING BED<br></span>
+                                                <input type="radio" name="radio_bed_type" value="DOUBLE / KING BED" onclick="">
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-12">
                                     <label class="check_box_custom">
                                         <span style="font-size:13px;">Other</span>
-                                        <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Other');" />
+                                        <input type="checkbox" onclick="update_special_request_show_text('other_request_{{room}}');" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
+                                    <textarea hidden rows="3" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="other_request_{{room}}"></textarea>
                                 </div>
                             </div>
-                            <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
+                            <textarea hidden rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
                             {% endfor %}
                             <h6>{% trans 'Early' %}/{% trans 'Late' %} {% trans 'Check-In' %}:</h6>
                             <textarea rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="late_ci" name="late_ci"></textarea>
@@ -2884,36 +2956,60 @@
                         {% for room in rooms %}
                         <h6>{% trans 'Room' %} {{room}}:</h6>
                         <div class="row">
-                            <div class="col-lg-3">
+                            <div class="col-lg-12">
                                 <label class="check_box_custom">
                                     <span style="font-size:13px;">Non-Smoking</span>
                                     <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Non-Smoking');" />
                                     <span class="check_box_span_custom"></span>
                                 </label>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-12" {% if hotel_search.room == 1%} hidden {% endif %}>
                                 <label class="check_box_custom">
-                                    <span style="font-size:13px;">Floor</span>
-                                    <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Floor');" />
+                                    <span style="font-size:13px;">Connecting Rooms</span>
+                                    <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Connecting Room');" />
                                     <span class="check_box_span_custom"></span>
                                 </label>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-12">
+                                <label class="check_box_custom">
+                                    <span style="font-size:13px;">High Floor</span>
+                                    <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'High Floor');" />
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>
+                            <div class="col-lg-12">
                                 <label class="check_box_custom">
                                     <span style="font-size:13px;">Bed Type</span>
-                                    <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Bed Type');" />
+                                    <input type="checkbox" onclick="update_special_request_show_text('bed_type_request_{{room}}');" />
                                     <span class="check_box_span_custom"></span>
                                 </label>
+                                <div class="row" id="bed_type_request_{{room}}" hidden>
+                                    <div class="col-lg-6">
+                                        <label class="radio-button-custom">
+                                            <span style="font-size:14px; font-weight:500;">TWIN BED<br></span>
+                                            <input type="radio" name="radio_bed_type" value="TWIN BED" onclick="">
+                                            <span class="checkmark-radio"></span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label class="radio-button-custom">
+                                            <span style="font-size:14px; font-weight:500;">DOUBLE / KING BED<br></span>
+                                            <input type="radio" name="radio_bed_type" value="DOUBLE / KING BED" onclick="">
+                                            <span class="checkmark-radio"></span>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-12">
                                 <label class="check_box_custom">
                                     <span style="font-size:13px;">Other</span>
-                                    <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Other');" />
+                                    <input type="checkbox" onclick="update_special_request_show_text('other_request_{{room}}');" />
                                     <span class="check_box_span_custom"></span>
                                 </label>
+                                <textarea hidden rows="3" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="other_request_{{room}}"></textarea>
                             </div>
                         </div>
-                        <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
+                        <textarea hidden rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
                         {% endfor %}
                         <h6>{% trans 'Early' %}/{% trans 'Late' %} {% trans 'Check-In' %}:</h6>
                         <textarea rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="late_ci" name="late_ci"></textarea>
@@ -3621,36 +3717,60 @@
                             {% for room in rooms %}
                             <h6>{% trans 'Room' %} {{room}}:</h6>
                             <div class="row">
-                                <div class="col-lg-3">
+                                <div class="col-lg-12">
                                     <label class="check_box_custom">
                                         <span style="font-size:13px;">Non-Smoking</span>
                                         <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Non-Smoking');" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-12" {% if hotel_search.room == 1%} hidden {% endif %}>
                                     <label class="check_box_custom">
-                                        <span style="font-size:13px;">Floor</span>
-                                        <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Floor');" />
+                                        <span style="font-size:13px;">Connecting Rooms</span>
+                                        <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Connecting Room');" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-12">
+                                    <label class="check_box_custom">
+                                        <span style="font-size:13px;">High Floor</span>
+                                        <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'High Floor');" />
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
                                     <label class="check_box_custom">
                                         <span style="font-size:13px;">Bed Type</span>
-                                        <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Bed Type');" />
+                                        <input type="checkbox" onclick="update_special_request_show_text('bed_type_request_{{room}}');" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
+                                    <div class="row" id="bed_type_request_{{room}}" hidden>
+                                        <div class="col-lg-6">
+                                            <label class="radio-button-custom">
+                                                <span style="font-size:14px; font-weight:500;">TWIN BED<br></span>
+                                                <input type="radio" name="radio_bed_type" value="TWIN BED" onclick="">
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label class="radio-button-custom">
+                                                <span style="font-size:14px; font-weight:500;">DOUBLE / KING BED<br></span>
+                                                <input type="radio" name="radio_bed_type" value="DOUBLE / KING BED" onclick="">
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-12">
                                     <label class="check_box_custom">
                                         <span style="font-size:13px;">Other</span>
-                                        <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Other');" />
+                                        <input type="checkbox" onclick="update_special_request_show_text('other_request_{{room}}');" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
+                                    <textarea hidden rows="3" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="other_request_{{room}}"></textarea>
                                 </div>
                             </div>
-                            <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
+                            <textarea hidden rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
                             {% endfor %}
                             <h6>{% trans 'Early' %}/{% trans 'Late' %} {% trans 'Check-In' %}:</h6>
                             <textarea rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="late_ci" name="late_ci"></textarea>
@@ -4362,36 +4482,60 @@
                             {% for room in rooms %}
                             <h6>{% trans 'Room' %} {{room}}:</h6>
                             <div class="row">
-                                <div class="col-lg-3">
+                                <div class="col-lg-12">
                                     <label class="check_box_custom">
                                         <span style="font-size:13px;">Non-Smoking</span>
                                         <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Non-Smoking');" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-12" {% if hotel_search.room == 1%} hidden {% endif %}>
                                     <label class="check_box_custom">
-                                        <span style="font-size:13px;">Floor</span>
-                                        <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Floor');" />
+                                        <span style="font-size:13px;">Connecting Rooms</span>
+                                        <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Connecting Room');" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-12">
+                                    <label class="check_box_custom">
+                                        <span style="font-size:13px;">High Floor</span>
+                                        <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'High Floor');" />
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
                                     <label class="check_box_custom">
                                         <span style="font-size:13px;">Bed Type</span>
-                                        <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Bed Type');" />
+                                        <input type="checkbox" onclick="update_special_request_show_text('bed_type_request_{{room}}');" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
+                                    <div class="row" id="bed_type_request_{{room}}" hidden>
+                                        <div class="col-lg-6">
+                                            <label class="radio-button-custom">
+                                                <span style="font-size:14px; font-weight:500;">TWIN BED<br></span>
+                                                <input type="radio" name="radio_bed_type" value="TWIN BED" onclick="">
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label class="radio-button-custom">
+                                                <span style="font-size:14px; font-weight:500;">DOUBLE / KING BED<br></span>
+                                                <input type="radio" name="radio_bed_type" value="DOUBLE / KING BED" onclick="">
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-12">
                                     <label class="check_box_custom">
                                         <span style="font-size:13px;">Other</span>
-                                        <input type="checkbox" onclick="auto_update_special_request('special_request_{{room}}', 'Other');" />
+                                        <input type="checkbox" onclick="update_special_request_show_text('other_request_{{room}}');" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
+                                    <textarea hidden rows="3" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="other_request_{{room}}"></textarea>
                                 </div>
                             </div>
-                            <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
+                            <textarea hidden rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
                             {% endfor %}
                             <h6>{% trans 'Early' %}/{% trans 'Late' %} {% trans 'Check-In' %}:</h6>
                             <textarea rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="late_ci" name="late_ci"></textarea>
@@ -4491,9 +4635,8 @@
     address += `{{response.location.zipcode}}`;
     {% endif %}
     document.getElementById('address_hotel').innerHTML = address;
-    hotel_get_cancellation_policy('{{hotel_room_detail_pick.price_code}}', '{{hotel_room_detail_pick.provider}}', '1')
-
     hotel_passenger_page();
+    hotel_get_cancellation_policy('{{hotel_room_detail_pick.price_code}}', '{{hotel_room_detail_pick.provider}}', '1')
 
     $( document ).ready(function() {
       breadcrumb_create("hotel", 4, 0);

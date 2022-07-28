@@ -149,7 +149,10 @@ function search_bus_validation(){
 
 function change_date_next_prev(counter){
     var today_date = moment().format('DD MMM YYYY'); //hari ini
-    flight_date = moment(bus_request.departure[counter]);
+    if(bus_request.departure.length > counter)
+        flight_date = moment(bus_request.departure[counter]);
+    else
+        flight_date = moment(bus_request.departure[counter-1]);
     var date_format = 'DD MMM YYYY';
     document.getElementById('now_date').innerHTML = `<div style="background:white; border:2px solid `+color+`; padding:15px; text-align: center;">`+flight_date.format(date_format)+`</div>`;
     document.getElementById('prev_date_1').innerHTML = `<div class="button_date_np date_item_p1" style="padding:15px;" id="div_onclick_p1" onclick="change_date_shortcut(1);">`+flight_date.subtract(+1, 'days').format(date_format)+`</div>`;
@@ -198,7 +201,7 @@ function change_date_next_prev(counter){
         }
         else{
             var prevdept = moment(bus_request.departure[counter-1]).subtract(+1, 'days').format('DD MMM YYYY'); // tanggal berangkat sebelumnya
-            if(bus_request.direction == 'MC'){
+            if(bus_request.direction == 'OW'){
                 if(counter_search != bus_request.departure.length){
                     var nextdept = moment(bus_request.departure[counter+1]).subtract(-1, 'days').format('DD MMM YYYY'); // tanggal berangkat setelahnya
                     if(new Date(flight_date.subtract(-1, 'days').format(date_format)).getTime() >= new Date(nextdept).getTime()){
@@ -222,7 +225,7 @@ function change_date_next_prev(counter){
             if(new Date(flight_date.subtract(+1, 'days').format(date_format)).getTime() <= new Date(prevdept).getTime()){
                 $('.date_item_p2').removeClass("button_date_np");
                 $('.date_item_p2').addClass("button_date_np_disabled");
-                document.getElementById('div_onclick_p1').onclick = '';
+                document.getElementById('div_onclick_p2').onclick = '';
             }
             flight_date.subtract(-2, 'days') //balikin ke hari ini
 

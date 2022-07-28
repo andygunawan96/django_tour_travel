@@ -1882,6 +1882,27 @@ function check_passenger(adult, child, room){
        for(i=1;i<=child;i++){
             document.getElementById('child_birth_date'+i).disabled = false;
        }
+       special_request_text = '';
+       for(i=1;i<=hotel_request.room;i++){
+            var radios = document.getElementsByName('radio_bed_type');
+            for (var j = 0, length = radios.length; j < length; j++) {
+                if (radios[j].checked) {
+                    if(document.getElementById('special_request_'+i).value != '')
+                        special_request_text += '\n';
+                    if(j == 0)
+                        special_request_text += 'Bed Type: TWIN BED';
+                    else
+                        special_request_text += 'Bed Type: DOUBLE / KING BED';
+                }
+            }
+            if(document.getElementById('other_request_'+i).value != ''){
+                if(document.getElementById('special_request_'+i).value != '')
+                    special_request_text += '\n';
+                special_request_text += document.getElementById('other_request_'+i).value;
+            }
+            document.getElementById('special_request_'+i).value += special_request_text;
+       }
+
        document.getElementById('time_limit_input').value = time_limit;
        document.getElementById('hotel_review').submit();
    }
@@ -2064,7 +2085,10 @@ function hotel_detail(old_cancellation_policy){
         //$text2 += hotel_price.rooms[i].qty +' room(s) \n';
 //        $text2 += 'Meal Type: '+ hotel_price.meal_type +'\n \n';
         $text2 += 'Meal Type: '+ hotel_price.meal_type + '\n';
-
+        if(hotel_price.rooms[i].hasOwnProperty('room_size')){
+            text+= '<span class="meal_room"><b>Room Size:</b> <span>' + hotel_price.rooms[i].room_size.size+' '+hotel_price.rooms[i].room_size.unit+'</span></span><br/>';
+            $text2 += 'Room Size: ' + hotel_price.rooms[i].room_size.size+' '+hotel_price.rooms[i].room_size.unit + '\n';
+        }
         text += `<div class="row">`;
         for(j in hotel_price.rooms[i].nightly_prices){
             date = new Date(hotel_price.rooms[i].nightly_prices[j].date).toString().split(' ');
@@ -3181,10 +3205,30 @@ function auto_update_special_request(id, value){
         if(document.getElementById(id).value != '')
             value_update += '\n';
         value_update += value;
-        if(value != 'Non-Smoking')
-            value_update+= ':';
         document.getElementById(id).value += value_update;
-
     }
+}
 
+function update_special_request_show_text(id){
+    document.getElementById(id).hidden = !document.getElementById(id).hidden;
+    if(document.getElementById(id).hidden == false){
+        if(id.includes('bed')){
+            var radios = document.getElementsByName('radio_bed_type');
+            for (var j = 0, length = radios.length; j < length; j++) {
+                if(j == 0)
+                    radios[j].checked = true;
+                else
+                    radios[j].checked = false;
+            }
+        }else if(id.includes('other'))
+            document.getElementById(id).value = 'Other Request: ';
+    }else{
+        if(id.includes('bed')){
+            var radios = document.getElementsByName('radio_bed_type');
+            for (var j = 0, length = radios.length; j < length; j++) {
+                radios[j].checked = false;
+            }
+        }else if(id.includes('other'))
+            document.getElementById(id).value = '';
+    }
 }
