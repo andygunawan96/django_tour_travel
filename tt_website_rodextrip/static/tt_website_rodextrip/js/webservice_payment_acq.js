@@ -245,9 +245,14 @@ function set_price(val, type, product_type){
                 <span style="font-size:13px;;"> Account Name: </span>
 
                 </div>
-                <div class="col-sm-7" style='text-align:right;'>
-                    <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][selected].account_number;
-                if(type == 'top_up'){
+                <div class="col-sm-7" style='text-align:right;'>`;
+                if(payment_acq2[payment_method][selected].account_number)
+                    text+=`
+                    <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][selected].account_number+`</span>`;
+                else
+                    text+=`
+                    <span style="font-size:14px; font-weight:500;">-</span>`;
+                if(type == 'top_up' && payment_acq2[payment_method][selected].account_number){
                     text+=`
                     <span style="float: right; cursor: pointer;color:`+color+`" onclick="copy_data_acount('`+payment_acq2[payment_method][selected].account_number+`');">
                         <i class="fa fa-clone" aria-hidden="true"></i>

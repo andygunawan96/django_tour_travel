@@ -495,6 +495,7 @@ function hotel_passenger_page(){
        },
        success: function(msg) {
             hotel_price = msg.hotel_price;
+            hotel_request = msg.hotel_request
             hotel_detail();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -978,11 +979,14 @@ function create_detail_room(i, data){
 
         detail_room_txt+=`<div class="col-lg-8">`;
         detail_room_txt+= '<h5 class="name_room" style="margin-bottom:5px;" + title=' + data.prices[i].rooms[j].description + '><span style="color:' +color+ ';">' + 'Room#'+ rm_number +'</span> - ' + data.prices[i].rooms[j].description + '</h5>';
-        if(data.prices[i].rooms[j].category != ""){
+        if(data.prices[i].rooms[j].hasOwnProperty('category') && data.prices[i].rooms[j].category != ""){
             detail_room_txt+= `<span>`+data.prices[i].rooms[j].category+`</span><br/>`;
         }
-        if(data.prices[i].meal_type != "" && data.prices[i].meal_type != undefined){
+        if(data.prices[i].hasOwnProperty('meal_type') && data.prices[i].meal_type != "" && data.prices[i].meal_type != undefined){
             detail_room_txt+= '<span class="meal_room"><b>Meal Type:</b> <span>' + data.prices[i].meal_type+'</span></span><br/>';
+        }
+        if(data.prices[i].rooms[j].hasOwnProperty('room_size')){
+            detail_room_txt+= '<span class="meal_room"><b>Room Size:</b> <span>' + data.prices[i].rooms[j].room_size.size+' '+data.prices[i].rooms[j].room_size.unit+'</span></span><br/>';
         }
 
         if(data.prices[i].rooms[j].supplements.length != 0)
