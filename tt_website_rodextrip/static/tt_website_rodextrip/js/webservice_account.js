@@ -634,22 +634,7 @@ function get_transactions(type){
         offset_transaction = 0;
         data_counter = 0;
         data_search = [];
-        document.getElementById("table_reservation").innerHTML = `
-                    <tr>
-                        <th style="width:2%;">No.</th>
-                        <th style="width:9%;">Order Number</th>
-                        <th style="width:5%;">Provider</th>
-                        <th style="width:10%;">Book Date</th>
-                        <th style="width:10%;">Booker name</th>
-                        <th style="width:10%;">Hold Date</th>
-                        <th style="width:6%;">State</th>
-                        <th style="width:4%;">PNR</th>
-                        <th style="width:13%;">Info</th>
-                        <th style="width:10%;">Issued Date</th>
-                        <th style="width:9%;">Booked By</th>
-                        <th style="width:9%;">Issued By</th>
-                        <th style="width:3%;">Action</th>
-                    </tr>`;
+        document.getElementById("table_reservation").innerHTML = '';
     }
     carrier_code = [];
     try{
@@ -746,22 +731,7 @@ function get_transactions(type){
             if(type == 'reset' || type == 'filter'){
                 offset_transaction = 0;
                 data_counter = 0;
-                document.getElementById("table_reservation").innerHTML = `
-                    <tr>
-                        <th style="width:2%;">No.</th>
-                        <th style="width:9%;">Order Number</th>
-                        <th style="width:5%;">Provider</th>
-                        <th style="width:10%;">Book Date</th>
-                        <th style="width:10%;">Booker name</th>
-                        <th style="width:10%;">Hold Date</th>
-                        <th style="width:6%;">State</th>
-                        <th style="width:4%;">PNR</th>
-                        <th style="width:13%;">Info</th>
-                        <th style="width:10%;">Issued Date</th>
-                        <th style="width:9%;">Booked By</th>
-                        <th style="width:9%;">Issued By</th>
-                        <th style="width:3%;">Action</th>
-                    </tr>`;
+                document.getElementById("table_reservation").innerHTML = '';
             }
             try{
                 var date = '';
@@ -1134,15 +1104,7 @@ function cancel_top_up(name){
                 'signature': signature
            },
            success: function(msg) {
-            document.getElementById("table_top_up_history").innerHTML = `
-            <tr>
-                <th style="width:10%;">No.</th>
-                <th style="width:20%;">Top Up Number</th>
-                <th style="width:15%;">Due Date</th>
-                <th style="width:15%;">Amount</th>
-                <th style="width:15%;">Status</th>
-                <th style="width:10%;">Action</th>
-            </tr>`;
+            document.getElementById("table_top_up_history").innerHTML = '';
     //        document.getElementById("payment_acq").innerHTML = '';
     //        document.getElementById("payment_acq").style = 'padding-bottom:20px;';
             get_top_up();
@@ -1350,57 +1312,99 @@ function request_top_up(val){
 
 function table_top_up_history(){
     data = top_up_history['top up'];
-    document.getElementById('table_top_up_history').innerHTML = `<tr>
-                    <th style="width:5%;">No.</th>
-                    <th style="width:20%;">Top Up Number</th>
-                    <th style="width:20%;">Due Date</th>
-                    <th style="width:15%;">Amount</th>
-                    <th style="width:15%;">Status</th>
-                    <th style="width:15%;">Payment Method</th>
-                    <th style="width:15%;">Help By</th>
-                    <th style="width:10%;">Action</th>
-                </tr>`;
+    document.getElementById('table_top_up_history').innerHTML = '';
     text= '';
-    var node = document.createElement("tr");
     data_counter = 0;
     if(data.length != 0){
         $('#top_up_found').hide();
+        console.log(data);
         for(i in data){
             data_search.push(data[i]);
             text+=`
-            <form action="" method="POST" id="gotobooking`+data_counter+`" />
-            <tr>
-                <td>`+(parseInt(i)+1)+`</td>
-                <td name="order_number">`+data[i].name+`</td>`;
+            <form action="" method="POST" id="gotobooking`+data_counter+`" style="width:100%; margin-bottom:30px;"/>
+            <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; width:100%; padding:15px 15px 0px 15px;">
+                <div class="row">
+                    <div class="col-lg-6 mb-3">
+                        <h5 class="single_border_custom_left" style="padding-left:10px;">
+                            `+(parseInt(i)+1)+`.
+                            <span name="order_number" style="padding-right:5px;">`+data[i].name+` </span>
+                            <img src="/static/tt_website_rodextrip/images/icon/wallet_black.png" alt="Top Up" style="width:15px; height:15px;">
+                        </h5>
+                    </div>
 
-            text+= `<td>`+data[i].due_date+`</td>`;
-            text+= `<td style="text-align:right">`+data[i].currency_code+' '+getrupiah(data[i].total)+`</td>`;
-            text+= `<td>`+data[i].state_description+`</td>`;
-            text+= `<td>`+data[i].payment_method+`</td>`;
-            if(data[i].hasOwnProperty('help_by') == true){
-                text+= `<td>`+data[i].help_by+`</td>`;
-            }else{
-                text+= `<td>-</td>`;
-            }
-            text+= `<td>`;
-            if(data[i].state == 'request' || data[i].state == 'confirm'){
-                text+= `
-                <input type='button' class="primary-btn-custom" value='Cancel' onclick="cancel_top_up('`+data[i].name+`')" />
-                <input type='button' style="margin-top:5px;" class="primary-btn-custom" value='Pre Invoice' onclick="get_printout('`+data[i].name+`', 'invoice','top_up');" />`;
-            }
-            if(data[i].state == 'confirm'){
-                text+= `
-                <input type='button' style="margin-top:5px;" class="primary-btn-custom" value='Payment' onclick="confirm_top_up('`+data[i].name+`')" />`;
-            }
-            if(data[i].state == 'approved'){
-                text+= `
-                <input type='button' style="margin-top:5px;" class="primary-btn-custom" value='Invoice' onclick="get_printout('`+data[i].name+`', 'invoice','top_up');" />`;
-            }
-            text+=`</td>`;
-            text+= `</tr>`;
-            node.innerHTML = text;
-            document.getElementById("table_top_up_history").appendChild(node);
-            node = document.createElement("tr");
+                    <div class="col-lg-6 mb-3" style="text-align:right;">
+                        <b style="padding-right:10px;"><i>State:</b></i>`;
+                            if(data[i].state_description == 'Validated'){
+                                text+=`<b style="background:#30b330; font-size:13px; color:white; padding:5px 15px; display:unset; border-radius:7px;">`;
+                            }else if(data[i].state_description == 'Approved'){
+                                text+=`<b style="background:#3fa1e8; font-size:13px; color:white; padding:5px 15px; display:unset; border-radius:7px;">`;
+                            }else if(data[i].state_description == 'Request' || data[i].state_description == 'Draft'){
+                                text+=`<b style="background:#8c8d8f; font-size:13px; color:white; padding:5px 15px; display:unset; border-radius:7px;">`;
+                            }else if(data[i].state_description == 'Expired' || data[i].state_description == 'Cancelled'){
+                                text+=`<b style="background:#DC143C; font-size:13px; color:white; padding:5px 15px; display:unset; border-radius:7px;">`;
+                            }else{
+                                text+=`<b>`;
+                            }
+                            text+=``+data[i].state_description+`
+                        </b>
+                    </div>
+                    <div class="col-lg-4" style="border-bottom: 1px solid #cdcdcd; padding: 15px;">
+                        <span><i>Create Date</i><br/>`;
+                        if(data[i].date == false){
+                            text+= `<b>-</b>`;
+                        }
+                        else{
+                            text+= `<b>`+moment(data[i].date).format('ddd, DD MMM YYYY HH:mm:ss')+`</b>`;
+                        }
+                        text+=`</span>
+                    </div>
+                    <div class="col-lg-4" style="border-bottom: 1px solid #cdcdcd; padding: 15px;">
+                        <span><i>Due Date</i><br/>`;
+                        if(data[i].due_date == false){
+                            text+= `<b>-</b>`;
+                        }
+                        else{
+                            text+= `<b>`+moment(data[i].due_date).format('ddd, DD MMM YYYY HH:mm:ss')+`</b>`;
+                        }
+                        text+=`</span>
+                    </div>
+                    <div class="col-lg-4" style="border-bottom: 1px solid #cdcdcd; padding: 15px;">
+                        <span><i>Help by</i><br/>`;
+                        if(data[i].hasOwnProperty('help_by') == true && data[i].help_by != ""){
+                            text+= `<b>`+data[i].help_by+`</b>`;
+                        }
+                        else{
+                            text+= `<b>-</b>`;
+                        }
+                        text+=`</span>
+                    </div>
+                    <div class="col-lg-4" style="padding: 15px;">
+                        <span><i>Payment Method</i><br/><b>`+data[i].payment_method+`</b></span>
+                    </div>
+                    <div class="col-lg-4" style="padding: 15px;">
+                        <span><i>Amount</i><br/><b>`+data[i].currency_code+' '+getrupiah(data[i].total)+`</b></span>
+                    </div>`;
+
+                    text+= `<div class="col-lg-4" style="text-align:right; padding: 15px;">`;
+                    if(data[i].state == 'request' || data[i].state == 'confirm'){
+                        text+= `
+                        <input type='button' class="primary-btn-custom" value='Cancel' onclick="cancel_top_up('`+data[i].name+`')" />
+                        <input type='button' style="margin-top:5px;" class="primary-btn-custom" value='Pre Invoice' onclick="get_printout('`+data[i].name+`', 'invoice','top_up');" />`;
+                    }
+                    if(data[i].state == 'confirm'){
+                        text+= `
+                        <input type='button' style="margin-top:5px;" class="primary-btn-custom" value='Payment' onclick="confirm_top_up('`+data[i].name+`')" />`;
+                    }
+                    if(data[i].state == 'approved'){
+                        text+= `
+                        <input type='button' style="margin-top:5px;" class="primary-btn-custom" value='Invoice' onclick="get_printout('`+data[i].name+`', 'invoice','top_up');" />`;
+                    }
+                    text+=`
+                    </div>
+                </div>
+            </div>`;
+
+            document.getElementById("table_top_up_history").innerHTML += text;
             $('#loading-search-top-up').hide();
     //                   document.getElementById('airlines_ticket').innerHTML += text;
             text = '';
