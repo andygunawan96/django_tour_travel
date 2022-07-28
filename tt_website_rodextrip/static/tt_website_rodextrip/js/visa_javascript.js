@@ -315,7 +315,7 @@ function update_table_new(type){
                 price += sell_visa.search_data[i].pax * price_perpax;
                 for(j in sell_visa.search_data[i].service_charges)
                     if(sell_visa.search_data[i].service_charges[j].charge_type == 'RAC')
-                        commission += visa.list_of_visa[i].service_charges[j].total;
+                        commission += sell_visa.search_data[i].service_charges[j].total;
             }catch(err){
 
             }

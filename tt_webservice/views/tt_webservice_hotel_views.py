@@ -857,6 +857,7 @@ def review_page(request):
         res['hotel'] = request.session['hotel_detail']
         res['hotel_price'] = request.session['hotel_room_pick']
         res['cancellation_policy'] = request.session['hotel_cancellation_policy']['result']['response']['policies']
+        res['special_request'] = request.session['hotel_request']['special_request']
 
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -878,6 +879,7 @@ def passenger_page(request):
     try:
         res = {}
         res['hotel_price'] = request.session['hotel_room_pick']
+        res['hotel_request'] = request.session['hotel_request']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

@@ -9439,6 +9439,20 @@ ul.progress_tabs li.current .image-rounded-icon{
     cursor:pointer;
 }
 
+.single_border_custom_top{
+    border-top:8px solid #f15a22;
+}
+.single_border_custom_right{
+    border-right:8px solid #f15a22;
+}
+.single_border_custom_bottom{
+    border-bottom:8px solid #f15a22;
+}
+.single_border_custom_left{
+    border-left:8px solid #f15a22;
+}
+
+
 .border_custom_top{
     border-top:10px solid #f15a22;
     border-right:1px solid #cdcdcd;
@@ -9558,3 +9572,12 @@ ul.progress_tabs li.current .image-rounded-icon{
 .mytickethotel:hover {
   background-color: #C04B21;
 }
+
+.span_responsive{
+    width:250px;
+}
+
+.i_responsive{
+    width:250px;
+}
+

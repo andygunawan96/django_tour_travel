@@ -3596,6 +3596,15 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                     passenger_data_pick[passenger_data_pick.length-1].sequence = 'adult'+passenger_number;
                     document.getElementById(type+'_id'+passenger_number).value = passenger_data[sequence].seq_id;
                     auto_complete(type+'_nationality'+passenger_number);
+
+                    try{
+                        var phone = document.getElementById('phone_chosen'+sequence).value;
+                        document.getElementById(type+'_phone_code'+passenger_number).value = phone.split(' - ')[0];
+                        document.getElementById(type+'_phone'+passenger_number).value = phone.split(' - ')[1] != undefined ? phone.split(' - ')[1] : ''; // kalau undefined tidak di copy
+                    }catch(err){
+                        console.log(err);
+                    }
+
         //            if (document.getElementById("default-select")) {
         //                $('#adult_nationality'+passenger_number+'_id').niceSelect('update');
         //                $('#adult_nationality1_id').niceSelect('update');
@@ -3738,6 +3747,18 @@ function pick_passenger_copy(type, sequence, product, identity=''){
                             }
                         }catch(err){console.log(err);}
                     }
+
+                    if(document.getElementById('adult_email'+passenger_number))
+                        document.getElementById('adult_email'+passenger_number).value = passenger_data[sequence].email;
+
+                    try{
+                        var phone = document.getElementById('phone_chosen'+sequence).value;
+                        document.getElementById('adult_phone_code'+passenger_number).value = phone.split(' - ')[0];
+                        document.getElementById('adult_phone'+passenger_number).value = phone.split(' - ')[1] != undefined ? phone.split(' - ')[1] : ''; // kalau undefined tidak di copy
+                    }catch(err){
+                        console.log(err);
+                    }
+
                     $('#adult_nationality'+passenger_number+'_id').niceSelect('update');
                     $('#adult_country_of_issued'+passenger_number).niceSelect('update');
                     $('#myModal_adult'+passenger_number).modal('hide');
@@ -6149,17 +6170,11 @@ function del_passenger_cache(sequence){
             'index': sequence
        },
        success: function(msg) {
-        if(msg.result.error_code == 0){
-             Swal.fire({
-               type: 'success',
-               title: 'Success!',
-               text: "Delete Success!",
-             })
-        }else{
+        if(msg.result.error_code != 0){
              Swal.fire({
                type: 'error',
                title: 'Oops!',
-               text: "Delete Error!",
+               text: "Error!",
              })
         }
         radio_button('pax_cache');
@@ -6244,7 +6259,7 @@ function get_passenger_cache(type,update_cache=false){
                                     response+=`<label style="border-bottom:2px solid `+color+`; cursor:pointer;" onclick="edit_passenger_cache(`+i+`);">Edit <i class="fas fa-pen" style="font-size:18px; color:`+color+`;"></i></label>`;
                                 }
                                 response+=`<label style="margin-right:13px;margin-left:13px;"></label>`;
-                                response+=`<label style="border-bottom:2px solid #ff3030; cursor:pointer;" onclick="del_passenger_cache(`+i+`);">Remove <i class="fas fa-trash-alt" style="font-size:18px; color:#ff3030;"></i></label>`;
+                                response+=`<label style="cursor:pointer;" onclick="del_passenger_cache(`+i+`);"><i class="fas fa-times" style="font-size:18px; color:#ff3030;"></i></label>`;
                             response+=`
                             </div>
                             <div class="col-lg-5 col-md-5">

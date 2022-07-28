@@ -84,7 +84,7 @@
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-4">
-                    <button type="submit" class="primary-btn-white" style="width:100%;"> <i class="fas fa-arrow-left"></i> Back To Reservation</button>
+                    <button type="submit" class="primary-btn-white" style="width:100%;"> <i class="fas fa-arrow-left"></i> Back</button>
                 </div>
                 <div class="col-lg-8">
 
@@ -154,11 +154,17 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
     try{
-        document.getElementById('back_btn_reservation').action = '/' + '{% if provider_payment == 'phc' or provider_payment == 'periksain' %}medical/{% endif %}{% if provider_payment == 'medical' %}medical_global{% elif provider_payment == 'labpintar' %}lab_pintar{% elif provider_payment == 'swabexpress' %}swab_express{% elif provider_payment == 'mitrakeluarga' %}mitra_keluarga{% elif provider_payment == 'sentramedika' %}sentra_medika{% else %}{{provider_payment}}{% endif %}' + '/booking/' + btoa('{{order_number}}');
         get_payment_acq('Issued',passengers.booker.booker_seq_id, '{{order_number}}', 'billing',signature,'{{type}}');
+
+        if('{{order_number}}' != ''){
+            document.getElementById('back_btn_reservation').action = '/' + '{% if provider_payment == 'phc' or provider_payment == 'periksain' %}medical/{% endif %}{% if provider_payment == 'medical' %}medical_global{% elif provider_payment == 'labpintar' %}lab_pintar{% elif provider_payment == 'swabexpress' %}swab_express{% elif provider_payment == 'mitrakeluarga' %}mitra_keluarga{% elif provider_payment == 'sentramedika' %}sentra_medika{% else %}{{provider_payment}}{% endif %}' + '/booking/' + btoa('{{order_number}}');
+        }else{
+            document.getElementById('back_btn_reservation').action = document.referrer;
+        }
     }catch(err){console.log(err);}
     $( document ).ready(function() {
         breadcrumb_create("{{provider_payment}}", 4, 0);
     });
+
 </script>
 {% endblock %}
