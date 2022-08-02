@@ -981,12 +981,12 @@ function set_price(val, type, product_type){
         }
         can_use_point = 0;
         if(typeof(get_balance_response) !== 'undefined' && type != 'top_up' && get_balance_response.result.response.is_show_point_reward){
-            if(payment_method == 'cash'){
+            if(payment_method == 'cash'){ // cash minimal bayar 1 rupiah untuk bypass check 0 di gateway
                 if(payment_total > get_balance_response.result.response.point_reward)
                     can_use_point = get_balance_response.result.response.point_reward;
                 else
                     can_use_point = payment_total - 1;
-            }else if(payment_method == 'payment_gateway'){
+            }else{ //selain cash sesuaikan dengan minimum amount dari setiap payment acquirer
                 if(payment_total - payment_acq2[payment_method][selected].minimum_amount > get_balance_response.result.response.point_reward)
                     can_use_point = get_balance_response.result.response.point_reward;
                 else
