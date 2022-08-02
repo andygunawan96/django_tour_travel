@@ -76,53 +76,39 @@ function table_reservation(data){
             </div>`;
         text+=`
             <div class="col-lg-4" style="border-bottom: 1px solid #cdcdcd; padding: 15px;">
-                <span><i>PNR </i><br/><b>`;
+                <span><b>PNR </b><br/><i>`;
                 if(data[i].pnr != ''){
                     text+=``+data[i].pnr+``;
                 }else{
                     text+=`-`;
                 }
             text+=`
-                    </b>
+                    </i>
                 </span>
+            </div>
+            <div class="col-lg-4" style="border-bottom: 1px solid #cdcdcd; padding: 15px;">
+                <span><b>Hold Date</b><br/>`;
+                if(data[i].hold_date == false){
+                    text+= `<i>-</i>`;
+                }
+                else{
+                    text+= `<i>`+moment(data[i].hold_date).format('ddd, DD MMM YYYY HH:mm:ss')+`</i>`;
+                }
+                text+=`</span>
             </div>
             <div class="col-lg-4" style="border-bottom: 1px solid #cdcdcd; padding: 15px;">`;
             try{
                 if(data[i].carrier_names == '')
-                    text+=`<span><i>Provider</i><br/><b>`+data[i].provider_type+`</b></span></hr>`;
+                    text+=`<span><b>Provider</b><br/><i>`+data[i].provider_type+`</i></span></hr>`;
                 else
-                    text+=`<span><i>Provider</i><br/><b>`+data[i].carrier_names+`</b></span>`;
+                    text+=`<span><b>Provider</b><br/><i>`+data[i].carrier_names+`</i></span>`;
             }catch(err){
 
             }
             text+=`
             </div>
             <div class="col-lg-4" style="border-bottom: 1px solid #cdcdcd; padding: 15px;">
-                <span><i>Hold Date</i><br/>`;
-                if(data[i].hold_date == false){
-                    text+= `<b>-</b>`;
-                }
-                else{
-                    text+= `<b>`+moment(data[i].hold_date).format('ddd, DD MMM YYYY HH:mm:ss')+`</b>`;
-                }
-                text+=`</span>
-            </div>
-            <div class="col-lg-4" style="border-bottom: 1px solid #cdcdcd; padding: 15px;">
-                <span><i>Booker Name</i><br/><b>`+data[i].booker.name+`</b></span>
-            </div>
-            <div class="col-lg-4" style="border-bottom: 1px solid #cdcdcd; padding: 15px;">
-                <span><i>Booked Date</i><br/><b>`;
-                if(data[i].booked_date == false){
-                    text+= `-`;
-                }
-                else{
-                    text+= ``+data[i].booked_date+``;
-                }
-            text+=`</b>
-                </span>
-            </div>
-            <div class="col-lg-4" style="border-bottom: 1px solid #cdcdcd; padding: 15px;">
-                <span><i>Booked by</i><br/><b>`;
+                <span><b>Booked by</b><br/><i>`;
                 if(data[i].booked_uid == false){
                     text+= `-`;
                 }
@@ -130,21 +116,24 @@ function table_reservation(data){
                     text+= ``+data[i].booked_uid+``;
                 }
                 text+=`
-                </b></span>
+                </i></span>
             </div>
             <div class="col-lg-4" style="border-bottom: 1px solid #cdcdcd; padding: 15px;">
-                <span><i>Issued Date</i><br/><b>`;
-                if(data[i].issued_date == false){
+                <span><b>Booked Date</b><br/><i>`;
+                if(data[i].booked_date == false){
                     text+= `-`;
                 }
                 else{
-                    text+= ``+data[i].issued_date+``;
+                    text+= ``+data[i].booked_date+``;
                 }
-                text+=`
-                </b></span>
+            text+=`</i>
+                </span>
             </div>
             <div class="col-lg-4" style="border-bottom: 1px solid #cdcdcd; padding: 15px;">
-                <span><i>Issued by</i><br/><b>`;
+                <span><b>Booker Name</b><br/><i>`+data[i].booker.name+`</i></span>
+            </div>
+            <div class="col-lg-4" style="border-bottom: 1px solid #cdcdcd; padding: 15px;">
+                <span><b>Issued by</b><br/><i>`;
                 if(data[i].issued_uid == false){
                     text+= `-`;
                 }
@@ -152,7 +141,18 @@ function table_reservation(data){
                     text+= ``+data[i].issued_uid+``;
                 }
                 text+=`
-                </b></span>
+                </i></span>
+            </div>
+            <div class="col-lg-4" style="border-bottom: 1px solid #cdcdcd; padding: 15px;">
+                <span><b>Issued Date</b><br/><i>`;
+                if(data[i].issued_date == false){
+                    text+= `-`;
+                }
+                else{
+                    text+= ``+data[i].issued_date+``;
+                }
+                text+=`
+                </i></span>
             </div>`;
 
         text+=`

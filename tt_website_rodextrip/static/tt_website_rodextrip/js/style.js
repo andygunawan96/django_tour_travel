@@ -1291,7 +1291,12 @@ $(document).ready(function(){
             document.getElementById("left-minus-room-hotel").disabled = false;
         }
 
-        if (quantity_room_hotel == quantity_adult_hotel){
+        if (quantity_room_hotel < quantity_adult_hotel){
+            document.getElementById("left-minus-adult-hotel").disabled = false;
+        }
+
+        if (quantity_adult_hotel >= 9){
+            document.getElementById("right-plus-adult-hotel").disabled = true;
             document.getElementById("left-minus-adult-hotel").disabled = true;
         }
 
@@ -1299,6 +1304,11 @@ $(document).ready(function(){
             document.getElementById("right-plus-child-hotel").disabled = false;
         }
 
+        if (quantity_room_hotel*2 >= quantity_child_hotel){
+            document.getElementById("right-plus-child-hotel").disabled = false;
+        }else{
+            document.getElementById("right-plus-child-hotel").disabled = true;
+        }
     });
     $('.left-minus-room-hotel').click(function(e){
         // Stop acting like a button
@@ -1333,11 +1343,20 @@ $(document).ready(function(){
         if (quantity_room_hotel < quantity_adult_hotel){
             document.getElementById("left-minus-adult-hotel").disabled = false;
         }
+        if (quantity_room_hotel <= 4){
+            document.getElementById("right-plus-adult-hotel").disabled = false;
+        }
 
         if (quantity_room_hotel > quantity_child_hotel){
             document.getElementById("right-plus-child-hotel").disabled = false;
         }
         else{
+            document.getElementById("right-plus-child-hotel").disabled = true;
+        }
+
+        if (quantity_room_hotel*2 >= quantity_child_hotel){
+            document.getElementById("right-plus-child-hotel").disabled = false;
+        }else{
             document.getElementById("right-plus-child-hotel").disabled = true;
         }
 
@@ -1356,15 +1375,10 @@ $(document).ready(function(){
             $('#show_total_pax_hotel').text(quantity_room_hotel + " Room, " + quantity_adult_hotel + " Adult, " +quantity_child_hotel + " Child");
         }
 
-        if(quantity_adult_hotel > quantity_room_hotel && quantity_adult_hotel < 18){
-            document.getElementById("left-minus-adult-hotel").disabled = false;
-            document.getElementById("right-plus-adult-hotel").disabled = false;
-        }
-        else if(quantity_adult_hotel == 9){
+        if(quantity_adult_hotel >= 9){
             document.getElementById("left-minus-adult-hotel").disabled = false;
             document.getElementById("right-plus-adult-hotel").disabled = true;
         }
-
     });
     $('.left-minus-adult-hotel').click(function(e){
         // Stop acting like a button
@@ -1387,6 +1401,7 @@ $(document).ready(function(){
         else{
             document.getElementById("right-plus-adult-hotel").disabled = false;
         }
+
     });
     $('.right-plus-child-hotel').click(function(e){
         // Stop acting like a button
