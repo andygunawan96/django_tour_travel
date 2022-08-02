@@ -979,6 +979,48 @@ function set_price(val, type, product_type){
                 console.log(err) //ada element yg tidak ada
             }
         }
+        can_use_point = 0;
+        if(typeof(get_balance_response) !== 'undefined' && type != 'top_up' && get_balance_response.result.response.is_show_point_reward){
+            if(payment_method == 'cash'){
+                if(payment_total > get_balance_response.result.response.point_reward)
+                    can_use_point = get_balance_response.result.response.point_reward;
+                else
+                    can_use_point = payment_total - 1;
+            }else if(payment_method == 'payment_gateway'){
+                if(payment_total - payment_acq2[payment_method][selected].minimum_amount > get_balance_response.result.response.point_reward)
+                    can_use_point = get_balance_response.result.response.point_reward;
+                else
+                    can_use_point = payment_total  - payment_acq2[payment_method][selected].minimum_amount; // minimal transfer untuk payment gateway
+            }
+            text+=`
+                <div class="col-sm-5" style='text-align:left;'>
+                    <span style="font-size:13px;"> Use Points: </span>
+                </div>
+                <div class="col-sm-7">
+                    <div class='row' style="justify-content:right;">
+                        <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
+                            <span style="font-size:13px; color:`+color+`;">No</span>
+                            <input type="radio" checked="checked" name="use_point" value="false" onclick="onchange_use_point(false);"/>
+                            <span class="checkmark-radio"></span>
+                        </label>
+                        <label class="radio-button-custom crlabel" style="margin-bottom:0px;">
+                            <span style="font-size:13px; color:`+color+`;">Yes</span>
+                            <input type="radio" name="use_point" value="true" onclick="onchange_use_point(true);"/>
+                            <span class="checkmark-radio"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class='col-sm-12' style="display:none;" id="use_point_div">
+                    <div class='row'>
+                        <div class="col-sm-5">
+                        </div>
+                        <div class="col-sm-7" style="text-align:right;">
+                            <span style="font-size:13px;"> `+get_balance_response.result.response.currency_code+` `+getrupiah(can_use_point)+`</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
     //    grand total
             text += `
                 <div class='col-sm-6' style='text-align:left;'>
@@ -1019,6 +1061,20 @@ function set_price(val, type, product_type){
             text += button_payment(type,'reservation');
         }
     document.getElementById('set_price').innerHTML = text;
+}
+
+function onchange_use_point(value){
+    if(value == true){
+        document.getElementById('use_point_div').style.display = 'block';
+        try{
+            document.getElementById('payment_method_grand_total').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_total - can_use_point);
+        }catch(err){
+            document.getElementById('payment_method_grand_total').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_total);
+        }
+    }else{
+        document.getElementById('use_point_div').style.display = 'none';
+        document.getElementById('payment_method_grand_total').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_total);
+    }
 }
 
 function button_payment(type, page){
@@ -1149,12 +1205,24 @@ function goto_embed_payment_method(provider, order_number){
 }
 
 function get_payment_order_number(order_number){
-     $('#payment_gtw').prop('disabled', true);
-     $('#payment_gtw').addClass("running");
+    $('#payment_gtw').prop('disabled', true);
+    $('#payment_gtw').addClass("running");
     check_phone_number_fill = false;
     if(document.getElementById('phone_number'))
         if(document.getElementById('phone_number').value == '')
             check_phone_number_fill = true;
+    use_point = false
+    try{
+        var radios = document.getElementsByName('use_point');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                if(radios[j].value == 'true')
+                    use_point = true
+                break;
+            }
+        }
+
+    }catch(err){console.log(err)}
     if(check_phone_number_fill != true){
         $.ajax({
            type: "POST",
@@ -1169,6 +1237,7 @@ function get_payment_order_number(order_number){
                 'show_device_type': payment_acq2[payment_method][selected].show_device_type,
                 'url_back': window.location.href,
                 'voucher_reference': typeof voucher_code === 'string' ? voucher_code : '',
+                'use_point': use_point
            },
            success: function(msg) {
                 if(msg.result.error_code == 0){

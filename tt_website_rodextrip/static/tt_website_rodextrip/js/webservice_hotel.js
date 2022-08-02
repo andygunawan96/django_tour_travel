@@ -988,10 +988,11 @@ function create_detail_room(i, data){
 
         if(data.prices[i].rooms[j].hasOwnProperty('room_size') == true){
             if(data.prices[i].rooms[j].room_size.size != ''){
-                detail_room_txt+=`<span class="size_room"><b>Size: </b> <span>`+data.prices[i].rooms[j].room_size.size+`</span></span><br/>`;
-            }
-            if(data.prices[i].rooms[j].room_size.unit != ''){
-                detail_room_txt+=`<span class="unit_room"><b>Unit: </b> <span>`+data.prices[i].rooms[j].room_size.unit+`</span></span><br/>`;
+                detail_room_txt+=`<span class="size_room"><b>Size: </b> <span>`+data.prices[i].rooms[j].room_size.size`;
+                if(data.prices[i].rooms[j].room_size.unit != ''){
+                    detail_room_txt += data.prices[i].rooms[j].room_size.unit;
+                }
+                detail_room_txt+=`</span></span><br/>`;
             }
         }
 
@@ -1961,6 +1962,16 @@ function hotel_issued_booking(val){
         {
             formData.append('payment_reference', document.getElementById('pay_ref_text').value);
         }
+        try{
+            var radios = document.getElementsByName('use_point');
+            for (var j = 0, length = radios.length; j < length; j++) {
+                if (radios[j].checked) {
+                    formData.append('use_point', radios[j].value);
+                    break;
+                }
+            }
+
+        }catch(err){console.log(err)}
     }
     else
     {

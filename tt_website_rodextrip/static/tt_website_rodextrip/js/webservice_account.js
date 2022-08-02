@@ -50,6 +50,7 @@ function get_balance(val){
                },
                success: function(msg) {
                 if(msg.result.error_code == 0){
+                    get_balance_response = msg;
                     time = 300;
                     balance = 0;
                     credit_limit = 0;
@@ -554,13 +555,19 @@ function get_transaction_history_ledger(type,use_cache){
 
                             if(msg.result.response[i].currency && msg.result.response[i].debit > 0){
                                 text += `<span style="text-align:right; font-size:18px; font-weight:700; color:green">`;
-                                text += msg.result.response[i].currency+' ';
+                                if(msg.result.response[i].source_of_funds_type == 'balance')
+                                    text += msg.result.response[i].currency+' ';
+                                else
+                                    text += 'Rodextrip Points '
                                 text += '+'+getrupiah(msg.result.response[i].debit);
                                 text += `</span>`;
                             }
                             if(msg.result.response[i].currency && msg.result.response[i].credit > 0){
                                 text += `<span style="text-align:right; font-size:18px; font-weight:700; color:red">`;
-                                text += msg.result.response[i].currency+' ';
+                                if(msg.result.response[i].source_of_funds_type == 'balance')
+                                    text += msg.result.response[i].currency+' ';
+                                else
+                                    text += 'Rodextrip Points '
                                 text += '-'+getrupiah(msg.result.response[i].credit);
                                 text += `</span>`;
                             }

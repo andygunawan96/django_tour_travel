@@ -147,11 +147,11 @@
                 {% endif %}
 
                 {% if "groupbooking" in provider and "ticketing_group_booking" in username.co_agent_frontend_security%}
-                {% if template == 3%}
+                    {% if template == 3%}
                 <span class="span_link" style="padding-left:5px; color:white;" onclick="location='{% url 'tt_website_rodextrip:group_booking'%}'"><i class="fas fa-users"></i> {% trans 'Group Booking' %}</span>
-                {% else %}
+                    {% else %}
                 <span class="span_link" style="padding-left:5px;" onclick="location='{% url 'tt_website_rodextrip:group_booking'%}'"><i class="fas fa-users"></i> {% trans 'Group Booking' %}</span>
-                {% endif %}
+                    {% endif %}
                 {% endif %}
             </div>
         </div>

@@ -411,6 +411,14 @@ def create_booking(request):
             'promotion_codes_booking': [],
         }
 
+        try:
+            if request.POST['use_point'] == 'false':
+                data['use_point'] = False
+            else:
+                data['use_point'] = True
+        except:
+            _logger.error('use_point not found')
+
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -490,6 +498,14 @@ def issued_booking(request):
             'acquirer_seq_id': request.POST['acquirer_seq_id'],
             'voucher': {}
         }
+
+        try:
+            if request.POST['use_point'] == 'false':
+                data['use_point'] = False
+            else:
+                data['use_point'] = True
+        except:
+            _logger.error('use_point not found')
 
         if request.POST['voucher_code'] != '':
             provider = []

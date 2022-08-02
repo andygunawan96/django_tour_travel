@@ -5080,6 +5080,16 @@ function airline_commit_booking(val){
     formData.append('signature', signature);
     formData.append('voucher_code', '');
     try{
+        var radios = document.getElementsByName('use_point');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                formData.append('use_point', radios[j].value);
+                break;
+            }
+        }
+
+    }catch(err){console.log(err)}
+    try{
         formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
         formData.append('member', payment_acq2[payment_method][selected].method);
         formData.append('voucher_code', voucher_code);
@@ -8681,6 +8691,16 @@ function airline_issued(data){
         formData.append('signature', signature);
         formData.append('voucher_code', voucher_code);
         formData.append('booking', temp_data);
+        try{
+            var radios = document.getElementsByName('use_point');
+            for (var j = 0, length = radios.length; j < length; j++) {
+                if (radios[j].checked) {
+                    formData.append('use_point', radios[j].value);
+                    break;
+                }
+            }
+
+        }catch(err){console.log(err)}
 
         if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
         {
@@ -9663,7 +9683,8 @@ function reroute_btn(){
                       format: 'DD MMM YYYY',
                   }
             }, function(start, end, label) {
-                document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY');
+//                document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY'); // ada template yg tidak ada context
+                document.getElementById(this.element[0].id).value = moment(start._d).format('DD MMM YYYY');
                 check_next_date_journey_reissue();
             });
 
@@ -9862,7 +9883,8 @@ function reissued_btn(){
                       format: 'DD MMM YYYY',
                   }
             }, function(start, end, label) {
-                document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY');
+//                document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY'); // ada template yg tidak ada context
+                document.getElementById(this.element[0].id).value = moment(start._d).format('DD MMM YYYY');
                 check_next_date_journey_reissue();
             });
 
@@ -9894,7 +9916,8 @@ function check_next_date_journey_reissue(){
                       format: 'DD MMM YYYY',
                   }
             }, function(start, end, label) {
-                document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY');
+//                document.getElementById(this.element.context.id).value = moment(start._d).format('DD MMM YYYY'); // ada template yg tidak ada context
+                document.getElementById(this.element[0].id).value = moment(start._d).format('DD MMM YYYY');
                 check_next_date_journey_reissue();
             });
             min_date = $('input[id="airline_departure'+counter_airline+'"]').val();
@@ -11070,6 +11093,11 @@ function render_ticket_reissue(){
 
         }
     }else{
+        if(airline_get_detail.result.response.state == 'booked')
+            document.getElementById('reissued').innerHTML = `<input class="issued_booking_btn primary-btn-white" style="width:100%;" type="button" onclick="reissued_btn();" value="Change Booking">`;
+        else
+            document.getElementById('reissued').innerHTML = `<button class="primary-btn-ticket" id="reissued_btn_dsb" style="width:100%;" type="button" onclick="reissued_btn();">Reissued</button>`;
+        document.getElementById('reissued').hidden = false;
         Swal.fire({
             type: 'error',
             title: 'Oops!',

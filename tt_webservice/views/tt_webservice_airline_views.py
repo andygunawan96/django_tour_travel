@@ -1717,6 +1717,14 @@ def commit_booking(request):
                     'acquirer_seq_id': request.POST['acquirer_seq_id'],
                     'voucher': {}
                 })
+
+            try:
+                if request.POST['use_point'] == 'false':
+                    data['use_point'] = False
+                else:
+                    data['use_point'] = True
+            except:
+                _logger.error('use_point not found')
             provider = []
             for provider_type in request.session['airline_price_itinerary_%s' % request.POST['signature']]['price_itinerary_provider']:
                 if not provider_type['provider'] in provider:
@@ -2271,7 +2279,13 @@ def issued(request):
             'voucher': {}
         }
         provider = []
-
+        try:
+            if request.POST['use_point'] == 'false':
+                data['use_point'] = False
+            else:
+                data['use_point'] = True
+        except:
+            _logger.error('use_point not found')
         try:
             airline_get_booking = request.session['airline_get_booking_response'] if request.session.get('airline_get_booking_response') else json.loads(request.POST['booking'])
             for provider_type in airline_get_booking['result']['response']['provider_bookings']:

@@ -546,6 +546,13 @@ def issued(request):
             'acquirer_seq_id': request.POST['acquirer_seq_id'],
             'voucher': {}
         }
+        try:
+            if request.POST['use_point'] == 'false':
+                data['use_point'] = False
+            else:
+                data['use_point'] = True
+        except:
+            _logger.error('use_point not found')
         provider = []
 
         try:

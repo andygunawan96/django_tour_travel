@@ -540,6 +540,15 @@ def commit_booking(request):
             'force_issued': bool(int(request.POST['value'])),
             'voucher': {}
         }
+
+        try:
+            if request.POST['use_point'] == 'false':
+                data['use_point'] = False
+            else:
+                data['use_point'] = True
+        except:
+            _logger.error('use_point not found')
+
         try:
             if bool(int(request.POST['value'])) == True:
                 if request.POST['member'] == 'non_member':
@@ -804,6 +813,14 @@ def issued(request):
             'acquirer_seq_id': request.POST['acquirer_seq_id'],
             'voucher': {}
         }
+
+        try:
+            if request.POST['use_point'] == 'false':
+                data['use_point'] = False
+            else:
+                data['use_point'] = True
+        except:
+            _logger.error('use_point not found')
 
         if request.POST['voucher_code'] != '':
             data.update({

@@ -437,6 +437,13 @@ def commit_booking(request):
             'acquirer_seq_id': request.POST['acquirer_seq_id'],
             'voucher': {}
         })
+        try:
+            if request.POST['use_point'] == 'false':
+                data['use_point'] = False
+            else:
+                data['use_point'] = True
+        except:
+            _logger.error('use_point not found')
         if request.POST['voucher_code'] != '':
             data.update({
                 'voucher': data_voucher(request.POST['voucher_code'], 'passport', ['passport_rodextrip']),
