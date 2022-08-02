@@ -918,6 +918,17 @@ function commit_booking(){
         'voucher_code': voucher_code
     }
 
+    try{
+        var radios = document.getElementsByName('use_point');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                data['use_point'] = radios[j].value;
+                break;
+            }
+        }
+
+    }catch(err){console.log(err)}
+
     getToken();
     $.ajax({
        type: "POST",
