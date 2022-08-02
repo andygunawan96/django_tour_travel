@@ -287,7 +287,7 @@
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-12" id="adult_identity_type{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                        <div class="col-lg-12" id="adult_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     {% if is_identity_required == True %}
@@ -859,7 +859,7 @@
                         {% endfor %}
 
                         <div class="row">
-                            {% if is_change_name == True and 'process_channel_booking' not in username.co_agent_frontend_security %}
+                            {% if is_change_name == True %}
                             <div class="col-lg-4">
                                 <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}},'update_name');">
                                     {% trans 'Update Name' %}
@@ -1153,7 +1153,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-12" id="adult_identity_type{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                                <div class="col-lg-12" id="adult_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                                     <div class="row">
                                                         <div class="col-lg-6">
                                                             {% if is_identity_required == True %}
@@ -2002,7 +2002,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12" id="adult_identity_type{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                        <div class="col-lg-12" id="adult_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     {% if is_identity_required == True %}
@@ -2881,7 +2881,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-12" id="adult_identity_type{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                    <div class="col-lg-12" id="adult_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 {% if is_identity_required == True %}
@@ -3744,7 +3744,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12" id="adult_identity_type{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                        <div class="col-lg-12" id="adult_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     {% if is_identity_required == True %}
@@ -4609,7 +4609,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12" id="adult_identity_type{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
+                                        <div class="col-lg-12" id="adult_identity_div{{forloop.counter}}" style="{% if  is_identity_required == True %} display:block {% elif is_international != True %} display:none; {% else %} display:block {% endif %}">
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     {% if is_identity_required == True %}

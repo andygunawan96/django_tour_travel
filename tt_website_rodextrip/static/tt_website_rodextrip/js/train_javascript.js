@@ -727,6 +727,7 @@ function train_get_detail(){
         <div style="margin-bottom:15px; padding:15px; border-left:1px solid #cdcdcd;border-right:1px solid #cdcdcd;border-bottom:1px solid #cdcdcd;">
             <div class="row">`;
                 sub_total_count = 0;
+                tax = 0;
                 if(parseInt(passengers.adult) > 0){
                     total_commission += journeys[i].fares[0].service_charge_summary[0].total_commission*-1;
                     for(j in journeys[i].fares[0].service_charge_summary){
@@ -746,6 +747,7 @@ function train_get_detail(){
                                 price['tax'] += journeys[i].fares[0].service_charge_summary[j].service_charges[k].total;
                         }
                         total_tax += price['tax'];
+                        tax += price['tax'];
                         total_discount += price['disc'];
 
                         if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'ADT')
@@ -764,17 +766,30 @@ function train_get_detail(){
                             sub_total_count += price['fare'] * parseInt(passengers.adult);
                             $text += passengers.adult+`x Adult @`+price['currency']+' '+getrupiah(price['fare'] + price['tax']/passengers.adult)+`\n`;
                         }
-                        else if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'INF' && parseInt(passengers.infant) > 0){
-                            train_detail_text+=`
-                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px;">`+parseInt(passengers.infant)+` Infant x `+price['currency']+` `+getrupiah(0)+`</span>
-                            </div>
-                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                <span style="font-size:13px;">Free</span>
-                            </div>`;
-                            sub_total_count += 0;
-                            $text += passengers.infant+`x Infant Fare @`+price['currency']+' '+getrupiah(0)+`\n`;
-                        }
+                        // KARENA HARGA FARE INFANT FREE KALAU TIDAK FREE BARU UNCOMMENT LAGI INI
+//                        else if(parseInt(passengers.infant) > 0){
+//                            train_detail_text+=`
+//                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+//                                <span style="font-size:13px;">`+parseInt(passengers.infant)+` Infant x `+price['currency']+` `+getrupiah(0)+`</span>
+//                            </div>
+//                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+//                                <span style="font-size:13px;">Free</span>
+//                            </div>`;
+//                            sub_total_count += 0;
+//                            $text += passengers.infant+`x Infant Fare @`+price['currency']+' '+getrupiah(0)+`\n`;
+//                        }
+                    }
+                    // KARENA HARGA INFANT FREE JIKA ADA INFANT PRINT KALAU ADA HARGA FARE BARU NAIK KE ATAS LAGI
+                    if(parseInt(passengers.infant) > 0){
+                        train_detail_text+=`
+                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                            <span style="font-size:13px;">`+parseInt(passengers.infant)+` Infant x `+price['currency']+` `+getrupiah(0)+`</span>
+                        </div>
+                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                            <span style="font-size:13px;">Free</span>
+                        </div>`;
+                        sub_total_count += 0;
+                        $text += passengers.infant+`x Infant Fare @`+price['currency']+' '+getrupiah(0)+`\n`;
                     }
     //                $text += '1x Convenience fee '+price['currency']+' '+ getrupiah(journeys[i].fares[0].service_charge_summary[0].total_tax) + '\n\n';
                 }
@@ -783,10 +798,10 @@ function train_get_detail(){
                     <span style="font-size:13px;">1x Convenience fee</span>
                 </div>
                 <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                    <span style="font-size:13px;">`+price['currency']+` `+getrupiah(total_tax)+`</span>
+                    <span style="font-size:13px;">`+price['currency']+` `+getrupiah(tax)+`</span>
                 </div>`;
 
-                sub_total_count += total_tax;
+                sub_total_count += tax;
 
                 train_detail_text+=`
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
@@ -1100,8 +1115,6 @@ function train_detail(){
             'tax': 0
         };
         for(j in train_data[i].fares){
-            total_tax += train_data[i].fares[0].service_charge_summary[0].total_tax;
-            total_commission += train_data[i].fares[0].service_charge_summary[0].total_commission*-1;
             for(k in train_data[i].fares[j].service_charge_summary){
                 for(l in train_data[i].fares[j].service_charge_summary[k].service_charges){
                     if(l == 0)
@@ -1109,8 +1122,10 @@ function train_detail(){
                     if(train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_code != 'tax' && train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_code != 'roc')
                         price[train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_code] = train_data[i].fares[j].service_charge_summary[k].service_charges[l].amount;
                     else
-                        price['tax'] += train_data[i].fares[j].service_charge_summary[k].service_charges[l].amount;
+                        price['tax'] += train_data[i].fares[j].service_charge_summary[k].service_charges[l].total;
                 }
+                total_tax += train_data[i].fares[j].service_charge_summary[k].total_tax;
+                total_commission += train_data[i].fares[j].service_charge_summary[k].total_commission*-1;
                 if(train_data[i].fares[j].service_charge_summary[k].pax_type == 'ADT')
                     total_price += price['fare'] * parseInt(adult);
                 else
@@ -1165,7 +1180,7 @@ function train_detail(){
                 <span style="font-size:13px;">1x Convenience fee</span>
             </div>
             <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                <span style="font-size:13px;">`+price['currency']+` `+getrupiah(train_data[i].fares[0].service_charge_summary[0].total_tax)+`</span>
+                <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['tax'])+`</span>
             </div>
             <div class="col-lg-12">
                 <hr/>

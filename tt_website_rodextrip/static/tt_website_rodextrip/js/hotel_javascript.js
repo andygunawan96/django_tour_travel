@@ -1511,6 +1511,7 @@ function hotel_room_pick(key, key2){
         <center><h6 style="color:`+color+`; display:block; cursor:pointer;" id="price_detail_hotel_down" onclick="show_hide_div('price_detail_hotel');">See Detail <i class="fas fa-chevron-down" style="font-size:14px;"></i></h6></center>
     </div>`;
     text += `<div id="price_detail_hotel_div" style="display:none;">`;
+    discount_hotel = 0;
     for(i in hotel_room.rooms){
         text += '<h6><span style="color:' +color+ ';">Room #'+ (parseInt(i)+1) + ' </span>'+ hotel_room.rooms[i].description + '</h6>';
         //text += '<span> '+ hotel_room.rooms[i].category + '<span><br/>';
@@ -1532,6 +1533,11 @@ function hotel_room_pick(key, key2){
         for(j in hotel_room.rooms[i].nightly_prices){
             date = new Date(hotel_room.rooms[i].nightly_prices[j].date).toString().split(' ');
             text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_room.rooms[i].nightly_prices[j].price)+'<span/></div>';
+            for(k in hotel_room.rooms[i].nightly_prices[j].service_charges){
+                if(hotel_room.rooms[i].nightly_prices[j].service_charges[k].charge_type == 'DISC'){
+                    discount_hotel += hotel_room.rooms[i].nightly_prices[j].service_charges[k].total;
+                }
+            }
 //            $text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_room.rooms[i].nightly_prices[j].price) + '\n';
         }
         var total_room = document.getElementById("hotel_room").value;
@@ -1555,14 +1561,26 @@ function hotel_room_pick(key, key2){
         <center><h6 style="color:`+color+`; display:none; cursor:pointer;" id="price_detail_hotel_up" onclick="show_hide_div('price_detail_hotel');">Close Detail <i class="fas fa-chevron-up" style="font-size:14px;"></i></h6></center>
     </div>`;
 
-    $text2 += 'Grand Total: IDR '+getrupiah(total_price_hotel)+'(for '+total_room+' room, ' +total_night+ 'night) \n\n';
+    $text2 += 'Grand Total: IDR '+getrupiah(total_price_hotel + discount_hotel)+'(for '+total_room+' room, ' +total_night+ 'night) \n\n';
     text += `<hr/>`;
+
+    if(discount_hotel != 0){
+        text += `<div class="row">`;
+        text += `<div class="col-lg-6">
+                <span style="font-weight:bold;font-size:15px;color:#e04022;">Discount</span>
+            </div>
+            <div class="col-lg-6" style="text-align:right;">
+                <span style="font-weight:bold;font-size:15px;color:#e04022;">IDR `+ getrupiah(discount_hotel) +`</span>
+            </div>
+        </div>`;
+    }
+
     text += `<div class="row">`;
     text += `<div class="col-lg-6">
             <span style="font-weight:bold;font-size:15px;">Grand Total</span>
         </div>
         <div class="col-lg-6" style="text-align:right;">
-            <span style="font-weight:bold;font-size:15px;">IDR `+ getrupiah(total_price_hotel) +`</span><br/>
+            <span style="font-weight:bold;font-size:15px;">IDR `+ getrupiah(total_price_hotel+ discount_hotel) +`</span><br/>
             <span style="font-weight:500;">(for `+total_room+` room, `+total_night+` night)</span>
         </div>
     </div>`;
@@ -2073,6 +2091,7 @@ function hotel_detail(old_cancellation_policy){
     for(i in hotel_price.rooms){
         total_room_night += hotel_price.rooms[i].nightly_prices.length;
     }
+    discount_hotel = 0;
     for(i in hotel_price.rooms){
         var idx_room = parseInt(i)+1;
         text += '<h6><span style="color:'+color+';">Room #'+ idx_room + ' </span>'+ hotel_price.rooms[i].description + '</h6>';
@@ -2110,6 +2129,11 @@ function hotel_detail(old_cancellation_policy){
                     //$text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_price.rooms[i].nightly_prices[j].price))+'\n';
                 }
             }
+            for(k in hotel_price.rooms[i].nightly_prices[j].service_charges){
+                if(hotel_price.rooms[i].nightly_prices[j].service_charges[k].charge_type == 'DISC'){
+                    discount_hotel += hotel_price.rooms[i].nightly_prices[j].service_charges[k].total;
+                }
+            }
         }
         try{
             grand_total_price = parseFloat(hotel_price.rooms[i].price_total);
@@ -2125,18 +2149,18 @@ function hotel_detail(old_cancellation_policy){
         if(typeof upsell_price !== 'undefined' && upsell_price != 0)
             text+=`
         <div class="col-lg-6" style="text-align:right;">
-            <span style="font-weight:bold;">IDR `+ getrupiah(hotel_price.rooms[i].price_total + upsell_price) +`</span>
+            <span style="font-weight:bold;">IDR `+ getrupiah(hotel_price.rooms[i].price_total + upsell_price ) +`</span>
         </div>`;
         else
             text+=`
         <div class="col-lg-6" style="text-align:right;">
-            <span style="font-weight:bold;">IDR `+ getrupiah(hotel_price.rooms[i].price_total) +`</span>
+            <span style="font-weight:bold;">IDR `+ getrupiah(hotel_price.rooms[i].price_total ) +`</span>
         </div>`;
         text += `<div class="col-lg-12"><hr/></div>`;
         if(typeof upsell_price !== 'undefined' && upsell_price != 0)
-            $text2 += 'Total: IDR ' + getrupiah(hotel_price.rooms[i].price_total + upsell_price) + '\n\n';
+            $text2 += 'Total: IDR ' + getrupiah(hotel_price.rooms[i].price_total + upsell_price ) + '\n\n';
         else
-            $text2 += 'Total: IDR ' + getrupiah(hotel_price.rooms[i].price_total) + '\n\n';
+            $text2 += 'Total: IDR ' + getrupiah(hotel_price.rooms[i].price_total + discount_hotel) + '\n\n';
         text += `</div>`;
     }
 
@@ -2190,15 +2214,25 @@ function hotel_detail(old_cancellation_policy){
                 total_price_hotel += upsell_price;
             }
         }
+
+    if(discount_hotel != 0){
+        text += `
+            <div class="col-lg-6">
+                <span style="font-weight:bold;font-size:15px;color:#e04022;">Discount</span>
+            </div>
+            <div class="col-lg-6" style="text-align:right;">
+                <span style="font-weight:bold;font-size:15px;color:#e04022;">IDR `+ getrupiah(discount_hotel) +`</span>
+            </div>`;
+    }
     try{
-    text += `<div class="col-lg-6">
-            <span style="font-weight:bold;font-size:15px;">Grand Total</span>
-        </div>
-        <div class="col-lg-6" style="text-align:right;">
-            <span style="font-weight:bold;font-size:15px;">IDR `+ getrupiah(total_price_hotel) +`</span>
-        </div>
-    </div>`;
-    $text2 += 'Grand Total: IDR ' + getrupiah(total_price_hotel) + '\n';
+        text += `<div class="col-lg-6">
+                <span style="font-weight:bold;font-size:15px;">Grand Total</span>
+            </div>
+            <div class="col-lg-6" style="text-align:right;">
+                <span style="font-weight:bold;font-size:15px;">IDR `+ getrupiah(total_price_hotel + discount_hotel) +`</span>
+            </div>
+        </div>`;
+        $text2 += 'Grand Total: IDR ' + getrupiah(total_price_hotel) + '\n';
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }
