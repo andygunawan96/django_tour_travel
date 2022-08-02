@@ -988,7 +988,7 @@ function create_detail_room(i, data){
 
         if(data.prices[i].rooms[j].hasOwnProperty('room_size') == true){
             if(data.prices[i].rooms[j].room_size.size != ''){
-                detail_room_txt+=`<span class="size_room"><b>Size: </b> <span>`+data.prices[i].rooms[j].room_size.size`;
+                detail_room_txt+=`<span class="size_room"><b>Size: </b> <span>`+data.prices[i].rooms[j].room_size.size;
                 if(data.prices[i].rooms[j].room_size.unit != ''){
                     detail_room_txt += data.prices[i].rooms[j].room_size.unit;
                 }
