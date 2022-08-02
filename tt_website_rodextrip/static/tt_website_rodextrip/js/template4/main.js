@@ -117,20 +117,24 @@ jQuery(document).ready(function($) {
           }
         });
 
-        document.getElementById("password2").addEventListener("keyup", function(event) {
-          // Number 13 is the "Enter" key on the keyboard
-          if (event.keyCode === 13) {
-                event.preventDefault();
-                get_captcha('g-recaptcha-response','signin_btc');
-          }
-        });
-        document.getElementById("username2").addEventListener("keyup", function(event) {
-          // Number 13 is the "Enter" key on the keyboard
-          if (event.keyCode === 13) {
-                event.preventDefault();
-                get_captcha('g-recaptcha-response','signin_btc');
-          }
-        });
+        try{
+            document.getElementById("password2").addEventListener("keyup", function(event) {
+              // Number 13 is the "Enter" key on the keyboard
+              if (event.keyCode === 13) {
+                    event.preventDefault();
+                    get_captcha('g-recaptcha-response','signin_btc');
+              }
+            });
+            document.getElementById("username2").addEventListener("keyup", function(event) {
+              // Number 13 is the "Enter" key on the keyboard
+              if (event.keyCode === 13) {
+                    event.preventDefault();
+                    get_captcha('g-recaptcha-response','signin_btc');
+              }
+            });
+        }catch(err){
+
+        }
 
 
 		setTimeout(function() {

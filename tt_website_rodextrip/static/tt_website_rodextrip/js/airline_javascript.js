@@ -531,7 +531,7 @@ function add_multi_city(type){
                                         </div>
                                     </div>
                                     <div class="image-change-route-vertical">
-                                        <h4><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:black;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                        <h4><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:black;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                     </div>
                                     <div class="image-change-route-horizontal">
                                         <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:`+text_color+`;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
@@ -606,7 +606,7 @@ function add_multi_city(type){
                                     </div>
                                 </div>
                                 <div class="image-change-route-vertical">
-                                    <h4><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                    <h4><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                 </div>
                                 <div class="image-change-route-horizontal">
                                     <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:`+text_color+`;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
@@ -652,7 +652,7 @@ function add_multi_city(type){
                 <div class="col-lg-12" style="text-align:left; margin-top:10px; margin-bottom:10px;">
                     <h5 style="color:`+text_color+`;">Flight-`+counter_airline_search+`</h5>
                 </div>
-                    <div class="col-lg-8">
+                    <div class="col-lg-12">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
                                 <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
@@ -679,8 +679,8 @@ function add_multi_city(type){
                                     </div>
                                 </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
-                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt"></i></a></h4>
-                            <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
+                            <h3 class="image-change-route-vertical"><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt"></i></a></h3>
+                            <h3 class="image-change-route-horizontal"><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt icon-change"></i></a></h3>
                             <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
                             <div class="form-group">`;
                                 if(type == 'search'){
@@ -707,7 +707,7 @@ function add_multi_city(type){
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-12">
                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
                     <div class="form-group">
                         <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
@@ -749,7 +749,7 @@ function add_multi_city(type){
                                     </div>
                                 </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
-                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><span class="icon icon-exchange"></span></a></h4>
+                            <h4 class="image-change-route-vertical"><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><span class="icon icon-exchange"></span></a></h4>
                             <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><span class="icon icon-exchange"></span></a></h4>
                             <span class="span-search-ticket">To</span>
                             <div class="input-container-search-ticket">
@@ -820,7 +820,7 @@ function add_multi_city(type){
                                     </div>
                                 </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
-                                <h4 class="image-change-route-vertical3"><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                <h4 class="image-change-route-vertical3"><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                 <h4 class="image-change-route-horizontal3"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
                                 <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
                                     <div class="input-container-search-ticket">`;
@@ -897,7 +897,7 @@ function add_multi_city(type){
                                         </div>
                                     </div>
                                     <div class="image-change-route-vertical">
-                                        <h4><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:black;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                        <h4><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:black;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                     </div>
                                     <div class="image-change-route-horizontal">
                                         <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:`+text_color+`;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
