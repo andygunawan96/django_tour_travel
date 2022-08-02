@@ -1423,11 +1423,16 @@ def create_customer(request):
         response = get_cache_data(javascript_version)
         pax = json.loads(request.POST['passenger'])
         image = {
-            'files_attachment': 'avatar',
+            'files_attachment_edit': 'avatar',
             'files_attachment_edit1': 'passport',
             'files_attachment_edit2': 'ktp',
             'files_attachment_edit3': 'sim',
-            'files_attachment_edit4': 'other'
+            'files_attachment_edit4': 'other',
+            'files_attachment': 'avatar',
+            'files_attachment_1': 'passport',
+            'files_attachment_2': 'ktp',
+            'files_attachment_3': 'sim',
+            'files_attachment_4': 'other',
         }
         image_list = json.loads(request.POST['image_list'])
         if pax['nationality_name'] != '':
@@ -1500,7 +1505,12 @@ def update_customer(request):
             'files_attachment_edit1': 'passport',
             'files_attachment_edit2': 'ktp',
             'files_attachment_edit3': 'sim',
-            'files_attachment_edit4': 'other'
+            'files_attachment_edit4': 'other',
+            'files_attachment': 'avatar',
+            'files_attachment_1': 'passport',
+            'files_attachment_2': 'ktp',
+            'files_attachment_3': 'sim',
+            'files_attachment_4': 'other'
         }
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)

@@ -1317,7 +1317,6 @@ function table_top_up_history(){
     data_counter = 0;
     if(data.length != 0){
         $('#top_up_found').hide();
-        console.log(data);
         for(i in data){
             data_search.push(data[i]);
             text+=`
