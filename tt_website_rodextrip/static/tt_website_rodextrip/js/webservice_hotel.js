@@ -955,7 +955,7 @@ function create_detail_room(i, data){
     }
     detail_room_txt = '';
     detail_price_txt = '';
-
+    discount_hotel = 0;
     for(j in data.prices[i].rooms){
         var rm_number = parseInt(j)+1;
 
@@ -1021,13 +1021,21 @@ function create_detail_room(i, data){
             detail_price_txt += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                 IDR `+getrupiah(data.prices[i].rooms[j].nightly_prices[np].price)+`
             </div>`;
+            for(svc in data.prices[i].rooms[j].nightly_prices[np].service_charges){
+                if(data.prices[i].rooms[j].nightly_prices[np].service_charges[svc].charge_type == 'DISC')
+                    discount_hotel += data.prices[i].rooms[j].nightly_prices[np].service_charges[svc].total
+            }
         }
         detail_price_txt += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><span style="font-weight:700;">Total:</span></div>`;
         detail_price_txt += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><span style="font-weight:700;">IDR `+getrupiah(data.prices[i].rooms[j].price_total)+`</span></div>`;
         detail_price_txt += `<div class="col-lg-12"><hr/></div></div>`;
     }
+    if(discount_hotel != 0){
+        detail_price_txt += `<div class="row"><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><span style="font-weight:700;color:#e04022;">Discount:</span></div>`;
+        detail_price_txt += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><span style="font-weight:700;color:#e04022;">IDR `+getrupiah(discount_hotel)+`</span></div></div>`;
+    }
     detail_price_txt += `<div class="row"><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><span style="font-weight:700;">Grand Total:</span></div>`;
-    detail_price_txt += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><span style="font-weight:700;">IDR `+getrupiah(data.prices[i].price_total)+`</span></div></div>`;
+    detail_price_txt += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><span style="font-weight:700;">IDR `+getrupiah(data.prices[i].price_total + discount_hotel)+`</span></div></div>`;
 
     document.getElementById('detail_room-tab_edit').innerHTML = detail_room_txt;
     document.getElementById('price_room-tab_edit').innerHTML = detail_price_txt;
