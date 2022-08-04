@@ -1126,6 +1126,11 @@ function get_airline_data_review_after_sales_page(){
            airline_detail('request_new');
            get_airline_review_after_sales();
 
+           $( document ).ready(function() {
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                get_airline_channel_repricing_data();
+           });
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
 
@@ -9199,6 +9204,32 @@ function update_service_charge(type){
             }
         }
         repricing_order_number = order_number;
+    }else if(type == 'request_new'){
+        upsell = []
+        currency = '';
+        for(i in airline_get_detail.passengers){
+            if(airline_get_detail.passengers[i].pax_type != 'INF')
+            {
+                if(currency == '')
+                    for(j in airline_get_detail.passengers[i].sale_service_charges){
+                        currency = airline_get_detail.passengers[i].sale_service_charges[j].FARE.currency;
+                        break;
+                    }
+                pax_full_name = airline_get_detail.passengers[i].title + ' ' + airline_get_detail.passengers[i].name
+                list_price = []
+                if(document.getElementById(pax_full_name+'_repricing').innerHTML != '-' && document.getElementById(pax_full_name+'_repricing').innerHTML != '0'){
+                    list_price.push({
+                        'amount': parseInt(document.getElementById(pax_full_name+'_repricing').innerHTML.split(',').join('')),
+                        'currency_code': currency
+                    });
+                    upsell.push({
+                        'sequence': airline_get_detail.passengers[i].sequence,
+                        'pricing': JSON.parse(JSON.stringify(list_price))
+                    });
+                }
+            }
+        }
+        repricing_order_number = airline_get_detail.order_number;
     }else{
         upsell_price_dict = {};
         upsell = []
@@ -9236,6 +9267,7 @@ function update_service_charge(type){
        data: {
            'order_number': JSON.stringify(repricing_order_number),
            'passengers': JSON.stringify(upsell),
+           'type': type,
            'signature': signature
        },
        success: function(msg) {
@@ -14382,8 +14414,10 @@ function assign_seats_after_sales_v2(){
                     get_payment_acq('Issued',booker_id, order_number, 'billing',signature,'airline_after_sales');
                     $('#show_loading_booking_airline').hide();
                     hide_modal_waiting_transaction();
-                }else
+                }else{
+                    update_service_charge('request_new');
                     update_booking_after_sales_v2();
+                }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
            }else{
@@ -14422,6 +14456,7 @@ function sell_ssrs_after_sales_v2(){
                     $('#show_loading_booking_airline').hide();
                     hide_modal_waiting_transaction();
                 }else{
+                    update_service_charge('request_new');
                     update_booking_after_sales_v2();
                 }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
