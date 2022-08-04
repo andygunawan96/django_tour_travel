@@ -7495,6 +7495,11 @@ function airline_get_booking(data, sync=false){
                                 }catch(err){
                                     console.log(err); // error kalau ada element yg tidak ada
                                 }
+                                try{
+                                    price['SSR'] += msg.result.response.passengers[j].channel_service_charges.amount_ssr;
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
                             }
                             //repricing
                             check = 0;
@@ -8815,6 +8820,11 @@ function airline_issued(data){
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
+                            try{
+                                price['SSR'] += airline_get_detail.result.response.passengers[j].channel_service_charges.amount_ssr;
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
 
                             text+=`<div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -8926,6 +8936,11 @@ function airline_issued(data){
 
                             try{
                                 price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
+                            try{
+                                price['SSR'] += airline_get_detail.result.response.passengers[j].channel_service_charges.amount_ssr;
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
