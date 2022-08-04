@@ -5292,12 +5292,12 @@ function get_airline_channel_repricing_data(){
         if(price['currency'] == '')
             price['currency'] = 'IDR'
 
-        try{
-            price['CSC'] = airline_get_detail.passengers[j].channel_service_charges.amount_ssr;
-            csc += airline_get_detail.passengers[j].channel_service_charges.amount_ssr;
-        }catch(err){
-            console.log(err); // error kalau ada element yg tidak ada
-        }
+//        try{
+//            price['CSC'] = airline_get_detail.passengers[j].channel_service_charges.amount_ssr;
+//            csc += airline_get_detail.passengers[j].channel_service_charges.amount_ssr;
+//        }catch(err){
+//            console.log(err); // error kalau ada element yg tidak ada
+//        }
 
         //repricing
         check = 0;
