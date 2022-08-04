@@ -271,7 +271,10 @@ def booking(request, order_number):
         try:
             set_session(request, 'medical_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
-            set_session(request, 'medical_order_number', order_number)
+            try:
+                set_session(request, 'medical_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
+            except:
+                set_session(request, 'medical_order_number', order_number)
         try:
             if request.session.get('medical_passenger_cache'):
                 del request.session['medical_passenger_cache']

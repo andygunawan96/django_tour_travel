@@ -463,7 +463,10 @@ def booking(request, order_number):
         try:
             set_session(request, 'bus_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
-            set_session(request, 'bus_order_number', order_number)
+            try:
+                set_session(request, 'bus_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
+            except:
+                set_session(request, 'bus_order_number', order_number)
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'id_types': id_type,

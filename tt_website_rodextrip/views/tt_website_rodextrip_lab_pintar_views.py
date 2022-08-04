@@ -271,7 +271,10 @@ def booking(request, order_number):
         try:
             set_session(request, 'lab_pintar_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
-            set_session(request, 'lab_pintar_order_number', order_number)
+            try:
+                set_session(request, 'lab_pintar_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
+            except:
+                set_session(request, 'lab_pintar_order_number', order_number)
         try:
             if request.session.get('lab_pintar_passenger_cache'):
                 del request.session['lab_pintar_passenger_cache']
