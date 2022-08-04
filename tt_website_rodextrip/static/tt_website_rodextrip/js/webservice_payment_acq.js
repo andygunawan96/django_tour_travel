@@ -930,7 +930,7 @@ function set_price(val, type, product_type){
                     <span>Fee:</span>
                 </div>
                 <div class='col-sm-6' style='text-align:right;'>
-                    <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.fee)+`</span>
+                    <span id="fee_span">`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.fee)+`</span>
                 </div>`;
         //unique amount
         if(payment_acq2[payment_method][selected].price_component.unique_amount){
@@ -981,17 +981,6 @@ function set_price(val, type, product_type){
         }
         can_use_point = 0;
         if(typeof(get_balance_response) !== 'undefined' && type != 'top_up' && get_balance_response.result.response.is_show_point_reward){
-            if(payment_method == 'cash'){ // cash minimal bayar 1 rupiah untuk bypass check 0 di gateway
-                if(payment_total > get_balance_response.result.response.point_reward)
-                    can_use_point = get_balance_response.result.response.point_reward;
-                else
-                    can_use_point = payment_total - 1;
-            }else{ //selain cash sesuaikan dengan minimum amount dari setiap payment acquirer
-                if(payment_total - payment_acq2[payment_method][selected].minimum_amount > get_balance_response.result.response.point_reward)
-                    can_use_point = get_balance_response.result.response.point_reward;
-                else
-                    can_use_point = payment_total  - payment_acq2[payment_method][selected].minimum_amount; // minimal transfer untuk payment gateway
-            }
             text+=`
                 <div class="col-sm-5" style='text-align:left;'>
                     <span style="font-size:13px;"> Use Points: </span>
@@ -1015,7 +1004,7 @@ function set_price(val, type, product_type){
                         <div class="col-sm-5">
                         </div>
                         <div class="col-sm-7" style="text-align:right;">
-                            <span style="font-size:13px;"> `+get_balance_response.result.response.currency_code+` `+getrupiah(can_use_point)+`</span>
+                            <span style="font-size:13px;" id="point_span"> `+get_balance_response.result.response.currency_code+` `+getrupiah(can_use_point)+`</span>
                         </div>
                     </div>
                 </div>
@@ -1065,13 +1054,30 @@ function set_price(val, type, product_type){
 
 function onchange_use_point(value){
     if(value == true){
-        document.getElementById('use_point_div').style.display = 'block';
         try{
+            var can_use_point = 0;
+            if(payment_method == 'cash'){ // cash minimal bayar 1 rupiah untuk bypass check 0 di gateway
+                if(payment_total > get_balance_response.result.response.point_reward)
+                    can_use_point = get_balance_response.result.response.point_reward;
+                else
+                    can_use_point = payment_total - 1;
+            }else{ //selain cash sesuaikan dengan minimum amount dari setiap payment acquirer
+
+                if(payment_total - payment_acq2[payment_method][selected].minimum_amount > get_balance_response.result.response.point_reward)
+                    can_use_point = get_balance_response.result.response.point_reward;
+                else
+                    can_use_point = payment_total - payment_acq2[payment_method][selected].minimum_amount['with_point']; // minimal transfer untuk payment gateway
+            }
+            document.getElementById('point_span').innerHTML = payment_acq2[payment_method][selected].currency + ' ' + getrupiah(can_use_point);
+            document.getElementById('fee_span').innerHTML = payment_acq2[payment_method][selected].currency + ' ' + getrupiah(payment_acq2[payment_method][selected].price_component_with_point.fee);
+            document.getElementById('use_point_div').style.display = 'block';
             document.getElementById('payment_method_grand_total').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_total - can_use_point);
         }catch(err){
+            console.log(err);
             document.getElementById('payment_method_grand_total').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_total);
         }
     }else{
+        document.getElementById('fee_span').innerHTML = payment_acq2[payment_method][selected].currency + ' ' + getrupiah(payment_acq2[payment_method][selected].price_component.fee);
         document.getElementById('use_point_div').style.display = 'none';
         document.getElementById('payment_method_grand_total').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_total);
     }

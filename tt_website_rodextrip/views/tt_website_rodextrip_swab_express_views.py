@@ -271,7 +271,10 @@ def booking(request, order_number):
         try:
             set_session(request, 'swab_express_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
-            set_session(request, 'swab_express_order_number', order_number)
+            try:
+                set_session(request, 'swab_express_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
+            except:
+                set_session(request, 'swab_express_order_number', order_number)
         try:
             if request.session.get('swab_express_passenger_cache'):
                 del request.session['swab_express_passenger_cache']
