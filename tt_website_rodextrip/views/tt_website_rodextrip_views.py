@@ -569,7 +569,7 @@ def admin(request):
                     try:
                         if request.POST.get('empty_logo'):
                             text += '\n'
-                        elif request.FILES['fileToUpload'].content_type == 'image/jpeg' or request.FILES['fileToUpload'].content_type == 'image/png' or request.FILES['fileToUpload'].content_type == 'image/png':
+                        elif request.FILES['fileToUpload'].content_type in ['image/jpeg', 'image/png', 'image/png']:
                             file = request.FILES['fileToUpload']
                             filename = fs.save(file.name, file)
                             text += fs.base_url + filename + '\n'
@@ -599,7 +599,7 @@ def admin(request):
                     try:
                         if request.POST.get('empty_image_home'):
                             text += '\n'
-                        elif request.FILES['fileBackgroundHome'].content_type == 'image/jpeg' or request.FILES['fileBackgroundHome'].content_type == 'image/png' or request.FILES['fileBackgroundHome'].content_type == 'image/png':
+                        elif request.FILES['fileBackgroundHome'].content_type.split('/')[0] in ['image', 'video']:
                             file = request.FILES['fileBackgroundHome']
                             filename = fs.save(file.name, file)
                             text += fs.base_url + filename + '\n'
@@ -621,7 +621,7 @@ def admin(request):
                     try:
                         if request.POST.get('empty_image_login'):
                             text += '\n'
-                        elif request.FILES['fileBackgroundLogin'].content_type == 'image/jpeg' or request.FILES['fileBackgroundLogin'].content_type == 'image/png' or request.FILES['fileBackgroundLogin'].content_type == 'image/png':
+                        elif request.FILES['fileBackgroundLogin'].content_type.split('/')[0] in ['image', 'video']:
                             file = request.FILES['fileBackgroundLogin']
                             filename = fs.save(file.name, file)
                             text += fs.base_url + filename + '\n'
@@ -642,7 +642,7 @@ def admin(request):
                     try:
                         if request.POST.get('empty_image_search'):
                             text += '\n'
-                        elif request.FILES['fileBackgroundSearch'].content_type == 'image/jpeg' or request.FILES['fileBackgroundSearch'].content_type == 'image/png' or request.FILES['fileBackgroundSearch'].content_type == 'image/png':
+                        elif request.FILES['fileBackgroundSearch'].content_type.split('/')[0] in ['image', 'video']:
                             file = request.FILES['fileBackgroundSearch']
                             filename = fs.save(file.name, file)
                             text += fs.base_url + filename + '\n'
@@ -673,7 +673,7 @@ def admin(request):
                     try:
                         if request.POST.get('empty_logo_icon'):
                             text += '\n'
-                        elif request.FILES['filelogoicon'].content_type == 'image/jpeg' or request.FILES['filelogoicon'].content_type == 'image/png' or request.FILES['filelogoicon'].content_type == 'image/png':
+                        elif request.FILES['filelogoicon'].content_type in ['image/jpeg', 'image/png', 'image/png']:
                             file = request.FILES['filelogoicon']
                             filename = fs.save(file.name, file)
                             text += fs.base_url + filename + '\n'
@@ -693,7 +693,7 @@ def admin(request):
                     try:
                         if request.POST.get('empty_image_regis'):
                             text += '\n'
-                        elif request.FILES['fileRegistrationBanner'].content_type == 'image/jpeg' or request.FILES['fileRegistrationBanner'].content_type == 'image/png' or request.FILES['fileRegistrationBanner'].content_type == 'image/png':
+                        elif request.FILES['fileRegistrationBanner'].content_type.split('/')[0] in ['image', 'video']:
                             file = request.FILES['fileRegistrationBanner']
                             filename = fs.save(file.name, file)
                             text += fs.base_url + filename + '\n'
