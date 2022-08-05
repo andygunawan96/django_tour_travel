@@ -405,7 +405,7 @@ def get_new_cache(signature, type='all'):
             res_cache_hotel = send_request_api({}, url_request, headers, data, 'POST', 120)
             try:
                 if res_cache_hotel['result']['error_code'] == 0:
-                    write_cache_with_folder(json.loads(res_cache_hotel['result']['response']), "hotel_cache_data")
+                    write_cache(json.loads(res_cache_hotel['result']['response']), "hotel_cache_data", 'cache_web')
             except Exception as e:
                 _logger.info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE " + json.dumps(res_cache_hotel) + '\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -492,7 +492,7 @@ def get_new_cache(signature, type='all'):
             ff_request = send_request_api({}, url_request, headers, data, 'POST', 300)
             try:
                 if ff_request['result']['error_code'] == 0:
-                    write_cache_with_folder(ff_request['result']['response'], "frequent_flyer_data")
+                    write_cache(ff_request['result']['response'], "frequent_flyer_data", 'cache_web')
             except Exception as e:
                 _logger.error(str(e) + '\n' + traceback.format_exc())
 
@@ -532,7 +532,7 @@ def get_new_cache(signature, type='all'):
             res_cache_activity = send_request_api({}, url_request, headers, data, 'POST', 120)
             try:
                 if res_cache_activity['result']['error_code'] == 0:
-                    write_cache_with_folder(res_cache_activity['result']['response'], "activity_cache_data")
+                    write_cache(res_cache_activity['result']['response'], "activity_cache_data", 'cache_web')
             except Exception as e:
                 _logger.info(
                     "ERROR GET CACHE FROM ACTIVITY SEARCH AUTOCOMPLETE " + json.dumps(res_cache_activity) + '\n' + str(
@@ -574,7 +574,7 @@ def get_new_cache(signature, type='all'):
             res_cache_tour = send_request_api({}, url_request, headers, data, 'POST', 120)
             try:
                 if res_cache_tour['result']['error_code'] == 0:
-                    write_cache_with_folder(res_cache_tour['result']['response'], "tour_cache_data")
+                    write_cache(res_cache_tour['result']['response'], "tour_cache_data", 'cache_web')
             except Exception as e:
                 _logger.info(
                     "ERROR GET CACHE FROM TOUR SEARCH AUTOCOMPLETE " + json.dumps(res_cache_tour) + '\n' + str(
@@ -623,7 +623,7 @@ def get_new_cache(signature, type='all'):
             }
 
             # cache airline popular
-            file = read_cache_with_folder_path("popular_destination_airline_cache", 90911)
+            file = read_cache("popular_destination_airline_cache", 'cache_web', 90911)
             if file:
                 popular_airline = file
                 popular = []
@@ -654,14 +654,14 @@ def get_new_cache(signature, type='all'):
                             })
             popular = popular + average
 
-            write_cache_with_folder(popular, "airline_destination")
-            file = read_cache_with_folder_path("cache_version", 90911)
+            write_cache(popular, "airline_destination", 'cache_web')
+            file = read_cache("cache_version", 'cache_web', 90911)
             if file:
                 cache_version = int(file) + 1
             else:
                 cache_version = 1
-            write_cache_with_folder(res, "version" + str(cache_version))
-            write_cache_with_folder(cache_version, "cache_version")
+            write_cache(res, "version" + str(cache_version), 'cache_web')
+            write_cache(cache_version, "cache_version", 'cache_web')
 
             # cache tanggal libur
             headers = {
@@ -677,7 +677,7 @@ def get_new_cache(signature, type='all'):
             }
             url_request = url + 'content'
             res = send_request_api({}, url_request, headers, data, 'POST')
-            write_cache_with_folder(res, "get_holiday_cache")
+            write_cache(res, "get_holiday_cache", 'cache_web')
             # remove cache airline
             try:
                 os.remove("/var/log/django/file_cache/get_list_provider.txt")
@@ -724,7 +724,7 @@ def get_new_cache(signature, type='all'):
             try:
                 if res['result']['error_code'] == 0:
                     res['result']['response']['kota'] = data_kota
-                    write_cache_with_folder(res, "medical_cache_data_%s" % provider)
+                    write_cache(res, "medical_cache_data_%s" % provider, 'cache_web')
             except Exception as e:
                 _logger.info("ERROR UPDATE CACHE medical " + provider + ' ' + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -756,7 +756,7 @@ def get_new_cache(signature, type='all'):
                         "carriers_code": res['result']['response'],
                         "kota": data_kota
                     }
-                    write_cache_with_folder(res, "medical_cache_data_%s" % provider)
+                    write_cache(res, "medical_cache_data_%s" % provider, 'cache_web')
             except Exception as e:
                 _logger.info("ERROR UPDATE CACHE medical " + provider + ' ' + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -778,7 +778,7 @@ def get_new_cache(signature, type='all'):
 
             try:
                 if res['result']['error_code'] == 0:
-                    write_cache_with_folder(res, "medical_global_cache_data")
+                    write_cache(res, "medical_global_cache_data", 'cache_web')
             except Exception as e:
                 _logger.info("ERROR UPDATE CACHE medical " + provider + ' ' + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -800,7 +800,7 @@ def get_new_cache(signature, type='all'):
 
             try:
                 if res['result']['error_code'] == 0:
-                    write_cache_with_folder(res, "swab_express_cache_data")
+                    write_cache(res, "swab_express_cache_data", 'cache_web')
             except Exception as e:
                 _logger.info("ERROR UPDATE CACHE swab express " + provider + ' ' + json.dumps(res) + '\n' + str(
                     e) + '\n' + traceback.format_exc())
@@ -823,7 +823,7 @@ def get_new_cache(signature, type='all'):
 
             try:
                 if res['result']['error_code'] == 0:
-                    write_cache_with_folder(res, "lab_pintar_cache_data")
+                    write_cache(res, "lab_pintar_cache_data", 'cache_web')
             except Exception as e:
                 _logger.info("ERROR UPDATE CACHE lab pintar " + provider + ' ' + json.dumps(res) + '\n' + str(
                     e) + '\n' + traceback.format_exc())
@@ -855,7 +855,7 @@ def get_new_cache(signature, type='all'):
                     for rec in res['result']['response']:
                         if rec not in response['result']['response']:
                             response['result']['response'][rec] = res['result']['response'][rec]
-                    write_cache_with_folder(response, "mitra_keluarga_cache_data")
+                    write_cache(response, "mitra_keluarga_cache_data", 'cache_web')
             except Exception as e:
                 _logger.info("ERROR UPDATE CACHE mitra keluarga " + provider + ' ' + json.dumps(res) + '\n' + str(
                     e) + '\n' + traceback.format_exc())
@@ -887,7 +887,7 @@ def get_new_cache(signature, type='all'):
                     for rec in res['result']['response']:
                         if rec not in response['result']['response']:
                             response['result']['response'][rec] = res['result']['response'][rec]
-                    write_cache_with_folder(response, "sentra_medika_cache_data")
+                    write_cache(response, "sentra_medika_cache_data", 'cache_web')
             except Exception as e:
                 _logger.info("ERROR UPDATE CACHE sentra medika " + provider + ' ' + json.dumps(res) + '\n' + str(
                     e) + '\n' + traceback.format_exc())
@@ -907,11 +907,11 @@ def get_new_cache(signature, type='all'):
             try:
                 if res['result']['error_code'] == 0:
                     res = res['result']['response']
-                    write_cache_with_folder(res, "get_bus_config")
+                    write_cache(res, "get_bus_config", 'cache_web')
                     name_city_dict = {}
                     for rec in res['station']:
                         name_city_dict["%s - %s" % (res['station'][rec]['city'],res['station'][rec]['name'])] = rec
-                    write_cache_with_folder(name_city_dict, "get_bus_config_dict_key_city")
+                    write_cache(name_city_dict, "get_bus_config_dict_key_city", 'cache_web')
                     _logger.info("get_bus_config BUS RENEW SUCCESS SIGNATURE " + headers['signature'])
                 else:
                     _logger.error('ERROR get_bus_config file\n' + str(e) + '\n' + traceback.format_exc())
@@ -932,7 +932,7 @@ def get_new_cache(signature, type='all'):
             try:
                 if res['result']['error_code'] == 0:
                     res = res
-                    write_cache_with_folder(res, "insurance_cache_data")
+                    write_cache(res, "insurance_cache_data", 'cache_web')
                     _logger.info("get_bus_config INSURANCE RENEW SUCCESS SIGNATURE " + headers['signature'])
                 else:
                     _logger.error('ERROR get_insurance_config file\n' + str(e) + '\n' + traceback.format_exc())
