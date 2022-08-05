@@ -968,7 +968,7 @@ def get_new_cache(signature, type='all'):
                                 last_sequence += 1
                                 rec['sequence'] = last_sequence
                     res['result']['response'] = sorted(res['result']['response'], key=lambda k: int(k['sequence']))
-                    write_cache_with_folder(res, "big_banner_cache")
+                    write_cache(res, "big_banner_cache", 'cache_web')
                     _logger.info("big_banner RENEW SUCCESS SIGNATURE " + signature)
                 except Exception as e:
                     _logger.error(
@@ -999,7 +999,7 @@ def get_new_cache(signature, type='all'):
                                 last_sequence += 1
                                 rec['sequence'] = last_sequence
                     res['result']['response'] = sorted(res['result']['response'], key=lambda k: int(k['sequence']))
-                    write_cache_with_folder(res, "small_banner_cache")
+                    write_cache(res, "small_banner_cache", 'cache_web')
                     _logger.info("small_banner RENEW SUCCESS SIGNATURE " + signature)
                 except Exception as e:
                     _logger.error(
@@ -1030,7 +1030,7 @@ def get_new_cache(signature, type='all'):
                                 last_sequence += 1
                                 rec['sequence'] = last_sequence
                     res['result']['response'] = sorted(res['result']['response'], key=lambda k: int(k['sequence']))
-                    write_cache_with_folder(res, "promotion_banner_cache")
+                    write_cache(res, "promotion_banner_cache", 'cache_web')
                     _logger.info("promotion_banner RENEW SUCCESS SIGNATURE " + signature)
                 except Exception as e:
                     _logger.error(

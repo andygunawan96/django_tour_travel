@@ -991,192 +991,19 @@ def seat_map(request, signature):
                     if not 'seat_list' in pax:
                         pax['seat_list'] = []
                         for seat_provider in request.session['airline_get_seat_availability_%s' % signature]['result']['response']['seat_availability_provider']:
-                            for segment in seat_provider['segments']:
-                                pax['seat_list'].append({
-                                    'segment_code': segment['segment_code2'],
-                                    'departure_date': segment['departure_date'],
-                                    'seat_pick': '',
-                                    'seat_code': '',
-                                    'seat_name': '',
-                                    'description': '',
-                                    'currency': '',
-                                    'price': ''
-                                })
-            except:
-                #dari getbooking
-                #CHECK SINI TEMBAK KO SAM
-                #pax
-                adult = []
-                infant = []
-                child = []
-                airline_get_booking_resp = request.session.get('airline_get_booking_response') if request.session.get('airline_get_booking_response') else json.loads(request.POST['get_booking_data_json'])
-                for rec in airline_get_booking_resp['result']['response']['provider_bookings']:
-                    for ticket in rec['tickets']:
-                        for fee in ticket['fees']:
-                            fee.pop('description_text')
-                    if rec.get('rules'):
-                        rec.pop('rules')
-                    for journey in rec['journeys']:
-                        for segment in journey['segments']:
-                            if segment.get('fare_details'):
-                                segment.pop('fare_details')
-                for rec in airline_get_booking_resp['result']['response']['passengers']:
-                    for fee in rec['fees']:
-                        fee.pop('description_text')
-                for rec in airline_get_booking_resp['result']['response']['reschedule_list']:
-                    for provider_booking in rec['provider_bookings']:
-                        if(provider_booking.get('rules')):
-                            provider_booking.pop('rules')
-                        for journey in provider_booking['journeys']:
-                            for segment in journey['segments']:
-                                if segment.get('fare_details'):
-                                    segment.pop('fare_details')
-                                if (segment.get('addons')):
-                                    segment.pop('addons')
+                            if seat_provider.get('segments'):
+                                for segment in seat_provider['segments']:
+                                    pax['seat_list'].append({
+                                        'segment_code': segment['segment_code2'],
+                                        'departure_date': segment['departure_date'],
+                                        'seat_pick': '',
+                                        'seat_code': '',
+                                        'seat_name': '',
+                                        'description': '',
+                                        'currency': '',
+                                        'price': ''
+                                    })
 
-                    for new_segment in rec['new_segments']:
-                        if new_segment.get('fare_details'):
-                            new_segment.pop('fare_details')
-                        if (new_segment.get('addons')):
-                            new_segment.pop('addons')
-                    for old_segment in rec['old_segments']:
-                        if(old_segment.get('fare_details')):
-                            old_segment.pop('fare_details')
-                        if (old_segment.get('addons')):
-                            old_segment.pop('addons')
-                set_session(request, 'airline_get_booking_response', airline_get_booking_resp)
-                for pax in airline_get_booking_resp['result']['response']['passengers']:
-                    if pax.get('birth_date'):
-                        pax_type = ''
-                        if (datetime.now() - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 <= 2:
-                            infant.append({
-                                "pax_type": 'INF',
-                                "first_name": pax['first_name'],
-                                "last_name": pax['last_name'],
-                                "title": pax['title'],
-                                "birth_date": pax['birth_date'],
-                                "nationality_code": pax['nationality_code'],
-                                "passport_number": pax['identity_number'],
-                                "passport_expdate": pax['identity_expdate'],
-                                "country_of_issued_code": pax['identity_country_of_issued_code'],
-                                "identity_type": pax['identity_type'],
-                                "passenger_id": pax['sequence']
-                            })
-                        elif (datetime.now() - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 < 12:
-                            child.append({
-                                "pax_type": 'CHD',
-                                "first_name": pax['first_name'],
-                                "last_name": pax['last_name'],
-                                "title": pax['title'],
-                                "birth_date": pax['birth_date'],
-                                "nationality_code": pax['nationality_code'],
-                                "passport_number": pax['identity_number'],
-                                "passport_expdate": pax['identity_expdate'],
-                                "country_of_issued_code": pax['identity_country_of_issued_code'],
-                                "identity_type": pax['identity_type'],
-                                "passenger_id": pax['sequence']
-                            })
-                        else:
-                            adult.append({
-                                "pax_type": 'ADT',
-                                "first_name": pax['first_name'],
-                                "last_name": pax['last_name'],
-                                "title": pax['title'],
-                                "birth_date": pax['birth_date'],
-                                "nationality_code": pax['nationality_code'],
-                                "passport_number": pax['identity_number'],
-                                "passport_expdate": pax['identity_expdate'],
-                                "country_of_issued_code": pax['identity_country_of_issued_code'],
-                                "identity_type": pax['identity_type'],
-                                "passenger_id": pax['sequence']
-                            })
-                    else:
-                        adult.append({
-                            "pax_type": 'ADT',
-                            "first_name": pax['first_name'],
-                            "last_name": pax['last_name'],
-                            "title": pax['title'],
-                            "birth_date": pax['birth_date'],
-                            "nationality_code": pax['nationality_code'],
-                            "passport_number": pax['identity_number'],
-                            "passport_expdate": pax['identity_expdate'],
-                            "country_of_issued_code": pax['identity_country_of_issued_code'],
-                            "identity_type": pax['identity_type'],
-                            "passenger_id": pax['sequence']
-                        })
-                title_booker = 'MR'
-                title_contact = 'MR'
-                if airline_get_booking_resp['result']['response']['booker']['gender'] == 'female':
-                    if airline_get_booking_resp['result']['response']['booker']['marital_status'] != '':
-                        title_booker = 'MRS'
-                    else:
-                        title_booker = 'MS'
-                airline_create_passengers = {
-                    'booker': {
-                        "first_name": airline_get_booking_resp['result']['response']['booker'][
-                            'first_name'],
-                        "last_name": airline_get_booking_resp['result']['response']['booker'][
-                            'last_name'],
-                        "title": title_booker,
-                        "email": airline_get_booking_resp['result']['response']['booker']['email'],
-                        "calling_code":airline_get_booking_resp['result']['response']['booker']['phones'][len(airline_get_booking_resp['result']['response']['booker']['phones']) - 1]['calling_code'],
-                        "mobile": airline_get_booking_resp['result']['response']['booker']['phones'][len(airline_get_booking_resp['result']['response']['booker']['phones']) - 1]['calling_number'],
-                        "nationality_code": airline_get_booking_resp['result']['response']['booker'][
-                            'nationality_name'],
-                        "contact_seq_id": airline_get_booking_resp['result']['response']['booker'][
-                            'seq_id']
-                    },
-                    'adult': adult,
-                    'child': child,
-                    'infant': infant
-                }
-                set_session(request, 'airline_create_passengers_%s' % signature, airline_create_passengers)
-                passenger = []
-                for pax in adult:
-                    passenger.append(pax)
-                for pax in child:
-                    passenger.append(pax)
-
-                passenger = request.session['airline_create_passengers_%s' % signature]['adult'] + request.session['airline_create_passengers_%s' % signature]['child']
-                for pax in passenger:
-                    pax['seat_list'] = []
-                    for seat_provider in request.session['airline_get_seat_availability_%s' % signature]['result']['response']['seat_availability_provider']:
-                        if seat_provider.get('segments'):
-                            for segment in seat_provider['segments']:
-                                found = False
-                                passenger_obj = {
-                                    'seat_pick': '',
-                                    'seat_code': '',
-                                    'seat_name': '',
-                                    'description': '',
-                                    'currency': '',
-                                    'price': ''
-                                }
-                                for pax_obj in airline_get_booking_resp['result']['response']['passengers']:
-                                    if pax['first_name'] == pax_obj['first_name'] and pax['last_name'] == pax_obj['last_name'] and pax['birth_date'] == pax_obj['birth_date']:
-                                        for pax_obj in pax_obj['fees']:
-                                            if pax_obj['fee_type'] == 'SEAT' and segment['segment_code'] == pax_obj['journey_code']:
-                                                passenger_obj['seat_pick'] = pax_obj['fee_value']
-                                                passenger_obj['seat_code'] = pax_obj['fee_code']
-                                                passenger_obj['seat_name'] = pax_obj['fee_name']
-                                                passenger_obj['description'] = pax_obj['description']
-                                                passenger_obj['currency'] = pax_obj['currency']
-                                                passenger_obj['price'] = pax_obj['amount']
-                                                found = True
-                                                break
-                                    if found:
-                                        break
-                                pax['seat_list'].append({
-                                    'segment_code': segment['segment_code2'],
-                                    'departure_date': segment['departure_date'],
-                                    'seat_pick': passenger_obj['seat_pick'],
-                                    'seat_code': passenger_obj['seat_code'],
-                                    'seat_name': passenger_obj['seat_name'],
-                                    'description': passenger_obj['description'],
-                                    'currency': passenger_obj['currency'],
-                                    'price': passenger_obj['price']
-                                })
-            try:
                 additional_price_input = ''
                 additional_price = request.POST['additional_price_input'].split(',')
                 for i in additional_price:
@@ -1194,7 +1021,8 @@ def seat_map(request, signature):
                     'countries': airline_country,
                     'phone_code': phone_code,
                     'after_sales': 0,
-                    'upsell': request.session.get('airline_upsell_'+signature) and request.session.get('airline_upsell_%s' % signature) or 0,
+                    'upsell': request.session.get('airline_upsell_' + signature) and request.session.get(
+                        'airline_upsell_%s' % signature) or 0,
                     'airline_request': request.session['airline_request_%s' % signature],
                     'price': request.session['airline_sell_journey_%s' % signature],
                     'additional_price': float(additional_price_input),
@@ -1206,32 +1034,216 @@ def seat_map(request, signature):
                     'airline_getbooking': '',
                     'signature': signature
                 })
-            except:
-                upsell = 0
-                for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
-                    if pax.get('channel_service_charges'):
-                        upsell = pax['channel_service_charges']['amount']
-                airline_get_booking = copy.deepcopy(request.session['airline_get_booking_response']['result']['response'])
-                del airline_get_booking['reschedule_list'] #pop sementara ada list isi string pakai " wktu di parser error
-                values.update({
-                    'static_path': path_util.get_static_path(MODEL_NAME),
-                    'airline_carriers': carrier,
-                    'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-                    'countries': airline_country,
-                    'phone_code': phone_code,
-                    'after_sales': 1,
-                    'upsell': upsell,
-                    'airline_getbooking': airline_get_booking,
-                    'additional_price': '',
-                    'passengers': passenger,
-                    'static_path_url_server': get_url_static_path(),
-                    'username': request.session['user_account'],
-                    'javascript_version': javascript_version,
-                    'airline_request': '',
-                    'price': '',
-                    'time_limit': '',
-                    'signature': request.session['airline_signature'],
-                })
+            except Exception as e:
+                ## penanda pre booking / after sales
+                if request.session.get('airline_create_passengers_%s' % signature) == False:
+                    #dari getbooking
+                    #CHECK SINI TEMBAK KO SAM
+                    #pax
+                    adult = []
+                    infant = []
+                    child = []
+                    airline_get_booking_resp = request.session.get('airline_get_booking_response') if request.session.get('airline_get_booking_response') else json.loads(request.POST['get_booking_data_json'])
+                    for rec in airline_get_booking_resp['result']['response']['provider_bookings']:
+                        for ticket in rec['tickets']:
+                            for fee in ticket['fees']:
+                                fee.pop('description_text')
+                        if rec.get('rules'):
+                            rec.pop('rules')
+                        for journey in rec['journeys']:
+                            for segment in journey['segments']:
+                                if segment.get('fare_details'):
+                                    segment.pop('fare_details')
+                    for rec in airline_get_booking_resp['result']['response']['passengers']:
+                        for fee in rec['fees']:
+                            fee.pop('description_text')
+                    for rec in airline_get_booking_resp['result']['response']['reschedule_list']:
+                        for provider_booking in rec['provider_bookings']:
+                            if(provider_booking.get('rules')):
+                                provider_booking.pop('rules')
+                            for journey in provider_booking['journeys']:
+                                for segment in journey['segments']:
+                                    if segment.get('fare_details'):
+                                        segment.pop('fare_details')
+                                    if (segment.get('addons')):
+                                        segment.pop('addons')
+
+                        for new_segment in rec['new_segments']:
+                            if new_segment.get('fare_details'):
+                                new_segment.pop('fare_details')
+                            if (new_segment.get('addons')):
+                                new_segment.pop('addons')
+                        for old_segment in rec['old_segments']:
+                            if(old_segment.get('fare_details')):
+                                old_segment.pop('fare_details')
+                            if (old_segment.get('addons')):
+                                old_segment.pop('addons')
+                    set_session(request, 'airline_get_booking_response', airline_get_booking_resp)
+                    for pax in airline_get_booking_resp['result']['response']['passengers']:
+                        if pax.get('birth_date'):
+                            pax_type = ''
+                            if (datetime.now() - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 <= 2:
+                                infant.append({
+                                    "pax_type": 'INF',
+                                    "first_name": pax['first_name'],
+                                    "last_name": pax['last_name'],
+                                    "title": pax['title'],
+                                    "birth_date": pax['birth_date'],
+                                    "nationality_code": pax['nationality_code'],
+                                    "passport_number": pax['identity_number'],
+                                    "passport_expdate": pax['identity_expdate'],
+                                    "country_of_issued_code": pax['identity_country_of_issued_code'],
+                                    "identity_type": pax['identity_type'],
+                                    "passenger_id": pax['sequence']
+                                })
+                            elif (datetime.now() - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 < 12:
+                                child.append({
+                                    "pax_type": 'CHD',
+                                    "first_name": pax['first_name'],
+                                    "last_name": pax['last_name'],
+                                    "title": pax['title'],
+                                    "birth_date": pax['birth_date'],
+                                    "nationality_code": pax['nationality_code'],
+                                    "passport_number": pax['identity_number'],
+                                    "passport_expdate": pax['identity_expdate'],
+                                    "country_of_issued_code": pax['identity_country_of_issued_code'],
+                                    "identity_type": pax['identity_type'],
+                                    "passenger_id": pax['sequence']
+                                })
+                            else:
+                                adult.append({
+                                    "pax_type": 'ADT',
+                                    "first_name": pax['first_name'],
+                                    "last_name": pax['last_name'],
+                                    "title": pax['title'],
+                                    "birth_date": pax['birth_date'],
+                                    "nationality_code": pax['nationality_code'],
+                                    "passport_number": pax['identity_number'],
+                                    "passport_expdate": pax['identity_expdate'],
+                                    "country_of_issued_code": pax['identity_country_of_issued_code'],
+                                    "identity_type": pax['identity_type'],
+                                    "passenger_id": pax['sequence']
+                                })
+                        else:
+                            adult.append({
+                                "pax_type": 'ADT',
+                                "first_name": pax['first_name'],
+                                "last_name": pax['last_name'],
+                                "title": pax['title'],
+                                "birth_date": pax['birth_date'],
+                                "nationality_code": pax['nationality_code'],
+                                "passport_number": pax['identity_number'],
+                                "passport_expdate": pax['identity_expdate'],
+                                "country_of_issued_code": pax['identity_country_of_issued_code'],
+                                "identity_type": pax['identity_type'],
+                                "passenger_id": pax['sequence']
+                            })
+                    title_booker = 'MR'
+                    title_contact = 'MR'
+                    if airline_get_booking_resp['result']['response']['booker']['gender'] == 'female':
+                        if airline_get_booking_resp['result']['response']['booker']['marital_status'] != '':
+                            title_booker = 'MRS'
+                        else:
+                            title_booker = 'MS'
+                    airline_create_passengers = {
+                        'booker': {
+                            "first_name": airline_get_booking_resp['result']['response']['booker'][
+                                'first_name'],
+                            "last_name": airline_get_booking_resp['result']['response']['booker'][
+                                'last_name'],
+                            "title": title_booker,
+                            "email": airline_get_booking_resp['result']['response']['booker']['email'],
+                            "calling_code":airline_get_booking_resp['result']['response']['booker']['phones'][len(airline_get_booking_resp['result']['response']['booker']['phones']) - 1]['calling_code'],
+                            "mobile": airline_get_booking_resp['result']['response']['booker']['phones'][len(airline_get_booking_resp['result']['response']['booker']['phones']) - 1]['calling_number'],
+                            "nationality_code": airline_get_booking_resp['result']['response']['booker'][
+                                'nationality_name'],
+                            "contact_seq_id": airline_get_booking_resp['result']['response']['booker'][
+                                'seq_id']
+                        },
+                        'adult': adult,
+                        'child': child,
+                        'infant': infant
+                    }
+                    set_session(request, 'airline_create_passengers_%s' % signature, airline_create_passengers)
+                    passenger = []
+                    for pax in adult:
+                        passenger.append(pax)
+                    for pax in child:
+                        passenger.append(pax)
+
+                    passenger = request.session['airline_create_passengers_%s' % signature]['adult'] + request.session['airline_create_passengers_%s' % signature]['child']
+                    for pax in passenger:
+                        pax['seat_list'] = []
+                        for seat_provider in request.session['airline_get_seat_availability_%s' % signature]['result']['response']['seat_availability_provider']:
+                            if seat_provider.get('segments'):
+                                for segment in seat_provider['segments']:
+                                    found = False
+                                    passenger_obj = {
+                                        'seat_pick': '',
+                                        'seat_code': '',
+                                        'seat_name': '',
+                                        'description': '',
+                                        'currency': '',
+                                        'price': ''
+                                    }
+                                    for pax_obj in airline_get_booking_resp['result']['response']['passengers']:
+                                        if pax['first_name'] == pax_obj['first_name'] and pax['last_name'] == pax_obj['last_name'] and pax['birth_date'] == pax_obj['birth_date']:
+                                            for pax_obj in pax_obj['fees']:
+                                                if pax_obj['fee_type'] == 'SEAT' and segment['segment_code'] == pax_obj['journey_code']:
+                                                    passenger_obj['seat_pick'] = pax_obj['fee_value']
+                                                    passenger_obj['seat_code'] = pax_obj['fee_code']
+                                                    passenger_obj['seat_name'] = pax_obj['fee_name']
+                                                    passenger_obj['description'] = pax_obj['description']
+                                                    passenger_obj['currency'] = pax_obj['currency']
+                                                    passenger_obj['price'] = pax_obj['amount']
+                                                    found = True
+                                                    break
+                                        if found:
+                                            break
+                                    pax['seat_list'].append({
+                                        'segment_code': segment['segment_code2'],
+                                        'departure_date': segment['departure_date'],
+                                        'seat_pick': passenger_obj['seat_pick'],
+                                        'seat_code': passenger_obj['seat_code'],
+                                        'seat_name': passenger_obj['seat_name'],
+                                        'description': passenger_obj['description'],
+                                        'currency': passenger_obj['currency'],
+                                        'price': passenger_obj['price']
+                                    })
+
+                    _logger.info('########## AFTER SALES KALAU BOOKED CHECK SINI ###########')
+                    _logger.error(str(e))
+                    upsell = 0
+                    for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
+                        if pax.get('channel_service_charges'):
+                            upsell = pax['channel_service_charges']['amount']
+                    airline_get_booking = copy.deepcopy(
+                        request.session['airline_get_booking_response']['result']['response'])
+                    del airline_get_booking[
+                        'reschedule_list']  # pop sementara ada list isi string pakai " wktu di parser error
+                    values.update({
+                        'static_path': path_util.get_static_path(MODEL_NAME),
+                        'airline_carriers': carrier,
+                        'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                        'countries': airline_country,
+                        'phone_code': phone_code,
+                        'after_sales': 1,
+                        'upsell': upsell,
+                        'airline_getbooking': airline_get_booking,
+                        'additional_price': '',
+                        'passengers': passenger,
+                        'static_path_url_server': get_url_static_path(),
+                        'username': request.session['user_account'],
+                        'javascript_version': javascript_version,
+                        'airline_request': '',
+                        'price': '',
+                        'time_limit': '',
+                        'signature': request.session['airline_signature'],
+                    })
+                else:
+                    ## pre booking error
+                    _logger.error(str(e) + '\n' + traceback.format_exc())
+                    raise Exception('Make response code 500!')
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
