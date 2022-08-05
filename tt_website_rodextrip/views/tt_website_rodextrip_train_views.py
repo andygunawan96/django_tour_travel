@@ -206,7 +206,7 @@ def passenger(request, signature):
             except:
                 pass
             set_session(request, 'train_signature', signature)
-            file = read_cache_with_folder_path("get_train_carriers",90911)
+            file = read_cache("get_train_carriers", 'cache_web',90911)
             if file:
                 carrier = file
 

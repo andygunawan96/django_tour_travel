@@ -380,7 +380,7 @@ def get_data_search_page(request):
         res = {}
         res['airline_request'] = request.session.get('airline_request')
 
-        file = read_cache_with_folder_path("get_airline_carriers", 90911)
+        file = read_cache("get_airline_carriers", 'cache_web', 90911)
         if file:
             res['airline_all_carriers'] = file
         res['airline_carriers'] = request.session.get('airline_carriers_request')
@@ -397,7 +397,7 @@ def get_data_passenger_page(request):
         res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
         res['airline_get_price_request'] = request.session['airline_get_price_request_%s' % request.POST['signature']]
         res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
-        file = read_cache_with_folder_path("get_airline_carriers", 90911)
+        file = read_cache("get_airline_carriers", 'cache_web', 90911)
         if file:
             res['airline_carriers'] = file
         res['ff_request'] = request.session['airline_get_ff_availability_%s' % request.POST['signature']]['result']['response']['ff_availability_provider'] if request.session['airline_get_ff_availability_%s' % request.POST['signature']]['result']['response'] else []
@@ -425,7 +425,7 @@ def get_data_review_page(request):
         res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
         res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
         res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
-        file = read_cache_with_folder_path("get_airline_carriers", 90911)
+        file = read_cache("get_airline_carriers", 'cache_web', 90911)
         if file:
             res['airline_carriers'] = file
         res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
@@ -457,7 +457,7 @@ def get_data_review_page(request):
 def get_data_review_after_sales_page(request):
     try:
         res = {}
-        file = read_cache_with_folder_path("get_airline_carriers", 90911)
+        file = read_cache("get_airline_carriers", 'cache_web', 90911)
         if file:
             res['airline_carriers'] = file
 
@@ -472,7 +472,7 @@ def get_data_review_after_sales_page(request):
 def get_data_book_page(request):
     try:
         res = {}
-        file = read_cache_with_folder_path("get_airline_carriers", 90911)
+        file = read_cache("get_airline_carriers", 'cache_web', 90911)
         if file:
             res['airline_carriers'] = file
     except Exception as e:
@@ -482,7 +482,7 @@ def get_data_book_page(request):
 def get_data_ssr_page(request):
     try:
         res = {}
-        file = read_cache_with_folder_path("get_airline_carriers", 90911)
+        file = read_cache("get_airline_carriers", 'cache_web', 90911)
         if file:
             res['airline_carriers'] = file
         res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
@@ -511,7 +511,7 @@ def get_data_ssr_page(request):
 def get_data_seat_page(request):
     try:
         res = {}
-        file = read_cache_with_folder_path("get_airline_carriers", 90911)
+        file = read_cache("get_airline_carriers", 'cache_web', 90911)
         if file:
             res['airline_carriers'] = file
         res['passengers'] = request.session['airline_create_passengers_%s' % request.POST['signature']]['adult'] + request.session['airline_create_passengers_%s' % request.POST['signature']]['child']
@@ -554,7 +554,7 @@ def get_carrier_code_list(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    file = read_cache_with_folder_path("get_airline_active_carriers")
+    file = read_cache("get_airline_active_carriers", 'cache_web')
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
@@ -627,13 +627,13 @@ def get_carrier_code_list(request):
 
                 res = fav
                 try:
-                    write_cache_with_folder(res, "get_airline_active_carriers")
+                    write_cache(res, "get_airline_active_carriers", 'cache_web')
                     _logger.info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR get_airline_active_carriers file \n' + str(e) + '\n' + traceback.format_exc())
             else:
                 try:
-                    file = read_cache_with_folder_path("get_airline_active_carriers", 90911)
+                    file = read_cache("get_airline_active_carriers", 'cache_web', 90911)
                     if file:
                         res = file
                     _logger.info("get_carriers AIRLINE ERROR USE CACHE SIGNATURE " + request.POST['signature'])
@@ -643,7 +643,7 @@ def get_carrier_code_list(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_airline_active_carriers", 90911)
+            file = read_cache("get_airline_active_carriers", 'cache_web', 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -662,18 +662,18 @@ def get_carrier_providers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache_with_folder_path("get_list_provider")
+    file = read_cache("get_list_provider", 'cache_web')
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
-                write_cache_with_folder(res, "get_list_provider")
+                write_cache(res, "get_list_provider", 'cache_web')
                 _logger.info("get_carrier_providers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache_with_folder_path("get_list_provider")
+                    file = read_cache("get_list_provider", 'cache_web')
                     if file:
                         res = file
                     _logger.info("get_carrier_providers ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
@@ -683,7 +683,7 @@ def get_carrier_providers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_list_provider", 90911)
+            file = read_cache("get_list_provider", 'cache_web', 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_list_provider file\n' + str(e) + '\n' + traceback.format_exc())
@@ -705,18 +705,18 @@ def get_carriers(request, signature=''):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache_with_folder_path("get_airline_carriers")
+    file = read_cache("get_airline_carriers", 'cache_web')
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
-                write_cache_with_folder(res, "get_airline_carriers")
+                write_cache(res, "get_airline_carriers", 'cache_web')
                 _logger.info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + headers['signature'])
             else:
                 try:
-                    file = read_cache_with_folder_path("get_airline_carriers")
+                    file = read_cache("get_airline_carriers", 'cache_web')
                     if file:
                         res = file
                     _logger.info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + headers['signature'])
@@ -726,7 +726,7 @@ def get_carriers(request, signature=''):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_airline_carriers", 90911)
+            file = read_cache("get_airline_carriers", 'cache_web', 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_airline_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -749,18 +749,18 @@ def get_carriers_search(request, signature=''):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache_with_folder_path("get_airline_active_carriers")
+    file = read_cache("get_airline_active_carriers", 'cache_web')
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
-                write_cache_with_folder(res, "get_airline_active_carriers")
+                write_cache(res, "get_airline_active_carriers", 'cache_web')
                 _logger.info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + headers['signature'])
             else:
                 try:
-                    file = read_cache_with_folder_path("get_airline_active_carriers")
+                    file = read_cache("get_airline_active_carriers", 'cache_web')
                     if file:
                         res = file
                     _logger.info("get_carriers AIRLINE ERROR USE CACHE SIGNATURE " + request.POST['signature'])
@@ -770,7 +770,7 @@ def get_carriers_search(request, signature=''):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_airline_active_carriers", 90911)
+            file = read_cache("get_airline_active_carriers", 'cache_web', 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -790,7 +790,7 @@ def get_provider_description(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache_with_folder_path("get_list_provider_data")
+    file = read_cache("get_list_provider_data", 'cache_web')
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
@@ -800,11 +800,11 @@ def get_provider_description(request):
                 for i in res['result']['response']['providers']:
                     temp[i['provider']] = i
                 res = temp
-                write_cache_with_folder(temp, "get_list_provider_data")
+                write_cache(temp, "get_list_provider_data", 'cache_web')
                 _logger.info("get_provider_list AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache_with_folder_path("get_list_provider_data")
+                    file = read_cache("get_list_provider_data", 'cache_web')
                     if file:
                         res = file
                     _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
@@ -814,7 +814,7 @@ def get_provider_description(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_list_provider_data", 90911)
+            file = read_cache("get_list_provider_data", 'cache_web', 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_list_provider_data file\n' + str(e) + '\n' + traceback.format_exc())
@@ -825,7 +825,7 @@ def search2(request):
     try:
         # airline
         airline_destinations = []
-        file = read_cache_with_folder_path("airline_destination", 90911)
+        file = read_cache("airline_destination", 'cache_web', 90911)
         if file:
             response = file
         for country in response:
@@ -1020,7 +1020,7 @@ def search2(request):
 
 def get_data(request):
     try:
-        file = read_cache_with_folder_path("airline_destination", 90911)
+        file = read_cache("airline_destination", 'cache_web', 90911)
         if file:
             response = file
 
@@ -1034,7 +1034,7 @@ def get_price_itinerary(request, boolean, counter):
     try:
         #baru
         airline_destinations = []
-        file = read_cache_with_folder_path("airline_destination", 90911)
+        file = read_cache("airline_destination", 'cache_web', 90911)
         if file:
             response = file
         for country in response:
@@ -1273,7 +1273,7 @@ def sell_journeys(request):
     #nanti ganti ke select journey
     try:
         airline_destinations = []
-        file = read_cache_with_folder_path("airline_destination", 90911)
+        file = read_cache("airline_destination", 'cache_web', 90911)
         if file:
             response = file
         for country in response:
@@ -1800,7 +1800,7 @@ def get_booking(request):
         response = get_cache_data(javascript_version)
         airline_country = response['result']['response']['airline']['country']
         country = {}
-        file = read_cache_with_folder_path("airline_destination", 90911)
+        file = read_cache("airline_destination", 'cache_web', 90911)
         if file:
             response = file
         airline_destinations = []
@@ -2367,7 +2367,7 @@ def reissue(request):
     try:
         if res['result']['error_code'] == 0:
             airline_destinations = []
-            file = read_cache_with_folder_path("airline_destination", 90911)
+            file = read_cache("airline_destination", 'cache_web', 90911)
             if file:
                 response = file
             for country in response:
@@ -2534,7 +2534,7 @@ def get_price_reissue_construct(request,boolean, counter):
 
     if res['result']['error_code'] == 0:
         airline_destinations = []
-        file = read_cache_with_folder_path("airline_destination", 90911)
+        file = read_cache("airline_destination", 'cache_web', 90911)
         if file:
             response = file
         for country in response:
@@ -2699,7 +2699,7 @@ def sell_journey_reissue_construct(request,boolean, counter):
 
     if res['result']['error_code'] == 0:
         airline_destinations = []
-        file = read_cache_with_folder_path("airline_destination", 90911)
+        file = read_cache("airline_destination", 'cache_web', 90911)
         if file:
             response = file
         for country in response:
@@ -2980,13 +2980,13 @@ def get_provider_booking_from_vendor(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache_with_folder_path("get_provider_booking_from_vendor_airline", 86400)
+    file = read_cache("get_provider_booking_from_vendor_airline", 'cache_web', 86400)
     if not file:
         url_request = url + 'booking/airline'
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
         try:
             if res['result']['error_code'] == 0:
-                write_cache_with_folder(res, "get_provider_booking_from_vendor_airline")
+                write_cache(res, "get_provider_booking_from_vendor_airline", 'cache_web')
                 _logger.info("SUCCESS get_provider_booking_from_vendor AIRLINE SIGNATURE " + request.POST['signature'])
             else:
                 _logger.error("ERROR get_provider_booking_from_vendor AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -2994,7 +2994,7 @@ def get_provider_booking_from_vendor(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_provider_booking_from_vendor_airline", 90911)
+            file = read_cache("get_provider_booking_from_vendor_airline", 'cache_web', 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -3024,7 +3024,7 @@ def get_retrieve_booking_from_vendor(request):
         if res['result']['error_code'] == 0:
             javascript_version = get_cache_version()
             response = get_cache_data(javascript_version)
-            file = read_cache_with_folder_path("airline_destination", 90911)
+            file = read_cache("airline_destination", 'cache_web', 90911)
             if file:
                 response = file
             airline_destinations = []
@@ -3465,7 +3465,7 @@ def get_reschedule_availability_v2(request):
     try:
         if res['result']['error_code'] == 0:
             airline_destinations = []
-            file = read_cache_with_folder_path("airline_destination", 90911)
+            file = read_cache("airline_destination", 'cache_web', 90911)
             if file:
                 response = file
             for country in response:
@@ -3631,7 +3631,7 @@ def get_reschedule_itinerary_v2(request):
 
     if res['result']['error_code'] == 0:
         airline_destinations = []
-        file = read_cache_with_folder_path("airline_destination", 90911)
+        file = read_cache("airline_destination", 'cache_web', 90911)
         if file:
             response = file
         for country in response:
@@ -3787,7 +3787,7 @@ def sell_reschedule_v2(request):
 
     if res['result']['error_code'] == 0:
         airline_destinations = []
-        file = read_cache_with_folder_path("airline_destination", 90911)
+        file = read_cache("airline_destination", 'cache_web', 90911)
         if file:
             response = file
         for country in response:
@@ -4448,7 +4448,7 @@ def update_post_pax_identity(request):
     return res
 
 def get_frequent_flyer_all_data(request, signature):
-    data_file = read_cache_with_folder_path("frequent_flyer_data", 86400)
+    data_file = read_cache("frequent_flyer_data", 'cache_web', 86400)
     if not data_file:
         res = {}
         try:
@@ -4464,7 +4464,7 @@ def get_frequent_flyer_all_data(request, signature):
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
         if res['result']['error_code'] == 0:
-            write_cache_with_folder(res['result']['response'], "frequent_flyer_data")
+            write_cache(res['result']['response'], "frequent_flyer_data", 'cache_web')
             data_file = res['result']['response']
     res = []
     if data_file:
@@ -4513,10 +4513,10 @@ def getDuration(departure_date, departure_time,arrival_date,arrival_time):
 
 def search_mobile(request):
     # get_data_awal
-    file = read_cache_with_folder_path("get_list_provider_data", 90911)
+    file = read_cache("get_list_provider_data", 'cache_web', 90911)
     provider_list_data = file
     airline_destinations = []
-    file = read_cache_with_folder_path("airline_destination", 90911)
+    file = read_cache("airline_destination", 'cache_web', 90911)
     if file:
         response = file
     for country in response:

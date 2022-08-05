@@ -341,7 +341,7 @@ def update_notification_train(request):
         text += request.POST['train_review'] + '\n'
         text += request.POST['train_booking'] + '\n'
         text += request.POST['html']
-        write_cache_with_folder(text, "notification_train")
+        write_cache(text, "notification_train", 'cache_web')
 
         res = {
             'result': {
@@ -370,7 +370,7 @@ def update_notification_airline(request):
         text += request.POST['airline_review'] + '\n'
         text += request.POST['airline_booking'] + '\n'
         text += request.POST['html']
-        write_cache_with_folder(text, "notification_airline")
+        write_cache(text, "notification_airline", 'cache_web')
 
         res = {
             'result': {
@@ -392,7 +392,7 @@ def update_notification_airline(request):
 
 def get_notification_train(request):
     try:
-        file = read_cache_with_folder_path("notification_train", 90911)
+        file = read_cache("notification_train", 'cache_web', 90911)
         if file:
             data = {}
             for idx,rec in enumerate(file.split('\n')):
@@ -452,7 +452,7 @@ def get_notification_train(request):
 
 def get_notification_airline(request):
     try:
-        file = read_cache_with_folder_path("notification_airline", 90911)
+        file = read_cache("notification_airline", 'cache_web', 90911)
         if file:
             data = {}
             for idx,rec in enumerate(file.split('\n')):
@@ -514,7 +514,7 @@ def youtube_api_check(request):
     ### FITUR TIDAK DAPAT DI PAKAI KARENA PINDAH OAUTH2
     api_key_youtube = ''
     channel_id_youtube = ''
-    file = read_cache_with_folder_path("youtube", 90911)
+    file = read_cache("youtube", 'cache_web', 90911)
     if file:
         for idx, line in enumerate(file.split('\n')):
             if idx == 0 and line != '':
@@ -586,11 +586,11 @@ def get_banner(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     if request.POST['type'] == 'big_banner':
-        file = read_cache_with_folder_path("big_banner_cache", 86400)
+        file = read_cache("big_banner_cache", 'cache_web', 86400)
     elif request.POST['type'] == 'small_banner':
-        file = read_cache_with_folder_path("small_banner_cache", 86400)
+        file = read_cache("small_banner_cache", 'cache_web', 86400)
     elif request.POST['type'] == 'promotion':
-        file = read_cache_with_folder_path("promotion_banner_cache", 86400)
+        file = read_cache("promotion_banner_cache", 'cache_web', 86400)
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
@@ -611,7 +611,7 @@ def get_banner(request):
                                     last_sequence += 1
                                     rec['sequence'] = last_sequence
                         res['result']['response'] = sorted(res['result']['response'], key=lambda k: int(k['sequence']))
-                        write_cache_with_folder(res, "big_banner_cache")
+                        write_cache(res, "big_banner_cache", 'cache_web')
                         _logger.info("big_banner RENEW SUCCESS SIGNATURE " + request.POST['signature'])
                     except Exception as e:
                         _logger.error(
@@ -631,7 +631,7 @@ def get_banner(request):
                                     last_sequence += 1
                                     rec['sequence'] = last_sequence
                         res['result']['response'] = sorted(res['result']['response'], key=lambda k: int(k['sequence']))
-                        write_cache_with_folder(res, "small_banner_cache")
+                        write_cache(res, "small_banner_cache", 'cache_web')
                         _logger.info("small_banner RENEW SUCCESS SIGNATURE " + request.POST['signature'])
                     except Exception as e:
                         _logger.error(
@@ -651,7 +651,7 @@ def get_banner(request):
                                     last_sequence += 1
                                     rec['sequence'] = last_sequence
                         res['result']['response'] = sorted(res['result']['response'],key=lambda k: int(k['sequence']))
-                        write_cache_with_folder(res, "promotion_banner_cache")
+                        write_cache(res, "promotion_banner_cache", 'cache_web')
                         _logger.info("promotion_banner RENEW SUCCESS SIGNATURE " + request.POST['signature'])
                     except Exception as e:
                         _logger.error(
@@ -739,7 +739,7 @@ def get_top_up_term(request):
 <h6>MANDIRI INTERNET BANKING</h6>
 <li>1. Transaction Top up from internet banking mandiri open for 24 hours. Balance will be added automatically (REAL TIME) after payment with additional admin Top Up.<br><br></li>
     '''
-    file = read_cache_with_folder_path("top_up_term", 90911)
+    file = read_cache("top_up_term", 'cache_web', 90911)
     if file:
         text = file
     return text
@@ -776,13 +776,13 @@ def get_public_holiday(request):
             'start_date': request.POST['start_date'],
             'end_date': request.POST.get('end_date') and request.POST['end_date'] or False,
         }
-        file = read_cache_with_folder_path("get_holiday_cache", 86400)
+        file = read_cache("get_holiday_cache", 'cache_web', 86400)
         if not file:
             url_request = url + 'content'
             res = send_request_api(request, url_request, headers, data, 'POST')
             try:
                 #tambah datetime
-                write_cache_with_folder(res, "get_holiday_cache")
+                write_cache(res, "get_holiday_cache", 'cache_web')
                 _logger.info("get_public_holiday RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             except Exception as e:
                 _logger.error('ERROR get_public_holiday file \n' + str(e) + '\n' + traceback.format_exc())
@@ -805,12 +805,12 @@ def get_public_holiday(request):
 def get_dynamic_page(request):
     try:
         response = []
-        if not os.path.exists("/var/log/django/page_dynamic"):
+        if not os.path.exists("/var/log/django/file_cache/page_dynamic"):
             os.mkdir('/var/log/django/page_dynamic')
         empty_sequence = False
         last_sequence = 1
         for data in os.listdir('/var/log/django/page_dynamic'):
-            file = read_cache_without_folder_path("page_dynamic/"+data[:-4], 90911)
+            file = read_cache(data[:-4], "page_dynamic", 90911)
             if file:
                 state = ''
                 title = ''
@@ -871,10 +871,10 @@ def get_dynamic_page(request):
 
 def get_dynamic_page_detail(request):
     try:
-        if not os.path.exists("/var/log/django/page_dynamic"):
+        if not os.path.exists("/var/log/django/file_cache/page_dynamic"):
             os.mkdir('/var/log/django/page_dynamic')
         response = {}
-        file = read_cache_without_folder_path("page_dynamic/" + request.POST['data'], 90911)
+        file = read_cache(request.POST['data'], "page_dynamic", 90911)
         if file:
             state = ''
             title = ''
@@ -918,10 +918,10 @@ def get_dynamic_page_detail(request):
 
 def get_dynamic_page_mobile_detail(request):
     try:
-        if not os.path.exists("/var/log/django/page_dynamic"):
+        if not os.path.exists("/var/log/django/file_cache/page_dynamic"):
             os.mkdir('/var/log/django/page_dynamic')
         response = {}
-        file = read_cache_without_folder_path("page_dynamic/" + request.data['data'], 90911)
+        file = read_cache(request.data['data'], "page_dynamic", 90911)
         if file:
             state = ''
             title = ''
@@ -973,7 +973,7 @@ def delete_dynamic_page(request):
         data = os.listdir('/var/log/django/page_dynamic')
         image_list = []
         for rec in data:
-            file = read_cache_without_folder_path("page_dynamic/" + rec[:-4], 90911)
+            file = read_cache(rec[:-4], "page_dynamic", 90911)
             if file:
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 3:
@@ -1010,7 +1010,7 @@ def set_dynamic_page(request):
         fs.location += '/image_dynamic'
         if not os.path.exists(fs.location):
             os.mkdir(fs.location)
-        if not os.path.exists("/var/log/django/page_dynamic"):
+        if not os.path.exists("/var/log/django/file_cache/page_dynamic"):
             os.mkdir('/var/log/django/page_dynamic')
 
         filename = ''
@@ -1035,11 +1035,11 @@ def set_dynamic_page(request):
                     title_duplicate_counter += 1
                     trimmed_title_name += str(title_duplicate_counter)
             text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + "image_dynamic/" + filename + '\n' + sequence
-            write_cache(text, "page_dynamic/" + trimmed_title_name)
+            write_cache(text, trimmed_title_name, 'page_dynamic')
         #replace page
         else:
             if filename == '':
-                file = read_cache_without_folder_path("page_dynamic/%s" % request.POST['page_url'], 90911)
+                file = read_cache("%s" % request.POST['page_url'], "page_dynamic", 90911)
                 if file:
                     for idx, line in enumerate(file.split('\n')):
                         if idx == 3:
@@ -1050,12 +1050,12 @@ def set_dynamic_page(request):
                             filename = "/".join(text) ## image
             # os.remove('/var/log/django/page_dynamic/' + data[int(request.POST['page_number'])])
             text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + "image_dynamic/" + filename + '\n' + sequence
-            write_cache(text, "page_dynamic/%s" % request.POST['page_url'])
+            write_cache(text, "%s" % request.POST['page_url'], 'page_dynamic')
         #check image
         data = os.listdir('/var/log/django/page_dynamic')
         image_list = []
         for rec in data:
-            file = read_cache_without_folder_path("page_dynamic/" + rec[:-4], 90911)
+            file = read_cache(rec[:-4], "page_dynamic", 90911)
             if file:
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 3:
@@ -1270,7 +1270,7 @@ def cancel_reservation_issued_request(request):
 
 def get_provider_type_sequence(request):
     provider_types_sequence = []
-    file = read_cache_with_folder_path("provider_types_sequence", 90911)
+    file = read_cache("provider_types_sequence", 'cache_web', 90911)
     if file:
         provider_types_sequence_file = file
         for rec in provider_types_sequence_file:

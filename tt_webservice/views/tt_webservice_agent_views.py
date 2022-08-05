@@ -365,7 +365,7 @@ def get_new_cache(signature, type='all'):
                                 'country': country['name'],
                                 'city': destination['city']
                             })
-                    write_cache_with_folder(destination_train, "train_cache_data")
+                    write_cache(destination_train, "train_cache_data", 'cache_web')
                 else:
                     _logger.info("ERROR GET CACHE FROM TRAIN SEARCH AUTOCOMPLETE " + json.dumps(res_destination_train)  + '\n' + traceback.format_exc())
             except Exception as e:

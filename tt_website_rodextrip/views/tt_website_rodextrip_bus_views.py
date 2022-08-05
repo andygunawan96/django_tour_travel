@@ -206,7 +206,7 @@ def passenger(request):
             except:
                 pass
 
-            file = read_cache_with_folder_path("get_bus_config",90911)
+            file = read_cache("get_bus_config", 'cache_web',90911)
             if file:
                 carrier = file
 

@@ -45,7 +45,7 @@ def group_booking(request):
 
             values = get_data_template(request)
             try:
-                file = read_cache_with_folder_path("airline_destination", 90911)
+                file = read_cache("airline_destination", 'cache_web', 90911)
                 if file:
                     airline_destinations = file
             except Exception as e:

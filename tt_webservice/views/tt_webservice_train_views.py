@@ -142,18 +142,18 @@ def get_config_provider(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache_with_folder_path("train_provider")
+    file = read_cache("train_provider", 'cache_web')
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 #datetime
-                write_cache_with_folder(res, "train_provider")
+                write_cache(res, "train_provider", 'cache_web')
                 _logger.info("get_providers TRAIN RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache_with_folder_path("train_provider", 90911)
+                    file = read_cache("train_provider", 90911, 'cache_web')
                     if file:
                         res = file
                     _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
@@ -164,7 +164,7 @@ def get_config_provider(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("train_provider", 90911)
+            file = read_cache("train_provider", 90911, 'cache_web')
             res = file
         except Exception as e:
             _logger.error('ERROR get_provider_list train file\n' + str(e) + '\n' + traceback.format_exc())
@@ -183,18 +183,18 @@ def get_carriers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache_with_folder_path("get_train_carriers")
+    file = read_cache("get_train_carriers", 'cache_web')
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
-                write_cache_with_folder(res, "get_train_carriers")
+                write_cache(res, "get_train_carriers", 'cache_web')
                 _logger.info("get_carriers TRAIN RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache_with_folder_path("get_train_carriers", 90911)
+                    file = read_cache("get_train_carriers", 'cache_web', 90911)
                     if file:
                         res = file
                     _logger.info("get_carriers TRAIN ERROR USE CACHE SIGNATURE " + request.POST['signature'])
@@ -204,7 +204,7 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_train_carriers", 90911)
+            file = read_cache("get_train_carriers", 'cache_web', 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_train_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -213,7 +213,7 @@ def get_carriers(request):
 
 def get_data(request):
     try:
-        file = read_cache_with_folder_path("train_cache_data", 90911)
+        file = read_cache("train_cache_data", 'cache_web', 90911)
         if file:
             response = file
 
@@ -239,7 +239,7 @@ def get_train_data_passenger_page(request):
     try:
         res = {}
         res['response'] = request.session['train_pick']
-        file = read_cache_with_folder_path("get_train_carriers", 90911)
+        file = read_cache("get_train_carriers", 'cache_web', 90911)
         if file:
             res['train_carriers'] = file
         res['train_request'] = request.session['train_request']
@@ -254,7 +254,7 @@ def get_train_data_review_page(request):
         res = {}
         res['response'] = request.session['train_pick']
         res['passengers'] = request.session['train_create_passengers']
-        file = read_cache_with_folder_path("get_train_carriers", 90911)
+        file = read_cache("get_train_carriers", 'cache_web', 90911)
         if file:
             res['train_carriers'] = file
         res['train_request'] = request.session['train_request']
@@ -366,7 +366,7 @@ def search(request):
     #train
     try:
         train_destinations = []
-        file = read_cache_with_folder_path("train_cache_data", 90911)
+        file = read_cache("train_cache_data", 'cache_web', 90911)
         if file:
             response = file
         set_session(request, 'train_request', json.loads(request.POST['search_request']))
@@ -605,7 +605,7 @@ def commit_booking(request):
 def get_booking(request):
     try:
         train_destinations = []
-        file = read_cache_with_folder_path("train_cache_data", 90911)
+        file = read_cache("train_cache_data", 'cache_web', 90911)
         if file:
             response = file
         for country in response:

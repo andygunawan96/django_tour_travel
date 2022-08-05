@@ -655,7 +655,7 @@ def page_issued_offline(request):
         response = get_cache_data(cache_version)
         res['countries'] = response['result']['response']['airline']['country']
         try:
-            file = read_cache_with_folder_path("get_airline_active_carriers", 90911)
+            file = read_cache("get_airline_active_carriers", 'cache_web', 90911)
             res['airline_carriers'] = file
         except Exception as e:
             _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())

@@ -12,7 +12,7 @@ _logger = logging.getLogger("rodextrip_logger")
 def get_cache_version():
     cache_version = 0
     try:
-        file = read_cache_with_folder_path("cache_version", 90911)
+        file = read_cache("cache_version", 'cache_web', 90911)
         if file:
             cache_version = int(file)
     except Exception as e:
@@ -21,28 +21,26 @@ def get_cache_version():
 
 def get_cache_data(javascript_version):
     try:
-        file = read_cache_with_folder_path("version" + str(javascript_version), 90911)
+        file = read_cache("version" + str(javascript_version), 'cache_web', 90911)
         if file:
             response = file
     except Exception as e:
         _logger.error('ERROR version javascript file\n' + str(e) + '\n' + traceback.format_exc())
     return response
 
-def var_log_path():
-    return '/var/log/django/file_cache/'
+def var_log_path(folder):
+    return '/var/log/django/file_cache/%s/' % folder
 
-def var_log_path_without_folder():
-    return '/var/log/django/'
-
-def write_cache(data, file_name):
+def write_cache(data, file_name, folder='cache_web'):
     try:
+        ## ISI DATA file_name HANYA NAMA FILE TANPA EXTENSION
         save_res = {}
         date_time = parse_save_cache(datetime.now())
         save_res['datetime'] = date_time
         save_res['data'] = data
         rand_id = str(random.randint(0, 1000))
-        temp_name = '%s%s.%s.txt' % (var_log_path_without_folder(), file_name, rand_id)
-        file_name = '%s%s.txt' % (var_log_path_without_folder(), file_name)
+        temp_name = '%s%s.%s.txt' % (var_log_path(folder), file_name, rand_id)
+        file_name = '%s%s.txt' % (var_log_path(folder), file_name)
         _file = open(temp_name, 'w+')
         _file.write(json.dumps(save_res))
         _file.close()
@@ -52,52 +50,10 @@ def write_cache(data, file_name):
     except Exception as e:
         return False
 
-def write_cache_with_folder(data, file_name):
-    try:
-        ## ISI DATA file_name HANYA NAMA FILE TANPA EXTENSION
-        save_res = {}
-        date_time = parse_save_cache(datetime.now())
-        save_res['datetime'] = date_time
-        save_res['data'] = data
-        rand_id = str(random.randint(0, 1000))
-        temp_name = '%s%s.%s.txt' % (var_log_path(), file_name, rand_id)
-        file_name = '%s%s.txt' % (var_log_path(), file_name)
-        _file = open(temp_name, 'w+')
-        _file.write(json.dumps(save_res))
-        _file.close()
-
-        os.rename(temp_name, file_name)
-        return True
-    except Exception as e:
-        return False
-
-def read_cache_without_folder_path(file_name, time=300):
-    try:
-        ## ISI DATA file_name HANYA NAMA FILE TANPA EXTENSION
-        date_time = datetime.now()
-        file = open(var_log_path_without_folder() + "%s.txt" % (file_name), "r")
-        data = file.read()
-        file.close()
-        if data:
-            try:
-                res = json.loads(data)
-                if res.get('data'):
-                    delta_time = date_time - parse_load_cache(res['datetime'])
-                    if delta_time.seconds <= time or time == 90911:
-                        return res['data']
-                    else:
-                        return False
-                else:
-                    return False
-            except:
-                return data
-    except Exception as e:
-        return False
-
-def read_cache_with_folder_path(file_name, time=300):
+def read_cache(file_name, folder, time=300):
     try:
         date_time = datetime.now()
-        file = open(var_log_path() + "%s.txt" % (file_name), "r")
+        file = open(var_log_path(folder) + "%s.txt" % (file_name), "r")
         data = file.read()
         file.close()
         if data:
@@ -121,7 +77,7 @@ def read_cache_with_folder_path(file_name, time=300):
 def check_captcha(request):
     try:
         secret_key = ''
-        file = read_cache_with_folder_path("google_recaptcha", 90911)
+        file = read_cache("google_recaptcha", 'cache_web', 90911)
         if file:
             for idx, line in enumerate(file.split('\n')):
                 if idx == 2 and line != '':

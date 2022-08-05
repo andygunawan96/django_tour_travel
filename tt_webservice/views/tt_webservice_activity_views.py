@@ -138,18 +138,18 @@ def get_carriers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache_with_folder_path("get_activity_carriers")
+    file = read_cache("get_activity_carriers", 'cache_web')
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
-                write_cache_with_folder(res, "get_activity_carriers")
+                write_cache(res, "get_activity_carriers", 'cache_web')
                 _logger.info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache_with_folder_path("get_activity_carriers")
+                    file = read_cache("get_activity_carriers", 'cache_web')
                     if file:
                         res = file
                     _logger.info("get_carriers AIRLINE ERROR USE CACHE SIGNATURE " + request.POST['signature'])
@@ -159,7 +159,7 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_activity_carriers", 90911)
+            file = read_cache("get_activity_carriers", 'cache_web', 90911)
             if file:
                 res = file
         except Exception as e:
@@ -879,7 +879,7 @@ def get_auto_complete(request):
     req = request.POST
     record_json = []
     try:
-        file = read_cache_with_folder_path("activity_cache_data", 86400)
+        file = read_cache("activity_cache_data", 'cache_web', 86400)
         if file:
             record_cache = file
 

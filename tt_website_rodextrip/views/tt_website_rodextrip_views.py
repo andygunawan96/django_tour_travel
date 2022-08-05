@@ -51,7 +51,7 @@ provider_type = {
 def check_captcha(request):
     try:
         secret_key = ''
-        file = read_cache_with_folder_path("google_recaptcha", 90911)
+        file = read_cache("google_recaptcha", 'cache_web', 90911)
         if file:
             for idx, line in enumerate(file.split('\n')):
                 if idx == 2 and line != '':
@@ -368,7 +368,7 @@ def assign_analyst(request, vendor):
                         phone_code.append(i['phone_code'])
                 phone_code = sorted(phone_code)
 
-                file = read_cache_with_folder_path("get_airline_active_carriers", 90911)
+                file = read_cache("get_airline_active_carriers", 'cache_web', 90911)
                 if file:
                     airline_carriers = file
                 else:
@@ -454,7 +454,7 @@ def payment_method(request, provider, order_number):
         account_name = data['result']['response']['account_name']
         create_date = convert_string_to_date_to_string_front_end_with_time(to_date_now(data['result']['response']['create_date']))
         data_payment = []
-        file = read_cache_without_folder_path("/payment_information/" + data['result']['response']['acquirer_seq_id'], 90911)
+        file = read_cache(data['result']['response']['acquirer_seq_id'], "payment_information", 90911)
         if file:
             data_payment.append({
                 "heading": '',
@@ -466,7 +466,7 @@ def payment_method(request, provider, order_number):
                     data_payment[len(data_payment)-1]['heading'] = data_cache
                 elif idx == 1:
                     data_payment[len(data_payment) - 1]['html'] = data_cache.replace('<br>', '\n')
-        file = read_cache_without_folder_path("/payment_information/other_bank", 90911)
+        file = read_cache("other_bank", "payment_information", 90911)
         if file:
             data_payment.append({
                 "heading": '',
@@ -574,14 +574,14 @@ def admin(request):
                             filename = fs.save(file.name, file)
                             text += fs.base_url + filename + '\n'
                         else:
-                            file = read_cache_with_folder_path("data_cache_template", 90911)
+                            file = read_cache("data_cache_template", 'cache_web', 90911)
                             if file:
                                 for idx, line in enumerate(file.split('\n')):
                                     if idx == 0:
                                         text = line + '\n'
                     except:
                         try:
-                            file = read_cache_with_folder_path("data_cache_template", 90911)
+                            file = read_cache("data_cache_template", 'cache_web', 90911)
                             if file:
                                 for idx, line in enumerate(file.split('\n')):
                                     if idx == 0:
@@ -606,7 +606,7 @@ def admin(request):
 
                     except:
                         try:
-                            file = read_cache_with_folder_path("data_cache_template", 90911)
+                            file = read_cache("data_cache_template", 'cache_web', 90911)
                             if file:
                                 for idx, line in enumerate(file.split('\n')):
                                     if idx == 4:
@@ -627,7 +627,7 @@ def admin(request):
                             text += fs.base_url + filename + '\n'
                     except:
                         try:
-                            file = read_cache_with_folder_path("data_cache_template", 90911)
+                            file = read_cache("data_cache_template", 'cache_web', 90911)
                             if file:
                                 for idx, line in enumerate(file.split('\n')):
                                     if idx == 5:
@@ -648,7 +648,7 @@ def admin(request):
                             text += fs.base_url + filename + '\n'
                     except:
                         try:
-                            file = read_cache_with_folder_path("data_cache_template", 90911)
+                            file = read_cache("data_cache_template", 'cache_web', 90911)
                             if file:
                                 for idx, line in enumerate(file.split('\n')):
                                     if idx == 6:
@@ -679,7 +679,7 @@ def admin(request):
                             text += fs.base_url + filename + '\n'
                     except:
                         try:
-                            file = read_cache_with_folder_path("data_cache_template", 90911)
+                            file = read_cache("data_cache_template", 'cache_web', 90911)
                             if file:
                                 for idx, line in enumerate(file.split('\n')):
                                     if idx == 11:
@@ -699,7 +699,7 @@ def admin(request):
                             text += fs.base_url + filename + '\n'
                     except:
                         try:
-                            file = read_cache_with_folder_path("data_cache_template", 90911)
+                            file = read_cache("data_cache_template", 'cache_web', 90911)
                             if file:
                                 for idx, line in enumerate(file.split('\n')):
                                     if idx == 12:
@@ -726,7 +726,7 @@ def admin(request):
                     text += request.POST['wa_number'] + '\n'
                     text += request.POST['google_api_key'] + '\n'
                     text += request.POST['setting_login_page'] + '\n'
-                    write_cache_with_folder(text, "data_cache_template")
+                    write_cache(text, "data_cache_template", 'cache_web')
                     temp = text.split('\n')
                     for idx, rec in enumerate(temp):
                         try:
@@ -744,7 +744,7 @@ def admin(request):
                     text += request.POST.get('airline_destination') + '\n' or '' + '\n'
                     text += request.POST.get('train_origin') + '\n' or '' + '\n'
                     text += request.POST.get('train_destination') or ''
-                    write_cache_with_folder(text, "data_cache_product")
+                    write_cache(text, "data_cache_product", 'cache_web')
 
                     ## FITUR TIDAK DAPAT DI PAKAI KARENA PINDAH OAUTH2
                     # text = ''
@@ -757,26 +757,26 @@ def admin(request):
                     text += request.POST.get('app_id_one_signal') + '\n' or '' + '\n'
                     text += request.POST.get('url_one_signal') + '\n' or '' + '\n'
                     text += request.POST.get('authorization_one_signal') + '\n' or '' + '\n'
-                    write_cache_with_folder(text, "one_signal")
+                    write_cache(text, "one_signal", 'cache_web')
 
                     text = ''
                     text += request.POST.get('top_up_term')
-                    write_cache_with_folder(text, "top_up_term")
+                    write_cache(text, "top_up_term", 'cache_web')
 
                     text = ''
                     text += request.POST['google_recaptcha'] + '\n'
                     text += request.POST['site_key'] + '\n'
                     text += request.POST['secret_key']
-                    write_cache_with_folder(text, "google_recaptcha")
+                    write_cache(text, "google_recaptcha", 'cache_web')
 
                     text = ''
                     text += request.POST['google_tag_manager_key']
-                    write_cache_with_folder(text, "google_tag_manager")
+                    write_cache(text, "google_tag_manager", 'cache_web')
 
                     text = ''
                     text += request.POST['signup_btb_text'] + '\n'
                     text += request.POST['signup_btb_btn'] + '\n'
-                    write_cache_with_folder(text, "signup_b2b")
+                    write_cache(text, "signup_b2b", 'cache_web')
 
 
                     text = {}
@@ -785,7 +785,7 @@ def admin(request):
                         'font': request.POST['font'],
                     })
                     if text != {}:
-                        write_cache_with_folder(text, "font")
+                        write_cache(text, "font", 'cache_web')
 
                     text = {}
                     provider = copy.deepcopy(request.session.get('provider'))
@@ -797,7 +797,7 @@ def admin(request):
                         except Exception as e:
                             pass
                     if len(text) > 0:
-                        write_cache_with_folder(text, "provider_types_sequence")
+                        write_cache(text, "provider_types_sequence", 'cache_web')
 
             except Exception as e:
                 _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -867,7 +867,7 @@ def setting_footer_printout(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
 
-            file = read_cache_with_folder_path("get_airline_active_carriers", 90911)
+            file = read_cache("get_airline_active_carriers", 'cache_web', 90911)
             if file:
                 airline_carriers = file
             else:
@@ -934,7 +934,7 @@ def reservation(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
 
-            file = read_cache_with_folder_path("get_airline_active_carriers", 90911)
+            file = read_cache("get_airline_active_carriers", 'cache_web', 90911)
             if file:
                 airline_carriers = file
             else:
@@ -1058,7 +1058,7 @@ def live(request, data):
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
 
-        file = read_cache_with_folder_path("get_airline_active_carriers", 90911)
+        file = read_cache("get_airline_active_carriers", 'cache_web', 90911)
         if file:
             airline_carriers = file
         else:
@@ -1101,7 +1101,7 @@ def mobile_live(request, data):
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
 
-        file = read_cache_with_folder_path("get_airline_active_carriers", 90911)
+        file = read_cache("get_airline_active_carriers", 'cache_web', 90911)
         if file:
             airline_carriers = file
         else:
@@ -1145,7 +1145,7 @@ def highlight_setting(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
 
-            file = read_cache_with_folder_path("get_airline_active_carriers", 90911)
+            file = read_cache("get_airline_active_carriers", 'cache_web', 90911)
             if file:
                 airline_carriers = file
 
@@ -1289,7 +1289,7 @@ def top_up_history(request):
 def get_javascript_version():
     javascript_version = 0
     try:
-        file = read_cache_with_folder_path("javascript_version", 90911)
+        file = read_cache("javascript_version", 'cache_web', 90911)
         if file:
             javascript_version = int(file)
     except Exception as e:
@@ -1299,7 +1299,7 @@ def get_javascript_version():
 def get_cache_version():
     cache_version = 0
     try:
-        file = read_cache_with_folder_path("cache_version", 90911)
+        file = read_cache("cache_version", 'cache_web', 90911)
         if file:
             cache_version = int(file)
     except Exception as e:
@@ -1308,7 +1308,7 @@ def get_cache_version():
 
 def get_cache_data(javascript_version):
     try:
-        file = read_cache_with_folder_path("version" + str(javascript_version), 90911)
+        file = read_cache("version" + str(javascript_version), 'cache_web', 90911)
         if file:
             response = file
         else:
@@ -1384,7 +1384,7 @@ def get_data_template(request, type='home', provider_type = []):
 <h6>MANDIRI INTERNET BANKING</h6>
 <li>1. Transaction Top up from internet banking mandiri open for 24 hours. Balance will be added automatically (REAL TIME) after payment with additional admin Top Up.<br><br></li>
     '''
-    file = read_cache_with_folder_path("data_cache_product", 90911)
+    file = read_cache("data_cache_product", 'cache_web', 90911)
     if file:
         for idx, line in enumerate(file.split('\n')):
             if idx == 0 and line != '':
@@ -1396,7 +1396,7 @@ def get_data_template(request, type='home', provider_type = []):
             elif idx == 3 and line != '':
                 train_destination = line
     ## FITUR TIDAK DAPAT DI PAKAI KARENA PINDAH OAUTH2
-    # file = read_cache_with_folder_path("youtube", 90911)
+    # file = read_cache("youtube", 'cache_web', 90911)
     # if file:
     #     for idx, line in enumerate(file.split('\n')):
     #         if idx == 0 and line != '':
@@ -1406,12 +1406,12 @@ def get_data_template(request, type='home', provider_type = []):
     ##
 
     # printout color
-    file = read_cache_with_folder_path("color_printout", 90911)
+    file = read_cache("color_printout", 'cache_web', 90911)
     if file:
         printout_color = file
 
     # one signal
-    file = read_cache_with_folder_path("one_signal", 90911)
+    file = read_cache("one_signal", 'cache_web', 90911)
     if file:
         for idx, line in enumerate(file.split('\n')):
             if idx == 0 and line != '':
@@ -1422,7 +1422,7 @@ def get_data_template(request, type='home', provider_type = []):
                 authorization_one_signal = line
 
     # signup b2b
-    file = read_cache_with_folder_path("signup_b2b", 90911)
+    file = read_cache("signup_b2b", 'cache_web', 90911)
     if file:
         for idx, line in enumerate(file.split('\n')):
             if idx == 0 and line != '':
@@ -1431,7 +1431,7 @@ def get_data_template(request, type='home', provider_type = []):
                 signup_btb_btn = line
 
     # google re-captcha
-    file = read_cache_with_folder_path("google_recaptcha", 90911)
+    file = read_cache("google_recaptcha", 'cache_web', 90911)
     if file:
         for idx, line in enumerate(file.split('\n')):
             if idx == 0 and line != '':
@@ -1442,18 +1442,18 @@ def get_data_template(request, type='home', provider_type = []):
                 secret_key = line
 
     ##google tag manager
-    file = read_cache_with_folder_path("google_tag_manager", 90911)
+    file = read_cache("google_tag_manager", 'cache_web', 90911)
     if file:
         for idx, line in enumerate(file.split('\n')):
             if line != '':
                 google_tag_manager_key = line
 
     # font
-    file = read_cache_with_folder_path("font", 90911)
+    file = read_cache("font", 'cache_web', 90911)
     if file:
         font = file
 
-    file = read_cache_with_folder_path("top_up_term", 90911)
+    file = read_cache("top_up_term", 'cache_web', 90911)
     if file:
         top_up_term = file
     try:
@@ -1506,7 +1506,7 @@ def get_data_template(request, type='home', provider_type = []):
             })
         provider_types_sequence = temp_provider_types_sequence
 
-        file = read_cache_with_folder_path("provider_types_sequence", 90911)
+        file = read_cache("provider_types_sequence", 'cache_web', 90911)
         if file:
             provider_types_sequence_file = file
             for rec in provider_types_sequence:
@@ -1537,7 +1537,7 @@ def get_data_template(request, type='home', provider_type = []):
 
         get_frequent_flyer = get_frequent_flyer_all_data({}, request.session.get('signature', ''))
 
-        file = read_cache_with_folder_path("data_cache_template", 90911)
+        file = read_cache("data_cache_template", 'cache_web', 90911)
         if file:
             for idx, line in enumerate(file.split('\n')):
                 if idx == 0:
@@ -1792,7 +1792,7 @@ def tutorial(request):
 def contact_us(request):
     data = []
     try:
-        file = read_cache_with_folder_path("contact_data", 90911)
+        file = read_cache("contact_data", 'cache_web', 90911)
         if file:
             for line in file.split('\n'):
                 if line != '\n':
@@ -1842,7 +1842,7 @@ def contact_us(request):
 def faq(request):
     data = []
     try:
-        file = read_cache_with_folder_path("faq_data", 90911)
+        file = read_cache("faq_data", 'cache_web', 90911)
         if file:
             for line in file.split('\n'):
                 if line != '\n':

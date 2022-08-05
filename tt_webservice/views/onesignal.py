@@ -7,7 +7,7 @@ _logger = logging.getLogger("rodextrip_logger")
 
 def send_notif(msg, url, segments='Subscribed Users', icon=False):
 
-    file = read_cache_with_folder_path("one_signal", 90911)
+    file = read_cache("one_signal", 'cache_web', 90911)
     if file:
         url_data = ''
         app_id = file.split('\n')[0]
@@ -30,7 +30,7 @@ def send_notif(msg, url, segments='Subscribed Users', icon=False):
                 "en": msg['headings']
             }
         }
-        file = read_cache_with_folder_path("data_cache_template", 90911)
+        file = read_cache("data_cache_template", 'cache_web', 90911)
         if file:
             for idx, line in enumerate(file.split('\n')):
                 if idx == 11:
