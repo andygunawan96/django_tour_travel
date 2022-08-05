@@ -806,10 +806,10 @@ def get_dynamic_page(request):
     try:
         response = []
         if not os.path.exists("/var/log/django/file_cache/page_dynamic"):
-            os.mkdir('/var/log/django/page_dynamic')
+            os.mkdir('/var/log/django/file_cache/page_dynamic')
         empty_sequence = False
         last_sequence = 1
-        for data in os.listdir('/var/log/django/page_dynamic'):
+        for data in os.listdir('/var/log/django/file_cache/page_dynamic/'):
             file = read_cache(data[:-4], "page_dynamic", 90911)
             if file:
                 state = ''
@@ -872,7 +872,7 @@ def get_dynamic_page(request):
 def get_dynamic_page_detail(request):
     try:
         if not os.path.exists("/var/log/django/file_cache/page_dynamic"):
-            os.mkdir('/var/log/django/page_dynamic')
+            os.mkdir('/var/log/django/file_cache/page_dynamic')
         response = {}
         file = read_cache(request.POST['data'], "page_dynamic", 90911)
         if file:
@@ -919,7 +919,7 @@ def get_dynamic_page_detail(request):
 def get_dynamic_page_mobile_detail(request):
     try:
         if not os.path.exists("/var/log/django/file_cache/page_dynamic"):
-            os.mkdir('/var/log/django/page_dynamic')
+            os.mkdir('/var/log/django/file_cache/page_dynamic')
         response = {}
         file = read_cache(request.data['data'], "page_dynamic", 90911)
         if file:
@@ -965,12 +965,12 @@ def get_dynamic_page_mobile_detail(request):
 
 def delete_dynamic_page(request):
     try:
-        data = os.listdir('/var/log/django/page_dynamic')
-        os.remove('/var/log/django/page_dynamic/%s.txt' % request.POST['page_url'])
+        data = os.listdir('/var/log/django/file_cache/page_dynamic')
+        os.remove('/var/log/django/file_cache/page_dynamic/%s.txt' % request.POST['page_url'])
         # check image
         fs = FileSystemStorage()
         fs.location += '/image_dynamic'
-        data = os.listdir('/var/log/django/page_dynamic')
+        data = os.listdir('/var/log/django/file_cache/page_dynamic')
         image_list = []
         for rec in data:
             file = read_cache(rec[:-4], "page_dynamic", 90911)
@@ -1011,7 +1011,7 @@ def set_dynamic_page(request):
         if not os.path.exists(fs.location):
             os.mkdir(fs.location)
         if not os.path.exists("/var/log/django/file_cache/page_dynamic"):
-            os.mkdir('/var/log/django/page_dynamic')
+            os.mkdir('/var/log/django/file_cache/page_dynamic')
 
         filename = ''
         try:
@@ -1021,7 +1021,7 @@ def set_dynamic_page(request):
         except Exception as e:
             _logger.error('no image dynamic page')
 
-        data = os.listdir('/var/log/django/page_dynamic')
+        data = os.listdir('/var/log/django/file_cache/page_dynamic')
         #create new
         title = request.POST['title']
         sequence = request.POST['sequence']
@@ -1052,7 +1052,7 @@ def set_dynamic_page(request):
             text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + "image_dynamic/" + filename + '\n' + sequence
             write_cache(text, "%s" % request.POST['page_url'], 'page_dynamic')
         #check image
-        data = os.listdir('/var/log/django/page_dynamic')
+        data = os.listdir('/var/log/django/file_cache/page_dynamic')
         image_list = []
         for rec in data:
             file = read_cache(rec[:-4], "page_dynamic", 90911)
