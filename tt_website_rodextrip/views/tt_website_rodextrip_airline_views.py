@@ -1036,7 +1036,7 @@ def seat_map(request, signature):
                 })
             except Exception as e:
                 ## penanda pre booking / after sales
-                if request.session.get('airline_create_passengers_%s' % signature) == False:
+                if not request.session.get('airline_create_passengers_%s' % signature):
                     #dari getbooking
                     #CHECK SINI TEMBAK KO SAM
                     #pax
