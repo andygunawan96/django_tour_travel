@@ -198,8 +198,6 @@ function update_table(type){
                     text +=`</div>
 
                 </div>`;
-                if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                    text+= print_commission(commission,'show_commission',passport[0].sale_price.currency)
                 text+=`
                 <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-lg-12">

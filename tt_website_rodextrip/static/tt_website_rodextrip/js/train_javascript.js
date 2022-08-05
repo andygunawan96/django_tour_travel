@@ -2034,128 +2034,142 @@ function sort(value){
     document.getElementById("train_result").appendChild(node_co);
 
     var response = '';
-    for(i in data_filter){
-        if(train_request.departure[train_request_pick] == data_filter[i].departure_date[0] && journeys.length != train_request.departure.length && train_request.destination[train_request_pick].split(' - ')[0] == data_filter[i].destination && train_request.origin[train_request_pick].split(' - ')[0] == data_filter[i].origin){
-            if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
-                response+=`<div class="sorting-box-b">`;
-//            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book == false)
-//                response+=`<div class="sorting-box-b">`;
-            else
-                response+=`<div style="background-color:#E5E5E5; padding:15px; margin-bottom:15px; border:1px solid #cdcdcd;">`;
-            response += `
-                <span class="copy_train" hidden>`+i+`</span>`;
-            response+=`
-                <div class="row">
-                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">`;
-                    if(data_filter[i].hasOwnProperty('search_banner')){
-                       for(banner_counter in data_filter[i].search_banner){
-                           var max_banner_date = moment().subtract(parseInt(-1*data_filter[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
-                           var selected_banner_date = moment(data_filter[i].departure_date[0]).format('YYYY-MM-DD');
 
-                           if(selected_banner_date >= max_banner_date){
-                               if(data_filter[i].search_banner[banner_counter].active == true){
-                                   response+=`<label id="pop_search_banner`+i+``+banner_counter+`" style="background:`+data_filter[i].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+data_filter[i].search_banner[banner_counter].name+`</label>`;
+    if(data_filter.length != 0){
+        for(i in data_filter){
+            if(train_request.departure[train_request_pick] == data_filter[i].departure_date[0] && journeys.length != train_request.departure.length && train_request.destination[train_request_pick].split(' - ')[0] == data_filter[i].destination && train_request.origin[train_request_pick].split(' - ')[0] == data_filter[i].origin){
+                if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
+                    response+=`<div class="sorting-box-b">`;
+    //            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book == false)
+    //                response+=`<div class="sorting-box-b">`;
+                else
+                    response+=`<div style="background-color:#E5E5E5; padding:15px; margin-bottom:15px; border:1px solid #cdcdcd;">`;
+                response += `
+                    <span class="copy_train" hidden>`+i+`</span>`;
+                response+=`
+                    <div class="row">
+                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">`;
+                        if(data_filter[i].hasOwnProperty('search_banner')){
+                           for(banner_counter in data_filter[i].search_banner){
+                               var max_banner_date = moment().subtract(parseInt(-1*data_filter[i].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
+                               var selected_banner_date = moment(data_filter[i].departure_date[0]).format('YYYY-MM-DD');
+
+                               if(selected_banner_date >= max_banner_date){
+                                   if(data_filter[i].search_banner[banner_counter].active == true){
+                                       response+=`<label id="pop_search_banner`+i+``+banner_counter+`" style="background:`+data_filter[i].search_banner[banner_counter].banner_color+`; color:`+text_color+`;padding:5px 10px;">`+data_filter[i].search_banner[banner_counter].name+`</label>`;
+                                   }
                                }
                            }
-                       }
-                    }
-                    response+=`
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 mb-3">`;
-                       if(data_filter[i].available_count > 0 && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true){
-                           response+=`
-                           <label class="check_box_custom" style="float:right;">
-                               <span class="span-search-ticket"></span>
-                               <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopyBox(`+i+`);"/>
-                               <span class="check_box_span_custom"></span>
-                           </label>
-                           <span class="id_copy_result" hidden>`+i+`</span>`;
-                           if(counter_train_provider > 1){
-                                response +=`<br/><label style="float:right;margin-right: 5px;">`+data_filter[i].provider+`</label>`;
-                            }
-                       }
-                    response+=`
-                    </div>
-                    <div class="col-lg-12">
-                        <h4 class="copy_train_name">`+data_filter[i].carrier_name+` - (`+data_filter[i].carrier_number+`)  - `+data_filter[i].cabin_class[1]+` (`+data_filter[i].class_of_service+`)</h4>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-xs-6 mb-1">
-                        <table style="width:100%">
-                            <tr>
-                                <td><h5 class="copy_time_depart">`+data_filter[i].departure_date[1]+`</h5></td>
-                                <td style="padding-left:15px;">
-                                    <img src="/static/tt_website_rodextrip/img/icon/train-01.png" alt="Train" style="width:20px; height:20px;"/>
-                                </td>
-                                <td style="height:30px;padding:0 15px;width:100%">
-                                    <div style="display:inline-block;position:relative;width:100%">
-                                        <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                        <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                        <div style="height:30px;min-width:25px;position:relative;width:0%"/>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <span class="copy_date_depart">`+data_filter[i].departure_date[0]+`</span><br/>
-                        <span class="copy_departure" style="font-weight:500;">`+data_filter[i].origin_name+` (`+data_filter[i].origin+`)</span>
-
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-xs-6 mb-1" style="padding:0;">
-                        <table style="width:100%; margin-bottom:6px;">
-                            <tr>
-                                <td><h5 class="copy_time_arr">`+data_filter[i].arrival_date[1]+`</h5></td>
-                                <td></td>
-                                <td style="height:30px;padding:0 15px;width:100%"></td>
-                            </tr>
-                        </table>
-                        <span class="copy_date_arr">`+data_filter[i].arrival_date[0]+`</span><br/>
-                        <span class="copy_arrival" style="font-weight:500;">`+data_filter[i].destination_name+` (`+data_filter[i].destination+`)</span>
-                    </div>
-
-                    <div class="col-lg-4 col-md-4">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <i class="fas fa-clock"></i><span class="copy_duration" style="font-weight:500;"> `+data_filter[i].elapsed_time.split(':')[0]+`h `+data_filter[i].elapsed_time.split(':')[1]+`m</span><br><span class="copy_transit" style="font-weight:500;">Duration</span>
-                            </div>
+                        }
+                        response+=`
                         </div>
-                        <div style="float:right; margin-top:20px; margin-bottom:10px; text-align:right;">`;
-                        check = 0;
-                        for(j in journeys){
-                            if(journeys[j].sequence == data_filter[i].sequence){
-                                if(data_filter[i].price != data_filter[i].without_discount_price){
-                                    response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">IDR `+getrupiah(data_filter[i].without_discount_price)+`</span><br/>`
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 mb-3">`;
+                           if(data_filter[i].available_count > 0 && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true){
+                               response+=`
+                               <label class="check_box_custom" style="float:right;">
+                                   <span class="span-search-ticket"></span>
+                                   <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopyBox(`+i+`);"/>
+                                   <span class="check_box_span_custom"></span>
+                               </label>
+                               <span class="id_copy_result" hidden>`+i+`</span>`;
+                               if(counter_train_provider > 1){
+                                    response +=`<br/><label style="float:right;margin-right: 5px;">`+data_filter[i].provider+`</label>`;
                                 }
-                                response+=`
-                                <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
-                                <input class="primary-btn-custom-un" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`);"  id="train_choose`+i+`" disabled value="Chosen">`;
-                                check = 1;
+                           }
+                        response+=`
+                        </div>
+                        <div class="col-lg-12">
+                            <h4 class="copy_train_name">`+data_filter[i].carrier_name+` - (`+data_filter[i].carrier_number+`)  - `+data_filter[i].cabin_class[1]+` (`+data_filter[i].class_of_service+`)</h4>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-xs-6 mb-1">
+                            <table style="width:100%">
+                                <tr>
+                                    <td><h5 class="copy_time_depart">`+data_filter[i].departure_date[1]+`</h5></td>
+                                    <td style="padding-left:15px;">
+                                        <img src="/static/tt_website_rodextrip/img/icon/train-01.png" alt="Train" style="width:20px; height:20px;"/>
+                                    </td>
+                                    <td style="height:30px;padding:0 15px;width:100%">
+                                        <div style="display:inline-block;position:relative;width:100%">
+                                            <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                            <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                            <div style="height:30px;min-width:25px;position:relative;width:0%"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <span class="copy_date_depart">`+data_filter[i].departure_date[0]+`</span><br/>
+                            <span class="copy_departure" style="font-weight:500;">`+data_filter[i].origin_name+` (`+data_filter[i].origin+`)</span>
+
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-xs-6 mb-1" style="padding:0;">
+                            <table style="width:100%; margin-bottom:6px;">
+                                <tr>
+                                    <td><h5 class="copy_time_arr">`+data_filter[i].arrival_date[1]+`</h5></td>
+                                    <td></td>
+                                    <td style="height:30px;padding:0 15px;width:100%"></td>
+                                </tr>
+                            </table>
+                            <span class="copy_date_arr">`+data_filter[i].arrival_date[0]+`</span><br/>
+                            <span class="copy_arrival" style="font-weight:500;">`+data_filter[i].destination_name+` (`+data_filter[i].destination+`)</span>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <i class="fas fa-clock"></i><span class="copy_duration" style="font-weight:500;"> `+data_filter[i].elapsed_time.split(':')[0]+`h `+data_filter[i].elapsed_time.split(':')[1]+`m</span><br><span class="copy_transit" style="font-weight:500;">Duration</span>
+                                </div>
+                            </div>
+                            <div style="float:right; margin-top:20px; margin-bottom:10px; text-align:right;">`;
+                            check = 0;
+                            for(j in journeys){
+                                if(journeys[j].sequence == data_filter[i].sequence){
+                                    if(data_filter[i].price != data_filter[i].without_discount_price){
+                                        response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">IDR `+getrupiah(data_filter[i].without_discount_price)+`</span><br/>`
+                                    }
+                                    response+=`
+                                    <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
+                                    <input class="primary-btn-custom-un" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`);"  id="train_choose`+i+`" disabled value="Chosen">`;
+                                    check = 1;
+                                }
                             }
-                        }
-                        if(check == 0){
-                            if(data_filter[i].price != data_filter[i].without_discount_price)
-                                response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">IDR `+getrupiah(data_filter[i].without_discount_price)+`</span><br/>`;
-                            response += `<span class="copy_price" style="font-size:16px; font-weight: bold; color:`+color+`;">IDR `+getrupiah(data_filter[i].price)+`</span><br/>`;
-                            if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
-                                response+=`
-                                <input class="primary-btn-custom" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`)"  id="train_choose`+i+`" value="Choose">`;
-                            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_three_hours == false)
-                                response+=`
-                                <input class="primary-btn-custom" style="background:#E5E5E5; color:`+color+`;border:1px solid black;" type="button" onclick="alert_message_swal('Sorry, you can choose 3 or more hours from now!');"  id="train_choose`+i+`" value="Choose">`;
-                            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_check_arrival_on_next_departure == false)
-                                response+=`
-                                <input class="primary-btn-custom" type="button" onclick="alert_message_swal('Sorry, arrival time you pick does not match with this journey!');"  id="train_choose`+i+`" value="Choose">`;
-                            else if(data_filter[i].available_count < parseInt(passengers.adult))
-                                response+=`
-                                <input class="disabled-btn" type="button" id="train_choose`+i+`" value="Not Available" disabled>`
-                            else if(data_filter[i].available_count <= 0)
-                                response+=`
-                                <input class="disabled-btn" type="button" id="train_choose`+i+`" value="Sold" disabled>`
-                        }
-                    if(data_filter[i].available_count<50)
-                        response+=`<br/><span class="copy_seat" style="font-size:13px; float:right; color:`+color+`">`+data_filter[i].available_count+` seat(s) left</span>`;
-                    else if(data_filter[i].available_count<=1 )
-                        response+=`<br/><span class="copy_seat" style="font-size:13px; float:right; color:`+color+`">`+data_filter[i].available_count+` seat(s) left</span>`;
-                    response+=`</div>
+                            if(check == 0){
+                                if(data_filter[i].price != data_filter[i].without_discount_price)
+                                    response += `<span class="basic_fare_field cross_price" style="font-size:14px; color:#929292;">IDR `+getrupiah(data_filter[i].without_discount_price)+`</span><br/>`;
+                                response += `<span class="copy_price" style="font-size:16px; font-weight: bold; color:`+color+`;">IDR `+getrupiah(data_filter[i].price)+`</span><br/>`;
+                                if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book_three_hours == true && data_filter[i].can_book_check_arrival_on_next_departure == true)
+                                    response+=`
+                                    <input class="primary-btn-custom" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`)"  id="train_choose`+i+`" value="Choose">`;
+                                else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_three_hours == false)
+                                    response+=`
+                                    <input class="primary-btn-custom" style="background:#E5E5E5; color:`+color+`;border:1px solid black;" type="button" onclick="alert_message_swal('Sorry, you can choose 3 or more hours from now!');"  id="train_choose`+i+`" value="Choose">`;
+                                else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book_check_arrival_on_next_departure == false)
+                                    response+=`
+                                    <input class="primary-btn-custom" type="button" onclick="alert_message_swal('Sorry, arrival time you pick does not match with this journey!');"  id="train_choose`+i+`" value="Choose">`;
+                                else if(data_filter[i].available_count < parseInt(passengers.adult))
+                                    response+=`
+                                    <input class="disabled-btn" type="button" id="train_choose`+i+`" value="Not Available" disabled>`
+                                else if(data_filter[i].available_count <= 0)
+                                    response+=`
+                                    <input class="disabled-btn" type="button" id="train_choose`+i+`" value="Sold" disabled>`
+                            }
+                        if(data_filter[i].available_count<50)
+                            response+=`<br/><span class="copy_seat" style="font-size:13px; float:right; color:`+color+`">`+data_filter[i].available_count+` seat(s) left</span>`;
+                        else if(data_filter[i].available_count<=1 )
+                            response+=`<br/><span class="copy_seat" style="font-size:13px; float:right; color:`+color+`">`+data_filter[i].available_count+` seat(s) left</span>`;
+                        response+=`</div>
+                        </div>
                     </div>
+                </div>`;
+            }
+        }
+    }else{
+        if (document.getElementById("button_chart_train").style.display === "none") {
+            response +=`
+            <div style="padding:5px; margin:10px;">
+                <div style="text-align:center">
+                    <img src="/static/tt_website_rodextrip/img/icon/no-train.png" style="width:80px; height:80px;" alt="Not Found Train" title="" />
+                    <br/><br/>
+                    <h6>NO TRAIN AVAILABLE</h6>
                 </div>
             </div>`;
         }

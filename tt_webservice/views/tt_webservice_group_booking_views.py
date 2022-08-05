@@ -132,16 +132,16 @@ def get_config(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = url + 'booking/group_booking'
-    file = read_cache_with_folder_path("group_booking_cache_data", 86400)
+    file = read_cache("group_booking_cache_data", 'cache_web', 86400)
     # TODO VIN: Some Update Mekanisme ontime misal ada perubahan data dkk
     if not file:
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
-                write_cache_with_folder(res, "group_booking_cache_data")
+                write_cache(res, "group_booking_cache_data", 'cache_web')
         except Exception as e:
             _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-            file = read_cache_with_folder_path("group_booking_cache_data", 90911)
+            file = read_cache("group_booking_cache_data", 'cache_web', 90911)
             if file:
                 res = file
     else:
@@ -193,7 +193,7 @@ def get_booking(request):
     # nanti ganti ke get_ssr_availability
     try:
         airline_destinations = []
-        file = read_cache_with_folder_path("airline_destination", 90911)
+        file = read_cache("airline_destination", 'cache_web', 90911)
         if file:
             response = file
         for country in response:
@@ -695,6 +695,14 @@ def issued_booking(request):
             'acquirer_seq_id': request.POST['acquirer_seq_id'],
             'voucher': {}
         }
+        try:
+            if request.POST['use_point'] == 'false':
+                data['use_point'] = False
+            else:
+                data['use_point'] = True
+        except:
+            _logger.error('use_point not found')
+
         provider = []
 
         if request.POST['voucher_code'] != '':

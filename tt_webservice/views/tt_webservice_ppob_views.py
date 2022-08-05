@@ -143,23 +143,23 @@ def get_carriers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache_with_folder_path("get_ppob_carriers")
+    file = read_cache("get_ppob_carriers", 'cache_web')
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
-                write_cache_with_folder(res, "get_ppob_carriers")
+                write_cache(res, "get_ppob_carriers", 'cache_web')
                 _logger.info("get_providers BILLS RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
-                file = read_cache_with_folder_path("get_ppob_carriers", 90911)
+                file = read_cache("get_ppob_carriers", 'cache_web', 90911)
                 res = file
                 _logger.info("get_providers BILLS ERROR SIGNATURE " + request.POST['signature'])
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_ppob_carriers", 90911)
+            file = read_cache("get_ppob_carriers", 'cache_web', 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_ppob_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -179,23 +179,23 @@ def get_carrier_providers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache_with_folder_path("get_ppob_carriers_provider")
+    file = read_cache("get_ppob_carriers_provider", 'cache_web')
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
-                write_cache_with_folder(res, "get_ppob_carriers_provider")
+                write_cache(res, "get_ppob_carriers_provider", 'cache_web')
                 _logger.info("get_carrier_providers BILLS RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
-                file = read_cache_with_folder_path("get_ppob_carriers_provider", 90911)
+                file = read_cache("get_ppob_carriers_provider", 'cache_web', 90911)
                 res = file
                 _logger.info("get_carrier_providers BILLS ERROR SIGNATURE " + request.POST['signature'])
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_ppob_carriers_provider", 90911)
+            file = read_cache("get_ppob_carriers_provider", 'cache_web', 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_ppob_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -216,7 +216,7 @@ def get_provider_description(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    file = read_cache_with_folder_path("get_list_provider_data_ppob")
+    file = read_cache("get_list_provider_data_ppob", 'cache_web')
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
@@ -227,11 +227,11 @@ def get_provider_description(request):
                     temp[i['provider']] = i
                 #datetime
                 res = temp
-                write_cache_with_folder(temp, "get_list_provider_data_ppob")
+                write_cache(temp, "get_list_provider_data_ppob", 'cache_web')
                 _logger.info("get_provider_list PPOB RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache_with_folder_path("get_list_provider_data_ppob", 90911)
+                    file = read_cache("get_list_provider_data_ppob", 'cache_web', 90911)
                     if file:
                         res = file
                     _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
@@ -241,7 +241,7 @@ def get_provider_description(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_list_provider_data_ppob", 90911)
+            file = read_cache("get_list_provider_data_ppob", 'cache_web', 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_list_provider_data file\n' + str(e) + '\n' + traceback.format_exc())
@@ -320,6 +320,15 @@ def commit_booking(request):
             'acquirer_seq_id': request.POST['acquirer_seq_id'],
             'voucher': {}
         })
+
+        try:
+            if request.POST['use_point'] == 'false':
+                data['use_point'] = False
+            else:
+                data['use_point'] = True
+        except:
+            _logger.error('use_point not found')
+
         if request.POST['voucher_code'] != '':
             data.update({
                 'voucher': data_voucher(request.POST['voucher_code'], 'visa', ['visa_rodextrip']),
@@ -438,6 +447,13 @@ def issued(request):
             'acquirer_seq_id': request.POST['acquirer_seq_id'],
             'voucher': {}
         }
+        try:
+            if request.POST['use_point'] == 'false':
+                data['use_point'] = False
+            else:
+                data['use_point'] = True
+        except:
+            _logger.error('use_point not found')
         provider = []
         try:
             bill_get_booking = request.session['bills_get_booking_response'] if request.session.get('bills_get_booking_response') else json.loads(request.POST['booking'])

@@ -4777,13 +4777,12 @@ function copy_booker(val,type,identity){
             document.getElementById('adult_behaviors1').value = '';
             //belum semua product di tambahkan
         }catch(err){console.log(err);}
-        document.getElementById('adult_nationality1').value = 'Indonesia';
-        document.getElementById('select2-adult_nationality1_id-container').value = 'Indonesia';
+        $('#adult_nationality1_id').val('Indonesia').trigger('change');
         //testing
 
         try{
-            initial_date = moment().subtract(17, 'years').format('DD MMM YYYY');
-            document.getElementById('adult_birth_date1').value = initial_date;
+//            initial_date = moment().subtract(17, 'years').format('DD MMM YYYY');
+            document.getElementById('adult_birth_date1').value = '';
         }catch(err){console.log(err)}
         try{
             document.getElementById('adult_passport_number1').value = '';
@@ -4798,8 +4797,7 @@ function copy_booker(val,type,identity){
             document.getElementById('adult_passport_expired_date1').readOnly = false;
         }catch(err){console.log(err)}
         try{
-            document.getElementById('adult_country_of_issued1').value = '';
-            document.getElementById('select2-adult_country_of_issued1_id-container').value = '';
+            $('#adult_country_of_issued1_id').val('').trigger('change');
         }catch(err){console.log(err)}
         try{
             document.getElementById('adult_identity_type1').value = '';

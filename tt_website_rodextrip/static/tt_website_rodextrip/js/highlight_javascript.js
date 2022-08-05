@@ -62,7 +62,7 @@ function get_highlight(type){
                     text += `<li><a href="`+msg[i].url+`" target="_blank">`+msg[i].title+`</a></li>`;
                 }
                 if(msg.length == 0)
-                    text += `<li>No Highlight</li>`;
+                    text += `<li style="padding-left:15px;">No Highlight</li>`;
                 document.getElementById('highlight_header_div').innerHTML = text;
             }
        },

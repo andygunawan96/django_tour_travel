@@ -3091,6 +3091,9 @@ function render_room_hotel(data_room_hotel_list){
                 provider_htl = data_room_hotel_list[i].provider;
 
             document.getElementById("name_room_htl"+i).value = show_name_room;
+            // copy detail room size, unit
+            text+=`<span class="id_copy_room_total" hidden>`+data_room_hotel_list[i].rooms.length+`</span>`;
+
             for(j in data_room_hotel_list[i].rooms){
                 if(idx == 0){
                     text+=`<div class="col-lg-12">`;
@@ -3105,6 +3108,7 @@ function render_room_hotel(data_room_hotel_list){
                     if(data_room_hotel_list[i].meal_type != "" && data_room_hotel_list[i].meal_type != undefined){
                         text+= '<span class="meal_room"><b>Meal Type: </b> <span>' + data_room_hotel_list[i].meal_type+'</span></span><br/>';
                     }
+
                     text+= '<span style="font-weight:500; padding-top:10px;"><b>Cancellation: </b></span><ul><li id="js_cancellation_button'+i+'" style="color:'+color+'; cursor:pointer; list-style-type:unset; font-weight:400;"><span class="carrier_code_template" onclick="hotel_cancellation_button('+i+','+ data_room_hotel_list[i].price_code +');"><i class="fas fa-question-circle"></i> See Cancellation Policy</span></li></ul><br/>';
                     text+=`
                     </div><div class="col-lg-4 col-md-4" style="text-align:right;">`;
@@ -3134,7 +3138,18 @@ function render_room_hotel(data_room_hotel_list){
                     }
                     text+='</div></div>';
                 }
+
+                text+=`<span class="name_per_room`+i+``+j+`" style="display:none;"><b >Room #`+parseInt(parseInt(j)+1)+` </b> <span>`+data_room_hotel_list[i].rooms[j].description+`</span></span>`;
+                if(data_room_hotel_list[i].rooms[j].hasOwnProperty('room_size') == true){
+                    if(data_room_hotel_list[i].rooms[j].room_size.size != '' && data_room_hotel_list[i].rooms[j].room_size.size != null){
+                        text+=`<span class="size_room`+i+``+j+`" style="display:none;"><b>Size: </b> <span>`+data_room_hotel_list[i].rooms[j].room_size.size+` </span></span>`;
+                    }
+                    if(data_room_hotel_list[i].rooms[j].room_size.unit != '' && data_room_hotel_list[i].rooms[j].room_size.unit != null){
+                        text+=`<span class="unit_room`+i+``+j+`" style="display:none;"><span>`+data_room_hotel_list[i].rooms[j].room_size.unit+`</span></span>`;
+                    }
+                }
             }
+
             text+='</div></div>';
 
             node.className = 'detail-hotel-box';

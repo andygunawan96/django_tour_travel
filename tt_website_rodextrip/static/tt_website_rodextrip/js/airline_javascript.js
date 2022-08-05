@@ -531,7 +531,7 @@ function add_multi_city(type){
                                         </div>
                                     </div>
                                     <div class="image-change-route-vertical">
-                                        <h4><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:black;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                        <h4><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:black;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                     </div>
                                     <div class="image-change-route-horizontal">
                                         <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:`+text_color+`;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
@@ -606,7 +606,7 @@ function add_multi_city(type){
                                     </div>
                                 </div>
                                 <div class="image-change-route-vertical">
-                                    <h4><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                    <h4><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                 </div>
                                 <div class="image-change-route-horizontal">
                                     <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:`+text_color+`;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
@@ -652,7 +652,7 @@ function add_multi_city(type){
                 <div class="col-lg-12" style="text-align:left; margin-top:10px; margin-bottom:10px;">
                     <h5 style="color:`+text_color+`;">Flight-`+counter_airline_search+`</h5>
                 </div>
-                    <div class="col-lg-8">
+                    <div class="col-lg-12">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
                                 <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
@@ -679,8 +679,8 @@ function add_multi_city(type){
                                     </div>
                                 </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
-                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt"></i></a></h4>
-                            <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
+                            <h3 class="image-change-route-vertical"><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt"></i></a></h3>
+                            <h3 class="image-change-route-horizontal"><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt icon-change"></i></a></h3>
                             <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
                             <div class="form-group">`;
                                 if(type == 'search'){
@@ -707,7 +707,7 @@ function add_multi_city(type){
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-12">
                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
                     <div class="form-group">
                         <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
@@ -749,7 +749,7 @@ function add_multi_city(type){
                                     </div>
                                 </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
-                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><span class="icon icon-exchange"></span></a></h4>
+                            <h4 class="image-change-route-vertical"><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><span class="icon icon-exchange"></span></a></h4>
                             <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><span class="icon icon-exchange"></span></a></h4>
                             <span class="span-search-ticket">To</span>
                             <div class="input-container-search-ticket">
@@ -820,7 +820,7 @@ function add_multi_city(type){
                                     </div>
                                 </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
-                                <h4 class="image-change-route-vertical3"><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                <h4 class="image-change-route-vertical3"><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                 <h4 class="image-change-route-horizontal3"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
                                 <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
                                     <div class="input-container-search-ticket">`;
@@ -897,7 +897,7 @@ function add_multi_city(type){
                                         </div>
                                     </div>
                                     <div class="image-change-route-vertical">
-                                        <h4><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:black;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                        <h4><a class="switch_a" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:black;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                     </div>
                                     <div class="image-change-route-horizontal">
                                         <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:`+text_color+`;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
@@ -5078,6 +5078,7 @@ function airline_detail(type){
                 </center>
             </div>`;
     }else if(type == 'request_new'){
+        // after sales post-booking dan post-issued
         $text = '';
         text += `
         <div class="row" style="margin-bottom:5px; ">
@@ -5188,7 +5189,7 @@ function airline_detail(type){
                 for(k in airline_get_detail.passengers[j].sale_service_charges){
                     for(l in airline_get_detail.passengers[j].sale_service_charges[k]){
                         currency = airline_get_detail.passengers[j].sale_service_charges[k][l].currency;
-                        break
+                        break;
                     }
                     break;
                 }
@@ -5196,6 +5197,12 @@ function airline_detail(type){
 
             }
             text+=`</div>`;
+        }
+        if(window.location.pathname.includes('review_after_sales'))
+        {
+            text +=`<div class="col-lg-12">
+                        <div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>
+                    </div>`;
         }
         text += `
             <div class="col-lg-7" style="text-align:left;">
@@ -5213,7 +5220,7 @@ function airline_detail(type){
             <div class="col-lg-7" style="text-align:left;">
                 <span style="font-size:14px; font-weight:bold;"><b>Total</b></span><br/>
             </div>
-            <div class="col-lg-5" style="text-align:right;">`;
+            <div class="col-lg-5" style="text-align:right; padding-bottom:10px;">`;
             if(airline_get_detail.passengers[j].sale_service_charges[k][l].currency == 'IDR')
             text+=`
                 <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+currency+` `+getrupiah(parseFloat(total_price+parseFloat(additional_price)))+`</b></span><br/>`;
@@ -5246,30 +5253,33 @@ function airline_detail(type){
     if(type != 'reschedule'){
         try{
             document.getElementById('airline_detail').innerHTML = text;
-            for(i in price_itinerary_temp){
-                for(j in price_itinerary_temp[i].journeys){
-                   if(price_itinerary_temp[i].journeys[j].hasOwnProperty('search_banner')){
-                       for(banner_counter in price_itinerary_temp[i].journeys[j].search_banner){
-                           var max_banner_date = moment().subtract(parseInt(-1*price_itinerary_temp[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
-                           var selected_banner_date = moment(price_itinerary_temp[i].journeys[j].departure_date.split(' - ')[0]).format('YYYY-MM-DD');
-                           if(selected_banner_date >= max_banner_date){
-                               if(price_itinerary_temp[i].journeys[j].search_banner[banner_counter].active == true && price_itinerary_temp[i].journeys[j].search_banner[banner_counter].description != ''){
-                                   new jBox('Tooltip', {
-                                        attach: '#pop_search_banner_detail'+i+j+banner_counter,
-                                        theme: 'TooltipBorder',
-                                        width: 280,
-                                        position: {
-                                          x: 'center',
-                                          y: 'bottom'
-                                        },
-                                        closeOnMouseleave: true,
-                                        animation: 'zoomIn',
-                                        content: price_itinerary_temp[i].journeys[j].search_banner[banner_counter].description
-                                   });
+            if (type != 'request_new')
+            {
+                for(i in price_itinerary_temp){
+                    for(j in price_itinerary_temp[i].journeys){
+                       if(price_itinerary_temp[i].journeys[j].hasOwnProperty('search_banner')){
+                           for(banner_counter in price_itinerary_temp[i].journeys[j].search_banner){
+                               var max_banner_date = moment().subtract(parseInt(-1*price_itinerary_temp[i].journeys[j].search_banner[banner_counter].minimum_days), 'days').format('YYYY-MM-DD');
+                               var selected_banner_date = moment(price_itinerary_temp[i].journeys[j].departure_date.split(' - ')[0]).format('YYYY-MM-DD');
+                               if(selected_banner_date >= max_banner_date){
+                                   if(price_itinerary_temp[i].journeys[j].search_banner[banner_counter].active == true && price_itinerary_temp[i].journeys[j].search_banner[banner_counter].description != ''){
+                                       new jBox('Tooltip', {
+                                            attach: '#pop_search_banner_detail'+i+j+banner_counter,
+                                            theme: 'TooltipBorder',
+                                            width: 280,
+                                            position: {
+                                              x: 'center',
+                                              y: 'bottom'
+                                            },
+                                            closeOnMouseleave: true,
+                                            animation: 'zoomIn',
+                                            content: price_itinerary_temp[i].journeys[j].search_banner[banner_counter].description
+                                       });
+                                   }
                                }
                            }
                        }
-                   }
+                    }
                 }
             }
         }catch(err){
@@ -5335,6 +5345,83 @@ function on_change_ssr(){
         }
     }
     airline_detail(type);
+}
+
+function get_airline_channel_repricing_data(){
+    for(j in passengers_ssr){
+        passengers_ssr[j].name = passengers_ssr[j].title + ' ' + passengers_ssr[j].first_name + ' ' + passengers_ssr[j].last_name;
+        pax_price = 0;
+        for(i in passengers_ssr[j].seat_list){
+            if(isNaN(parseInt(passengers_ssr[j].seat_list[i].price)) == false)
+                pax_price += parseInt(passengers_ssr[j].seat_list[i].price);
+        }
+        for(i in passengers_ssr[j].ssr_list){
+            if(isNaN(parseInt(passengers_ssr[j].ssr_list[i].total_price)) == false)
+                pax_price += parseInt(passengers_ssr[j].ssr_list[i].total_price);
+        }
+        price = {'FARE': pax_price, 'currency': currency, 'CSC': 0};
+        if(price['currency'] == '')
+            price['currency'] = 'IDR'
+
+//        try{
+//            price['CSC'] = airline_get_detail.passengers[j].channel_service_charges.amount_ssr;
+//            csc += airline_get_detail.passengers[j].channel_service_charges.amount_ssr;
+//        }catch(err){
+//            console.log(err); // error kalau ada element yg tidak ada
+//        }
+
+        //repricing
+        check = 0;
+        if(price_arr_repricing.hasOwnProperty(passengers_ssr[j].pax_type) == false){
+            price_arr_repricing[passengers_ssr[j].pax_type] = {}
+            pax_type_repricing.push([passengers_ssr[j].pax_type, passengers_ssr[j].pax_type]);
+        }
+        // fix agar tidak tumpuk harga pnr pertama
+        if(price_arr_repricing[passengers_ssr[j].pax_type].hasOwnProperty(passengers_ssr[j].name)){
+            price_arr_repricing[passengers_ssr[j].pax_type][passengers_ssr[j].name] = {
+                'Fare': price_arr_repricing[passengers_ssr[j].pax_type][passengers_ssr[j].name]['Fare'] + price['FARE'],
+                'Tax': 0,
+                'Repricing': price['CSC'],
+                'total': price_arr_repricing[passengers_ssr[j].pax_type][passengers_ssr[j].name]['Fare'] + price['FARE'] + price['CSC']
+            }
+        }else{
+            price_arr_repricing[passengers_ssr[j].pax_type][passengers_ssr[j].name] = {
+                'Fare': price['FARE'],
+                'Tax': 0,
+                'Repricing': price['CSC'],
+                'total': price['FARE'] + price['CSC']
+            }
+        }
+
+        text_repricing = `
+        <div class="col-lg-12">
+            <div style="padding:5px;" class="row">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-3">Price</div>
+                <div class="col-lg-3">Repricing</div>
+                <div class="col-lg-3">Total</div>
+            </div>
+        </div>`;
+
+        for(k in price_arr_repricing){
+            for(l in price_arr_repricing[k]){
+                text_repricing += `
+                <div class="col-lg-12">
+                    <div style="padding:5px;" class="row" id="adult">
+                        <div class="col-lg-3" id="`+j+`_`+k+`">`+l+`</div>
+                        <div class="col-lg-3" id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
+                        if(price_arr_repricing[k][l].Repricing == 0)
+                            text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">-</div>`;
+                        else
+                            text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
+                        text_repricing+=`<div class="col-lg-3" id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
+                    </div>
+                </div>`;
+            }
+        }
+        text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+        document.getElementById('repricing_div').innerHTML = text_repricing;
+    }
 }
 
 function update_identity(type, val){

@@ -807,7 +807,7 @@ def set_highlight_url(request):
                 "title": rec[0],
                 "url": rec[1]
             })
-    write_cache_with_folder(data, "highlight_data")
+    write_cache(data, "highlight_data", 'cache_web')
 
     return 0
 
@@ -815,7 +815,7 @@ def set_highlight_url(request):
 def get_highlight_url(request):
     data = []
     try:
-        file = read_cache_with_folder_path("highlight_data", 90911)
+        file = read_cache("highlight_data", 'cache_web', 90911)
         if file:
             for line in file:
                 data.append({
@@ -837,14 +837,14 @@ def set_contact_url(request):
                     data += '\n'
                 data += '%s:contact:%s:contact:%s' % (rec[0], rec[1], rec[2])
 
-        write_cache_with_folder(data, "contact_data")
+        write_cache(data, "contact_data", 'cache_web')
     return 0
 
 
 def get_contact_url(request):
     data = []
     try:
-        file = read_cache_with_folder_path("contact_data", 90911)
+        file = read_cache("contact_data", 'cache_web', 90911)
         for line in file.split('\n'):
             data.append(line.split(':contact:'))
     except Exception as e:
@@ -862,14 +862,14 @@ def set_social_url(request):
                     data += '\n'
                 data += '%s:social:%s:social:%s' % (rec[0], rec[1], rec[2])
 
-        write_cache_with_folder(data, "social_data")
+        write_cache(data, "social_data", 'cache_web')
     return 0
 
 
 def get_social_url(request):
     data = []
     try:
-        file = read_cache_with_folder_path("social_data", 90911)
+        file = read_cache("social_data", 'cache_web', 90911)
         for line in file.split('\n'):
             data.append(line.split(':social:'))
     except Exception as e:
@@ -880,10 +880,10 @@ def get_social_url(request):
 def get_payment_partner(request):
     try:
         response = []
-        if not os.path.exists("/var/log/django/payment_partner"):
+        if not os.path.exists("/var/log/django/file_cache/payment_partner"):
             os.mkdir('/var/log/django/payment_partner')
         for data in os.listdir('/var/log/django/payment_partner'):
-            file = read_cache_without_folder_path("payment_partner/"+data[:-4], 90911)
+            file = read_cache(data[:-4], "payment_partner", 90911)
             state = ''
             sequence = ''
             title = ''
@@ -935,7 +935,7 @@ def delete_payment_partner(request):
         data = os.listdir('/var/log/django/payment_partner')
         image_list = []
         for rec in data:
-            file = read_cache_without_folder_path("payment_partner/" + rec[:-4], 90911)
+            file = read_cache(rec[:-4], "payment_partner", 90911)
             for idx, line in enumerate(file.split('\n')):
                 if idx == 3:
                     line = line.split('\n')[0]
@@ -973,7 +973,7 @@ def set_payment_partner(request):
         fs.location += '/image_payment_partner'
         if not os.path.exists(fs.location):
             os.mkdir(fs.location)
-        if not os.path.exists("/var/log/django/payment_partner"):
+        if not os.path.exists("/var/log/django/file_cache/payment_partner"):
             os.mkdir('/var/log/django/payment_partner')
 
         filename = ''
@@ -1001,11 +1001,11 @@ def set_payment_partner(request):
                         title += str(counter)
                     break
             text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + fs.base_url + "image_payment_partner/" + filename
-            write_cache(text, "payment_partner/"+"".join(title.split(' ')))
+            write_cache(text, "".join(title.split(' ')), "payment_partner")
         #replace
         else:
             if filename == '':
-                file = read_cache_without_folder_path("payment_partner/" + data[int(request.POST['partner_number'])][:-4], 90911)
+                file = read_cache(data[int(request.POST['partner_number'])][:-4], "payment_partner", 90911)
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 3:
                         text = line.split('\n')[0].split('/')
@@ -1025,12 +1025,12 @@ def set_payment_partner(request):
                         title += str(counter)
                     break
             text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + fs.base_url + "image_payment_partner/" + filename
-            write_cache(text, "payment_partner/"+"".join(title.split(' ')))
+            write_cache(text, "".join(title.split(' ')), "payment_partner")
         #check image
         data = os.listdir('/var/log/django/payment_partner')
         image_list = []
         for rec in data:
-            file = read_cache_without_folder_path("payment_partner/" + rec[:-4], 90911)
+            file = read_cache(rec[:-4], "payment_partner", 90911)
             if file:
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 3:
@@ -1069,10 +1069,10 @@ def set_payment_partner(request):
 def get_about_us(request):
     try:
         response = []
-        if not os.path.exists("/var/log/django/about_us"):
+        if not os.path.exists("/var/log/django/file_cache/about_us"):
             os.mkdir('/var/log/django/about_us')
         for data in os.listdir('/var/log/django/about_us'):
-            file = read_cache_without_folder_path("about_us/" + data[:-4], 90911)
+            file = read_cache(data[:-4], "about_us", 90911)
             if file:
                 state = ''
                 sequence = ''
@@ -1129,7 +1129,7 @@ def delete_about_us(request):
         data = os.listdir('/var/log/django/about_us')
         image_list = []
         for rec in data:
-            file = read_cache_without_folder_path("about_us/" + rec[:-4], 90911)
+            file = read_cache(rec[:-4], "about_us", 90911)
             if file:
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 4:
@@ -1168,7 +1168,7 @@ def set_about_us(request):
         fs.location += '/image_about_us'
         if not os.path.exists(fs.location):
             os.mkdir(fs.location)
-        if not os.path.exists("/var/log/django/about_us"):
+        if not os.path.exists("/var/log/django/file_cache/about_us"):
             os.mkdir('/var/log/django/about_us')
 
         filename = ''
@@ -1197,12 +1197,12 @@ def set_about_us(request):
                         sequence += str(counter)
                     break
             text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + fs.base_url + "image_about_us/" + filename
-            write_cache(text, "about_us/"+"".join(sequence.split(' ')))
+            write_cache(text, "".join(sequence.split(' ')), "about_us")
         #replace
         else:
             if request.POST['delete_img'] == 'false':
                 if filename == '':
-                    file = read_cache_without_folder_path("about_us/" + data[int(request.POST['paragraph_number'])][:-4], 90911)
+                    file = read_cache(data[int(request.POST['paragraph_number'])][:-4], "about_us", 90911)
                     if file:
                         for idx, line in enumerate(file.split('\n')):
                             if idx == 4:
@@ -1225,12 +1225,12 @@ def set_about_us(request):
                         sequence += str(counter)
                     break
             text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + fs.base_url + "image_about_us/" + filename
-            write_cache(text, "about_us/" + "".join(sequence.split(' ')))
+            write_cache(text, "".join(sequence.split(' ')), "about_us")
         #check image
         data = os.listdir('/var/log/django/about_us')
         image_list = []
         for rec in data:
-            file = read_cache_without_folder_path("about_us/" + rec[:-4], 90911)
+            file = read_cache(rec[:-4], "about_us", 90911)
             if file:
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 4:
@@ -1269,10 +1269,10 @@ def set_about_us(request):
 def get_faq(request):
     try:
         response = []
-        if not os.path.exists("/var/log/django/faq"):
+        if not os.path.exists("/var/log/django/file_cache/faq"):
             os.mkdir('/var/log/django/faq')
         for data in os.listdir('/var/log/django/faq'):
-            file = read_cache_without_folder_path("faq/" + data[:-4], 90911)
+            file = read_cache(data[:-4], "faq", 90911)
             if file:
                 state = ''
                 sequence = ''
@@ -1321,7 +1321,7 @@ def delete_faq(request):
         os.remove('/var/log/django/faq/' + data[int(request.POST['faq_number'])])
         data = os.listdir('/var/log/django/faq')
         for rec in data:
-            file = read_cache_without_folder_path("faq/" + rec[:-4], 90911)
+            file = read_cache(rec[:-4], "faq", 90911)
             if file:
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 4:
@@ -1352,7 +1352,7 @@ def delete_faq(request):
 
 def set_faq(request):
     try:
-        if not os.path.exists("/var/log/django/faq"):
+        if not os.path.exists("/var/log/django/file_cache/faq"):
             os.mkdir('/var/log/django/faq')
 
         filename = ''
@@ -1375,11 +1375,11 @@ def set_faq(request):
                         sequence += str(counter)
                     break
             text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + filename
-            write_cache(text, "faq/" + "".join(sequence.split(' ')))
+            write_cache(text, "".join(sequence.split(' ')), "faq")
         #replace
         else:
             if filename == '':
-                file = read_cache_without_folder_path("faq/" + data[int(request.POST['faq_number'])], 90911)
+                file = read_cache(data[int(request.POST['faq_number'])], "faq", 90911)
                 if file:
                     for idx, line in enumerate(file.split('\n')):
                         if idx == 4:
@@ -1400,7 +1400,7 @@ def set_faq(request):
                         sequence += str(counter)
                     break
             text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + filename
-            write_cache(text, "faq/" + "".join(sequence.split(' ')))
+            write_cache(text, "".join(sequence.split(' ')), "faq")
 
         res = {
             'result': {
@@ -1448,7 +1448,7 @@ def get_va_number(request):
             for rec in res['result']['response']:
                 for data in res['result']['response'][rec]:
                     if type(data['acquirer_seq_id']) == str:
-                        file = read_cache_without_folder_path("payment_information/" + data['acquirer_seq_id'], 90911)
+                        file = read_cache(data['acquirer_seq_id'], "payment_information", 90911)
                         if file:
                             for idx, data_cache in enumerate(file.split('\n')):
                                 if idx == 0:
@@ -1485,7 +1485,7 @@ def get_va_number_for_mobile(request):
             })
             for rec in res['result']['response']:
                 for data in res['result']['response'][rec]:
-                    file = read_cache_without_folder_path("payment_information/" + data['acquirer_seq_id'], 90911)
+                    file = read_cache(data['acquirer_seq_id'], "payment_information", 90911)
                     if file:
                         for idx, data_cache in enumerate(file.split('\n')):
                             if idx == 0:
@@ -1508,7 +1508,7 @@ def get_va_number_for_mobile(request):
 
 def get_va_bank(request):
     try:
-        if not os.path.exists("/var/log/django/payment_information"):
+        if not os.path.exists("/var/log/django/file_cache/payment_information"):
             os.mkdir('/var/log/django/payment_information')
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -1526,7 +1526,7 @@ def get_va_bank(request):
                 "type": ''
             })
             for rec in res['result']['response']:
-                file = read_cache_without_folder_path("payment_information/" + rec['acquirer_seq_id'], 90911)
+                file = read_cache(rec['acquirer_seq_id'], "payment_information", 90911)
                 if file:
                     for idx, data_cache in enumerate(file.split('\n')):
                         if idx == 0:
@@ -1549,10 +1549,10 @@ def get_va_bank(request):
 
 def set_payment_information(request):
     try:
-        if not os.path.exists("/var/log/django/payment_information"):
+        if not os.path.exists("/var/log/django/file_cache/payment_information"):
             os.mkdir('/var/log/django/payment_information')
         text = request.POST['heading'] + '\n' + request.POST['body'].replace('\n','<br>')
-        write_cache(text, "payment_information/" + request.POST['title'])
+        write_cache(text, request.POST['title'], "payment_information")
         res = {
             'result': {
                 'error_code': 0,
@@ -1604,7 +1604,7 @@ def get_vendor_balance(request):
         if request.POST['using_cache'] == 'false':
             res = get_vendor_balance_request(request)
         else:
-            file = read_cache_with_folder_path("get_vendor_balance")
+            file = read_cache("get_vendor_balance", 'cache_web')
             if not file:
                 res = get_vendor_balance_request(request)
             else:
@@ -1644,7 +1644,7 @@ def get_vendor_balance_request(request):
                 'data': data_vendor,
                 'cache_time': datetime.now().strftime("%Y-%m-%d %H:%M")
             }
-            write_cache_with_folder(res, "get_vendor_balance")
+            write_cache(res, "get_vendor_balance", 'cache_web')
     except Exception as e:
         res = {
             'result': {

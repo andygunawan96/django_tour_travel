@@ -166,7 +166,7 @@ def set_color_printout(request):
         if res['result']['error_code'] == 0:
             # save color
             text = request.POST['color']
-            write_cache_with_folder(text, 'color_printout')
+            write_cache(text, 'color_printout', 'cache_web')
             _logger.info("SUCCESS get_printout_api_printout " + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR get_printout_api_printout" + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

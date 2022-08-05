@@ -174,7 +174,7 @@ def get_config(request):
                 "signature": request.data['signature']
             }
 
-        file = read_cache_with_folder_path("medical_global_cache_data", 86400)
+        file = read_cache("medical_global_cache_data", 'cache_web', 86400)
         # TODO VIN: Some Update Mekanisme ontime misal ada perubahan data dkk
         if not file:
             url_request = url + additional_url
@@ -183,10 +183,10 @@ def get_config(request):
                 if res['result']['error_code'] == 0:
                     headers['action'] = 'get_provider_list'
                     # res_provider = send_request_api(request, url_request, headers, data, 'POST')
-                    write_cache_with_folder(res, "medical_global_cache_data")
+                    write_cache(res, "medical_global_cache_data", 'cache_web')
             except Exception as e:
                 _logger.info("ERROR GET CACHE medical global " + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
-                file = read_cache_with_folder_path("medical_global_cache_data", 90911)
+                file = read_cache("medical_global_cache_data", 'cache_web', 90911)
                 if file:
                     res = file
 
@@ -386,6 +386,15 @@ def commit_booking(request):
                 })
         except:
             _logger.error('book, not force issued')
+
+        try:
+            if request.POST['use_point'] == 'false':
+                data['use_point'] = False
+            else:
+                data['use_point'] = True
+        except:
+            _logger.error('use_point not found')
+
         if request.POST.get('voucher_code') != '':
             data.update({
                 'voucher': data_voucher(request.POST['voucher_code'], request.POST['provider'], []),
@@ -483,6 +492,13 @@ def issued(request):
             'acquirer_seq_id': request.POST['acquirer_seq_id'],
             'voucher': {}
         }
+        try:
+            if request.POST['use_point'] == 'false':
+                data['use_point'] = False
+            else:
+                data['use_point'] = True
+        except:
+            _logger.error('use_point not found')
         provider = []
         provider_char = ''
         try:
@@ -801,19 +817,19 @@ def verify_data(request):
 
 def get_medical_information(request):
     res = []
-    if not os.path.exists("/var/log/django/medical"):
+    if not os.path.exists("/var/log/django/file_cache/medical"):
         os.mkdir('/var/log/django/medical')
-    file = read_cache_without_folder_path("medical/periksain", 90911)
+    file = read_cache("periksain", "medical", 90911)
     res.append({
         'code': 'periksain',
         "html": file
     })
-    file = read_cache_without_folder_path("medical/phc_antigen", 90911)
+    file = read_cache("phc_antigen", "medical", 90911)
     res.append({
         "code": 'phc_antigen',
         "html": file
     })
-    file = read_cache_without_folder_path("medical/phc_pcr", 90911)
+    file = read_cache("phc_pcr", "medical", 90911)
     res.append({
         "code": 'phc_pcr',
         "html": file
@@ -826,11 +842,11 @@ def get_medical_information(request):
 
 
 def update_medical_information(request):
-    if not os.path.exists("/var/log/django/medical"):
+    if not os.path.exists("/var/log/django/file_cache/medical"):
         os.mkdir('/var/log/django/medical')
     try:
         data = request.POST['html']
-        write_cache(data, "medical/%s" % request.POST['name'])
+        write_cache(data, "%s" % request.POST['name'], 'medical')
         return ERR.get_no_error_api()
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())

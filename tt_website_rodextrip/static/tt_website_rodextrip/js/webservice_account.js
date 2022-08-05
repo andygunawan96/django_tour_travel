@@ -50,6 +50,7 @@ function get_balance(val){
                },
                success: function(msg) {
                 if(msg.result.error_code == 0){
+                    get_balance_response = msg;
                     time = 300;
                     balance = 0;
                     credit_limit = 0;
@@ -554,13 +555,19 @@ function get_transaction_history_ledger(type,use_cache){
 
                             if(msg.result.response[i].currency && msg.result.response[i].debit > 0){
                                 text += `<span style="text-align:right; font-size:18px; font-weight:700; color:green">`;
-                                text += msg.result.response[i].currency+' ';
+                                if(msg.result.response[i].source_of_funds_type == 'balance')
+                                    text += msg.result.response[i].currency+' ';
+                                else
+                                    text += 'Rodextrip Points '
                                 text += '+'+getrupiah(msg.result.response[i].debit);
                                 text += `</span>`;
                             }
                             if(msg.result.response[i].currency && msg.result.response[i].credit > 0){
                                 text += `<span style="text-align:right; font-size:18px; font-weight:700; color:red">`;
-                                text += msg.result.response[i].currency+' ';
+                                if(msg.result.response[i].source_of_funds_type == 'balance')
+                                    text += msg.result.response[i].currency+' ';
+                                else
+                                    text += 'Rodextrip Points '
                                 text += '-'+getrupiah(msg.result.response[i].credit);
                                 text += `</span>`;
                             }
@@ -1348,40 +1355,40 @@ function table_top_up_history(){
                         </b>
                     </div>
                     <div class="col-lg-4" style="border-bottom: 1px solid #cdcdcd; padding: 15px;">
-                        <span><i>Create Date</i><br/>`;
+                        <span><b>Create Date</b><br/>`;
                         if(data[i].date == false){
-                            text+= `<b>-</b>`;
+                            text+= `<i>-</i>`;
                         }
                         else{
-                            text+= `<b>`+moment(data[i].date).format('ddd, DD MMM YYYY HH:mm:ss')+`</b>`;
+                            text+= `<i>`+moment(data[i].date).format('ddd, DD MMM YYYY HH:mm:ss')+`</i>`;
                         }
                         text+=`</span>
                     </div>
                     <div class="col-lg-4" style="border-bottom: 1px solid #cdcdcd; padding: 15px;">
-                        <span><i>Due Date</i><br/>`;
+                        <span><b>Due Date</b><br/>`;
                         if(data[i].due_date == false){
-                            text+= `<b>-</b>`;
+                            text+= `<i>-</i>`;
                         }
                         else{
-                            text+= `<b>`+moment(data[i].due_date).format('ddd, DD MMM YYYY HH:mm:ss')+`</b>`;
+                            text+= `<i>`+moment(data[i].due_date).format('ddd, DD MMM YYYY HH:mm:ss')+`</i>`;
                         }
                         text+=`</span>
                     </div>
                     <div class="col-lg-4" style="border-bottom: 1px solid #cdcdcd; padding: 15px;">
-                        <span><i>Help by</i><br/>`;
+                        <span><b>Help by</b><br/>`;
                         if(data[i].hasOwnProperty('help_by') == true && data[i].help_by != ""){
-                            text+= `<b>`+data[i].help_by+`</b>`;
+                            text+= `<i>`+data[i].help_by+`</i>`;
                         }
                         else{
-                            text+= `<b>-</b>`;
+                            text+= `<i>-</i>`;
                         }
                         text+=`</span>
                     </div>
                     <div class="col-lg-4" style="padding: 15px;">
-                        <span><i>Payment Method</i><br/><b>`+data[i].payment_method+`</b></span>
+                        <span><b>Payment Method</b><br/><i>`+data[i].payment_method+`</i></span>
                     </div>
                     <div class="col-lg-4" style="padding: 15px;">
-                        <span><i>Amount</i><br/><b>`+data[i].currency_code+' '+getrupiah(data[i].total)+`</b></span>
+                        <span><b>Amount</b><br/><i>`+data[i].currency_code+' '+getrupiah(data[i].total)+`</i></span>
                     </div>`;
 
                     text+= `<div class="col-lg-4" style="text-align:right; padding: 15px;">`;

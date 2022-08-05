@@ -985,8 +985,15 @@ function create_detail_room(i, data){
         if(data.prices[i].hasOwnProperty('meal_type') && data.prices[i].meal_type != "" && data.prices[i].meal_type != undefined){
             detail_room_txt+= '<span class="meal_room"><b>Meal Type:</b> <span>' + data.prices[i].meal_type+'</span></span><br/>';
         }
-        if(data.prices[i].rooms[j].hasOwnProperty('room_size')){
-            detail_room_txt+= '<span class="meal_room"><b>Room Size:</b> <span>' + data.prices[i].rooms[j].room_size.size+' '+data.prices[i].rooms[j].room_size.unit+'</span></span><br/>';
+
+        if(data.prices[i].rooms[j].hasOwnProperty('room_size') == true){
+            if(data.prices[i].rooms[j].room_size.size != ''){
+                detail_room_txt+=`<span class="size_room"><b>Size: </b> <span>`+data.prices[i].rooms[j].room_size.size;
+                if(data.prices[i].rooms[j].room_size.unit != ''){
+                    detail_room_txt += data.prices[i].rooms[j].room_size.unit;
+                }
+                detail_room_txt+=`</span></span><br/>`;
+            }
         }
 
         if(data.prices[i].rooms[j].supplements.length != 0)
@@ -1955,6 +1962,16 @@ function hotel_issued_booking(val){
         {
             formData.append('payment_reference', document.getElementById('pay_ref_text').value);
         }
+        try{
+            var radios = document.getElementsByName('use_point');
+            for (var j = 0, length = radios.length; j < length; j++) {
+                if (radios[j].checked) {
+                    formData.append('use_point', radios[j].value);
+                    break;
+                }
+            }
+
+        }catch(err){console.log(err)}
     }
     else
     {
@@ -3029,7 +3046,7 @@ function get_checked_copy_result_room(){
     $text += ''+name_hotel+ ' *' +rating_hotel+ '\n';
     if(address_hotel != '')
         $text += 'Address: '+address_hotel+'\n';
-    $text += 'Date: '+datecico+'\n \n';
+    $text += 'Date: '+datecico+'\n▬▬▬▬▬\n';
 
     node = document.createElement("div");
     text+=`
@@ -3049,15 +3066,30 @@ function get_checked_copy_result_room(){
         var desc_room = parent_room.find('.desc_room').text();
         var qty_room = parent_room.find('.qty_room').text();
         var meal_room = parent_room.find('.meal_room').text();
+        var _room = parent_room.find('.meal_room').text();
+        var meal_room = parent_room.find('.meal_room').text();
         var price_room = parent_room.find('.price_room').text();
         var total_room_night = parent_room.find('.copy_total_rn').text();
         var id_room = parent_room.find('.id_copy_result').text();
+        var id_room_total = parent_room.find('.id_copy_room_total').text();
+
+        var id_room_total_int = parseInt(id_room_total);
+        //copy size unit
         room_number = room_number + 1;
-        $text += room_number+'. '+name_room+ ' ' + desc_room+'\n';
-        $text += qty_room+'\n';
+
+        $text += '\nOption #'+room_number+'\n'+name_room+ ' ' + desc_room+'\n';
+        //$text += qty_room+'\n';
         $text += ''+meal_room+'\n';
-        $text += 'Price: '+price_room+' ';
-        $text += total_room_night+'\n \n';
+        $text += total_room_night+'\n\n';
+        $text += 'Detail\n';
+        for (let count_room = 0; count_room < id_room_total; count_room++) {
+            var name_per_room = parent_room.find('.name_per_room'+id_room+count_room).text();
+            var size_room = parent_room.find('.size_room'+id_room+count_room).text();
+            var unit_room = parent_room.find('.unit_room'+id_room+count_room).text();
+            $text += '> '+name_per_room+'\n';
+            $text += size_room+' '+unit_room+'\n';
+        }
+
         text+=`
             <div class="row" id="div_list`+id_room+`">
                 <div class="col-lg-8">
@@ -3072,8 +3104,12 @@ function get_checked_copy_result_room(){
                 </div>
                 <div class="col-lg-12"><hr/></div>
             </div>`;
-        });
-    $text += '\n===Price may change at any time===';
+
+        $text += '\nPrice: '+price_room+'\n\n';
+        $text += '▬▬▬▬▬\n';
+    });
+
+    $text += '===Price may change at any time===';
     text+=`</div>
     <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;" id="share_result">
         <span style="font-size:14px; font-weight:bold;">Share this on:</span><br/>`;

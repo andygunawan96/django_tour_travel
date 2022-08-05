@@ -549,7 +549,10 @@ def booking(request, order_number):
         try:
             set_session(request, 'event_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
-            set_session(request, 'event_order_number', order_number)
+            try:
+                set_session(request, 'event_order_number', base64.b64decode(order_number[:-1]).decode('ascii'))
+            except:
+                set_session(request, 'event_order_number', order_number)
         if 'user_account' not in request.session:
             signin_btc(request)
         values.update({

@@ -170,7 +170,7 @@ def get_config(request):
                 "signature": request.data['signature']
             }
 
-        file = read_cache_with_folder_path("sentra_medika_cache_data", 86400)
+        file = read_cache("sentra_medika_cache_data", 'cache_web', 86400)
         # TODO VIN: Some Update Mekanisme ontime misal ada perubahan data dkk
         if not file:
             url_request = url + additional_url
@@ -188,10 +188,10 @@ def get_config(request):
                         if rec not in response['result']['response']:
                             response['result']['response'][rec] = res['result']['response'][rec]
                     # res_provider = send_request_api(request, url_request, headers, data, 'POST')
-                    write_cache_with_folder(response, "sentra_medika_cache_data")
+                    write_cache(response, "sentra_medika_cache_data", 'cache_web')
             except Exception as e:
                 _logger.info("ERROR GET CACHE sentra_medika " + json.dumps(res) + '\n' + str(e) + '\n' + traceback.format_exc())
-                file = read_cache_with_folder_path("sentra_medika_cache_data", 86400)
+                file = read_cache("sentra_medika_cache_data", 'cache_web', 86400)
                 if file:
                     res = file
 
@@ -321,6 +321,15 @@ def commit_booking(request):
                 })
         except Exception as e:
             _logger.error('book, not force issued')
+
+        try:
+            if request.POST['use_point'] == 'false':
+                data['use_point'] = False
+            else:
+                data['use_point'] = True
+        except:
+            _logger.error('use_point not found')
+
         if request.POST.get('voucher_code') != '':
             data.update({
                 'voucher': data_voucher(request.POST['voucher_code'], request.POST['provider'], []),
@@ -418,6 +427,15 @@ def issued(request):
             'acquirer_seq_id': request.POST['acquirer_seq_id'],
             'voucher': {}
         }
+
+        try:
+            if request.POST['use_point'] == 'false':
+                data['use_point'] = False
+            else:
+                data['use_point'] = True
+        except:
+            _logger.error('use_point not found')
+
         provider = []
         provider_char = ''
         try:

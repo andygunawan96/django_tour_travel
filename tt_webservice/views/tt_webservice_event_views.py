@@ -135,18 +135,18 @@ def get_carriers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache_with_folder_path("get_event_carriers")
+    file = read_cache("get_event_carriers", 'cache_web')
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
-                write_cache_with_folder(res, "get_event_carriers")
+                write_cache(res, "get_event_carriers", 'cache_web')
                 _logger.info("get_carriers EVENT RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache_with_folder_path("get_event_carriers", 90911)
+                    file = read_cache("get_event_carriers", 'cache_web', 90911)
                     if file:
                         res = file
                     _logger.info("get_carriers EVENT ERROR USE CACHE SIGNATURE " + request.POST['signature'])
@@ -156,7 +156,7 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_event_carriers", 90911)
+            file = read_cache("get_event_carriers", 'cache_web', 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_event_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -172,19 +172,19 @@ def get_config(request):
             "action": "get_config",
             "signature": request.POST['signature']
         }
-        file = read_cache_with_folder_path("event_cache_data", 86400)
+        file = read_cache("event_cache_data", 'cache_web', 86400)
         # TODO VIN: Some Update Mekanisme ontime misal ada perubahan data dkk
         if not file:
             url_request = url + 'booking/event'
             res = send_request_api(request, url_request, headers, data, 'POST', 300)
             try:
                 if res['result']['error_code'] == 0:
-                    write_cache_with_folder(res['result']['response'], "event_cache_data")
+                    write_cache(res['result']['response'], "event_cache_data", 'cache_web')
             except Exception as e:
                 _logger.info(
                     "ERROR GET CACHE FROM EVENT SEARCH AUTOCOMPLETE" + json.dumps(res) + '\n' + str(
                         e) + '\n' + traceback.format_exc())
-                file = read_cache_with_folder_path("event_cache_data", 86400)
+                file = read_cache("event_cache_data", 'cache_web', 86400)
                 if file:
                     response = file
                     res = {
@@ -231,7 +231,7 @@ def get_auto_complete(request):
     req = request.POST
     record_json = []
     try:
-        file = read_cache_with_folder_path("hotel_cache_data", 90911)
+        file = read_cache("hotel_cache_data", 'cache_web', 90911)
         if file:
             record_cache = file
 
@@ -411,6 +411,14 @@ def create_booking(request):
             'promotion_codes_booking': [],
         }
 
+        try:
+            if request.POST['use_point'] == 'false':
+                data['use_point'] = False
+            else:
+                data['use_point'] = True
+        except:
+            _logger.error('use_point not found')
+
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -490,6 +498,14 @@ def issued_booking(request):
             'acquirer_seq_id': request.POST['acquirer_seq_id'],
             'voucher': {}
         }
+
+        try:
+            if request.POST['use_point'] == 'false':
+                data['use_point'] = False
+            else:
+                data['use_point'] = True
+        except:
+            _logger.error('use_point not found')
 
         if request.POST['voucher_code'] != '':
             provider = []

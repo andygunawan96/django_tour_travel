@@ -470,6 +470,13 @@ def commit_booking(request):
             'acquirer_seq_id': request.POST['acquirer_seq_id'],
             'voucher': {}
         }
+        try:
+            if request.POST['use_point'] == 'false':
+                data['use_point'] = False
+            else:
+                data['use_point'] = True
+        except:
+            _logger.error('use_point not found')
         if request.POST['voucher_code'] != '':
             data.update({
                 'voucher': data_voucher(request.POST['voucher_code'], request.session['sell_journey_io']['type'], []),
@@ -648,7 +655,7 @@ def page_issued_offline(request):
         response = get_cache_data(cache_version)
         res['countries'] = response['result']['response']['airline']['country']
         try:
-            file = read_cache_with_folder_path("get_airline_active_carriers", 90911)
+            file = read_cache("get_airline_active_carriers", 'cache_web', 90911)
             res['airline_carriers'] = file
         except Exception as e:
             _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())

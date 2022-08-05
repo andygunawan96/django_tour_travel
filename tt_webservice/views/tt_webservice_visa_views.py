@@ -147,18 +147,18 @@ def get_carriers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache_with_folder_path("get_visa_carriers")
+    file = read_cache("get_visa_carriers", 'cache_web')
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
-                write_cache_with_folder(res, "get_visa_carriers")
+                write_cache(res, "get_visa_carriers", 'cache_web')
                 _logger.info("get_carriers HOTEL RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache_with_folder_path("get_visa_carriers", 90911)
+                    file = read_cache("get_visa_carriers", 'cache_web', 90911)
                     if file:
                         res = file
                     _logger.info("get_carriers HOTEL ERROR USE CACHE SIGNATURE " + request.POST['signature'])
@@ -168,7 +168,7 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_visa_carriers", 90911)
+            file = read_cache("get_visa_carriers", 'cache_web', 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_hotel_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -188,18 +188,18 @@ def get_config_provider(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    file = read_cache_with_folder_path("visa_provider")
+    file = read_cache("visa_provider", 'cache_web')
     if not file:
         url_request = url + 'content'
         res = send_request_api(request, url_request, headers, data, 'POST')
         try:
             if res['result']['error_code'] == 0:
                 #datetime
-                write_cache_with_folder(res, "visa_provider")
+                write_cache(res, "visa_provider", 'cache_web')
                 _logger.info("get_providers VISA RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache_with_folder_path("visa_provider", 90911)
+                    file = read_cache("visa_provider", 'cache_web', 90911)
                     if file:
                         res = file
                     _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
@@ -209,7 +209,7 @@ def get_config_provider(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("visa_provider", 90911)
+            file = read_cache("visa_provider", 'cache_web', 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_provider_list visa file\n' + str(e) + '\n' + traceback.format_exc())
@@ -513,6 +513,15 @@ def commit_booking(request):
             'acquirer_seq_id': request.POST['acquirer_seq_id'],
             'voucher': {}
         })
+
+        try:
+            if request.POST['use_point'] == 'false':
+                data['use_point'] = False
+            else:
+                data['use_point'] = True
+        except:
+            _logger.error('use_point not found')
+
         if request.POST['voucher_code'] != '':
             data.update({
                 'voucher': data_voucher(request.POST['voucher_code'], 'visa', ['visa_rodextrip']),
