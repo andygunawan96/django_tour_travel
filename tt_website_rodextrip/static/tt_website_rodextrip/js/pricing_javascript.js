@@ -284,6 +284,27 @@ function calculate(type){
             }
             text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
             document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
+        }else if(type == 'request_new'){
+            console.log(price_duplication);
+            additional_price = 0;
+            for(i in price_duplication){
+                for(j in price_duplication[i]){
+                    if(price_duplication[i][j].total == undefined)
+                        price_duplication[i][j].total = 0;
+                    if(price_duplication[i][j].Fare + price_duplication[i][j].Tax <= 0)
+                    {
+                        price_duplication[i][j].Repricing = 0;
+                        price_duplication[i][j].total = 0;
+                    }
+                    document.getElementById(j+'_price').innerHTML = getrupiah(price_duplication[i][j].Fare + price_duplication[i][j].Tax);
+                    document.getElementById(j+'_repricing').innerHTML = getrupiah(price_duplication[i][j].Repricing);
+                    document.getElementById(j+'_total').innerHTML = getrupiah(price_duplication[i][j].total);
+                    additional_price += price_duplication[i][j].total;
+                }
+            }
+            airline_detail('request_new');
+            text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('request_new');" value="Set Upsell Downsell">`;
+//            document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('request_new');" value="Set Upsell Downsell">`;
         }else{
             for(i in price_duplication){
                 for(j in price_duplication[i]){

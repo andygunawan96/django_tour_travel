@@ -2099,7 +2099,8 @@ def update_service_charge(request):
     try:
         data = {
             'order_number': json.loads(request.POST['order_number']),
-            'passengers': json.loads(request.POST['passengers'])
+            'passengers': json.loads(request.POST['passengers']),
+            'type': request.POST.get('type') and request.POST['type'] or ''
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -2121,8 +2122,12 @@ def update_service_charge(request):
                         if upsell['pax_type'] not in total_upsell_dict:
                             total_upsell_dict[upsell['pax_type']] = 0
                         total_upsell_dict[upsell['pax_type']] += pricing['amount']
-            set_session(request, 'airline_upsell_'+request.POST['signature'], total_upsell_dict)
-            _logger.info(json.dumps(request.session['airline_upsell_' + request.POST['signature']]))
+            if data['type'] == 'request_new':
+                set_session(request, 'airline_ssr_upsell_' + request.POST['signature'], total_upsell_dict)
+                _logger.info(json.dumps(request.session['airline_ssr_upsell_' + request.POST['signature']]))
+            else:
+                set_session(request, 'airline_upsell_' + request.POST['signature'], total_upsell_dict)
+                _logger.info(json.dumps(request.session['airline_upsell_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
