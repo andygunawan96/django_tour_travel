@@ -995,7 +995,7 @@ function auto_input_pax_cache_reorder(){
     if(pax_cache_reorder.hasOwnProperty('adult')){
         for(x in pax_cache_reorder.adult){
             if(x == 0 && document.getElementById('booker_id') != null){
-                if(pax_cache_reorder.adult[x].passenger_seq_id == pax_cache_reorder.booker.booker_seq_id){
+                if(pax_cache_reorder.adult[x].passenger_seq_id == pax_cache_reorder.booker.booker_seq_id && pax_cache_reorder.adult[x].passenger_seq_id != ''){
                     document.getElementsByName('myRadios')[0].checked = true;
                     copy_booker_to_passenger('copy','airline');
                 }
