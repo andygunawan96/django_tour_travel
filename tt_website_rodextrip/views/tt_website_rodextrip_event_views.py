@@ -25,8 +25,7 @@ def event(request):
         try:
             values = get_data_template(request)
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
             for i in airline_country:
@@ -81,8 +80,7 @@ def search(request):
         try:
             # check_captcha(request)
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             values = get_data_template(request, 'search')
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
@@ -128,8 +126,7 @@ def search_category(request, category_name):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             values = get_data_template(request, 'search')
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
@@ -173,8 +170,7 @@ def detail(request):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             values = get_data_template(request, 'search')
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
@@ -221,8 +217,7 @@ def vendor(request):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             values = get_data_template(request, 'search')
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
@@ -268,8 +263,7 @@ def contact_passengers(request):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             values = get_data_template(request)
 
             if request.POST:
@@ -353,8 +347,7 @@ def review(request):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             values = get_data_template(request)
             airline_country = response['result']['response']['airline']['country']
             phone_code = []

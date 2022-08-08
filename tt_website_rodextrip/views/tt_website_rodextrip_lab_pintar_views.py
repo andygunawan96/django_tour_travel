@@ -45,8 +45,7 @@ def lab_pintar(request):
         try:
             values = get_data_template(request)
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
             for i in airline_country:
@@ -105,8 +104,7 @@ def lab_pintar(request):
 def passenger(request, test_type=''):
     try:
         javascript_version = get_javascript_version()
-        cache_version = get_cache_version()
-        response = get_cache_data(cache_version)
+        response = get_cache_data()
 
         values = get_data_template(request)
 
@@ -175,8 +173,7 @@ def review(request):
         try:
             passenger_booker = {}
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
 
             values = get_data_template(request)
             try:

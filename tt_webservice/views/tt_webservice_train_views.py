@@ -153,7 +153,7 @@ def get_config_provider(request):
                 _logger.info("get_providers TRAIN RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = read_cache("train_provider", 90911, 'cache_web')
+                    file = read_cache("train_provider", 'cache_web', 90911)
                     if file:
                         res = file
                     _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
@@ -164,7 +164,7 @@ def get_config_provider(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache("train_provider", 90911, 'cache_web')
+            file = read_cache("train_provider", 'cache_web', 90911)
             res = file
         except Exception as e:
             _logger.error('ERROR get_provider_list train file\n' + str(e) + '\n' + traceback.format_exc())
@@ -481,8 +481,7 @@ def commit_booking(request):
     try:
         booker = request.session['train_create_passengers']['booker']
         contacts = request.session['train_create_passengers']['contact']
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
         for country in response['result']['response']['airline']['country']:
             if booker['nationality_name'] == country['name']:
                 booker['nationality_code'] = country['code']
@@ -628,8 +627,7 @@ def get_booking(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
-            javascript_version = get_cache_version()
-            response = get_cache_data(javascript_version)
+            response = get_cache_data()
             airline_country = response['result']['response']['airline']['country']
             country = {}
             now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')

@@ -465,8 +465,7 @@ def commit_booking(request):
         elif request.session.get('vendor_%s' % request.POST['signature']):
             data['provider'] = request.session['vendor_%s' % request.POST['signature']]
 
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
 
         for country in response['result']['response']['airline']['country']:
             if data['booker']['nationality_name'] == country['name']:
@@ -575,8 +574,7 @@ def get_booking(request):
     url_request = url + additional_url
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
         if res['result']['error_code'] == 0:
             try:
                 res['result']['response']['can_issued'] = False
@@ -778,8 +776,7 @@ def get_transaction_by_analyst(request):
 def get_data_cache_passenger_medical(request):
     try:
         res = request.session['medical_passenger_cache']
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
         for rec in res:
             for country in response['result']['response']['airline']['country']:
                 if rec['nationality_code'] == country['code']:
@@ -822,8 +819,7 @@ def save_backend(request):
         data = json.loads(request.POST['request'])
         _logger.info(json.dumps(data))
 
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
         res = request.session['medical_passenger_cache']
         for idx, rec in enumerate(data['passengers']):
             rec['birth_date'] = '%s-%s-%s' % (rec['birth_date'].split(' ')[2], month[rec['birth_date'].split(' ')[1]], rec['birth_date'].split(' ')[0])
@@ -876,8 +872,7 @@ def verify_data(request):
         data = json.loads(request.POST['request'])
         _logger.info(json.dumps(data))
 
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
 
         res = request.session['medical_passenger_cache']
         for idx, rec in enumerate(data['passengers']):
@@ -1040,11 +1035,10 @@ def booker_insentif_booking(request):
 
 def page_passenger(request):
     try:
-        cache_version = get_cache_version()
         res = {
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
         }
-        response = get_cache_data(cache_version)
+        response = get_cache_data()
         res['countries'] = response['result']['response']['airline']['country']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())

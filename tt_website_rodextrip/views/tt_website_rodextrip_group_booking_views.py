@@ -40,8 +40,7 @@ def group_booking(request):
     if 'user_account' in request.session._session and 'b2c_limitation' not in request.session['user_account']['co_agent_frontend_security']:
         try:
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
 
             values = get_data_template(request)
             try:
@@ -90,8 +89,7 @@ def issued_offline_history(request):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
             for i in airline_country:

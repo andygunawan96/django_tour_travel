@@ -253,8 +253,7 @@ def get_auto_complete(request):
 
 def search(request):
     try:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
         data = {
             'event_name': request.POST.get('event_name') and request.POST['event_name'].split(' - ')[0] or '',
             'vendor': request.POST.get('vendor') or '',
@@ -358,8 +357,7 @@ def extra_question(request):
 def create_booking(request):
     try:
         passenger = []
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
         for pax_type in request.session['event_review_pax']:
             if pax_type != 'contact' and pax_type != 'booker':
                 for pax in request.session['event_review_pax'][pax_type]:
