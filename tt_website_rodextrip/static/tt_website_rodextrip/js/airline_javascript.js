@@ -7880,6 +7880,7 @@ function reschedule_list_details(key, type){
 }
 
 function post_issued_after_sales(adds_type){
-    update_service_charge('request_post_issued~'+adds_type);
+    if(typeof(is_process_repricing) !== 'undefined')
+        update_service_charge('request_post_issued~'+adds_type);
     update_booking_after_sales_v2();
 }
