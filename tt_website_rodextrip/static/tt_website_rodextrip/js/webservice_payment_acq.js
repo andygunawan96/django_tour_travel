@@ -1035,7 +1035,7 @@ function set_price(val, type, product_type){
 
     if(type == 'top_up' && payment_method != 'va')
         text += `<button type="button" id="submit_top_up" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="commit_top_up();" style="width:100%;">Submit <div class="ld ld-ring ld-cycle"></div></button>`;
-    else if(payment_method == 'payment_gateway' || payment_method == 'credit')
+    else if(payment_method == 'payment_gateway')
         if(free_reservation == false)
             text += `<button type="button" id="payment_gtw" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="get_payment_order_number('`+order_number_id+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
         else if(document.URL.split('/')[document.URL.split('/').length-1] == 'payment'){
