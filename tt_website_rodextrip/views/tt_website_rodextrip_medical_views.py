@@ -47,8 +47,7 @@ def medical(request, vendor=''):
             try:
                 values = get_data_template(request)
                 javascript_version = get_javascript_version()
-                cache_version = get_cache_version()
-                response = get_cache_data(cache_version)
+                response = get_cache_data()
                 airline_country = response['result']['response']['airline']['country']
                 phone_code = []
                 for i in airline_country:
@@ -113,8 +112,7 @@ def passenger(request, vendor, test_type=''):
             if 'b2c_limitation' in request.session['user_account']['co_agent_frontend_security'] and vendor == 'periksain':
                 return no_session_logout(request)
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
 
             values = get_data_template(request)
 
@@ -185,8 +183,7 @@ def review(request, vendor):
         try:
             passenger_booker = {}
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
 
             values = get_data_template(request)
             try:
@@ -315,8 +312,7 @@ def passenger_edit(request, vendor,test_type, order_number):
             if 'b2c_limitation' in request.session['user_account']['co_agent_frontend_security'] and vendor == 'periksain':
                 return no_session_logout(request)
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
 
             values = get_data_template(request)
 

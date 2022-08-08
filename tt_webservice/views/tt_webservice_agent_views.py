@@ -164,8 +164,7 @@ def signin(request):
                         except:
                             set_session(request, 'provider', [])
                         _logger.info("SIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
-                        javascript_version = get_cache_version()
-                        response = get_cache_data(javascript_version)
+                        response = get_cache_data()
 
                         res['result']['response'].update({
                             # 'visa': response['result']['response']['visa'],
@@ -294,7 +293,7 @@ def signin_btc(request):
                         set_session(request, 'provider', [])
                     _logger.info("SIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
                     javascript_version = get_cache_version()
-                    response = get_cache_data(javascript_version)
+                    response = get_cache_data()
 
                     res['result']['response'].update({
                         # 'visa': response['result']['response']['visa'],
@@ -655,13 +654,7 @@ def get_new_cache(signature, type='all'):
             popular = popular + average
 
             write_cache(popular, "airline_destination", 'cache_web')
-            file = read_cache("cache_version", 'cache_web', 90911)
-            if file:
-                cache_version = int(file) + 1
-            else:
-                cache_version = 1
-            write_cache(res, "version" + str(cache_version), 'cache_web')
-            write_cache(cache_version, "cache_version", 'cache_web')
+            write_cache(res, "version", 'cache_web')
 
             # cache tanggal libur
             headers = {
@@ -1419,8 +1412,7 @@ def update_customer_list(request):
 
 def create_customer(request):
     try:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
         pax = json.loads(request.POST['passenger'])
         image = {
             'files_attachment_edit': 'avatar',
@@ -1512,8 +1504,7 @@ def update_customer(request):
             'files_attachment_3': 'sim',
             'files_attachment_4': 'other'
         }
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
         passenger = json.loads(request.POST['data'])
         passenger['birth_date'] = '%s-%s-%s' % (passenger['birth_date'].split(' ')[2], month[passenger['birth_date'].split(' ')[1]], passenger['birth_date'].split(' ')[0])
 

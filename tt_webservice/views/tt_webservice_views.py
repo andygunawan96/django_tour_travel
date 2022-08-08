@@ -19,9 +19,9 @@ def get_cache_version():
         _logger.error('ERROR cache_version\n' + str(e) + '\n' + traceback.format_exc())
     return cache_version
 
-def get_cache_data(javascript_version):
+def get_cache_data():
     try:
-        file = read_cache("version" + str(javascript_version), 'cache_web', 90911)
+        file = read_cache("version", 'cache_web', 90911)
         if file:
             response = file
     except Exception as e:

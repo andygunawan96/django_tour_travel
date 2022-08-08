@@ -1490,8 +1490,7 @@ def update_contacts(request):
     try:
         booker = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']]['booker'])
         contacts = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']]['contact'])
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
         for country in response['result']['response']['airline']['country']:
             if booker['nationality_name'] == country['name']:
                 booker['nationality_code'] = country['code']
@@ -1534,8 +1533,7 @@ def update_contacts(request):
 
 def update_passengers(request):
     try:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
         passenger = []
         passenger_cache = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']])
         for pax_type in passenger_cache:
@@ -1796,8 +1794,7 @@ def get_booking(request):
     url_request = url + 'booking/airline'
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
         airline_country = response['result']['response']['airline']['country']
         country = {}
         file = read_cache("airline_destination", 'cache_web', 90911)
@@ -3022,8 +3019,7 @@ def get_retrieve_booking_from_vendor(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            javascript_version = get_cache_version()
-            response = get_cache_data(javascript_version)
+            response = get_cache_data()
             file = read_cache("airline_destination", 'cache_web', 90911)
             if file:
                 response = file
@@ -4331,8 +4327,7 @@ def cancel_v2(request):
 
 def update_post_pax_name(request):
     try:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
         passenger = []
         passenger_cache = json.loads(request.POST['passengers'])
         for pax in passenger_cache:
@@ -4390,8 +4385,7 @@ def update_post_pax_name(request):
 
 def update_post_pax_identity(request):
     try:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
         passenger = []
         passenger_cache = json.loads(request.POST['passengers'])
         for pax in passenger_cache:

@@ -27,8 +27,7 @@ infant_title = ['MSTR', 'MISS']
 def open_page(request):
     try:
         javascript_version = get_javascript_version()
-        cache_version = get_cache_version()
-        response = get_cache_data(cache_version)
+        response = get_cache_data()
 
         values = get_data_template(request, 'registration')
         social_medias = []

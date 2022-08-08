@@ -217,8 +217,7 @@ def get_auto_complete_gateway(request):
 
 def get_data(request):
     try:
-        cache_version = get_cache_version()
-        temp_data = get_cache_data(cache_version)
+        temp_data = get_cache_data()
 
         response = {
             'tour_countries': temp_data['result']['response']['tour']['countries']
@@ -451,8 +450,7 @@ def sell_tour(request):
 
 
 def update_contact(request):
-    javascript_version = get_cache_version()
-    response = get_cache_data(javascript_version)
+    response = get_cache_data()
 
     booker = request.session['tour_booking_data']['booker']
     contacts = request.session['tour_booking_data']['contact']
@@ -485,8 +483,7 @@ def update_contact(request):
 
 def update_passengers(request):
     passenger = []
-    javascript_version = get_cache_version()
-    response = get_cache_data(javascript_version)
+    response = get_cache_data()
     room_choices = json.loads(request.POST['room_choice'])
 
     for pax in request.session['tour_booking_data']['adult_pax']:
