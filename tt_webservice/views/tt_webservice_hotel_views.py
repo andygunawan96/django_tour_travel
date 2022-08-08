@@ -238,8 +238,7 @@ def search(request):
         child_age = []
         if request.POST['child_age'] != '':
             child_age = request.POST['child_age'].split(',')
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
         id = ''
         country_id = ''
         destination_id = ''
@@ -565,8 +564,7 @@ def provision(request):
 def create_booking(request):
     try:
         passenger = []
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
         for pax_type in request.session['hotel_review_pax']:
             if pax_type != 'contact' and pax_type != 'booker':
                 for pax in request.session['hotel_review_pax'][pax_type]:

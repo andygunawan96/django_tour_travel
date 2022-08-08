@@ -169,8 +169,7 @@ def get_carriers(request):
 
 def get_data(request):
     try:
-        cache_version = get_cache_version()
-        temp_data = get_cache_data(cache_version)
+        temp_data = get_cache_data()
 
         response = {
             'activity_locations': temp_data['result']['response']['activity']['countries'],
@@ -347,8 +346,7 @@ def sell_activity(request):
 
 
 def update_contact(request):
-    javascript_version = get_cache_version()
-    response = get_cache_data(javascript_version)
+    response = get_cache_data()
 
     booker = request.session['activity_review_booking']['booker']
     contacts = request.session['activity_review_booking']['contacts']
@@ -381,8 +379,7 @@ def update_contact(request):
 
 def update_passengers(request):
     passenger = []
-    javascript_version = get_cache_version()
-    response = get_cache_data(javascript_version)
+    response = get_cache_data()
 
     countries = response['result']['response']['airline']['country']
     passenger = []
@@ -560,8 +557,7 @@ def get_review_booking_data(request):
     return request.session['activity_review_booking']
 
 def update_options(request):
-    javascript_version = get_cache_version()
-    response = get_cache_data(javascript_version)
+    response = get_cache_data()
 
     countries = response['result']['response']['airline']['country']
 

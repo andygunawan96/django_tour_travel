@@ -221,8 +221,7 @@ def get_booking(request):
     try:
         if res['result']['error_code'] == 0:
             nationality_code = ''
-            javascript_version = get_cache_version()
-            response = get_cache_data(javascript_version)
+            response = get_cache_data()
 
             for rec in res['result']['response']['ticket_list']:
                 rec.update({
@@ -393,8 +392,7 @@ def update_passenger(request):
     # nanti ganti ke get_ssr_availability
     try:
         nationality_code = ''
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
 
 
         pax = json.loads(request.POST['passengers'])
@@ -436,8 +434,7 @@ def update_booker(request):
     # nanti ganti ke get_ssr_availability
     try:
         nationality_code = ''
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
 
         for country in response['result']['response']['airline']['country']:
             if request.POST['nationality'] == country['name']:
@@ -479,8 +476,7 @@ def update_contact(request):
     # nanti ganti ke get_ssr_availability
     try:
         nationality_code = ''
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
 
         for country in response['result']['response']['airline']['country']:
             if request.POST['nationality'] == country['name']:

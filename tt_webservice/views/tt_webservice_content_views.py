@@ -239,8 +239,7 @@ def update_image_passenger(request):
     return res
 
 def get_country():
-    javascript_version = get_cache_version()
-    response = get_cache_data(javascript_version)
+    response = get_cache_data()
     try:
         airline_country = response['result']['response']['airline']['country']
         res = {

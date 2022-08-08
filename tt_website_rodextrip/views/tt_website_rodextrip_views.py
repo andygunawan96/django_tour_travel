@@ -104,8 +104,7 @@ def index(request):
             pass
 
         javascript_version = get_javascript_version()
-        cache_version = get_cache_version()
-        response = get_cache_data(cache_version)
+        response = get_cache_data()
         airline_country = response['result']['response']['airline']['country']
         phone_code = []
         for i in airline_country:
@@ -359,8 +358,7 @@ def assign_analyst(request, vendor):
             'analyst_periksain' in request.session['user_account']['co_agent_frontend_security'] and vendor == 'periksain' or 'assign_analyst_periksain' in request.session['user_account']['co_agent_frontend_security'] and vendor == 'periksain':
             try:
                 javascript_version = get_javascript_version()
-                cache_version = get_cache_version()
-                response = get_cache_data(cache_version)
+                response = get_cache_data()
                 airline_country = response['result']['response']['airline']['country']
                 phone_code = []
                 for i in airline_country:
@@ -803,8 +801,7 @@ def admin(request):
                 _logger.error(str(e) + '\n' + traceback.format_exc())
                 raise Exception('Make response code 500!')
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
             for i in airline_country:
@@ -858,8 +855,7 @@ def setting_footer_printout(request):
     if 'user_account' in request.session._session and 'agent_setting_printout' in request.session['user_account']['co_agent_frontend_security']:
         try:
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
             for i in airline_country:
@@ -925,8 +921,7 @@ def reservation(request):
     if 'user_account' in request.session._session and request.session['user_account']['co_user_login'] != 'agent_b2c':
         try:
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
             for i in airline_country:
@@ -969,8 +964,7 @@ def reservation(request):
 def reservation_request(request):
     try:
         javascript_version = get_javascript_version()
-        cache_version = get_cache_version()
-        response = get_cache_data(cache_version)
+        response = get_cache_data()
         values = get_data_template(request)
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -991,8 +985,7 @@ def reservation_request(request):
 def create_passenger_request(request, signature):
     try:
         javascript_version = get_javascript_version()
-        cache_version = get_cache_version()
-        response = get_cache_data(cache_version)
+        response = get_cache_data()
         airline_country = response['result']['response']['airline']['country']
         phone_code = []
         for i in airline_country:
@@ -1021,8 +1014,7 @@ def create_passenger_request(request, signature):
 def get_reservation_request(request, request_number):
     try:
         javascript_version = get_javascript_version()
-        cache_version = get_cache_version()
-        response = get_cache_data(cache_version)
+        response = get_cache_data()
         values = get_data_template(request)
 
         try:
@@ -1049,8 +1041,7 @@ def get_reservation_request(request, request_number):
 def live(request, data):
     try:
         javascript_version = get_javascript_version()
-        cache_version = get_cache_version()
-        response = get_cache_data(cache_version)
+        response = get_cache_data()
         airline_country = response['result']['response']['airline']['country']
         phone_code = []
         for i in airline_country:
@@ -1092,8 +1083,7 @@ def live(request, data):
 def mobile_live(request, data):
     try:
         javascript_version = get_javascript_version()
-        cache_version = get_cache_version()
-        response = get_cache_data(cache_version)
+        response = get_cache_data()
         airline_country = response['result']['response']['airline']['country']
         phone_code = []
         for i in airline_country:
@@ -1136,8 +1126,7 @@ def highlight_setting(request):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
             for i in airline_country:
@@ -1180,8 +1169,7 @@ def top_up(request):
     if 'user_account' in request.session._session and 'b2c_limitation' not in request.session['user_account']['co_agent_frontend_security']:
         try:
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
             for i in airline_country:
@@ -1255,8 +1243,7 @@ def top_up_history(request):
     if 'user_account' in request.session._session and 'b2c_limitation' not in request.session['user_account']['co_agent_frontend_security']:
         try:
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
             for i in airline_country:
@@ -1306,9 +1293,9 @@ def get_cache_version():
         _logger.error('ERROR cache_version file\n' + str(e) + '\n' + traceback.format_exc())
     return cache_version
 
-def get_cache_data(javascript_version):
+def get_cache_data():
     try:
-        file = read_cache("version" + str(javascript_version), 'cache_web', 90911)
+        file = read_cache("version", 'cache_web', 90911)
         if file:
             response = file
         else:
@@ -1461,8 +1448,7 @@ def get_data_template(request, type='home', provider_type = []):
             if request.session.get('keep_me_signin') == True:
                 request.session.set_expiry(3 * 60 * 60) # jam detik menit
                 request.session.modified = True
-        cache_version = get_cache_version()
-        response = get_cache_data(cache_version)
+        response = get_cache_data()
         phone_code = []
         try:
             airline_country = response['result']['response']['airline']['country']
@@ -1719,8 +1705,7 @@ def tutorial_re_order_phc(request):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
             for i in airline_country:
@@ -1757,8 +1742,7 @@ def tutorial(request):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
             for i in airline_country:
@@ -1807,8 +1791,7 @@ def contact_us(request):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
             for i in airline_country:
@@ -1857,8 +1840,7 @@ def faq(request):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
             for i in airline_country:
@@ -1893,8 +1875,7 @@ def about_us(request):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
             for i in airline_country:

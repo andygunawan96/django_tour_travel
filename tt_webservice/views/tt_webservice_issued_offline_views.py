@@ -113,8 +113,7 @@ def signin(request):
 
 def get_data(request):
     try:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
 
         res = response['result']['response']['issued_offline']
     except Exception as e:
@@ -254,8 +253,7 @@ def set_data_issued_offline(request):
 
 def update_contact(request):
     contact = []
-    javascript_version = get_cache_version()
-    response = get_cache_data(javascript_version)
+    response = get_cache_data()
     try:
         for i in range(int(request.POST['counter_passenger'])):
             try:
@@ -354,8 +352,7 @@ def calculateAge(birthDate):
 def update_passenger(request):
     try:
         passenger = []
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
         for i in range(int(request.POST['counter_passenger'])):
             try:
                 birth_date = ''
@@ -648,11 +645,10 @@ def booker_insentif_booking(request):
 
 def page_issued_offline(request):
     try:
-        cache_version = get_cache_version()
         res = {
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
         }
-        response = get_cache_data(cache_version)
+        response = get_cache_data()
         res['countries'] = response['result']['response']['airline']['country']
         try:
             file = read_cache("get_airline_active_carriers", 'cache_web', 90911)

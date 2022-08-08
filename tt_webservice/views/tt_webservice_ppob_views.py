@@ -250,8 +250,7 @@ def get_provider_description(request):
 
 def get_config(request):
     try:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
 
         res = response['result']['response']['ppob']
     except Exception as e:

@@ -425,8 +425,7 @@ def commit_booking(request):
     try:
         booker = request.session['bus_create_passengers']['booker']
         contacts = request.session['bus_create_passengers']['contact']
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
         for country in response['result']['response']['airline']['country']:
             if booker['nationality_name'] == country['name']:
                 booker['nationality_code'] = country['code']

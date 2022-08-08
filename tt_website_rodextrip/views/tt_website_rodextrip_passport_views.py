@@ -27,8 +27,7 @@ def passport(request):
         try:
             values = get_data_template(request)
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
             for i in airline_country:
@@ -83,8 +82,7 @@ def search(request):
             # check_captcha(request)
             values = get_data_template(request, 'search')
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
             for i in airline_country:
@@ -127,8 +125,7 @@ def passenger(request):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             values = get_data_template(request)
 
             time_limit = get_timelimit_product(request, 'passport')
@@ -242,8 +239,7 @@ def review(request):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
+            response = get_cache_data()
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
             for i in airline_country:

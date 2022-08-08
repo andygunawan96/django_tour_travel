@@ -217,8 +217,7 @@ def get_config_provider(request):
 
 def get_config(request):
     try:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
 
         res = {}
         for passport_config in response['result']['response']['passport']:
@@ -313,8 +312,7 @@ def update_contact(request):
     try:
         booker = request.session['passport_create_passengers']['booker']
         contacts = request.session['passport_create_passengers']['contact']
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
         for country in response['result']['response']['airline']['country']:
             if booker['nationality_name'] == country['name']:
                 booker['nationality_code'] = country['code']
@@ -351,8 +349,7 @@ def update_contact(request):
 def update_passengers(request):
     try:
         passengers = []
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        response = get_cache_data()
         master_passport_id = json.loads(request.POST['id'])
         for pax_type in request.session['passport_create_passengers']:
             if pax_type != 'booker' and pax_type != 'contact':
