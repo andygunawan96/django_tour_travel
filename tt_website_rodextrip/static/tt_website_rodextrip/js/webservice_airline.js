@@ -7511,7 +7511,7 @@ function airline_get_booking(data, sync=false){
                                     console.log(err); // error kalau ada element yg tidak ada
                                 }
                                 try{
-                                    price['SSR'] += msg.result.response.passengers[j].channel_service_charges.amount_ssr;
+                                    price['SSR'] += msg.result.response.passengers[j].channel_service_charges.amount_addons + airline_get_detail.result.response.passengers[j].channel_service_charges.amount_rs;;
                                 }catch(err){
                                     console.log(err); // error kalau ada element yg tidak ada
                                 }
@@ -8846,7 +8846,7 @@ function airline_issued(data){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
                             try{
-                                price['SSR'] += airline_get_detail.result.response.passengers[j].channel_service_charges.amount_ssr;
+                                price['SSR'] += airline_get_detail.result.response.passengers[j].channel_service_charges.amount_addons + airline_get_detail.result.response.passengers[j].channel_service_charges.amount_rs;
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
@@ -8965,7 +8965,7 @@ function airline_issued(data){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
                             try{
-                                price['SSR'] += airline_get_detail.result.response.passengers[j].channel_service_charges.amount_ssr;
+                                price['SSR'] += airline_get_detail.result.response.passengers[j].channel_service_charges.amount_addons + airline_get_detail.result.response.passengers[j].channel_service_charges.amount_rs;;
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
@@ -9244,7 +9244,7 @@ function update_service_charge(type){
             }
         }
         repricing_order_number = order_number;
-    }else if(type == 'request_new'){
+    }else if(type == 'request_new' || type.split('~')[0] == 'request_post_issued'){
         upsell = []
         currency = '';
         for(i in airline_get_detail.passengers){
@@ -12026,6 +12026,9 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
     text+=`
     <div class="col-lg-12" id='additional_price_information_rs' hidden>
     </div>`;
+    text +=`<div class="col-lg-12">
+                <div style="text-align:right; padding-bottom:10px; padding-top:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>
+            </div>`;
     if(airline_get_detail.result.response.state == 'booked' ){
         text+=`
     <div class="col-lg-12">

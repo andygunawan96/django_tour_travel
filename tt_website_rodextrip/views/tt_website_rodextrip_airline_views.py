@@ -1769,6 +1769,7 @@ def review_after_sales(request, signature):
             values = get_data_template(request)
             goto = 0
             ssr = []
+            addons_type = ''
 
             if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-2] == 'ssr':
                 try:
@@ -1810,6 +1811,7 @@ def review_after_sales(request, signature):
                                 # 'provider': ssr_package['provider'] ganti ke pnr
                             })
                         sell_ssrs_request = []
+                    addons_type = 'ssr'
                     if len(sell_ssrs) > 0:
                         request.session['airline_ssr_request_%s' % signature] = sell_ssrs
                     sell_ssrs = []
@@ -1849,6 +1851,7 @@ def review_after_sales(request, signature):
                                         'passengers': pax_request
                                     })
                                 pax_request = []
+                    addons_type = 'seat_map'
                     set_session(request, 'airline_seat_request_%s' % signature, segment_seat_request)
                 except Exception as e:
                     print('airline no seatmap')
@@ -1887,6 +1890,7 @@ def review_after_sales(request, signature):
                 'username': request.session['user_account'],
                 'passengers': request.session['airline_create_passengers_%s' % signature],
                 'passengers_ssr': passenger,
+                'addons_type': addons_type,
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
                 'signature': request.session['airline_signature'],
