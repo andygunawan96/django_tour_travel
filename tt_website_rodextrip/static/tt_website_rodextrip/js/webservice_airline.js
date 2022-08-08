@@ -14466,7 +14466,8 @@ function assign_seats_after_sales_v2(){
                     $('#show_loading_booking_airline').hide();
                     hide_modal_waiting_transaction();
                 }else{
-                    update_service_charge('request_new');
+                    if(typeof(is_process_repricing) !== 'undefined')
+                        update_service_charge('request_new');
                     update_booking_after_sales_v2();
                 }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -14507,7 +14508,8 @@ function sell_ssrs_after_sales_v2(){
                     $('#show_loading_booking_airline').hide();
                     hide_modal_waiting_transaction();
                 }else{
-                    update_service_charge('request_new');
+                    if(typeof(is_process_repricing) !== 'undefined')
+                        update_service_charge('request_new');
                     update_booking_after_sales_v2();
                 }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
