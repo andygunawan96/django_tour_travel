@@ -5364,8 +5364,8 @@ function get_airline_channel_repricing_data(){
             price['currency'] = 'IDR'
 
 //        try{
-//            price['CSC'] = airline_get_detail.passengers[j].channel_service_charges.amount_ssr;
-//            csc += airline_get_detail.passengers[j].channel_service_charges.amount_ssr;
+//            price['CSC'] = airline_get_detail.passengers[j].channel_service_charges.amount_addons;
+//            csc += airline_get_detail.passengers[j].channel_service_charges.amount_addons;
 //        }catch(err){
 //            console.log(err); // error kalau ada element yg tidak ada
 //        }
@@ -7877,4 +7877,10 @@ function reschedule_list_details(key, type){
         reschedule_flight_down.style.display = "block";
         reschedule_flight_detail.style.display = "none";
     }
+}
+
+function post_issued_after_sales(adds_type){
+    if(typeof(is_process_repricing) !== 'undefined')
+        update_service_charge('request_post_issued~'+adds_type);
+    update_booking_after_sales_v2();
 }

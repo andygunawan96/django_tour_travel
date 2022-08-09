@@ -299,6 +299,10 @@ function calculate(type){
                     document.getElementById(j+'_price').innerHTML = getrupiah(price_duplication[i][j].Fare + price_duplication[i][j].Tax);
                     document.getElementById(j+'_repricing').innerHTML = getrupiah(price_duplication[i][j].Repricing);
                     document.getElementById(j+'_total').innerHTML = getrupiah(price_duplication[i][j].total);
+
+                    if(price_duplication[i][j].Repricing != 0)
+                        is_process_repricing = true;
+
                     additional_price += price_duplication[i][j].total;
                 }
             }
