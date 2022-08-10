@@ -816,7 +816,7 @@ def ssr(request, signature):
                                 "passenger_id": pax['sequence']
                             })
                             if len(pax['fees']):
-                                child[len(adult) - 1]['ssr_list'] = []
+                                child[len(child) - 1]['ssr_list'] = []
                                 if ssr_provider.get('is_replace_ssr') and ssr_provider['is_replace_ssr']:
                                     for fee in pax['fees']:
                                         for provider in ssr_provider['ssr_availability']:

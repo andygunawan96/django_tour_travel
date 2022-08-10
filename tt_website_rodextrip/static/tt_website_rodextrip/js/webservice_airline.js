@@ -9247,29 +9247,39 @@ function update_service_charge(type){
     }else if(type == 'request_new' || type.split('~')[0] == 'request_post_issued'){
         upsell = []
         currency = '';
-        for(i in airline_get_detail.passengers){
-            if(airline_get_detail.passengers[i].pax_type != 'INF')
+        include_inf = false;
+        if(window.location.pathname.includes('review_after_sales'))
+        {
+            temp_check_var = airline_get_detail;
+        }
+        else
+        {
+            temp_check_var = airline_get_detail.result.response;
+            include_inf = true;
+        }
+        for(i in temp_check_var.passengers){
+            if(temp_check_var.passengers[i].pax_type != 'INF' || include_inf)
             {
                 if(currency == '')
-                    for(j in airline_get_detail.passengers[i].sale_service_charges){
-                        currency = airline_get_detail.passengers[i].sale_service_charges[j].FARE.currency;
+                    for(j in temp_check_var.passengers[i].sale_service_charges){
+                        currency = temp_check_var.passengers[i].sale_service_charges[j].FARE.currency;
                         break;
                     }
-                pax_full_name = airline_get_detail.passengers[i].title + ' ' + airline_get_detail.passengers[i].name
-                list_price = []
+                pax_full_name = temp_check_var.passengers[i].title + ' ' + temp_check_var.passengers[i].first_name + ' ' + temp_check_var.passengers[i].last_name;
+                list_price = [];
                 if(document.getElementById(pax_full_name+'_repricing').innerHTML != '-' && document.getElementById(pax_full_name+'_repricing').innerHTML != '0'){
                     list_price.push({
                         'amount': parseInt(document.getElementById(pax_full_name+'_repricing').innerHTML.split(',').join('')),
                         'currency_code': currency
                     });
                     upsell.push({
-                        'sequence': airline_get_detail.passengers[i].sequence,
+                        'sequence': temp_check_var.passengers[i].sequence,
                         'pricing': JSON.parse(JSON.stringify(list_price))
                     });
                 }
             }
         }
-        repricing_order_number = airline_get_detail.order_number;
+        repricing_order_number = temp_check_var.order_number;
     }else{
         upsell_price_dict = {};
         upsell = []
@@ -11959,7 +11969,7 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
                             $text += airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_count+`x `+airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_type+ ' Price'+ currency +' '+getrupiah(Math.ceil(airline_response[i].segments[j].fares[k].service_charge_summary[l].total_price/airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_count))+'\n';
                         }
                     }
-                    total_price += price
+                    total_price += price;
                     price = 0;
                 }
             }catch(err){
@@ -13899,6 +13909,8 @@ function airline_get_reschedule_itinerary_v2(){
 
                }
                get_price_itinerary_reissue_request(airline_response, msg.result.response.total_admin_fee, msg.result.response.reschedule_itinerary_provider);
+               get_airline_channel_repricing_data_reschedule(msg.result.response.reschedule_itinerary_provider);
+               console.log(msg.result.response.reschedule_itinerary_provider);
                document.getElementById('airline_detail').innerHTML += `
                 <div class="col-lg-12" style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;" id="sell_reschedule_div">
                     <input type="button" class="primary-btn" style="width:100%;" onclick="sell_reschedule_v2();" value="Proceed">
@@ -14007,7 +14019,7 @@ function sell_reschedule_v2(){
                                get_payment_acq('Issued',airline_get_detail.result.response.booker.seq_id, airline_get_detail.result.response.order_number, 'billing',signature,'airline_reissue');
                                document.getElementById('payment_acq').hidden = false;
                            }else{
-                               document.getElementById('airline_detail').innerHTML += `<input type="button" class="primary-btn issued_booking_btn" style="width:100%;" onclick="update_booking_after_sales_v2(true);" value="Continue">`;
+                               document.getElementById('airline_detail').innerHTML += `<input type="button" class="primary-btn issued_booking_btn" style="width:100%;" onclick="request_new_after_sales(true);" value="Continue">`;
                                document.getElementById('payment_acq').innerHTML = '';
                            }
                            if(check_seat){
