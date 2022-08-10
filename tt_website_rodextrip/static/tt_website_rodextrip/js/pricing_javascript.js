@@ -306,7 +306,14 @@ function calculate(type){
                     additional_price += price_duplication[i][j].total;
                 }
             }
-            airline_detail('request_new');
+            if(window.location.pathname.includes('review_after_sales'))
+            {
+                airline_detail('request_new');
+            }
+            else
+            {
+
+            }
             text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('request_new');" value="Set Upsell Downsell">`;
 //            document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('request_new');" value="Set Upsell Downsell">`;
         }else{
