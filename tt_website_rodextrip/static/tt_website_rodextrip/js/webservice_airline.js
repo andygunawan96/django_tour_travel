@@ -12036,9 +12036,12 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
     text+=`
     <div class="col-lg-12" id='additional_price_information_rs' hidden>
     </div>`;
-    text +=`<div class="col-lg-12">
-                <div style="text-align:right; padding-bottom:10px; padding-top:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>
-            </div>`;
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+    {
+        text +=`<div class="col-lg-12">
+                    <div style="text-align:right; padding-bottom:10px; padding-top:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>
+                </div>`;
+    }
     if(airline_get_detail.result.response.state == 'booked' ){
         text+=`
     <div class="col-lg-12">
