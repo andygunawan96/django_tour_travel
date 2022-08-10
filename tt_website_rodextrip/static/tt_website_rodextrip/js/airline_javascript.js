@@ -5424,6 +5424,129 @@ function get_airline_channel_repricing_data(){
     }
 }
 
+function get_airline_channel_repricing_data_reschedule(msg){
+    price_arr_repricing = {};
+    pax_type_repricing = [];
+
+    gen_passenger_data = {}
+
+    for(i in airline_get_detail.result.response.passengers){
+        full_pax_name = airline_get_detail.result.response.passengers[i].title+` `+airline_get_detail.result.response.passengers[i].first_name+` `+airline_get_detail.result.response.passengers[i].last_name;
+        if(!gen_passenger_data.hasOwnProperty(full_pax_name)){
+            gen_passenger_data[full_pax_name] = airline_get_detail.result.response.passengers[i];
+            gen_passenger_data[full_pax_name].name = full_pax_name;
+        }
+    }
+
+    for(i in msg){
+        for(j in msg[i].passengers){
+            full_pax_name = msg[i].passengers[j].title+` `+msg[i].passengers[j].first_name+` `+msg[i].passengers[j].last_name;
+            if(gen_passenger_data.hasOwnProperty(full_pax_name)){
+                gen_passenger_data[full_pax_name].fees = msg[i].passengers[j].fees;
+            }
+        }
+    }
+
+    for(j in gen_passenger_data){
+        pax_price = 0;
+        for(k in gen_passenger_data[j].fees){
+            pax_price += gen_passenger_data[j].fees[k].base_price;
+        }
+
+        for(k in airline_response){
+            for(l in airline_response[k].segments){
+                try{
+                    if(airline_response[k].segments[l].fares.length > 0){
+                        for(m in airline_response[k].segments[l].fares){
+                            for(n in airline_response[k].segments[l].fares[m].service_charge_summary){
+                                if(airline_response[k].segments[l].fares[m].service_charge_summary[n].pax_type == gen_passenger_data[j].pax_type)
+                                {
+                                    pax_price += airline_response[k].segments[l].fares[m].service_charge_summary[n].total_price/airline_response[k].segments[l].fares[m].service_charge_summary[n].pax_count;
+                                }
+                            }
+                        }
+                    }
+                }catch(err){
+                    console.log(err);
+                }
+            }
+        }
+
+        price = {'FARE': pax_price, 'currency': currency, 'CSC': 0};
+        if(price['currency'] == '')
+            price['currency'] = 'IDR'
+
+//        try{
+//            price['CSC'] = airline_get_detail.passengers[j].channel_service_charges.amount_addons;
+//            csc += airline_get_detail.passengers[j].channel_service_charges.amount_addons;
+//        }catch(err){
+//            console.log(err); // error kalau ada element yg tidak ada
+//        }
+
+        //repricing
+        check = 0;
+        if(price_arr_repricing.hasOwnProperty(gen_passenger_data[j].pax_type) == false){
+            price_arr_repricing[gen_passenger_data[j].pax_type] = {}
+            pax_type_repricing.push([gen_passenger_data[j].pax_type, gen_passenger_data[j].pax_type]);
+        }
+        // fix agar tidak tumpuk harga pnr pertama
+        if(price_arr_repricing[gen_passenger_data[j].pax_type].hasOwnProperty(gen_passenger_data[j].name)){
+            price_arr_repricing[gen_passenger_data[j].pax_type][gen_passenger_data[j].name] = {
+                'Fare': price_arr_repricing[gen_passenger_data[j].pax_type][gen_passenger_data[j].name]['Fare'] + price['FARE'],
+                'Tax': 0,
+                'Repricing': price['CSC'],
+                'total': price_arr_repricing[gen_passenger_data[j].pax_type][gen_passenger_data[j].name]['Fare'] + price['FARE'] + price['CSC']
+            }
+        }else{
+            price_arr_repricing[gen_passenger_data[j].pax_type][gen_passenger_data[j].name] = {
+                'Fare': price['FARE'],
+                'Tax': 0,
+                'Repricing': price['CSC'],
+                'total': price['FARE'] + price['CSC']
+            }
+        }
+
+        text_repricing = `
+        <div class="col-lg-12">
+            <div style="padding:5px;" class="row">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-3">Price</div>
+                <div class="col-lg-3">Repricing</div>
+                <div class="col-lg-3">Total</div>
+            </div>
+        </div>`;
+
+        for(k in price_arr_repricing){
+            for(l in price_arr_repricing[k]){
+                text_repricing += `
+                <div class="col-lg-12">
+                    <div style="padding:5px;" class="row" id="adult">
+                        <div class="col-lg-3" id="`+j+`_`+k+`">`+l+`</div>
+                        <div class="col-lg-3" id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
+                        if(price_arr_repricing[k][l].Repricing == 0)
+                            text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">-</div>`;
+                        else
+                            text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
+                        text_repricing+=`<div class="col-lg-3" id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
+                    </div>
+                </div>`;
+            }
+        }
+        text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+        document.getElementById('repricing_div').innerHTML = text_repricing;
+        document.getElementById('repricing_type').innerHTML = '<option value="passenger">Passenger</option>';
+        document.getElementById("table_of_equation").innerHTML = ``;
+        document.getElementById('repr_calc_button').innerHTML = `
+            <hr/>
+            <center>
+                <input class="primary-btn-ticket" type="button" onclick="calculate('request_new');" value="Calculate">
+            </center>
+        `;
+        $('#repricing_type').niceSelect('update');
+        // reset_repricing();
+    }
+}
+
 function update_identity(type, val){
      if(is_identity_required == 'true' || is_international == 'true')
         document.getElementById(type+'_identity_div'+val).style.display = 'block';
@@ -7879,8 +8002,14 @@ function reschedule_list_details(key, type){
     }
 }
 
-function post_issued_after_sales(adds_type){
+function request_new_after_sales(inp_pax_seat = false){
+    if(typeof(is_process_repricing) !== 'undefined')
+        update_service_charge('request_new');
+    update_booking_after_sales_v2(inp_pax_seat);
+}
+
+function post_issued_after_sales(adds_type, inp_pax_seat = false){
     if(typeof(is_process_repricing) !== 'undefined')
         update_service_charge('request_post_issued~'+adds_type);
-    update_booking_after_sales_v2();
+    update_booking_after_sales_v2(inp_pax_seat);
 }

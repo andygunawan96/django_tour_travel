@@ -1117,7 +1117,7 @@ function button_payment(type, page){
             temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="ppob_issued('`+order_number_id+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     }else if(type == 'airline_reissue'){
 //        temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="update_booking_after_sales();" style="width:100%;">Reschedule <div class="ld ld-ring ld-cycle"></div></button>`;
-        temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="update_booking_after_sales_v2(true);" style="width:100%;">Reschedule <div class="ld ld-ring ld-cycle"></div></button>`;
+        temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="post_issued_after_sales('reschedule', true);" style="width:100%;">Reschedule <div class="ld ld-ring ld-cycle"></div></button>`;
     }else if(type == 'airline_after_sales'){
 //        temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="update_booking_after_sales();" style="width:100%;">Proceed Request <div class="ld ld-ring ld-cycle"></div></button>`;
         temp_text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="post_issued_after_sales('`+addons_type+`');" style="width:100%;">Proceed Request <div class="ld ld-ring ld-cycle"></div></button>`;
