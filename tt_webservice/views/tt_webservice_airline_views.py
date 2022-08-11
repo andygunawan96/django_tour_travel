@@ -4419,7 +4419,10 @@ def update_post_pax_identity(request):
                 pax.pop('identity_type')
                 # pax.pop('identity_image')
             try:
-                if data_awal_passenger[idx]['identity_type'] != pax['identity']['identity_type']:
+                if data_awal_passenger[idx]['identity_type'] != pax['identity']['identity_type'] or \
+                    data_awal_passenger[idx]['identity_number'] != pax['identity']['identity_number'] or \
+                    data_awal_passenger[idx]['identity_expdate'] != pax['identity']['identity_expdate'] or \
+                    data_awal_passenger[idx]['identity_country_of_issued_code'] != pax['identity']['identity_country_of_issued_code']:
                     passenger.append(pax)
             except Exception as e:
                 _logger.error("%s, %s" % (str(e), traceback.format_exc()))
