@@ -12033,7 +12033,7 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
                                     </div>
                                 </div>
                             </div>`;
-                            $text += airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_count+`x `+airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_type+ ' Price'+ currency +' '+getrupiah(Math.ceil(airline_response[i].segments[j].fares[k].service_charge_summary[l].total_price/airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_count))+'\n';
+                            $text += airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_count+`x `+airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_type+ ' Price '+ currency +' '+getrupiah(Math.ceil(airline_response[i].segments[j].fares[k].service_charge_summary[l].total_price/airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_count))+'\n';
                             charge_tax = 0;
                             if(typeof(is_process_repricing) !== 'undefined')
                             {
@@ -12058,7 +12058,7 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
                                 </div>
                             </div>
                             `;
-                            $text += '';
+                            $text += airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_type+` Tax & Charges `+ currency + ` ` + getrupiah(Math.ceil(charge_tax)) + `\n`;
                             total_price += charge_tax;
                         }
                     }
@@ -12148,6 +12148,7 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
             </div>
         </div>
     </div>`;
+        $text += '‣ Grand Total: IDR '+ getrupiah(Math.ceil(total_price)) + '\nPrices and availability may change at any time';
     }else{
         text+=`
     <div class="col-lg-12">
@@ -12169,13 +12170,13 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
             </div>
         </div>
     </div>`;
+        $text += '‣ Admin Fee: IDR '+ getrupiah(Math.ceil(total_admin_fee)) + '\n';
+        $text += '‣ Grand Total: IDR '+ getrupiah(Math.ceil(total_price) + Math.ceil(total_admin_fee)) + '\nPrices and availability may change at any time';
     }
     text+=`
     <div class="col-lg-12" style="padding-bottom:10px;">
     <hr/>
     <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
-    $text += '‣ Admin Fee: IDR '+ getrupiah(Math.ceil(total_admin_fee)) + '\n';
-    $text += '‣ Grand Total: IDR '+ getrupiah(Math.ceil(total_price) + Math.ceil(total_admin_fee)) + '\nPrices and availability may change at any time';
     share_data();
     var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile) {
