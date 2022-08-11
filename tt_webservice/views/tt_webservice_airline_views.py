@@ -4330,7 +4330,8 @@ def update_post_pax_name(request):
         response = get_cache_data()
         passenger = []
         passenger_cache = json.loads(request.POST['passengers'])
-        for pax in passenger_cache:
+        data_awal_passenger = request.session['airline_get_booking_response']['result']['response']['passengers']
+        for idx, pax in enumerate(passenger_cache):
             if pax['nationality_name'] != '':
                 for country in response['result']['response']['airline']['country']:
                     if pax['nationality_name'] == country['name']:
@@ -4357,7 +4358,8 @@ def update_post_pax_name(request):
                 pax.pop('identity_number')
                 pax.pop('identity_type')
                 # pax.pop('identity_image')
-            passenger.append(pax)
+            if data_awal_passenger[idx]['title'] != pax['title'] or data_awal_passenger[idx]['first_name'] != pax['first_name'] or data_awal_passenger[idx]['last_name'] != pax['last_name']:
+                passenger.append(pax)
 
         data = {
             'passengers': passenger,
@@ -4388,7 +4390,8 @@ def update_post_pax_identity(request):
         response = get_cache_data()
         passenger = []
         passenger_cache = json.loads(request.POST['passengers'])
-        for pax in passenger_cache:
+        data_awal_passenger = request.session['airline_get_booking_response']['result']['response']['passengers']
+        for idx,pax in enumerate(passenger_cache):
             if pax['nationality_name'] != '':
                 for country in response['result']['response']['airline']['country']:
                     if pax['nationality_name'] == country['name']:
@@ -4415,7 +4418,11 @@ def update_post_pax_identity(request):
                 pax.pop('identity_number')
                 pax.pop('identity_type')
                 # pax.pop('identity_image')
-            passenger.append(pax)
+            try:
+                if data_awal_passenger[idx]['identity_type'] != pax['identity']['identity_type']:
+                    passenger.append(pax)
+            except Exception as e:
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
         data = {
             'passengers': passenger,

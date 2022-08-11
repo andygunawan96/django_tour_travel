@@ -6535,11 +6535,6 @@ function check_passenger_aftersales(adult, child, infant, type=''){
            error_log+= 'Please fill nationality for passenger adult '+i+'!</br>\n';
            document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
        }else{
-           if(is_identity_required == 'true')
-               if(document.getElementById('adult_id_type'+i).value == '' && document.getElementById('adult_identity_div'+i).style.display == 'block'){
-                    error_log+= 'Please fill id type for passenger adult '+i+'!</br>\n';
-                    document.getElementById('adult_id_type'+i).style['border-color'] = 'red';
-               }
            document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
        }
        if(document.getElementById('adult_identity_div'+i).style.display == 'block'){
@@ -6759,11 +6754,6 @@ function check_passenger_aftersales(adult, child, infant, type=''){
            error_log+= 'Please fill nationality for passenger child '+i+'!</br>\n';
            document.getElementById('child_nationality'+i).style['border-color'] = 'red';
        }else{
-           if(is_identity_required == 'true' && document.getElementById('child_identity_div'+i).style.display == 'block')
-               if(document.getElementById('child_id_type'+i).value == ''){
-                    error_log+= 'Please fill id type for passenger child '+i+'!</br>\n';
-                    document.getElementById('child_id_type'+i).style['border-color'] = 'red';
-               }
            document.getElementById('child_nationality'+i).style['border-color'] = '#EFEFEF';
        }
 
@@ -6963,11 +6953,6 @@ function check_passenger_aftersales(adult, child, infant, type=''){
            error_log+= 'Please fill nationality for passenger infant '+i+'!</br>\n';
            document.getElementById('infant_nationality'+i).style['border-color'] = 'red';
        }else{
-           if(is_identity_required == 'true')
-               if(document.getElementById('infant_id_type'+i).value == '' && document.getElementById('infant_identity_div'+i).style.display == 'block'){
-                    error_log+= 'Please fill id type for passenger infant '+i+'!</br>\n';
-                    document.getElementById('infant_id_type'+i).style['border-color'] = 'red';
-               }
            document.getElementById('infant_nationality'+i).style['border-color'] = '#EFEFEF';
        }
 
@@ -7678,26 +7663,29 @@ function checkboxCopyBox(id){
 
 function check_passport_expired_six_month(id){
     last_departure_date = '';
-    //proses booking normal
-    for(i in airline_pick){
-        for(j in airline_pick[i].journeys){
-            last_departure_date = airline_pick[i].journeys[j].departure_date.split(' - ')[0];
+
+    if(typeof(airline_pick) !== 'undefined'){
+        //proses booking normal
+        for(i in airline_pick){
+            for(j in airline_pick[i].journeys){
+                last_departure_date = airline_pick[i].journeys[j].departure_date.split(' - ')[0];
+            }
         }
-    }
-    if(last_departure_date == ''){
-        //after sales
-        for(i in airline_request.departure){
-            last_departure_date = airline_request.departure[i];
+        if(last_departure_date == ''){
+            //after sales
+            for(i in airline_request.departure){
+                last_departure_date = airline_request.departure[i];
+            }
         }
-    }
-    if(document.getElementById(id).value != '' && document.getElementById(id).value != moment().subtract(-1, 'years').format('DD MMM YYYY') && id.includes('infant') == false){
-        var duration = moment.duration(moment(document.getElementById(id).value).diff(last_departure_date));
-        if(duration._data.months < 6 && duration._data.years == 0)
-            Swal.fire({
-              type: 'warning',
-              title: 'Oops!',
-              html: '<span style="color: #ff9900;">Passport expired date less then 6 months </span>' ,
-            })
+        if(document.getElementById(id).value != '' && document.getElementById(id).value != moment().subtract(-1, 'years').format('DD MMM YYYY') && id.includes('infant') == false){
+            var duration = moment.duration(moment(document.getElementById(id).value).diff(last_departure_date));
+            if(duration._data.months < 6 && duration._data.years == 0)
+                Swal.fire({
+                  type: 'warning',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Passport expired date less then 6 months </span>' ,
+                })
+        }
     }
 }
 
