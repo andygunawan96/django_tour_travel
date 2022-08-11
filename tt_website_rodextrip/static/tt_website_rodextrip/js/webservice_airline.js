@@ -11807,6 +11807,9 @@ function get_chosen_ticket(type='all'){
 }
 
 function get_price_itinerary_reissue_request(airline_response, total_admin_fee, msg){
+    reissue_adm_fee = total_admin_fee;
+    reissue_data = msg;
+
     //ganti dari response
     text = '';
     total_price = 0;
@@ -11967,6 +11970,32 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
                                 </div>
                             </div>`;
                             $text += airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_count+`x `+airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_type+ ' Price'+ currency +' '+getrupiah(Math.ceil(airline_response[i].segments[j].fares[k].service_charge_summary[l].total_price/airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_count))+'\n';
+                            charge_tax = 0;
+                            if(typeof(is_process_repricing) !== 'undefined')
+                            {
+                                for(m in price_duplication){
+                                    if(m == airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_type)
+                                    {
+                                        for(n in price_duplication[m]){
+                                            charge_tax += price_duplication[m][n].Repricing;
+                                        }
+                                    }
+                                }
+                            }
+                            text += `
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                        <span style="font-size:13px; font-weight:500;">`+airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_type+` Tax & Charges</span><br/><br/>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                        <span style="font-size:13px; font-weight:500;">`+currency+' '+getrupiah(Math.ceil(charge_tax))+`</span><br/><br/>
+                                    </div>
+                                </div>
+                            </div>
+                            `;
+                            $text += '';
+                            total_price += charge_tax;
                         }
                     }
                     total_price += price;
