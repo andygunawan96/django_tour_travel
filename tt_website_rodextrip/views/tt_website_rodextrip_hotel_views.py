@@ -382,9 +382,9 @@ def review(request):
                 for rec in request.POST.keys():
                     if 'special_request' in rec:
                         if request.POST[rec]:
-                            spc_req += 'Room ' + rec[16:] + ': ' + request.POST[rec] + '; '
+                            spc_req += 'Room ' + rec[16:] + ': ' + request.POST[rec].replace('\n',',').replace('\r','') + ';\n'
                         else:
-                            spc_req += 'Room ' + rec[16:] + ': - ; '
+                            spc_req += 'Room ' + rec[16:] + ': - ;\n'
                 spc_req += request.POST.get('late_ci') and 'Early/Late CheckIn: ' + request.POST['late_ci'] + '; 'or ''
                 spc_req += request.POST.get('late_co') and 'Late CheckOut: ' + request.POST['late_co'] + '; ' or ''
 

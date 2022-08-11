@@ -775,6 +775,38 @@ function update_post_pax_name(type=''){
             "passenger_number": pax_cache_reorder['adult'][i].passenger_number
         })
     }
+    for(i in pax_cache_reorder['child']){
+        index = parseInt(parseInt(i)+1);
+        passengers.push({
+            "title": document.getElementById('child_title'+index).value,
+            "first_name": document.getElementById('child_first_name'+index).value,
+            "last_name": document.getElementById('child_last_name'+index).value,
+            "birth_date": moment(document.getElementById('child_birth_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD'),
+            "pax_type": pax_cache_reorder['child'][i].pax_type,
+            "nationality_name": document.getElementById('child_nationality'+index).value,
+            "identity_expdate": document.getElementById('child_passport_expired_date'+index).value != '' ? moment(document.getElementById('child_passport_expired_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD') : '',
+            "identity_type": document.getElementById('child_id_type'+index).value,
+            "identity_number": document.getElementById('child_passport_number'+index).value,
+            "identity_country_of_issued_name": document.getElementById('child_country_of_issued'+index).value,
+            "passenger_number": pax_cache_reorder['child'][i].passenger_number
+        })
+    }
+    for(i in pax_cache_reorder['infant']){
+        index = parseInt(parseInt(i)+1);
+        passengers.push({
+            "title": document.getElementById('infant_title'+index).value,
+            "first_name": document.getElementById('infant_first_name'+index).value,
+            "last_name": document.getElementById('infant_last_name'+index).value,
+            "birth_date": moment(document.getElementById('infant_birth_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD'),
+            "pax_type": pax_cache_reorder['infant'][i].pax_type,
+            "nationality_name": document.getElementById('infant_nationality'+index).value,
+            "identity_expdate": document.getElementById('infant_passport_expired_date'+index).value != '' ? moment(document.getElementById('infant_passport_expired_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD') : '',
+            "identity_type": document.getElementById('infant_id_type'+index).value,
+            "identity_number": document.getElementById('infant_passport_number'+index).value,
+            "identity_country_of_issued_name": document.getElementById('infant_country_of_issued'+index).value,
+            "passenger_number": pax_cache_reorder['infant'][i].passenger_number
+        })
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -827,6 +859,38 @@ function update_post_pax_identity(){
             "identity_number": document.getElementById('adult_passport_number'+index).value,
             "identity_country_of_issued_name": document.getElementById('adult_country_of_issued'+index).value,
             "passenger_number": pax_cache_reorder['adult'][i].passenger_number
+        })
+    }
+    for(i in pax_cache_reorder['child']){
+        index = parseInt(parseInt(i)+1);
+        passengers.push({
+            "title": document.getElementById('child_title'+index).value,
+            "first_name": document.getElementById('child_first_name'+index).value,
+            "last_name": document.getElementById('child_last_name'+index).value,
+            "birth_date": moment(document.getElementById('child_birth_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD'),
+            "pax_type": pax_cache_reorder['child'][i].pax_type,
+            "nationality_name": document.getElementById('child_nationality'+index).value,
+            "identity_expdate": document.getElementById('child_passport_expired_date'+index).value != '' ? moment(document.getElementById('child_passport_expired_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD') : '',
+            "identity_type": document.getElementById('child_id_type'+index).value,
+            "identity_number": document.getElementById('child_passport_number'+index).value,
+            "identity_country_of_issued_name": document.getElementById('child_country_of_issued'+index).value,
+            "passenger_number": pax_cache_reorder['child'][i].passenger_number
+        })
+    }
+    for(i in pax_cache_reorder['infant']){
+        index = parseInt(parseInt(i)+1);
+        passengers.push({
+            "title": document.getElementById('infant_title'+index).value,
+            "first_name": document.getElementById('infant_first_name'+index).value,
+            "last_name": document.getElementById('infant_last_name'+index).value,
+            "birth_date": moment(document.getElementById('infant_birth_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD'),
+            "pax_type": pax_cache_reorder['infant'][i].pax_type,
+            "nationality_name": document.getElementById('infant_nationality'+index).value,
+            "identity_expdate": document.getElementById('infant_passport_expired_date'+index).value != '' ? moment(document.getElementById('infant_passport_expired_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD') : '',
+            "identity_type": document.getElementById('infant_id_type'+index).value,
+            "identity_number": document.getElementById('infant_passport_number'+index).value,
+            "identity_country_of_issued_name": document.getElementById('infant_country_of_issued'+index).value,
+            "passenger_number": pax_cache_reorder['infant'][i].passenger_number
         })
     }
     $.ajax({
