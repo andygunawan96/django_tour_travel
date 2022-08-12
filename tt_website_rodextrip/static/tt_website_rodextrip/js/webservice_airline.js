@@ -5857,12 +5857,19 @@ function re_order_find_journey(){
         }
     }
     error_log = '';
-    for(i in journey){
-        if(journey[i].segments.length == 0){
+    if(airline_request.origin.length != journey.length){
+        if(journey.length == 0)
             error_log += 'Journey not available!';
-            break;
-        }
+        else
+            error_log += 'Some journey not available!';
     }
+    if(error_log != '')
+        for(i in journey){
+            if(journey[i].segments.length == 0){
+                error_log += 'Journey not available!';
+                break;
+            }
+        }
     if(error_log != ''){
         please_wait_custom('Select Data Journey Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
         $('.next-loading-reorder').removeClass("running");
