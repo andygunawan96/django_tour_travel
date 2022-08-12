@@ -7677,6 +7677,15 @@ function airline_get_booking(data, sync=false){
                                 }
                             }
                             counter_ssr = 0;
+                            $text += '['+msg.result.response.provider_bookings[i].pnr+'] '
+
+                            if(counter_service_charge == 0){ // with upsell pnr pertama
+                                total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
+                                $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
+                            }else{ // no upsell
+                                total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                                $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.DISC))+'\n';
+                            }
                             $text_ssr = '';
                             for(k in msg.result.response.passengers[j].fees_dict){
                                 if(msg.result.response.passengers[j].fees_dict[k].pnr == msg.result.response.provider_bookings[i].pnr){
@@ -7684,23 +7693,13 @@ function airline_get_booking(data, sync=false){
                                         $text_ssr += 'SSR Request:\n';
                                     $text_ssr += msg.result.response.passengers[j].fees_dict[k].origin + ' → ' + msg.result.response.passengers[j].fees_dict[k].destination+'\n';
                                     for(l in msg.result.response.passengers[j].fees_dict[k].fees){
-                                        $text_ssr += msg.result.response.passengers[j].fees_dict[k].fees[l].fee_category+': '+msg.result.response.passengers[j].fees_dict[k].fees[l].fee_name + '\n';
+                                        $text_ssr += msg.result.response.passengers[j].fees_dict[k].fees[l].fee_category.charAt(0).toUpperCase() + msg.result.response.passengers[j].fees_dict[k].fees[l].fee_category.slice(1).toLowerCase() +': '+msg.result.response.passengers[j].fees_dict[k].fees[l].fee_name + '\n';
                                     }
-                                    if(Object.keys(msg.result.response.passengers[j].fees_dict).length != counter_ssr)
-                                        $text_ssr += '\n';
                                     counter_ssr++;
                                 }
                             }
                             $text += $text_ssr;
-                            $text += '['+msg.result.response.provider_bookings[i].pnr+'] '
-
-                            if(counter_service_charge == 0){ // with upsell pnr pertama
-                                total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
-                                $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n\n';
-                            }else{ // no upsell
-                                total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
-                                $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.DISC))+'\n\n';
-                            }
+                            $text += '\n';
                             commission += parseInt(price.RAC);
                             total_price_provider.push({
                                 'pnr': msg.result.response.provider_bookings[i].pnr,
