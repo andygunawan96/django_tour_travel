@@ -1407,20 +1407,21 @@ def get_ssr_availability(request):
             try:
                 logging.getLogger("error_info").info("get_ssr_availability AIRLINE SIGNATURE " + request.POST['signature'])
                 for ssr_availability_provider in res['result']['response']['ssr_availability_provider']:
-                    for ssr_availability in ssr_availability_provider['ssr_availability']:
-                        for ssrs in ssr_availability_provider['ssr_availability'][ssr_availability]:
-                            ssrs.update({
-                                'origin': ssrs['segments'][0]['origin'],
-                                'destination': ssrs['segments'][len(ssrs['segments']) - 1]['destination']
-                            })
-                            for ssr in ssrs['ssrs']:
-                                total = 0
-                                currency = ''
-                                for service_charge in ssr['service_charges']:
-                                    currency = service_charge['currency']
-                                    total += service_charge['amount']
-                                ssr['total_price'] = total
-                                ssr['currency'] = currency
+                    if(ssr_availability_provider.get('ssr_availability')):
+                        for ssr_availability in ssr_availability_provider['ssr_availability']:
+                            for ssrs in ssr_availability_provider['ssr_availability'][ssr_availability]:
+                                ssrs.update({
+                                    'origin': ssrs['segments'][0]['origin'],
+                                    'destination': ssrs['segments'][len(ssrs['segments']) - 1]['destination']
+                                })
+                                for ssr in ssrs['ssrs']:
+                                    total = 0
+                                    currency = ''
+                                    for service_charge in ssr['service_charges']:
+                                        currency = service_charge['currency']
+                                        total += service_charge['amount']
+                                    ssr['total_price'] = total
+                                    ssr['currency'] = currency
 
             except:
                 _logger.error("get_ssr_availability_airline AIRLINE SIGNATURE " + request.POST['signature'] + json.dumps(res))
@@ -3928,20 +3929,21 @@ def get_post_ssr_availability_v2(request):
             try:
                 logging.getLogger("error_info").info("get_ssr_availability AIRLINE SIGNATURE " + request.POST['signature'])
                 for ssr_availability_provider in res['result']['response']['ssr_availability_provider']:
-                    for ssr_availability in ssr_availability_provider['ssr_availability']:
-                        for ssrs in ssr_availability_provider['ssr_availability'][ssr_availability]:
-                            ssrs.update({
-                                'origin': ssrs['segments'][0]['origin'],
-                                'destination': ssrs['segments'][len(ssrs['segments']) - 1]['destination']
-                            })
-                            for ssr in ssrs['ssrs']:
-                                total = 0
-                                currency = ''
-                                for service_charge in ssr['service_charges']:
-                                    currency = service_charge['currency']
-                                    total += service_charge['amount']
-                                ssr['total_price'] = total
-                                ssr['currency'] = currency
+                    if(ssr_availability_provider.get('ssr_availability')):
+                        for ssr_availability in ssr_availability_provider['ssr_availability']:
+                            for ssrs in ssr_availability_provider['ssr_availability'][ssr_availability]:
+                                ssrs.update({
+                                    'origin': ssrs['segments'][0]['origin'],
+                                    'destination': ssrs['segments'][len(ssrs['segments']) - 1]['destination']
+                                })
+                                for ssr in ssrs['ssrs']:
+                                    total = 0
+                                    currency = ''
+                                    for service_charge in ssr['service_charges']:
+                                        currency = service_charge['currency']
+                                        total += service_charge['amount']
+                                    ssr['total_price'] = total
+                                    ssr['currency'] = currency
 
             except Exception as e:
                 _logger.error(str(e) + traceback.format_exc())
