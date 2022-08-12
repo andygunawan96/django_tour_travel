@@ -775,6 +775,38 @@ function update_post_pax_name(type=''){
             "passenger_number": pax_cache_reorder['adult'][i].passenger_number
         })
     }
+    for(i in pax_cache_reorder['child']){
+        index = parseInt(parseInt(i)+1);
+        passengers.push({
+            "title": document.getElementById('child_title'+index).value,
+            "first_name": document.getElementById('child_first_name'+index).value,
+            "last_name": document.getElementById('child_last_name'+index).value,
+            "birth_date": moment(document.getElementById('child_birth_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD'),
+            "pax_type": pax_cache_reorder['child'][i].pax_type,
+            "nationality_name": document.getElementById('child_nationality'+index).value,
+            "identity_expdate": document.getElementById('child_passport_expired_date'+index).value != '' ? moment(document.getElementById('child_passport_expired_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD') : '',
+            "identity_type": document.getElementById('child_id_type'+index).value,
+            "identity_number": document.getElementById('child_passport_number'+index).value,
+            "identity_country_of_issued_name": document.getElementById('child_country_of_issued'+index).value,
+            "passenger_number": pax_cache_reorder['child'][i].passenger_number
+        })
+    }
+    for(i in pax_cache_reorder['infant']){
+        index = parseInt(parseInt(i)+1);
+        passengers.push({
+            "title": document.getElementById('infant_title'+index).value,
+            "first_name": document.getElementById('infant_first_name'+index).value,
+            "last_name": document.getElementById('infant_last_name'+index).value,
+            "birth_date": moment(document.getElementById('infant_birth_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD'),
+            "pax_type": pax_cache_reorder['infant'][i].pax_type,
+            "nationality_name": document.getElementById('infant_nationality'+index).value,
+            "identity_expdate": document.getElementById('infant_passport_expired_date'+index).value != '' ? moment(document.getElementById('infant_passport_expired_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD') : '',
+            "identity_type": document.getElementById('infant_id_type'+index).value,
+            "identity_number": document.getElementById('infant_passport_number'+index).value,
+            "identity_country_of_issued_name": document.getElementById('infant_country_of_issued'+index).value,
+            "passenger_number": pax_cache_reorder['infant'][i].passenger_number
+        })
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -827,6 +859,38 @@ function update_post_pax_identity(){
             "identity_number": document.getElementById('adult_passport_number'+index).value,
             "identity_country_of_issued_name": document.getElementById('adult_country_of_issued'+index).value,
             "passenger_number": pax_cache_reorder['adult'][i].passenger_number
+        })
+    }
+    for(i in pax_cache_reorder['child']){
+        index = parseInt(parseInt(i)+1);
+        passengers.push({
+            "title": document.getElementById('child_title'+index).value,
+            "first_name": document.getElementById('child_first_name'+index).value,
+            "last_name": document.getElementById('child_last_name'+index).value,
+            "birth_date": moment(document.getElementById('child_birth_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD'),
+            "pax_type": pax_cache_reorder['child'][i].pax_type,
+            "nationality_name": document.getElementById('child_nationality'+index).value,
+            "identity_expdate": document.getElementById('child_passport_expired_date'+index).value != '' ? moment(document.getElementById('child_passport_expired_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD') : '',
+            "identity_type": document.getElementById('child_id_type'+index).value,
+            "identity_number": document.getElementById('child_passport_number'+index).value,
+            "identity_country_of_issued_name": document.getElementById('child_country_of_issued'+index).value,
+            "passenger_number": pax_cache_reorder['child'][i].passenger_number
+        })
+    }
+    for(i in pax_cache_reorder['infant']){
+        index = parseInt(parseInt(i)+1);
+        passengers.push({
+            "title": document.getElementById('infant_title'+index).value,
+            "first_name": document.getElementById('infant_first_name'+index).value,
+            "last_name": document.getElementById('infant_last_name'+index).value,
+            "birth_date": moment(document.getElementById('infant_birth_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD'),
+            "pax_type": pax_cache_reorder['infant'][i].pax_type,
+            "nationality_name": document.getElementById('infant_nationality'+index).value,
+            "identity_expdate": document.getElementById('infant_passport_expired_date'+index).value != '' ? moment(document.getElementById('infant_passport_expired_date'+index).value,'DD-MMM-YYYY').format('YYYY-MM-DD') : '',
+            "identity_type": document.getElementById('infant_id_type'+index).value,
+            "identity_number": document.getElementById('infant_passport_number'+index).value,
+            "identity_country_of_issued_name": document.getElementById('infant_country_of_issued'+index).value,
+            "passenger_number": pax_cache_reorder['infant'][i].passenger_number
         })
     }
     $.ajax({
@@ -5793,12 +5857,19 @@ function re_order_find_journey(){
         }
     }
     error_log = '';
-    for(i in journey){
-        if(journey[i].segments.length == 0){
+    if(airline_request.origin.length != journey.length){
+        if(journey.length == 0)
             error_log += 'Journey not available!';
-            break;
-        }
+        else
+            error_log += 'Some journey not available!';
     }
+    if(error_log != '')
+        for(i in journey){
+            if(journey[i].segments.length == 0){
+                error_log += 'Journey not available!';
+                break;
+            }
+        }
     if(error_log != ''){
         please_wait_custom('Select Data Journey Failed <i class="fas fa-times-circle" style="color:#f53e31"></i>');
         $('.next-loading-reorder').removeClass("running");
@@ -9247,29 +9318,39 @@ function update_service_charge(type){
     }else if(type == 'request_new' || type.split('~')[0] == 'request_post_issued'){
         upsell = []
         currency = '';
-        for(i in airline_get_detail.passengers){
-            if(airline_get_detail.passengers[i].pax_type != 'INF')
+        include_inf = false;
+        if(window.location.pathname.includes('review_after_sales'))
+        {
+            temp_check_var = airline_get_detail;
+        }
+        else
+        {
+            temp_check_var = airline_get_detail.result.response;
+            include_inf = true;
+        }
+        for(i in temp_check_var.passengers){
+            if(temp_check_var.passengers[i].pax_type != 'INF' || include_inf)
             {
                 if(currency == '')
-                    for(j in airline_get_detail.passengers[i].sale_service_charges){
-                        currency = airline_get_detail.passengers[i].sale_service_charges[j].FARE.currency;
+                    for(j in temp_check_var.passengers[i].sale_service_charges){
+                        currency = temp_check_var.passengers[i].sale_service_charges[j].FARE.currency;
                         break;
                     }
-                pax_full_name = airline_get_detail.passengers[i].title + ' ' + airline_get_detail.passengers[i].name
-                list_price = []
+                pax_full_name = temp_check_var.passengers[i].title + ' ' + temp_check_var.passengers[i].first_name + ' ' + temp_check_var.passengers[i].last_name;
+                list_price = [];
                 if(document.getElementById(pax_full_name+'_repricing').innerHTML != '-' && document.getElementById(pax_full_name+'_repricing').innerHTML != '0'){
                     list_price.push({
                         'amount': parseInt(document.getElementById(pax_full_name+'_repricing').innerHTML.split(',').join('')),
                         'currency_code': currency
                     });
                     upsell.push({
-                        'sequence': airline_get_detail.passengers[i].sequence,
+                        'sequence': temp_check_var.passengers[i].sequence,
                         'pricing': JSON.parse(JSON.stringify(list_price))
                     });
                 }
             }
         }
-        repricing_order_number = airline_get_detail.order_number;
+        repricing_order_number = temp_check_var.order_number;
     }else{
         upsell_price_dict = {};
         upsell = []
@@ -11797,6 +11878,9 @@ function get_chosen_ticket(type='all'){
 }
 
 function get_price_itinerary_reissue_request(airline_response, total_admin_fee, msg){
+    reissue_adm_fee = total_admin_fee;
+    reissue_data = msg;
+
     //ganti dari response
     text = '';
     total_price = 0;
@@ -11956,10 +12040,36 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
                                     </div>
                                 </div>
                             </div>`;
-                            $text += airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_count+`x `+airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_type+ ' Price'+ currency +' '+getrupiah(Math.ceil(airline_response[i].segments[j].fares[k].service_charge_summary[l].total_price/airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_count))+'\n';
+                            $text += airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_count+`x `+airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_type+ ' Price '+ currency +' '+getrupiah(Math.ceil(airline_response[i].segments[j].fares[k].service_charge_summary[l].total_price/airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_count))+'\n';
+                            charge_tax = 0;
+                            if(typeof(is_process_repricing) !== 'undefined')
+                            {
+                                for(m in price_duplication){
+                                    if(m == airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_type)
+                                    {
+                                        for(n in price_duplication[m]){
+                                            charge_tax += price_duplication[m][n].Repricing;
+                                        }
+                                    }
+                                }
+                            }
+                            text += `
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                        <span style="font-size:13px; font-weight:500;">`+airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_type+` Tax & Charges</span><br/><br/>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                        <span style="font-size:13px; font-weight:500;">`+currency+' '+getrupiah(Math.ceil(charge_tax))+`</span><br/><br/>
+                                    </div>
+                                </div>
+                            </div>
+                            `;
+                            $text += airline_response[i].segments[j].fares[k].service_charge_summary[l].pax_type+` Tax & Charges `+ currency + ` ` + getrupiah(Math.ceil(charge_tax)) + `\n`;
+                            total_price += charge_tax;
                         }
                     }
-                    total_price += price
+                    total_price += price;
                     price = 0;
                 }
             }catch(err){
@@ -12026,9 +12136,12 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
     text+=`
     <div class="col-lg-12" id='additional_price_information_rs' hidden>
     </div>`;
-    text +=`<div class="col-lg-12">
-                <div style="text-align:right; padding-bottom:10px; padding-top:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>
-            </div>`;
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+    {
+        text +=`<div class="col-lg-12">
+                    <div style="text-align:right; padding-bottom:10px; padding-top:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>
+                </div>`;
+    }
     if(airline_get_detail.result.response.state == 'booked' ){
         text+=`
     <div class="col-lg-12">
@@ -12042,6 +12155,7 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
             </div>
         </div>
     </div>`;
+        $text += '‣ Grand Total: IDR '+ getrupiah(Math.ceil(total_price)) + '\nPrices and availability may change at any time';
     }else{
         text+=`
     <div class="col-lg-12">
@@ -12063,13 +12177,13 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
             </div>
         </div>
     </div>`;
+        $text += '‣ Admin Fee: IDR '+ getrupiah(Math.ceil(total_admin_fee)) + '\n';
+        $text += '‣ Grand Total: IDR '+ getrupiah(Math.ceil(total_price) + Math.ceil(total_admin_fee)) + '\nPrices and availability may change at any time';
     }
     text+=`
     <div class="col-lg-12" style="padding-bottom:10px;">
     <hr/>
     <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
-    $text += '‣ Admin Fee: IDR '+ getrupiah(Math.ceil(total_admin_fee)) + '\n';
-    $text += '‣ Grand Total: IDR '+ getrupiah(Math.ceil(total_price) + Math.ceil(total_admin_fee)) + '\nPrices and availability may change at any time';
     share_data();
     var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile) {
@@ -13899,6 +14013,8 @@ function airline_get_reschedule_itinerary_v2(){
 
                }
                get_price_itinerary_reissue_request(airline_response, msg.result.response.total_admin_fee, msg.result.response.reschedule_itinerary_provider);
+               get_airline_channel_repricing_data_reschedule(msg.result.response.reschedule_itinerary_provider);
+               console.log(msg.result.response.reschedule_itinerary_provider);
                document.getElementById('airline_detail').innerHTML += `
                 <div class="col-lg-12" style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;" id="sell_reschedule_div">
                     <input type="button" class="primary-btn" style="width:100%;" onclick="sell_reschedule_v2();" value="Proceed">
@@ -14007,7 +14123,7 @@ function sell_reschedule_v2(){
                                get_payment_acq('Issued',airline_get_detail.result.response.booker.seq_id, airline_get_detail.result.response.order_number, 'billing',signature,'airline_reissue');
                                document.getElementById('payment_acq').hidden = false;
                            }else{
-                               document.getElementById('airline_detail').innerHTML += `<input type="button" class="primary-btn issued_booking_btn" style="width:100%;" onclick="update_booking_after_sales_v2(true);" value="Continue">`;
+                               document.getElementById('airline_detail').innerHTML += `<input type="button" class="primary-btn issued_booking_btn" style="width:100%;" onclick="request_new_after_sales(true);" value="Continue">`;
                                document.getElementById('payment_acq').innerHTML = '';
                            }
                            if(check_seat){

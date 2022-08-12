@@ -306,7 +306,18 @@ function calculate(type){
                     additional_price += price_duplication[i][j].total;
                 }
             }
-            airline_detail('request_new');
+            if(window.location.pathname.includes('review_after_sales'))
+            {
+                airline_detail('request_new');
+            }
+            else
+            {
+                get_price_itinerary_reissue_request(airline_response, reissue_adm_fee, reissue_data);
+                document.getElementById('airline_detail').innerHTML += `
+                <div class="col-lg-12" style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;" id="sell_reschedule_div">
+                    <input type="button" class="primary-btn" style="width:100%;" onclick="sell_reschedule_v2();" value="Proceed">
+                </div>`;
+            }
             text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('request_new');" value="Set Upsell Downsell">`;
 //            document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('request_new');" value="Set Upsell Downsell">`;
         }else{

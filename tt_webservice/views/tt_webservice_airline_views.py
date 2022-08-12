@@ -1407,20 +1407,21 @@ def get_ssr_availability(request):
             try:
                 logging.getLogger("error_info").info("get_ssr_availability AIRLINE SIGNATURE " + request.POST['signature'])
                 for ssr_availability_provider in res['result']['response']['ssr_availability_provider']:
-                    for ssr_availability in ssr_availability_provider['ssr_availability']:
-                        for ssrs in ssr_availability_provider['ssr_availability'][ssr_availability]:
-                            ssrs.update({
-                                'origin': ssrs['segments'][0]['origin'],
-                                'destination': ssrs['segments'][len(ssrs['segments']) - 1]['destination']
-                            })
-                            for ssr in ssrs['ssrs']:
-                                total = 0
-                                currency = ''
-                                for service_charge in ssr['service_charges']:
-                                    currency = service_charge['currency']
-                                    total += service_charge['amount']
-                                ssr['total_price'] = total
-                                ssr['currency'] = currency
+                    if(ssr_availability_provider.get('ssr_availability')):
+                        for ssr_availability in ssr_availability_provider['ssr_availability']:
+                            for ssrs in ssr_availability_provider['ssr_availability'][ssr_availability]:
+                                ssrs.update({
+                                    'origin': ssrs['segments'][0]['origin'],
+                                    'destination': ssrs['segments'][len(ssrs['segments']) - 1]['destination']
+                                })
+                                for ssr in ssrs['ssrs']:
+                                    total = 0
+                                    currency = ''
+                                    for service_charge in ssr['service_charges']:
+                                        currency = service_charge['currency']
+                                        total += service_charge['amount']
+                                    ssr['total_price'] = total
+                                    ssr['currency'] = currency
 
             except:
                 _logger.error("get_ssr_availability_airline AIRLINE SIGNATURE " + request.POST['signature'] + json.dumps(res))
@@ -3928,20 +3929,21 @@ def get_post_ssr_availability_v2(request):
             try:
                 logging.getLogger("error_info").info("get_ssr_availability AIRLINE SIGNATURE " + request.POST['signature'])
                 for ssr_availability_provider in res['result']['response']['ssr_availability_provider']:
-                    for ssr_availability in ssr_availability_provider['ssr_availability']:
-                        for ssrs in ssr_availability_provider['ssr_availability'][ssr_availability]:
-                            ssrs.update({
-                                'origin': ssrs['segments'][0]['origin'],
-                                'destination': ssrs['segments'][len(ssrs['segments']) - 1]['destination']
-                            })
-                            for ssr in ssrs['ssrs']:
-                                total = 0
-                                currency = ''
-                                for service_charge in ssr['service_charges']:
-                                    currency = service_charge['currency']
-                                    total += service_charge['amount']
-                                ssr['total_price'] = total
-                                ssr['currency'] = currency
+                    if(ssr_availability_provider.get('ssr_availability')):
+                        for ssr_availability in ssr_availability_provider['ssr_availability']:
+                            for ssrs in ssr_availability_provider['ssr_availability'][ssr_availability]:
+                                ssrs.update({
+                                    'origin': ssrs['segments'][0]['origin'],
+                                    'destination': ssrs['segments'][len(ssrs['segments']) - 1]['destination']
+                                })
+                                for ssr in ssrs['ssrs']:
+                                    total = 0
+                                    currency = ''
+                                    for service_charge in ssr['service_charges']:
+                                        currency = service_charge['currency']
+                                        total += service_charge['amount']
+                                    ssr['total_price'] = total
+                                    ssr['currency'] = currency
 
             except Exception as e:
                 _logger.error(str(e) + traceback.format_exc())
@@ -4330,7 +4332,8 @@ def update_post_pax_name(request):
         response = get_cache_data()
         passenger = []
         passenger_cache = json.loads(request.POST['passengers'])
-        for pax in passenger_cache:
+        data_awal_passenger = request.session['airline_get_booking_response']['result']['response']['passengers']
+        for idx, pax in enumerate(passenger_cache):
             if pax['nationality_name'] != '':
                 for country in response['result']['response']['airline']['country']:
                     if pax['nationality_name'] == country['name']:
@@ -4357,7 +4360,8 @@ def update_post_pax_name(request):
                 pax.pop('identity_number')
                 pax.pop('identity_type')
                 # pax.pop('identity_image')
-            passenger.append(pax)
+            if data_awal_passenger[idx]['title'] != pax['title'] or data_awal_passenger[idx]['first_name'] != pax['first_name'] or data_awal_passenger[idx]['last_name'] != pax['last_name']:
+                passenger.append(pax)
 
         data = {
             'passengers': passenger,
@@ -4388,7 +4392,8 @@ def update_post_pax_identity(request):
         response = get_cache_data()
         passenger = []
         passenger_cache = json.loads(request.POST['passengers'])
-        for pax in passenger_cache:
+        data_awal_passenger = request.session['airline_get_booking_response']['result']['response']['passengers']
+        for idx,pax in enumerate(passenger_cache):
             if pax['nationality_name'] != '':
                 for country in response['result']['response']['airline']['country']:
                     if pax['nationality_name'] == country['name']:
@@ -4415,7 +4420,14 @@ def update_post_pax_identity(request):
                 pax.pop('identity_number')
                 pax.pop('identity_type')
                 # pax.pop('identity_image')
-            passenger.append(pax)
+            try:
+                if data_awal_passenger[idx]['identity_type'] != pax['identity']['identity_type'] or \
+                    data_awal_passenger[idx]['identity_number'] != pax['identity']['identity_number'] or \
+                    data_awal_passenger[idx]['identity_expdate'] != pax['identity']['identity_expdate'] or \
+                    data_awal_passenger[idx]['identity_country_of_issued_code'] != pax['identity']['identity_country_of_issued_code']:
+                    passenger.append(pax)
+            except Exception as e:
+                _logger.error("%s, %s" % (str(e), traceback.format_exc()))
 
         data = {
             'passengers': passenger,
