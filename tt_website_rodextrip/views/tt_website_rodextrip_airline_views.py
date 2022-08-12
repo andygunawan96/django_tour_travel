@@ -1307,39 +1307,43 @@ def review(request, signature):
                     for pax in passenger:
                         pax['ssr_list'] = []
                     ssr_response = request.session['airline_get_ssr_%s' % signature]['result']['response']
+                    no_ssr_count = 0
                     for counter_ssr_availability_provider, ssr_package in enumerate(ssr_response['ssr_availability_provider']):
-                        for ssr_key in ssr_package['ssr_availability']:
-                            for counter_journey, journey_ssr in enumerate(ssr_package['ssr_availability'][ssr_key]):
-                                for idx, pax in enumerate(passenger):
-                                    try:
-                                        passengers_list.append({
-                                            "passenger_number": idx,
-                                            "ssr_code": request.POST[ssr_key+'_'+str(counter_ssr_availability_provider+1)+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
+                        if (ssr_package.get('ssr_availability')):
+                            for ssr_key in ssr_package['ssr_availability']:
+                                for counter_journey, journey_ssr in enumerate(ssr_package['ssr_availability'][ssr_key]):
+                                    for idx, pax in enumerate(passenger):
+                                        try:
+                                            passengers_list.append({
+                                                "passenger_number": idx,
+                                                "ssr_code": request.POST[ssr_key+'_'+str(counter_ssr_availability_provider+1-no_ssr_count)+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
+                                            })
+                                            for list_ssr in journey_ssr['ssrs']:
+                                                if request.POST[ssr_key + '_' +str(counter_ssr_availability_provider+1-no_ssr_count)+ '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
+                                                    list_ssr['fee_code'] = list_ssr['ssr_code']
+                                                    list_ssr.update({
+                                                        'origin': journey_ssr['origin'],
+                                                        'destination': journey_ssr['destination'],
+                                                        'departure_date': convert_string_to_date_to_string_front_end_with_time(journey_ssr['segments'][0]['departure_date']).split('  ')[0]
+                                                    })
+                                                    pax['ssr_list'].append(list_ssr)
+                                                    break
+                                        except:
+                                            pass
+                                    if len(passengers_list) > 0:
+                                        sell_ssrs_request.append({
+                                            'journey_code': journey_ssr['journey_code'],
+                                            'passengers': passengers_list,
+                                            'availability_type': ssr_key
                                         })
-                                        for list_ssr in journey_ssr['ssrs']:
-                                            if request.POST[ssr_key + '_' +str(counter_ssr_availability_provider+1)+ '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
-                                                list_ssr['fee_code'] = list_ssr['ssr_code']
-                                                list_ssr.update({
-                                                    'origin': journey_ssr['origin'],
-                                                    'destination': journey_ssr['destination'],
-                                                    'departure_date': convert_string_to_date_to_string_front_end_with_time(journey_ssr['segments'][0]['departure_date']).split('  ')[0]
-                                                })
-                                                pax['ssr_list'].append(list_ssr)
-                                                break
-                                    except:
-                                        pass
-                                if len(passengers_list) > 0:
-                                    sell_ssrs_request.append({
-                                        'journey_code': journey_ssr['journey_code'],
-                                        'passengers': passengers_list,
-                                        'availability_type': ssr_key
-                                    })
-                                passengers_list = []
-                        if len(sell_ssrs_request) != 0:
-                            sell_ssrs.append({
-                                'sell_ssrs': sell_ssrs_request,
-                                'provider': ssr_package['provider']
-                            })
+                                    passengers_list = []
+                            if len(sell_ssrs_request) != 0:
+                                sell_ssrs.append({
+                                    'sell_ssrs': sell_ssrs_request,
+                                    'provider': ssr_package['provider']
+                                })
+                        else:
+                            no_ssr_count += 1
                         sell_ssrs_request = []
                     if len(sell_ssrs) > 0:
                         set_session(request, 'airline_ssr_request_%s' % signature, sell_ssrs)
@@ -1785,34 +1789,39 @@ def review_after_sales(request, signature):
                         pax['ssr_list'] = []
                     ssr_response = request.session['airline_get_ssr_%s' % signature]['result']['response']
                     data_booking = request.session['airline_get_booking_response']['result']['response']['provider_bookings']
+                    no_ssr_count = 0
                     for counter_ssr_availability_provider, ssr_package in enumerate(ssr_response['ssr_availability_provider']):
-                        for ssr_key in ssr_package['ssr_availability']:
-                            for counter_journey, journey_ssr in enumerate(ssr_package['ssr_availability'][ssr_key]):
-                                for idx, pax in enumerate(passenger):
-                                    try:
-                                        passengers_list.append({
-                                            "passenger_number": idx,
-                                            "ssr_code": request.POST[ssr_key+'_'+str(counter_ssr_availability_provider+1)+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
+                        if(ssr_package.get('ssr_availability')):
+                            for ssr_key in ssr_package['ssr_availability']:
+                                for counter_journey, journey_ssr in enumerate(ssr_package['ssr_availability'][ssr_key]):
+                                    for idx, pax in enumerate(passenger):
+                                        try:
+                                            passengers_list.append({
+                                                "passenger_number": idx,
+                                                "ssr_code": request.POST[ssr_key+'_'+str(counter_ssr_availability_provider+1 - no_ssr_count)+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
+                                            })
+                                            for list_ssr in journey_ssr['ssrs']:
+                                                if request.POST[ssr_key +'_'+str(counter_ssr_availability_provider+1 - no_ssr_count)+ '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
+                                                    pax['ssr_list'].append(list_ssr)
+                                                    break
+                                        except Exception as e:
+                                            _logger.error("%s, %s" % (str(e), traceback.format_exc()))
+                                            pass
+                                    if len(passengers_list) > 0:
+                                        sell_ssrs_request.append({
+                                            'journey_code': journey_ssr['journey_code'],
+                                            'passengers': passengers_list,
+                                            'availability_type': ssr_key
                                         })
-                                        for list_ssr in journey_ssr['ssrs']:
-                                            if request.POST[ssr_key +'_'+str(counter_ssr_availability_provider+1)+ '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
-                                                pax['ssr_list'].append(list_ssr)
-                                                break
-                                    except:
-                                        pass
-                                if len(passengers_list) > 0:
-                                    sell_ssrs_request.append({
-                                        'journey_code': journey_ssr['journey_code'],
-                                        'passengers': passengers_list,
-                                        'availability_type': ssr_key
-                                    })
-                                passengers_list = []
-                        if len(sell_ssrs_request) != 0:
-                            sell_ssrs.append({
-                                'sell_ssrs': sell_ssrs_request,
-                                'pnr': data_booking[counter_ssr_availability_provider]['pnr']
-                                # 'provider': ssr_package['provider'] ganti ke pnr
-                            })
+                                    passengers_list = []
+                            if len(sell_ssrs_request) != 0:
+                                sell_ssrs.append({
+                                    'sell_ssrs': sell_ssrs_request,
+                                    'pnr': data_booking[counter_ssr_availability_provider]['pnr']
+                                    # 'provider': ssr_package['provider'] ganti ke pnr
+                                })
+                        else:
+                            no_ssr_count += 1
                         sell_ssrs_request = []
                     addons_type = 'ssr'
                     if len(sell_ssrs) > 0:
