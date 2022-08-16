@@ -440,7 +440,7 @@ function get_transactions_notification(){
        type: "POST",
        url: "/webservice/account",
        headers:{
-            'action': 'get_transactions_need_update_identity_api',
+            'action': 'get_transactions_notif_api',
        },
        data: {
             'provider_type': 'airline',
@@ -622,7 +622,7 @@ function set_read_notification(number){
        type: "POST",
        url: "/webservice/account",
        headers:{
-            'action': 'set_read_transactions_need_update_identity_api',
+            'action': 'set_read_transactions_notif_api',
        },
        data: {
             'order_number': document.getElementById('order_number_notif'+number).value,
