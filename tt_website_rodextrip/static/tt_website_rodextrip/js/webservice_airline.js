@@ -9435,7 +9435,7 @@ function update_service_charge(type){
             if(i != 'booker' && i != 'contact'){
                 upsell_price_dict_ssr[i] = 0;
                 for(k in passengers[i]){
-                    if(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing_ssr').innerHTML != '-'){
+                    if(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing_ssr').innerHTML != '-' && document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing_ssr').innerHTML != '0'){
                         list_price.push({
                             'amount': parseInt(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing_ssr').innerHTML.split(',').join('')),
                             'currency_code': currency
@@ -9462,7 +9462,7 @@ function update_service_charge(type){
             if(i != 'booker' && i != 'contact'){
                 upsell_price_dict[i] = 0;
                 for(k in passengers[i]){
-                    if(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing').innerHTML != '-'){
+                    if(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing').innerHTML != '-' && document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing').innerHTML != '0'){
                         list_price.push({
                             'amount': parseInt(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing').innerHTML.split(',').join('')),
                             'currency_code': currency
