@@ -603,7 +603,7 @@ function sort(data){
                                         </div>
                                         <div class="col-lg-12 mt-2">
                                             <span style="float:right; margin-right:5px; margin-bottom:5px;"><span style="font-size:16px;font-weight:bold; color:`+color+`;">IDR `+getrupiah(insurance_data_filter[i][j].total_price)+`</span>`;
-                                        if(insurance_data_filter[i][j].type_trip_name == 'Individual')
+                                        if(insurance_data_filter[i][j].type_trip_name != 'Family')
                                             text+=`
                                                 <span> / Pax</span>`;
                                         else

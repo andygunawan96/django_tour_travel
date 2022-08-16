@@ -246,12 +246,15 @@ function table_reservation(data){
 }
 
 function auto_complete(type){
-    if(type.includes('country_of_issued') && document.getElementById('select2-'+type+'_id-container').innerHTML == 'Country Of Issued' || type.includes('country_of_issued') && document.getElementById('select2-'+type+'_id-container').innerHTML == 'Select Country Of Issued') //prevent otomatis dari contact autofill
-        document.getElementById(type).value = '';
-    else if(type.includes('nationality') && document.getElementById('select2-'+type+'_id-container').innerHTML == 'Nationality' || type.includes('country_of_issued') && document.getElementById('select2-'+type+'_id-container').innerHTML == 'Select Nationality') //prevent otomatis dari contact autofill
-        document.getElementById(type).value = '';
-    else
-        document.getElementById(type).value = document.getElementById('select2-'+type+'_id-container').innerHTML;
+    try{
+        //di buat try catch untuk airline edit pax after sales
+        if(type.includes('country_of_issued') && document.getElementById('select2-'+type+'_id-container').innerHTML == 'Country Of Issued' || type.includes('country_of_issued') && document.getElementById('select2-'+type+'_id-container').innerHTML == 'Select Country Of Issued') //prevent otomatis dari contact autofill
+            document.getElementById(type).value = '';
+        else if(type.includes('nationality') && document.getElementById('select2-'+type+'_id-container').innerHTML == 'Nationality' || type.includes('country_of_issued') && document.getElementById('select2-'+type+'_id-container').innerHTML == 'Select Nationality') //prevent otomatis dari contact autofill
+            document.getElementById(type).value = '';
+        else
+            document.getElementById(type).value = document.getElementById('select2-'+type+'_id-container').innerHTML;
+    }catch(err){console.log(err);}
 //    $('#'+type).niceSelect('update');
 //    console.log(type);
 //    $('#'+type).val(document.getElementById('select2-'+type+'_id-container').innerHTML);
