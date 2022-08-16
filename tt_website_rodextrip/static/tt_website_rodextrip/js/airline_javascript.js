@@ -6460,12 +6460,15 @@ function check_passenger_aftersales(adult, child, infant, type=''){
                document.getElementById('booker_last_name').value != document.getElementById('adult_last_name1').value)
                     error_log += 'Copy booker to passenger true, value title, first name, and last name has to be same!</br>\n';
 
-       for(i in airline_pick){
-            for(j in airline_pick[i].journeys){
-                last_departure_date = airline_pick[i].journeys[j].departure_date.split(' - ')[0];
-            }
-       }
+
    }
+
+   for(i in airline_pick){
+        for(j in airline_pick[i].journeys){
+            last_departure_date = airline_pick[i].journeys[j].departure_date.split(' - ')[0];
+        }
+   }
+
    // di ubah ke true karena kalau false salah 1 lion akan ke bypass rule lion 15 jul 2022
    var is_provider_lionair = true;
    var list_carrier_lion_air = ['JT', 'IW', 'ID', 'IU', 'OD'];
@@ -8700,4 +8703,8 @@ function post_issued_after_sales(adds_type, inp_pax_seat = false){
     if(typeof(is_process_repricing) !== 'undefined')
         update_service_charge('request_post_issued~'+adds_type);
     update_booking_after_sales_v2(inp_pax_seat);
+}
+
+function go_back_page(){
+    window.location.href=document.referrer;
 }

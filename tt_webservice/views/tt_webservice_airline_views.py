@@ -416,6 +416,11 @@ def get_data_passenger_page(request):
                     else:
                         res['price_itinerary']['sell_journey_provider'][idx]['is_seat'] = False
     except Exception as e:
+        ## BUAT AFTER SALES SUPAYA TAU PENERBANGAN KAPAN
+        try:
+            res['airline_pick'] = request.session['airline_get_booking_response']['result']['response']['provider_bookings']
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
@@ -4377,7 +4382,15 @@ def update_post_pax_name(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
     url_request = url + 'booking/airline'
-    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    if len(passenger) > 0:
+        res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    else:
+        res = {
+            "result": {
+                "error_code": 0,
+                "error_msg": "No Change detected"
+            }
+        }
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS update_post_pax_name AIRLINE SIGNATURE " + request.POST['signature'])
@@ -4443,7 +4456,15 @@ def update_post_pax_identity(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
     url_request = url + 'booking/airline'
-    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    if len(passenger):
+        res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    else:
+        res = {
+            "result": {
+                "error_code": 0,
+                "error_msg": "No Change detected"
+            }
+        }
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS update_post_pax_name AIRLINE SIGNATURE " + request.POST['signature'])
