@@ -87,6 +87,10 @@ def api_models(request):
             res = get_account(request)
         elif req_data['action'] == 'get_transactions':
             res = get_transactions(request)
+        elif req_data['action'] == 'get_transactions_need_update_identity_api':
+            res = get_transactions_need_update_identity_api(request)
+        elif req_data['action'] == 'set_read_transactions_need_update_identity_api':
+            res = set_read_transactions_need_update_identity_api(request)
         elif req_data['action'] == 'get_history_transaction_ledger':
             res = get_history_transaction_ledger(request)
         elif req_data['action'] == 'get_version':
@@ -514,6 +518,57 @@ def get_transactions(request):
             _logger.info("get_transactions_account SUCCESS SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("get_transactions_account ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def set_read_transactions_need_update_identity_api(request):
+    try:
+        data = {
+            'order_number': request.POST['order_number'],
+            'description': request.POST['description']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "set_read_transactions_need_update_identity_api",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST')
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("set_read_transactions_need_update_identity_api SUCCESS SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("set_read_transactions_need_update_identity_api ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_transactions_need_update_identity_api(request):
+    try:
+        data = {
+            'provider_type': 'airline',
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_transactions_need_update_identity_api",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST')
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("get_transactions_need_update_identity_api SUCCESS SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("get_transactions_need_update_identity_api ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

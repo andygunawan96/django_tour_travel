@@ -1434,7 +1434,7 @@
         }
         function set_csrf_notification(number){
             document.getElementById('notification_'+number).innerHTML += `{% csrf_token %}`;
-            document.getElementById('notification_'+number).submit();
+            set_read_notification(number);
         }
     {% endif %}
     {% if 'b2c_limitation' in username.co_agent_frontend_security %}

@@ -1563,7 +1563,26 @@ def update_passengers(request):
                                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                                 pax['birth_date'].split(' ')[0]),
                         })
-                    if pax['identity_type'] != '':
+                    if not pax['is_valid_identity']:
+                        pax['identity'] = {
+                            "identity_country_of_issued_name": 'Indonesia',
+                            "identity_country_of_issued_code": 'ID',
+                            "identity_expdate": (datetime.now() + timedelta(days=365*4)).strftime('%Y-%m-%d'),
+                            "identity_number": 'P999999',
+                            "identity_type": 'passport',
+                            "identity_image": [],
+                            "is_valid_identity": pax.pop('is_valid_identity')
+                        }
+                        try:
+                            pax.pop('identity_country_of_issued_name')
+                            pax.pop('identity_expdate')
+                            pax.pop('identity_number')
+                            pax.pop('identity_type')
+                            pax.pop('identity_image')
+                            pax.pop('is_valid_identity')
+                        except:
+                            pass
+                    elif pax['identity_type'] != '':
                         if pax['identity_expdate'] != '':
                             pax.update({
                                 'identity_expdate': '%s-%s-%s' % (
@@ -1577,6 +1596,7 @@ def update_passengers(request):
                             "identity_number": pax.pop('identity_number'),
                             "identity_type": pax.pop('identity_type'),
                             "identity_image": pax.pop('identity_image'),
+                            "is_valid_identity": pax.pop('is_valid_identity')
                         }
 
                     else:
@@ -1585,6 +1605,7 @@ def update_passengers(request):
                         pax.pop('identity_number')
                         pax.pop('identity_type')
                         pax.pop('identity_image')
+                        pax.pop('is_valid_identity')
                     passenger.append(pax)
 
         data = {

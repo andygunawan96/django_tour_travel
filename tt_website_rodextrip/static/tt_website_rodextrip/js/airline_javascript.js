@@ -8737,6 +8737,14 @@ function post_issued_after_sales(adds_type, inp_pax_seat = false){
     update_booking_after_sales_v2(inp_pax_seat);
 }
 
+function update_valid_passport(type, index){
+    if(document.getElementById(type+'_valid_passport'+index).checked){
+        document.getElementById(type+'_identity_div'+index).style.display = 'none';
+    }else{
+        document.getElementById(type+'_identity_div'+index).style.display = 'block';
+    }
+}
+
 function go_back_page(){
     window.location.href=document.referrer;
 }
