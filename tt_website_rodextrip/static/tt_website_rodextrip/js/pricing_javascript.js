@@ -37,7 +37,7 @@ function show_repricing(){
     $("#myModalRepricing").modal();
 }
 
-function add_table_of_equation(percentage=true){
+function add_table_of_equation(percentage=true, is_ssr=false){
     text= '';
     var repricing_type = '';
     try{
@@ -91,7 +91,10 @@ function add_table_of_equation(percentage=true){
         node.className = 'row';
         node.innerHTML = text;
         node.setAttribute('id', 'div'+counter);
-        document.getElementById("table_of_equation").appendChild(node);
+        if(is_ssr)
+            document.getElementById("ssr_table_of_equation").appendChild(node);
+        else
+            document.getElementById("table_of_equation").appendChild(node);
     }else{
         var node = document.createElement("div");
         text += `
@@ -153,10 +156,14 @@ function reset_repricing(){
         element.parentNode.removeChild(element);
     }
     counter = 0;
-    if(document.getElementById('repricing_type').value == 'booker'){
-        document.getElementById('booker_repricing').hidden = false;
-    }else{
-        document.getElementById('booker_repricing').hidden = true;
+    try{
+        if(document.getElementById('repricing_type').value == 'booker'){
+            document.getElementById('booker_repricing').hidden = false;
+        }else{
+            document.getElementById('booker_repricing').hidden = true;
+        }
+    }catch(err){
+        console.log(err) //ada element yg tidak ada
     }
 }
 
@@ -320,6 +327,33 @@ function calculate(type){
             }
             text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('request_new');" value="Set Upsell Downsell">`;
 //            document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('request_new');" value="Set Upsell Downsell">`;
+        }else if(type == 'request_new_review'){
+            ssr_pax_list = []
+            for(temp_pax in passengers_ssr){
+                if(Array.isArray(passengers_ssr[temp_pax].ssr_list) && passengers_ssr[temp_pax].ssr_list.length > 0)
+                {
+                    full_pax_name = passengers_ssr[temp_pax].first_name+``+passengers_ssr[temp_pax].last_name;
+                    ssr_pax_list.push(full_pax_name);
+                }
+            }
+            for(i in price_duplication){
+                for(j in price_duplication[i]){
+                    if(price_duplication[i][j].total == undefined)
+                        price_duplication[i][j].total = 0;
+                    document.getElementById(j+'_price_ssr').innerHTML = getrupiah(price_duplication[i][j].Fare + price_duplication[i][j].Tax);
+                    if(ssr_pax_list.includes(j))
+                    {
+                        document.getElementById(j+'_repricing_ssr').innerHTML = getrupiah(price_duplication[i][j].Repricing);
+                        document.getElementById(j+'_total_ssr').innerHTML = getrupiah(price_duplication[i][j].total);
+                    }
+                    else
+                    {
+                        document.getElementById(j+'_total_ssr').innerHTML = getrupiah(price_duplication[i][j].Fare + price_duplication[i][j].Tax);
+                    }
+                }
+            }
+            text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('request_new_review');" value="Set Upsell Downsell">`;
+            document.getElementById('ssr_repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('request_new_review');" value="Set Upsell Downsell">`;
         }else{
             for(i in price_duplication){
                 for(j in price_duplication[i]){

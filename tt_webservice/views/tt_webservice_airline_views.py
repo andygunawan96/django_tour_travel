@@ -440,6 +440,7 @@ def get_data_review_page(request):
         res['airline_seat_request'] = request.session['airline_seat_request_%s' % request.POST['signature']] if request.session.get('airline_seat_request_%s' % request.POST['signature']) else {}
         res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
         res['upsell_price_dict'] = request.session.get('airline_upsell_%s' % request.POST['signature']) and request.session.get('airline_upsell_%s' % request.POST['signature']) or {}
+        res['upsell_price_dict_ssr'] = request.session.get('airline_ssr_upsell_%s' % request.POST['signature']) and request.session.get('airline_ssr_upsell_%s' % request.POST['signature']) or {}
         if request.session.get('airline_get_ssr_%s' % request.POST['signature']):
             if request.session['airline_get_ssr_%s' % request.POST['signature']]['result']['error_code'] == 0:
                 for idx, rec in enumerate(request.session['airline_get_ssr_%s' % request.POST['signature']]['result']['response']['ssr_availability_provider']):
@@ -2111,6 +2112,10 @@ def update_service_charge(request):
             "action": "pricing_booking",
             "signature": request.POST['signature'],
         }
+        if data['type'] == 'request_new_review':
+            data.update({
+                'type': 'request_new'
+            })
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 

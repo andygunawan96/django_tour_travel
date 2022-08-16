@@ -1235,6 +1235,7 @@ function get_airline_data_review_page(){
            passengers_ssr = msg.passengers_ssr;
            airline_request = msg.airline_request;
            upsell_price_dict = msg.upsell_price_dict;
+           upsell_price_dict_ssr = msg.upsell_price_dict_ssr;
            airline_get_provider_list('review');
 
        },
@@ -9423,6 +9424,33 @@ function update_service_charge(type){
             }
         }
         repricing_order_number = temp_check_var.order_number;
+    }else if(type == 'request_new_review'){
+        upsell_price_dict_ssr = {};
+        upsell = []
+        counter_pax = 0;
+        currency = airline_price[0].ADT.currency;
+        for(i in passengers){
+            list_price = []
+            if(i != 'booker' && i != 'contact'){
+                upsell_price_dict_ssr[i] = 0;
+                for(k in passengers[i]){
+                    if(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing_ssr').innerHTML != '-'){
+                        list_price.push({
+                            'amount': parseInt(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing_ssr').innerHTML.split(',').join('')),
+                            'currency_code': currency
+                        });
+                        upsell_price_dict_ssr[i] += parseInt(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing_ssr').innerHTML.split(',').join(''));
+                        upsell.push({
+                            'sequence': counter_pax,
+                            'pricing': JSON.parse(JSON.stringify(list_price)),
+                            'pax_type': i
+                        });
+                        list_price = [];
+                    }
+                    counter_pax++;
+                }
+            }
+        }
     }else{
         upsell_price_dict = {};
         upsell = []

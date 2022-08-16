@@ -4700,6 +4700,8 @@ function airline_detail(type){
                                                         price += airline_price[price_counter].ADT.tax;
                                                     if(upsell_price_dict.hasOwnProperty('adult') && i == 0) //upsell hanya di gunakan di provider pertama
                                                         price += upsell_price_dict['adult'];
+                                                    if(upsell_price_dict_ssr.hasOwnProperty('adult') && i == 0) //upsell hanya di gunakan di provider pertama
+                                                        price += upsell_price_dict_ssr['adult'];
                                                 }catch(err){
 
                                                 }
@@ -4750,6 +4752,8 @@ function airline_detail(type){
                                                         price += airline_price[price_counter].CHD.tax;
                                                     if(upsell_price_dict.hasOwnProperty('child') && i == 0) //upsell hanya di gunakan di provider pertama
                                                         price += upsell_price_dict['child'];
+                                                    if(upsell_price_dict_ssr.hasOwnProperty('child') && i == 0) //upsell hanya di gunakan di provider pertama
+                                                        price += upsell_price_dict_ssr['child'];
                                                 }catch(err){
 
                                                 }
@@ -4801,6 +4805,8 @@ function airline_detail(type){
                                                         price += airline_price[price_counter].INF.tax;
                                                     if(upsell_price_dict.hasOwnProperty('infant') && i == 0) //upsell hanya di gunakan di provider pertama
                                                         price += upsell_price_dict['infant'];
+                                                    if(upsell_price_dict_ssr.hasOwnProperty('infant') && i == 0) //upsell hanya di gunakan di provider pertama
+                                                        price += upsell_price_dict_ssr['infant'];
                                                 }catch(err){
 
                                                 }
@@ -4995,6 +5001,32 @@ function airline_detail(type){
             }
             text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
             document.getElementById('repricing_div').innerHTML = text_repricing;
+
+            text_repricing2 = `
+            <div class="col-lg-12">
+                <div style="padding:5px;" class="row">
+                    <div class="col-lg-6"></div>
+                    <div class="col-lg-6">Repricing</div>
+                </div>
+            </div>`;
+            for(k in price_arr_repricing){
+                for(l in price_arr_repricing[k]){
+                    text_repricing2 += `
+                    <div class="col-lg-12">
+                        <div style="padding:5px;" class="row" id="adult">
+                            <div class="col-lg-6" id="`+j+`_`+k+`">`+l+`</div>
+                            <div hidden id="`+l+`_price_ssr">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
+                            if(price_arr_repricing[k][l].Repricing == 0)
+                                text_repricing2+=`<div class="col-lg-6" id="`+l+`_repricing_ssr">-</div>`;
+                            else
+                                text_repricing2+=`<div class="col-lg-6" id="`+l+`_repricing_ssr">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
+                            text_repricing2+=`<div hidden id="`+l+`_total_ssr">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
+                        </div>
+                    </div>`;
+                }
+            }
+            text_repricing2 += `<div id='ssr_repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+            document.getElementById('ssr_repricing_div').innerHTML = text_repricing2;
             //repricing
         }
         if(document.URL.split('/')[document.URL.split('/').length-2] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
