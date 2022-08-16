@@ -2178,7 +2178,7 @@ function update_service_charge(type){
             if(val[i].pax_type in upsell_price_dict == false)
                 upsell_price_dict[val[i].pax_type] = 0;
             list_price = []
-            if(document.getElementById(val[i].first_name+val[i].last_name+'_repricing').innerHTML != '-'){
+            if(document.getElementById(val[i].first_name+val[i].last_name+'_repricing').innerHTML != '-' && document.getElementById(val[i].first_name+val[i].last_name+'_repricing').innerHTML != '0'){
                 list_price.push({
                     'amount': parseInt(document.getElementById(val[i].first_name+val[i].last_name+'_repricing').innerHTML.split(',').join('')),
                     'currency_code': currency
