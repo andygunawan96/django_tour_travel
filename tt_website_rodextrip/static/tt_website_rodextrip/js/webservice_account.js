@@ -126,8 +126,10 @@ function get_balance(val){
                         if(document.getElementById("customer_parent_balance_search"))
                             document.getElementById("customer_parent_balance_search").innerHTML = text;
                     }
-                    if(window.location.href.split('/').length < 5)
-                        get_transactions_notification(val);
+                    if(window.location.href.split('/').length < 5){
+//                        get_transactions_notification(val);
+                        get_transactions_notification();
+                    }
                     //get_vendor_balance(val);
                     //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -431,6 +433,209 @@ function get_transactions_notification(val){
     }else{
 
     }
+}
+
+function get_transactions_notification(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'get_transactions_need_update_identity_api',
+       },
+       data: {
+            'provider_type': 'airline',
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            try{
+                document.getElementById('notification_detail').innerHTML = '';
+    //            document.getElementById('notification_detail2').innerHTML = '';
+                if(msg.result.error_code == 0){
+                    text = '';
+                    var hold_date = '';
+                    var date = '';
+                    var check_notif = 0;
+                    var timeout_notif = 5000;
+                    if(Object.keys(msg.result.response).length == 0){
+                        document.getElementById('notification_detail').innerHTML = `
+                            <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                                <div class="row">
+                                    <div class="col-sm-12" style="text-align:center">
+                                        <span style="font-weight:500"> No Notification</span>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>`;
+                        try{
+                            document.getElementById('notification_detail2').innerHTML = `
+                                <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                                    <div class="row">
+                                        <div class="col-sm-12" style="text-align:center">
+                                            <span style="font-weight:500"> No Notification</span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </div>`;
+                        }catch(err){
+                            console.log(err); // error kalau ada element yg tidak ada
+                        }
+                        $(".bell_notif").removeClass("infinite");
+                    }else{
+                        for(i in msg.result.response){
+                            if(window.location.href.split('/')[window.location.href.split('/').length-1] == "dashboard" && check_notif < 5){
+
+                                document.getElementById('notification_div').innerHTML +=`
+                                    <div id="alert`+check_notif+`">
+                                        <div class="alert alert-warning" role="alert">
+                                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                          <strong>Hurry pay for this booking!</strong> `+msg.result.response[i].order_number + ' ' + msg.result.response[i].description+`
+                                        </div>
+                                    </div>`;
+                            }
+                            check_notif++;
+                            url_goto = '';
+                            if(msg.result.response[i].provider_type == 'airline'){
+                                url_goto = '/airline/booking/';
+                            }else if(msg.result.response[i].provider_type == 'train'){
+                                url_goto = '/train/booking/';
+                            }else if(msg.result.response[i].provider_type == 'activity'){
+                                url_goto = '/activity/booking/';
+                            }else if(msg.result.response[i].provider_type == 'hotel'){
+                                url_goto = '/hotel/booking/';
+                            }else if(msg.result.response[i].provider_type == 'visa'){
+                                url_goto = '/visa/booking/';
+                            }else if(msg.result.response[i].provider_type == 'tour'){
+                                url_goto = '/tour/booking/';
+                            }else if(msg.result.response[i].provider_type == 'offline'){
+                                url_goto = '/issued_offline/booking/';
+                            }else if(msg.result.response[i].provider_type == 'passport'){
+                                url_goto = '/passport/booking/';
+                            }else if(msg.result.response[i].provider_type == 'ppob'){
+                                url_goto = '/ppob/booking/';
+                            }else if(msg.result.response[i].provider_type == 'event'){
+                                url_goto = '/event/booking/';
+                            }else if(msg.result.response[i].provider_type == 'periksain' || msg.result.response[i].provider_type == 'phc'){
+                                url_goto = '/medical/booking/';
+                            }else if(msg.result.response[i].provider_type == 'medical'){
+                                url_goto = '/medical_global/booking/';
+                            }else if(msg.result.response[i].provider_type == 'bus'){
+                                url_goto = '/bus/booking/';
+                            }else if(msg.result.response[i].provider_type == 'swabexpress'){
+                                url_goto = '/swab_express/booking/';
+                            }else if(msg.result.response[i].provider_type == 'labpintar'){
+                                url_goto = '/lab_pintar/booking/';
+                            }else if(msg.result.response[i].provider_type == 'mitrakeluarga'){
+                                url_goto = '/mitra_keluarga/booking/';
+                            }else if(msg.result.response[i].provider_type == 'insurance'){
+                                url_goto = '/insurance/booking/';
+                            }else if(msg.result.response[i].provider_type == 'groupbooking'){
+                                url_goto = '/groupbooking/booking/';
+                            }
+                            text = '';
+                            text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
+                            text+=`<form action="`+url_goto+btoa(msg.result.response[i].name)+`" method="post" id="notification_`+check_notif+`" onclick="set_csrf_notification(`+check_notif+`)">`;
+                            text+=`<div class="row">
+                                    <div class="col-sm-6">`;
+                            text+=`<span style="font-weight:500;"> `+check_notif+`. `+msg.result.response[i].name+` - `+msg.result.response[i].pnr+`</span>`;
+                            text+=` </div>
+                                    <div class="col-sm-6" style="text-align:right">
+                                    <span style="font-weight:500;"> `+msg.result.response[i].description+`</span>`;
+                            if(msg.result.response[i].is_read == false)
+                                text += `<sup style="color:`+color+`">•</sup>`;
+                            text+=` </div>
+                                   </div>`;
+                            text+=`<input type="hidden" id="order_number_notif`+check_notif+`" name="order_number_notif`+check_notif+`" value="`+msg.result.response[i].name+`">`;
+                            text+=`<input type="hidden" id="desc_notif`+check_notif+`" name="desc_notif`+check_notif+`" value="`+msg.result.response[i].description+`">`;
+                            text+=`<hr/></form>`;
+                            text+=`</div>`;
+                            document.getElementById('notification_detail').innerHTML += text;
+                            $(".bell_notif").addClass("infinite");
+                            $(".bell_notif").css("color", color);
+//                              document.getElementById('notification_detail2').innerHTML += text;
+                        }
+                        if(check_notif == 0){
+                            try{
+                                document.getElementById('notification_detail').innerHTML = `
+                                    <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                                        <div class="row">
+                                            <div class="col-sm-12" style="text-align:center">
+                                                <span style="font-weight:500"> No Notification</span>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </div>`;
+                                try{
+                                    document.getElementById('notification_detail2').innerHTML = `
+                                        <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                                            <div class="row">
+                                                <div class="col-sm-12" style="text-align:center">
+                                                    <span style="font-weight:500"> No Notification</span>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        </div>`;
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
+                            $(".bell_notif").removeClass("infinite");
+                        }
+                    }
+                    setTimeout(function() {
+                        $("#notification_div").fadeTo(500, 0).slideUp(500, function(){
+                            $(this).remove();
+                        });
+                    }, timeout_notif);
+
+        //            document.getElementById('notification_detail2').innerHTML = text;
+
+                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    auto_logout();
+                }else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error transactions notification </span>' + msg.result.error_msg,
+                    })
+
+                   text= '';
+                   text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
+                   text+=`<span style="font-weight:500;"> No Notification</span>`;
+                   text+=`</div>`;
+                   document.getElementById('notification_detail').innerHTML = text;
+                }
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get transaction need update identity');
+       },timeout: 60000
+    });
+}
+
+function set_read_notification(number){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'set_read_transactions_need_update_identity_api',
+       },
+       data: {
+            'order_number': document.getElementById('order_number_notif'+number).value,
+            'description': document.getElementById('desc_notif'+number).value,
+            'signature': signature
+       },
+       success: function(msg) {
+            document.getElementById('notification_'+number).submit();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error set read notification');
+       },timeout: 60000
+    });
 }
 
 function get_transaction_history_ledger(type,use_cache){
