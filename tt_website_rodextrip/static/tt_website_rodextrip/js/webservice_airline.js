@@ -14342,6 +14342,9 @@ function sell_reschedule_v2(){
                               type: 'error',
                               title: 'Oops...',
                               text: msg.result.error_msg,
+                           }).then((result) => {
+                              //SELL HANYA BOLEH 1x dalam 1 signature
+                              location.reload();
                            })
                            $('.loader-rodextrip').fadeOut();
                        }
