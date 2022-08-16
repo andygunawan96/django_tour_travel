@@ -5083,7 +5083,7 @@ function update_service_charge(type){
         currency = 'IDR';
         for(i in adult){
             list_price = []
-            if(document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML != '-'){
+            if(document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML != '-' && document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML != '0'){
                 list_price.push({
                     'amount': parseInt(document.getElementById(adult[i].first_name+adult[i].last_name+'_repricing').innerHTML.split(',').join('')),
                     'currency_code': currency
