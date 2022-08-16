@@ -357,7 +357,13 @@
                                 {% endfor %}
                             </div>
                         </div>
-                        <div class="col-lg-4"></div>
+                        <div class="col-lg-4">
+                            {% if after_sales == 1%}
+                            <button type="button" class="issued_booking_btn primary-btn-white for-show-website" style="width:100%;" value="Cancel" onclick="go_back_page();">
+                                {% trans 'Cancel' %}
+                            </button>
+                            {% endif %}
+                        </div>
                         <div class="col-lg-4"></div>
                         <div class="col-lg-4">
                             <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" id="ssr_next_button" style="width:100%;" value="Next" onclick="next_disabled();next_ssr();">
@@ -372,9 +378,17 @@
 
                     </div>
                 </div>
+                {% if after_sales == 1%}
                 <div class="col-lg-12">
-                    <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;" value="Next" onclick="next_disabled();next_ssr();">
-                        Next
+                    <button type="button" class="for-show-mobile issued_booking_btn primary-btn-white" style="width:100%;" value="Cancel" onclick="go_back_page();">
+                        {% trans 'Cancel' %}
+                    </button>
+                </div>
+                {% endif %}
+
+                <div class="col-lg-12">
+                    <button class="btn-next for-show-mobile primary-btn-white next-passenger-train ld-ext-right" style="width:100%;" value="Next" onclick="next_disabled();next_ssr();">
+                        {% trans 'Next' %}
                         <div class="ld ld-ring ld-cycle"></div>
                     </button>
                 </div>

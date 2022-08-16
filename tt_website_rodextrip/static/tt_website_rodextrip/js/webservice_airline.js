@@ -821,7 +821,15 @@ function update_post_pax_name(type=''){
        success: function(msg) {
             if(type == ''){
                 if(msg.result.error_code == 0){
-                    window.location.href = '/airline/booking/' + btoa(order_number)
+                    $('.loader-rodextrip').fadeOut();
+                    Swal.fire({
+                        type: msg.result.error_msg != '' ? 'warning' : 'success',
+                        title: msg.result.error_msg != '' ? 'Oops!' : 'Name',
+                        html: msg.result.error_msg != '' ? msg.result.error_msg : 'Updated',
+                    }).then((result) => {
+                        window.location.href = '/airline/booking/' + btoa(order_number)
+                    })
+
                 }else{
                     $('.btn-next').prop('disabled', false);
                     $('.btn-next').removeClass("running");
@@ -833,7 +841,26 @@ function update_post_pax_name(type=''){
                     })
                 }
             }else{
-                update_post_pax_identity();
+                if(msg.result.error_code != 0){
+                    $('.loader-rodextrip').fadeOut();
+                    Swal.fire({
+                      title: msg.result.error_msg,
+                      type: 'warning',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: 'blue',
+                      confirmButtonText: 'Update Identity',
+                      cancelButtonText: 'Back to Booking'
+                    }).then((result) => {
+                        if (result.value) {
+                            update_post_pax_identity();
+                        }else{
+                            go_back_page();
+                        }
+                    })
+                }else{
+                    update_post_pax_identity();
+                }
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -906,7 +933,14 @@ function update_post_pax_identity(){
        },
        success: function(msg) {
             if(msg.result.error_code == 0){
-                window.location.href = '/airline/booking/' + btoa(order_number);
+                $('.loader-rodextrip').fadeOut();
+                Swal.fire({
+                    type: msg.result.error_msg != '' ? 'warning' : 'success',
+                    title: msg.result.error_msg != '' ? 'Oops!' : 'Identity',
+                    html: msg.result.error_msg != '' ? msg.result.error_msg : 'Updated',
+                }).then((result) => {
+                    window.location.href = '/airline/booking/' + btoa(order_number)
+                })
             }else{
                 $('.btn-next').prop('disabled', false);
                 $('.btn-next').removeClass("running");
@@ -927,115 +961,133 @@ function update_post_pax_identity(){
 function airline_do_passenger_js_load(){
     $(function() {
         for (var i = 1; i <= adult; i++){
-            document.getElementById("train_adult"+i+"_search").addEventListener("keyup", function(event) {
-                if (event.keyCode === 13) {
-                    event.preventDefault();
-                    var adult_enter = "search_adult_"+event.target.id.toString().replace(/[^\d.]/g, '');
-                    document.getElementById(adult_enter).click();
-                }
-            });
+            try{
+                //HANYA UNTUK PRE BOOKING
+                document.getElementById("train_adult"+i+"_search").addEventListener("keyup", function(event) {
+                    if (event.keyCode === 13) {
+                        event.preventDefault();
+                        var adult_enter = "search_adult_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                        document.getElementById(adult_enter).click();
+                    }
+                });
 
-            $('input[name="adult_birth_date'+i+'"]').daterangepicker({
-                singleDatePicker: true,
-                autoUpdateInput: true,
-                startDate: moment().subtract(18, 'years'),
-                minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(100, 'years'),
-                maxDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(12, 'years'),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
-                }
-            });
-            $('input[name="adult_birth_date'+i+'"]').val("");
-
-            $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
-                singleDatePicker: true,
-                autoUpdateInput: true,
-                startDate: moment().subtract(-1,'years'),
-                minDate: moment().subtract(-1, 'days'),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
-                }
-            });
-            $('input[name="adult_passport_expired_date'+i+'"]').val("");
+                $('input[name="adult_birth_date'+i+'"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: moment().subtract(18, 'years'),
+                    minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(100, 'years'),
+                    maxDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(12, 'years'),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+                $('input[name="adult_birth_date'+i+'"]').val("");
+            }catch(err){
+                console.log(err);
+            }
+            if(typeof(is_change_identity) == 'undefined' || is_change_identity == 'True'){
+                $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: moment().subtract(-1,'years'),
+                    minDate: moment().subtract(-1, 'days'),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+                $('input[name="adult_passport_expired_date'+i+'"]').val("");
+            }
         }
 
         for (var i = 1; i <= child; i++){
-            document.getElementById("train_child"+i+"_search").addEventListener("keyup", function(event) {
-              if (event.keyCode === 13) {
-                 event.preventDefault();
-                 var child_enter = "search_child_"+event.target.id.toString().replace(/[^\d.]/g, '');
-                 document.getElementById(child_enter).click();
-              }
-            });
+            try{
+                //HANYA UNTUK PRE BOOKING
+                document.getElementById("train_child"+i+"_search").addEventListener("keyup", function(event) {
+                  if (event.keyCode === 13) {
+                     event.preventDefault();
+                     var child_enter = "search_child_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                     document.getElementById(child_enter).click();
+                  }
+                });
 
 
-            $('input[name="child_birth_date'+i+'"]').daterangepicker({
-                singleDatePicker: true,
-                autoUpdateInput: true,
-                startDate: moment().subtract(5, 'years'),
-                minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(11, 'years').subtract(365, 'days'),
-                maxDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(2, 'years'),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
-                }
-            });
-            $('input[name="child_birth_date'+i+'"]').val("");
-
-            $('input[name="child_passport_expired_date'+i+'"]').daterangepicker({
-                singleDatePicker: true,
-                autoUpdateInput: true,
-                startDate: moment().subtract(-1,'years'),
-                minDate: moment().subtract(-1, 'days'),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
-                }
-            });
-            $('input[name="child_passport_expired_date'+i+'"]').val("");
+                $('input[name="child_birth_date'+i+'"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: moment().subtract(5, 'years'),
+                    minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(11, 'years').subtract(365, 'days'),
+                    maxDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(2, 'years'),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+                $('input[name="child_birth_date'+i+'"]').val("");
+            }catch(err){
+                console.log(err);
+            }
+            if(typeof(is_change_identity) == 'undefined' || is_change_identity == 'True'){
+                $('input[name="child_passport_expired_date'+i+'"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: moment().subtract(-1,'years'),
+                    minDate: moment().subtract(-1, 'days'),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+                $('input[name="child_passport_expired_date'+i+'"]').val("");
+            }
         }
 
         for (var i = 1; i <= infant; i++){
-            document.getElementById("train_infant"+i+"_search").addEventListener("keyup", function(event) {
-              if (event.keyCode === 13) {
-                event.preventDefault();
-                var infant_enter = "search_infant_"+event.target.id.toString().replace(/[^\d.]/g, '');
-                document.getElementById(infant_enter).click();
-              }
-            });
+            try{
+                //HANYA UNTUK PRE BOOKING
+                document.getElementById("train_infant"+i+"_search").addEventListener("keyup", function(event) {
+                  if (event.keyCode === 13) {
+                    event.preventDefault();
+                    var infant_enter = "search_infant_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                    document.getElementById(infant_enter).click();
+                  }
+                });
 
-            $('input[name="infant_birth_date'+i+'"]').daterangepicker({
-                singleDatePicker: true,
-                autoUpdateInput: true,
-                startDate: moment().subtract(1, 'years'),
-                minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(1, 'years').subtract(364, 'days'),
-                maxDate: moment(),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
-                }
-            });
-            $('input[name="infant_birth_date'+i+'"]').val("");
-
-            $('input[name="infant_passport_expired_date'+i+'"]').daterangepicker({
-                singleDatePicker: true,
-                autoUpdateInput: true,
-                startDate: moment().subtract(-1,'years'),
-                minDate: moment().subtract(-1, 'days'),
-                showDropdowns: true,
-                opens: 'center',
-                locale: {
-                    format: 'DD MMM YYYY',
-                }
-            });
-            $('input[name="infant_passport_expired_date'+i+'"]').val("");
+                $('input[name="infant_birth_date'+i+'"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: moment().subtract(1, 'years'),
+                    minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(1, 'years').subtract(364, 'days'),
+                    maxDate: moment(),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+                $('input[name="infant_birth_date'+i+'"]').val("");
+            }catch(err){
+                console.log(err);
+            }
+            if(typeof(is_change_identity) == 'undefined' || is_change_identity == 'True'){
+                $('input[name="infant_passport_expired_date'+i+'"]').daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput: true,
+                    startDate: moment().subtract(-1,'years'),
+                    minDate: moment().subtract(-1, 'days'),
+                    showDropdowns: true,
+                    opens: 'center',
+                    locale: {
+                        format: 'DD MMM YYYY',
+                    }
+                });
+                $('input[name="infant_passport_expired_date'+i+'"]').val("");
+            }
           }
         if (typeof pax_cache_reorder !== 'undefined'){
             auto_input_pax_cache_reorder();
@@ -1065,8 +1117,15 @@ function auto_input_pax_cache_reorder(){
                 }
             }
             index = parseInt(parseInt(x)+1).toString();
-            document.getElementById('adult_title'+index).value = pax_cache_reorder.adult[x].title;
             document.getElementById('adult_id'+index).value = pax_cache_reorder.adult[x].passenger_seq_id;
+            document.getElementById('adult_title'+index).value = pax_cache_reorder.adult[x].title;
+            if(document.getElementById('adult_id'+index).value != ''){
+                document.getElementById('adult_title'+index).readOnly = true;
+                for(i in document.getElementById('adult_title'+index).options){
+                    if(document.getElementById('adult_title'+index).options[i].selected != true)
+                        document.getElementById('adult_title'+index).options[i].disabled = true;
+                }
+            }
             document.getElementById('adult_behaviors'+index).value = JSON.stringify(pax_cache_reorder.adult[x].behaviors);
             document.getElementById('adult_first_name'+index).value = pax_cache_reorder.adult[x].first_name;
             document.getElementById('adult_last_name'+index).value = pax_cache_reorder.adult[x].last_name;
@@ -1101,8 +1160,15 @@ function auto_input_pax_cache_reorder(){
     if(pax_cache_reorder.hasOwnProperty('child')){
         for(i in pax_cache_reorder.child){
             index = parseInt(parseInt(i)+1).toString();
-            document.getElementById('child_title'+index).value = pax_cache_reorder.child[i].title;
             document.getElementById('child_id'+index).value = pax_cache_reorder.child[i].passenger_seq_id;
+            document.getElementById('child_title'+index).value = pax_cache_reorder.child[i].title;
+            if(document.getElementById('child_id'+index).value != ''){
+                document.getElementById('child_title'+index).readOnly = true;
+                for(i in document.getElementById('child_title'+index).options){
+                    if(document.getElementById('child_title'+index).options[i].selected != true)
+                        document.getElementById('child_title'+index).options[i].disabled = true;
+                }
+            }
             document.getElementById('child_behaviors'+index).value = JSON.stringify(pax_cache_reorder.child[i].behaviors);
             document.getElementById('child_first_name'+index).value = pax_cache_reorder.child[i].first_name;
             document.getElementById('child_last_name'+index).value = pax_cache_reorder.child[i].last_name;
@@ -1122,8 +1188,15 @@ function auto_input_pax_cache_reorder(){
     if(pax_cache_reorder.hasOwnProperty('infant')){
         for(i in pax_cache_reorder.infant){
             index = parseInt(parseInt(i)+1).toString();
-            document.getElementById('infant_title'+index).value = pax_cache_reorder.infant[i].title;
             document.getElementById('infant_id'+index).value = pax_cache_reorder.infant[i].passenger_seq_id;
+            document.getElementById('infant_title'+index).value = pax_cache_reorder.infant[i].title;
+            if(document.getElementById('infant_id'+index).value != ''){
+                document.getElementById('infant_title'+index).readOnly = true;
+                for(i in document.getElementById('infant_title'+index).options){
+                    if(document.getElementById('infant_title'+index).options[i].selected != true)
+                        document.getElementById('infant_title'+index).options[i].disabled = true;
+                }
+            }
             document.getElementById('infant_behaviors'+index).value = JSON.stringify(pax_cache_reorder.infant[i].behaviors);
             document.getElementById('infant_first_name'+index).value = pax_cache_reorder.infant[i].first_name;
             document.getElementById('infant_last_name'+index).value = pax_cache_reorder.infant[i].last_name;
