@@ -822,12 +822,21 @@ def ssr(request, signature):
                                         for provider in ssr_provider['ssr_availability']:
                                             for availability in ssr_provider['ssr_availability'][provider]:
                                                 for ssr in availability['ssrs']:
-                                                    if ssr['ssr_code'] == fee['fee_code']:
-                                                        child[len(child) - 1]['ssr_list'].append({
-                                                            "fee_code": fee['fee_code'],
-                                                            "journey_code": ssr['journey_code'],
-                                                            "availability_type": fee['fee_category'].lower()
-                                                        })
+                                                    if ssr.get('ssr_code'):
+                                                        if ssr['ssr_code'] == fee['fee_code'] and fee['journey_code'] == ssr['journey_code']:
+                                                            child[len(child) - 1]['ssr_list'].append({
+                                                                "fee_code": fee['fee_code'],
+                                                                "journey_code": ssr['journey_code'],
+                                                                "availability_type": fee['fee_category'].lower()
+                                                            })
+                                                    if ssr.get('fee_code'):
+                                                        if fee['fee_code'] == ssr.get('ssr_code') and fee['journey_code'] == ssr['journey_code']:
+                                                            child[len(adult) - 1]['ssr_list'].append({
+                                                                "fee_code": fee['fee_code'],
+                                                                "journey_code": ssr['journey_code'],
+                                                                "availability_type": fee['fee_category'].lower(),
+                                                                "price": fee['amount']
+                                                            })
                         else:
                             adult.append({
                                 "pax_type": 'ADT',
