@@ -9066,6 +9066,14 @@
               format: 'YYYY-MM-DD hh:mm',
           }
       });
+      var min =  59;
+      var max = 12;
+      {% for rec in detail.skus %}
+        {%if rec.pax_type == 'adult'%}
+            min = {{rec.maxAge}};
+            max = {{rec.minAge}};
+        {%endif %}
+      {% endfor %}
       for (var i = 1; i <= adult; i++){
           document.getElementById("train_adult"+i+"_search").addEventListener("keyup", function(event) {
             if (event.keyCode === 13) {
@@ -9078,9 +9086,9 @@
           $('input[name="adult_birth_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
-              startDate: moment().subtract(18, 'years'),
-              minDate: moment().subtract(59, 'years').subtract(365, 'days'),
-              maxDate: moment().subtract(12, 'years'),
+              startDate: moment().subtract(min/2, 'years'),
+              minDate: moment().subtract(min, 'years').subtract(365, 'days'),
+              maxDate: moment().subtract(max, 'years'),
               showDropdowns: true,
               opens: 'center',
               locale: {
@@ -9103,6 +9111,15 @@
           $('input[name="adult_passport_expired_date'+i+'"]').val("");
       }
 
+      min =  120;
+      max = 60;
+      {% for rec in detail.skus %}
+        {%if rec.pax_type == 'senior'%}
+            min = {{rec.maxAge}};
+            max = {{rec.minAge}};
+        {%endif %}
+      {% endfor %}
+
       for (var i = 1; i <= senior; i++){
           document.getElementById("train_senior"+i+"_search").addEventListener("keyup", function(event) {
             if (event.keyCode === 13) {
@@ -9115,9 +9132,9 @@
           $('input[name="senior_birth_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
-              startDate: moment().subtract(80, 'years'),
-              minDate: moment().subtract(120, 'years'),
-              maxDate: moment().subtract(60, 'years'),
+              startDate: moment().subtract(max, 'years'),
+              minDate: moment().subtract(min, 'years'),
+              maxDate: moment().subtract(max, 'years'),
               showDropdowns: true,
               opens: 'center',
               locale: {
@@ -9140,6 +9157,15 @@
           $('input[name="senior_passport_expired_date'+i+'"]').val("");
       }
 
+      min =  11;
+      max = 2;
+      {% for rec in detail.skus %}
+        {%if rec.pax_type == 'child'%}
+            min = {{rec.maxAge}};
+            max = {{rec.minAge}};
+        {%endif %}
+      {% endfor %}
+
       for (var i = 1; i <= child; i++){
           document.getElementById("train_child"+i+"_search").addEventListener("keyup", function(event) {
             if (event.keyCode === 13) {
@@ -9152,9 +9178,9 @@
           $('input[name="child_birth_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
-              startDate: moment().subtract(5, 'years'),
-              minDate: moment().subtract(11, 'years').subtract(365, 'days'),
-              maxDate: moment().subtract(2, 'years'),
+              startDate: moment().subtract(min/2, 'years'),
+              minDate: moment().subtract(min, 'years').subtract(365, 'days'),
+              maxDate: moment().subtract(max, 'years'),
               showDropdowns: true,
               opens: 'center',
               locale: {
@@ -9177,6 +9203,15 @@
           $('input[name="child_passport_expired_date'+i+'"]').val("");
       }
 
+      min =  1;
+      max = 1;
+      {% for rec in detail.skus %}
+        {%if rec.pax_type == 'infant'%}
+            min = {{rec.maxAge}};
+            max = {{rec.minAge}};
+        {%endif %}
+      {% endfor %}
+
       for (var i = 1; i <= infant; i++){
           document.getElementById("train_infant"+i+"_search").addEventListener("keyup", function(event) {
             if (event.keyCode === 13) {
@@ -9189,8 +9224,8 @@
           $('input[name="infant_birth_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
-              startDate: moment().subtract(1, 'years'),
-              minDate: moment().subtract(1, 'years').subtract(364, 'days'),
+              startDate: moment().subtract(max, 'years'),
+              minDate: moment().subtract(max, 'years').subtract(364, 'days'),
               maxDate: moment(),
               showDropdowns: true,
               opens: 'center',
