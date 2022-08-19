@@ -330,7 +330,23 @@ function calculate(type){
         }else if(type == 'request_new_review'){
             ssr_pax_list = []
             for(temp_pax in passengers_ssr){
+                is_buy_ssr = false;
+                is_buy_seat = false;
                 if(Array.isArray(passengers_ssr[temp_pax].ssr_list) && passengers_ssr[temp_pax].ssr_list.length > 0)
+                {
+                    is_buy_ssr = true;
+                }
+                if(passengers_ssr[temp_pax].hasOwnProperty('seat_list'))
+                {
+                    for(temp_seat in passengers_ssr[temp_pax].seat_list)
+                    {
+                        if(passengers_ssr[temp_pax].seat_list[temp_seat].seat_pick != '')
+                        {
+                            is_buy_seat = true;
+                        }
+                    }
+                }
+                if(is_buy_ssr || is_buy_seat)
                 {
                     full_pax_name = passengers_ssr[temp_pax].first_name+``+passengers_ssr[temp_pax].last_name;
                     ssr_pax_list.push(full_pax_name);
