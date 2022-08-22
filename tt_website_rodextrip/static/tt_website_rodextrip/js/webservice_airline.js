@@ -1164,9 +1164,9 @@ function auto_input_pax_cache_reorder(){
             document.getElementById('child_title'+index).value = pax_cache_reorder.child[i].title;
             if(document.getElementById('child_id'+index).value != ''){
                 document.getElementById('child_title'+index).readOnly = true;
-                for(i in document.getElementById('child_title'+index).options){
-                    if(document.getElementById('child_title'+index).options[i].selected != true)
-                        document.getElementById('child_title'+index).options[i].disabled = true;
+                for(j in document.getElementById('child_title'+index).options){
+                    if(document.getElementById('child_title'+index).options[j].selected != true)
+                        document.getElementById('child_title'+index).options[j].disabled = true;
                 }
             }
             document.getElementById('child_behaviors'+index).value = JSON.stringify(pax_cache_reorder.child[i].behaviors);
@@ -1192,9 +1192,9 @@ function auto_input_pax_cache_reorder(){
             document.getElementById('infant_title'+index).value = pax_cache_reorder.infant[i].title;
             if(document.getElementById('infant_id'+index).value != ''){
                 document.getElementById('infant_title'+index).readOnly = true;
-                for(i in document.getElementById('infant_title'+index).options){
-                    if(document.getElementById('infant_title'+index).options[i].selected != true)
-                        document.getElementById('infant_title'+index).options[i].disabled = true;
+                for(j in document.getElementById('infant_title'+index).options){
+                    if(document.getElementById('infant_title'+index).options[j].selected != true)
+                        document.getElementById('infant_title'+index).options[j].disabled = true;
                 }
             }
             document.getElementById('infant_behaviors'+index).value = JSON.stringify(pax_cache_reorder.infant[i].behaviors);
