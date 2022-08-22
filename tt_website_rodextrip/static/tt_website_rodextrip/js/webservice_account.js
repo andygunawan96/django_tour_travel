@@ -842,7 +842,7 @@ function get_transactions(type){
     $('#loading-search-reservation').show();
     document.getElementById('button').disabled = true;
     load_more = false;
-    if(type == 'reset' || type == 'filter'){
+    if(type == 'reset' || type == 'filter' || type == 'mode'){
         offset_transaction = 0;
         data_counter = 0;
         data_search = [];
@@ -1031,12 +1031,21 @@ function get_transactions(type){
 
                 }else if(msg.result.response[filter].length >= 20){
                     offset_transaction++;
-                    table_reservation(msg.result.response[filter]);
+                    if ($("input[name='view_type_reservation']:checked").val() == "card_mode") {
+                        table_reservation(msg.result.response[filter], 'card_mode');
+                    }else{
+                        table_reservation(msg.result.response[filter], 'table_mode');
+                    }
+
                     load_more = true;
                     document.getElementById('reservation_found').style.display = 'none';
 //                    $('#reservation_found').hide();
                 }else{
-                    table_reservation(msg.result.response[filter]);
+                    if ($("input[name='view_type_reservation']:checked").val() == "card_mode") {
+                        table_reservation(msg.result.response[filter], 'card_mode');
+                    }else{
+                        table_reservation(msg.result.response[filter], 'table_mode');
+                    }
                     document.getElementById('reservation_found').style.display = 'none';
 //                    $('#reservation_found').hide();
                 }

@@ -208,7 +208,7 @@
     position: absolute;
     top: -50%;
     padding: 9px;
-    box-shadow: inset 2px -2px 0 1px #fff;
+    box-shadow: inset 5px -5px 0 2px #f15a22;
     cursor: pointer;
     -moz-transition: box-shadow 0.15s, margin 0.15s;
     -o-transition: box-shadow 0.15s, margin 0.15s;
@@ -243,7 +243,7 @@
 .csslider>input:nth-of-type(10):checked~.arrows>label:nth-of-type(9),
 .csslider>input:nth-of-type(11):checked~.arrows>label:nth-of-type(10) {
     display: block;
-    left: 5%;
+    left: 2%;
     right: auto;
     -moz-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
@@ -265,7 +265,7 @@
 .csslider>input:nth-of-type(10):checked~.arrows>label:nth-of-type(11),
 .csslider>input:nth-of-type(11):checked~.arrows>label:nth-of-type(12) {
     display: block;
-    right: 5%;
+    right: 2%;
     left: auto;
     -moz-transform: rotate(225deg);
     -ms-transform: rotate(225deg);
