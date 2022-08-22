@@ -84,10 +84,10 @@ ul {
 /*-- header --*/
 
 header {
-    position: relative;
+    position: relative !important;
     z-index: 999;
     width: 100%;
-    background: #000000B1;
+    background: #000000B1 !important;
 }
 
 .toggle,
@@ -588,7 +588,7 @@ li > a:only-child:after { content: ''; }
 .overlay {
     min-height: 415px;
     max-height: 415px;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.2);
 }
 .overlay1 {
     min-height: 415px;
