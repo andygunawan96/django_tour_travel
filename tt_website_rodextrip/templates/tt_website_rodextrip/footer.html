@@ -38,14 +38,20 @@
                             <div class="col">
                                 <ul>
                             {% endif %}
-                            {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
-                            <li><a href="/{% if provider_type == 'phc' or provider_type == 'periksain' %}medical/{% endif %}{% if provider_type == 'medical' %}medical_global{% elif provider_type == 'labpintar' %}lab_pintar{% elif provider_type == 'swabexpress' %}swab_express{% elif provider_type == 'mitrakeluarga' %}mitra_keluarga{% elif provider_type == 'sentramedika' %}sentra_medika{% elif provider_type == 'groupbooking' %}group_booking{% else %}{{provider_type}}{% endif %}"><script>
-                            temp = `{{provider_type}}`;
-                            temp = temp.split('_');
-                            data = '';
-                            for(i in temp)
-                                data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
-                            document.write(data);</script></a></li>
+                                {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
+                                    <li>
+                                        <a id="footer_providertype_{{provider_type}}" href="/{% if provider_type == 'phc' or provider_type == 'periksain' %}medical/{% endif %}{% if provider_type == 'medical' %}medical_global{% elif provider_type == 'labpintar' %}lab_pintar{% elif provider_type == 'swabexpress' %}swab_express{% elif provider_type == 'mitrakeluarga' %}mitra_keluarga{% elif provider_type == 'sentramedika' %}sentra_medika{% elif provider_type == 'groupbooking' %}group_booking{% else %}{{provider_type}}{% endif %}">
+                                <script>
+                                    temp = `{{provider_type}}`;
+                                    temp = temp.split('_');
+                                    data = '';
+                                    for(i in temp)
+                                        data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
+                                    document.getElementById('footer_providertype_{{provider_type}}').innerHTML = data;
+                                    //document.write(data);
+                                </script>
+                                        </a>
+                                    </li>
                             {% endif %}
                             {% if forloop.counter == provider|length or forloop.counter == provider_divider_end %}
                                 </ul>
@@ -87,8 +93,8 @@
             </div>
         </div>
         <div class="row footer-bottom d-flex justify-content-between align-items-center">
-            <p class="col-lg-8 col-sm-12 footer-text m-0">
-                {% trans 'Copyright' %} &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by {{name}}
+            <p class="col-lg-8 col-sm-12 footer-text m-0" id="footer_copyright">
+                {% trans 'Copyright' %} &copy;<script>document.getElementById('footer_copyright').innerHTML += new Date().getFullYear();</script> All rights reserved by {{name}}
             </p>
             <div class="col-lg-4 col-sm-12 footer-social">
             </div>
@@ -129,13 +135,19 @@
                                 <ul class="footer-nav">
                             {% endif %}
                             {% if provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
-                            <li><a href="/{% if provider_type == 'phc' or provider_type == 'periksain' %}medical/{% endif %}{% if provider_type == 'medical' %}medical_global{% elif provider_type == 'labpintar' %}lab_pintar{% elif provider_type == 'swabexpress' %}swab_express{% elif provider_type == 'mitrakeluarga' %}mitra_keluarga{% elif provider_type == 'sentramedika' %}sentra_medika{% else %}{{provider_type}}{% endif %}"><script>
-                            temp = `{{provider_type}}`;
-                            temp = temp.split('_');
-                            data = '';
-                            for(i in temp)
-                                data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
-                            document.write(data);</script></a></li>
+                                    <li>
+                                        <a id="footer_providertype_{{provider_type}}" href="/{% if provider_type == 'phc' or provider_type == 'periksain' %}medical/{% endif %}{% if provider_type == 'medical' %}medical_global{% elif provider_type == 'labpintar' %}lab_pintar{% elif provider_type == 'swabexpress' %}swab_express{% elif provider_type == 'mitrakeluarga' %}mitra_keluarga{% elif provider_type == 'sentramedika' %}sentra_medika{% else %}{{provider_type}}{% endif %}">
+                                            <script>
+                                                temp = `{{provider_type}}`;
+                                                temp = temp.split('_');
+                                                data = '';
+                                                for(i in temp)
+                                                    data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
+                                                //document.write(data);
+                                                document.getElementById('footer_providertype_{{provider_type}}').innerHTML = data;
+                                            </script>
+                                        </a>
+                                    </li>
                             {% endif %}
                             {% if forloop.counter == provider|length or forloop.counter == provider_divider_end %}
                                 </ul>
@@ -183,8 +195,8 @@
             <div class="row align-items-center">
                 <div class="col-xs-12 col-md-8">
                     <div class="copywrite-text">
-                        <p>
-                            {% trans 'Copyright' %} &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved {{name}}
+                        <p id="footer_copyright">
+                            {% trans 'Copyright' %} &copy;<script>document.getElementById('footer_copyright').innerHTML += new Date().getFullYear();</script> All rights reserved {{name}}
                         </p>
                     </div>
                 </div>
@@ -224,13 +236,19 @@
                             <ul class="footer-nav">
                         {% endif %}
                         {% if provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
-                        <li><a href="/{% if provider_type == 'phc' or provider_type == 'periksain' %}medical/{% endif %}{% if provider_type == 'medical' %}medical_global{% elif provider_type == 'labpintar' %}lab_pintar{% elif provider_type == 'swabexpress' %}swab_express{% elif provider_type == 'mitrakeluarga' %}mitra_keluarga{% elif provider_type == 'sentramedika' %}sentra_medika{% else %}{{provider_type}}{% endif %}"><script>
-                        temp = `{{provider_type}}`;
-                        temp = temp.split('_');
-                        data = '';
-                        for(i in temp)
-                            data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
-                        document.write(data);</script></a></li>
+                                <li>
+                                    <a id="footer_providertype_{{provider_type}}" href="/{% if provider_type == 'phc' or provider_type == 'periksain' %}medical/{% endif %}{% if provider_type == 'medical' %}medical_global{% elif provider_type == 'labpintar' %}lab_pintar{% elif provider_type == 'swabexpress' %}swab_express{% elif provider_type == 'mitrakeluarga' %}mitra_keluarga{% elif provider_type == 'sentramedika' %}sentra_medika{% else %}{{provider_type}}{% endif %}">
+                                <script>
+                                    temp = `{{provider_type}}`;
+                                    temp = temp.split('_');
+                                    data = '';
+                                    for(i in temp)
+                                        data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
+                                    //document.write(data);
+                                    document.getElementById('footer_providertype_{{provider_type}}').innerHTML = data;
+                                </script>
+                                    </a>
+                                </li>
                         {% endif %}
                         {% if forloop.counter == provider|length or forloop.counter == provider_divider_end %}
                             </ul>
@@ -269,9 +287,9 @@
                 </div>
             </div>
 
-            <span class="mt-50 col-lg-12" style="color:#f15a22;">
+            <span class="mt-50 col-lg-12" style="color:#f15a22;" id="footer_copyright">
                 <hr/>
-                {% trans 'Copyright' %} &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by {{name}}
+                {% trans 'Copyright' %} &copy;<script>document.getElementById('footer_copyright').innerHTML += new Date().getFullYear();</script> All rights reserved by {{name}}
             </span>
         </div>
     </div>
@@ -310,13 +328,19 @@
                                 <ul class="footer-nav">
                             {% endif %}
                             {% if provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
-                            <li><a href="/{% if provider_type == 'phc' or provider_type == 'periksain' %}medical/{% endif %}{% if provider_type == 'medical' %}medical_global{% elif provider_type == 'labpintar' %}lab_pintar{% elif provider_type == 'swabexpress' %}swab_express{% elif provider_type == 'mitrakeluarga' %}mitra_keluarga{% elif provider_type == 'sentramedika' %}sentra_medika{% else %}{{provider_type}}{% endif %}"><script>
-                            temp = `{{provider_type}}`;
-                            temp = temp.split('_');
-                            data = '';
-                            for(i in temp)
-                                data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
-                            document.write(data);</script></a></li>
+                            <li>
+                                <a id="footer_providertype_{{provider_type}}" href="/{% if provider_type == 'phc' or provider_type == 'periksain' %}medical/{% endif %}{% if provider_type == 'medical' %}medical_global{% elif provider_type == 'labpintar' %}lab_pintar{% elif provider_type == 'swabexpress' %}swab_express{% elif provider_type == 'mitrakeluarga' %}mitra_keluarga{% elif provider_type == 'sentramedika' %}sentra_medika{% else %}{{provider_type}}{% endif %}">
+                                    <script>
+                                        temp = `{{provider_type}}`;
+                                        temp = temp.split('_');
+                                        data = '';
+                                        for(i in temp)
+                                            data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
+                                        //document.write(data);
+                                        document.getElementById('footer_providertype_{{provider_type}}').innerHTML = data;
+                                    </script>
+                                </a>
+                            </li>
                             {% endif %}
                             {% if forloop.counter == provider|length or forloop.counter == provider_divider_end %}
                                 </ul>
@@ -358,8 +382,8 @@
             <div class="col-md-12">
                 <hr/>
                 <div class="border-top">
-                    <p>
-                        {% trans 'Copyright' %} &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by {{name}}
+                    <p id="footer_copyright">
+                        {% trans 'Copyright' %} &copy;<script>document.getElementById('footer_copyright').innerHTML += new Date().getFullYear();</script> All rights reserved by {{name}}
                     </p>
                 </div>
             </div>
@@ -402,13 +426,19 @@
                                 <ul class="footer-nav">
                             {% endif %}
                             {% if provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
-                            <li><a href="/{% if provider_type == 'phc' or provider_type == 'periksain' %}medical/{% endif %}{% if provider_type == 'medical' %}medical_global{% elif provider_type == 'labpintar' %}lab_pintar{% elif provider_type == 'swabexpress' %}swab_express{% elif provider_type == 'mitrakeluarga' %}mitra_keluarga{% elif provider_type == 'sentramedika' %}sentra_medika{% else %}{{provider_type}}{% endif %}"><script>
-                            temp = `{{provider_type}}`;
-                            temp = temp.split('_');
-                            data = '';
-                            for(i in temp)
-                                data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
-                            document.write(data);</script></a></li>
+                                    <li>
+                                        <a id="footer_providertype_{{provider_type}}" href="/{% if provider_type == 'phc' or provider_type == 'periksain' %}medical/{% endif %}{% if provider_type == 'medical' %}medical_global{% elif provider_type == 'labpintar' %}lab_pintar{% elif provider_type == 'swabexpress' %}swab_express{% elif provider_type == 'mitrakeluarga' %}mitra_keluarga{% elif provider_type == 'sentramedika' %}sentra_medika{% else %}{{provider_type}}{% endif %}">
+                                            <script>
+                                                temp = `{{provider_type}}`;
+                                                temp = temp.split('_');
+                                                data = '';
+                                                for(i in temp)
+                                                    data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
+                                                //document.write(data);
+                                                document.getElementById('footer_providertype_{{provider_type}}').innerHTML = data;
+                                            </script>
+                                        </a>
+                                    </li>
                             {% endif %}
                             {% if forloop.counter == provider|length or forloop.counter == provider_divider_end %}
                                 </ul>
@@ -450,8 +480,8 @@
         </div>
         <hr/>
         <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
-            <p class="m-0" style="color:#f15a22;">
-                {% trans 'Copyright' %} &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by {{name}}
+            <p class="m-0" style="color:#f15a22;" id="footer_copyright">
+                {% trans 'Copyright' %} &copy;<script>document.getElementById('footer_copyright').innerHTML += new Date().getFullYear();</script> All rights reserved by {{name}}
             </p>
         </div>
     </div>
@@ -483,13 +513,19 @@
                         <ul style="font-size:15px;">
                             {% endif %}
                             {% if provider_type != 'payment' and  provider_type != 'bank' and provider_type != 'health_care' %}
-                            <li><a href="/{% if provider_type == 'phc' or provider_type == 'periksain' %}medical/{% endif %}{% if provider_type == 'medical' %}medical_global{% elif provider_type == 'labpintar' %}lab_pintar{% elif provider_type == 'swabexpress' %}swab_express{% elif provider_type == 'mitrakeluarga' %}mitra_keluarga{% elif provider_type == 'sentramedika' %}sentra_medika{% else %}{{provider_type}}{% endif %}"><script>
-                            temp = `{{provider_type}}`;
-                            temp = temp.split('_');
-                            data = '';
-                            for(i in temp)
-                                data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
-                            document.write(data);</script></a></li>
+                            <li>
+                                <a id="footer_providertype_{{provider_type}}" href="/{% if provider_type == 'phc' or provider_type == 'periksain' %}medical/{% endif %}{% if provider_type == 'medical' %}medical_global{% elif provider_type == 'labpintar' %}lab_pintar{% elif provider_type == 'swabexpress' %}swab_express{% elif provider_type == 'mitrakeluarga' %}mitra_keluarga{% elif provider_type == 'sentramedika' %}sentra_medika{% else %}{{provider_type}}{% endif %}">
+                                    <script>
+                                        temp = `{{provider_type}}`;
+                                        temp = temp.split('_');
+                                        data = '';
+                                        for(i in temp)
+                                            data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
+                                        //document.write(data);
+                                        document.getElementById('footer_providertype_{{provider_type}}').innerHTML = data;
+                                    </script>
+                                </a>
+                            </li>
                             {% endif %}
                             {% if forloop.counter == provider|length or forloop.counter == provider_divider_end %}
                         </ul>
@@ -541,8 +577,8 @@
 
 <!-- copyright -->
 <div class="copy-right text-center">
-	<p>
-        {% trans 'Copyright' %} &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by {{name}}
+	<p id="footer_copyright">
+        {% trans 'Copyright' %} &copy;<script>document.getElementById('footer_copyright').innerHTML += new Date().getFullYear();</script> All rights reserved by {{name}}
 	</p>
 </div>
 <!-- //copyright -->
