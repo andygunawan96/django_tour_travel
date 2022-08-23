@@ -534,21 +534,47 @@ function get_transactions_notification(){
                             }
                             text = '';
                             text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
-                            text+=`<form action="`+url_goto+btoa(msg.result.response[i].name)+`" method="post" id="notification_`+check_notif+`" onclick="set_csrf_notification(`+check_notif+`)">`;
-                            text+=`<div class="row">
-                                    <div class="col-sm-6">`;
-                            text+=`<span style="font-weight:500;"> `+check_notif+`. `+msg.result.response[i].name+` - `+msg.result.response[i].pnr+`</span>`;
-                            text+=` </div>
-                                    <div class="col-sm-6" style="text-align:right">
-                                    <span style="font-weight:500;"> `+msg.result.response[i].description+`</span>`;
-                            if(msg.result.response[i].is_read == false)
-                                text += `<sup style="color:`+color+`">•</sup>`;
-                            text+=` </div>
-                                   </div>`;
+                            text+=` <div class="row">
+                                        <div class="col-lg-11 notification-hover" style="cursor:pointer;">`;
+                                text+=`<form action="`+url_goto+btoa(msg.result.response[i].name)+`" method="post" id="notification_`+check_notif+`" onclick="set_csrf_notification(`+check_notif+`)">`;
+                                text+=` <div class="row">
+                                                <div class="col-sm-6">`;
+                                            text+=`<span style="font-weight:500;"> `+check_notif+`. `+msg.result.response[i].name+` - `+msg.result.response[i].pnr+`</span>`;
+                                        text+=` </div>
+                                            <div class="col-sm-6" style="text-align:right">
+                                                <span style="font-weight:500;"> `+msg.result.response[i].description+` </span>`;
+                                            if(msg.result.response[i].is_read == false)
+                                                text += `<sup style="color:`+color+`">•</sup>`;
+                                    text+=` </div>
+                                        </div>`;
+
                             text+=`<input type="hidden" id="order_number_notif`+check_notif+`" name="order_number_notif`+check_notif+`" value="`+msg.result.response[i].name+`">`;
                             text+=`<input type="hidden" id="desc_notif`+check_notif+`" name="desc_notif`+check_notif+`" value="`+msg.result.response[i].description+`">`;
-                            text+=`<hr/></form>`;
+                                text+=`</form>
+                                   </div>`;
+                            text+=`<div class="col-lg-1 notification-hover" style="cursor:pointer;">`;
+                            text+=` <i class="fas fa-ellipsis-v" onclick="show_snooze(`+check_notif+`)"></i>`;
                             text+=`</div>`;
+                            text += `<div id="snooze_div`+check_notif+`" class="col-lg-12 height60" style="margin-left:13px;" hidden>`;
+                            text += `<h6>Snooze</h6>`;
+                                text += `<div class="row" class="height40" style="margin-left:0px;">`;
+                                text += `<input type="radio" class="height40" name="radio_snooze`+check_notif+`" value="day" onchange="onchange_snooze(`+check_notif+`)">`;
+                                text += `<span class="height40" style="font-size:13px;margin-top:3px;">&nbsp;</span>`;
+                                text += `<input type="number" class="height40" id="radio_snooze_day`+check_notif+`" min="1" max="365"/>`;
+                                text += `<span class="height40" style="font-size:13px;margin-top:10px;">Day&nbsp;</span>`;
+
+                                text += `<input class="height40" type="radio" name="radio_snooze`+check_notif+`" value="week" onchange="onchange_snooze(`+check_notif+`)">`;
+                                text += `<span class="height40" style="font-size:13px;margin-top:3px;">&nbsp;</span>`;
+                                text += `<input class="height40" type="number" id="radio_snooze_week`+check_notif+`" min="1" max="52"/>`;
+                                text += `<span class="height40" style="font-size:13px;margin-top:10px;">Week&nbsp;(7 Days)&nbsp;</span>`;
+
+                                text += `<input class="height40" type="radio" name="radio_snooze`+check_notif+`" value="month" onchange="onchange_snooze(`+check_notif+`)">`;
+                                text += `<span class="height40" style="font-size:13px;margin-top:3px;">&nbsp;</span>`;
+                                text += `<input class="height40" type="number" id="radio_snooze_month`+check_notif+`" min="1" max="12"/>`;
+                                text += `<span class="height40" style="font-size:13px;margin-top:10px;">Month&nbsp;(30 Days)&nbsp;</span>`;
+                                text += `<button class="primary-btn-ticket height30" type="button" onclick="set_snooze_notification(`+check_notif+`);" >Set Snooze</button>`;
+
+                            text += `</div></div><hr/></div>`;
                             document.getElementById('notification_detail').innerHTML += text;
                             $(".bell_notif").addClass("infinite");
                             $(".bell_notif").css("color", color);
@@ -615,6 +641,77 @@ function get_transactions_notification(){
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get transaction need update identity');
        },timeout: 60000
     });
+}
+
+function show_snooze(val){
+    document.getElementById('snooze_div'+val).hidden = false;
+}
+
+function onchange_snooze(val){
+
+    var radios = document.getElementsByName('radio_snooze'+val);
+    for (var j = 0, length = radios.length; j < length; j++) {
+        if (radios[j].checked) {
+            document.getElementById('radio_snooze_' + radios[j].value + val).value = 1;
+        }else{
+            document.getElementById('radio_snooze_' + radios[j].value + val).value = '';
+        }
+    }
+}
+
+function set_snooze_notification(number){
+    var days = 0;
+    var radios = document.getElementsByName('radio_snooze'+number);
+    var multiply = 1;
+    for (var j = 0, length = radios.length; j < length; j++) {
+        if (radios[j].checked) {
+            if(radios[j].value == 'week')
+                multiply = 7;
+            else if(radios[j].value == 'month')
+                multiply = 30
+            days = parseInt(document.getElementById('radio_snooze_' + radios[j].value + number).value) * multiply;
+            break
+        }
+    }
+    if(days != 0){
+        $.ajax({
+           type: "POST",
+           url: "/webservice/account",
+           headers:{
+                'action': 'set_snooze_notif_api',
+           },
+           data: {
+                'order_number': document.getElementById('order_number_notif'+number).value,
+                'description': document.getElementById('desc_notif'+number).value,
+                'days': days,
+                'signature': signature
+           },
+           success: function(msg) {
+                if(msg.result.error_code == 0){
+                    Swal.fire({
+                        type: 'success',
+                        title: 'Success!'
+                    })
+                }else{
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops!',
+                        html: msg.result.error_msg,
+                    })
+                }
+
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error set read notification');
+           },timeout: 60000
+        });
+    }else{
+        Swal.fire({
+            type: 'error',
+            title: 'Oops!',
+            html: 'Please choose snooze!',
+        })
+    }
 }
 
 function set_read_notification(number){

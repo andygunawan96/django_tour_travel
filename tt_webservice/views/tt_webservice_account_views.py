@@ -91,6 +91,8 @@ def api_models(request):
             res = get_transactions_notif_api(request)
         elif req_data['action'] == 'set_read_transactions_notif_api':
             res = set_read_transactions_notif_api(request)
+        elif req_data['action'] == 'set_snooze_notif_api':
+            res = set_snooze_notif_api(request)
         elif req_data['action'] == 'get_history_transaction_ledger':
             res = get_history_transaction_ledger(request)
         elif req_data['action'] == 'get_version':
@@ -544,6 +546,33 @@ def set_read_transactions_notif_api(request):
             _logger.info("set_read_transactions_notif_api SUCCESS SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("set_read_transactions_notif_api ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def set_snooze_notif_api(request):
+    try:
+        data = {
+            'order_number': request.POST['order_number'],
+            'description': request.POST['description'],
+            'days': request.POST['days']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "set_snooze_notif_api",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'account'
+    res = send_request_api(request, url_request, headers, data, 'POST')
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("set_snooze_notif_api SUCCESS SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("set_snooze_notif_api ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
