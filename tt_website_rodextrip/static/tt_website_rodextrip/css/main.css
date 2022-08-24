@@ -9621,3 +9621,25 @@ ul.progress_tabs li.current .image-rounded-icon{
     align-items: center;
     text-align:center;
 }
+
+.box-notification{
+    float:right;
+    overflow: hidden;
+    background: #f0e68c;
+    display:none;
+}
+/* Add padding and border to inner content
+for better animation effect */
+.box-notification-inner{
+    width: 500px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 1);
+    border:1px solid #cdcdcd;
+    color: black;
+    z-index:1000;
+    position: fixed;
+    top:0px;
+    bottom:0px;
+    right:0px;
+    overflow:auto;
+}
