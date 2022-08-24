@@ -572,7 +572,7 @@ function get_transactions_notification(){
                                     text+=`
                                     </div>
                                     <div class="col-lg-12 mb-1"></div>
-                                    <div class="col-xs-6" style="text-align:left; font-weight:500;">`;
+                                    <div class="col-xs-6" style="text-align:left; font-weight:500;" id="notif_button_span`+check_notif+`">`;
                                     if(msg.result.response[i].snooze_days == 0 && msg.result.response[i].last_snooze_date)
                                         text+=`
                                         <span class="notification-hover" onclick="show_snooze(`+check_notif+`,'`+msg.result.response[i].last_snooze_date+`')">
@@ -581,7 +581,7 @@ function get_transactions_notification(){
                                         </span>`;
                                     else if(msg.result.response[i].snooze_days != 0)
                                         text+=`
-                                        <span class="notification-hover" style="font-size:14px; color:#DC143C;" onclick="set_unsnooze_notification(`+check_notif+`)">
+                                        <span class="notification-hover" style="font-size:14px; color:#DC143C;" onclick="set_unsnooze_notification(`+check_notif+`,'`+msg.result.response[i].last_snooze_date+`')">
                                             Cancel snooze
                                             <i class="fas fa-times" style="font-size:14px;"></i>
                                         </span>`;
@@ -694,7 +694,7 @@ function show_snooze(val, date){
     //document.getElementById('snooze_div'+val).hidden = false;
     document.getElementById('snooze_date_modal').innerHTML = `
         <input type="text" class="form-control" name="snooze_input_date`+val+`" id="snooze_input_date`+val+`" placeholder="Snooze Date" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Snooze Date '" autocomplete="off" readonly>
-        <button type="button" class="primary-btn-white" onclick="set_snooze_notification(`+val+`);">
+        <button type="button" class="primary-btn-white" onclick="set_snooze_notification(`+val+`, '`+date+`');">
             Snooze
         </button>
     `;
@@ -715,10 +715,10 @@ function show_snooze(val, date){
     $('#myModalNotification').modal('show');
 }
 
-function set_snooze_notification(number){
+function set_snooze_notification(number, date){
     var days = Math.ceil((new Date(document.getElementById('snooze_input_date'+number).value) - new Date())/(1000 * 3600 * 24)); // milliseconds * 1 hours * 24 hours
     if(days != 0){
-        set_snooze_notification_api(document.getElementById('order_number_notif'+number).value, document.getElementById('desc_notif'+number).value, days);
+        set_snooze_notification_api(document.getElementById('order_number_notif'+number).value, document.getElementById('desc_notif'+number).value, days, number, date);
     }else{
         Swal.fire({
             type: 'error',
@@ -728,11 +728,11 @@ function set_snooze_notification(number){
     }
 }
 
-function set_unsnooze_notification(number){
-    set_snooze_notification_api(document.getElementById('order_number_notif'+number).value, document.getElementById('desc_notif'+number).value, 0);
+function set_unsnooze_notification(number, date){
+    set_snooze_notification_api(document.getElementById('order_number_notif'+number).value, document.getElementById('desc_notif'+number).value, 0, number, date);
 }
 
-function set_snooze_notification_api(order_number, description, days){
+function set_snooze_notification_api(order_number, description, days, number, date){
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -746,6 +746,19 @@ function set_snooze_notification_api(order_number, description, days){
        },
        success: function(msg) {
             if(msg.result.error_code == 0){
+                if(days == 0){
+                    document.getElementById('notif_button_span'+number).innerHTML = `
+                        <span class="notification-hover" onclick="show_snooze(`+number+`,'`+date+`')">
+                            Snooze
+                            <i class="fas fa-bell" style="font-size:14px;"></i>
+                        </span>`;
+                }else{
+                    document.getElementById('notif_button_span'+number).innerHTML = `
+                        <span class="notification-hover" style="font-size:14px; color:#DC143C;" onclick="set_unsnooze_notification(`+number+`,'`+date+`')">
+                            Cancel snooze
+                            <i class="fas fa-times" style="font-size:14px;"></i>
+                        </span>`;
+                }
                 Swal.fire({
                     type: 'success',
                     title: 'Success!'
