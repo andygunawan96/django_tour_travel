@@ -558,7 +558,7 @@ function get_transactions_notification(){
                                                 <div class="col-xs-12">
                                                     <span `;
                                                     if(msg.result.response[i].is_read)
-                                                        text+= `style="color:#808080;"`;
+                                                        text+= `style="color:`+color+`;"`;
                                                     text+=`>`+msg.result.response[i].description.msg;
                                                     if(msg.result.response[i].description.datetime != ''){
                                                         tes = moment.utc(msg.result.response[i].description.datetime).format('YYYY-MM-DD HH:mm:ss')
