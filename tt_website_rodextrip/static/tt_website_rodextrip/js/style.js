@@ -29,6 +29,12 @@ $(document).ready(function(){
     window.addEventListener('online', checking);
     window.addEventListener('offline', checking);
 
+    $(".notification-slide-toggle").click(function(){
+        $(".box-notification").animate({
+            width: "toggle"
+        });
+    });
+
 //    var slowLoad = window.setTimeout( function() {
 //        alert( "the page is taking its sweet time loading" );
 //    }, 10000 );

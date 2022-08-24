@@ -486,12 +486,12 @@ function get_transactions_notification(){
                             if(window.location.href.split('/')[window.location.href.split('/').length-1] == "dashboard" && check_notif < 5){
 
                                 document.getElementById('notification_div').innerHTML +=`
-                                    <div id="alert`+check_notif+`">
-                                        <div class="alert alert-warning" role="alert">
-                                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                          <strong>Hurry pay for this booking!</strong> `+msg.result.response[i].order_number + ' ' + msg.result.response[i].description+`
-                                        </div>
-                                    </div>`;
+                                <div id="alert`+check_notif+`">
+                                    <div class="alert alert-warning" role="alert">
+                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                      <strong>Hurry pay for this booking!</strong> `+msg.result.response[i].order_number + ' ' + msg.result.response[i].description+`
+                                    </div>
+                                </div>`;
                             }
                             check_notif++;
                             url_goto = '';
@@ -533,49 +533,83 @@ function get_transactions_notification(){
                                 url_goto = '/groupbooking/booking/';
                             }
                             text = '';
-                            text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
-                            text+=` <div class="row">
-                                        <div class="col-lg-11 notification-hover" style="cursor:pointer;">`;
-                                text+=`<form action="`+url_goto+btoa(msg.result.response[i].name)+`" method="post" id="notification_`+check_notif+`" onclick="set_csrf_notification(`+check_notif+`)">`;
-                                text+=` <div class="row">
-                                                <div class="col-sm-6">`;
-                                            text+=`<span style="font-weight:500;"> `+check_notif+`. `+msg.result.response[i].name+` - `+msg.result.response[i].pnr+`</span>`;
-                                        text+=` </div>
-                                            <div class="col-sm-6" style="text-align:right">
-                                                <span style="font-weight:500;"> `+msg.result.response[i].description+` </span>`;
-                                            if(msg.result.response[i].is_read == false)
-                                                text += `<sup style="color:`+color+`">•</sup>`;
-                                    text+=` </div>
-                                        </div>`;
+                            text+=`
+                            <div class="col-lg-12" style="cursor:pointer;">
+                                <div class="row">
+                                    <div class="col-xs-10" style="cursor:pointer;">
+                                        <form action="`+url_goto+btoa(msg.result.response[i].name)+`" method="post" id="notification_`+check_notif+`" onclick="set_csrf_notification(`+check_notif+`)">
+                                            <div class="row">
+                                                <div class="col-xs-12">`;
+                                                    if(msg.result.response[i].is_read == false){
+                                                        text+=`<span style="font-weight:700; font-size:16px;"> `+check_notif+`. `+msg.result.response[i].name+` - `+msg.result.response[i].pnr+`</span>`;
+                                                    }else{
+                                                        text+=`<span style="font-weight:400; color:#808080; font-size:16px;"> `+check_notif+`. `+msg.result.response[i].name+` - `+msg.result.response[i].pnr+`</span>`;
+                                                    }
+                                                text+=`
+                                                </div>
+                                                <div class="col-xs-12">`;
+                                                    if(msg.result.response[i].is_read == false){
+                                                        text+=`<span>`+msg.result.response[i].description+`</span>`;
+                                                    }else{
+                                                        text+=`<span style="color:#808080;">`+msg.result.response[i].description+`</span>`;
+                                                    }
+                                                text+=`
+                                                </div>
+                                            </div>
+                                            <input type="hidden" id="order_number_notif`+check_notif+`" name="order_number_notif`+check_notif+`" value="`+msg.result.response[i].name+`">
+                                            <input type="hidden" id="desc_notif`+check_notif+`" name="desc_notif`+check_notif+`" value="`+msg.result.response[i].description+`">
+                                        </form>
+                                    </div>
+                                    <div class="col-xs-2" style="text-align:right; cursor:pointer;">`;
+                                        if(msg.result.response[i].is_read == false)
+                                            text += `<i class="fas fa-circle" style="color:`+color+`; font-size:14px;"></i>`;
+                                    text+=`
+                                    </div>
+                                    <div class="col-lg-12 mb-1"></div>
+                                    <div class="col-xs-6" style="text-align:left; font-weight:500;">`;
+//                                        <span class="notification-hover" onclick="show_snooze(`+check_notif+`)">
+//                                            Snooze
+//                                            <i class="fas fa-bell" style="font-size:14px;"></i>
+//                                        </span>
+text+=`
+                                        <span class="notification-hover" style="font-size:14px; color:#DC143C;" onclick="show_snooze(`+check_notif+`)">
+                                            Cancel snooze
+                                            <i class="fas fa-times" style="font-size:14px;"></i>
+                                        </span>
+                                    </div>
+                                    <div class="col-xs-6" style="text-align:right;">
+                                        <i>Snooze until 17 September 2022</i>
+                                    </div>`;
+//                                    <div class="col-lg-12"id="snooze_div`+check_notif+`" hidden>
+//                                        <input type="text" class="form-control" name="snooze_input_date`+check_notif+`" id="snooze_input_date`+check_notif+`" placeholder="Snooze Date" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Snooze Date '" autocomplete="off" readonly>`;
 
-                            text+=`<input type="hidden" id="order_number_notif`+check_notif+`" name="order_number_notif`+check_notif+`" value="`+msg.result.response[i].name+`">`;
-                            text+=`<input type="hidden" id="desc_notif`+check_notif+`" name="desc_notif`+check_notif+`" value="`+msg.result.response[i].description+`">`;
-                                text+=`</form>
-                                   </div>`;
-                            text+=`<div class="col-lg-1 notification-hover" style="cursor:pointer;">`;
-                            text+=` <i class="fas fa-ellipsis-v" onclick="show_snooze(`+check_notif+`)"></i>`;
-                            text+=`</div>`;
-                            text += `<div id="snooze_div`+check_notif+`" class="col-lg-12 height60" style="margin-left:13px;" hidden>`;
-                            text += `<h6>Snooze</h6>`;
-                                text += `<div class="row" class="height40" style="margin-left:0px;">`;
-                                text += `<input type="radio" class="height40" name="radio_snooze`+check_notif+`" value="day" onchange="onchange_snooze(`+check_notif+`)">`;
-                                text += `<span class="height40" style="font-size:13px;margin-top:3px;">&nbsp;</span>`;
-                                text += `<input type="number" class="height40" id="radio_snooze_day`+check_notif+`" min="1" max="365"/>`;
-                                text += `<span class="height40" style="font-size:13px;margin-top:10px;">Day&nbsp;</span>`;
+//                                    text += `<h6>Snooze</h6>`;
+//                                    text += `<div class="row" class="height40" style="margin-left:0px;">`;
+//                                    text += `<input type="radio" class="height40" name="radio_snooze`+check_notif+`" value="day" onchange="onchange_snooze(`+check_notif+`)">`;
+//                                    text += `<span class="height40" style="font-size:13px;margin-top:3px;">&nbsp;</span>`;
+//                                    text += `<input type="number" class="height40" id="radio_snooze_day`+check_notif+`" min="1" max="365"/>`;
+//                                    text += `<span class="height40" style="font-size:13px;margin-top:10px;">Day&nbsp;</span>`;
+//
+//                                    text += `<input class="height40" type="radio" name="radio_snooze`+check_notif+`" value="week" onchange="onchange_snooze(`+check_notif+`)">`;
+//                                    text += `<span class="height40" style="font-size:13px;margin-top:3px;">&nbsp;</span>`;
+//                                    text += `<input class="height40" type="number" id="radio_snooze_week`+check_notif+`" min="1" max="52"/>`;
+//                                    text += `<span class="height40" style="font-size:13px;margin-top:10px;">Week&nbsp;(7 Days)&nbsp;</span>`;
+//
+//                                    text += `<input class="height40" type="radio" name="radio_snooze`+check_notif+`" value="month" onchange="onchange_snooze(`+check_notif+`)">`;
+//                                    text += `<span class="height40" style="font-size:13px;margin-top:3px;">&nbsp;</span>`;
+//                                    text += `<input class="height40" type="number" id="radio_snooze_month`+check_notif+`" min="1" max="12"/>`;
+//                                    text += `<span class="height40" style="font-size:13px;margin-top:10px;">Month&nbsp;(30 Days)&nbsp;</span>`;
+//                                    text += `<button class="primary-btn-ticket height30" type="button" onclick="set_snooze_notification(`+check_notif+`);" >Set Snooze</button>`;
 
-                                text += `<input class="height40" type="radio" name="radio_snooze`+check_notif+`" value="week" onchange="onchange_snooze(`+check_notif+`)">`;
-                                text += `<span class="height40" style="font-size:13px;margin-top:3px;">&nbsp;</span>`;
-                                text += `<input class="height40" type="number" id="radio_snooze_week`+check_notif+`" min="1" max="52"/>`;
-                                text += `<span class="height40" style="font-size:13px;margin-top:10px;">Week&nbsp;(7 Days)&nbsp;</span>`;
-
-                                text += `<input class="height40" type="radio" name="radio_snooze`+check_notif+`" value="month" onchange="onchange_snooze(`+check_notif+`)">`;
-                                text += `<span class="height40" style="font-size:13px;margin-top:3px;">&nbsp;</span>`;
-                                text += `<input class="height40" type="number" id="radio_snooze_month`+check_notif+`" min="1" max="12"/>`;
-                                text += `<span class="height40" style="font-size:13px;margin-top:10px;">Month&nbsp;(30 Days)&nbsp;</span>`;
-                                text += `<button class="primary-btn-ticket height30" type="button" onclick="set_snooze_notification(`+check_notif+`);" >Set Snooze</button>`;
-
-                            text += `</div></div><hr/></div>`;
+                                    text += `
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <hr/>
+                                </div>
+                            </div>`;
                             document.getElementById('notification_detail').innerHTML += text;
+
                             $(".bell_notif").addClass("infinite");
                             $(".bell_notif").css("color", color);
 //                              document.getElementById('notification_detail2').innerHTML += text;
@@ -644,7 +678,23 @@ function get_transactions_notification(){
 }
 
 function show_snooze(val){
-    document.getElementById('snooze_div'+val).hidden = false;
+    //document.getElementById('snooze_div'+val).hidden = false;
+    document.getElementById('snooze_date_modal').innerHTML = `<input type="text" class="form-control" name="snooze_input_date`+val+`" id="snooze_input_date`+val+`" placeholder="Snooze Date" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Snooze Date '" autocomplete="off" readonly>`;
+    $('input[name="snooze_input_date'+val+'"]').daterangepicker({
+        singleDatePicker: true,
+        autoUpdateInput: true,
+        opens: 'center',
+        drops: 'auto',
+        startDate: moment(),
+        minDate: moment(),
+        maxDate: moment().subtract(-365, 'days'),
+        showDropdowns: true,
+        locale: {
+            format: 'DD MMM YYYY',
+        }
+    });
+
+    $('#myModalNotification').modal('show');
 }
 
 function onchange_snooze(val){
