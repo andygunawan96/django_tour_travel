@@ -554,7 +554,6 @@ def set_snooze_notif_api(request):
     try:
         data = {
             'order_number': request.POST['order_number'],
-            'description': request.POST['description'],
             'days': request.POST['days']
         }
         headers = {

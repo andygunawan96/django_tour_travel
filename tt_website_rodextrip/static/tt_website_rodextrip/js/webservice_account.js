@@ -447,7 +447,7 @@ function get_transactions_notification(){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
+//            console.log(msg);
             try{
                 document.getElementById('notification_detail').innerHTML = '';
     //            document.getElementById('notification_detail2').innerHTML = '';
@@ -547,12 +547,18 @@ function get_transactions_notification(){
                                                     }
                                                 text+=`
                                                 </div>
-                                                <div class="col-xs-12">`;
-                                                    if(msg.result.response[i].is_read == false){
-                                                        text+=`<span>`+msg.result.response[i].description+`</span>`;
-                                                    }else{
-                                                        text+=`<span style="color:#808080;">`+msg.result.response[i].description+`</span>`;
+                                                <div class="col-xs-12">
+                                                    <span `;
+                                                    if(msg.result.response[i].is_read)
+                                                        text+= `style="color:#808080;"`;
+                                                    text+=`>`+msg.result.response[i].description.msg;
+                                                    if(msg.result.response[i].description.datetime != ''){
+                                                        tes = moment.utc(msg.result.response[i].description.datetime).format('YYYY-MM-DD HH:mm:ss')
+                                                        localTime  = moment.utc(tes).toDate();
+                                                        msg.result.response[i].description.datetime = moment(localTime).format('DD MMM YYYY HH:mm');
+                                                        text += ' before ' + msg.result.response[i].description.datetime;
                                                     }
+                                                    text+=`</span>`;
                                                 text+=`
                                                 </div>
                                             </div>
@@ -567,18 +573,25 @@ function get_transactions_notification(){
                                     </div>
                                     <div class="col-lg-12 mb-1"></div>
                                     <div class="col-xs-6" style="text-align:left; font-weight:500;">`;
-//                                        <span class="notification-hover" onclick="show_snooze(`+check_notif+`)">
-//                                            Snooze
-//                                            <i class="fas fa-bell" style="font-size:14px;"></i>
-//                                        </span>
-text+=`
-                                        <span class="notification-hover" style="font-size:14px; color:#DC143C;" onclick="show_snooze(`+check_notif+`)">
+                                    if(msg.result.response[i].snooze_days == 0 && msg.result.response[i].last_snooze_date)
+                                        text+=`
+                                        <span class="notification-hover" onclick="show_snooze(`+check_notif+`,'`+msg.result.response[i].last_snooze_date+`')">
+                                            Snooze
+                                            <i class="fas fa-bell" style="font-size:14px;"></i>
+                                        </span>`;
+                                    else if(msg.result.response[i].snooze_days != 0)
+                                        text+=`
+                                        <span class="notification-hover" style="font-size:14px; color:#DC143C;" onclick="set_unsnooze_notification(`+check_notif+`)">
                                             Cancel snooze
                                             <i class="fas fa-times" style="font-size:14px;"></i>
-                                        </span>
+                                        </span>`;
+                                    text+=`
                                     </div>
-                                    <div class="col-xs-6" style="text-align:right;">
-                                        <i>Snooze until 17 September 2022</i>
+                                    <div class="col-xs-6" style="text-align:right;">`;
+                                    if(msg.result.response[i].last_snooze_date)
+                                        text+=`
+                                        <i>Snooze until `+moment(msg.result.response[i].last_snooze_date).format('DD MMMM YYYY')+`</i>`;
+                                    text+=`
                                     </div>`;
 //                                    <div class="col-lg-12"id="snooze_div`+check_notif+`" hidden>
 //                                        <input type="text" class="form-control" name="snooze_input_date`+check_notif+`" id="snooze_input_date`+check_notif+`" placeholder="Snooze Date" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Snooze Date '" autocomplete="off" readonly>`;
@@ -677,17 +690,22 @@ text+=`
     });
 }
 
-function show_snooze(val){
+function show_snooze(val, date){
     //document.getElementById('snooze_div'+val).hidden = false;
-    document.getElementById('snooze_date_modal').innerHTML = `<input type="text" class="form-control" name="snooze_input_date`+val+`" id="snooze_input_date`+val+`" placeholder="Snooze Date" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Snooze Date '" autocomplete="off" readonly>`;
+    document.getElementById('snooze_date_modal').innerHTML = `
+        <input type="text" class="form-control" name="snooze_input_date`+val+`" id="snooze_input_date`+val+`" placeholder="Snooze Date" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Snooze Date '" autocomplete="off" readonly>
+        <button type="button" class="primary-btn-white" onclick="set_snooze_notification(`+val+`);">
+            Snooze
+        </button>
+    `;
     $('input[name="snooze_input_date'+val+'"]').daterangepicker({
         singleDatePicker: true,
         autoUpdateInput: true,
         opens: 'center',
         drops: 'auto',
-        startDate: moment(),
-        minDate: moment(),
-        maxDate: moment().subtract(-365, 'days'),
+        startDate: moment().subtract(-1, 'days'),
+        minDate: moment().subtract(-1, 'days'),
+        maxDate: moment(date),
         showDropdowns: true,
         locale: {
             format: 'DD MMM YYYY',
@@ -697,64 +715,10 @@ function show_snooze(val){
     $('#myModalNotification').modal('show');
 }
 
-function onchange_snooze(val){
-
-    var radios = document.getElementsByName('radio_snooze'+val);
-    for (var j = 0, length = radios.length; j < length; j++) {
-        if (radios[j].checked) {
-            document.getElementById('radio_snooze_' + radios[j].value + val).value = 1;
-        }else{
-            document.getElementById('radio_snooze_' + radios[j].value + val).value = '';
-        }
-    }
-}
-
 function set_snooze_notification(number){
-    var days = 0;
-    var radios = document.getElementsByName('radio_snooze'+number);
-    var multiply = 1;
-    for (var j = 0, length = radios.length; j < length; j++) {
-        if (radios[j].checked) {
-            if(radios[j].value == 'week')
-                multiply = 7;
-            else if(radios[j].value == 'month')
-                multiply = 30
-            days = parseInt(document.getElementById('radio_snooze_' + radios[j].value + number).value) * multiply;
-            break
-        }
-    }
+    var days = Math.ceil((new Date(document.getElementById('snooze_input_date'+number).value) - new Date())/(1000 * 3600 * 24)); // milliseconds * 1 hours * 24 hours
     if(days != 0){
-        $.ajax({
-           type: "POST",
-           url: "/webservice/account",
-           headers:{
-                'action': 'set_snooze_notif_api',
-           },
-           data: {
-                'order_number': document.getElementById('order_number_notif'+number).value,
-                'description': document.getElementById('desc_notif'+number).value,
-                'days': days,
-                'signature': signature
-           },
-           success: function(msg) {
-                if(msg.result.error_code == 0){
-                    Swal.fire({
-                        type: 'success',
-                        title: 'Success!'
-                    })
-                }else{
-                    Swal.fire({
-                        type: 'error',
-                        title: 'Oops!',
-                        html: msg.result.error_msg,
-                    })
-                }
-
-           },
-           error: function(XMLHttpRequest, textStatus, errorThrown) {
-                error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error set read notification');
-           },timeout: 60000
-        });
+        set_snooze_notification_api(document.getElementById('order_number_notif'+number).value, document.getElementById('desc_notif'+number).value, days);
     }else{
         Swal.fire({
             type: 'error',
@@ -762,6 +726,44 @@ function set_snooze_notification(number){
             html: 'Please choose snooze!',
         })
     }
+}
+
+function set_unsnooze_notification(number){
+    set_snooze_notification_api(document.getElementById('order_number_notif'+number).value, document.getElementById('desc_notif'+number).value, 0);
+}
+
+function set_snooze_notification_api(order_number, description, days){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'set_snooze_notif_api',
+       },
+       data: {
+            'order_number': order_number,
+            'days': days,
+            'signature': signature
+       },
+       success: function(msg) {
+            if(msg.result.error_code == 0){
+                Swal.fire({
+                    type: 'success',
+                    title: 'Success!'
+                })
+            }else{
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: msg.result.error_msg,
+                })
+            }
+
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error set read notification');
+       },timeout: 60000
+    });
+
 }
 
 function set_read_notification(number){

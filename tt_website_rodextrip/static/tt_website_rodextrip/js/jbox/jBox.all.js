@@ -2908,5 +2908,5 @@ function jBoxNoticeWrapper(jBox, jQuery) {
   return jBox;
 }));
 
-//adapagar
+//ada pagar
 // sourceMappingURL=jBox.all.js.map
