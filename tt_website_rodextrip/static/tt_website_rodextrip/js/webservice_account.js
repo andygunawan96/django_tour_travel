@@ -757,14 +757,14 @@ function set_snooze_notification_api(order_number, description, days, number, da
             if(msg.result.error_code == 0){
                 if(days == 0){
                     document.getElementById('notif_button_span'+number).innerHTML = `
-                        <span class="notification-hover" onclick="show_snooze(`+number+`,'`+date+`')">
+                        <span class="notification-hover" onclick="show_snooze(`+number+`,'`+date+`', '`+create_date+`')">
                             Snooze
                             <i class="fas fa-bell" style="font-size:14px;"></i>
                         </span>`;
                     document.getElementById('snooze_div_datetime'+number).innerHTML = '';
                 }else{
                     document.getElementById('notif_button_span'+number).innerHTML = `
-                        <span class="notification-hover" style="font-size:14px; color:#DC143C;" onclick="set_unsnooze_notification(`+number+`,'`+date+`')">
+                        <span class="notification-hover" style="font-size:14px; color:#DC143C;" onclick="set_unsnooze_notification(`+number+`,'`+date+`', '`+create_date+`')">
                             Cancel snooze
                             <i class="fas fa-times" style="font-size:14px;"></i>
                         </span>`;
