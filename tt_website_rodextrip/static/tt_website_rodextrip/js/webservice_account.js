@@ -482,16 +482,24 @@ function get_transactions_notification(){
                         }
                         $(".bell_notif").removeClass("infinite");
                     }else{
+                        notif_text = '';
                         for(i in msg.result.response){
-                            if(window.location.href.split('/')[window.location.href.split('/').length-1] == "dashboard" && check_notif < 5){
-
-                                document.getElementById('notification_div').innerHTML +=`
-                                <div id="alert`+check_notif+`">
-                                    <div class="alert alert-warning" role="alert">
-                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                      <strong>Hurry pay for this booking!</strong> `+msg.result.response[i].order_number + ' ' + msg.result.response[i].description+`
-                                    </div>
-                                </div>`;
+                            if(window.location.href.split('/').length == 4 && check_notif < 5){
+                                notif_text = `
+                                    <div id="alert`+check_notif+`">
+                                        <div class="alert alert-warning" role="alert">
+                                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                          <strong>Hurry pay for this booking!</strong> `+msg.result.response[i].name + ' ' + msg.result.response[i].description.msg;
+                                if(msg.result.response[i].description.datetime != ''){
+                                    tes = moment.utc(msg.result.response[i].description.datetime).format('YYYY-MM-DD HH:mm:ss')
+                                    localTime  = moment.utc(tes).toDate();
+                                    datetime = moment(localTime).format('DD MMM YYYY HH:mm');
+                                    notif_text += ' before ' + datetime;
+                                }
+                                notif_text+=`
+                                        </div>
+                                    </div>`;
+                                document.getElementById('notification_div').innerHTML += notif_text;
                             }
                             check_notif++;
                             url_goto = '';
