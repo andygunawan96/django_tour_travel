@@ -3613,7 +3613,7 @@ def get_reschedule_itinerary_v2(request):
             else:
                 # COMBO
                 check = 0
-                journeys.append({'segments': journey['segments']})
+                journeys.append({'segments': journey['segments'], 'journey_key': journey['journey_key']})
                 for schedule in schedules:
                     if schedule['provider'] == journey['provider']:
                         schedule['journeys'].append({
@@ -3769,7 +3769,7 @@ def sell_reschedule_v2(request):
             else:
                 # COMBO
                 check = 0
-                journeys.append({'segments': journey['segments']})
+                journeys.append({'segments': journey['segments'], 'journey_key': journey['journey_key']})
                 for schedule in schedules:
                     if schedule['provider'] == journey['provider']:
                         schedule['journeys'].append({
