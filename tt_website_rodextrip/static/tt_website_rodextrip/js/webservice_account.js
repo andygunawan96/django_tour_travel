@@ -768,7 +768,7 @@ function set_snooze_notification_api(order_number, description, days, number, da
                             Cancel snooze
                             <i class="fas fa-times" style="font-size:14px;"></i>
                         </span>`;
-                    document.getElementById('snooze_div_datetime'+number).innerHTML +=`
+                    document.getElementById('snooze_div_datetime'+number).innerHTML =`
                         <i>Snooze until `+moment(create_date).subtract(days * -1, 'days').format('DD MMMM YYYY')+`</i>`;
                 }
                 Swal.fire({
