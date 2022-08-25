@@ -3616,7 +3616,8 @@ def get_reschedule_itinerary_v2(request):
                 for schedule in schedules:
                     if schedule['provider'] == journey['provider']:
                         schedule['journeys'].append({
-                            'segments': journey['segments']
+                            'segments': journey['segments'],
+                            'journey_key': journey['journey_key']
                         })
                         check = 1
                         break
@@ -3771,7 +3772,8 @@ def sell_reschedule_v2(request):
                 for schedule in schedules:
                     if schedule['provider'] == journey['provider']:
                         schedule['journeys'].append({
-                            'segments': journey['segments']
+                            'segments': journey['segments'],
+                            'journey_key': journey['journey_key']
                         })
                         check = 1
                         break
