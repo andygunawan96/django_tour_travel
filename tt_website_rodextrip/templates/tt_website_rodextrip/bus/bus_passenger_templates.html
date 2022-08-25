@@ -451,9 +451,10 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
+                                            <label style="color:red" id="adult_birth_date{{forloop.counter}}_required"></label>
                                             <script>
                                                 if(birth_date_required == true)
-                                                    document.write(`<label style="color:red">*</label>`);
+                                                    document.getElementById('adult_birth_date{{forloop.counter}}_required').innerHTML += '*';
                                             </script>
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
@@ -1216,10 +1217,11 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 mt-2">
+                                                <label style="color:red" id="adult_birth_date{{forloop.counter}}_required"></label>
                                                 <script>
-                                                if(birth_date_required == true)
-                                                    document.write(`<label style="color:red">*</label>`);
-                                            </script>
+                                                    if(birth_date_required == true)
+                                                        document.getElementById('adult_birth_date{{forloop.counter}}_required').innerHTML += '*';
+                                                </script>
                                                 <label>{% trans 'Birth Date' %}</label>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -1987,9 +1989,10 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 mt-2">
+                                            <label style="color:red" id="adult_birth_date{{forloop.counter}}_required"></label>
                                             <script>
                                                 if(birth_date_required == true)
-                                                    document.write(`<label style="color:red">*</label>`);
+                                                    document.getElementById('adult_birth_date{{forloop.counter}}_required').innerHTML += '*';
                                             </script>
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
@@ -2756,10 +2759,11 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 mt-2">
+                                        <label style="color:red" id="adult_birth_date{{forloop.counter}}_required"></label>
                                         <script>
-                                                if(birth_date_required == true)
-                                                    document.write(`<label style="color:red">*</label>`);
-                                            </script>
+                                            if(birth_date_required == true)
+                                                document.getElementById('adult_birth_date{{forloop.counter}}_required').innerHTML += '*';
+                                        </script>
                                         <label>{% trans 'Birth Date' %}</label>
                                         <div class="input-container-search-ticket">
                                             <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -3521,9 +3525,10 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 mt-2">
+                                            <label style="color:red" id="adult_birth_date{{forloop.counter}}_required"></label>
                                             <script>
                                                 if(birth_date_required == true)
-                                                    document.write(`<label style="color:red">*</label>`);
+                                                    document.getElementById('adult_birth_date{{forloop.counter}}_required').innerHTML += '*';
                                             </script>
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
@@ -4289,9 +4294,10 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 mt-2">
+                                            <label style="color:red" id="adult_birth_date{{forloop.counter}}_required"></label>
                                             <script>
                                                 if(birth_date_required == true)
-                                                    document.write(`<label style="color:red">*</label>`);
+                                                    document.getElementById('adult_birth_date{{forloop.counter}}_required').innerHTML += '*';
                                             </script>
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">

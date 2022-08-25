@@ -7189,6 +7189,8 @@ th input {
     padding-top:5px;
 }
 
+/*color scroll*/
+/*
 .style-scrollbar::-webkit-scrollbar-track
 {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
@@ -7207,7 +7209,7 @@ th input {
 	background-color: #282828;
 	border: 2px solid #555555;
 }
-
+*/
 
 .image-square-icon {
   background: white;
@@ -9581,3 +9583,63 @@ ul.progress_tabs li.current .image-rounded-icon{
     width:250px;
 }
 
+.radio-label .div_radio_bg{
+    height:40px;
+    background:white;
+    color:black;
+    cursor:pointer;
+    text-align:center;
+    padding:5px 5px 5px 5px; border:1px solid #cdcdcd;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+}
+
+.radio-label .div_radio_bg:hover{
+    height:40px;
+    background:#f15a22;
+    color:white;
+    cursor:pointer;
+    text-align:center;
+    padding:5px 5px 5px 5px; border:1px solid #cdcdcd;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+}
+
+.radio-label > input:checked + .div_radio_bg{
+    height:40px;
+    background:#f15a22;
+    color:white;
+    cursor:pointer;
+    text-align:center;
+    padding:5px 5px 5px 5px; border:1px solid #cdcdcd;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+}
+
+.box-notification{
+    float:right;
+    overflow: hidden;
+    background: #f0e68c;
+    display:none;
+}
+/* Add padding and border to inner content
+for better animation effect */
+.box-notification-inner{
+    width: 500px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 1);
+    border:1px solid #cdcdcd;
+    color: black;
+    z-index:1000;
+    position: fixed;
+    top:0px;
+    bottom:0px;
+    right:0px;
+    overflow:auto;
+}

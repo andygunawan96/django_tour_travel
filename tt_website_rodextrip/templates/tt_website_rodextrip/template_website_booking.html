@@ -208,6 +208,14 @@ Licence URI: http://www.os-templates.com/template-terms
             text-decoration-color: {{color}} !important;
         }
 
+        .height40 {
+            height:40px;
+        }
+
+        .height60 {
+            height:60px;
+        }
+
         {% if username.co_user_login == 'agent_b2c' %}
 
             .tab_custom_login {
@@ -223,7 +231,6 @@ Licence URI: http://www.os-templates.com/template-terms
                 }
             {% endif %}
         {% endif %}
-
 
         {%if template == 1%}
         .testimonial-area {
@@ -271,7 +278,15 @@ Licence URI: http://www.os-templates.com/template-terms
           background-size: cover !important;
           background-repeat: no-repeat !important;
         }
+        {%elif template == 6%}
+        .div_search_area_home {
+            background-image: url("{{background}}") !important;
+            background-position: center center !important;
+            background-size: cover !important;
+            background-repeat: no-repeat !important;
+        }
         {% endif %}
+
     </style>
     <link rel="stylesheet" href="{{ static_path }}css/jquery.dataTables.min.css?version={{javascript_version}}">
     <link rel="stylesheet" href="{{ static_path }}css/auto-complete.css?version={{javascript_version}}">
@@ -1504,6 +1519,7 @@ Licence URI: http://www.os-templates.com/template-terms
         .horizontal-arrow:hover{
             color: {{color}} !important;
         }
+
         {% elif template == 2%}
 
         .form-control{
@@ -1962,10 +1978,10 @@ Licence URI: http://www.os-templates.com/template-terms
             opacity:0.8;
         }
         .div_cst{
-            border:2px solid {{color}};
+            border-bottom:5px solid {{color}};
         }
         .div_cst:hover{
-            background:{{color}};
+            transform: translateY(-1.0rem);
         }
 
         ul.create_tabs li.current{

@@ -126,9 +126,11 @@
                                             <tr>
                                                 <td> <b>Nomor Pemesanan</b><br>   <span class="sub-label">Order No</span></td>
                                                 <td>:</td>
-                                                <td> <script>
-                                                        document.write(order_number);
-                                                     </script></td>
+                                                <td id="order_number_td">
+                                                    <script>
+                                                        document.getElementById('order_number_td').innerHTML += order_number;
+                                                    </script>
+                                                </td>
                                             </tr>
 
                                             <tr>
@@ -157,9 +159,9 @@
                                     </div>
                                     <div class="col-sm-6 mb-2">
                                         <div class="panel panel-n">
-                                            <div class="panel-body-n">
+                                            <div class="panel-body-n" id="amount_div">
                                                 <script>
-                                                document.write(getrupiah(`{{amount}}`));
+                                                document.getElementById('amount_div').innerHTML += getrupiah(`{{amount}}`);
                                                 </script>
                                             </div>
                                         </div>
@@ -240,9 +242,11 @@
                                             <tr>
                                                 <td> <b>Nomor Pemesanan</b><br>   <span class="sub-label">Order No</span></td>
                                                 <td>:</td>
-                                                <td> <script>
-                                                    document.write(order_number);
-                                                 </script></td>
+                                                <td id="order_number_td">
+                                                    <script>
+                                                        document.getElementById('order_number_td').innerHTML += order_number;
+                                                    </script>
+                                                </td>
                                             </tr>
 
                                             <tr>
@@ -268,10 +272,10 @@
                                 <b>Jumlah yang harus Dibayar</b><br/> <span class="sub-label">Total Paid</span>
 
                                 <div class="panel panel-n">
-                                    <div class="panel-body-n">
+                                    <div class="panel-body-n" id="amount_div">
                                         <script>
-                                    document.write(getrupiah(`{{amount}}`));
-                                </script>
+                                            document.getElementById('amount_div').innerHTML += getrupiah(`{{amount}}`);
+                                        </script>
                                     </div>
                                 </div>
 
@@ -420,9 +424,11 @@ try{
                                             <tr>
                                                 <td> <b>Nomor Pemesanan</b><br>   <span class="sub-label">Order No</span></td>
                                                 <td>:</td>
-                                                <td> <script>
-                                                        document.write(order_number);
-                                                     </script></td>
+                                                <td id="order_number_td">
+                                                    <script>
+                                                        document.getElementById('order_number_td').innerHTML += order_number;
+                                                     </script>
+                                                </td>
                                             </tr>
 
                                             <tr>
@@ -451,10 +457,10 @@ try{
                                     </div>
                                     <div class="col-sm-6 mb-2">
                                         <div class="panel panel-n">
-                                            <div class="panel-body-n">
+                                            <div class="panel-body-n" id="amount_div">
                                                 <script>
-                                                document.write(getrupiah(`{{amount}}`));
-                                            </script>
+                                                    document.getElementById('amount_div').innerHTML += getrupiah(`{{amount}}`);
+                                                </script>
                                             </div>
                                         </div>
                                     </div>

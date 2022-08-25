@@ -1164,9 +1164,9 @@ function auto_input_pax_cache_reorder(){
             document.getElementById('child_title'+index).value = pax_cache_reorder.child[i].title;
             if(document.getElementById('child_id'+index).value != ''){
                 document.getElementById('child_title'+index).readOnly = true;
-                for(i in document.getElementById('child_title'+index).options){
-                    if(document.getElementById('child_title'+index).options[i].selected != true)
-                        document.getElementById('child_title'+index).options[i].disabled = true;
+                for(j in document.getElementById('child_title'+index).options){
+                    if(document.getElementById('child_title'+index).options[j].selected != true)
+                        document.getElementById('child_title'+index).options[j].disabled = true;
                 }
             }
             document.getElementById('child_behaviors'+index).value = JSON.stringify(pax_cache_reorder.child[i].behaviors);
@@ -1192,9 +1192,9 @@ function auto_input_pax_cache_reorder(){
             document.getElementById('infant_title'+index).value = pax_cache_reorder.infant[i].title;
             if(document.getElementById('infant_id'+index).value != ''){
                 document.getElementById('infant_title'+index).readOnly = true;
-                for(i in document.getElementById('infant_title'+index).options){
-                    if(document.getElementById('infant_title'+index).options[i].selected != true)
-                        document.getElementById('infant_title'+index).options[i].disabled = true;
+                for(j in document.getElementById('infant_title'+index).options){
+                    if(document.getElementById('infant_title'+index).options[j].selected != true)
+                        document.getElementById('infant_title'+index).options[j].disabled = true;
                 }
             }
             document.getElementById('infant_behaviors'+index).value = JSON.stringify(pax_cache_reorder.infant[i].behaviors);
@@ -1235,6 +1235,7 @@ function get_airline_data_review_page(){
            passengers_ssr = msg.passengers_ssr;
            airline_request = msg.airline_request;
            upsell_price_dict = msg.upsell_price_dict;
+           upsell_price_dict_ssr = msg.upsell_price_dict_ssr;
            airline_get_provider_list('review');
 
        },
@@ -7367,9 +7368,10 @@ function airline_get_booking(data, sync=false){
                                 `+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`
                                 </h5>
                                 Birth Date: <b>`+msg.result.response.passengers[pax].birth_date+`</b><br/>`;
-                            if(msg.result.response.passengers[pax].identity_type != ''){
+                            if(msg.result.response.passengers[pax].identity_type != '' && msg.result.response.passengers[pax].is_identity_valid){
                                 text+= msg.result.response.passengers[pax].identity_type.substr(0,1).toUpperCase()+msg.result.response.passengers[pax].identity_type.substr(1,msg.result.response.passengers[pax].identity_type.length)+`: <b>`+msg.result.response.passengers[pax].identity_number+`</b><br/>`;
-                            }
+                            }else if(!msg.result.response.passengers[pax].is_valid_identity)
+                                text+= '<b style="color:red;">Need to Update Identity</b><br/>';
                             text+=`Ticket Number: <b>`+ticket+`</b><br/>
                                 `+ff_request;
                                 fee_dict = {}; //bikin ke dict agar bisa fees per segment / journey
@@ -9423,6 +9425,33 @@ function update_service_charge(type){
             }
         }
         repricing_order_number = temp_check_var.order_number;
+    }else if(type == 'request_new_review'){
+        upsell_price_dict_ssr = {};
+        upsell = []
+        counter_pax = 0;
+        currency = airline_price[0].ADT.currency;
+        for(i in passengers){
+            list_price = []
+            if(i != 'booker' && i != 'contact'){
+                upsell_price_dict_ssr[i] = 0;
+                for(k in passengers[i]){
+                    if(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing_ssr').innerHTML != '-' && document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing_ssr').innerHTML != '0'){
+                        list_price.push({
+                            'amount': parseInt(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing_ssr').innerHTML.split(',').join('')),
+                            'currency_code': currency
+                        });
+                        upsell_price_dict_ssr[i] += parseInt(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing_ssr').innerHTML.split(',').join(''));
+                        upsell.push({
+                            'sequence': counter_pax,
+                            'pricing': JSON.parse(JSON.stringify(list_price)),
+                            'pax_type': i
+                        });
+                        list_price = [];
+                    }
+                    counter_pax++;
+                }
+            }
+        }
     }else{
         upsell_price_dict = {};
         upsell = []
@@ -9433,7 +9462,7 @@ function update_service_charge(type){
             if(i != 'booker' && i != 'contact'){
                 upsell_price_dict[i] = 0;
                 for(k in passengers[i]){
-                    if(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing').innerHTML != '-'){
+                    if(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing').innerHTML != '-' && document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing').innerHTML != '0'){
                         list_price.push({
                             'amount': parseInt(document.getElementById(passengers[i][k].first_name+passengers[i][k].last_name+'_repricing').innerHTML.split(',').join('')),
                             'currency_code': currency

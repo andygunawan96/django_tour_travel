@@ -1,5 +1,4 @@
 function get_payment_partner(type){
-    console.log(type);
     $.ajax({
        type: "POST",
        url: "/webservice/account",

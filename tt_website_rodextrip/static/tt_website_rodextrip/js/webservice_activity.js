@@ -2809,7 +2809,7 @@ function update_service_charge(type){
             list_price = [];
             if(all_pax[i].pax_type in upsell_price_dict == false)
                 upsell_price_dict[all_pax[i].pax_type] = 0;
-            if(document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML != '-'){
+            if(document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML != '-' && document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML != '0'){
                 list_price.push({
                     'amount': parseInt(document.getElementById(all_pax[i].first_name+all_pax[i].last_name+'_repricing').innerHTML.split(',').join('')),
                     'currency_code': currency

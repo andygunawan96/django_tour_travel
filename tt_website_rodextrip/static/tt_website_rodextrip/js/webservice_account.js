@@ -126,8 +126,10 @@ function get_balance(val){
                         if(document.getElementById("customer_parent_balance_search"))
                             document.getElementById("customer_parent_balance_search").innerHTML = text;
                     }
-                    if(window.location.href.split('/').length < 5)
-                        get_transactions_notification(val);
+                    if(window.location.href.split('/').length < 5){
+//                        get_transactions_notification(val);
+                        get_transactions_notification();
+                    }
                     //get_vendor_balance(val);
                     //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -433,6 +435,383 @@ function get_transactions_notification(val){
     }
 }
 
+function get_transactions_notification(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'get_transactions_notif_api',
+       },
+       data: {
+            'provider_type': 'airline',
+            'signature': signature
+       },
+       success: function(msg) {
+//            console.log(msg);
+            try{
+                document.getElementById('notification_detail').innerHTML = '';
+    //            document.getElementById('notification_detail2').innerHTML = '';
+                if(msg.result.error_code == 0){
+                    text = '';
+                    var hold_date = '';
+                    var date = '';
+                    var check_notif = 0;
+                    var timeout_notif = 5000;
+                    if(Object.keys(msg.result.response).length == 0){
+                        document.getElementById('notification_detail').innerHTML = `
+                            <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                                <div class="row">
+                                    <div class="col-sm-12" style="text-align:center">
+                                        <span style="font-weight:500"> No Notification</span>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>`;
+                        try{
+                            document.getElementById('notification_detail2').innerHTML = `
+                                <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                                    <div class="row">
+                                        <div class="col-sm-12" style="text-align:center">
+                                            <span style="font-weight:500"> No Notification</span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </div>`;
+                        }catch(err){
+                            console.log(err); // error kalau ada element yg tidak ada
+                        }
+                        $(".bell_notif").removeClass("infinite");
+                    }else{
+                        notif_text = '';
+                        for(i in msg.result.response){
+                            if(window.location.href.split('/').length == 4 && check_notif < 5){
+                                notif_text = `
+                                    <div id="alert`+check_notif+`">
+                                        <div class="alert alert-warning" role="alert">
+                                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                          <strong>Hurry pay for this booking!</strong> `+msg.result.response[i].name + ' ' + msg.result.response[i].description.msg;
+                                if(msg.result.response[i].description.datetime != ''){
+                                    tes = moment.utc(msg.result.response[i].description.datetime).format('YYYY-MM-DD HH:mm:ss')
+                                    localTime  = moment.utc(tes).toDate();
+                                    datetime = moment(localTime).format('DD MMM YYYY HH:mm');
+                                    notif_text += ' before ' + datetime;
+                                }
+                                notif_text+=`
+                                        </div>
+                                    </div>`;
+                                document.getElementById('notification_div').innerHTML += notif_text;
+                            }
+                            check_notif++;
+                            url_goto = '';
+                            if(msg.result.response[i].provider_type == 'airline'){
+                                url_goto = '/airline/booking/';
+                            }else if(msg.result.response[i].provider_type == 'train'){
+                                url_goto = '/train/booking/';
+                            }else if(msg.result.response[i].provider_type == 'activity'){
+                                url_goto = '/activity/booking/';
+                            }else if(msg.result.response[i].provider_type == 'hotel'){
+                                url_goto = '/hotel/booking/';
+                            }else if(msg.result.response[i].provider_type == 'visa'){
+                                url_goto = '/visa/booking/';
+                            }else if(msg.result.response[i].provider_type == 'tour'){
+                                url_goto = '/tour/booking/';
+                            }else if(msg.result.response[i].provider_type == 'offline'){
+                                url_goto = '/issued_offline/booking/';
+                            }else if(msg.result.response[i].provider_type == 'passport'){
+                                url_goto = '/passport/booking/';
+                            }else if(msg.result.response[i].provider_type == 'ppob'){
+                                url_goto = '/ppob/booking/';
+                            }else if(msg.result.response[i].provider_type == 'event'){
+                                url_goto = '/event/booking/';
+                            }else if(msg.result.response[i].provider_type == 'periksain' || msg.result.response[i].provider_type == 'phc'){
+                                url_goto = '/medical/booking/';
+                            }else if(msg.result.response[i].provider_type == 'medical'){
+                                url_goto = '/medical_global/booking/';
+                            }else if(msg.result.response[i].provider_type == 'bus'){
+                                url_goto = '/bus/booking/';
+                            }else if(msg.result.response[i].provider_type == 'swabexpress'){
+                                url_goto = '/swab_express/booking/';
+                            }else if(msg.result.response[i].provider_type == 'labpintar'){
+                                url_goto = '/lab_pintar/booking/';
+                            }else if(msg.result.response[i].provider_type == 'mitrakeluarga'){
+                                url_goto = '/mitra_keluarga/booking/';
+                            }else if(msg.result.response[i].provider_type == 'insurance'){
+                                url_goto = '/insurance/booking/';
+                            }else if(msg.result.response[i].provider_type == 'groupbooking'){
+                                url_goto = '/groupbooking/booking/';
+                            }
+                            text = '';
+                            text+=`
+                            <div class="col-lg-12" style="cursor:pointer;">
+                                <div class="row">
+                                    <div class="col-xs-10" style="cursor:pointer;">
+                                        <form action="`+url_goto+btoa(msg.result.response[i].name)+`" method="post" id="notification_`+check_notif+`" onclick="set_csrf_notification(`+check_notif+`)">
+                                            <div class="row">
+                                                <div class="col-xs-12">`;
+                                                    if(msg.result.response[i].is_read == false){
+                                                        text+=`<span style="font-weight:700; font-size:16px;"> `+check_notif+`. `+msg.result.response[i].name+` - `+msg.result.response[i].pnr+`</span>`;
+                                                    }else{
+                                                        text+=`<span style="font-weight:400; color:#808080; font-size:16px;"> `+check_notif+`. `+msg.result.response[i].name+` - `+msg.result.response[i].pnr+`</span>`;
+                                                    }
+                                                text+=`
+                                                </div>
+                                                <div class="col-xs-12">
+                                                    <span `;
+                                                    if(msg.result.response[i].is_read)
+                                                        text+= `style="color:`+color+`;"`;
+                                                    text+=`>`+msg.result.response[i].description.msg;
+                                                    if(msg.result.response[i].description.datetime != ''){
+                                                        tes = moment.utc(msg.result.response[i].description.datetime).format('YYYY-MM-DD HH:mm:ss')
+                                                        localTime  = moment.utc(tes).toDate();
+                                                        msg.result.response[i].description.datetime = moment(localTime).format('DD MMM YYYY HH:mm');
+                                                        text += ' before ' + msg.result.response[i].description.datetime;
+                                                    }
+                                                    text+=`</span>`;
+                                                text+=`
+                                                </div>
+                                            </div>
+                                            <input type="hidden" id="order_number_notif`+check_notif+`" name="order_number_notif`+check_notif+`" value="`+msg.result.response[i].name+`">
+                                            <input type="hidden" id="desc_notif`+check_notif+`" name="desc_notif`+check_notif+`" value="`+msg.result.response[i].description+`">
+                                        </form>
+                                    </div>
+                                    <div class="col-xs-2" style="text-align:right; cursor:pointer;">`;
+                                        if(msg.result.response[i].is_read == false)
+                                            text += `<i class="fas fa-circle" style="color:`+color+`; font-size:14px;"></i>`;
+                                    text+=`
+                                    </div>
+                                    <div class="col-lg-12 mb-1"></div>
+                                    <div class="col-xs-6" style="text-align:left; font-weight:500;" id="notif_button_span`+check_notif+`">`;
+                                    if(msg.result.response[i].snooze_days == 0 && msg.result.response[i].last_snooze_date)
+                                        text+=`
+                                        <span class="notification-hover" onclick="show_snooze(`+check_notif+`,'`+msg.result.response[i].last_snooze_date+`','`+msg.result.response[i].create_date+`')">
+                                            Snooze
+                                            <i class="fas fa-bell" style="font-size:14px;"></i>
+                                        </span>`;
+                                    else if(msg.result.response[i].snooze_days != 0)
+                                        text+=`
+                                        <span class="notification-hover" style="font-size:14px; color:#DC143C;" onclick="set_unsnooze_notification(`+check_notif+`,'`+msg.result.response[i].last_snooze_date+`','`+msg.result.response[i].create_date+`')">
+                                            Cancel snooze
+                                            <i class="fas fa-times" style="font-size:14px;"></i>
+                                        </span>`;
+                                    text+=`
+                                    </div>
+                                    <div class="col-xs-6" style="text-align:right;" id="snooze_div_datetime`+check_notif+`">`;
+                                    if(msg.result.response[i].snooze_days > 0){
+                                        text+=`
+                                        <i>Snooze until `+moment(msg.result.response[i].create_date).subtract(msg.result.response[i].snooze_days * -1, 'days').format('DD MMMM YYYY')+`</i>`;
+                                    }
+                                    text+=`
+                                    </div>`;
+//                                    <div class="col-lg-12"id="snooze_div`+check_notif+`" hidden>
+//                                        <input type="text" class="form-control" name="snooze_input_date`+check_notif+`" id="snooze_input_date`+check_notif+`" placeholder="Snooze Date" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Snooze Date '" autocomplete="off" readonly>`;
+
+//                                    text += `<h6>Snooze</h6>`;
+//                                    text += `<div class="row" class="height40" style="margin-left:0px;">`;
+//                                    text += `<input type="radio" class="height40" name="radio_snooze`+check_notif+`" value="day" onchange="onchange_snooze(`+check_notif+`)">`;
+//                                    text += `<span class="height40" style="font-size:13px;margin-top:3px;">&nbsp;</span>`;
+//                                    text += `<input type="number" class="height40" id="radio_snooze_day`+check_notif+`" min="1" max="365"/>`;
+//                                    text += `<span class="height40" style="font-size:13px;margin-top:10px;">Day&nbsp;</span>`;
+//
+//                                    text += `<input class="height40" type="radio" name="radio_snooze`+check_notif+`" value="week" onchange="onchange_snooze(`+check_notif+`)">`;
+//                                    text += `<span class="height40" style="font-size:13px;margin-top:3px;">&nbsp;</span>`;
+//                                    text += `<input class="height40" type="number" id="radio_snooze_week`+check_notif+`" min="1" max="52"/>`;
+//                                    text += `<span class="height40" style="font-size:13px;margin-top:10px;">Week&nbsp;(7 Days)&nbsp;</span>`;
+//
+//                                    text += `<input class="height40" type="radio" name="radio_snooze`+check_notif+`" value="month" onchange="onchange_snooze(`+check_notif+`)">`;
+//                                    text += `<span class="height40" style="font-size:13px;margin-top:3px;">&nbsp;</span>`;
+//                                    text += `<input class="height40" type="number" id="radio_snooze_month`+check_notif+`" min="1" max="12"/>`;
+//                                    text += `<span class="height40" style="font-size:13px;margin-top:10px;">Month&nbsp;(30 Days)&nbsp;</span>`;
+//                                    text += `<button class="primary-btn-ticket height30" type="button" onclick="set_snooze_notification(`+check_notif+`);" >Set Snooze</button>`;
+
+                                    text += `
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <hr/>
+                                </div>
+                            </div>`;
+                            document.getElementById('notification_detail').innerHTML += text;
+
+                            $(".bell_notif").addClass("infinite");
+                            $(".bell_notif").css("color", color);
+//                              document.getElementById('notification_detail2').innerHTML += text;
+                        }
+                        if(check_notif == 0){
+                            try{
+                                document.getElementById('notification_detail').innerHTML = `
+                                    <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                                        <div class="row">
+                                            <div class="col-sm-12" style="text-align:center">
+                                                <span style="font-weight:500"> No Notification</span>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </div>`;
+                                try{
+                                    document.getElementById('notification_detail2').innerHTML = `
+                                        <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                                            <div class="row">
+                                                <div class="col-sm-12" style="text-align:center">
+                                                    <span style="font-weight:500"> No Notification</span>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        </div>`;
+                                }catch(err){
+                                    console.log(err); // error kalau ada element yg tidak ada
+                                }
+                            }catch(err){
+                                console.log(err); // error kalau ada element yg tidak ada
+                            }
+                            $(".bell_notif").removeClass("infinite");
+                        }
+                    }
+                    setTimeout(function() {
+                        $("#notification_div").fadeTo(500, 0).slideUp(500, function(){
+                            $(this).remove();
+                        });
+                    }, timeout_notif);
+
+        //            document.getElementById('notification_detail2').innerHTML = text;
+
+                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    auto_logout();
+                }else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error transactions notification </span>' + msg.result.error_msg,
+                    })
+
+                   text= '';
+                   text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
+                   text+=`<span style="font-weight:500;"> No Notification</span>`;
+                   text+=`</div>`;
+                   document.getElementById('notification_detail').innerHTML = text;
+                }
+            }catch(err){
+                console.log(err); // error kalau ada element yg tidak ada
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error get transaction need update identity');
+       },timeout: 60000
+    });
+}
+
+function show_snooze(val, date, create_date){
+    //document.getElementById('snooze_div'+val).hidden = false;
+    document.getElementById('snooze_date_modal').innerHTML = `
+        <input type="text" class="form-control" name="snooze_input_date`+val+`" id="snooze_input_date`+val+`" placeholder="Snooze Date" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Snooze Date '" autocomplete="off" readonly>
+        <button type="button" class="primary-btn-white" onclick="set_snooze_notification(`+val+`, '`+date+`', '`+create_date+`');">
+            Snooze
+        </button>
+    `;
+    $('input[name="snooze_input_date'+val+'"]').daterangepicker({
+        singleDatePicker: true,
+        autoUpdateInput: true,
+        opens: 'center',
+        drops: 'auto',
+        startDate: moment().subtract(-1, 'days'),
+        minDate: moment().subtract(-1, 'days'),
+        maxDate: moment(date),
+        showDropdowns: true,
+        locale: {
+            format: 'DD MMM YYYY',
+        }
+    });
+
+    $('#myModalNotification').modal('show');
+}
+
+function set_snooze_notification(number, date, create_date){
+    var days = Math.ceil((new Date(document.getElementById('snooze_input_date'+number).value) - new Date())/(1000 * 3600 * 24)); // milliseconds * 1 hours * 24 hours
+    if(days != 0){
+        set_snooze_notification_api(document.getElementById('order_number_notif'+number).value, document.getElementById('desc_notif'+number).value, days, number, date, create_date);
+    }else{
+        Swal.fire({
+            type: 'error',
+            title: 'Oops!',
+            html: 'Please choose snooze!',
+        })
+    }
+}
+
+function set_unsnooze_notification(number, date, create_date){
+    set_snooze_notification_api(document.getElementById('order_number_notif'+number).value, document.getElementById('desc_notif'+number).value, 0, number, date, create_date);
+}
+
+function set_snooze_notification_api(order_number, description, days, number, date, create_date){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'set_snooze_notif_api',
+       },
+       data: {
+            'order_number': order_number,
+            'days': days,
+            'signature': signature
+       },
+       success: function(msg) {
+            if(msg.result.error_code == 0){
+                if(days == 0){
+                    document.getElementById('notif_button_span'+number).innerHTML = `
+                        <span class="notification-hover" onclick="show_snooze(`+number+`,'`+date+`', '`+create_date+`')">
+                            Snooze
+                            <i class="fas fa-bell" style="font-size:14px;"></i>
+                        </span>`;
+                    document.getElementById('snooze_div_datetime'+number).innerHTML = '';
+                }else{
+                    document.getElementById('notif_button_span'+number).innerHTML = `
+                        <span class="notification-hover" style="font-size:14px; color:#DC143C;" onclick="set_unsnooze_notification(`+number+`,'`+date+`', '`+create_date+`')">
+                            Cancel snooze
+                            <i class="fas fa-times" style="font-size:14px;"></i>
+                        </span>`;
+                    document.getElementById('snooze_div_datetime'+number).innerHTML =`
+                        <i>Snooze until `+moment(create_date).subtract(days * -1, 'days').format('DD MMMM YYYY')+`</i>`;
+                }
+                Swal.fire({
+                    type: 'success',
+                    title: 'Success!'
+                })
+            }else{
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops!',
+                    html: msg.result.error_msg,
+                })
+            }
+
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error set read notification');
+       },timeout: 60000
+    });
+
+}
+
+function set_read_notification(number){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'set_read_transactions_notif_api',
+       },
+       data: {
+            'order_number': document.getElementById('order_number_notif'+number).value,
+            'description': document.getElementById('desc_notif'+number).value,
+            'signature': signature
+       },
+       success: function(msg) {
+            document.getElementById('notification_'+number).submit();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error set read notification');
+       },timeout: 60000
+    });
+}
+
 function get_transaction_history_ledger(type,use_cache){
     $('#loading-search-reservation').show();
     if(type == 'reset'){
@@ -637,7 +1016,7 @@ function get_transactions(type){
     $('#loading-search-reservation').show();
     document.getElementById('button').disabled = true;
     load_more = false;
-    if(type == 'reset' || type == 'filter'){
+    if(type == 'reset' || type == 'filter' || type == 'mode'){
         offset_transaction = 0;
         data_counter = 0;
         data_search = [];
@@ -826,12 +1205,21 @@ function get_transactions(type){
 
                 }else if(msg.result.response[filter].length >= 20){
                     offset_transaction++;
-                    table_reservation(msg.result.response[filter]);
+                    if ($("input[name='view_type_reservation']:checked").val() == "card_mode") {
+                        table_reservation(msg.result.response[filter], 'card_mode');
+                    }else{
+                        table_reservation(msg.result.response[filter], 'table_mode');
+                    }
+
                     load_more = true;
                     document.getElementById('reservation_found').style.display = 'none';
 //                    $('#reservation_found').hide();
                 }else{
-                    table_reservation(msg.result.response[filter]);
+                    if ($("input[name='view_type_reservation']:checked").val() == "card_mode") {
+                        table_reservation(msg.result.response[filter], 'card_mode');
+                    }else{
+                        table_reservation(msg.result.response[filter], 'table_mode');
+                    }
                     document.getElementById('reservation_found').style.display = 'none';
 //                    $('#reservation_found').hide();
                 }

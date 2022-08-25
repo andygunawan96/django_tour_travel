@@ -2167,7 +2167,8 @@ function hotel_detail(old_cancellation_policy){
     }
 
     if(typeof(special_request) !== 'undefined'){
-        $text2 += 'Special Request:\n' + special_request + '\n';
+        $text2 += 'Special Request:\n' + special_request;
+        $text2 += '(This request is subject to AVAILIBILITY and may not be guaranteed)\n';
     }
     if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
 

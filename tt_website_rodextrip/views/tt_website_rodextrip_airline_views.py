@@ -822,12 +822,21 @@ def ssr(request, signature):
                                         for provider in ssr_provider['ssr_availability']:
                                             for availability in ssr_provider['ssr_availability'][provider]:
                                                 for ssr in availability['ssrs']:
-                                                    if ssr['ssr_code'] == fee['fee_code']:
-                                                        child[len(child) - 1]['ssr_list'].append({
-                                                            "fee_code": fee['fee_code'],
-                                                            "journey_code": ssr['journey_code'],
-                                                            "availability_type": fee['fee_category'].lower()
-                                                        })
+                                                    if ssr.get('ssr_code'):
+                                                        if ssr['ssr_code'] == fee['fee_code'] and fee['journey_code'] == ssr['journey_code']:
+                                                            child[len(child) - 1]['ssr_list'].append({
+                                                                "fee_code": fee['fee_code'],
+                                                                "journey_code": ssr['journey_code'],
+                                                                "availability_type": fee['fee_category'].lower()
+                                                            })
+                                                    if ssr.get('fee_code'):
+                                                        if fee['fee_code'] == ssr.get('ssr_code') and fee['journey_code'] == ssr['journey_code']:
+                                                            child[len(adult) - 1]['ssr_list'].append({
+                                                                "fee_code": fee['fee_code'],
+                                                                "journey_code": ssr['journey_code'],
+                                                                "availability_type": fee['fee_category'].lower(),
+                                                                "price": fee['amount']
+                                                            })
                         else:
                             adult.append({
                                 "pax_type": 'ADT',
@@ -1445,6 +1454,11 @@ def review(request, signature):
                     passport_number = ''
                     passport_ed = ''
                     passport_country_of_issued = ''
+                    is_valid_identity = request.POST.get('adult_valid_passport' + str(i + 1), 'off')
+                    if is_valid_identity == 'on':
+                        is_valid_identity = False
+                    else:
+                        is_valid_identity = True
                     if request.POST['adult_id_type' + str(i + 1)]:
                         passport_number = request.POST.get('adult_passport_number' + str(i + 1))
                         passport_ed = request.POST.get('adult_passport_expired_date' + str(i + 1))
@@ -1487,7 +1501,8 @@ def review(request, signature):
                         "identity_type": request.POST['adult_id_type' + str(i + 1)],
                         "ff_numbers": ff_number,
                         "behaviors": json.loads(request.POST['adult_behaviors' + str(i + 1)]) if request.POST.get('adult_behaviors' + str(i + 1)) else {},
-                        "identity_image": img_identity_data
+                        "identity_image": img_identity_data,
+                        "is_valid_identity": is_valid_identity
                     })
 
                     if i == 0:
@@ -1584,6 +1599,11 @@ def review(request, signature):
                     passport_number = ''
                     passport_ed = ''
                     passport_country_of_issued = ''
+                    is_valid_identity = request.POST.get('child_valid_passport' + str(i + 1), 'off')
+                    if is_valid_identity == 'on':
+                        is_valid_identity = False
+                    else:
+                        is_valid_identity = True
                     if request.POST['child_id_type' + str(i + 1)]:
                         passport_number = request.POST['child_passport_number' + str(i + 1)]
                         passport_ed = request.POST['child_passport_expired_date' + str(i + 1)]
@@ -1626,13 +1646,19 @@ def review(request, signature):
                         "identity_type": request.POST['child_id_type' + str(i + 1)],
                         "ff_numbers": ff_number,
                         "behaviors": json.loads(request.POST['child_behaviors' + str(i + 1)]) if request.POST.get('child_behaviors' + str(i + 1)) else {},
-                        "identity_image": img_identity_data
+                        "identity_image": img_identity_data,
+                        "is_valid_identity": is_valid_identity
                     })
 
                 for i in range(int(request.session['airline_request_%s' % signature]['infant'])):
                     passport_number = ''
                     passport_ed = ''
                     passport_country_of_issued = ''
+                    is_valid_identity = request.POST.get('infant_valid_passport' + str(i + 1), 'off')
+                    if is_valid_identity == 'on':
+                        is_valid_identity = False
+                    else:
+                        is_valid_identity = True
                     if request.POST['infant_id_type' + str(i + 1)]:
                         passport_number = request.POST['infant_passport_number' + str(i + 1)]
                         passport_ed = request.POST['infant_passport_expired_date' + str(i + 1)]
@@ -1673,7 +1699,8 @@ def review(request, signature):
                         "passenger_seq_id": request.POST['infant_id' + str(i + 1)],
                         "identity_type": request.POST['infant_id_type' + str(i + 1)],
                         "behaviors": json.loads(request.POST['infant_behaviors' + str(i + 1)]) if request.POST.get('infant_behaviors' + str(i + 1)) else {},
-                        "identity_image": img_identity_data
+                        "identity_image": img_identity_data,
+                        "is_valid_identity": is_valid_identity
                     })
                 airline_create_passengers = {
                     'booker': booker,
