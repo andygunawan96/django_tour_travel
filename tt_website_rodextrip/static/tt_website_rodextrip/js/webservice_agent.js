@@ -4730,7 +4730,7 @@ function copy_booker(val,type,identity){
             })
         }
 
-        if(typeof ff_request !== 'undefined' && data_booker.hasOwnProperty('frequent_flyer_list')){
+        if(typeof ff_request !== 'undefined' && typeof data_booker !== 'undefined' && data_booker.hasOwnProperty('frequent_flyer_list')){
             var index_ff = 1;
             for(i in data_booker['frequent_flyer_list']){
                 try{
@@ -4846,7 +4846,7 @@ function copy_booker(val,type,identity){
             }
         }
 
-        if(typeof ff_request !== 'undefined' && data_booker.hasOwnProperty('frequent_flyer_list')){
+        if(typeof ff_request !== 'undefined' && typeof data_booker !== 'undefined' && data_booker.hasOwnProperty('frequent_flyer_list')){
             var index_ff = 1;
             for(i in ff_request){
                 $("#adult_ff_request1_"+index_ff+"_id").val("").trigger('change');
