@@ -5,9 +5,10 @@ function table_reservation(data, mode_view){
     text= '';
 
     if(mode_view == "table_mode"){
-        text+=`
+        if(document.getElementById('reservation_table_mode_id') == null)
+            text+=`
         <div class="col-lg-12 mb-3" style="overflow:auto;">
-            <table style="width:100%; margin-top:15px; background:white;" id="table_reservation" class="list-of-reservation">
+            <table style="width:100%; margin-top:15px; background:white;" id="reservation_table_mode_id" class="list-of-reservation">
                 <tr>
                     <th style="width:2%;">No.</th>
                     <th style="width:9%;">Order Number</th>
@@ -107,11 +108,14 @@ function table_reservation(data, mode_view){
                         load_more = true;
                     }
                 }
-            text+=`
+            if(document.getElementById('reservation_table_mode_id') == null)
+                text+=`
             </table>
         </div>`;
-
-        document.getElementById("table_reservation").innerHTML += text;
+        if(document.getElementById('reservation_table_mode_id') == null)
+            document.getElementById("table_reservation").innerHTML += text;
+        else
+            document.getElementById("reservation_table_mode_id").innerHTML += text;
 
         $('#loading-search-reservation').hide();
     }
