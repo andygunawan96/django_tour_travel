@@ -3601,9 +3601,9 @@ def get_reschedule_itinerary_v2(request):
         pnr_list = json.loads(request.POST['pnr'])
         last_pnr = ''
         for idx, journey in enumerate(journey_booking):
+            journeys.append({'segments': journey['segments'], 'journey_key': journey['journey_key']})
             # NO COMBO
             if len(pnr_list) == len(journey_booking):
-                journeys.append({'segments': journey['segments'], 'journey_key': journey['journey_key']})
                 try:
                     schedules.append({'journeys': journeys, 'pnr': pnr_list[idx], 'passengers': passenger})
                     last_pnr = pnr_list[idx]
@@ -3613,11 +3613,11 @@ def get_reschedule_itinerary_v2(request):
             else:
                 # COMBO
                 check = 0
-                journeys.append({'segments': journey['segments'], 'journey_key': journey['journey_key']})
                 for schedule in schedules:
                     if schedule['provider'] == journey['provider']:
                         schedule['journeys'].append({
-                            'segments': journey['segments']
+                            'segments': journey['segments'],
+                            'journey_key': journey['journey_key']
                         })
                         check = 1
                         break
@@ -3757,9 +3757,9 @@ def sell_reschedule_v2(request):
         pnr_list = json.loads(request.POST['pnr'])
         last_pnr = ''
         for idx, journey in enumerate(journey_booking):
+            journeys.append({'segments': journey['segments'], 'journey_key': journey['journey_key']})
             # NO COMBO
             if len(pnr_list) == len(journey_booking):
-                journeys.append({'segments': journey['segments'], 'journey_key': journey['journey_key']})
                 try:
                     schedules.append({'journeys': journeys, 'pnr': pnr_list[idx], 'passengers': passenger})
                     last_pnr = pnr_list[idx]
@@ -3769,11 +3769,11 @@ def sell_reschedule_v2(request):
             else:
                 # COMBO
                 check = 0
-                journeys.append({'segments': journey['segments'], 'journey_key': journey['journey_key']})
                 for schedule in schedules:
                     if schedule['provider'] == journey['provider']:
                         schedule['journeys'].append({
-                            'segments': journey['segments']
+                            'segments': journey['segments'],
+                            'journey_key': journey['journey_key']
                         })
                         check = 1
                         break
