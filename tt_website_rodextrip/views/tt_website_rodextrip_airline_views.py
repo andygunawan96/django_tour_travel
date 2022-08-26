@@ -1324,7 +1324,7 @@ def review(request, signature):
                                     for idx, pax in enumerate(passenger):
                                         try:
                                             passengers_list.append({
-                                                'passenger_number': pax['sequence'],
+                                                "passenger_number": idx,
                                                 "ssr_code": request.POST[ssr_key+'_'+str(counter_ssr_availability_provider+1-no_ssr_count)+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
                                             })
                                             for list_ssr in journey_ssr['ssrs']:
@@ -1379,7 +1379,7 @@ def review(request, signature):
                                     if pax_seat['segment_code'] == seat_segment['segment_code2'] and pax_seat['departure_date'] == seat_segment['departure_date']:
                                         if pax_seat['seat_code'] != '':
                                             pax_request.append({
-                                                'passenger_number': pax['sequence'],
+                                                'passenger_number': idx,
                                                 'seat_code': pax_seat['seat_code']
                                             })
                                         break
