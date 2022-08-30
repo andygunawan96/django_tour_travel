@@ -7205,7 +7205,9 @@ function airline_get_booking(data, sync=false){
                                                 </div>
                                                 <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                                     <span style="font-weight:500;color:`+color+`">`+currency+` `+getrupiah(msg.result.response.reschedule_list[i].total_amount)+`</span><br/>
-                                                </div>
+                                                </div>`;
+                                    if(msg.result.response.reschedule_list[i].state.includes('cancel') == false){
+                                        text+=`
                                                 <div class="col-lg-6 col-xs-6">
                                                     <button type="button" id="button-print-reschedule-invoice" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'reschedule','airline','reschedule','`+msg.result.response.reschedule_list[i].reschedule_number+`');">
                                                         Print Reschedule
@@ -7263,7 +7265,9 @@ function airline_get_booking(data, sync=false){
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>`;
+                                    }
+                                    text+=`
                                             </div>`;
                                 }
                                 text+=`
