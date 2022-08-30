@@ -1,8 +1,13 @@
 data_counter = 0;
 data_search = [];
-function table_reservation(data, mode_view){
+function table_reservation(data, mode_view, restart=false){
     //check here
     text= '';
+
+    if(restart){
+        document.getElementById("table_reservation").innerHTML = '';
+        data_counter = 0;
+    }
 
     if(mode_view == "table_mode"){
         if(document.getElementById('reservation_table_mode_id') == null)
@@ -25,7 +30,6 @@ function table_reservation(data, mode_view){
                     <th style="width:3%;">Action</th>
                 </tr>`;
                 for(i in data){
-                    data_search.push(data[i]);
                     text+=`
                     <tr>
                         <form action="" method="POST" id="gotobooking`+data_counter+`">
@@ -121,7 +125,6 @@ function table_reservation(data, mode_view){
     }
     else{
         for(i in data){
-            data_search.push(data[i]);
             text+=`
             <div class="col-lg-12">
                 <div class="row" style="padding:0px 15px 0px 15px;">
