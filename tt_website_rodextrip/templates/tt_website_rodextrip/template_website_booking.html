@@ -45,7 +45,6 @@ Licence URI: http://www.os-templates.com/template-terms
     {% endif %}
 
     <script>
-
         function get_captcha(id,type){
           var form = this;
           if('{{google_recaptcha}}' == '1'){
@@ -430,32 +429,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <script>
         bottom = 60;
     </script>
-    {% if username.co_user_login != ''  and name == ''%} <!--name di ganti == 'Rodextrip' untuk menyalakan bitrix-->
-    <script>
-    $(function() {
-        new jBox('Tooltip', {
-            attach: '.b24-widget-button-inner-container',
-            theme: 'TooltipBorder',
-            width: 200,
-            position: {
-              x: 'left',
-              y: 'center'
-            },
-            outside: 'x',
-            pointer: 'top:15',
-            content: 'Livechat<br/><b>Bitrix, Telegram</b>',
-            animation: 'move'
-        });
-    });
-    </script>
-    <script data-skip-moving="true">
-        (function(w,d,u){
-        var s=d.createElement('script');s.async=1;s.src=u+'?'+(Date.now()/60000|0);
-        var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
-        })(window,document,'https://bitrix.skytors.id/upload/crm/site_button/loader_1_gvnv97.js');
-        bottom += 58;
-    </script>
-    {% endif %}
+
     <style media="screen" type="text/css">
         .bx-imopenlines-config-sidebar{
             height: 65% !important;
@@ -2115,9 +2089,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 {% include 'tt_website_rodextrip/b2c_signup.html' %}
 
-{% if username.co_user_login != '' %}
-{% include 'tt_website_rodextrip/plugin_whatsapp.html' %}
-{% endif %}
+{% include 'tt_website_rodextrip/plugin_live_chat.html' %}
 
 {% block content %}
 
@@ -2336,32 +2308,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>-->
 <!--<script src="https://unpkg.com/aos@2.3.1/dist/aos.js?version={{javascript_version}}"></script>-->
 
-
-<!--Start of Tawk.to Script-->
-{% if tawk_code != '' and username.co_user_login != '' %}
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-Tawk_API.visitor = {
-    'name': '{{username.co_user_login}}',
-    'email': 'rodextrip@gmail.com'
-};
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/{{tawk_code}}/default';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-Tawk_API.onLoad = function(){
-    {% if tawk_chat == 0 %}
-        //Tawk_API.hideWidget();
-        Tawk_API.toggleVisibility();
-    {% endif %}
-}
-})();
-</script>
-{% endif %}
-<!--End of Tawk.to Script-->
 <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>-->
 <!--<script src="{{ static_path }}js/google-map.js' %}"></script>-->
 <!--<script src="{{ static_path }}js/main.js?version={{javascript_version}}"></script>-->

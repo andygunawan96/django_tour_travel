@@ -41,7 +41,9 @@ function get_event_config(type){
                 category_event_drp += `<option value="`+data_event.category[i].category_name+`">`+data_event.category[i].category_name+`</option>`;
             }
             document.getElementById("category_event").innerHTML = category_event_drp;
-            $('#category_event').niceSelect('update');
+            try{
+                $('#category_event').niceSelect('update');
+            }catch(err){console.log(err);}
         }
         if(type == 'search'){
             var node = document.createElement("div");
@@ -77,7 +79,9 @@ function get_event_config(type){
                 category_event_drp += `>`+data_event.category[i].category_name+`</option>`;
             }
             document.getElementById("category_event").innerHTML = category_event_drp;
-            $('#category_event').niceSelect('update');
+            try{
+                $('#category_event').niceSelect('update');
+            }catch(err){console.log(err);}
         }
         if(type == 'detail'){
             category_event_drp = '';
@@ -94,7 +98,9 @@ function get_event_config(type){
                 category_event_drp += `>`+data_event.category[i].category_name+`</option>`;
             }
             document.getElementById("category_event").innerHTML = category_event_drp;
-            $('#category_event').niceSelect('update');
+            try{
+                $('#category_event').niceSelect('update');
+            }catch(err){console.log(err);}
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

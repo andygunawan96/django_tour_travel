@@ -2452,6 +2452,7 @@ function group_booking_update_passenger(){
     length_name = 100;
     pax = [];
     pax_counter = 1
+    last_departure_date = group_booking_get_detail.result.response.request.return_date ? group_booking_get_detail.result.response.request.return_date : group_booking_get_detail.result.response.request.departure_date
     for(i=1;i<=counter_passenger;i++){
        try{
            if(check_name(document.getElementById('adult_title'+i).value,
