@@ -657,8 +657,8 @@ def admin(request):
                                 text += '\n'
                         except:
                             pass
-                    text += request.POST['tawk_chat'] + '\n'
-                    text += request.POST['tawk_code'] + '\n'
+                    text += '\n' ## tawk to yg lama deprecated
+                    text += '\n' ## tawk to yg lama deprecated
                     text += "#" + request.POST['text_pick'] + '\n'
                     opacity = 'FF'
                     if request.POST.get('bg_tab_pick_checkbox'):
@@ -720,8 +720,8 @@ def admin(request):
                         opacity = 'B3'
                     text += "#" + request.POST['tab_login_background'] + opacity + '\n'
                     text += "#" + request.POST['text_pick_login'] + '\n'
-                    text += request.POST['wa_chat'] + '\n'
-                    text += request.POST['wa_number'] + '\n'
+                    text += '\n' ## wa chat yg lama deprecated
+                    text += '\n' ## wa chat yg lama deprecated
                     text += request.POST['google_api_key'] + '\n'
                     text += request.POST['setting_login_page'] + '\n'
                     write_cache(text, "data_cache_template", 'cache_web')
@@ -750,6 +750,21 @@ def admin(request):
                     # text += request.POST.get('channel_id_youtube') or ''
                     # write_cache_with_folder(text, "youtube")
                     ##
+
+                    ## LIVE CHAT
+                    text = ''
+                    text += request.POST.get('live_chat_vendor') + '\n' or '' + '\n'
+                    text += request.POST.get('live_chat_visible') + '\n' or '' + '\n'
+                    if request.POST.get('live_chat_vendor') == 'Whatsapp':
+                        text += request.POST.get('live_chat_number') + '\n' or '' + '\n'
+                    else:
+                        text += '\n'
+                    if request.POST.get('live_chat_vendor') not in ['', 'Whatsapp']:
+                        text += request.POST.get('live_chat_embed_code').replace('\n', '####')
+                    else:
+                        text += '\n'
+                    write_cache(text, "live_chat", 'cache_web')
+                    ## LIVE CHAT
 
                     text = ''
                     text += request.POST.get('app_id_one_signal') + '\n' or '' + '\n'
@@ -1317,11 +1332,11 @@ def get_data_template(request, type='home', provider_type = []):
     airline_country = []
     phone_code = []
     website_name = 'Tors'
-    tawk_chat = 0
-    wa_chat = 0
-    wa_number = ''
+    # tawk_chat = 0
+    # wa_chat = 0
+    # wa_number = ''
+    # tawk_code = ''
     website_mode = 'btb'
-    tawk_code = ''
     tab_color = '#333333'
     text_color = '#FFFFFF'
     text_color_login = '#FFFFFF'
@@ -1358,6 +1373,13 @@ def get_data_template(request, type='home', provider_type = []):
         "name": '',
         "font": ''
     }
+    ## live chat
+    live_chat_vendor = ''
+    live_chat_visible = 0
+    live_chat_number = ''
+    live_chat_embed_code = ''
+    ## live chat
+
     top_up_term = '''
 <h6>BANK TRANSFER / CASH</h6>
 <li>1. Before you click SUBMIT, please make sure you have inputted the correct amount of TOP UP. If there is a mismatch data, such as the transferred amount/bank account is different from the requested amount/bank account, so the TOP UP will be approved by tomorrow (D+1).<br></li>
@@ -1523,6 +1545,22 @@ def get_data_template(request, type='home', provider_type = []):
 
         get_frequent_flyer = get_frequent_flyer_all_data({}, request.session.get('signature', ''))
 
+        file = read_cache("live_chat", 'cache_web', 90911)
+        if file:
+            for idx, line in enumerate(file.split('\n')):
+                if idx == 0:
+                    if line != '':
+                        live_chat_vendor = line.split('\n')[0]
+                elif idx == 1:
+                    if line != '':
+                        live_chat_visible = line.split('\n')[0]
+                elif idx == 2:
+                    if line != '':
+                        live_chat_number = line.split('\n')[0]
+                elif idx == 3:
+                    if line != '':
+                        live_chat_embed_code = line.split('\n')[0].replace('####','\n')
+
         file = read_cache("data_cache_template", 'cache_web', 90911)
         if file:
             for idx, line in enumerate(file.split('\n')):
@@ -1554,11 +1592,13 @@ def get_data_template(request, type='home', provider_type = []):
                         else:
                             background = line.split('\n')[0]
                 elif idx == 7:
-                    if line != '':
-                        tawk_chat = int(line)
+                    pass
+                    # if line != '':
+                    #     tawk_chat = int(line)
                 elif idx == 8:
-                    if line != '':
-                        tawk_code = line.split('\n')[0]
+                    pass
+                    # if line != '':
+                    #     tawk_code = line.split('\n')[0]
                 elif idx == 9:
                     if line != '':
                         text_color = line.split('\n')[0]
@@ -1623,11 +1663,13 @@ def get_data_template(request, type='home', provider_type = []):
                     if line != '':
                         text_color_login = line.split('\n')[0]
                 elif idx == 22:
-                    if line != '':
-                        wa_chat = int(line.split('\n')[0])
+                    pass
+                    # if line != '':
+                    #     wa_chat = int(line.split('\n')[0])
                 elif idx == 23:
-                    if line != '':
-                        wa_number = line.split('\n')[0]
+                    pass
+                    # if line != '':
+                    #     wa_number = line.split('\n')[0]
                 elif idx == 24:
                     if line != '':
                         google_api_key = line.split('\n')[0]
@@ -1648,8 +1690,8 @@ def get_data_template(request, type='home', provider_type = []):
         'color': color,
         'name': website_name,
         'background': background,
-        'tawk_chat': tawk_chat,
-        'tawk_code': tawk_code,
+        # 'tawk_chat': tawk_chat,
+        # 'tawk_code': tawk_code,
         'text_color': text_color,
         'text_color_login': text_color_login,
         'tab_color': tab_color,
@@ -1678,8 +1720,8 @@ def get_data_template(request, type='home', provider_type = []):
         'google_recaptcha': google_recaptcha,
         'site_key': site_key,
         'secret_key': secret_key,
-        'wa_chat': wa_chat,
-        'wa_number': wa_number,
+        # 'wa_chat': wa_chat,
+        # 'wa_number': wa_number,
         'printout_color': printout_color,
         'provider_types_sequence': provider_types_sequence,
         'font': font,
@@ -1695,7 +1737,11 @@ def get_data_template(request, type='home', provider_type = []):
         'signup_btb_btn': signup_btb_btn,
         'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
         'google_tag_manager_key': google_tag_manager_key,
-        'get_frequent_flyer': get_frequent_flyer
+        'get_frequent_flyer': get_frequent_flyer,
+        'live_chat_vendor': live_chat_vendor,
+        'live_chat_visible': live_chat_visible,
+        'live_chat_number': live_chat_number,
+        'live_chat_embed_code': live_chat_embed_code
     }
 
 

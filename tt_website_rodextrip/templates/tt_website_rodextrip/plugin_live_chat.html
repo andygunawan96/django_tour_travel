@@ -1,0 +1,73 @@
+{% if live_chat_vendor == 'Whatsapp' and live_chat_visible == '1' %}
+
+<button type="button" style="background-color:#43d62b;" id="mystickywhatsapp" class="mystickywhatsapp" class="primary-btn" data-toggle="modal" onclick="openInNewTab(`https://wa.me/{{live_chat_number}}`);">
+    <i class="fab fa-whatsapp" style="font-size:32px;"></i>
+</button>
+<script>
+    $(function() {
+        new jBox('Tooltip', {
+            attach: '#mystickywhatsapp',
+            theme: 'TooltipBorder',
+            width: 200,
+            position: {
+              x: 'left',
+              y: 'center'
+            },
+            outside: 'x',
+            pointer: 'top:15',
+            content: 'Livechat<br/><b>Whatsapp</b>',
+            animation: 'move'
+        });
+    });
+
+    document.getElementById('mystickywhatsapp').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
+</script>
+{% elif live_chat_vendor == 'Tawk.to' %}
+    {% autoescape off %}
+    {{live_chat_embed_code}}
+    {% endautoescape %}
+    {% if live_chat_visible == '0' %}
+    <script>
+    Tawk_API.onLoad = function(){
+        //Tawk_API.hideWidget();
+        Tawk_API.toggleVisibility();
+    }
+    })();
+    </script>
+    {% endif %}
+{% elif live_chat_vendor == 'Qiscus' and live_chat_visible == '1' %}
+    {% autoescape off %}
+    {{live_chat_embed_code}}
+    {% endautoescape %}
+{% elif live_chat_vendor == 'Bitrix' and live_chat_visible == '1' %}
+    <script>
+    $(function() {
+        new jBox('Tooltip', {
+            attach: '.b24-widget-button-inner-container',
+            theme: 'TooltipBorder',
+            width: 200,
+            position: {
+              x: 'left',
+              y: 'center'
+            },
+            outside: 'x',
+            pointer: 'top:15',
+            content: 'Livechat<br/><b>Bitrix, Telegram</b>',
+            animation: 'move'
+        });
+    });
+    </script>
+    {% autoescape off %}
+    {{live_chat_embed_code}}
+    {% endautoescape %}
+{% endif %}
+
+{% if live_chat_visible == '1' %}
+    <script>
+    {% if live_chat_vendor == 'Bitrix' %}
+    bottom+=58;
+    {% else %}
+    bottom+=60;
+    {% endif %}
+    </script>
+{% endif %}
