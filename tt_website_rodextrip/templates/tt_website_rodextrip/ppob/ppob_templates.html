@@ -51,9 +51,8 @@
 {% include 'tt_website_rodextrip/logout.html' %}
 {% endif %}
 {% include 'tt_website_rodextrip/header.html' %}
+{% include 'tt_website_rodextrip/notification_box.html' %}
 {%if template == 1%}
-<div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:999;margin-top:-50px;"></div>
-
 <section class="testimonial-area section-gap overlay-bg" data-aos="fade-up" style="padding-top:60px; padding-bottom:60px; z-index:1; position:relative; background-image:url('{{static_path}}images/bg_ppob.jpg') !important">
     <div class="overlay overlay-bg"></div>
         <div class="container">
@@ -243,8 +242,6 @@
     {% endif %}
 
     {% elif template == 2 %}
-    <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:999;"></div>
-
     <div class="banner-area-rodex bg-img bg-overlay jarallax" style="background-image: url('{{static_path}}images/bg_ppob.jpg') !important;">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
@@ -422,7 +419,6 @@
     {% endif %}
 
     {% elif template == 3 %}
-    <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
     <section class="banner-area relative" style="background: url('{{static_path}}images/bg_ppob.jpg') center !important; background-repeat: no-repeat !important;background-position: center center !important; background-size: cover !important;">
         <div class="overlay overlay-bg"></div>
         <div class="container">
@@ -594,7 +590,6 @@
     {% endif %}
 
     {% elif template == 4 %}
-    <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:9999;margin-top:-50px;"></div>
 
     <div class="site-blocks-cover overlay" style="background-image: url('{{static_path}}images/bg_ppob.jpg');" data-aos="fade">
         <div class="container">
@@ -804,7 +799,6 @@
     {% endif %}
 
     {% elif template == 5 %}
-    <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:999;"></div>
 
     <section class="home-banner-area relative" id="home" style="border-bottom-left-radius: 5%; border-bottom-right-radius: 5%; background-image: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url('{{static_path}}images/bg_ppob.jpg') !important;">
         <!--<div class="overlay overlay-bg" style="border-bottom-left-radius: 5%; border-bottom-right-radius: 5%;"></div>-->
@@ -1004,7 +998,6 @@
     </div>
 
     <section class="about py-3 mt-3" style="padding-top:50px;">
-        <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
         <div class="container">
             <div class="row" style="padding:15px;">
                 <div class="col-lg-4 mb-5">

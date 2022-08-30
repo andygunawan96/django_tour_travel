@@ -8766,6 +8766,14 @@ ul.progress_tabs li.current .image-rounded-icon{
   background-color: #C04B21;
 }
 
+.span_responsive{
+    width:250px;
+}
+
+.i_responsive{
+    width:250px;
+}
+
 .radio-label .div_radio_bg{
     height:40px;
     background:white;
@@ -8798,9 +8806,141 @@ ul.progress_tabs li.current .image-rounded-icon{
     color:white;
     cursor:pointer;
     text-align:center;
+    padding:5px 5px 5px 5px;
+    border:1px solid #cdcdcd;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+}
+
+.box-notification{
+    float:right;
+    overflow: hidden;
+    background: #f0e68c;
+    display:none;
+    position:relative;
+    z-index: 9999;
+}
+
+/* Add padding and border to inner content
+for better animation effect */
+.box-notification-inner{
+    width: 500px;
+    padding: 0px 15px 0px 15px;
+    background: rgba(255, 255, 255, 1);
+    border:1px solid #cdcdcd;
+    color: black;
+    z-index:1000;
+    position: fixed;
+    top:0px;
+    bottom:0px;
+    right:0px;
+    overflow:auto;
+    transition: 0.4s;
+}
+
+@media (max-width: 767px) {
+    .box-notification-inner{
+        width: 400px;
+    }
+}
+
+@media (max-width: 575px) {
+    .box-notification-inner{
+        width: 320px;
+    }
+}
+
+.text_btn_custom{
+    color:black;
+    cursor:pointer;
+}
+
+.text_btn_custom:hover{
+    color:#f15a22;
+}
+
+.primary-btn-white-cancel {
+  background: #fcfcfc;
+  line-height: 40px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border: none;
+  border-radius: 3px;
+  color: #000;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  margin-right:10px;
+  position: relative;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+  margin-bottom:15px;
+  border: 2px solid #cdcdcd;
+}
+
+.primary-btn-white-cancel:hover {
+  background: #ff3030;
+  border: 2px solid #ff3030;
+  color: white;
+}
+
+.radio-label .div_radio_img_txt{
+    height:60px;
+    background:white;
+    color:black;
+    cursor:pointer;
+    text-align:center;
+    padding:5px 5px 5px 5px;
+    border:1px solid #cdcdcd;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+}
+
+.radio-label .div_radio_img_txt:hover{
+    height:60px;
+    background:#f15a22;
+    color:white;
+    cursor:pointer;
+    text-align:center;
+    padding:5px 5px 5px 5px;
+    border:1px solid #cdcdcd;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+}
+
+.radio-label > input:checked + .div_radio_img_txt{
+    height:60px;
+    background:#f15a22;
+    color:white;
+    cursor:pointer;
+    text-align:center;
     padding:5px 5px 5px 5px; border:1px solid #cdcdcd;
     display:flex;
     justify-content: center;
     align-items: center;
     text-align:center;
+}
+
+.overlay_box_menu {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 1000;
+  cursor: pointer;
 }

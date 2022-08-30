@@ -29,9 +29,11 @@ $(document).ready(function(){
     window.addEventListener('online', checking);
     window.addEventListener('offline', checking);
 
+    //untuk notifikasi
     $(".notification-slide-toggle").click(function(){
         $(".box-notification").animate({
-            width: "toggle"
+            width: "toggle",
+            opacity: "toggle"
         });
     });
 
@@ -3842,3 +3844,25 @@ function show_loading_reorder(product){
     document.getElementById("viewWaitingTransaction").innerHTML = custom_waiting;
     $("#waitingTransaction").modal('show');
 }
+
+//untuk notif overlay
+//
+
+function on_off_overlay_bar(class_box){
+    var overlay_bm = document.getElementsByClassName('overlay_box_menu')[0];
+
+    if (overlay_bm.style.display === "none") {
+        overlay_bm.style.display = "block";
+    }else{
+        overlay_bm.style.display = "none";
+        $("."+class_box).animate({
+            width: "toggle",
+            opacity: "toggle"
+        });
+    }
+}
+
+function close_modal_click(id_modal){
+    $("#"+id_modal).modal('hide');
+}
+

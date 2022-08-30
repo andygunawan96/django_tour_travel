@@ -59,13 +59,13 @@
 {% include 'tt_website_rodextrip/logout.html' %}
 {% endif %}
 {% include 'tt_website_rodextrip/header.html' %}
+{% include 'tt_website_rodextrip/notification_box.html' %}
 
 <meta name="twitter:card" content="Twitter" />
 <meta name="twitter:site" content="@rodextrip" />
 <meta name="twitter:creator" content="@rodextrip" />
 
 {%if template == 1%}
-<div id="notification_div" style="position:fixed; z-index:999; top:20px; right:20px;"></div>
 {% if vendor == "periksain" %}
 <section class="testimonial-area section-gap overlay-bg" data-aos="fade-up" style="background-image:url('{{static_path}}images/bg_periksain.jpg') !important; padding-top:40px; padding-bottom:40px; z-index:1; position:relative;">
 {% elif vendor == "phc" %}
@@ -879,8 +879,6 @@
 <!--{% endif %}-->
 
 {% elif template == 2 %}
-<div id="notification_div" style="position:fixed; z-index:999; top:20px; right:20px;"></div>
-
 {% if vendor == "periksain" %}
 <div class="banner-area-rodex bg-img bg-overlay jarallax" style="background-image:url('{{static_path}}images/bg_periksain.jpg') !important;">
 {% elif vendor == "phc" %}
@@ -1272,8 +1270,6 @@
 <!--</div>-->
 
 {% elif template == 3 %}
-<div id="notification_div" style="position:fixed; z-index:100; top:20px; right:20px;"></div>
-
 {% if vendor == "periksain" %}
 <section class="banner-area relative" style="background-image:url('{{static_path}}images/bg_periksain.jpg') !important; background-repeat: no-repeat !important;background-position: center center !important; background-size: cover !important;">
 {% elif vendor == "phc" %}
@@ -1667,7 +1663,6 @@
 <!--{% endif %}-->
 
 {% elif template == 4 %}
-<div id="notification_div" style="position:fixed; z-index:9999; top:20px; right:20px;"></div>
 <div id="overlay-search-box" onclick="off_overlay()"></div>
 {% if vendor == "periksain" %}
 <section class="bg-img" style="background-image: url('{{static_path}}images/bg_periksain.jpg'); background-color: rgba(0,0,0,0.5); z-index:3; position:relative;" data-aos="fade">
@@ -2114,7 +2109,6 @@
 <!--{% endif %}-->
 
 {% elif template == 5 %}
-<div id="notification_div" style="position:fixed; z-index:999; top:20px; right:20px;"></div>
 
 {% if vendor == "periksain" %}
 <section class="home-banner-area relative" id="home" style="border-bottom-left-radius: 5%; border-bottom-right-radius: 5%; background-image: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url('{{static_path}}images/bg_periksain.jpg') !important;">
@@ -2290,7 +2284,6 @@
 </div>
 
 <section class="about py-3 mt-3" style="padding-top:50px;">
-    <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
     <div class="container">
         <div class="row" style="padding:15px;">
             <div class="col-lg-4 mb-5">
