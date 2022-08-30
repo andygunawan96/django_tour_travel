@@ -7199,12 +7199,23 @@ function airline_get_booking(data, sync=false){
                                                 </div>
                                             </div>`;
                                     }
+                                    rs_total_amt = msg.result.response.reschedule_list[i].total_amount;
+                                    for(j in msg.result.response.passengers){
+                                        try{
+                                            if(airline_get_detail.result.response.passengers[j].channel_service_charges.amount_rs.hasOwnProperty(msg.result.response.reschedule_list[i].reschedule_number))
+                                            {
+                                                rs_total_amt += airline_get_detail.result.response.passengers[j].channel_service_charges.amount_rs[msg.result.response.reschedule_list[i].reschedule_number];
+                                            }
+                                        }catch(err){
+                                            console.log(err); // error kalau ada element yg tidak ada
+                                        }
+                                    }
                                     text += `
                                             <div class="row">
                                                 <div class="col-lg-6 col-xs-6">
                                                 </div>
                                                 <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                                    <span style="font-weight:500;color:`+color+`">`+currency+` `+getrupiah(msg.result.response.reschedule_list[i].total_amount)+`</span><br/>
+                                                    <span style="font-weight:500;color:`+color+`">`+currency+` `+getrupiah(rs_total_amt)+`</span><br/>
                                                 </div>`;
                                     if(msg.result.response.reschedule_list[i].state.includes('cancel') == false){
                                         text+=`
@@ -7661,7 +7672,7 @@ function airline_get_booking(data, sync=false){
                                     console.log(err); // error kalau ada element yg tidak ada
                                 }
                                 try{
-                                    price['SSR'] += msg.result.response.passengers[j].channel_service_charges.amount_addons + airline_get_detail.result.response.passengers[j].channel_service_charges.amount_rs;;
+                                    price['SSR'] += msg.result.response.passengers[j].channel_service_charges.amount_addons;
                                 }catch(err){
                                     console.log(err); // error kalau ada element yg tidak ada
                                 }
@@ -8995,7 +9006,7 @@ function airline_issued(data){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
                             try{
-                                price['SSR'] += airline_get_detail.result.response.passengers[j].channel_service_charges.amount_addons + airline_get_detail.result.response.passengers[j].channel_service_charges.amount_rs;
+                                price['SSR'] += airline_get_detail.result.response.passengers[j].channel_service_charges.amount_addons;
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
@@ -9114,7 +9125,7 @@ function airline_issued(data){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
                             try{
-                                price['SSR'] += airline_get_detail.result.response.passengers[j].channel_service_charges.amount_addons + airline_get_detail.result.response.passengers[j].channel_service_charges.amount_rs;;
+                                price['SSR'] += airline_get_detail.result.response.passengers[j].channel_service_charges.amount_addons;
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
