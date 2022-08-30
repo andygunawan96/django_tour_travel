@@ -1114,9 +1114,10 @@ function get_transactions(type){
             console.log(err); // error kalau ada element yg tidak ada
         }
         if(msg.result.error_code == 0){
-            if(type == 'reset' || type == 'filter'){
+            if(type == 'reset' || type == 'filter' || type == 'mode'){
                 offset_transaction = 0;
                 data_counter = 0;
+                data_search = [];
                 document.getElementById("table_reservation").innerHTML = '';
             }
             try{
@@ -1181,6 +1182,9 @@ function get_transactions(type){
                         filter = radios[j].value;
                     }
                     radios[j].disabled = false;
+                }
+                for(x in msg.result.response[filter]){ // filter == provider yg lagi di pilih
+                    data_search.push(msg.result.response[filter][x]);
                 }
                 if(Object.keys(msg.result.response).length == 0 && data_counter == 0){
 //                    var node = document.createElement("div");
