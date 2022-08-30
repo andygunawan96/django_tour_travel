@@ -1361,6 +1361,8 @@ def get_cache_data():
     return response
 
 def get_data_template(request, type='home', provider_type = []):
+    if not os.path.exists("/var/log/django/file_cache/live_chat"):
+        os.mkdir('/var/log/django/file_cache/live_chat')
     template = 1
     logo = '/static/tt_website_rodextrip/images/icon/skytors_logo.png'
     logo_icon = '/static/tt_website_rodextrip/images/icon/skytors.png'
