@@ -733,7 +733,7 @@ def admin(request):
                             pass
                     #delete file ga pake
                     for file in os.listdir(fs.location):
-                        if not file in temp and file != 'image_dynamic' and file != 'image_payment_partner' and file != 'image_about_us':
+                        if not file in temp and file not in ['image_dynamic', 'image_payment_partner', 'image_about_us', 'live_chat']:
                             os.remove(fs.location+'/'+file)
 
                     # file cache origin destination
@@ -752,18 +752,58 @@ def admin(request):
                     ##
 
                     ## LIVE CHAT
-                    text = ''
-                    text += request.POST.get('live_chat_vendor') + '\n' or '' + '\n'
-                    text += request.POST.get('live_chat_visible') + '\n' or '' + '\n'
-                    if request.POST.get('live_chat_vendor') == 'Whatsapp':
-                        text += request.POST.get('live_chat_number') + '\n' or '' + '\n'
-                    else:
-                        text += '\n'
-                    if request.POST.get('live_chat_vendor') not in ['', 'Whatsapp']:
-                        text += request.POST.get('live_chat_embed_code').replace('\n', '####')
-                    else:
-                        text += '\n'
-                    write_cache(text, "live_chat", 'cache_web')
+                    if not os.path.exists("/var/log/django/file_cache/live_chat"):
+                        os.mkdir('/var/log/django/file_cache/live_chat')
+                    fs_live_chat = FileSystemStorage()
+                    fs_live_chat.location += '/live_chat'
+                    if not os.path.exists(fs.location):
+                        os.mkdir(fs.location)
+                    live_chat_total_number = int(request.POST.get('number_of_live_chat', 0))
+                    if live_chat_total_number != 0:
+                        live_chat_total_number += 1
+                    data = os.listdir('/var/log/django/file_cache/live_chat')
+
+                    ## hapus data yg sudah ada
+                    for rec in data:
+                        os.remove('/var/log/django/file_cache/live_chat/' + rec)
+
+                    ## add data baru
+                    for i in range(1,live_chat_total_number):
+                        try:
+                            filename = ''
+                            try:
+                                if request.FILES['live_chat_image'+str(i)].content_type in ['image/jpeg', 'image/png']:
+                                    file = request.FILES['live_chat_image'+str(i)]
+                                    filename = fs_live_chat.save(file.name, file)
+                                    filename = fs_live_chat.base_url + "live_chat/" + filename
+                            except Exception as e:
+                                _logger.error('no image dynamic page')
+
+                            if filename == '':
+                                if request.POST.get('live_chat_image_str' + str(i)) != '':
+                                    filename = request.POST.get('live_chat_image_str' + str(i))
+                                else:
+                                    filename = 'default'
+
+                            text = ''
+                            is_vendor_whatsapp = request.POST.get('is_vendor_whatsapp'+str(i), 'off')
+                            if is_vendor_whatsapp == 'off':
+                                text += request.POST.get('live_chat_vendor'+str(i)) + '\n' or '' + '\n'
+                            else:
+                                text += 'Whatsapp\n'
+                            text += request.POST.get('live_chat_visible'+str(i)) + '\n' or '' + '\n'
+                            if is_vendor_whatsapp == 'on':
+                                text += request.POST.get('live_chat_number'+str(i)) + '\n' or '' + '\n'
+                            else:
+                                text += '\n'
+                            text += filename + '\n'
+                            if request.POST.get('live_chat_vendor'+str(i)) not in ['', 'Whatsapp']:
+                                text += request.POST.get('live_chat_embed_code'+str(i)).replace('\n', '####')
+                            else:
+                                text += '\n'
+                            write_cache(text, "live_chat_%s" % str(i), 'live_chat')
+                        except Exception as e:
+                            _logger.error('%s, %s' % (str(e), traceback.format_exc()))
                     ## LIVE CHAT
 
                     text = ''
@@ -1374,6 +1414,7 @@ def get_data_template(request, type='home', provider_type = []):
         "font": ''
     }
     ## live chat
+    live_chat = []
     live_chat_vendor = ''
     live_chat_visible = 0
     live_chat_number = ''
@@ -1545,21 +1586,39 @@ def get_data_template(request, type='home', provider_type = []):
 
         get_frequent_flyer = get_frequent_flyer_all_data({}, request.session.get('signature', ''))
 
-        file = read_cache("live_chat", 'cache_web', 90911)
-        if file:
-            for idx, line in enumerate(file.split('\n')):
-                if idx == 0:
-                    if line != '':
-                        live_chat_vendor = line.split('\n')[0]
-                elif idx == 1:
-                    if line != '':
-                        live_chat_visible = line.split('\n')[0]
-                elif idx == 2:
-                    if line != '':
-                        live_chat_number = line.split('\n')[0]
-                elif idx == 3:
-                    if line != '':
-                        live_chat_embed_code = line.split('\n')[0].replace('####','\n')
+        data = os.listdir('/var/log/django/file_cache/live_chat')
+        for index, rec in enumerate(data):
+            file = read_cache(rec[:-4], 'live_chat', 90911)
+            live_chat_vendor = ''
+            live_chat_visible = ''
+            live_chat_number = ''
+            live_chat_image = ''
+            live_chat_embed_code = ''
+            if file:
+                for idx, line in enumerate(file.split('\n')):
+                    if idx == 0:
+                        if line != '':
+                            live_chat_vendor = line.split('\n')[0]
+                    elif idx == 1:
+                        if line != '':
+                            live_chat_visible = line.split('\n')[0]
+                    elif idx == 2:
+                        if line != '':
+                            live_chat_number = line.split('\n')[0]
+                    elif idx == 3:
+                        if line != '':
+                            live_chat_image = line.split('\n')[0]
+                    elif idx == 4:
+                        if line != '':
+                            live_chat_embed_code = line.split('\n')[0].replace('####','\n')
+                live_chat.append({
+                    "live_chat_vendor": live_chat_vendor,
+                    "live_chat_visible": live_chat_visible,
+                    "live_chat_number": live_chat_number,
+                    "live_chat_image": live_chat_image,
+                    "live_chat_embed_code": live_chat_embed_code,
+                    "sequence": index,
+                })
 
         file = read_cache("data_cache_template", 'cache_web', 90911)
         if file:
@@ -1738,10 +1797,11 @@ def get_data_template(request, type='home', provider_type = []):
         'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
         'google_tag_manager_key': google_tag_manager_key,
         'get_frequent_flyer': get_frequent_flyer,
-        'live_chat_vendor': live_chat_vendor,
-        'live_chat_visible': live_chat_visible,
-        'live_chat_number': live_chat_number,
-        'live_chat_embed_code': live_chat_embed_code
+        # 'live_chat_vendor': live_chat_vendor,
+        # 'live_chat_visible': live_chat_visible,
+        # 'live_chat_number': live_chat_number,
+        # 'live_chat_embed_code': live_chat_embed_code,
+        'live_chat': live_chat
     }
 
 

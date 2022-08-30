@@ -1319,45 +1319,11 @@
                                         -->
                                         <div class="col-lg-12">
                                             <h5 style="margin-bottom:10px;color:{{text_color}};">Live Chat</h5>
+                                            <button class="primary-btn-ticket" type="button" onclick="add_table_of_live_chat();"><i class="fas fa-plus"></i> Add</button>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Vendor' %}</h6>
-                                            <div class="form-select" id="default-select">
-                                                <select id="live_chat_vendor" name="live_chat_vendor"  data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default" onchange="onchange_live_chat_vendor_func();">
-                                                    <option value=""></option>
-                                                    <option value="Whatsapp" {%if live_chat_vendor == 'Whatsapp' %} selected {% endif %}>Whatsapp</option>
-                                                    <option value="Tawk.to" {%if live_chat_vendor == 'Tawk.to' %} selected {% endif %}>Tawk.to</option>
-                                                    <option value="Qiscus" {%if live_chat_vendor == 'Qiscus' %} selected {% endif %}>Qiscus</option>
-                                                    <option value="Bitrix" {% if live_chat_vendor == 'Bitrix' %} selected {% endif %}>Bitrix</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                        </div>
-                                        <div class="col-lg-12" style="display:none;" id="live_chat_setting_div">
-                                            <div class="row">
-                                                <div class="col-lg-6" id="live_chat_visible_div"> <!-- hanya untuk tawk.to & whatsapp -->
-                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Visible Chat' %}</h6>
-                                                    <div class="form-select" id="default-select">
-                                                        <select id="live_chat_visible" name="live_chat_visible" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
-                                                            <option value="0" {% if live_chat_visible == '0' %} selected {% endif %}>No</option>
-                                                            <option value="1" {% if live_chat_visible == '1' %} selected {% endif %}>Yes</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6" id="live_chat_number_div"> <!-- hanya untuk Whatsapp -->
-                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Number' %}</h6>
-                                                    <div class="form-select">
-                                                        <input type="text" class="form-control" name="live_chat_number" id="live_chat_number" placeholder="Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Code '" value="{{live_chat_number}}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12" id="live_chat_embed_code_div" style="height:190px;display:none;"> <!-- hanya untuk qiscus, bitrix tawk.to -->
-                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Embed Code' %}</h6>
-                                            <div class="form-select">
-                                                <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" placeholder="Embed code" id="live_chat_embed_code" name="live_chat_embed_code">{{live_chat_embed_code}}</textarea>
-                                            </div>
+                                        <input type="text" id="number_of_live_chat" name="number_of_live_chat" hidden value="0"/>
+                                        <div class="col-lg-12" id="table_live_chat">
+
                                         </div>
 
 
@@ -2728,45 +2694,11 @@
 
                                         <div class="col-lg-12">
                                             <h5 style="margin-bottom:10px;color:{{text_color}};">Live Chat</h5>
+                                            <button class="primary-btn-ticket" type="button" onclick="add_table_of_live_chat();"><i class="fas fa-plus"></i> Add</button>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Vendor' %}</h6>
-                                            <div class="form-select" id="default-select">
-                                                <select id="live_chat_vendor" name="live_chat_vendor"  data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default" onchange="onchange_live_chat_vendor_func();">
-                                                    <option value=""></option>
-                                                    <option value="Whatsapp" {%if live_chat_vendor == 'Whatsapp' %} selected {% endif %}>Whatsapp</option>
-                                                    <option value="Tawk.to" {%if live_chat_vendor == 'Tawk.to' %} selected {% endif %}>Tawk.to</option>
-                                                    <option value="Qiscus" {%if live_chat_vendor == 'Qiscus' %} selected {% endif %}>Qiscus</option>
-                                                    <option value="Bitrix" {% if live_chat_vendor == 'Bitrix' %} selected {% endif %}>Bitrix</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                        </div>
-                                        <div class="col-lg-12 mt-3" style="display:none;" id="live_chat_setting_div">
-                                            <div class="row">
-                                                <div class="col-lg-6" id="live_chat_visible_div"> <!-- hanya untuk tawk.to & whatsapp -->
-                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Visible Chat' %}</h6>
-                                                    <div class="form-select" id="default-select">
-                                                        <select id="live_chat_visible" name="live_chat_visible" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
-                                                            <option value="0" {% if live_chat_visible == '0' %} selected {% endif %}>No</option>
-                                                            <option value="1" {% if live_chat_visible == '1' %} selected {% endif %}>Yes</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6" id="live_chat_number_div"> <!-- hanya untuk Whatsapp -->
-                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Number' %}</h6>
-                                                    <div class="form-select">
-                                                        <input type="text" class="form-control" name="live_chat_number" id="live_chat_number" placeholder="Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Code '" value="{{live_chat_number}}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12" id="live_chat_embed_code_div" style="height:190px;display:none;"> <!-- hanya untuk qiscus, bitrix tawk.to -->
-                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Embed Code' %}</h6>
-                                            <div class="form-select">
-                                                <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" placeholder="Embed code" id="live_chat_embed_code" name="live_chat_embed_code">{{live_chat_embed_code}}</textarea>
-                                            </div>
+                                        <input type="text" id="number_of_live_chat" name="number_of_live_chat" hidden value="0"/>
+                                        <div class="col-lg-12" id="table_live_chat">
+
                                         </div>
 
                                         <!--<div class="col-lg-12">-->
@@ -4145,45 +4077,11 @@
 
                                         <div class="col-lg-12">
                                             <h5 style="margin-bottom:10px;color:{{text_color}};">Live Chat</h5>
+                                            <button class="primary-btn-ticket" type="button" onclick="add_table_of_live_chat();"><i class="fas fa-plus"></i> Add</button>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Vendor' %}</h6>
-                                            <div class="form-select" id="default-select">
-                                                <select id="live_chat_vendor" name="live_chat_vendor"  data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default" onchange="onchange_live_chat_vendor_func();">
-                                                    <option value=""></option>
-                                                    <option value="Whatsapp" {%if live_chat_vendor == 'Whatsapp' %} selected {% endif %}>Whatsapp</option>
-                                                    <option value="Tawk.to" {%if live_chat_vendor == 'Tawk.to' %} selected {% endif %}>Tawk.to</option>
-                                                    <option value="Qiscus" {%if live_chat_vendor == 'Qiscus' %} selected {% endif %}>Qiscus</option>
-                                                    <option value="Bitrix" {% if live_chat_vendor == 'Bitrix' %} selected {% endif %}>Bitrix</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                        </div>
-                                        <div class="col-lg-12 mt-3" style="display:none;" id="live_chat_setting_div">
-                                            <div class="row">
-                                                <div class="col-lg-6" id="live_chat_visible_div"> <!-- hanya untuk tawk.to & whatsapp -->
-                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Visible Chat' %}</h6>
-                                                    <div class="form-select" id="default-select">
-                                                        <select id="live_chat_visible" name="live_chat_visible" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
-                                                            <option value="0" {% if live_chat_visible == '0' %} selected {% endif %}>No</option>
-                                                            <option value="1" {% if live_chat_visible == '1' %} selected {% endif %}>Yes</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6" id="live_chat_number_div"> <!-- hanya untuk Whatsapp -->
-                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Number' %}</h6>
-                                                    <div class="form-select">
-                                                        <input type="text" class="form-control" name="live_chat_number" id="live_chat_number" placeholder="Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Code '" value="{{live_chat_number}}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12" id="live_chat_embed_code_div" style="height:190px;display:none;"> <!-- hanya untuk qiscus, bitrix tawk.to -->
-                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Embed Code' %}</h6>
-                                            <div class="form-select">
-                                                <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" placeholder="Embed code" id="live_chat_embed_code" name="live_chat_embed_code">{{live_chat_embed_code}}</textarea>
-                                            </div>
+                                        <input type="text" id="number_of_live_chat" name="number_of_live_chat" hidden value="0"/>
+                                        <div class="col-lg-12" id="table_live_chat">
+
                                         </div>
 
                                         <!--<div class="col-lg-12">-->
@@ -5558,45 +5456,11 @@
 
                                         <div class="col-lg-12">
                                             <h5 style="margin-bottom:10px;color:{{text_color}};">Live Chat</h5>
+                                            <button class="primary-btn-ticket" type="button" onclick="add_table_of_live_chat();"><i class="fas fa-plus"></i> Add</button>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Vendor' %}</h6>
-                                            <div class="form-select" id="default-select">
-                                                <select id="live_chat_vendor" name="live_chat_vendor"  data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default" onchange="onchange_live_chat_vendor_func();">
-                                                    <option value=""></option>
-                                                    <option value="Whatsapp" {%if live_chat_vendor == 'Whatsapp' %} selected {% endif %}>Whatsapp</option>
-                                                    <option value="Tawk.to" {%if live_chat_vendor == 'Tawk.to' %} selected {% endif %}>Tawk.to</option>
-                                                    <option value="Qiscus" {%if live_chat_vendor == 'Qiscus' %} selected {% endif %}>Qiscus</option>
-                                                    <option value="Bitrix" {% if live_chat_vendor == 'Bitrix' %} selected {% endif %}>Bitrix</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                        </div>
-                                        <div class="col-lg-12" style="display:none;" id="live_chat_setting_div">
-                                            <div class="row">
-                                                <div class="col-lg-6" id="live_chat_visible_div"> <!-- hanya untuk tawk.to & whatsapp -->
-                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Visible Chat' %}</h6>
-                                                    <div class="form-select" id="default-select">
-                                                        <select id="live_chat_visible" name="live_chat_visible" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
-                                                            <option value="0" {% if live_chat_visible == '0' %} selected {% endif %}>No</option>
-                                                            <option value="1" {% if live_chat_visible == '1' %} selected {% endif %}>Yes</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6" id="live_chat_number_div"> <!-- hanya untuk Whatsapp -->
-                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Number' %}</h6>
-                                                    <div class="form-select">
-                                                        <input type="text" class="form-control" name="live_chat_number" id="live_chat_number" placeholder="Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Code '" value="{{live_chat_number}}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12" id="live_chat_embed_code_div" style="height:190px;display:none;"> <!-- hanya untuk qiscus, bitrix tawk.to -->
-                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Embed Code' %}</h6>
-                                            <div class="form-select">
-                                                <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" placeholder="Embed code" id="live_chat_embed_code" name="live_chat_embed_code">{{live_chat_embed_code}}</textarea>
-                                            </div>
+                                        <input type="text" id="number_of_live_chat" name="number_of_live_chat" hidden value="0"/>
+                                        <div class="col-lg-12" id="table_live_chat">
+
                                         </div>
 
                                         <!--<div class="col-lg-12">-->
@@ -6976,45 +6840,11 @@
 
                                         <div class="col-lg-12">
                                             <h5 style="margin-bottom:10px;color:{{text_color}};">Live Chat</h5>
+                                            <button class="primary-btn-ticket" type="button" onclick="add_table_of_live_chat();"><i class="fas fa-plus"></i> Add</button>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Vendor' %}</h6>
-                                            <div class="form-select" id="default-select">
-                                                <select id="live_chat_vendor" name="live_chat_vendor"  data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default" onchange="onchange_live_chat_vendor_func();">
-                                                    <option value=""></option>
-                                                    <option value="Whatsapp" {%if live_chat_vendor == 'Whatsapp' %} selected {% endif %}>Whatsapp</option>
-                                                    <option value="Tawk.to" {%if live_chat_vendor == 'Tawk.to' %} selected {% endif %}>Tawk.to</option>
-                                                    <option value="Qiscus" {%if live_chat_vendor == 'Qiscus' %} selected {% endif %}>Qiscus</option>
-                                                    <option value="Bitrix" {% if live_chat_vendor == 'Bitrix' %} selected {% endif %}>Bitrix</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                        </div>
-                                        <div class="col-lg-12 mt-3" style="display:none;" id="live_chat_setting_div">
-                                            <div class="row">
-                                                <div class="col-lg-6" id="live_chat_visible_div"> <!-- hanya untuk tawk.to & whatsapp -->
-                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Visible Chat' %}</h6>
-                                                    <div class="form-select" id="default-select">
-                                                        <select id="live_chat_visible" name="live_chat_visible" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
-                                                            <option value="0" {% if live_chat_visible == '0' %} selected {% endif %}>No</option>
-                                                            <option value="1" {% if live_chat_visible == '1' %} selected {% endif %}>Yes</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6" id="live_chat_number_div"> <!-- hanya untuk Whatsapp -->
-                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Number' %}</h6>
-                                                    <div class="form-select">
-                                                        <input type="text" class="form-control" name="live_chat_number" id="live_chat_number" placeholder="Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Code '" value="{{live_chat_number}}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12" id="live_chat_embed_code_div" style="height:190px;display:none;"> <!-- hanya untuk qiscus, bitrix tawk.to -->
-                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Embed Code' %}</h6>
-                                            <div class="form-select">
-                                                <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" placeholder="Embed code" id="live_chat_embed_code" name="live_chat_embed_code">{{live_chat_embed_code}}</textarea>
-                                            </div>
+                                        <input type="text" id="number_of_live_chat" name="number_of_live_chat" hidden value="0"/>
+                                        <div class="col-lg-12" id="table_live_chat">
+
                                         </div>
 
                                         <!--<div class="col-lg-12">-->
@@ -8611,45 +8441,11 @@
 
                                         <div class="col-lg-12">
                                             <h5 style="margin-bottom:10px;color:{{text_color}};">Live Chat</h5>
+                                            <button class="primary-btn-ticket" type="button" onclick="add_table_of_live_chat();"><i class="fas fa-plus"></i> Add</button>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Vendor' %}</h6>
-                                            <div class="form-select" id="default-select">
-                                                <select id="live_chat_vendor" name="live_chat_vendor"  data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default" onchange="onchange_live_chat_vendor_func();">
-                                                    <option value=""></option>
-                                                    <option value="Whatsapp" {%if live_chat_vendor == 'Whatsapp' %} selected {% endif %}>Whatsapp</option>
-                                                    <option value="Tawk.to" {%if live_chat_vendor == 'Tawk.to' %} selected {% endif %}>Tawk.to</option>
-                                                    <option value="Qiscus" {%if live_chat_vendor == 'Qiscus' %} selected {% endif %}>Qiscus</option>
-                                                    <option value="Bitrix" {% if live_chat_vendor == 'Bitrix' %} selected {% endif %}>Bitrix</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                        </div>
-                                        <div class="col-lg-12" style="display:none;" id="live_chat_setting_div">
-                                            <div class="row">
-                                                <div class="col-lg-6" id="live_chat_visible_div"> <!-- hanya untuk tawk.to & whatsapp -->
-                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Visible Chat' %}</h6>
-                                                    <div class="form-select" id="default-select">
-                                                        <select id="live_chat_visible" name="live_chat_visible" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
-                                                            <option value="0" {% if live_chat_visible == '0' %} selected {% endif %}>No</option>
-                                                            <option value="1" {% if live_chat_visible == '1' %} selected {% endif %}>Yes</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6" id="live_chat_number_div"> <!-- hanya untuk Whatsapp -->
-                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Number' %}</h6>
-                                                    <div class="form-select">
-                                                        <input type="text" class="form-control" name="live_chat_number" id="live_chat_number" placeholder="Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Code '" value="{{live_chat_number}}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12" id="live_chat_embed_code_div" style="height:190px;display:none;"> <!-- hanya untuk qiscus, bitrix tawk.to -->
-                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Embed Code' %}</h6>
-                                            <div class="form-select">
-                                                <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" placeholder="Embed code" id="live_chat_embed_code" name="live_chat_embed_code">{{live_chat_embed_code}}</textarea>
-                                            </div>
+                                        <input type="text" id="number_of_live_chat" name="number_of_live_chat" hidden value="0"/>
+                                        <div class="col-lg-12" id="table_live_chat">
+
                                         </div>
 
                                         <!--<div class="col-lg-12">-->
@@ -8779,9 +8575,6 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
-    get_airline_config('home');
-    get_list_report_footer();
-    get_va_bank();
     var airline_origin = new autoComplete({
         selector: '#airline_origin',
         minChars: 1,
@@ -8869,15 +8662,6 @@
 		selDiv_promotionbanner = document.querySelector("#selectedFiles_promotionbanner");
 	}
 
-	get_banner('big_banner','admin');
-    get_banner('small_banner','admin');
-    get_banner('promotion','admin');
-    get_payment_partner('admin');
-    get_about_us('admin');
-    get_faq('admin');
-    {% if "create_page" in username.co_agent_frontend_security %}
-    get_dynamic_page('admin');
-    {% endif %}
     function no_fill(type){
         if(type == 'tab_bg'){
             document.getElementById('bg_tab_pick').value = '';
@@ -8923,14 +8707,6 @@
         }
     }
 
-    $( document ).ready(function() {
-        $('.js-example-basic-single').select2();
-        if(`{{bg_tab_color}}` == 'transpa')
-            no_fill();
-        get_notif_train('admin');
-        get_notif_airline('admin');
-    });
-
     function onchange_live_chat_vendor_func(){
         var live_chat_vendor_value = document.getElementById('live_chat_vendor').value;
         if(live_chat_vendor_value == ''){
@@ -8965,6 +8741,157 @@
             //document.getElementById('live_chat_embed_code').innerHTML = '';
         }
     }
-    onchange_live_chat_vendor_func();
+
+    number_of_table_live_chat = 0;
+
+    function add_table_of_live_chat(){
+        number_of_table_live_chat++;
+        var node = document.createElement("div");
+        text = '';
+        text += `
+            <div class="row">
+                <div class="col-lg-6 mt-3">
+                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Vendor' %}</h6>
+                </div>
+                <div class="col-lg-6 mt-3" style="text-align:right;">
+                    <button type="button" class="primary-delete-date" onclick="delete_table_of_live_chat(`+number_of_table_live_chat+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                </div>
+                <div class="col-lg-6 mt-3" style="margin-bottom:17px;">
+                    <label class="check_box_custom mb-3" id="checkbox_whatsapp`+number_of_table_live_chat+`">
+                        <span class="span-search-ticket" style="color:{{text_color}};">WhatsApp</span>
+                        <input type="checkbox" id="is_vendor_whatsapp`+number_of_table_live_chat+`" name="is_vendor_whatsapp`+number_of_table_live_chat+`" onclick="is_whatsapp_live_chat(`+number_of_table_live_chat+`)"/>
+                        <span class="check_box_span_custom"></span>
+                    </label>
+                    <div class="form-select" id="live_chat_vendor_div`+number_of_table_live_chat+`">
+                        <input type="text" class="form-control" name="live_chat_vendor`+number_of_table_live_chat+`" id="live_chat_vendor`+number_of_table_live_chat+`" placeholder="Vendor " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Vendor '" value="">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-xs-6">
+                    <label class="check_box_custom mb-3" id="checkbox_whatsapp_icon`+number_of_table_live_chat+`">
+                        <span class="span-search-ticket" style="color:{{text_color}};">WhatsApp Icon</span>
+                        <input type="checkbox" id="is_vendor_whatsapp_icon`+number_of_table_live_chat+`" name="is_vendor_whatsapp_icon`+number_of_table_live_chat+`" onclick="is_whatsapp_icon_live_chat(`+number_of_table_live_chat+`)" checked/>
+                        <span class="check_box_span_custom"></span>
+                    </label>
+                    <div id="live_chat_image_div`+number_of_table_live_chat+`" style="display:none;">
+                        <h6 style="margin-bottom:10px;color:{{text_color}};">Thumbnail</h6>
+                        <h6 style="color:{{text_color}};">Recommended Size: </h6>
+                        <span style="color:{{text_color}}">Max.Width: 1100px, Height: 360px</span><br/>
+
+                        <div class="input-container-search-ticket form-select">
+                            <input type="file" style="color:{{text_color}};" name="live_chat_image`+number_of_table_live_chat+`" id="live_chat_image`+number_of_table_live_chat+`" accept="image/*" onchange="file_validation('live_chat_image`+number_of_table_live_chat+`');"/>
+                            <span id="size_live_chat_image`+number_of_table_live_chat+`"></span>
+                        </div>
+                    </div>
+                    <input type="hidden" id="live_chat_image_str`+number_of_table_live_chat+`" name="live_chat_image_str`+number_of_table_live_chat+`"/>
+                </div>
+
+                <div class="col-lg-12 mt-3" id="live_chat_setting_div`+number_of_table_live_chat+`">
+                    <div class="row">
+                        <div class="col-lg-6" id="live_chat_visible_div`+number_of_table_live_chat+`"> <!-- hanya untuk tawk.to & whatsapp -->
+                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Visible Chat' %}</h6>
+                            <div class="form-select" id="default-select">
+                                <select id="live_chat_visible`+number_of_table_live_chat+`" name="live_chat_visible`+number_of_table_live_chat+`" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6" id="live_chat_number_div`+number_of_table_live_chat+`"> <!-- hanya untuk Whatsapp -->
+                            <h6 style="margin-bottom:10px;color:{{text_color}};">Number</h6>
+                            <div class="form-select">
+                                <input type="text" class="form-control" name="live_chat_number`+number_of_table_live_chat+`" id="live_chat_number`+number_of_table_live_chat+`" placeholder="Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Number '" value="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" id="live_chat_embed_code_div`+number_of_table_live_chat+`" style="height:190px;display:none;"> <!-- hanya untuk qiscus, bitrix tawk.to -->
+            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Embed Code' %}</h6>
+            <div class="form-select">
+                <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" placeholder="Embed code" id="live_chat_embed_code`+number_of_table_live_chat+`" name="live_chat_embed_code`+number_of_table_live_chat+`"></textarea>
+            </div>
+        </div>`;
+        node.innerHTML = text;
+        node.id = 'table_live_chat_id'+ number_of_table_live_chat.toString();
+        document.getElementById("table_live_chat").appendChild(node);
+        $('#live_chat_visible'+number_of_table_live_chat).niceSelect();
+        document.getElementById('number_of_live_chat').value = number_of_table_live_chat;
+        is_whatsapp_live_chat(number_of_table_live_chat);
+    }
+
+    function delete_table_of_live_chat(index){
+        var element = document.getElementById('table_live_chat_id'+index);
+        element.parentNode.removeChild(element);
+    }
+
+    function is_whatsapp_live_chat(index){
+        if(document.getElementById('is_vendor_whatsapp'+index).checked){
+            document.getElementById('live_chat_vendor_div'+index).style.display = 'none';
+            document.getElementById('live_chat_image_div'+index).style.display = 'block';
+            document.getElementById('checkbox_whatsapp_icon'+index).style.display = 'block';
+            document.getElementById('live_chat_number_div'+index).hidden = false;
+            document.getElementById('live_chat_embed_code_div'+index).style.display = 'none';
+            is_whatsapp_icon_live_chat(index);
+        }else{
+            document.getElementById('live_chat_vendor_div'+index).style.display = 'block';
+            document.getElementById('live_chat_image_div'+index).style.display = 'none';
+            document.getElementById('checkbox_whatsapp_icon'+index).style.display = 'none';
+            document.getElementById('live_chat_number_div'+index).hidden = true;
+            document.getElementById('live_chat_embed_code_div'+index).style.display = 'block';
+            setTimeout(function(){
+                document.getElementById('checkbox_whatsapp'+index).classList.remove("mb-3");
+            }, 500);
+        }
+    }
+
+    function is_whatsapp_icon_live_chat(index){
+        if(document.getElementById('is_vendor_whatsapp_icon'+index).checked){
+            document.getElementById('live_chat_image_div'+index).style.display = 'none';
+        }else{
+            document.getElementById('live_chat_image_div'+index).style.display = 'block';
+        }
+    }
+
+
+    $( document ).ready(function() {
+        $('.js-example-basic-single').select2();
+        if(`{{bg_tab_color}}` == 'transpa')
+            no_fill();
+        get_notif_train('admin');
+        get_notif_airline('admin');
+        get_airline_config('home');
+        get_list_report_footer();
+        get_va_bank();
+
+        get_banner('big_banner','admin');
+        get_banner('small_banner','admin');
+        get_banner('promotion','admin');
+        get_payment_partner('admin');
+        get_about_us('admin');
+        get_faq('admin');
+        {% if "create_page" in username.co_agent_frontend_security %}
+        get_dynamic_page('admin');
+        {% endif %}
+        {% for data_live_chat in live_chat %}
+            add_table_of_live_chat();
+            {% if data_live_chat.live_chat_vendor == 'Whatsapp' %}
+                document.getElementById('is_vendor_whatsapp'+number_of_table_live_chat).checked = true;
+                is_whatsapp_live_chat(number_of_table_live_chat);
+                {% if data_live_chat.live_chat_image == 'default' %}
+                    document.getElementById('is_vendor_whatsapp_icon'+number_of_table_live_chat).checked = true;
+                {% else %}
+                    document.getElementById('is_vendor_whatsapp_icon'+number_of_table_live_chat).checked = false;
+                {%endif %}
+                is_whatsapp_icon_live_chat(number_of_table_live_chat);
+            {% endif %}
+            document.getElementById('live_chat_vendor'+number_of_table_live_chat).value = '{{data_live_chat.live_chat_vendor}}';
+            document.getElementById('live_chat_visible'+number_of_table_live_chat).value = '{{data_live_chat.live_chat_visible}}';
+            document.getElementById('live_chat_number'+number_of_table_live_chat).value = '{{data_live_chat.live_chat_number}}';
+            document.getElementById('live_chat_image_str'+number_of_table_live_chat).value = '{{data_live_chat.live_chat_image}}';
+            document.getElementById('live_chat_embed_code'+number_of_table_live_chat).innerHTML = `{{data_live_chat.live_chat_embed_code}}`;
+            $('#live_chat_visible'+number_of_table_live_chat).niceSelect('update');
+        {% endfor %}
+    });
+
+
 </script>
 {% endblock %}
