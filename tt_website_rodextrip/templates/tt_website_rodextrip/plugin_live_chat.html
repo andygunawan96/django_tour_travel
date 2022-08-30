@@ -1,0 +1,44 @@
+{% for live_chat_data in live_chat %}
+    {% if live_chat_data.live_chat_vendor == 'Whatsapp' and live_chat_data.live_chat_visible == '1' %}
+
+    <button type="button" style="background-color:#43d62b;" id="mystickywhatsapp{{live_chat_data.sequence}}" class="mystickywhatsapp" class="primary-btn" data-toggle="modal" onclick="openInNewTab(`https://wa.me/{{live_chat_data.live_chat_number}}`);">
+        {% if live_chat_data.live_chat_image == 'default' %}
+        <i class="fab fa-whatsapp" style="font-size:32px;"></i>
+        {% else %}
+        <img src="{{live_chat_data.live_chat_image}}" style="max-height:50px;max-width:50px;" alt="Logo {{live_chat_data.live_chat_vendor}}" />
+        {% endif %}
+
+    </button>
+
+    {% elif live_chat_data.live_chat_visible == '1' %}
+        {% autoescape off %}
+        {{live_chat_data.live_chat_embed_code}}
+        {% endautoescape %}
+    {% endif %}
+    {% if live_chat_data.live_chat_visible == '1' %}
+        {% if live_chat_data.live_chat_vendor == 'Whatsapp' %}
+        <script>
+            $(function() {
+                new jBox('Tooltip', {
+                    attach: '#mystickywhatsapp{{live_chat_data.sequence}}',
+                    theme: 'TooltipBorder',
+                    width: 200,
+                    position: {
+                      x: 'left',
+                      y: 'center'
+                    },
+                    outside: 'x',
+                    pointer: 'top:15',
+                    content: 'Livechat<br/><b>Whatsapp</b>',
+                    animation: 'move'
+                });
+            });
+
+            document.getElementById('mystickywhatsapp{{live_chat_data.sequence}}').style.bottom = JSON.parse(JSON.stringify(bottom.toString())) + 'px';
+        </script>
+        {% endif %}
+        <script>
+        bottom+=60;
+        </script>
+    {% endif %}
+{% endfor %}

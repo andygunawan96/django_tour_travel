@@ -673,20 +673,20 @@ def get_new_cache(signature, type='all'):
             write_cache(res, "get_holiday_cache", 'cache_web')
             # remove cache airline
             try:
-                os.remove("/var/log/django/file_cache/get_list_provider.txt")
+                os.remove("/var/log/django/file_cache/cache_web/get_list_provider.txt")
             except Exception as e:
                 _logger.error(str(e) + traceback.format_exc())
             try:
-                os.remove("/var/log/django/file_cache/get_list_provider_data.txt")
+                os.remove("/var/log/django/file_cache/cache_web/get_list_provider_data.txt")
             except Exception as e:
                 _logger.error(str(e) + traceback.format_exc())
             try:
-                os.remove("/var/log/django/file_cache/get_airline_carriers.txt")
+                os.remove("/var/log/django/file_cache/cache_web/get_airline_carriers.txt")
                 airline.get_carriers('', signature)
             except:
                 airline.get_carriers('', signature)
             try:
-                os.remove("/var/log/django/file_cache/get_airline_active_carriers.txt")
+                os.remove("/var/log/django/file_cache/cache_web/get_airline_active_carriers.txt")
                 airline.get_carriers_search('', signature)
             except:
                 airline.get_carriers_search('', signature)

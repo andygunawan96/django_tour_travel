@@ -66,6 +66,7 @@
 {% include 'tt_website_rodextrip/logout.html' %}
 {% endif %}
 {% include 'tt_website_rodextrip/header.html' %}
+{% include 'tt_website_rodextrip/notification_box.html' %}
 
 <meta name="twitter:card" content="Twitter" />
 <meta name="twitter:site" content="@rodextrip" />
@@ -216,8 +217,6 @@
 
 <!--wizard hotel testing-->
 {%if template == 1%}
-<div id="notification_div" style="position:fixed; z-index:999; top:20px; right:20px;"></div>
-
 <section class="testimonial-area section-gap overlay-bg" data-aos="fade-up" style="background-image:url('{{static_path}}images/bg_event.jpg') !important; padding-top:40px; padding-bottom:40px; z-index:1; position:relative;">
     <div class="overlay overlay-bg"></div>
     <div class="container">
@@ -329,8 +328,6 @@
 </section>
 
 {% elif template == 2 %}
-<div id="notification_div" style="position:fixed; z-index:999; top:20px; right:20px;"></div>
-
 <div class="banner-area-rodex bg-img bg-overlay jarallax" style="background-image: url('{{static_path}}images/bg_event.jpg') !important;">
     <div class="container h-100">
         <div class="row">
@@ -431,8 +428,6 @@
 </section>
 
 {% elif template == 3 %}
-<div id="notification_div" style="position:fixed; z-index:100; top:20px; right:20px;"></div>
-
 <section class="banner-area relative" style="background: url('{{static_path}}images/bg_event.jpg') center !important; background-repeat: no-repeat !important;background-position: center center !important; background-size: cover !important;">
     <div class="overlay overlay-bg"></div>
     <div class="container">
@@ -532,7 +527,6 @@
 </section>
 
 {% elif template == 4 %}
-<div id="notification_div" style="position:fixed; z-index:9999; top:20px; right:20px;"></div>
 <div id="overlay-search-box" onclick="off_overlay()"></div>
 <section class="bg-img" style="background-image: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url('{{static_path}}images/bg_event.jpg'); background-color: rgba(0,0,0,0.5); z-index:3; position:relative;" data-aos="fade">
     <div id="overlay-search-box2" onclick="off_overlay()">
@@ -675,8 +669,6 @@
 
 
 {% elif template == 5 %}
-<div id="notification_div" style="position:fixed; z-index:999; top:20px; right:20px;"></div>
-
 <section class="home-banner-area relative" id="home" style="background-image: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url('{{static_path}}images/bg_event.jpg') !important; border-bottom-left-radius: 5%; border-bottom-right-radius: 5%;">
     <!--<div class="overlay overlay-bg" style="border-bottom-left-radius: 5%; border-bottom-right-radius: 5%;"></div>-->
     <div class="container">
@@ -798,7 +790,6 @@
 </div>
 
 <section class="about py-3 mt-3" style="padding-top:50px;">
-    <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
     <div class="container">
         <div class="row" style="padding:15px;">
             <div class="col-lg-4 mb-5">

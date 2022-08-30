@@ -58,10 +58,10 @@
 {% include 'tt_website_rodextrip/logout.html' %}
 {% endif %}
 {% include 'tt_website_rodextrip/header.html' %}
+{% include 'tt_website_rodextrip/notification_box.html' %}
 {%if template == 1%}
 <section class="testimonial-area section-gap overlay-bg" data-aos="fade-up" style="padding-top:60px; padding-bottom:60px; z-index:1; position:relative; min-height:400px; background-image:url('{{static_path}}images/bg_passport.jpg') !important">
     <div class="overlay overlay-bg"></div>
-    <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
         <div class="container">
             <div class="row">
                 {% if username.co_user_login != '' %}
@@ -187,7 +187,6 @@
     </div>
     <section class="welcome-area">
         <div class="overlay overlay-bg"></div>
-        <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
         <div class="hotel-search-form-area" style="position:relative;">
             <div class="container-fluid">
                 {% if username.co_user_name != '' %}
@@ -714,7 +713,6 @@
     </div>
 
     <section class="about py-3 mt-3" style="padding-top:50px;">
-        <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
         <div class="container">
             <div class="row" style="padding:15px;">
                 <div class="col-lg-4 mb-5">

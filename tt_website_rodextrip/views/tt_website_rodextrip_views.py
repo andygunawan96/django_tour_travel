@@ -657,8 +657,8 @@ def admin(request):
                                 text += '\n'
                         except:
                             pass
-                    text += request.POST['tawk_chat'] + '\n'
-                    text += request.POST['tawk_code'] + '\n'
+                    text += '\n' ## tawk to yg lama deprecated
+                    text += '\n' ## tawk to yg lama deprecated
                     text += "#" + request.POST['text_pick'] + '\n'
                     opacity = 'FF'
                     if request.POST.get('bg_tab_pick_checkbox'):
@@ -720,8 +720,8 @@ def admin(request):
                         opacity = 'B3'
                     text += "#" + request.POST['tab_login_background'] + opacity + '\n'
                     text += "#" + request.POST['text_pick_login'] + '\n'
-                    text += request.POST['wa_chat'] + '\n'
-                    text += request.POST['wa_number'] + '\n'
+                    text += '\n' ## wa chat yg lama deprecated
+                    text += '\n' ## wa chat yg lama deprecated
                     text += request.POST['google_api_key'] + '\n'
                     text += request.POST['setting_login_page'] + '\n'
                     write_cache(text, "data_cache_template", 'cache_web')
@@ -733,7 +733,7 @@ def admin(request):
                             pass
                     #delete file ga pake
                     for file in os.listdir(fs.location):
-                        if not file in temp and file != 'image_dynamic' and file != 'image_payment_partner' and file != 'image_about_us':
+                        if not file in temp and file not in ['image_dynamic', 'image_payment_partner', 'image_about_us', 'live_chat']:
                             os.remove(fs.location+'/'+file)
 
                     # file cache origin destination
@@ -750,6 +750,61 @@ def admin(request):
                     # text += request.POST.get('channel_id_youtube') or ''
                     # write_cache_with_folder(text, "youtube")
                     ##
+
+                    ## LIVE CHAT
+                    if not os.path.exists("/var/log/django/file_cache/live_chat"):
+                        os.mkdir('/var/log/django/file_cache/live_chat')
+                    fs_live_chat = FileSystemStorage()
+                    fs_live_chat.location += '/live_chat'
+                    if not os.path.exists(fs.location):
+                        os.mkdir(fs.location)
+                    live_chat_total_number = int(request.POST.get('number_of_live_chat', 0))
+                    if live_chat_total_number != 0:
+                        live_chat_total_number += 1
+                    data = os.listdir('/var/log/django/file_cache/live_chat')
+
+                    ## hapus data yg sudah ada
+                    for rec in data:
+                        os.remove('/var/log/django/file_cache/live_chat/' + rec)
+
+                    ## add data baru
+                    for i in range(1,live_chat_total_number):
+                        try:
+                            filename = ''
+                            try:
+                                if request.FILES['live_chat_image'+str(i)].content_type in ['image/jpeg', 'image/png']:
+                                    file = request.FILES['live_chat_image'+str(i)]
+                                    filename = fs_live_chat.save(file.name, file)
+                                    filename = fs_live_chat.base_url + "live_chat/" + filename
+                            except Exception as e:
+                                _logger.error('no image dynamic page')
+
+                            if filename == '':
+                                if request.POST.get('live_chat_image_str' + str(i)) != '':
+                                    filename = request.POST.get('live_chat_image_str' + str(i))
+                                else:
+                                    filename = 'default'
+
+                            text = ''
+                            is_vendor_whatsapp = request.POST.get('is_vendor_whatsapp'+str(i), 'off')
+                            if is_vendor_whatsapp == 'off':
+                                text += request.POST.get('live_chat_vendor'+str(i)) + '\n' or '' + '\n'
+                            else:
+                                text += 'Whatsapp\n'
+                            text += request.POST.get('live_chat_visible'+str(i)) + '\n' or '' + '\n'
+                            if is_vendor_whatsapp == 'on':
+                                text += request.POST.get('live_chat_number'+str(i)) + '\n' or '' + '\n'
+                            else:
+                                text += '\n'
+                            text += filename + '\n'
+                            if request.POST.get('live_chat_vendor'+str(i)) not in ['', 'Whatsapp']:
+                                text += request.POST.get('live_chat_embed_code'+str(i)).replace('\n', '####')
+                            else:
+                                text += '\n'
+                            write_cache(text, "live_chat_%s" % str(i), 'live_chat')
+                        except Exception as e:
+                            _logger.error('%s, %s' % (str(e), traceback.format_exc()))
+                    ## LIVE CHAT
 
                     text = ''
                     text += request.POST.get('app_id_one_signal') + '\n' or '' + '\n'
@@ -1306,6 +1361,8 @@ def get_cache_data():
     return response
 
 def get_data_template(request, type='home', provider_type = []):
+    if not os.path.exists("/var/log/django/file_cache/live_chat"):
+        os.mkdir('/var/log/django/file_cache/live_chat')
     template = 1
     logo = '/static/tt_website_rodextrip/images/icon/skytors_logo.png'
     logo_icon = '/static/tt_website_rodextrip/images/icon/skytors.png'
@@ -1317,11 +1374,11 @@ def get_data_template(request, type='home', provider_type = []):
     airline_country = []
     phone_code = []
     website_name = 'Tors'
-    tawk_chat = 0
-    wa_chat = 0
-    wa_number = ''
+    # tawk_chat = 0
+    # wa_chat = 0
+    # wa_number = ''
+    # tawk_code = ''
     website_mode = 'btb'
-    tawk_code = ''
     tab_color = '#333333'
     text_color = '#FFFFFF'
     text_color_login = '#FFFFFF'
@@ -1358,6 +1415,14 @@ def get_data_template(request, type='home', provider_type = []):
         "name": '',
         "font": ''
     }
+    ## live chat
+    live_chat = []
+    live_chat_vendor = ''
+    live_chat_visible = 0
+    live_chat_number = ''
+    live_chat_embed_code = ''
+    ## live chat
+
     top_up_term = '''
 <h6>BANK TRANSFER / CASH</h6>
 <li>1. Before you click SUBMIT, please make sure you have inputted the correct amount of TOP UP. If there is a mismatch data, such as the transferred amount/bank account is different from the requested amount/bank account, so the TOP UP will be approved by tomorrow (D+1).<br></li>
@@ -1523,6 +1588,40 @@ def get_data_template(request, type='home', provider_type = []):
 
         get_frequent_flyer = get_frequent_flyer_all_data({}, request.session.get('signature', ''))
 
+        data = os.listdir('/var/log/django/file_cache/live_chat')
+        for index, rec in enumerate(data):
+            file = read_cache(rec[:-4], 'live_chat', 90911)
+            live_chat_vendor = ''
+            live_chat_visible = ''
+            live_chat_number = ''
+            live_chat_image = ''
+            live_chat_embed_code = ''
+            if file:
+                for idx, line in enumerate(file.split('\n')):
+                    if idx == 0:
+                        if line != '':
+                            live_chat_vendor = line.split('\n')[0]
+                    elif idx == 1:
+                        if line != '':
+                            live_chat_visible = line.split('\n')[0]
+                    elif idx == 2:
+                        if line != '':
+                            live_chat_number = line.split('\n')[0]
+                    elif idx == 3:
+                        if line != '':
+                            live_chat_image = line.split('\n')[0]
+                    elif idx == 4:
+                        if line != '':
+                            live_chat_embed_code = line.split('\n')[0].replace('####','\n')
+                live_chat.append({
+                    "live_chat_vendor": live_chat_vendor,
+                    "live_chat_visible": live_chat_visible,
+                    "live_chat_number": live_chat_number,
+                    "live_chat_image": live_chat_image,
+                    "live_chat_embed_code": live_chat_embed_code,
+                    "sequence": index,
+                })
+
         file = read_cache("data_cache_template", 'cache_web', 90911)
         if file:
             for idx, line in enumerate(file.split('\n')):
@@ -1554,11 +1653,13 @@ def get_data_template(request, type='home', provider_type = []):
                         else:
                             background = line.split('\n')[0]
                 elif idx == 7:
-                    if line != '':
-                        tawk_chat = int(line)
+                    pass
+                    # if line != '':
+                    #     tawk_chat = int(line)
                 elif idx == 8:
-                    if line != '':
-                        tawk_code = line.split('\n')[0]
+                    pass
+                    # if line != '':
+                    #     tawk_code = line.split('\n')[0]
                 elif idx == 9:
                     if line != '':
                         text_color = line.split('\n')[0]
@@ -1623,11 +1724,13 @@ def get_data_template(request, type='home', provider_type = []):
                     if line != '':
                         text_color_login = line.split('\n')[0]
                 elif idx == 22:
-                    if line != '':
-                        wa_chat = int(line.split('\n')[0])
+                    pass
+                    # if line != '':
+                    #     wa_chat = int(line.split('\n')[0])
                 elif idx == 23:
-                    if line != '':
-                        wa_number = line.split('\n')[0]
+                    pass
+                    # if line != '':
+                    #     wa_number = line.split('\n')[0]
                 elif idx == 24:
                     if line != '':
                         google_api_key = line.split('\n')[0]
@@ -1648,8 +1751,8 @@ def get_data_template(request, type='home', provider_type = []):
         'color': color,
         'name': website_name,
         'background': background,
-        'tawk_chat': tawk_chat,
-        'tawk_code': tawk_code,
+        # 'tawk_chat': tawk_chat,
+        # 'tawk_code': tawk_code,
         'text_color': text_color,
         'text_color_login': text_color_login,
         'tab_color': tab_color,
@@ -1678,8 +1781,8 @@ def get_data_template(request, type='home', provider_type = []):
         'google_recaptcha': google_recaptcha,
         'site_key': site_key,
         'secret_key': secret_key,
-        'wa_chat': wa_chat,
-        'wa_number': wa_number,
+        # 'wa_chat': wa_chat,
+        # 'wa_number': wa_number,
         'printout_color': printout_color,
         'provider_types_sequence': provider_types_sequence,
         'font': font,
@@ -1695,7 +1798,12 @@ def get_data_template(request, type='home', provider_type = []):
         'signup_btb_btn': signup_btb_btn,
         'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
         'google_tag_manager_key': google_tag_manager_key,
-        'get_frequent_flyer': get_frequent_flyer
+        'get_frequent_flyer': get_frequent_flyer,
+        # 'live_chat_vendor': live_chat_vendor,
+        # 'live_chat_visible': live_chat_visible,
+        # 'live_chat_number': live_chat_number,
+        # 'live_chat_embed_code': live_chat_embed_code,
+        'live_chat': live_chat
     }
 
 
