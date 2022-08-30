@@ -31,6 +31,7 @@
 {% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
+{% include 'tt_website_rodextrip/notification_box.html' %}
 <div id="overlay-search-box" onclick="off_overlay()"></div>
 {%if bus_request.direction == 'OW'%}
 <title id="title_search">{{name}} {% trans 'Bus' %} - {% trans 'One Way' %} {% trans 'From' %} {{bus_request.origin.0}} {% trans 'To' %} {{bus_request.destination.0}}</title>
