@@ -924,11 +924,25 @@ function add_table_of_passenger(type){
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-lg-7 col-md-7 col-sm-7 mb-2">
-                            <input class="form-control" type="text" id="train_`+(counter_passenger+1)+`_search" placeholder="Search"/>
+                        <div class="col-lg-9 col-md-9">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="form-select">
+                                        <select id="train_`+(counter_passenger+1)+`_search_type" name="train_`+(counter_passenger+1)+`_search_type">
+                                            <option value="cust_name">By Customer Name</option>
+                                            <option value="mobile">By Customer Mobile</option>
+                                            <option value="email">By Customer Mail</option>
+                                            <option value="identity_type">By Customer Identity Number</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <input class="form-control" type="text" id="train_`+(counter_passenger+1)+`_search" placeholder="Search"/>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5">
-                            <button type="button" class="primary-btn" id="passenger_btn_io_click`+(counter_passenger+1)+`" onclick="get_customer_list('','`+(counter_passenger+1)+`','medical')">Search</button>
+                        <div class="col-lg-3 col-md-3">
+                            <button type="button" id="passenger_btn_io_click`+(counter_passenger+1)+`" class="primary-btn" onclick="get_customer_list('','`+(counter_passenger+1)+`','medical');">Search <i class="fas fa-search"></i></button>
                         </div>
                     </div>
                     <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
@@ -953,7 +967,7 @@ function add_table_of_passenger(type){
     node_modal.innerHTML = text_modal_paxs;
     node_modal.setAttribute('id', 'modal_passenger'+counter_passenger);
     document.getElementById("modal_passenger_list").appendChild(node_modal);
-
+    $('#train_'+(counter_passenger+1)+'_search_type').niceSelect();
     text_div_paxs= '';
 
     text_div_paxs+=`
@@ -1061,9 +1075,9 @@ function add_table_of_passenger(type){
                                     <option value="">Select Nationality</option>`;
                                     for(i in countries){
                                         if(countries[i].code == 'ID')
-                                           text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                           text_div_paxs+=`<option value="`+countries[i].name+`" selected>`+countries[i].name+`</option>`;
                                         else
-                                           text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                           text_div_paxs+=`<option value="`+countries[i].name+`">`+countries[i].name+`</option>`;
                                     }
                                 text_div_paxs+=`</select>
                             </div>
@@ -1164,9 +1178,9 @@ function add_table_of_passenger(type){
                                         <option value="">Select Country Of Issued</option>`;
                                         for(i in countries){
                                            if(countries[i].code == 'ID')
-                                                text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                                text_div_paxs+=`<option value="`+countries[i].name+`" selected>`+countries[i].name+`</option>`;
                                            else
-                                                text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                text_div_paxs+=`<option value="`+countries[i].name+`">`+countries[i].name+`</option>`;
                                         }
                                     text_div_paxs+=`</select>
                                 </div>
@@ -1181,9 +1195,9 @@ function add_table_of_passenger(type){
                                         <option value="">Select Country Of Issued</option>`;
                                         for(i in countries){
                                            if(countries[i].code == 'ID')
-                                                text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                                text_div_paxs+=`<option value="`+countries[i].name+`" selected>`+countries[i].name+`</option>`;
                                            else
-                                                text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                text_div_paxs+=`<option value="`+countries[i].name+`">`+countries[i].name+`</option>`;
                                         }
                                     text_div_paxs+=`</select>
                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
@@ -1198,9 +1212,9 @@ function add_table_of_passenger(type){
                                         <option value="">Select Country Of Issued</option>`;
                                         for(i in countries){
                                            if(countries[i].code == 'ID')
-                                                text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                                text_div_paxs+=`<option value="`+countries[i].name+`" selected>`+countries[i].name+`</option>`;
                                            else
-                                                text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                text_div_paxs+=`<option value="`+countries[i].name+`">`+countries[i].name+`</option>`;
                                         }
                                     text_div_paxs+=`</select>
                                 </div>
@@ -1216,9 +1230,9 @@ function add_table_of_passenger(type){
                                         <option value="">Select Country Of Issued</option>`;
                                         for(i in countries){
                                            if(countries[i].code == 'ID')
-                                                text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                                text_div_paxs+=`<option value="`+countries[i].name+`" selected>`+countries[i].name+`</option>`;
                                            else
-                                                text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                text_div_paxs+=`<option value="`+countries[i].name+`">`+countries[i].name+`</option>`;
                                         }
                                     text_div_paxs+=`</select>
                                 </div>
@@ -1234,9 +1248,9 @@ function add_table_of_passenger(type){
                                         <option value="">Select Country Of Issued</option>`;
                                         for(i in countries){
                                            if(countries[i].code == 'ID')
-                                                text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                                text_div_paxs+=`<option value="`+countries[i].name+`" selected>`+countries[i].name+`</option>`;
                                            else
-                                                text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                text_div_paxs+=`<option value="`+countries[i].name+`">`+countries[i].name+`</option>`;
                                         }
                                     text_div_paxs+=`</select>
                                 </div>
@@ -1252,9 +1266,9 @@ function add_table_of_passenger(type){
                                         <option value="">Select Country Of Issued</option>`;
                                         for(i in countries){
                                             if(countries[i].code == 'ID')
-                                                text_div_paxs+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                                text_div_paxs+=`<option value="`+countries[i].name+`" selected>`+countries[i].name+`</option>`;
                                             else
-                                                text_div_paxs+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                text_div_paxs+=`<option value="`+countries[i].name+`">`+countries[i].name+`</option>`;
                                         }
                                     text_div_paxs+=`</select>
                                 </div>
@@ -3689,8 +3703,9 @@ function auto_fill_data(){
                 document.getElementById('select2-booker_phone_code_id-container').innerHTML = passenger_data_cache_medical[idx].phone_number.substr(0,2);
                 document.getElementById('booker_phone').value = passenger_data_cache_medical[idx].phone_number.substr(2,100);
             }
-            document.getElementById('booker_nationality_id').value = passenger_data_cache_medical[idx].nationality_name;
-            document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
+            $('#booker_nationality_id').val(passenger_data_cache_medical[idx].nationality_name).trigger('change');
+//            document.getElementById('booker_nationality_id').value = passenger_data_cache_medical[idx].nationality_name;
+//            document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
 
         }
         if(passenger_data_cache_medical[idx].title == 'MR')
@@ -3699,8 +3714,9 @@ function auto_fill_data(){
             document.getElementById('adult_title'+counter).value = "MS";
         document.getElementById('adult_first_name'+counter).value = passenger_data_cache_medical[idx].first_name;
         document.getElementById('adult_last_name'+counter).value = passenger_data_cache_medical[idx].last_name;
-        document.getElementById('adult_nationality'+counter).value = passenger_data_cache_medical[idx].nationality_name;
-        document.getElementById('select2-adult_nationality'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
+        $('#adult_nationality'+counter+'_id').val(passenger_data_cache_medical[idx].nationality_name).trigger('change');
+//        document.getElementById('adult_nationality'+counter).value = passenger_data_cache_medical[idx].nationality_name;
+//        document.getElementById('select2-adult_nationality'+counter+'_id-container').innerHTML = passenger_data_cache_medical[idx].nationality_name;
         $('input[name="adult_birth_date'+counter+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,

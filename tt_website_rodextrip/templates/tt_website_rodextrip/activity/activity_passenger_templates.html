@@ -133,17 +133,20 @@
                                                                         <div class="form-select">
                                                                             <select id="train_booker_search_type" name="train_booker_search_type">
                                                                                 <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
                                                                                 <option value="cor_name">By Corporate Name</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                                         <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                                                        <input type="hidden" id="booker_min_age" value="{{booker_min_age}}"/>
+                                                                        <input type="hidden" id="booker_max_age" value="{{booker_max_age}}"/>
                                                                     </div>
                                                                     {% endif %}
                                                                 </div>
-                                                                <input type="hidden" id="booker_min_age" value="{{booker_min_age}}"/>
-                                                                <input type="hidden" id="booker_max_age" value="{{booker_max_age}}"/>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3">
                                                                 <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
@@ -249,7 +252,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('activity');" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -364,15 +367,39 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                                <input type="hidden" id="train_adult{{forloop.counter}}_min_age" value="{{adult.min_age}}"/>
-                                                                <input type="hidden" id="train_adult{{forloop.counter}}_max_age" value="{{adult.max_age}}"/>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        <input type="hidden" id="train_adult{{forloop.counter}}_min_age" value="{{adult.min_age}}"/>
+                                                                        <input type="hidden" id="train_adult{{forloop.counter}}_max_age" value="{{adult.max_age}}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" class="primary-btn" id="search_adult_{{forloop.counter}}" onclick="get_customer_list('adult',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
+                                                        <!--<div class="row">-->
+                                                            <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                <!--<input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--<input type="hidden" id="train_adult{{forloop.counter}}_min_age" value="{{adult.min_age}}"/>-->
+                                                                <!--<input type="hidden" id="train_adult{{forloop.counter}}_max_age" value="{{adult.max_age}}"/>-->
+                                                            <!--</div>-->
+                                                            <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                <!--<button type="button" class="primary-btn" id="search_adult_{{forloop.counter}}" onclick="get_customer_list('adult',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <br/>
@@ -680,15 +707,39 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_senior{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                                <input type="hidden" id="train_senior{{forloop.counter}}_min_age" value="{{senior.min_age}}"/>
-                                                                <input type="hidden" id="train_senior{{forloop.counter}}_max_age" value="{{senior.max_age}}"/>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_senior{{forloop.counter}}_search_type" name="train_senior{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_senior{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        <input type="hidden" id="train_senior{{forloop.counter}}_min_age" value="{{senior.min_age}}"/>
+                                                                        <input type="hidden" id="train_senior{{forloop.counter}}_max_age" value="{{senior.max_age}}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" id="search_senior_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_senior_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
+                                                        <!--<div class="row">-->
+                                                            <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                <!--<input class="form-control" type="text" id="train_senior{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--<input type="hidden" id="train_senior{{forloop.counter}}_min_age" value="{{senior.min_age}}"/>-->
+                                                                <!--<input type="hidden" id="train_senior{{forloop.counter}}_max_age" value="{{senior.max_age}}"/>-->
+                                                            <!--</div>-->
+                                                            <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                <!--<button type="button" id="search_senior_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <br/>
@@ -996,15 +1047,39 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                                <input type="hidden" id="train_child{{forloop.counter}}_min_age" value="{{child.min_age}}"/>
-                                                                <input type="hidden" id="train_child{{forloop.counter}}_max_age" value="{{child.max_age}}"/>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_child{{forloop.counter}}_search_type" name="train_child{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        <input type="hidden" id="train_child{{forloop.counter}}_min_age" value="{{child.min_age}}"/>
+                                                                        <input type="hidden" id="train_child{{forloop.counter}}_max_age" value="{{child.max_age}}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
+                                                        <!--<div class="row">-->
+                                                            <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                <!--<input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--<input type="hidden" id="train_child{{forloop.counter}}_min_age" value="{{child.min_age}}"/>-->
+                                                                <!--<input type="hidden" id="train_child{{forloop.counter}}_max_age" value="{{child.max_age}}"/>-->
+                                                            <!--</div>-->
+                                                            <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                <!--<button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <br/>
@@ -1283,16 +1358,40 @@
                                                         <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
-                                                        <div class="row" >
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                                <input type="hidden" id="train_infant{{forloop.counter}}_min_age" value="{{infant.min_age}}"/>
-                                                                <input type="hidden" id="train_infant{{forloop.counter}}_max_age" value="{{infant.max_age}}"/>
+                                                        <div class="row">
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_infant{{forloop.counter}}_search_type" name="train_infant{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        <input type="hidden" id="train_infant{{forloop.counter}}_min_age" value="{{infant.min_age}}"/>
+                                                                        <input type="hidden" id="train_infant{{forloop.counter}}_max_age" value="{{infant.max_age}}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
+                                                        <!--<div class="row" >-->
+                                                            <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                <!--<input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--<input type="hidden" id="train_infant{{forloop.counter}}_min_age" value="{{infant.min_age}}"/>-->
+                                                                <!--<input type="hidden" id="train_infant{{forloop.counter}}_max_age" value="{{infant.max_age}}"/>-->
+                                                            <!--</div>-->
+                                                            <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                <!--<button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <br/>
@@ -1629,6 +1728,9 @@
                                                                             <div class="form-select">
                                                                                 <select id="train_booker_search_type" name="train_booker_search_type">
                                                                                     <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="mobile">By Customer Mobile</option>
+                                                                                    <option value="email">By Customer Mail</option>
+                                                                                    <option value="identity_type">By Customer Identity Number</option>
                                                                                     <option value="cor_name">By Corporate Name</option>
                                                                                 </select>
                                                                             </div>
@@ -1742,7 +1844,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('activity');" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -1857,15 +1959,39 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                    <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                                    <input type="hidden" id="train_adult{{forloop.counter}}_min_age" value="{{adult.min_age}}"/>
-                                                                    <input type="hidden" id="train_adult{{forloop.counter}}_max_age" value="{{adult.max_age}}"/>
+                                                                <div class="col-lg-9 col-md-9">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <div class="form-select">
+                                                                                <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type">
+                                                                                    <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="mobile">By Customer Mobile</option>
+                                                                                    <option value="email">By Customer Mail</option>
+                                                                                    <option value="identity_type">By Customer Identity Number</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                            <input type="hidden" id="train_adult{{forloop.counter}}_min_age" value="{{adult.min_age}}"/>
+                                                                            <input type="hidden" id="train_adult{{forloop.counter}}_max_age" value="{{adult.max_age}}"/>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                    <button type="button" class="primary-btn" id="search_adult_{{forloop.counter}}" onclick="get_customer_list('adult',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                                <div class="col-lg-3 col-md-3">
+                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                 </div>
                                                             </div>
+                                                            <!--<div class="row">-->
+                                                                <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                    <!--<input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                    <!--<input type="hidden" id="train_adult{{forloop.counter}}_min_age" value="{{adult.min_age}}"/>-->
+                                                                    <!--<input type="hidden" id="train_adult{{forloop.counter}}_max_age" value="{{adult.max_age}}"/>-->
+                                                                <!--</div>-->
+                                                                <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                    <!--<button type="button" class="primary-btn" id="search_adult_{{forloop.counter}}" onclick="get_customer_list('adult',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                                <!--</div>-->
+                                                            <!--</div>-->
                                                             <div class="row">
                                                                 <div class="col-lg-12">
                                                                     <br/>
@@ -2163,22 +2289,46 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                    <input class="form-control" type="text" id="train_senior{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                                    <input type="hidden" id="train_senior{{forloop.counter}}_min_age" value="{{senior.min_age}}"/>
-                                                                    <input type="hidden" id="train_senior{{forloop.counter}}_max_age" value="{{senior.max_age}}"/>
+                                                                <div class="col-lg-9 col-md-9">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <div class="form-select">
+                                                                                <select id="train_senior{{forloop.counter}}_search_type" name="train_senior{{forloop.counter}}_search_type">
+                                                                                    <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="mobile">By Customer Mobile</option>
+                                                                                    <option value="email">By Customer Mail</option>
+                                                                                    <option value="identity_type">By Customer Identity Number</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <input class="form-control" type="text" id="train_senior{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                            <input type="hidden" id="train_senior{{forloop.counter}}_min_age" value="{{senior.min_age}}"/>
+                                                                            <input type="hidden" id="train_senior{{forloop.counter}}_max_age" value="{{senior.max_age}}"/>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                    <button type="button" id="search_senior_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                                <div class="col-lg-3 col-md-3">
+                                                                    <button type="button" id="search_senior_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                 </div>
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-lg-12">
-                                                                    <br/>
-                                                                    <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> {% trans "Using this means you can't change title, first name, and last name" %}</span><br/>
-                                                                    <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> {% trans "Max 100 customers in 1 search" %}</span>
-                                                                </div>
-                                                            </div>
+                                                            <!--<div class="row">-->
+                                                                <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                    <!--<input class="form-control" type="text" id="train_senior{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                    <!--<input type="hidden" id="train_senior{{forloop.counter}}_min_age" value="{{senior.min_age}}"/>-->
+                                                                    <!--<input type="hidden" id="train_senior{{forloop.counter}}_max_age" value="{{senior.max_age}}"/>-->
+                                                                <!--</div>-->
+                                                                <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                    <!--<button type="button" id="search_senior_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                                <!--</div>-->
+                                                            <!--</div>-->
+                                                            <!--<div class="row">-->
+                                                                <!--<div class="col-lg-12">-->
+                                                                    <!--<br/>-->
+                                                                    <!--<span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> {% trans "Using this means you can't change title, first name, and last name" %}</span><br/>-->
+                                                                    <!--<span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> {% trans "Max 100 customers in 1 search" %}</span>-->
+                                                                <!--</div>-->
+                                                            <!--</div>-->
                                                             <div class="row loading-pax-train" style="display:none;">
                                                                 <div class="col-lg-12">
                                                                     <br/>
@@ -2471,15 +2621,39 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                    <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                                    <input type="hidden" id="train_child{{forloop.counter}}_min_age" value="{{child.min_age}}"/>
-                                                                    <input type="hidden" id="train_child{{forloop.counter}}_max_age" value="{{child.max_age}}"/>
+                                                                <div class="col-lg-9 col-md-9">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <div class="form-select">
+                                                                                <select id="train_child{{forloop.counter}}_search_type" name="train_child{{forloop.counter}}_search_type">
+                                                                                    <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="mobile">By Customer Mobile</option>
+                                                                                    <option value="email">By Customer Mail</option>
+                                                                                    <option value="identity_type">By Customer Identity Number</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                            <input type="hidden" id="train_child{{forloop.counter}}_min_age" value="{{child.min_age}}"/>
+                                                                            <input type="hidden" id="train_child{{forloop.counter}}_max_age" value="{{child.max_age}}"/>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                    <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                                <div class="col-lg-3 col-md-3">
+                                                                    <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                 </div>
                                                             </div>
+                                                            <!--<div class="row">-->
+                                                                <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                    <!--<input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                    <!--<input type="hidden" id="train_child{{forloop.counter}}_min_age" value="{{child.min_age}}"/>-->
+                                                                    <!--<input type="hidden" id="train_child{{forloop.counter}}_max_age" value="{{child.max_age}}"/>-->
+                                                                <!--</div>-->
+                                                                <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                    <!--<button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                                <!--</div>-->
+                                                            <!--</div>-->
                                                             <div class="row">
                                                                 <div class="col-lg-12">
                                                                     <br/>
@@ -2750,16 +2924,40 @@
                                                             <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
-                                                            <div class="row" >
-                                                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                    <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                                    <input type="hidden" id="train_infant{{forloop.counter}}_min_age" value="{{infant.min_age}}"/>
-                                                                    <input type="hidden" id="train_infant{{forloop.counter}}_max_age" value="{{infant.max_age}}"/>
+                                                            <div class="row">
+                                                                <div class="col-lg-9 col-md-9">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <div class="form-select">
+                                                                                <select id="train_infant{{forloop.counter}}_search_type" name="train_infant{{forloop.counter}}_search_type">
+                                                                                    <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="mobile">By Customer Mobile</option>
+                                                                                    <option value="email">By Customer Mail</option>
+                                                                                    <option value="identity_type">By Customer Identity Number</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                            <input type="hidden" id="train_infant{{forloop.counter}}_min_age" value="{{infant.min_age}}"/>
+                                                                            <input type="hidden" id="train_infant{{forloop.counter}}_max_age" value="{{infant.max_age}}"/>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                    <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                                <div class="col-lg-3 col-md-3">
+                                                                    <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                 </div>
                                                             </div>
+                                                            <!--<div class="row" >-->
+                                                                <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                    <!--<input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                    <!--<input type="hidden" id="train_infant{{forloop.counter}}_min_age" value="{{infant.min_age}}"/>-->
+                                                                    <!--<input type="hidden" id="train_infant{{forloop.counter}}_max_age" value="{{infant.max_age}}"/>-->
+                                                                <!--</div>-->
+                                                                <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                    <!--<button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                                <!--</div>-->
+                                                            <!--</div>-->
                                                             <div class="row">
                                                                 <div class="col-lg-12">
                                                                     <br/>
@@ -3090,6 +3288,9 @@
                                                                             <div class="default-select" id="default-select">
                                                                                 <select id="train_booker_search_type" name="train_booker_search_type">
                                                                                     <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="mobile">By Customer Mobile</option>
+                                                                                    <option value="email">By Customer Mail</option>
+                                                                                    <option value="identity_type">By Customer Identity Number</option>
                                                                                     <option value="cor_name">By Corporate Name</option>
                                                                                 </select>
                                                                             </div>
@@ -3209,7 +3410,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('activity');" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -3325,15 +3526,39 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                                <input type="hidden" id="train_adult{{forloop.counter}}_min_age" value="{{adult.min_age}}"/>
-                                                                <input type="hidden" id="train_adult{{forloop.counter}}_max_age" value="{{adult.max_age}}"/>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        <input type="hidden" id="train_adult{{forloop.counter}}_min_age" value="{{adult.min_age}}"/>
+                                                                        <input type="hidden" id="train_adult{{forloop.counter}}_max_age" value="{{adult.max_age}}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" class="primary-btn" id="search_adult_{{forloop.counter}}" onclick="get_customer_list('adult',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
+                                                        <!--<div class="row">-->
+                                                            <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                <!--<input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--<input type="hidden" id="train_adult{{forloop.counter}}_min_age" value="{{adult.min_age}}"/>-->
+                                                                <!--<input type="hidden" id="train_adult{{forloop.counter}}_max_age" value="{{adult.max_age}}"/>-->
+                                                            <!--</div>-->
+                                                            <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                <!--<button type="button" class="primary-btn" id="search_adult_{{forloop.counter}}" onclick="get_customer_list('adult',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <br/>
@@ -3645,15 +3870,39 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
-                                                                    <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                        <input class="form-control" type="text" id="train_senior{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                                        <input type="hidden" id="train_senior{{forloop.counter}}_min_age" value="{{senior.min_age}}"/>
-                                                                        <input type="hidden" id="train_senior{{forloop.counter}}_max_age" value="{{senior.max_age}}"/>
+                                                                    <div class="col-lg-9 col-md-9">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <div class="form-select">
+                                                                                    <select id="train_senior{{forloop.counter}}_search_type" name="train_senior{{forloop.counter}}_search_type">
+                                                                                        <option value="cust_name">By Customer Name</option>
+                                                                                        <option value="mobile">By Customer Mobile</option>
+                                                                                        <option value="email">By Customer Mail</option>
+                                                                                        <option value="identity_type">By Customer Identity Number</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <input class="form-control" type="text" id="train_senior{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                                <input type="hidden" id="train_senior{{forloop.counter}}_min_age" value="{{senior.min_age}}"/>
+                                                                                <input type="hidden" id="train_senior{{forloop.counter}}_max_age" value="{{senior.max_age}}"/>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                        <button type="button" id="search_senior_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                                    <div class="col-lg-3 col-md-3">
+                                                                        <button type="button" id="search_senior_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                     </div>
                                                                 </div>
+                                                                <!--<div class="row">-->
+                                                                    <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                        <!--<input class="form-control" type="text" id="train_senior{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                        <!--<input type="hidden" id="train_senior{{forloop.counter}}_min_age" value="{{senior.min_age}}"/>-->
+                                                                        <!--<input type="hidden" id="train_senior{{forloop.counter}}_max_age" value="{{senior.max_age}}"/>-->
+                                                                    <!--</div>-->
+                                                                    <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                        <!--<button type="button" id="search_senior_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                                    <!--</div>-->
+                                                                <!--</div>-->
                                                                 <div class="row">
                                                                     <div class="col-lg-12">
                                                                         <br/>
@@ -3967,15 +4216,39 @@
                                                                     </div>
                                                                     <div class="modal-body" style="text-align:left;">
                                                                         <div class="row">
-                                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                                <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                                                <input type="hidden" id="train_child{{forloop.counter}}_min_age" value="{{child.min_age}}"/>
-                                                                                <input type="hidden" id="train_child{{forloop.counter}}_max_age" value="{{child.max_age}}"/>
+                                                                            <div class="col-lg-9 col-md-9">
+                                                                                <div class="row">
+                                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                        <div class="form-select">
+                                                                                            <select id="train_child{{forloop.counter}}_search_type" name="train_child{{forloop.counter}}_search_type">
+                                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                                <option value="email">By Customer Mail</option>
+                                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                        <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                                        <input type="hidden" id="train_child{{forloop.counter}}_min_age" value="{{child.min_age}}"/>
+                                                                                        <input type="hidden" id="train_child{{forloop.counter}}_max_age" value="{{child.max_age}}"/>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
-                                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                                            <div class="col-lg-3 col-md-3">
+                                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                             </div>
                                                                         </div>
+                                                                        <!--<div class="row">-->
+                                                                            <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                                <!--<input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                                <!--<input type="hidden" id="train_child{{forloop.counter}}_min_age" value="{{child.min_age}}"/>-->
+                                                                                <!--<input type="hidden" id="train_child{{forloop.counter}}_max_age" value="{{child.max_age}}"/>-->
+                                                                            <!--</div>-->
+                                                                            <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                                <!--<button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                                            <!--</div>-->
+                                                                        <!--</div>-->
                                                                         <div class="row">
                                                                             <div class="col-lg-12">
                                                                                 <br/>
@@ -4261,16 +4534,40 @@
                                                                                 <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
                                                                             </div>
                                                                             <div class="modal-body" style="text-align:left;">
-                                                                                <div class="row" >
-                                                                                    <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                                        <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                                                        <input type="hidden" id="train_infant{{forloop.counter}}_min_age" value="{{infant.min_age}}"/>
-                                                                                        <input type="hidden" id="train_infant{{forloop.counter}}_max_age" value="{{infant.max_age}}"/>
+                                                                                <div class="row">
+                                                                                    <div class="col-lg-9 col-md-9">
+                                                                                        <div class="row">
+                                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                                <div class="form-select">
+                                                                                                    <select id="train_infant{{forloop.counter}}_search_type" name="train_infant{{forloop.counter}}_search_type">
+                                                                                                        <option value="cust_name">By Customer Name</option>
+                                                                                                        <option value="mobile">By Customer Mobile</option>
+                                                                                                        <option value="email">By Customer Mail</option>
+                                                                                                        <option value="identity_type">By Customer Identity Number</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                                <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                                                <input type="hidden" id="train_infant{{forloop.counter}}_min_age" value="{{infant.min_age}}"/>
+                                                                                                <input type="hidden" id="train_infant{{forloop.counter}}_max_age" value="{{infant.max_age}}"/>
+                                                                                            </div>
+                                                                                        </div>
                                                                                     </div>
-                                                                                    <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                                        <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                                                    <div class="col-lg-3 col-md-3">
+                                                                                        <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                                     </div>
                                                                                 </div>
+                                                                                <!--<div class="row" >-->
+                                                                                    <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                                        <!--<input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                                        <!--<input type="hidden" id="train_infant{{forloop.counter}}_min_age" value="{{infant.min_age}}"/>-->
+                                                                                        <!--<input type="hidden" id="train_infant{{forloop.counter}}_max_age" value="{{infant.max_age}}"/>-->
+                                                                                    <!--</div>-->
+                                                                                    <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                                        <!--<button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                                                    <!--</div>-->
+                                                                                <!--</div>-->
                                                                                 <div class="row">
                                                                                     <div class="col-lg-12">
                                                                                         <br/>
@@ -4608,6 +4905,9 @@
                                                                         <div class="form-select" id="default-select">
                                                                             <select class="nice-select-default" id="train_booker_search_type" name="train_booker_search_type">
                                                                                 <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
                                                                                 <option value="cor_name">By Corporate Name</option>
                                                                             </select>
                                                                         </div>
@@ -4725,7 +5025,7 @@
                                             <div class="form-select">
                                                 <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('activity');" class="nice-select-default">
                                                     {% for country in countries %}
-                                                    <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                    <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
@@ -4841,15 +5141,39 @@
                                                 </div>
                                                 <div class="modal-body" style="text-align:left;">
                                                     <div class="row">
-                                                        <div class="col-lg-7 col-md-7 col-sm-7">
-                                                            <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                            <input type="hidden" id="train_adult{{forloop.counter}}_min_age" value="{{adult.min_age}}"/>
-                                                            <input type="hidden" id="train_adult{{forloop.counter}}_max_age" value="{{adult.max_age}}"/>
+                                                        <div class="col-lg-9 col-md-9">
+                                                            <div class="row">
+                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                    <div class="form-select">
+                                                                        <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type">
+                                                                            <option value="cust_name">By Customer Name</option>
+                                                                            <option value="mobile">By Customer Mobile</option>
+                                                                            <option value="email">By Customer Mail</option>
+                                                                            <option value="identity_type">By Customer Identity Number</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                    <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    <input type="hidden" id="train_adult{{forloop.counter}}_min_age" value="{{adult.min_age}}"/>
+                                                                    <input type="hidden" id="train_adult{{forloop.counter}}_max_age" value="{{adult.max_age}}"/>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-lg-5 col-md-5 col-sm-5">
-                                                            <button type="button" class="primary-btn" id="search_adult_{{forloop.counter}}" onclick="get_customer_list('adult',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                        <div class="col-lg-3 col-md-3">
+                                                            <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                         </div>
                                                     </div>
+                                                    <!--<div class="row">-->
+                                                        <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                            <!--<input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                            <!--<input type="hidden" id="train_adult{{forloop.counter}}_min_age" value="{{adult.min_age}}"/>-->
+                                                            <!--<input type="hidden" id="train_adult{{forloop.counter}}_max_age" value="{{adult.max_age}}"/>-->
+                                                        <!--</div>-->
+                                                        <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                            <!--<button type="button" class="primary-btn" id="search_adult_{{forloop.counter}}" onclick="get_customer_list('adult',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                        <!--</div>-->
+                                                    <!--</div>-->
                                                     <div class="row">
                                                         <div class="col-lg-12">
                                                             <br/>
@@ -5155,15 +5479,39 @@
                                                 </div>
                                                 <div class="modal-body" style="text-align:left;">
                                                     <div class="row">
-                                                        <div class="col-lg-7 col-md-7 col-sm-7">
-                                                            <input class="form-control" type="text" id="train_senior{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                            <input type="hidden" id="train_senior{{forloop.counter}}_min_age" value="{{senior.min_age}}"/>
-                                                            <input type="hidden" id="train_senior{{forloop.counter}}_max_age" value="{{senior.max_age}}"/>
+                                                        <div class="col-lg-9 col-md-9">
+                                                            <div class="row">
+                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                    <div class="form-select">
+                                                                        <select id="train_senior{{forloop.counter}}_search_type" name="train_senior{{forloop.counter}}_search_type">
+                                                                            <option value="cust_name">By Customer Name</option>
+                                                                            <option value="mobile">By Customer Mobile</option>
+                                                                            <option value="email">By Customer Mail</option>
+                                                                            <option value="identity_type">By Customer Identity Number</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                    <input class="form-control" type="text" id="train_senior{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    <input type="hidden" id="train_senior{{forloop.counter}}_min_age" value="{{senior.min_age}}"/>
+                                                                    <input type="hidden" id="train_senior{{forloop.counter}}_max_age" value="{{senior.max_age}}"/>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-lg-5 col-md-5 col-sm-5">
-                                                            <button type="button" id="search_senior_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                        <div class="col-lg-3 col-md-3">
+                                                            <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                         </div>
                                                     </div>
+                                                    <!--<div class="row">-->
+                                                        <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                            <!--<input class="form-control" type="text" id="train_senior{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                            <!--<input type="hidden" id="train_senior{{forloop.counter}}_min_age" value="{{senior.min_age}}"/>-->
+                                                            <!--<input type="hidden" id="train_senior{{forloop.counter}}_max_age" value="{{senior.max_age}}"/>-->
+                                                        <!--</div>-->
+                                                        <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                            <!--<button type="button" id="search_senior_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                        <!--</div>-->
+                                                    <!--</div>-->
                                                     <div class="row">
                                                         <div class="col-lg-12">
                                                             <br/>
@@ -5471,15 +5819,39 @@
                                                 </div>
                                                 <div class="modal-body" style="text-align:left;">
                                                     <div class="row">
-                                                        <div class="col-lg-7 col-md-7 col-sm-7">
-                                                            <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                            <input type="hidden" id="train_child{{forloop.counter}}_min_age" value="{{child.min_age}}"/>
-                                                            <input type="hidden" id="train_child{{forloop.counter}}_max_age" value="{{child.max_age}}"/>
+                                                        <div class="col-lg-9 col-md-9">
+                                                            <div class="row">
+                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                    <div class="form-select">
+                                                                        <select id="train_child{{forloop.counter}}_search_type" name="train_child{{forloop.counter}}_search_type">
+                                                                            <option value="cust_name">By Customer Name</option>
+                                                                            <option value="mobile">By Customer Mobile</option>
+                                                                            <option value="email">By Customer Mail</option>
+                                                                            <option value="identity_type">By Customer Identity Number</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                    <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    <input type="hidden" id="train_child{{forloop.counter}}_min_age" value="{{child.min_age}}"/>
+                                                                    <input type="hidden" id="train_child{{forloop.counter}}_max_age" value="{{child.max_age}}"/>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-lg-5 col-md-5 col-sm-5">
-                                                            <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                        <div class="col-lg-3 col-md-3">
+                                                            <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                         </div>
                                                     </div>
+                                                    <!--<div class="row">-->
+                                                        <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                            <!--<input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                            <!--<input type="hidden" id="train_child{{forloop.counter}}_min_age" value="{{child.min_age}}"/>-->
+                                                            <!--<input type="hidden" id="train_child{{forloop.counter}}_max_age" value="{{child.max_age}}"/>-->
+                                                        <!--</div>-->
+                                                        <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                            <!--<button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                        <!--</div>-->
+                                                    <!--</div>-->
                                                     <div class="row">
                                                         <div class="col-lg-12">
                                                             <br/>
@@ -5758,16 +6130,40 @@
                                                     <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
                                                 </div>
                                                 <div class="modal-body" style="text-align:left;">
-                                                    <div class="row" >
-                                                        <div class="col-lg-7 col-md-7 col-sm-7">
-                                                            <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                            <input type="hidden" id="train_infant{{forloop.counter}}_min_age" value="{{infant.min_age}}"/>
-                                                            <input type="hidden" id="train_infant{{forloop.counter}}_max_age" value="{{infant.max_age}}"/>
+                                                    <div class="row">
+                                                        <div class="col-lg-9 col-md-9">
+                                                            <div class="row">
+                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                    <div class="form-select">
+                                                                        <select id="train_infant{{forloop.counter}}_search_type" name="train_infant{{forloop.counter}}_search_type">
+                                                                            <option value="cust_name">By Customer Name</option>
+                                                                            <option value="mobile">By Customer Mobile</option>
+                                                                            <option value="email">By Customer Mail</option>
+                                                                            <option value="identity_type">By Customer Identity Number</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                    <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    <input type="hidden" id="train_infant{{forloop.counter}}_min_age" value="{{infant.min_age}}"/>
+                                                                    <input type="hidden" id="train_infant{{forloop.counter}}_max_age" value="{{infant.max_age}}"/>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-lg-5 col-md-5 col-sm-5">
-                                                            <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                        <div class="col-lg-3 col-md-3">
+                                                            <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                         </div>
                                                     </div>
+                                                    <!--<div class="row" >-->
+                                                        <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                            <!--<input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                            <!--<input type="hidden" id="train_infant{{forloop.counter}}_min_age" value="{{infant.min_age}}"/>-->
+                                                            <!--<input type="hidden" id="train_infant{{forloop.counter}}_max_age" value="{{infant.max_age}}"/>-->
+                                                        <!--</div>-->
+                                                        <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                            <!--<button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                        <!--</div>-->
+                                                    <!--</div>-->
                                                     <div class="row">
                                                         <div class="col-lg-12">
                                                             <br/>
@@ -6100,6 +6496,9 @@
                                                                         <div class="form-select">
                                                                             <select id="train_booker_search_type" name="train_booker_search_type">
                                                                                 <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
                                                                                 <option value="cor_name">By Corporate Name</option>
                                                                             </select>
                                                                         </div>
@@ -6214,7 +6613,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('activity');" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -6330,15 +6729,39 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                                <input type="hidden" id="train_adult{{forloop.counter}}_min_age" value="{{adult.min_age}}"/>
-                                                                <input type="hidden" id="train_adult{{forloop.counter}}_max_age" value="{{adult.max_age}}"/>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        <input type="hidden" id="train_adult{{forloop.counter}}_min_age" value="{{adult.min_age}}"/>
+                                                                        <input type="hidden" id="train_adult{{forloop.counter}}_max_age" value="{{adult.max_age}}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" class="primary-btn" id="search_adult_{{forloop.counter}}" onclick="get_customer_list('adult',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
+                                                        <!--<div class="row">-->
+                                                            <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                <!--<input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--<input type="hidden" id="train_adult{{forloop.counter}}_min_age" value="{{adult.min_age}}"/>-->
+                                                                <!--<input type="hidden" id="train_adult{{forloop.counter}}_max_age" value="{{adult.max_age}}"/>-->
+                                                            <!--</div>-->
+                                                            <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                <!--<button type="button" class="primary-btn" id="search_adult_{{forloop.counter}}" onclick="get_customer_list('adult',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <br/>
@@ -6644,15 +7067,39 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_senior{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                                <input type="hidden" id="train_senior{{forloop.counter}}_min_age" value="{{senior.min_age}}"/>
-                                                                <input type="hidden" id="train_senior{{forloop.counter}}_max_age" value="{{senior.max_age}}"/>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_senior{{forloop.counter}}_search_type" name="train_senior{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_senior{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        <input type="hidden" id="train_senior{{forloop.counter}}_min_age" value="{{senior.min_age}}"/>
+                                                                        <input type="hidden" id="train_senior{{forloop.counter}}_max_age" value="{{senior.max_age}}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" id="search_senior_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_senior_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
+                                                        <!--<div class="row">-->
+                                                            <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                <!--<input class="form-control" type="text" id="train_senior{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--<input type="hidden" id="train_senior{{forloop.counter}}_min_age" value="{{senior.min_age}}"/>-->
+                                                                <!--<input type="hidden" id="train_senior{{forloop.counter}}_max_age" value="{{senior.max_age}}"/>-->
+                                                            <!--</div>-->
+                                                            <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                <!--<button type="button" id="search_senior_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <br/>
@@ -6960,15 +7407,39 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                                <input type="hidden" id="train_child{{forloop.counter}}_min_age" value="{{child.min_age}}"/>
-                                                                <input type="hidden" id="train_child{{forloop.counter}}_max_age" value="{{child.max_age}}"/>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_child{{forloop.counter}}_search_type" name="train_child{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        <input type="hidden" id="train_child{{forloop.counter}}_min_age" value="{{child.min_age}}"/>
+                                                                        <input type="hidden" id="train_child{{forloop.counter}}_max_age" value="{{child.max_age}}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
+                                                        <!--<div class="row">-->
+                                                            <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                <!--<input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--<input type="hidden" id="train_child{{forloop.counter}}_min_age" value="{{child.min_age}}"/>-->
+                                                                <!--<input type="hidden" id="train_child{{forloop.counter}}_max_age" value="{{child.max_age}}"/>-->
+                                                            <!--</div>-->
+                                                            <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                <!--<button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <br/>
@@ -7247,16 +7718,40 @@
                                                         <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
-                                                        <div class="row" >
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                                <input type="hidden" id="train_infant{{forloop.counter}}_min_age" value="{{infant.min_age}}"/>
-                                                                <input type="hidden" id="train_infant{{forloop.counter}}_max_age" value="{{infant.max_age}}"/>
+                                                        <div class="row">
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_infant{{forloop.counter}}_search_type" name="train_infant{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        <input type="hidden" id="train_infant{{forloop.counter}}_min_age" value="{{infant.min_age}}"/>
+                                                                        <input type="hidden" id="train_infant{{forloop.counter}}_max_age" value="{{infant.max_age}}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
+                                                        <!--<div class="row" >-->
+                                                            <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                <!--<input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--<input type="hidden" id="train_infant{{forloop.counter}}_min_age" value="{{infant.min_age}}"/>-->
+                                                                <!--<input type="hidden" id="train_infant{{forloop.counter}}_max_age" value="{{infant.max_age}}"/>-->
+                                                            <!--</div>-->
+                                                            <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                <!--<button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <br/>
@@ -7595,6 +8090,9 @@
                                                                         <div class="form-select">
                                                                             <select id="train_booker_search_type" name="train_booker_search_type">
                                                                                 <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
                                                                                 <option value="cor_name">By Corporate Name</option>
                                                                             </select>
                                                                         </div>
@@ -7711,7 +8209,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('activity');" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -7827,15 +8325,39 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                                <input type="hidden" id="train_adult{{forloop.counter}}_min_age" value="{{adult.min_age}}"/>
-                                                                <input type="hidden" id="train_adult{{forloop.counter}}_max_age" value="{{adult.max_age}}"/>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        <input type="hidden" id="train_adult{{forloop.counter}}_min_age" value="{{adult.min_age}}"/>
+                                                                        <input type="hidden" id="train_adult{{forloop.counter}}_max_age" value="{{adult.max_age}}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" class="primary-btn" id="search_adult_{{forloop.counter}}" onclick="get_customer_list('adult',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
+                                                        <!--<div class="row">-->
+                                                            <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                <!--<input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--<input type="hidden" id="train_adult{{forloop.counter}}_min_age" value="{{adult.min_age}}"/>-->
+                                                                <!--<input type="hidden" id="train_adult{{forloop.counter}}_max_age" value="{{adult.max_age}}"/>-->
+                                                            <!--</div>-->
+                                                            <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                <!--<button type="button" class="primary-btn" id="search_adult_{{forloop.counter}}" onclick="get_customer_list('adult',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <br/>
@@ -8141,15 +8663,39 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_senior{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                                <input type="hidden" id="train_senior{{forloop.counter}}_min_age" value="{{senior.min_age}}"/>
-                                                                <input type="hidden" id="train_senior{{forloop.counter}}_max_age" value="{{senior.max_age}}"/>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_senior{{forloop.counter}}_search_type" name="train_senior{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_senior{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        <input type="hidden" id="train_senior{{forloop.counter}}_min_age" value="{{senior.min_age}}"/>
+                                                                        <input type="hidden" id="train_senior{{forloop.counter}}_max_age" value="{{senior.max_age}}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" id="search_senior_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_senior_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
+                                                        <!--<div class="row">-->
+                                                            <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                <!--<input class="form-control" type="text" id="train_senior{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--<input type="hidden" id="train_senior{{forloop.counter}}_min_age" value="{{senior.min_age}}"/>-->
+                                                                <!--<input type="hidden" id="train_senior{{forloop.counter}}_max_age" value="{{senior.max_age}}"/>-->
+                                                            <!--</div>-->
+                                                            <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                <!--<button type="button" id="search_senior_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <br/>
@@ -8457,15 +9003,39 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                                <input type="hidden" id="train_child{{forloop.counter}}_min_age" value="{{child.min_age}}"/>
-                                                                <input type="hidden" id="train_child{{forloop.counter}}_max_age" value="{{child.max_age}}"/>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_child{{forloop.counter}}_search_type" name="train_child{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        <input type="hidden" id="train_child{{forloop.counter}}_min_age" value="{{child.min_age}}"/>
+                                                                        <input type="hidden" id="train_child{{forloop.counter}}_max_age" value="{{child.max_age}}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
+                                                        <!--<div class="row">-->
+                                                            <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                <!--<input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--<input type="hidden" id="train_child{{forloop.counter}}_min_age" value="{{child.min_age}}"/>-->
+                                                                <!--<input type="hidden" id="train_child{{forloop.counter}}_max_age" value="{{child.max_age}}"/>-->
+                                                            <!--</div>-->
+                                                            <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                <!--<button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <br/>
@@ -8744,16 +9314,40 @@
                                                         <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
-                                                        <div class="row" >
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
-                                                                <input type="hidden" id="train_infant{{forloop.counter}}_min_age" value="{{infant.min_age}}"/>
-                                                                <input type="hidden" id="train_infant{{forloop.counter}}_max_age" value="{{infant.max_age}}"/>
+                                                        <div class="row">
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_infant{{forloop.counter}}_search_type" name="train_infant{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        <input type="hidden" id="train_infant{{forloop.counter}}_min_age" value="{{infant.min_age}}"/>
+                                                                        <input type="hidden" id="train_infant{{forloop.counter}}_max_age" value="{{infant.max_age}}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
+                                                        <!--<div class="row" >-->
+                                                            <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                <!--<input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--<input type="hidden" id="train_infant{{forloop.counter}}_min_age" value="{{infant.min_age}}"/>-->
+                                                                <!--<input type="hidden" id="train_infant{{forloop.counter}}_max_age" value="{{infant.max_age}}"/>-->
+                                                            <!--</div>-->
+                                                            <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                <!--<button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity')">{% trans 'Search' %}</button>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <br/>

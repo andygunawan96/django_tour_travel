@@ -706,6 +706,9 @@ function hotel_detail_request(checkin_date, checkout_date){
     document.getElementById("select_copy_all").innerHTML = '';
     // date_hotel
     document.getElementById('date_hotel').innerHTML = 'Date: ' + checkin_date + ' - ' + checkout_date;
+    is_first_render_room_hotel = true;
+    hotel_room_detail_pick = null;
+    document.getElementById("badge-hotel-notif").innerHTML = "0";
     myVar = setTimeout(function() {
         $.ajax({
            type: "POST",
@@ -731,7 +734,6 @@ function hotel_detail_request(checkin_date, checkout_date){
             //show package
             if(msg.result.error_code == 0){
                 var result = msg.result.response;
-                is_first_render_room_hotel = true;
                 text='';
                 text2='';
                 text_filter = '';

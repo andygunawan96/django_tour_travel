@@ -1106,7 +1106,7 @@ function auto_input_pax_cache_reorder(){
         document.getElementById('booker_id').value = pax_cache_reorder.booker.booker_seq_id;
         $('#booker_phone_code_id').val(pax_cache_reorder.booker.calling_code).trigger('change');
         $('#booker_title').niceSelect('update');
-        $('#booker_nationality_id').val(pax_cache_reorder.booker.nationality_code).trigger('change');
+        $('#booker_nationality_id').val(pax_cache_reorder.booker.nationality_name).trigger('change');
     }
     if(pax_cache_reorder.hasOwnProperty('adult')){
         for(x in pax_cache_reorder.adult){

@@ -1148,7 +1148,7 @@
                                                     <div class="input-container-search-ticket">
                                                         <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}');update_identity('adult',{{forloop.counter}});" class="nice-select-default">
                                                             {% for country in countries %}
-                                                            <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%} disabled>{{country.name}}</option>
+                                                            <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%} disabled>{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
                                                         <input type="hidden" name="adult_nationality{{forloop.counter}}" id="adult_nationality{{forloop.counter}}" />
@@ -1211,7 +1211,7 @@
                                                                 <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
                                                                     <option value="" {%if is_change_identity == False %} disabled {% endif %}>{% trans 'Country of Issued' %}</option>
                                                                     {% for country in countries %}
-                                                                    <option value="{{country.code}}" {%if is_change_identity == False %} disabled {% endif %}>{{country.name}}</option>
+                                                                    <option value="{{country.name}}" {%if is_change_identity == False %} disabled {% endif %}>{{country.name}}</option>
                                                                     {% endfor %}
                                                                 </select>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
@@ -1413,7 +1413,7 @@
                                                     <div class="input-container-search-ticket">
                                                         <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('child_nationality{{forloop.counter}}');update_identity('child',{{forloop.counter}});" class="nice-select-default">
                                                             {% for country in countries %}
-                                                            <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%} disabled>{{country.name}}</option>
+                                                            <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%} disabled>{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
                                                         <input type="hidden" name="child_nationality{{forloop.counter}}" id="child_nationality{{forloop.counter}}" />
@@ -1470,7 +1470,7 @@
                                                                 <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')" class="nice-select-default">
                                                                     <option value="" {%if is_change_identity == False %} disabled {% endif %}>{% trans 'Country of Issued' %}</option>
                                                                     {% for country in countries %}
-                                                                    <option value="{{country.code}}" {%if is_change_identity == False %} disabled {% endif %}>{{country.name}}</option>
+                                                                    <option value="{{country.name}}" {%if is_change_identity == False %} disabled {% endif %}>{{country.name}}</option>
                                                                     {% endfor %}
                                                                 </select>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
@@ -1641,7 +1641,7 @@
                                                     <div class="input-container-search-ticket">
                                                         <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('infant_nationality{{forloop.counter}}');update_identity('infant',{{forloop.counter}});" class="nice-select-default">
                                                             {% for country in countries %}
-                                                            <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%} disabled>{{country.name}}</option>
+                                                            <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%} disabled>{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
                                                         <input type="hidden" name="infant_nationality{{forloop.counter}}" id="infant_nationality{{forloop.counter}}" />
@@ -1700,7 +1700,7 @@
                                                                 <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
                                                                     <option value="" {%if is_change_identity == False %} disabled {% endif %}>{% trans 'Country of Issued' %}</option>
                                                                     {% for country in countries %}
-                                                                    <option value="{{country.code}}" {%if is_change_identity == False %} disabled {% endif %}>{{country.name}}</option>
+                                                                    <option value="{{country.name}}" {%if is_change_identity == False %} disabled {% endif %}>{{country.name}}</option>
                                                                     {% endfor %}
                                                                 </select>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>

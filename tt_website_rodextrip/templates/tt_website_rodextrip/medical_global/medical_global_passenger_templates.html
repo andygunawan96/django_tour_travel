@@ -410,6 +410,9 @@
                                                                         <div class="form-select">
                                                                             <select id="train_booker_search_type" name="train_booker_search_type">
                                                                                 <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
                                                                                 <option value="cor_name">By Corporate Name</option>
                                                                             </select>
                                                                         </div>
@@ -525,7 +528,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('train');" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -990,6 +993,9 @@
                                                                             <div class="form-select">
                                                                                 <select id="train_booker_search_type" name="train_booker_search_type">
                                                                                     <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="mobile">By Customer Mobile</option>
+                                                                                    <option value="email">By Customer Mail</option>
+                                                                                    <option value="identity_type">By Customer Identity Number</option>
                                                                                     <option value="cor_name">By Corporate Name</option>
                                                                                 </select>
                                                                             </div>
@@ -1105,7 +1111,7 @@
                                                     <div class="form-select">
                                                         <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('train');" class="nice-select-default">
                                                             {% for country in countries %}
-                                                            <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                            <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
                                                     </div>
@@ -1563,6 +1569,9 @@
                                                                             <div class="default-select" id="default-select">
                                                                                 <select id="train_booker_search_type" name="train_booker_search_type">
                                                                                     <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="mobile">By Customer Mobile</option>
+                                                                                    <option value="email">By Customer Mail</option>
+                                                                                    <option value="identity_type">By Customer Identity Number</option>
                                                                                     <option value="cor_name">By Corporate Name</option>
                                                                                 </select>
                                                                             </div>
@@ -1679,7 +1688,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('train');" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -2113,6 +2122,9 @@
                                                                         <div class="form-select" id="default-select">
                                                                             <select class="nice-select-default" id="train_booker_search_type" name="train_booker_search_type">
                                                                                 <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
                                                                                 <option value="cor_name">By Corporate Name</option>
                                                                             </select>
                                                                         </div>
@@ -2229,7 +2241,7 @@
                                             <div class="form-select">
                                                 <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('train');" class="nice-select-default">
                                                     {% for country in countries %}
-                                                    <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                    <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
@@ -2666,6 +2678,9 @@
                                                                         <div class="form-select">
                                                                             <select id="train_booker_search_type" name="train_booker_search_type">
                                                                                 <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
                                                                                 <option value="cor_name">By Corporate Name</option>
                                                                             </select>
                                                                         </div>
@@ -2781,7 +2796,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('train');" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -3219,6 +3234,9 @@
                                                                         <div class="form-select">
                                                                             <select id="train_booker_search_type" name="train_booker_search_type">
                                                                                 <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
                                                                                 <option value="cor_name">By Corporate Name</option>
                                                                             </select>
                                                                         </div>
@@ -3333,7 +3351,7 @@
                                                 <div class="form-select-2" style="width:100%;">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('train');" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>

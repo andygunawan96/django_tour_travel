@@ -130,7 +130,7 @@ function add_table_of_passenger(type){
     text += `
         <td>
             <div style="text-align:center;">
-                <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`" onclick="set_passenger_number(`+counter_passenger+`);"><i class="fas fa-search"></i></button>
+                <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`" onclick="set_passenger_number(`+parseInt(parseInt(counter_passenger)+1)+`);"><i class="fas fa-search"></i></button>
                 <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" onclick="delete_table_of_passenger(`+parseInt(counter_passenger)+`);"><i class="fas fa-times"></i></button>
             </div>
             <!-- Modal -->
@@ -158,11 +158,25 @@ function add_table_of_passenger(type){
                             <div id="passenger_content">
                                 <div id="passenger_search`+parseInt(counter_passenger+1)+`">
                                     <div class="row">
-                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                            <input class="form-control" type="text" id="train_`+(counter_passenger+1)+`_search" placeholder="Search"/>
+                                        <div class="col-lg-9 col-md-9">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <div class="form-select">
+                                                        <select id="train_`+(counter_passenger+1)+`_search_type">
+                                                            <option value="cust_name">By Customer Name</option>
+                                                            <option value="mobile">By Customer Mobile</option>
+                                                            <option value="email">By Customer Mail</option>
+                                                            <option value="identity_type">By Customer Identity Number</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <input class="form-control" type="text" id="train_`+(counter_passenger+1)+`_search" placeholder="Search"/>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                            <button type="button" class="primary-btn" id="passenger_btn_io_click`+(counter_passenger+1)+`" onclick="get_customer_list('','`+(counter_passenger+1)+`','issued_offline')">Search</button>
+                                        <div class="col-lg-3 col-md-3">
+                                            <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('','`+(counter_passenger+1)+`','issued_booking')">Search <i class="fas fa-search"></i></button>
                                         </div>
                                     </div>
                                     <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
@@ -259,9 +273,9 @@ function add_table_of_passenger(type){
                                                                 <option value="">Select Nationality</option>`;
                                                                 for(i in countries){
                                                                     if(countries[i].code == 'ID')
-                                                                       text+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                                                       text+=`<option value="`+countries[i].name+`" selected>`+countries[i].name+`</option>`;
                                                                     else
-                                                                       text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                                       text+=`<option value="`+countries[i].name+`">`+countries[i].name+`</option>`;
                                                                 }
                                                             text+=`</select>
                                                         </div>
@@ -313,7 +327,7 @@ function add_table_of_passenger(type){
 //                                                    </div>
 //                                                    <div class="col-lg-6 col-md-6 col-sm-6">
 //                                                    </div>
-                                                    text+=`<div class="col-lg-6 col-md-6 col-sm-6">
+                                                    text+=`<div class="col-lg-6 col-md-6 col-sm-6" id="adult_identity_div`+parseInt(counter_passenger+1)+`">
                                                     <label>ID Type</label>`;
                                                     if(template == 1){
                                                         text+=`<div class="input-container-search-ticket">`;
@@ -367,7 +381,7 @@ function add_table_of_passenger(type){
                                                                 <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`');">
                                                                     <option value="">Select Country Of Issued</option>`;
                                                                     for(i in countries){
-                                                                       text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                                       text+=`<option value="`+countries[i].name+`">`+countries[i].name+`</option>`;
                                                                     }
                                                                 text+=`</select>
                                                             </div>
@@ -531,6 +545,7 @@ function add_table_of_passenger(type){
 //    $('#adult_nationality'+parseInt(counter_passenger+1)).select2();
     if(type == 'open')
         $('#myModalPassenger'+parseInt(parseInt(counter_passenger))).modal('show');
+    $('#train_'+parseInt(counter_passenger+1)+'_search_type').niceSelect();
     $('#adult_title'+parseInt(counter_passenger+1)).niceSelect();
     $('#adult_identity_type'+parseInt(counter_passenger+1)).niceSelect();
     auto_complete(`adult_nationality`+parseInt(counter_passenger+1));
@@ -539,6 +554,10 @@ function add_table_of_passenger(type){
 
 function delete_table_of_passenger(counter){
     if(counter_passenger != 0){
+        try{
+            if(document.getElementById('passenger_number'+counter).innerHTML == '1')
+                document.getElementsByName('myRadios')[1].checked = true
+        }catch(err){console.log(err);}
         try{
             var element = document.getElementById('table_passenger'+counter);
             element.parentNode.removeChild(element);
@@ -1343,9 +1362,11 @@ function ProcessExcel(data) {
             document.getElementById('adult_birth_date'+counter_passenger).value = moment(list_test[i].pax[j][6]).format('DD MMM YYYY').toString();
             document.getElementById('adult_identity_type'+counter_passenger).value = list_test[i].pax[j][3].toLowerCase();
             document.getElementById('adult_identity_number'+counter_passenger).value = list_test[i].pax[j][4];
-            document.getElementById('adult_country_of_issued'+counter_passenger+'_id').value = 'ID';
-            document.getElementById('adult_country_of_issued'+counter_passenger).value = 'ID';
-            document.getElementById('select2-adult_country_of_issued'+counter_passenger+'_id-container').innerHTML = 'Indonesia';
+            $('#adult_country_of_issued'+counter_passenger+'_id').val('Indonesia').trigger('change');
+
+//            document.getElementById('adult_country_of_issued'+counter_passenger+'_id').value = 'ID';
+//            document.getElementById('adult_country_of_issued'+counter_passenger).value = 'ID';
+//            document.getElementById('select2-adult_country_of_issued'+counter_passenger+'_id-container').innerHTML = 'Indonesia';
             notes += parseInt(parseInt(counter_pax)+1) + ' Pax: ' + list_test[i].pax[j][0] + ' ' + list_test[i].pax[j][1] + '\n';
             if(list_test[i].pax[j][2] != undefined)
                 notes += 'Phone number: ' + list_test[i].pax[j][2] + '\n';
