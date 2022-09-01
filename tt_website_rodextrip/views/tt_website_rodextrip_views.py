@@ -780,10 +780,11 @@ def admin(request):
                                 _logger.error('no image dynamic page')
 
                             if filename == '':
-                                if request.POST.get('live_chat_image_str' + str(i)) != '':
-                                    filename = request.POST.get('live_chat_image_str' + str(i))
-                                else:
+                                is_default_icon = request.POST.get('is_vendor_whatsapp_icon'+str(i), 'off')
+                                if is_default_icon == 'on' or request.POST.get('live_chat_image_str' + str(i)) == '':
                                     filename = 'default'
+                                else:
+                                    filename = request.POST.get('live_chat_image_str' + str(i))
 
                             text = ''
                             is_vendor_whatsapp = request.POST.get('is_vendor_whatsapp'+str(i), 'off')

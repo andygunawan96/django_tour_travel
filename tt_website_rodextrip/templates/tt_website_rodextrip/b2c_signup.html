@@ -70,7 +70,7 @@
                                         <div class="form-select" style="width:100%; border-radius:unset;">
                                             <select class="form-control js-example-basic-single" name="b2c_nationality_id" style="width:100%;" id="b2c_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('b2c_nationality');" class="nice-select-default">
                                                 {% for country in countries %}
-                                                <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>

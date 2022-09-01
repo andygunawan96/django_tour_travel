@@ -1,7 +1,7 @@
 {% for live_chat_data in live_chat %}
     {% if live_chat_data.live_chat_vendor == 'Whatsapp' and live_chat_data.live_chat_visible == '1' %}
 
-    <button type="button" style="background-color:#43d62b;" id="mystickywhatsapp{{live_chat_data.sequence}}" class="mystickywhatsapp" class="primary-btn" data-toggle="modal" onclick="openInNewTab(`https://wa.me/{{live_chat_data.live_chat_number}}`);">
+    <button type="button" style="background-color:{% if live_chat_data.live_chat_image == 'default' %}#43d62b{% else %}{{btn_color}}{% endif %};" id="mystickywhatsapp{{live_chat_data.sequence}}" class="mystickywhatsapp" class="primary-btn" data-toggle="modal" onclick="openInNewTab(`https://wa.me/{{live_chat_data.live_chat_number}}`);">
         {% if live_chat_data.live_chat_image == 'default' %}
         <i class="fab fa-whatsapp" style="font-size:32px;"></i>
         {% else %}

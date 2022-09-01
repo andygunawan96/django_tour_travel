@@ -272,6 +272,7 @@ function get_transactions_notification(){
                         //untuk render data notifnya
                         render_data_notification = msg.result.response;
                         render_notification();
+                        /*
                         for(i in msg.result.response){
                             if(window.location.href.split('/').length == 4 && check_notif < 5){
                                 notif_text = `
@@ -322,7 +323,7 @@ function get_transactions_notification(){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
                             $(".bell_notif").removeClass("infinite");
-                        }
+                        }*/
                     }
 
                     setTimeout(function() {
@@ -1946,9 +1947,13 @@ function render_notification(){
                             <div class="row">
                                 <div class="col-xs-12">`;
                                     if(render_data_notification[i].is_read == false){
-                                        text+=`<span style="font-weight:700; font-size:16px;"> `+check_notif+`. `+render_data_notification[i].name+` - `+render_data_notification[i].pnr+`</span>`;
+                                        text+=`<span style="font-weight:700; font-size:16px;"> `+check_notif+`. `+render_data_notification[i].name;
+                                        if(render_data_notification[i].pnr)
+                                            text+=` - `+render_data_notification[i].pnr+`</span>`;
                                     }else{
-                                        text+=`<span style="font-weight:400; color:#808080; font-size:16px;"> `+check_notif+`. `+render_data_notification[i].name+` - `+render_data_notification[i].pnr+`</span>`;
+                                        text+=`<span style="font-weight:400; color:#808080; font-size:16px;"> `+check_notif+`. `+render_data_notification[i].name;
+                                        if(render_data_notification[i].pnr)
+                                            text+=` - `+render_data_notification[i].pnr+`</span>`;
                                     }
                                     text+=`<br/>`;
                                     if(render_data_notification[i].is_read == false){
@@ -1962,7 +1967,7 @@ function render_notification(){
                                     <span `;
                                     if(render_data_notification[i].is_read)
                                         text+= `style="color:#808080;"`;
-                                    text+=`>`+render_data_notification[i].description.msg;
+                                    text+=`>`+render_data_notification[i].description.msg.replaceAll('\n','<br/>');
                                     if(render_data_notification[i].description.datetime != ''){
                                         tes = moment.utc(render_data_notification[i].description.datetime).format('YYYY-MM-DD HH:mm:ss')
                                         localTime  = moment.utc(tes).toDate();
