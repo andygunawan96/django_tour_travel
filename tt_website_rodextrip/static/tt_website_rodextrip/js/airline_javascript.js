@@ -7618,7 +7618,14 @@ function get_airline_review_after_sales(){
                     }
 
                 text+=`</table>
-                    <br/><label>Notes: Change for same type only</label>
+                    <br/>`;
+                is_replace_ssr = false;
+                for(i in airline_get_detail.provider_bookings){
+                    if(provider_list_data[airline_get_detail.provider_bookings[i].provider].is_replace_seat)
+                        is_replace_ssr = true;
+                }
+                if(is_replace_ssr)
+                    text+=`<label>Notes: Change for same type only</label>
             </div>
         </div>
     </div>`;
