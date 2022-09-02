@@ -75,7 +75,7 @@ function get_balance(val){
 //                            document.getElementById("balance_search").style.color = "black";
 //                        }catch(err){}
 
-                        text = `Your Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+``;
+                        text = `Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+``;
 
                     }else{
                         //BALANCE VENDOR

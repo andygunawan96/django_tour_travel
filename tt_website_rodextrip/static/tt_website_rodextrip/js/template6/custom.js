@@ -13,6 +13,23 @@ $(document).ready(function() {
         $('select').niceSelect();
     };
 
+    $(document).on('click', '.menu-has-children a', function(e) {
+        $(this).next().toggleClass('nav-ul-d-block');
+    });
+
+    $(document).on('click', '#bars_toggle_drop', function(e) {
+        $('.overlay_menu').show();
+    });
+
+    $(window).resize(function() {
+        if ($(window).width() >= 992) {
+            $('.menu-has-children a').next().removeClass('nav-ul-d-block');
+            $('#drop').prop('checked',false);
+            $('.overlay_menu').hide();
+        }
+    });
+
+
     var current=0;
     var check_counter_idx = 0;
     var check_video_play = 0;

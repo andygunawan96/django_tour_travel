@@ -510,8 +510,8 @@ $(document).ready(function() {
             $('body .main-menu .container').prepend('<button type="button" id="mobile-nav-toggle" style="font-size:18px; padding:10px 15px; margin-top:-6px; background:'+color+'; color:'+text_color+'"><span style="font-size:14px;">SignIn</span> <i class="fas fa-sign-in-alt" style="color:'+text_color+';font-size:16px;"></i></button>');
         }
         $('body .main-menu .container').append('<div id="mobile-body-overly"></div>');
-        $('#mobile-nav').find('.balance_mobile').replaceWith('<li class="pt5"><a style="color:white;"><span id="balance_mob"></span></a></li>');
-        $('#mobile-nav').find('.credit_mobile').replaceWith('<li class="pt5"><a style="color:white;"><span id="credit_mob"></span></a></li>');
+        $('#mobile-nav').find('.balance_mobile').replaceWith('<li class="pt5"><a><span id="balance_mob"></span></a></li>');
+        $('#mobile-nav').find('.credit_mobile').replaceWith('<li class="pt5"><a><span id="credit_mob"></span></a></li>');
         $('#mobile-nav').find('.username_mobile').replaceWith('<li style="padding-right:5px;"><div class="input-container-search-ticket"><input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username2" placeholder="Username"/></div></li>');
         $('#mobile-nav').find('.password_mobile').replaceWith('<li style="padding-right:5px;"><div class="input-container-search-ticket"><input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password2" placeholder="Password"/><div style="margin-top:10px;width:50px;" onclick="change_password_type();"><i id="password_style2" class="fas fa-eye-slash" style="font-size:18px;color:'+text_color+';"></i></div></li>');
         $('#mobile-nav').find('.keep_me_mobile').replaceWith('<li style="padding-right:5px;"><div class="input-container-search-ticket"><label class="check_box_custom" style="margin:5px; float:right;"><span style="font-size:13px; color:white;">Keep Me Signin</span><input type="checkbox" value="" id="keep_me_signin2" name="keep_me_signin" checked="checked"><span class="check_box_span_custom"></span></label></div></li>');
@@ -542,6 +542,12 @@ $(document).ready(function() {
             $(this).next().toggleClass('menu-item-active');
             $(this).nextAll('ul').eq(0).slideToggle();
             $(this).toggleClass("lnr-chevron-up lnr-chevron-down");
+        });
+
+        $(document).on('click', '.menu-has-children a', function(e) {
+            $(this).next().toggleClass('menu-item-active');
+            $(this).nextAll('ul').eq(0).slideToggle();
+            $(this).parent().find('i').first().toggleClass("lnr-chevron-up lnr-chevron-down");
         });
 
         $(document).on('click', '#mobile-nav-toggle', function(e) {

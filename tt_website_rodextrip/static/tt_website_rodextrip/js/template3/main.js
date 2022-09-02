@@ -684,6 +684,12 @@ $(document).ready(function(){
       $(this).toggleClass("lnr-chevron-up lnr-chevron-down");
     });
 
+    $(document).on('click', '.menu-has-children a', function(e) {
+        $(this).toggleClass('menu-item-active');
+        $(this).nextAll('ul').eq(0).slideToggle();
+        $(this).parent().find('i').first().toggleClass("lnr-chevron-up lnr-chevron-down");
+    });
+
     $(document).on('click', '#mobile-nav-toggle', function(e) {
       $('body').toggleClass('mobile-nav-active');
       $('#mobile-nav-toggle i').toggleClass('lnr-cross lnr-menu');
