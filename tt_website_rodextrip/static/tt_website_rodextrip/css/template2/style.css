@@ -595,7 +595,7 @@ input:focus {
       font-weight: 500;
       position:relative;
       bottom:5px;
-      padding: 0 5px; }
+      padding: 0px 15px; }
       @media only screen and (min-width: 992px) and (max-width: 1199px) {
         .classy-nav-container .classy-navbar .classynav ul li a {
           font-size: 13px;
@@ -3709,9 +3709,9 @@ ul.btn_tabs li.current .image-rounded-icon{
   width: 35px;
   height: 35px;
   border-radius: 50%;
-
   object-fit: cover;
   object-position: center right;
+  border: 1px solid;
 }
 
 
@@ -7805,4 +7805,15 @@ for better animation effect */
   background-color: rgba(0,0,0,0.5);
   z-index: 1000;
   cursor: pointer;
+}
+
+.menu_header{
+    padding-left:30px !important;
+}
+
+@media (max-width: 991px) {
+    .menu_header{
+        padding-left:30px !important;
+        padding-bottom:15px !important;
+    }
 }

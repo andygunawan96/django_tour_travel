@@ -61,6 +61,12 @@
   }
 }
 
+@media (min-width: 992px) {
+  .notification-mobile{
+    display: none !important;
+  }
+}
+
 .disabled-btn {
   background: #9E9E9E;
   line-height: 35px;
@@ -1423,7 +1429,7 @@ div.scrollmenu li {
 .hover_cst{
     color:black;
 }
-
+/*
 #big_banner{
     min-height:415px;
 }
@@ -1470,7 +1476,7 @@ div.scrollmenu li {
 		min-height: 160px;
 	}
 }
-
+*/
 .radio-img {
     padding-right:15px;
     cursor:pointer;
@@ -4030,7 +4036,7 @@ for better animation effect */
     position: fixed;
     top:0px;
     bottom:0px;
-    right:-250px;
+    right:0px;
     overflow:auto;
     transition: 0.4s;
 }
@@ -4137,5 +4143,29 @@ for better animation effect */
   bottom: 0;
   background-color: rgba(0,0,0,0.5);
   z-index: 1000;
+  cursor: pointer;
+}
+
+.menu_header{
+
+}
+
+@media (max-width: 991px) {
+    .menu_header{
+        font-size:13px;
+    }
+}
+
+.overlay_menu {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 0;
   cursor: pointer;
 }

@@ -2369,10 +2369,10 @@ h1, h2, h3, h4, h5, h6 {
 #mobile-nav {
   position: fixed;
   top: 0;
-  padding-top: 18px;
   bottom: 0;
   z-index: 998;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(255, 255, 255, 1);
+  border-right:2px solid #cdcdcd;
   left: -260px;
   width: 260px;
   overflow-y: auto;
@@ -2386,21 +2386,24 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #mobile-nav ul li {
+  background: #ebebeb;
   position: relative;
+  margin-bottom:10px;
 }
 
 #mobile-nav ul li a {
-  color: white;
+  color: black;
   font-size: 13px;
   text-transform: uppercase;
   overflow: hidden;
-  padding: 10px 22px 10px 15px;
+  padding: 0px 22px 10px 15px;
   position: relative;
   text-decoration: none;
   width: 100%;
+  margin-top:10px;
   display: block;
   outline: none;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 #mobile-nav ul li a:hover {
@@ -2408,7 +2411,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #mobile-nav ul li li {
-  padding-left: 30px;
+  /*padding-left: 30px;*/
 }
 
 #mobile-nav ul .menu-has-children i {
@@ -2417,7 +2420,8 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 99;
   padding: 15px;
   cursor: pointer;
-  color: #fff;
+  color: #000;
+  font-weight: 800;
 }
 
 #mobile-nav ul .menu-has-children i.fa-chevron-up {
@@ -2430,6 +2434,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #mobile-nav ul .menu-item-active {
   color: #f15a22;
+  font-weight: bold;
 }
 
 #mobile-body-overly {
@@ -7170,9 +7175,9 @@ th input {
   width: 35px;
   height: 35px;
   border-radius: 50%;
-
   object-fit: cover;
   object-position: center right;
+  border: 1px solid;
 }
 
 .image-rounded-profile2 {
@@ -7182,6 +7187,7 @@ th input {
   border: 1px solid #cdcdcd;
   object-fit: cover;
   object-position: center right;
+  border: 1px solid;
 }
 
 
@@ -9752,4 +9758,15 @@ for better animation effect */
   background-color: rgba(0,0,0,0.5);
   z-index: 1000;
   cursor: pointer;
+}
+
+.menu_header{
+    padding-left:10px;
+}
+
+@media (max-width: 991px) {
+    .menu_header{
+        padding-left:15px;
+        padding-bottom:10px;
+    }
 }

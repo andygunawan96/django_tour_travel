@@ -2121,6 +2121,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #mobile-nav ul li {
   position: relative;
+  padding-top:15px;
 }
 
 #mobile-nav ul li a {
@@ -2142,7 +2143,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #mobile-nav ul li li {
-  padding-left: 30px;
+  padding-left: 15px;
+  font-size:13px;
+  color:white;
 }
 
 #mobile-nav ul .menu-has-children i {
@@ -8943,4 +8946,16 @@ for better animation effect */
   background-color: rgba(0,0,0,0.5);
   z-index: 1000;
   cursor: pointer;
+}
+
+.menu_header{
+    padding-left:15px !important;
+}
+
+@media (max-width: 991px) {
+    .menu_header{
+        padding-left:30px !important;
+        padding-bottom:10px !important;
+        font-weight:bold !important;
+    }
 }

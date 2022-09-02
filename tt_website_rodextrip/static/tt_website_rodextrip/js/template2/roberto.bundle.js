@@ -27,7 +27,7 @@
 
 (function ($) {
 
-    if( $(window).width() > 992){
+    if( $(window).width() >= 992){
         $('#username_pc').show();
         $('#password_pc').show();
         $('#forget_pc').show();
@@ -147,7 +147,7 @@
             // check browser width in real-time
             function breakpointCheck() {
                 var windoWidth = window.innerWidth;
-                if (windoWidth <= defaultOpt.breakpoint || windoWidth <= 1006) {
+                if (windoWidth <= defaultOpt.breakpoint || windoWidth <= 991) {
                     navContainer.removeClass('breakpoint-off').addClass('breakpoint-on');
                 } else {
                     navContainer.removeClass('breakpoint-on').addClass('breakpoint-off');

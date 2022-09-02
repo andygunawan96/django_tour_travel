@@ -178,10 +178,20 @@ nav ul ul {
     background: #fff;
     padding: 10px;
 }
-	
+
+nav ul li > ul {
+    display:none !important;
+}
+
+.nav-ul-d-block{
+    display:block !important;
+}
+
 /* Display Dropdowns on Hover */
-nav ul li:hover > ul {
-	display:inherit;
+@media (min-width: 992px) {
+    nav ul li:hover > ul {
+        display:block !important;
+    }
 }
 	
 /* Fisrt Tier Dropdown */
@@ -226,7 +236,7 @@ li > a:only-child:after { content: ''; }
 /* Media Queries
 --------------------------------------------- */
 
-@media all and (max-width : 992px) {
+@media all and (max-width : 991px) {
 
 	#logo {
 		display: block;
@@ -289,10 +299,16 @@ li > a:only-child:after { content: ''; }
 	[id^=drop]:checked + ul {
 		display: block;
 		background: #fff;
-		border:1px solid #cdcdcd;
-		padding: 15px 0;
-		width:100%;
-		text-align: center;
+		border-right:1px solid #cdcdcd;
+		padding: 15px;
+		width: 300px;
+		height: 100%;
+		position: fixed;
+		top:0px;
+		left:0px;
+		text-align: left;
+		font-size:18px;
+		overflow: auto;
 	}
 
 	/* Change menu item's width to 100% */
@@ -355,7 +371,7 @@ li > a:only-child:after { content: ''; }
 	nav ul ul li:hover > ul,
 	nav ul li:hover > ul {
 		display: block;
-		border:1px solid #cdcdcd;
+		border-bottom:1px solid #cdcdcd;
 	}
 		
 	/* Fisrt Tier Dropdown */
