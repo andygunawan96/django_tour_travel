@@ -5362,9 +5362,19 @@ function airline_detail(type){
 function on_change_ssr(){
     additional_price = 0;
     for(i in passengers){
-        for(j in passengers[i].seat_list){
-            if(isNaN(parseInt(passengers[i].seat_list[j].price)) == false)
-                additional_price += parseInt(passengers[i].seat_list[j].price);
+        // seat hanya di hitung pre book, after sales di abaikan
+        if(!after_sales){
+            for(j in passengers[i].seat_list){
+                if(isNaN(parseInt(passengers[i].seat_list[j].price)) == false)
+                    additional_price += parseInt(passengers[i].seat_list[j].price);
+            }
+        }
+        if(document.URL.split('/')[document.URL.split('/').length-2] == 'ssr'){
+            for(j in passengers[i].ssr_list){
+                if(passengers[i].ssr_list[j].hasOwnProperty('price')){
+                    additional_price -= passengers[i].ssr_list[j].price;
+                }
+            }
         }
     }
 
