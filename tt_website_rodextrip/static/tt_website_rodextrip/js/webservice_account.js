@@ -1799,7 +1799,14 @@ function render_notification(){
         <label class="radio-label" style="width:120px; cursor:pointer;">
             <input type="radio" name="provider_notification_radio" value="all_provider" checked onchange="render_notification()">
             <div class="div_radio_img_txt" style="text-transform: capitalize;">
-                <h6 style="font-size:20px; font-weight:bold;">ALL</h6><br/>Provider
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h6 style="font-size:20px; font-weight:bold;">ALL</h6>
+                    </div>
+                    <div class="col-xs-12">
+                        Provider
+                    </div>
+                </div>
             </div>
         </label>`;
         provider_type_list_notification = [];
@@ -1809,53 +1816,57 @@ function render_notification(){
         provider_type_unique = [...new Set(provider_type_list_notification)];
 
         for(i in provider_type_unique){
-            text_provider += `
+        text_provider += `
             <label class="radio-label" style="width:120px; cursor:pointer;">
                 <input type="radio" name="provider_notification_radio" value="`+provider_type_unique[i]+`" onchange="render_notification()">
-                <div class="div_radio_img_txt" style="text-transform: capitalize;">`;
-
-                if(provider_type_unique[i] == "airline"){
-                    text_provider += `<img src="/static/tt_website_rodextrip/images/icon/airlines_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
-                }else if(provider_type_unique[i] == "train"){
-                    text_provider += `<img src="/static/tt_website_rodextrip/images/icon/train_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
-                }else if(provider_type_unique[i] == "hotel"){
-                    text_provider += `<img src="/static/tt_website_rodextrip/images/icon/hotel_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
-                }else if(provider_type_unique[i] == "activity"){
-                    text_provider += `<img src="/static/tt_website_rodextrip/images/icon/activity_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
-                }else if(provider_type_unique[i] == "tour"){
-                    text_provider += `<img src="/static/tt_website_rodextrip/images/icon/tour_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
-                }else if(provider_type_unique[i] == "visa"){
-                    text_provider += `<img src="/static/tt_website_rodextrip/images/icon/visa_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
-                }else if(provider_type_unique[i] == "passport"){
-                    text_provider += `<img src="/static/tt_website_rodextrip/images/icon/passport_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
-                }else if(provider_type_unique[i] == "ppob"){
-                    text_provider += `<img src="/static/tt_website_rodextrip/images/icon/ppob_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
-                }else if(provider_type_unique[i] == "event"){
-                    text_provider += `<img src="/static/tt_website_rodextrip/images/icon/event_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
-                }else if(provider_type_unique[i] == "bus"){
-                    text_provider += `<img src="/static/tt_website_rodextrip/images/icon/bus_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
-                }else if(provider_type_unique[i] == "insurance"){
-                    text_provider += `<img src="/static/tt_website_rodextrip/images/icon/insurance_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
-                }else if(provider_type_unique[i] == "offline"){
-                    text_provider += `<img src="/static/tt_website_rodextrip/images/icon/offline_black.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
-                }else if(provider_type_unique[i] == "groupooking"){
-                    text_provider += `<img src="/static/tt_website_rodextrip/images/icon/groupbooking_black.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
-                }else if(provider_type_unique[i] == "mitrakeluarga"){
-                    text_provider += `<img src="/static/tt_website_rodextrip/images/icon/mitra_keluarga.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
-                }else if(provider_type_unique[i] == "phc"){
-                    text_provider += `<img src="/static/tt_website_rodextrip/images/icon/phc_logo.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
-                }else if(provider_type_unique[i] == "labpintar"){
-                    text_provider += `<img src="/static/tt_website_rodextrip/images/icon/lab_pintar.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
-                }else if(provider_type_unique[i] == "sentramedika"){
-                    text_provider += `<img src="/static/tt_website_rodextrip/images/icon/sentra_medika.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
-                }else if(provider_type_unique[i] == "periksain"){
-                    text_provider += `<img src="/static/tt_website_rodextrip/images/icon/periksain.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
-                }else{
-                    text_provider += `<img src="/static/tt_website_rodextrip/images/icon/wallet_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
-                }
-
+                <div class="div_radio_img_txt" style="text-transform: capitalize;">
+                    <div class="row">
+                        <div class="col-xs-12">`;
+                            if(provider_type_unique[i] == "airline"){
+                                text_provider += `<img src="/static/tt_website_rodextrip/images/icon/airlines_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                            }else if(provider_type_unique[i] == "train"){
+                                text_provider += `<img src="/static/tt_website_rodextrip/images/icon/train_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                            }else if(provider_type_unique[i] == "hotel"){
+                                text_provider += `<img src="/static/tt_website_rodextrip/images/icon/hotel_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                            }else if(provider_type_unique[i] == "activity"){
+                                text_provider += `<img src="/static/tt_website_rodextrip/images/icon/activity_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                            }else if(provider_type_unique[i] == "tour"){
+                                text_provider += `<img src="/static/tt_website_rodextrip/images/icon/tour_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                            }else if(provider_type_unique[i] == "visa"){
+                                text_provider += `<img src="/static/tt_website_rodextrip/images/icon/visa_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                            }else if(provider_type_unique[i] == "passport"){
+                                text_provider += `<img src="/static/tt_website_rodextrip/images/icon/passport_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                            }else if(provider_type_unique[i] == "ppob"){
+                                text_provider += `<img src="/static/tt_website_rodextrip/images/icon/ppob_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                            }else if(provider_type_unique[i] == "event"){
+                                text_provider += `<img src="/static/tt_website_rodextrip/images/icon/event_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                            }else if(provider_type_unique[i] == "bus"){
+                                text_provider += `<img src="/static/tt_website_rodextrip/images/icon/bus_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                            }else if(provider_type_unique[i] == "insurance"){
+                                text_provider += `<img src="/static/tt_website_rodextrip/images/icon/insurance_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                            }else if(provider_type_unique[i] == "offline"){
+                                text_provider += `<img src="/static/tt_website_rodextrip/images/icon/offline_black.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
+                            }else if(provider_type_unique[i] == "groupooking"){
+                                text_provider += `<img src="/static/tt_website_rodextrip/images/icon/groupbooking_black.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
+                            }else if(provider_type_unique[i] == "mitrakeluarga"){
+                                text_provider += `<img src="/static/tt_website_rodextrip/images/icon/mitra_keluarga.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
+                            }else if(provider_type_unique[i] == "phc"){
+                                text_provider += `<img src="/static/tt_website_rodextrip/images/icon/phc_logo.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
+                            }else if(provider_type_unique[i] == "labpintar"){
+                                text_provider += `<img src="/static/tt_website_rodextrip/images/icon/lab_pintar.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
+                            }else if(provider_type_unique[i] == "sentramedika"){
+                                text_provider += `<img src="/static/tt_website_rodextrip/images/icon/sentra_medika.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
+                            }else if(provider_type_unique[i] == "periksain"){
+                                text_provider += `<img src="/static/tt_website_rodextrip/images/icon/periksain.png" alt="`+render_data_notification[i].name+`" style="width:auto; height:20px;">`;
+                            }else{
+                                text_provider += `<img src="/static/tt_website_rodextrip/images/icon/wallet_black.png" alt="`+render_data_notification[i].name+`" style="width:20px; height:20px;">`;
+                            }
             text_provider += `
-                    <br/> `+provider_type_unique[i]+`
+                        </div>
+                        <div class="col-xs-12">
+                            `+provider_type_unique[i]+`
+                        </div>
+                    </div>
                 </div>
             </label>`;
         }
