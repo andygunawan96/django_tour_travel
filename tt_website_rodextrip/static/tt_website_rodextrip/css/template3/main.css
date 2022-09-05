@@ -8558,7 +8558,7 @@ ul.progress_tabs li.current .image-rounded-icon{
 }
 
 .main-menu{
-    padding: 15px 0px;
+    padding: 0px;
 }
 
 .single-recent-blog-post{
@@ -8952,10 +8952,20 @@ for better animation effect */
     padding-left:15px !important;
 }
 
+.li_menu{
+    padding-left:5px;
+    margin:20px 0px;
+}
+
 @media (max-width: 991px) {
     .menu_header{
         padding-left:30px !important;
         padding-bottom:10px !important;
         font-weight:bold !important;
     }
+
+    .li_menu{
+        margin:5px 0px;
+    }
 }
+
