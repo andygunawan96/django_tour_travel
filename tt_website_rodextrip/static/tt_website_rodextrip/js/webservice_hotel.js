@@ -342,62 +342,64 @@ function hotel_get_current_search(){
                     if(msg.result.error_code == 0){
                         hotel_data = msg.result.response;
                         vendor = [];
-                        for(i in msg.result.response.hotel_ids){
-                            check = 0;
-    //                                        if(vendor.length != 0){
-    //                                            for(j in msg.result.response.hotel_ids[i].prices){
-    //                                                if(vendor.indexOf(j) == -1){
-    //                                                    vendor.push(j);
-    //                                                }else{
-    //                                                    check = 1;
-    //                                                }
-    //                                            }
-    //                                        }
-    //                                        if(check == 0){
-    //                                            for(j in msg.result.response.hotel_ids[i].prices){
-    //                                                if(vendor.indexOf(j) == -1){
-    //                                                    vendor.push(j);
-    //                                                }
-    //                                            }
-    //                                        }
-                           for(j in msg.result.response.hotel_ids[i].prices){
-                               if(high_price_slider < msg.result.response.hotel_ids[i].prices[j].price){
-                                   high_price_slider = msg.result.response.hotel_ids[i].prices[j].price;
+                        if(msg.result.response.hotel_ids.length > 0){
+                            for(i in msg.result.response.hotel_ids){
+                                check = 0;
+        //                                        if(vendor.length != 0){
+        //                                            for(j in msg.result.response.hotel_ids[i].prices){
+        //                                                if(vendor.indexOf(j) == -1){
+        //                                                    vendor.push(j);
+        //                                                }else{
+        //                                                    check = 1;
+        //                                                }
+        //                                            }
+        //                                        }
+        //                                        if(check == 0){
+        //                                            for(j in msg.result.response.hotel_ids[i].prices){
+        //                                                if(vendor.indexOf(j) == -1){
+        //                                                    vendor.push(j);
+        //                                                }
+        //                                            }
+        //                                        }
+                               for(j in msg.result.response.hotel_ids[i].prices){
+                                   if(high_price_slider < msg.result.response.hotel_ids[i].prices[j].price){
+                                       high_price_slider = msg.result.response.hotel_ids[i].prices[j].price;
+                                   }
+                                   if(low_price_slider > msg.result.response.hotel_ids[i].prices[j].price){
+                                       low_price_slider = msg.result.response.hotel_ids[i].prices[j].price;
+                                   }
                                }
-                               if(low_price_slider > msg.result.response.hotel_ids[i].prices[j].price){
-                                   low_price_slider = msg.result.response.hotel_ids[i].prices[j].price;
-                               }
-                           }
-                        }
-                        if(high_price_slider <= 1000000){
-                            step_slider = 50000;
-                        }
-                        else if(high_price_slider > 1000000 && high_price_slider <= 10000000 ){
-                            step_slider = 100000;
-                        }
-                        else{
-                            step_slider = 200000;
-                        }
-                        document.getElementById("price-from").value = low_price_slider;
-                        document.getElementById("price-to").value = high_price_slider;
-                        document.getElementById("price-from2").value = low_price_slider;
-                        document.getElementById("price-to2").value = high_price_slider;
+                            }
+                            if(high_price_slider <= 1000000){
+                                step_slider = 50000;
+                            }
+                            else if(high_price_slider > 1000000 && high_price_slider <= 10000000 ){
+                                step_slider = 100000;
+                            }
+                            else{
+                                step_slider = 200000;
+                            }
+                            document.getElementById("price-from").value = low_price_slider;
+                            document.getElementById("price-to").value = high_price_slider;
+                            document.getElementById("price-from2").value = low_price_slider;
+                            document.getElementById("price-to2").value = high_price_slider;
 
-                        $(".js-range-slider").data("ionRangeSlider").update({
-                             from: low_price_slider,
-                             to: high_price_slider,
-                             min: low_price_slider,
-                             max: high_price_slider,
-                             step: step_slider
-                        });
-                        $(".js-range-slider2").data("ionRangeSlider").update({
-                             from: low_price_slider,
-                             to: high_price_slider,
-                             min: low_price_slider,
-                             max: high_price_slider,
-                             step: step_slider
-                        });
-                        filtering('filter', 0);
+                            $(".js-range-slider").data("ionRangeSlider").update({
+                                 from: low_price_slider,
+                                 to: high_price_slider,
+                                 min: low_price_slider,
+                                 max: high_price_slider,
+                                 step: step_slider
+                            });
+                            $(".js-range-slider2").data("ionRangeSlider").update({
+                                 from: low_price_slider,
+                                 to: high_price_slider,
+                                 min: low_price_slider,
+                                 max: high_price_slider,
+                                 step: step_slider
+                            });
+                            filtering('filter');
+                        }
                         hotel_get_current_search();
                     }
                },
@@ -501,7 +503,7 @@ function hotel_search(){
                          max: high_price_slider,
                          step: step_slider
                     });
-                    filtering('filter', 0);
+                    filtering('filter');
                 }else{
                     //kalau error belum
                     document.getElementById("hotel_error").innerHTML = '';
