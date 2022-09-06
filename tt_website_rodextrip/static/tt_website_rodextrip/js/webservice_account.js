@@ -1404,9 +1404,11 @@ function table_top_up_history(){
     if(data.length != 0){
         $('#top_up_found').hide();
         for(i in data){
-            data_search.push(data[i]);
+//            data_search.push(data[i]);
+            var node = document.createElement("form");
+            node.id = 'gotobooking'+data_counter;
+            node.style = 'width:100%; margin-bottom:30px;';
             text+=`
-            <form action="" method="POST" id="gotobooking`+data_counter+`" style="width:100%; margin-bottom:30px;"/>
             <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; width:100%; padding:15px 15px 0px 15px;">
                 <div class="row">
                     <div class="col-lg-6 mb-3">
@@ -1488,8 +1490,9 @@ function table_top_up_history(){
                     </div>
                 </div>
             </div>`;
-
-            document.getElementById("table_top_up_history").innerHTML += text;
+            node.innerHTML = text;
+            document.getElementById("table_top_up_history").appendChild(node);
+//            document.getElementById("table_top_up_history").innerHTML += text;
             $('#loading-search-top-up').hide();
     //                   document.getElementById('airlines_ticket').innerHTML += text;
             text = '';
@@ -1816,7 +1819,7 @@ function render_notification(){
         provider_type_unique = [...new Set(provider_type_list_notification)];
 
         for(i in provider_type_unique){
-        text_provider += `
+            text_provider += `
             <label class="radio-label" style="width:120px; cursor:pointer;">
                 <input type="radio" name="provider_notification_radio" value="`+provider_type_unique[i]+`" onchange="render_notification()">
                 <div class="div_radio_img_txt" style="text-transform: capitalize;">

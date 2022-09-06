@@ -1544,6 +1544,16 @@ def update_passengers(request):
         response = get_cache_data()
         passenger = []
         passenger_cache = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']])
+        sell_journey_dict = request.session.get('airline_sell_journey_%s' % request.POST['signature'], {})
+        last_departure_date = ''
+        for sell_journey in sell_journey_dict['sell_journey_provider']:
+            for journey in sell_journey['journeys']:
+                last_departure_date = datetime.strptime(journey['departure_date'], '%a, %d %b %Y - %H:%M')
+        year_exp_date = ''
+        if datetime.strptime('%s-09-09' % datetime.now().strftime('%Y'), '%Y-%m-%d') > last_departure_date:
+            year_exp_date = str(int(datetime.now().strftime('%Y')) - 1)
+        else:
+            year_exp_date = str(datetime.now().strftime('%Y'))
         for pax_type in passenger_cache:
             if pax_type != 'booker' and pax_type != 'contact':
                 for pax in passenger_cache[pax_type]:
@@ -1570,13 +1580,13 @@ def update_passengers(request):
                         if pax.get('identity_expdate'):
                             identity_expired_date = '%s-%s-%s' % (pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],pax['identity_expdate'].split(' ')[0])
                         else:
-                            identity_expired_date = ("%s-09-09" % (str(int(datetime.now().strftime('%Y')) + 10)))
+                            identity_expired_date = ("%s-09-09" % (year_exp_date))
                         pax['identity'] = {
-                            "identity_country_of_issued_name": pax.get('identity_country_of_issued_name', 'Indonesia'),
+                            "identity_country_of_issued_name": pax.get('identity_country_of_issued_name') or 'Indonesia',
                             "identity_country_of_issued_code": pax.get('identity_country_of_issued_code') or 'ID',
                             "identity_expdate": identity_expired_date,
-                            "identity_number": pax.get('identity_number', identity_number),
-                            "identity_type": pax.get('identity_type', 'passport'),
+                            "identity_number": pax.get('identity_number') or identity_number,
+                            "identity_type": pax.get('identity_type') or 'passport',
                             "identity_image": pax.get('identity_image', []),
                             # "is_valid_identity": pax.pop('is_valid_identity')
                         }

@@ -712,6 +712,8 @@ function sort(response, check_filter){
         text='';
         if(response.hotel_ids.length != 0){
             for(i in response.hotel_ids){
+                var node = document.createElement("div");
+                node.id = "hotel"+i+"_div";
                 text = '<form id="hotel'+i+'" action="/hotel/detail" method="POST">';
                 //msg.result.response.city_ids[i].sequence
                 text+=`
@@ -1056,8 +1058,10 @@ function sort(response, check_filter){
                 //tambah button ke detail
                 node.className = 'sorting-box-b';
                 node.innerHTML = text;
-                document.getElementById("hotel_ticket").appendChild(node);
-                node = document.createElement("div");
+                if(document.getElementById(node.id) == null)
+                    document.getElementById("hotel_ticket").appendChild(node);
+                else
+                    document.getElementById(node.id).innerHTML = node.innerHTML;
 
                 new jBox('Tooltip', {
                     attach: '#view_all'+i,
@@ -1081,7 +1085,8 @@ function sort(response, check_filter){
                 });
 
             }
-            $('#loading-search-hotel').hide();
+            if(is_hotel_search_done)
+                $('#loading-search-hotel').hide();
 
             var items = $(".sorting-box-b");
             var numItems = items.length;
