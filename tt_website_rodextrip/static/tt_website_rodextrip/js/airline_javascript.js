@@ -7631,8 +7631,9 @@ function get_airline_review_after_sales(){
                 }
                 if(is_add_data)
                     text+=`<label>Notes: Add new</label>`;
-                else
-                    text+=`<label>Notes: Change for same type only</label>`;
+                else{
+                    text+=`<label>Notes: Change are only for same `+addons_type+` type</label>`;
+                }
                 text+=`
             </div>
         </div>
