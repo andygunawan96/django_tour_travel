@@ -322,16 +322,23 @@ def search(request):
             logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
     if data:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "search",
+            "signature": request.POST['signature']
+        }
+        signature = request.POST['signature']
         url_request = url + 'booking/hotel'
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
         set_session(request, 'hotel_response_search', res)
     else:
+        signature = request.session['hotel_signature']
         res = request.session['hotel_response_search']
     try:
         counter = 0
         sequence = 0
         if res['result']['error_code'] == 0:
-            signature = copy.deepcopy(request.session['hotel_signature'])
             set_session(request, 'hotel_error', {
                 'error_code': res['result']['error_code'],
                 'signature': signature
