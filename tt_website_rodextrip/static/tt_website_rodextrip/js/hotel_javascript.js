@@ -831,17 +831,17 @@ function sort(response, check_filter){
                                     text+=`
                                     <div class="row">`;
                                     try{
-                                        var ava_fac = '';
+//                                        var ava_fac = '';
                                         for(j in top_facility){
                                             var facility_check = 0;
                                             for(k in response.hotel_ids[i].facilities){
                                                 if(top_facility[j].facility_name.toLowerCase() == response.hotel_ids[i].facilities[k].facility_name.toLowerCase() ){
                                                     facility_check = 1;
-                                                    ava_fac += response.hotel_ids[i].facilities[k].facility_id + ','
+//                                                    ava_fac += response.hotel_ids[i].facilities[k].facility_id + ','
                                                     break;
                                                 } else if (top_facility[j].internal_name.toLowerCase().includes(response.hotel_ids[i].facilities[k].facility_name.toLowerCase()) ){
                                                     facility_check = 1;
-                                                    ava_fac += response.hotel_ids[i].facilities[k].facility_id + ','
+//                                                    ava_fac += response.hotel_ids[i].facilities[k].facility_id + ','
                                                     break;
                                                 }
                                             }
@@ -2907,17 +2907,17 @@ function change_image_hotel(numb){
                                     text+=`
                                     <div class="row">`;
                                     try{
-                                        var ava_fac = '';
+//                                        var ava_fac = '';
                                         for(j in top_facility){
                                             var facility_check = 0;
                                             for(k in temp_response.hotel_ids[i].facilities){
                                                 if(top_facility[j].facility_name.toLowerCase() == temp_response.hotel_ids[i].facilities[k].facility_name.toLowerCase() ){
                                                     facility_check = 1;
-                                                    ava_fac += temp_response.hotel_ids[i].facilities[k].facility_id + ','
+//                                                    ava_fac += temp_response.hotel_ids[i].facilities[k].facility_id + ','
                                                     break;
                                                 } else if (top_facility[j].internal_name.toLowerCase().includes(temp_response.hotel_ids[i].facilities[k].facility_name.toLowerCase()) ){
                                                     facility_check = 1;
-                                                    ava_fac += temp_response.hotel_ids[i].facilities[k].facility_id + ','
+//                                                    ava_fac += temp_response.hotel_ids[i].facilities[k].facility_id + ','
                                                     break;
                                                 }
                                             }

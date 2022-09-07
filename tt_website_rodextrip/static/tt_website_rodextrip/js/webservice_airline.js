@@ -2138,8 +2138,9 @@ function airline_get_provider_list(type, data=''){
                     if(is_replace_ssr)
                         after_sales_setting_text = 'Replace SSR';
                     else
-                        after_sales_setting_text = 'Add SSR';
+                        after_sales_setting_text = 'Add New SSR';
                     document.getElementById('after_sales_setting').innerHTML = after_sales_setting_text;
+                    document.getElementById('after_sales_setting_footer').innerHTML = after_sales_setting_text;
                     document.getElementById('after_sales_setting').hidden = false;
                 }
            }else if(type == 'seat'){
