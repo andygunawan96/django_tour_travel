@@ -1212,6 +1212,7 @@ function ppob_get_booking(data){
                                     'DISC': total_price_dict['DISC'] + price['DISC'],
                                     'SEAT': total_price_dict['SEAT'] + price['SEAT']
                                 }
+                                counter_service_charge++;
                             }
                         }else{
                             if(roc != 0)
@@ -1278,10 +1279,10 @@ function ppob_get_booking(data){
                                     'DISC': total_price_dict['DISC'] + price['DISC'],
                                     'SEAT': total_price_dict['SEAT'] + price['SEAT']
                                 }
+                                counter_service_charge++;
                             }
                         }
                         price_provider = 0;
-                        counter_service_charge++;
                     }catch(err){
                         console.log(err);
                     }
