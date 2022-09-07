@@ -541,9 +541,10 @@ function hotel_search(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            is_hotel_search_done = true;
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel search');
             $('#loading-search-hotel').hide();
-       },timeout: 180000
+       },timeout: 300000
    });
 }
 

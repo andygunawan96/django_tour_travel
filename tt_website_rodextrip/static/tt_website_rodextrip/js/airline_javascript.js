@@ -7510,7 +7510,7 @@ function get_airline_review_after_sales(){
                     flight_count++;
                 }
                 try{
-                    text+=`<img data-toggle="tooltip" alt="`+airline_carriers[airline_get_detail.provider_bookings[i].journeys[j].segments[k].carrier_code]+`" title="`+airline_carriers[airline_get_detail.provider_bookings[i].journeys[j].segments[k].carrier_code]+`" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_detail.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
+                    text+=`<img data-toggle="tooltip" alt="`+airline_carriers[airline_get_detail.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" title="`+airline_carriers[airline_get_detail.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_detail.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
                 }catch(err){
                     text+=`<img data-toggle="tooltip" alt="Airline" title="" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_detail.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
                 }
@@ -7619,13 +7619,21 @@ function get_airline_review_after_sales(){
 
                 text+=`</table>
                     <br/>`;
-                is_replace_ssr = false;
-                for(i in airline_get_detail.provider_bookings){
-                    if(provider_list_data[airline_get_detail.provider_bookings[i].provider].is_replace_seat)
-                        is_replace_ssr = true;
+                is_add_data = true;
+                if(addons_type == 'ssr'){
+                    for(i in airline_get_detail.provider_bookings){
+                        if(provider_list_data[airline_get_detail.provider_bookings[i].provider].is_replace_ssr)
+                            is_replace_data = false;
+                    }
+                }else{
+                    // seat true
+                    is_replace_data = false;
                 }
-                if(is_replace_ssr)
-                    text+=`<label>Notes: Change for same type only</label>
+                if(is_add_data)
+                    text+=`<label>Notes: Add new</label>`;
+                else
+                    text+=`<label>Notes: Change for same type only</label>`;
+                text+=`
             </div>
         </div>
     </div>`;
