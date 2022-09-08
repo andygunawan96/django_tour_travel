@@ -633,7 +633,6 @@ function force_issued_train(val){
         train_create_booking(val);
       }
     })
-
 }
 
 function train_create_booking(val, type=''){
@@ -2838,4 +2837,28 @@ function upload_image(){
             document.getElementById('update_passenger_customer').disabled = false;
        }
     });
+}
+
+function reset_train_filter(){
+    for(i in cabin_list){
+        document.getElementById('checkbox_cabin'+i).checked = false;
+        cabin_list[i].status = false;
+    }for(i in departure_list){
+        if(i == 0){
+            document.getElementById('checkbox_departure_time'+i).checked = true;
+            departure_list[i].status = true;
+        }else{
+            document.getElementById('checkbox_departure_time'+i).checked = false;
+            departure_list[i].status = false;
+        }
+    }
+    for(i in arrival_list){
+        if(i == 0){
+            document.getElementById('checkbox_arrival_time'+i).checked = true;
+            arrival_list[i].status = true;
+        }else{
+            document.getElementById('checkbox_arrival_time'+i).checked = false;
+            arrival_list[i].status = false;
+        }
+    }
 }

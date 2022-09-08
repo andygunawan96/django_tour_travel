@@ -2568,3 +2568,24 @@ function get_seat_map_cache(){
        },timeout: 480000
     });
 }
+
+function reset_bus_filter(){
+    for(i in departure_list){
+        if(i == 0){
+            document.getElementById('checkbox_departure_time'+i).checked = true;
+            departure_list[i].status = true;
+        }else{
+            document.getElementById('checkbox_departure_time'+i).checked = false;
+            departure_list[i].status = false;
+        }
+    }
+    for(i in arrival_list){
+        if(i == 0){
+            document.getElementById('checkbox_arrival_time'+i).checked = true;
+            arrival_list[i].status = true;
+        }else{
+            document.getElementById('checkbox_arrival_time'+i).checked = false;
+            arrival_list[i].status = false;
+        }
+    }
+}

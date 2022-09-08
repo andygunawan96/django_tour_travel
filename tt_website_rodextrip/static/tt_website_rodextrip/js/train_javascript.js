@@ -547,6 +547,7 @@ function choose_train(data,key){
     journeys.push(train_data[key]);
     if(journeys.length < train_request.departure.length){
         train_request_pick++;
+        reset_train_filter();
         filtering('filter');
     }else if(journeys.length == train_request.departure.length){
         document.getElementById('train_choose'+data).value = 'Chosen';
