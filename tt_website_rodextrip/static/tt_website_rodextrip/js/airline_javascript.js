@@ -7318,12 +7318,14 @@ function get_airline_review(){
 //                                text += `<b>Child - </b>`;
                             text+=`
                             <b>Birth Date:</b> <i>`+passengers_ssr[i].birth_date+`</i></div>`;
-                            if(passengers_ssr[i].identity_type)
-                            text+=`
-                            <div class="col-lg-12">
-                                <b>`+passengers_ssr[i].identity_type.substr(0,1).toUpperCase()+passengers_ssr[i].identity_type.substr(1,passengers_ssr[i].identity_type.length)+`</b>: <i>`+passengers_ssr[i].identity_number+`</i>
-                            </div>
-                            <div class="col-lg-12" style="padding-bottom:15px;">`;
+                            if(passengers_ssr[i].identity_type){
+                                text+=`
+                                <div class="col-lg-12">
+                                    <b>`+passengers_ssr[i].identity_type.substr(0,1).toUpperCase()+passengers_ssr[i].identity_type.substr(1,passengers_ssr[i].identity_type.length)+`</b>: <i>`+passengers_ssr[i].identity_number+`</i>
+                                </div>`;
+                            }
+
+                            text+=`<div class="col-lg-12" style="padding-bottom:15px;">`;
                             try{
                                 for(j in passengers_ssr[i].ff_numbers){
                                     text+= `<label>`+passengers_ssr[i].ff_numbers[j].ff_code+`: `+passengers_ssr[i].ff_numbers[j].ff_number+`</label><br/>`;
