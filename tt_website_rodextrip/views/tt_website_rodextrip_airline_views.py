@@ -1829,6 +1829,7 @@ def review_after_sales(request, signature):
                                             })
                                             for list_ssr in journey_ssr['ssrs']:
                                                 if request.POST[ssr_key +'_'+str(counter_ssr_availability_provider+1 - no_ssr_count)+ '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
+                                                    list_ssr['is_replace_ssr'] = ssr_package['is_replace_ssr']
                                                     pax['ssr_list'].append(list_ssr)
                                                     break
                                         except Exception as e:
