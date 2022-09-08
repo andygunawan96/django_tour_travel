@@ -35,6 +35,16 @@ $(document).ready(function(){
             width: "toggle",
             opacity: "toggle"
         });
+        document.body.style.overflowY = "hidden";
+    });
+
+    //untuk getbooking
+    $(".getbooking-slide-toggle").click(function(){
+        $(".box-getbooking").animate({
+            width: "toggle",
+            opacity: "toggle"
+        });
+        document.body.style.overflowY = "hidden";
     });
 
 //    var slowLoad = window.setTimeout( function() {
@@ -3868,9 +3878,24 @@ function on_off_overlay_bar(class_box, overlay_class){
             $('#drop').prop('checked',false);
         }
     }
+    document.body.style.overflowY = "unset";
 }
 
 function close_modal_click(id_modal){
     $("#"+id_modal).modal('hide');
 }
 
+function next_prev_side_div(action_id, from_id, to_id, target_id){
+    if(action_id == 'prev'){
+        document.getElementById('prev_'+target_id).style.display = "none";
+        document.getElementById('next_'+target_id).style.display = "block";
+
+    }else if(action_id == 'next'){
+        document.getElementById('prev_'+target_id).style.display = "block";
+        document.getElementById('next_'+target_id).style.display = "none";
+    }
+
+    document.getElementById(from_id+'_'+target_id).style.display = "none";
+    document.getElementById(to_id+'_'+target_id).style.display = "block";
+
+}

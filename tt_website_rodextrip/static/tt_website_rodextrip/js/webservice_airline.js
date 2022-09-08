@@ -2129,19 +2129,15 @@ function airline_get_provider_list(type, data=''){
                             }
                         }
                     }
-                    is_replace_ssr = false;
                     for(i in airline_get_detail.provider_bookings){
+                        is_replace_ssr = false;
                         if(provider_list_data[airline_get_detail.provider_bookings[i].provider].is_replace_ssr)
                             is_replace_ssr = true;
+                        if(is_replace_ssr)
+                            document.getElementById('provider_info'+parseInt(parseInt(i)+1)).innerHTML = 'Replace SSR'
+                        else
+                            document.getElementById('provider_info'+parseInt(parseInt(i)+1)).innerHTML = 'Add New SSR'
                     }
-                    after_sales_setting_text = '';
-                    if(is_replace_ssr)
-                        after_sales_setting_text = 'Replace SSR';
-                    else
-                        after_sales_setting_text = 'Add New SSR';
-                    document.getElementById('after_sales_setting').innerHTML = after_sales_setting_text;
-                    document.getElementById('after_sales_setting_footer').innerHTML = after_sales_setting_text;
-                    document.getElementById('after_sales_setting').hidden = false;
                 }
            }else if(type == 'seat'){
                 airline_detail(seat_page_type);

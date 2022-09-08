@@ -655,6 +655,7 @@ function choose_bus(data,key){
     journeys.push(bus_data[key]);
     if(journeys.length < bus_request.departure.length){
         bus_request_pick++;
+        reset_bus_filter();
         filtering('filter');
     }else if(journeys.length == bus_request.departure.length){
         document.getElementById('bus_choose'+data).value = 'Chosen';
