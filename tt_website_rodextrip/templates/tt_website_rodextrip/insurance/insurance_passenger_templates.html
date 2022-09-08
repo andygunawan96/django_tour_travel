@@ -129,6 +129,9 @@
                                                                         <div class="form-select">
                                                                             <select id="train_booker_search_type" name="train_booker_search_type">
                                                                                 <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
                                                                                 <option value="cor_name">By Corporate Name</option>
                                                                             </select>
                                                                         </div>
@@ -247,7 +250,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('insurance');" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -359,13 +362,35 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                    <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                <div class="col-lg-9 col-md-9">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <div class="form-select">
+                                                                                <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type">
+                                                                                    <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="mobile">By Customer Mobile</option>
+                                                                                    <option value="email">By Customer Mail</option>
+                                                                                    <option value="identity_type">By Customer Identity Number</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>
+                                                                <div class="col-lg-3 col-md-3">
+                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'insurance');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                 </div>
                                                             </div>
+                                                            <!--<div class="row">-->
+                                                                <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                    <!--<input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--</div>-->
+                                                                <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                    <!--<button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>-->
+                                                                <!--</div>-->
+                                                            <!--</div>-->
                                                             <div class="row">
                                                                 <div class="col-lg-12">
                                                                     <br/>
@@ -816,13 +841,35 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
-                                                                    <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                        <input class="form-control" type="text" id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    <div class="col-lg-9 col-md-9">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <div class="form-select">
+                                                                                    <select id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type">
+                                                                                        <option value="cust_name">By Customer Name</option>
+                                                                                        <option value="mobile">By Customer Mobile</option>
+                                                                                        <option value="email">By Customer Mail</option>
+                                                                                        <option value="identity_type">By Customer Identity Number</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <input class="form-control" type="text" id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                        <button type="button" id="search_{{rec.pax_type}}_relation_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('{{rec.pax_type}}_relation{{counter}}',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>
+                                                                    <div class="col-lg-3 col-md-3">
+                                                                        <button type="button" id="search_{{rec.pax_type}}_relation_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('{{rec.pax_type}}_relation{{counter}}',{{forloop.counter}}, 'insurance');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                     </div>
                                                                 </div>
+                                                                <!--<div class="row">-->
+                                                                    <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                        <!--<input class="form-control" type="text" id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                    <!--</div>-->
+                                                                    <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                        <!--<button type="button" id="search_{{rec.pax_type}}_relation_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('{{rec.pax_type}}_relation{{counter}}',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>-->
+                                                                    <!--</div>-->
+                                                                <!--</div>-->
                                                                 <div class="row">
                                                                     <div class="col-lg-12">
                                                                         <br/>
@@ -1010,13 +1057,35 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                    <input class="form-control" type="text" id="train_Adult_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                <div class="col-lg-9 col-md-9">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <div class="form-select">
+                                                                                <select id="train_Adult_relation_beneficiary{{forloop.counter}}_search_type" name="train_Adult_relation_beneficiary{{forloop.counter}}_search_type">
+                                                                                    <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="mobile">By Customer Mobile</option>
+                                                                                    <option value="email">By Customer Mail</option>
+                                                                                    <option value="identity_type">By Customer Identity Number</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <input class="form-control" type="text" id="train_Adult_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                    <button type="button" id="search_Adult_relation_beneficiary_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('Adult_relation_beneficiary',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>
+                                                                <div class="col-lg-3 col-md-3">
+                                                                    <button type="button" id="search_Adult_relation_beneficiary_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('Adult_relation_beneficiary',{{forloop.counter}}, 'insurance');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                 </div>
                                                             </div>
+                                                            <!--<div class="row">-->
+                                                                <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                    <!--<input class="form-control" type="text" id="train_Adult_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--</div>-->
+                                                                <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                    <!--<button type="button" id="search_Adult_relation_beneficiary_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('Adult_relation_beneficiary',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>-->
+                                                                <!--</div>-->
+                                                            <!--</div>-->
                                                             <div class="row">
                                                                 <div class="col-lg-12">
                                                                     <br/>
@@ -1327,6 +1396,9 @@
                                                                             <div class="form-select">
                                                                                 <select id="train_booker_search_type" name="train_booker_search_type">
                                                                                     <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="mobile">By Customer Mobile</option>
+                                                                                    <option value="email">By Customer Mail</option>
+                                                                                    <option value="identity_type">By Customer Identity Number</option>
                                                                                     <option value="cor_name">By Corporate Name</option>
                                                                                 </select>
                                                                             </div>
@@ -1445,7 +1517,7 @@
                                                     <div class="form-select">
                                                         <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('insurance');" class="nice-select-default">
                                                             {% for country in countries %}
-                                                            <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                            <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
                                                     </div>
@@ -1557,13 +1629,35 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
-                                                                    <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                        <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    <div class="col-lg-9 col-md-9">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <div class="form-select">
+                                                                                    <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type">
+                                                                                        <option value="cust_name">By Customer Name</option>
+                                                                                        <option value="mobile">By Customer Mobile</option>
+                                                                                        <option value="email">By Customer Mail</option>
+                                                                                        <option value="identity_type">By Customer Identity Number</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                        <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>
+                                                                    <div class="col-lg-3 col-md-3">
+                                                                        <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'insurance');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                     </div>
                                                                 </div>
+                                                                <!--<div class="row">-->
+                                                                    <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                        <!--<input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                    <!--</div>-->
+                                                                    <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                        <!--<button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>-->
+                                                                    <!--</div>-->
+                                                                <!--</div>-->
                                                                 <div class="row">
                                                                     <div class="col-lg-12">
                                                                         <br/>
@@ -2014,13 +2108,35 @@
                                                                 </div>
                                                                 <div class="modal-body" style="text-align:left;">
                                                                     <div class="row">
-                                                                        <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                            <input class="form-control" type="text" id="train_adult_relation{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        <div class="col-lg-9 col-md-9">
+                                                                            <div class="row">
+                                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                    <div class="form-select">
+                                                                                        <select id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type">
+                                                                                            <option value="cust_name">By Customer Name</option>
+                                                                                            <option value="mobile">By Customer Mobile</option>
+                                                                                            <option value="email">By Customer Mail</option>
+                                                                                            <option value="identity_type">By Customer Identity Number</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                    <input class="form-control" type="text" id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
-                                                                        <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                            <button type="button" id="search_adult_relation_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation{{counter}}',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>
+                                                                        <div class="col-lg-3 col-md-3">
+                                                                            <button type="button" id="search_{{rec.pax_type}}_relation_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('{{rec.pax_type}}_relation{{counter}}',{{forloop.counter}}, 'insurance');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                         </div>
                                                                     </div>
+                                                                    <!--<div class="row">-->
+                                                                        <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                            <!--<input class="form-control" type="text" id="train_adult_relation{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                        <!--</div>-->
+                                                                        <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                            <!--<button type="button" id="search_adult_relation_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation{{counter}}',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>-->
+                                                                        <!--</div>-->
+                                                                    <!--</div>-->
                                                                     <div class="row">
                                                                         <div class="col-lg-12">
                                                                             <br/>
@@ -2208,13 +2324,35 @@
                                                                 </div>
                                                                 <div class="modal-body" style="text-align:left;">
                                                                     <div class="row">
-                                                                        <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                            <input class="form-control" type="text" id="train_adult_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        <div class="col-lg-9 col-md-9">
+                                                                            <div class="row">
+                                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                    <div class="form-select">
+                                                                                        <select id="train_adult_relation_beneficiary{{forloop.counter}}_search_type" name="train_adult_relation_beneficiary{{forloop.counter}}_search_type">
+                                                                                            <option value="cust_name">By Customer Name</option>
+                                                                                            <option value="mobile">By Customer Mobile</option>
+                                                                                            <option value="email">By Customer Mail</option>
+                                                                                            <option value="identity_type">By Customer Identity Number</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                    <input class="form-control" type="text" id="train_adult_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
-                                                                        <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                            <button type="button" id="search_adult_relation_beneficiary_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation_beneficiary',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>
+                                                                        <div class="col-lg-3 col-md-3">
+                                                                            <button type="button" id="search_adult_relation_beneficiary_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation_beneficiary',{{forloop.counter}}, 'insurance');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                         </div>
                                                                     </div>
+                                                                    <!--<div class="row">-->
+                                                                        <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                            <!--<input class="form-control" type="text" id="train_adult_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                        <!--</div>-->
+                                                                        <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                            <!--<button type="button" id="search_adult_relation_beneficiary_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation_beneficiary',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>-->
+                                                                        <!--</div>-->
+                                                                    <!--</div>-->
                                                                     <div class="row">
                                                                         <div class="col-lg-12">
                                                                             <br/>
@@ -2526,6 +2664,9 @@
                                                                         <div class="form-group">
                                                                             <div class="default-select" id="default-select">                                                                            <select id="train_booker_search_type" name="train_booker_search_type">
                                                                                 <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
                                                                                 <option value="cor_name">By Corporate Name</option>
                                                                             </select>
                                                                             </div>
@@ -2645,7 +2786,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('insurance');" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -2757,13 +2898,35 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                    <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                <div class="col-lg-9 col-md-9">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <div class="form-select">
+                                                                                <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type">
+                                                                                    <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="mobile">By Customer Mobile</option>
+                                                                                    <option value="email">By Customer Mail</option>
+                                                                                    <option value="identity_type">By Customer Identity Number</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>
+                                                                <div class="col-lg-3 col-md-3">
+                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'insurance');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                 </div>
                                                             </div>
+                                                            <!--<div class="row">-->
+                                                                <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                    <!--<input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--</div>-->
+                                                                <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                    <!--<button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>-->
+                                                                <!--</div>-->
+                                                            <!--</div>-->
                                                             <div class="row">
                                                                 <div class="col-lg-12">
                                                                     <br/>
@@ -3216,13 +3379,35 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
-                                                                    <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                        <input class="form-control" type="text" id="train_adult_relation{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    <div class="col-lg-9 col-md-9">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <div class="form-select">
+                                                                                    <select id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type">
+                                                                                        <option value="cust_name">By Customer Name</option>
+                                                                                        <option value="mobile">By Customer Mobile</option>
+                                                                                        <option value="email">By Customer Mail</option>
+                                                                                        <option value="identity_type">By Customer Identity Number</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <input class="form-control" type="text" id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                        <button type="button" id="search_adult_relation_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation{{counter}}',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>
+                                                                    <div class="col-lg-3 col-md-3">
+                                                                        <button type="button" id="search_{{rec.pax_type}}_relation_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('{{rec.pax_type}}_relation{{counter}}',{{forloop.counter}}, 'insurance');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                     </div>
                                                                 </div>
+                                                                <!--<div class="row">-->
+                                                                    <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                        <!--<input class="form-control" type="text" id="train_adult_relation{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                    <!--</div>-->
+                                                                    <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                        <!--<button type="button" id="search_adult_relation_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation{{counter}}',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>-->
+                                                                    <!--</div>-->
+                                                                <!--</div>-->
                                                                 <div class="row">
                                                                     <div class="col-lg-12">
                                                                         <br/>
@@ -3410,13 +3595,35 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
-                                                                    <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                        <input class="form-control" type="text" id="train_adult_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    <div class="col-lg-9 col-md-9">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <div class="form-select">
+                                                                                    <select id="train_{{rec.pax_type}}_relation_beneficiary{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation_beneficiary{{forloop.counter}}_search_type">
+                                                                                        <option value="cust_name">By Customer Name</option>
+                                                                                        <option value="mobile">By Customer Mobile</option>
+                                                                                        <option value="email">By Customer Mail</option>
+                                                                                        <option value="identity_type">By Customer Identity Number</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <input class="form-control" type="text" id="train_{{rec.pax_type}}_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                        <button type="button" id="search_adult_relation_beneficiary_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation_beneficiary',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>
+                                                                    <div class="col-lg-3 col-md-3">
+                                                                        <button type="button" id="search_{{rec.pax_type}}_relation_beneficiary_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('{{rec.pax_type}}_relation_beneficiary',{{forloop.counter}}, 'insurance');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                     </div>
                                                                 </div>
+                                                                <!--<div class="row">-->
+                                                                    <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                        <!--<input class="form-control" type="text" id="train_adult_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                    <!--</div>-->
+                                                                    <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                        <!--<button type="button" id="search_adult_relation_beneficiary_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation_beneficiary',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>-->
+                                                                    <!--</div>-->
+                                                                <!--</div>-->
                                                                 <div class="row">
                                                                     <div class="col-lg-12">
                                                                         <br/>
@@ -3726,6 +3933,9 @@
                                                                         <div class="form-select" id="default-select">
                                                                             <select class="nice-select-default" id="train_booker_search_type" name="train_booker_search_type">
                                                                                 <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
                                                                                 <option value="cor_name">By Corporate Name</option>
                                                                             </select>
                                                                         </div>
@@ -3845,7 +4055,7 @@
                                             <div class="form-select">
                                                 <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('insurance');" class="nice-select-default">
                                                     {% for country in countries %}
-                                                    <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                    <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
@@ -3957,13 +4167,35 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'insurance');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
+                                                        <!--<div class="row">-->
+                                                            <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                <!--<input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                            <!--</div>-->
+                                                            <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                <!--<button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <br/>
@@ -4414,13 +4646,35 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                    <input class="form-control" type="text" id="train_adult_relation{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                <div class="col-lg-9 col-md-9">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <div class="form-select">
+                                                                                <select id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type">
+                                                                                    <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="mobile">By Customer Mobile</option>
+                                                                                    <option value="email">By Customer Mail</option>
+                                                                                    <option value="identity_type">By Customer Identity Number</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <input class="form-control" type="text" id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                    <button type="button" id="search_adult_relation_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation{{counter}}',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>
+                                                                <div class="col-lg-3 col-md-3">
+                                                                    <button type="button" id="search_{{rec.pax_type}}_relation_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('{{rec.pax_type}}_relation{{counter}}',{{forloop.counter}}, 'insurance');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                 </div>
                                                             </div>
+                                                            <!--<div class="row">-->
+                                                                <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                    <!--<input class="form-control" type="text" id="train_adult_relation{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--</div>-->
+                                                                <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                    <!--<button type="button" id="search_adult_relation_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation{{counter}}',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>-->
+                                                                <!--</div>-->
+                                                            <!--</div>-->
                                                             <div class="row">
                                                                 <div class="col-lg-12">
                                                                     <br/>
@@ -4608,13 +4862,35 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                    <input class="form-control" type="text" id="train_adult_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                <div class="col-lg-9 col-md-9">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <div class="form-select">
+                                                                                <select id="train_{{rec.pax_type}}_relation_beneficiary{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation_beneficiary{{forloop.counter}}_search_type">
+                                                                                    <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="mobile">By Customer Mobile</option>
+                                                                                    <option value="email">By Customer Mail</option>
+                                                                                    <option value="identity_type">By Customer Identity Number</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <input class="form-control" type="text" id="train_{{rec.pax_type}}_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                    <button type="button" id="search_adult_relation_beneficiary_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation_beneficiary',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>
+                                                                <div class="col-lg-3 col-md-3">
+                                                                    <button type="button" id="search_{{rec.pax_type}}_relation_beneficiary_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation_beneficiary',{{forloop.counter}}, 'insurance');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                 </div>
                                                             </div>
+                                                            <!--<div class="row">-->
+                                                                <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                    <!--<input class="form-control" type="text" id="train_adult_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--</div>-->
+                                                                <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                    <!--<button type="button" id="search_adult_relation_beneficiary_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation_beneficiary',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>-->
+                                                                <!--</div>-->
+                                                            <!--</div>-->
                                                             <div class="row">
                                                                 <div class="col-lg-12">
                                                                     <br/>
@@ -4921,6 +5197,9 @@
                                                                         <div class="form-select">
                                                                             <select id="train_booker_search_type" name="train_booker_search_type">
                                                                                 <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
                                                                                 <option value="cor_name">By Corporate Name</option>
                                                                             </select>
                                                                         </div>
@@ -5039,7 +5318,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('insurance');" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -5151,13 +5430,35 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                    <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                <div class="col-lg-9 col-md-9">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <div class="form-select">
+                                                                                <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type">
+                                                                                    <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="mobile">By Customer Mobile</option>
+                                                                                    <option value="email">By Customer Mail</option>
+                                                                                    <option value="identity_type">By Customer Identity Number</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>
+                                                                <div class="col-lg-3 col-md-3">
+                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'insurance');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                 </div>
                                                             </div>
+                                                            <!--<div class="row">-->
+                                                                <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                    <!--<input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--</div>-->
+                                                                <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                    <!--<button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>-->
+                                                                <!--</div>-->
+                                                            <!--</div>-->
                                                             <div class="row">
                                                                 <div class="col-lg-12">
                                                                     <br/>
@@ -5608,13 +5909,35 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
-                                                                    <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                        <input class="form-control" type="text" id="train_adult_relation{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    <div class="col-lg-9 col-md-9">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <div class="form-select">
+                                                                                    <select id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type">
+                                                                                        <option value="cust_name">By Customer Name</option>
+                                                                                        <option value="mobile">By Customer Mobile</option>
+                                                                                        <option value="email">By Customer Mail</option>
+                                                                                        <option value="identity_type">By Customer Identity Number</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <input class="form-control" type="text" id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                        <button type="button" id="search_adult_relation_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation{{counter}}',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>
+                                                                    <div class="col-lg-3 col-md-3">
+                                                                        <button type="button" id="search_{{rec.pax_type}}_relation_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('{{rec.pax_type}}_relation{{counter}}',{{forloop.counter}}, 'insurance');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                     </div>
                                                                 </div>
+                                                                <!--<div class="row">-->
+                                                                    <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                        <!--<input class="form-control" type="text" id="train_adult_relation{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                    <!--</div>-->
+                                                                    <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                        <!--<button type="button" id="search_adult_relation_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation{{counter}}',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>-->
+                                                                    <!--</div>-->
+                                                                <!--</div>-->
                                                                 <div class="row">
                                                                     <div class="col-lg-12">
                                                                         <br/>
@@ -5802,13 +6125,35 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
-                                                                    <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                        <input class="form-control" type="text" id="train_adult_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    <div class="col-lg-9 col-md-9">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <div class="form-select">
+                                                                                    <select id="train_adult_relation_beneficiary{{counter}}{{forloop.counter}}_search_type" name="train_adult_relation_beneficiary{{counter}}{{forloop.counter}}_search_type">
+                                                                                        <option value="cust_name">By Customer Name</option>
+                                                                                        <option value="mobile">By Customer Mobile</option>
+                                                                                        <option value="email">By Customer Mail</option>
+                                                                                        <option value="identity_type">By Customer Identity Number</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <input class="form-control" type="text" id="train_adult_relation_beneficiary{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                        <button type="button" id="search_adult_relation_beneficiary_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation_beneficiary',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>
+                                                                    <div class="col-lg-3 col-md-3">
+                                                                        <button type="button" id="search_adult_relation_beneficiary_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation_beneficiary',{{forloop.counter}}, 'insurance');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                     </div>
                                                                 </div>
+                                                                <!--<div class="row">-->
+                                                                    <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                        <!--<input class="form-control" type="text" id="train_adult_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                    <!--</div>-->
+                                                                    <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                        <!--<button type="button" id="search_adult_relation_beneficiary_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation_beneficiary',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>-->
+                                                                    <!--</div>-->
+                                                                <!--</div>-->
                                                                 <div class="row">
                                                                     <div class="col-lg-12">
                                                                         <br/>
@@ -6118,6 +6463,9 @@
                                                                         <div class="form-select">
                                                                             <select id="train_booker_search_type" name="train_booker_search_type">
                                                                                 <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
                                                                                 <option value="cor_name">By Corporate Name</option>
                                                                             </select>
                                                                         </div>
@@ -6236,7 +6584,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('insurance');" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -6348,13 +6696,35 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                    <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                <div class="col-lg-9 col-md-9">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <div class="form-select">
+                                                                                <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type">
+                                                                                    <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="mobile">By Customer Mobile</option>
+                                                                                    <option value="email">By Customer Mail</option>
+                                                                                    <option value="identity_type">By Customer Identity Number</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>
+                                                                <div class="col-lg-3 col-md-3">
+                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'insurance');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                 </div>
                                                             </div>
+                                                            <!--<div class="row">-->
+                                                                <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                    <!--<input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--</div>-->
+                                                                <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                    <!--<button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>-->
+                                                                <!--</div>-->
+                                                            <!--</div>-->
                                                             <div class="row">
                                                                 <div class="col-lg-12">
                                                                     <br/>
@@ -6805,13 +7175,35 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
-                                                                    <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                        <input class="form-control" type="text" id="train_adult_relation{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    <div class="col-lg-9 col-md-9">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <div class="form-select">
+                                                                                    <select id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type" name="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search_type">
+                                                                                        <option value="cust_name">By Customer Name</option>
+                                                                                        <option value="mobile">By Customer Mobile</option>
+                                                                                        <option value="email">By Customer Mail</option>
+                                                                                        <option value="identity_type">By Customer Identity Number</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <input class="form-control" type="text" id="train_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                        <button type="button" id="search_adult_relation_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation{{counter}}',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>
+                                                                    <div class="col-lg-3 col-md-3">
+                                                                        <button type="button" id="search_{{rec.pax_type}}_relation_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('{{rec.pax_type}}_relation{{counter}}',{{forloop.counter}}, 'insurance');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                     </div>
                                                                 </div>
+                                                                <!--<div class="row">-->
+                                                                    <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                        <!--<input class="form-control" type="text" id="train_adult_relation{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                    <!--</div>-->
+                                                                    <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                        <!--<button type="button" id="search_adult_relation_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation{{counter}}',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>-->
+                                                                    <!--</div>-->
+                                                                <!--</div>-->
                                                                 <div class="row">
                                                                     <div class="col-lg-12">
                                                                         <br/>
@@ -6999,13 +7391,35 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
-                                                                    <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                        <input class="form-control" type="text" id="train_adult_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    <div class="col-lg-9 col-md-9">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <div class="form-select">
+                                                                                    <select id="train_adult_relation_beneficiary{{counter}}{{forloop.counter}}_search_type" name="train_adult_relation_beneficiary{{counter}}{{forloop.counter}}_search_type">
+                                                                                        <option value="cust_name">By Customer Name</option>
+                                                                                        <option value="mobile">By Customer Mobile</option>
+                                                                                        <option value="email">By Customer Mail</option>
+                                                                                        <option value="identity_type">By Customer Identity Number</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <input class="form-control" type="text" id="train_adult_relation_beneficiary{{counter}}{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                        <button type="button" id="search_adult_relation_beneficiary_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation_beneficiary',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>
+                                                                    <div class="col-lg-3 col-md-3">
+                                                                        <button type="button" id="search_{{rec.pax_type}}_relation_beneficiary_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation_beneficiary',{{forloop.counter}}, 'insurance');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                     </div>
                                                                 </div>
+                                                                <!--<div class="row">-->
+                                                                    <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                        <!--<input class="form-control" type="text" id="train_adult_relation_beneficiary{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                    <!--</div>-->
+                                                                    <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                        <!--<button type="button" id="search_adult_relation_beneficiary_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult_relation_beneficiary',{{forloop.counter}}, 'insurance')">{% trans 'Search' %}</button>-->
+                                                                    <!--</div>-->
+                                                                <!--</div>-->
                                                                 <div class="row">
                                                                     <div class="col-lg-12">
                                                                         <br/>

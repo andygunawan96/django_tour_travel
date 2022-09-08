@@ -8934,3 +8934,16 @@ for better animation effect */
   z-index: 1001;
   cursor: pointer;
 }
+
+.menu_header{
+    padding-left:10px;
+}
+
+@media (max-width: 991px) {
+    .menu_header{
+        padding-left:40px !important;
+        padding-bottom:10px !important;
+        font-weight: bold;
+        color:white !important;
+    }
+}

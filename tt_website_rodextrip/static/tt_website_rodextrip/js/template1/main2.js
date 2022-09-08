@@ -507,15 +507,15 @@ $(document).ready(function() {
         if (user_login.co_user_login != 'agent_b2c'){
             $('body .main-menu .container').prepend('<button type="button" id="mobile-nav-toggle"><i class="lnr lnr-menu lnr_color"></i></button>');
         }else{
-            $('body .main-menu .container').prepend('<button type="button" id="mobile-nav-toggle" style="font-size:18px; padding:10px 15px; margin-top:-6px; background:'+color+'; color:'+text_color+'"><span style="font-size:14px;">SignIn</span> <i class="fas fa-sign-in-alt" style="color:'+text_color+';font-size:16px;"></i></button>');
+            $('body .main-menu .container').prepend('<button type="button" id="mobile-nav-toggle" style="font-size:18px; padding:10px 15px; background:'+color+'; color:'+text_color+'"><span style="font-size:14px;">SignIn</span> <i class="fas fa-sign-in-alt" style="color:'+text_color+';font-size:16px;"></i></button>');
         }
         $('body .main-menu .container').append('<div id="mobile-body-overly"></div>');
-        $('#mobile-nav').find('.balance_mobile').replaceWith('<li class="pt5"><a style="color:white;"><span id="balance_mob"></span></a></li>');
-        $('#mobile-nav').find('.credit_mobile').replaceWith('<li class="pt5"><a style="color:white;"><span id="credit_mob"></span></a></li>');
+        $('#mobile-nav').find('.balance_mobile').replaceWith('<li class="pt5"><a><span id="balance_mob"></span></a></li>');
+        $('#mobile-nav').find('.credit_mobile').replaceWith('<li class="pt5"><a><span id="credit_mob"></span></a></li>');
         $('#mobile-nav').find('.username_mobile').replaceWith('<li style="padding-right:5px;"><div class="input-container-search-ticket"><input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username2" placeholder="Username"/></div></li>');
-        $('#mobile-nav').find('.password_mobile').replaceWith('<li style="padding-right:5px;"><div class="input-container-search-ticket"><input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password2" placeholder="Password"/><div style="margin-top:10px;width:50px;" onclick="change_password_type();"><i id="password_style2" class="fas fa-eye-slash" style="font-size:18px;color:'+text_color+';"></i></div></li>');
-        $('#mobile-nav').find('.keep_me_mobile').replaceWith('<li style="padding-right:5px;"><div class="input-container-search-ticket"><label class="check_box_custom" style="margin:5px; float:right;"><span style="font-size:13px; color:white;">Keep Me Signin</span><input type="checkbox" value="" id="keep_me_signin2" name="keep_me_signin" checked="checked"><span class="check_box_span_custom"></span></label></div></li>');
-        $('#mobile-nav').find('.forget_password_mobile').replaceWith('<li style="padding-right:5px;"><div class="input-container-search-ticket"><a style="cursor:pointer; text-transform: unset; padding:0px 5px;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 12px;"></i> Forget Password</a></div></li>');
+        $('#mobile-nav').find('.password_mobile').replaceWith('<li style="padding-right:5px;"><div class="input-container-search-ticket"><input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password2" placeholder="Password"/><div style="margin-top:10px;width:50px;" onclick="change_password_type();"><i id="password_style2" class="fas fa-eye-slash" style="font-size:18px;color:black;"></i></div></li>');
+        $('#mobile-nav').find('.keep_me_mobile').replaceWith('<li style="padding-right:5px;"><div class="input-container-search-ticket"><label class="check_box_custom" style="margin:5px; float:right;"><span style="font-size:13px; color:black;">Keep Me Signin</span><input type="checkbox" value="" id="keep_me_signin2" name="keep_me_signin" checked="checked"><span class="check_box_span_custom"></span></label></div></li>');
+        $('#mobile-nav').find('.forget_password_mobile').replaceWith('<li style="padding-right:5px;"><div class="input-container-search-ticket"><a style="cursor:pointer; text-transform: unset; margin-top:unset; padding-left:5px;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 12px;"></i> Forget Password</a></div></li>');
         $('#mobile-nav').find('.signup_pc_mb').replaceWith('<a style="margin-top:5px; font-size:13px; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> Sign Up</a>');
         $('#mobile-nav').find('.menu-has-children').prepend('<i class="lnr lnr-chevron-down"></i>');
         if(document.getElementById("balance_mob") && document.getElementById("balance"))
@@ -542,6 +542,12 @@ $(document).ready(function() {
             $(this).next().toggleClass('menu-item-active');
             $(this).nextAll('ul').eq(0).slideToggle();
             $(this).toggleClass("lnr-chevron-up lnr-chevron-down");
+        });
+
+        $(document).on('click', '.menu-has-children a', function(e) {
+            $(this).next().toggleClass('menu-item-active');
+            $(this).nextAll('ul').eq(0).slideToggle();
+            $(this).parent().find('i').first().toggleClass("lnr-chevron-up lnr-chevron-down");
         });
 
         $(document).on('click', '#mobile-nav-toggle', function(e) {

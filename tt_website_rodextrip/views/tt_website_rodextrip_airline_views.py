@@ -853,7 +853,7 @@ def ssr(request, signature):
                             })
                             if len(pax['fees']):
                                 adult[len(adult) - 1]['ssr_list'] = []
-                                if ssr_provider.get('is_replace_ssr') and ssr_provider['is_replace_ssr'] or True:
+                                if ssr_provider.get('is_replace_ssr') and ssr_provider['is_replace_ssr']:
                                     for fee in pax['fees']:
                                         for provider in ssr_provider['ssr_availability']:
                                             for availability in ssr_provider['ssr_availability'][provider]:

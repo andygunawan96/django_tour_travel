@@ -5362,9 +5362,19 @@ function airline_detail(type){
 function on_change_ssr(){
     additional_price = 0;
     for(i in passengers){
-        for(j in passengers[i].seat_list){
-            if(isNaN(parseInt(passengers[i].seat_list[j].price)) == false)
-                additional_price += parseInt(passengers[i].seat_list[j].price);
+        // seat hanya di hitung pre book, after sales di abaikan
+        if(!after_sales){
+            for(j in passengers[i].seat_list){
+                if(isNaN(parseInt(passengers[i].seat_list[j].price)) == false)
+                    additional_price += parseInt(passengers[i].seat_list[j].price);
+            }
+        }
+        if(document.URL.split('/')[document.URL.split('/').length-2] == 'ssr'){
+            for(j in passengers[i].ssr_list){
+                if(passengers[i].ssr_list[j].hasOwnProperty('price')){
+                    additional_price -= passengers[i].ssr_list[j].price;
+                }
+            }
         }
     }
 
@@ -5704,19 +5714,8 @@ function check_passenger(adult, child, infant, type=''){
             }
        }
    }
-   // di ubah ke true karena kalau false salah 1 lion akan ke bypass rule lion 15 jul 2022
-   var is_provider_lionair = true;
-   var list_carrier_lion_air = ['JT', 'IW', 'ID', 'IU', 'OD'];
-   if(typeof airline_pick !== 'undefined'){
-       for(x in airline_pick){
-            for(y in airline_pick[x].journeys){
-                for(z in airline_pick[x].journeys[y].segments){
-                    if(is_provider_lionair && list_carrier_lion_air.includes(airline_pick[x].journeys[y].segments[z].carrier_code) == false)
-                       is_provider_lionair = false
-                }
-            }
-       }
-   }
+   // is lion air di hapus 1 sept 2022
+   var list_identity_need_update = [];
    //adult
    for(i=1;i<=adult;i++){
 
@@ -5787,7 +5786,7 @@ function check_passenger(adult, child, infant, type=''){
                 });
                if(document.getElementById('adult_nationality'+i).value == 'Indonesia'){
                    //indonesia
-                   if(document.getElementById('adult_id_type'+i).value == 'ktp' && is_international == 'false' || is_provider_lionair == true && document.getElementById('adult_id_type'+i).value == 'ktp'){
+                   if(document.getElementById('adult_id_type'+i).value == 'ktp' && is_international == 'false'){
                         document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
                         $("#adult_id_type"+i).each(function() {
                             $(this).parent().find('.nice-select').css('border', '0px solid red');
@@ -5808,7 +5807,7 @@ function check_passenger(adult, child, infant, type=''){
                              $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
                            });
                         }
-                   }else if(document.getElementById('adult_id_type'+i).value == 'passport' && is_international == 'true' || is_provider_lionair == true && document.getElementById('adult_id_type'+i).value == 'passport'){
+                   }else if(document.getElementById('adult_id_type'+i).value == 'passport' && is_international == 'true'){
                        $("#adult_id_type"+i).each(function() {
                            $(this).parent().find('.nice-select').css('border', '0px solid red');
                        });
@@ -5825,8 +5824,9 @@ function check_passenger(adult, child, infant, type=''){
                            duration = moment.duration(moment(document.getElementById('adult_passport_expired_date'+i).value).diff(last_departure_date));
                            //CHECK EXPIRED
                            if(duration._milliseconds < 0 ){
-                                error_log+= 'Please update passport expired date for passenger adult '+i+'!</br>\n';
-                                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
+                                list_identity_need_update.push('adult_'+i);
+//                                error_log+= 'Please update passport expired date for passenger adult '+i+'!</br>\n';
+//                                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
                            }else
                                 document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
                        }if(document.getElementById('adult_country_of_issued'+i).value == '' || document.getElementById('adult_country_of_issued'+i).value == 'Country of Issued'){
@@ -5840,7 +5840,7 @@ function check_passenger(adult, child, infant, type=''){
                             });
                        }
 
-                   }else if(is_international == 'false' && is_provider_lionair == false){
+                   }else if(is_international == 'false'){
                         error_log += 'Please change identity to NIK for passenger adult '+i+'!</br>\n';
                         $("#adult_id_type"+i).each(function() {
                             $(this).parent().find('.nice-select').css('border', '1px solid red');
@@ -5870,8 +5870,9 @@ function check_passenger(adult, child, infant, type=''){
                            duration = moment.duration(moment(document.getElementById('adult_passport_expired_date'+i).value).diff(last_departure_date));
                            //CHECK EXPIRED
                            if(duration._milliseconds < 0 ){
-                                error_log+= 'Please update passport expired date for passenger adult '+i+'!</br>\n';
-                                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
+                                list_identity_need_update.push('adult_'+i);
+//                                error_log+= 'Please update passport expired date for passenger adult '+i+'!</br>\n';
+//                                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
                            }else
                                 document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
                        }if(document.getElementById('adult_country_of_issued'+i).value == ''){
@@ -6060,8 +6061,9 @@ function check_passenger(adult, child, infant, type=''){
                            duration = moment.duration(moment(document.getElementById('child_passport_expired_date'+i).value).diff(last_departure_date));
                            //CHECK EXPIRED
                            if(duration._milliseconds < 0 ){
-                                error_log+= 'Please update passport expired date for passenger child '+i+'!</br>\n';
-                                document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
+                                list_identity_need_update.push('child_'+i);
+//                                error_log+= 'Please update passport expired date for passenger child '+i+'!</br>\n';
+//                                document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
                            }else
                                 document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
                        }if(document.getElementById('child_country_of_issued'+i).value == '' || document.getElementById('child_country_of_issued'+i).value == 'Country of Issued'){
@@ -6076,7 +6078,7 @@ function check_passenger(adult, child, infant, type=''){
                            });
 
                        }
-                   }else if(is_international == 'false' && is_provider_lionair == false){
+                   }else if(is_international == 'false'){
                         error_log += 'Please change identity to NIK for passenger child '+i+'!</br>\n';
                         $("#child_id_type"+i).each(function() {
                             $(this).parent().find('.nice-select').css('border', '1px solid red');
@@ -6106,8 +6108,9 @@ function check_passenger(adult, child, infant, type=''){
                            duration = moment.duration(moment(document.getElementById('child_passport_expired_date'+i).value).diff(last_departure_date));
                            //CHECK EXPIRED
                            if(duration._milliseconds < 0 ){
-                                error_log+= 'Please update passport expired date for passenger child '+i+'!</br>\n';
-                                document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
+                                list_identity_need_update.push('child_'+i);
+//                                error_log+= 'Please update passport expired date for passenger child '+i+'!</br>\n';
+//                                document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
                            }else
                                 document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
                        }if(document.getElementById('child_country_of_issued'+i).value == ''){
@@ -6276,8 +6279,9 @@ function check_passenger(adult, child, infant, type=''){
                            duration = moment.duration(moment(document.getElementById('infant_passport_expired_date'+i).value).diff(last_departure_date));
                            //CHECK EXPIRED
                            if(duration._milliseconds < 0 ){
-                                error_log+= 'Please update passport expired date for passenger infant '+i+'!</br>\n';
-                                document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
+                                list_identity_need_update.push('infant_'+i);
+//                                error_log+= 'Please update passport expired date for passenger infant '+i+'!</br>\n';
+//                                document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
                            }else
                                 document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
                        }if(document.getElementById('infant_country_of_issued'+i).value == '' || document.getElementById('infant_country_of_issued'+i).value == 'Country of Issued'){
@@ -6290,7 +6294,7 @@ function check_passenger(adult, child, infant, type=''){
                              $(this).siblings(".select2-container").css('border', '1px solid #EFEFEF');
                            });
                        }
-                   }else if(is_international == 'false' && is_provider_lionair == false){
+                   }else if(is_international == 'false'){
                         error_log += 'Please change identity to NIK for passenger infant '+i+'!</br>\n';
                         $("#infant_id_type"+i).each(function() {
                              $(this).parent().find('.nice-select').css('border', '1px solid red');
@@ -6320,8 +6324,9 @@ function check_passenger(adult, child, infant, type=''){
                            duration = moment.duration(moment(document.getElementById('infant_passport_expired_date'+i).value).diff(last_departure_date));
                            //CHECK EXPIRED
                            if(duration._milliseconds < 0 ){
-                                error_log+= 'Please update passport expired date for passenger infant '+i+'!</br>\n';
-                                document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
+                                list_identity_need_update.push('infant_'+i);
+//                                error_log+= 'Please update passport expired date for passenger infant '+i+'!</br>\n';
+//                                document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
                            }else
                                 document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
                        }if(document.getElementById('infant_country_of_issued'+i).value == ''){
@@ -6353,6 +6358,16 @@ function check_passenger(adult, child, infant, type=''){
            }
        }
    }
+//   if(error_log != ''){
+       // kalau ada error lain mau notif error expired identity
+//       for(i in list_identity_need_update){
+//            passenger_id = list_identity_need_update[i].split('_');
+//            error_log+= 'Please update passport expired date for passenger '+passenger_id[0]+' '+passenger_id[1]+'!</br>\n';
+//            document.getElementById(passenger_id[0]+'_passport_expired_date'+passenger_id[1]).style['border-color'] = 'red';
+//       }
+//   }
+
+
    if(error_log==''){
         //KALAU DATE DISABLED DARI TEROPONG VALUE TIDAK BISA DI AMBIL EXPIRED DATE TIDAK DI DISABLED FALSE KARENA BISA DI EDIT
        for(i=1;i<=adult;i++){
@@ -6366,6 +6381,11 @@ function check_passenger(adult, child, infant, type=''){
        for(i=1;i<=infant;i++){
             document.getElementById('infant_birth_date'+i).disabled = false;
 //            document.getElementById('infant_passport_expired_date'+i).disabled = false;
+       }
+       // auto check invalid identity
+       for(i in list_identity_need_update){
+            passenger_id = list_identity_need_update[i].split('_');
+            document.getElementById(passenger_id[0]+'_valid_passport'+passenger_id[1]).checked = true;
        }
        $('.loader-rodextrip').fadeIn();
        document.getElementById('time_limit_input').value = time_limit;
@@ -7490,7 +7510,7 @@ function get_airline_review_after_sales(){
                     flight_count++;
                 }
                 try{
-                    text+=`<img data-toggle="tooltip" alt="`+airline_carriers[airline_get_detail.provider_bookings[i].journeys[j].segments[k].carrier_code]+`" title="`+airline_carriers[airline_get_detail.provider_bookings[i].journeys[j].segments[k].carrier_code]+`" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_detail.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
+                    text+=`<img data-toggle="tooltip" alt="`+airline_carriers[airline_get_detail.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" title="`+airline_carriers[airline_get_detail.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_detail.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
                 }catch(err){
                     text+=`<img data-toggle="tooltip" alt="Airline" title="" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_detail.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
                 }
@@ -7598,7 +7618,23 @@ function get_airline_review_after_sales(){
                     }
 
                 text+=`</table>
-                    <br/><label>Notes: Change for same type only</label>
+                    <br/>`;
+                is_add_data = true;
+                if(addons_type == 'ssr'){
+                    for(i in airline_get_detail.provider_bookings){
+                        if(provider_list_data[airline_get_detail.provider_bookings[i].provider].is_replace_ssr)
+                            is_replace_data = false;
+                    }
+                }else{
+                    // seat true
+                    is_replace_data = false;
+                }
+                if(is_add_data)
+                    text+=`<label>Notes: Add new</label>`;
+                else{
+                    text+=`<label>Notes: Change are only for same `+addons_type+` type</label>`;
+                }
+                text+=`
             </div>
         </div>
     </div>`;
@@ -8007,6 +8043,7 @@ function get_checked_copy_result(){
             <div class="col-lg-12"><hr/></div>
         </div>`;
     });
+    $text += '\nPRICE MAY CHANGE ANYTIME BEFORE PAYMENT IS DONE';
     text+=`
     </div>
     <div class="col-lg-12" style="margin-bottom:15px;" id="share_result">

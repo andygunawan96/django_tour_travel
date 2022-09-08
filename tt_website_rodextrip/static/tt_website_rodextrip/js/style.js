@@ -114,6 +114,9 @@ $(document).ready(function(){
             $('#copy_selected_pc').hide();
             $("#myModalFilter").modal('hide');
             $("#myModalSort").modal('hide');
+            if(template == 6){
+                $('#mylogintemplate6').modal('hide');
+            }
 //            document.getElementById("filter-search-train").style.display = "block";
 //            document.getElementById("sorting-search-train2").style.display = "block";
 //            document.getElementById("mybuttonfiltersort").style.display = "none";
@@ -3848,17 +3851,22 @@ function show_loading_reorder(product){
 //untuk notif overlay
 //
 
-function on_off_overlay_bar(class_box){
-    var overlay_bm = document.getElementsByClassName('overlay_box_menu')[0];
+function on_off_overlay_bar(class_box, overlay_class){
+    var overlay_bm = document.getElementsByClassName(overlay_class)[0];
 
     if (overlay_bm.style.display === "none") {
         overlay_bm.style.display = "block";
     }else{
         overlay_bm.style.display = "none";
-        $("."+class_box).animate({
-            width: "toggle",
-            opacity: "toggle"
-        });
+        if(class_box != 'checked_menu'){
+            $("."+class_box).animate({
+                width: "toggle",
+                opacity: "toggle"
+            });
+        }else{
+            $('.menu-has-children a').next().removeClass('nav-ul-d-block');
+            $('#drop').prop('checked',false);
+        }
     }
 }
 

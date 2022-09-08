@@ -2,6 +2,7 @@ var hotel_data = '';
 var hotel_data_filter = '';
 var hotel_price = '';
 var price_pick = '';
+var is_hotel_search_done = false;
 var month = {
     '01': 'Jan',
     '02': 'Feb',
@@ -271,7 +272,7 @@ function hotel_search_in_detail(){
            child_age+=',';
     }
     temp_id = document.getElementById('hotel_searchForm_wizard').action;
-    temp_id = temp_id.split('/')[temp_id.split('/').length-1]
+    temp_id = temp_id.split('/')[temp_id.split('/').length-1];
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
@@ -323,6 +324,92 @@ function hotel_search_in_detail(){
        },timeout: 180000
    });
 }
+
+function hotel_get_current_search(){
+    if(!is_hotel_search_done){
+        setTimeout(function() {
+            $.ajax({
+               type: "POST",
+               url: "/webservice/hotel",
+               headers:{
+                    'action': 'get_current_search',
+               },
+               data: {
+                    'signature': signature
+               },
+               success: function(msg) {
+                    console.log(msg);
+                    if(msg.result.error_code == 0){
+                        hotel_data = msg.result.response;
+                        vendor = [];
+                        if(msg.result.response.hotel_ids.length > 0){
+                            for(i in msg.result.response.hotel_ids){
+                                check = 0;
+        //                                        if(vendor.length != 0){
+        //                                            for(j in msg.result.response.hotel_ids[i].prices){
+        //                                                if(vendor.indexOf(j) == -1){
+        //                                                    vendor.push(j);
+        //                                                }else{
+        //                                                    check = 1;
+        //                                                }
+        //                                            }
+        //                                        }
+        //                                        if(check == 0){
+        //                                            for(j in msg.result.response.hotel_ids[i].prices){
+        //                                                if(vendor.indexOf(j) == -1){
+        //                                                    vendor.push(j);
+        //                                                }
+        //                                            }
+        //                                        }
+                               for(j in msg.result.response.hotel_ids[i].prices){
+                                   if(high_price_slider < msg.result.response.hotel_ids[i].prices[j].price){
+                                       high_price_slider = msg.result.response.hotel_ids[i].prices[j].price;
+                                   }
+                                   if(low_price_slider > msg.result.response.hotel_ids[i].prices[j].price){
+                                       low_price_slider = msg.result.response.hotel_ids[i].prices[j].price;
+                                   }
+                               }
+                            }
+                            if(high_price_slider <= 1000000){
+                                step_slider = 50000;
+                            }
+                            else if(high_price_slider > 1000000 && high_price_slider <= 10000000 ){
+                                step_slider = 100000;
+                            }
+                            else{
+                                step_slider = 200000;
+                            }
+                            document.getElementById("price-from").value = low_price_slider;
+                            document.getElementById("price-to").value = high_price_slider;
+                            document.getElementById("price-from2").value = low_price_slider;
+                            document.getElementById("price-to2").value = high_price_slider;
+
+                            $(".js-range-slider").data("ionRangeSlider").update({
+                                 from: low_price_slider,
+                                 to: high_price_slider,
+                                 min: low_price_slider,
+                                 max: high_price_slider,
+                                 step: step_slider
+                            });
+                            $(".js-range-slider2").data("ionRangeSlider").update({
+                                 from: low_price_slider,
+                                 to: high_price_slider,
+                                 min: low_price_slider,
+                                 max: high_price_slider,
+                                 step: step_slider
+                            });
+                            filtering('filter');
+                        }
+                        hotel_get_current_search();
+                    }
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                   error_ajax(XMLHttpRequest, textStatus, errorThrown, '');
+               }
+            });
+        }, 10000);
+    }
+}
 //signin jadi 1 sama search
 function hotel_search(){
     getToken();
@@ -333,6 +420,7 @@ function hotel_search(){
        if(i != parseInt($('#hotel_child').val())-1)
            child_age+=',';
     }
+    hotel_get_current_search();
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
@@ -352,6 +440,7 @@ function hotel_search(){
         'signature': signature
        },
        success: function(msg) {
+           is_hotel_search_done = true;
            $('#loading-search-hotel').hide();
            if(google_analytics != '')
                gtag('event', 'hotel_search', {});
@@ -414,7 +503,7 @@ function hotel_search(){
                          max: high_price_slider,
                          step: step_slider
                     });
-                    filtering('filter', 0);
+                    filtering('filter');
                 }else{
                     //kalau error belum
                     document.getElementById("hotel_error").innerHTML = '';
@@ -452,9 +541,10 @@ function hotel_search(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            is_hotel_search_done = true;
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error hotel search');
             $('#loading-search-hotel').hide();
-       },timeout: 180000
+       },timeout: 300000
    });
 }
 
@@ -706,6 +796,9 @@ function hotel_detail_request(checkin_date, checkout_date){
     document.getElementById("select_copy_all").innerHTML = '';
     // date_hotel
     document.getElementById('date_hotel').innerHTML = 'Date: ' + checkin_date + ' - ' + checkout_date;
+    is_first_render_room_hotel = true;
+    hotel_room_detail_pick = null;
+    document.getElementById("badge-hotel-notif").innerHTML = "0";
     myVar = setTimeout(function() {
         $.ajax({
            type: "POST",
@@ -731,7 +824,6 @@ function hotel_detail_request(checkin_date, checkout_date){
             //show package
             if(msg.result.error_code == 0){
                 var result = msg.result.response;
-                is_first_render_room_hotel = true;
                 text='';
                 text2='';
                 text_filter = '';

@@ -182,7 +182,7 @@ $(document).ready(function () {
         $('body').append($mobile_nav);
         if (user_login.co_user_login != 'agent_b2c'){
             $('body .main-menu .container .menu-header-icon .menu-header-icon2').prepend('<button type="button" id="mobile-nav-toggle"><i class="lnr lnr-menu lnr_color"></i></button>');
-            $('body .main-menu .container .menu-header-icon .menu-header-icon2').prepend('<span class="notification-mbl" title="Click to show your notification" style="font-size:16px;color:'+color+'; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i></span>');
+            $('body .main-menu .container .menu-header-icon .menu-header-icon2').prepend('<span class="notification-mbl" title="Click to show your notification" style="font-size:16px;color:'+color+'; cursor:pointer;"><i class="fas fa-bell notif-hover bell_notif animated swing notification-slide-toggle" onclick="on_off_overlay_bar("box-notification");" style="font-size:20px;"></i></span>');
         }else{
             $('body .main-menu .container .menu-header-icon .menu-header-icon2').prepend('<button type="button" id="mobile-nav-toggle" style="z-index:997; font-size:18px; padding:10px 15px; line-height:20px; background:'+color+'; color:'+text_color+'"><span style="font-size:14px;">SignIn</span> <i class="fas fa-sign-in-alt" style="color:'+text_color+';font-size:16px;"></i></button>');
         }
@@ -225,6 +225,12 @@ $(document).ready(function () {
             $(this).next().toggleClass('menu-item-active');
             $(this).nextAll('ul').eq(0).slideToggle();
             $(this).toggleClass("lnr-chevron-up lnr-chevron-down");
+        });
+
+        $(document).on('click', '.menu-has-children a', function (e) {
+            $(this).toggleClass('menu-item-active');
+            $(this).nextAll('ul').eq(0).slideToggle();
+            $(this).parent().find('i').first().toggleClass("lnr-chevron-up lnr-chevron-down");
         });
 
         $(document).on('click', '#mobile-nav-toggle', function (e) {

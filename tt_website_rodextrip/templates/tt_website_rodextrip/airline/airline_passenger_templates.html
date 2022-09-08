@@ -181,6 +181,9 @@
                                                                         <div class="form-select">
                                                                             <select id="train_booker_search_type" name="train_booker_search_type">
                                                                                 <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
                                                                                 <option value="cor_name">By Corporate Name</option>
                                                                             </select>
                                                                         </div>
@@ -296,7 +299,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('airline');" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -408,13 +411,35 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                    <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                <div class="col-lg-9 col-md-9">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <div class="form-select">
+                                                                                <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type">
+                                                                                    <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="mobile">By Customer Mobile</option>
+                                                                                    <option value="email">By Customer Mail</option>
+                                                                                    <option value="identity_type">By Customer Identity Number</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">{% trans 'Search' %}</button>
+                                                                <div class="col-lg-3 col-md-3">
+                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                 </div>
                                                             </div>
+                                                            <!--<div class="row">-->
+                                                                <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                    <!--<input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--</div>-->
+                                                                <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                    <!--<button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">{% trans 'Search' %}</button>-->
+                                                                <!--</div>-->
+                                                            <!--</div>-->
                                                             <div class="row">
                                                                 <div class="col-lg-12">
                                                                     <br/>
@@ -613,7 +638,7 @@
                                                     <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly onchange="check_passport_expired_six_month(`adult_passport_expired_date{{forloop.counter}}`);">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly >
                                                         <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -739,11 +764,25 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_child{{forloop.counter}}_search_type" name="train_child{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline')">{% trans 'Search' %}</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -940,7 +979,7 @@
                                                     <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Passport Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly onchange="check_passport_expired_six_month(`child_passport_expired_date{{forloop.counter}}`)">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly >
                                                         <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -1031,12 +1070,26 @@
                                                         <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
-                                                        <div class="row" >
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                        <div class="row">
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_infant{{forloop.counter}}_search_type" name="train_infant{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline')">{% trans 'Search' %}</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1233,7 +1286,7 @@
                                                     <label id="infant_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly onchange="check_passport_expired_six_month(`infant_passport_expired_date{{forloop.counter}}`)">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly >
                                                         <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -1421,6 +1474,9 @@
                                                                                 <div class="form-select">
                                                                                     <select id="train_booker_search_type" name="train_booker_search_type">
                                                                                         <option value="cust_name">By Customer Name</option>
+                                                                                        <option value="mobile">By Customer Mobile</option>
+                                                                                        <option value="email">By Customer Mail</option>
+                                                                                        <option value="identity_type">By Customer Identity Number</option>
                                                                                         <option value="cor_name">By Corporate Name</option>
                                                                                     </select>
                                                                                 </div>
@@ -1529,7 +1585,7 @@
                                                     <div class="input-container-search-ticket">
                                                         <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('airline');" class="nice-select-default">
                                                             {% for country in countries %}
-                                                            <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                            <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
                                                         <input type="hidden" name="booker_nationality" id="booker_nationality" />
@@ -1639,13 +1695,35 @@
                                                                 </div>
                                                                 <div class="modal-body" style="text-align:left;">
                                                                     <div class="row">
-                                                                        <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                            <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        <div class="col-lg-9 col-md-9">
+                                                                            <div class="row">
+                                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                    <div class="form-select">
+                                                                                        <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type">
+                                                                                            <option value="cust_name">By Customer Name</option>
+                                                                                            <option value="mobile">By Customer Mobile</option>
+                                                                                            <option value="email">By Customer Mail</option>
+                                                                                            <option value="identity_type">By Customer Identity Number</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                    <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
-                                                                        <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                            <button type="button" class="primary-btn" id="search_adult_{{forloop.counter}}" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>
+                                                                        <div class="col-lg-3 col-md-3">
+                                                                            <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                         </div>
                                                                     </div>
+                                                                    <!--<div class="row">-->
+                                                                        <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                            <!--<input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                        <!--</div>-->
+                                                                        <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                            <!--<button type="button" class="primary-btn" id="search_adult_{{forloop.counter}}" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>-->
+                                                                        <!--</div>-->
+                                                                    <!--</div>-->
                                                                     <div class="row">
                                                                         <div class="col-lg-12">
                                                                             <br/>
@@ -1737,7 +1815,7 @@
                                                     <div class="input-container-search-ticket">
                                                         <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}');update_identity('adult',{{forloop.counter}});" class="nice-select-default">
                                                             {% for country in countries %}
-                                                            <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                            <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
                                                         <input type="hidden" name="adult_nationality{{forloop.counter}}" id="adult_nationality{{forloop.counter}}" />
@@ -1838,7 +1916,7 @@
                                                             <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                             <label>{% trans 'Identity Expired Date' %}</label>
                                                             <div class="input-container-search-ticket">
-                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly onchange="check_passport_expired_six_month(`adult_passport_expired_date{{forloop.counter}}`);">
+                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly >
                                                                 <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
@@ -1849,7 +1927,7 @@
                                                                 <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
                                                                     <option value="">{% trans 'Country of Issued' %}</option>
                                                                     {% for country in countries %}
-                                                                    <option value="{{country.code}}">{{country.name}}</option>
+                                                                    <option value="{{country.name}}">{{country.name}}</option>
                                                                     {% endfor %}
                                                                 </select>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
@@ -1958,11 +2036,25 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
-                                                                    <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                        <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    <div class="col-lg-9 col-md-9">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <div class="form-select">
+                                                                                    <select id="train_child{{forloop.counter}}_search_type" name="train_child{{forloop.counter}}_search_type">
+                                                                                        <option value="cust_name">By Customer Name</option>
+                                                                                        <option value="mobile">By Customer Mobile</option>
+                                                                                        <option value="email">By Customer Mail</option>
+                                                                                        <option value="identity_type">By Customer Identity Number</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                        <button type="button" class="primary-btn" id="search_child_{{forloop.counter}}" onclick="get_customer_list('child',{{forloop.counter}}, 'airline')">Search</button>
+                                                                    <div class="col-lg-3 col-md-3">
+                                                                        <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -2058,7 +2150,7 @@
                                                     <div class="input-container-search-ticket">
                                                         <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('child_nationality{{forloop.counter}}');update_identity('child',{{forloop.counter}});" class="nice-select-default">
                                                             {% for country in countries %}
-                                                            <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                            <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
                                                         <input type="hidden" name="child_nationality{{forloop.counter}}" id="child_nationality{{forloop.counter}}" />
@@ -2155,7 +2247,7 @@
                                                             <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                             <label>{% trans 'Identity Expired Date' %}</label>
                                                             <div class="input-container-search-ticket">
-                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly onchange="check_passport_expired_six_month(`child_passport_expired_date{{forloop.counter}}`);">
+                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly >
                                                                 <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
@@ -2166,7 +2258,7 @@
                                                                 <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')" class="nice-select-default">
                                                                     <option value="">{% trans 'Country of Issued' %}</option>
                                                                     {% for country in countries %}
-                                                                    <option value="{{country.code}}">{{country.name}}</option>
+                                                                    <option value="{{country.name}}">{{country.name}}</option>
                                                                     {% endfor %}
                                                                 </select>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
@@ -2242,12 +2334,26 @@
                                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
-                                                                <div class="row" >
-                                                                    <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                        <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                <div class="row">
+                                                                    <div class="col-lg-9 col-md-9">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <div class="form-select">
+                                                                                    <select id="train_infant{{forloop.counter}}_search_type" name="train_infant{{forloop.counter}}_search_type">
+                                                                                        <option value="cust_name">By Customer Name</option>
+                                                                                        <option value="mobile">By Customer Mobile</option>
+                                                                                        <option value="email">By Customer Mail</option>
+                                                                                        <option value="identity_type">By Customer Identity Number</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                        <button type="button" id="search_infant_{{forloop.counter}}" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline')">{% trans 'Search' %}</button>
+                                                                    <div class="col-lg-3 col-md-3">
+                                                                        <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -2343,7 +2449,7 @@
                                                     <div class="input-container-search-ticket">
                                                         <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('infant_nationality{{forloop.counter}}');update_identity('infant',{{forloop.counter}});" class="nice-select-default">
                                                             {% for country in countries %}
-                                                            <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                            <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
                                                         <input type="hidden" name="infant_nationality{{forloop.counter}}" id="infant_nationality{{forloop.counter}}" />
@@ -2440,7 +2546,7 @@
                                                             <label id="infant_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                             <label>{% trans 'Identity Expired Date' %}</label>
                                                             <div class="input-container-search-ticket">
-                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly onchange="check_passport_expired_six_month(`infant_passport_expired_date{{forloop.counter}}`);">
+                                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly >
                                                                 <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
@@ -2451,7 +2557,7 @@
                                                                 <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
                                                                     <option value="">{% trans 'Country of Issued' %}</option>
                                                                     {% for country in countries %}
-                                                                    <option value="{{country.code}}">{{country.name}}</option>
+                                                                    <option value="{{country.name}}">{{country.name}}</option>
                                                                     {% endfor %}
                                                                 </select>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
@@ -2624,6 +2730,9 @@
                                                                             <div class="default-select" id="default-select">
                                                                                 <select id="train_booker_search_type" name="train_booker_search_type">
                                                                                     <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="mobile">By Customer Mobile</option>
+                                                                                    <option value="email">By Customer Mail</option>
+                                                                                    <option value="identity_type">By Customer Identity Number</option>
                                                                                     <option value="cor_name">By Corporate Name</option>
                                                                                 </select>
                                                                             </div>
@@ -2742,7 +2851,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('airline');" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -2854,13 +2963,35 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                    <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                <div class="col-lg-9 col-md-9">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <div class="form-select">
+                                                                                <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type">
+                                                                                    <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="mobile">By Customer Mobile</option>
+                                                                                    <option value="email">By Customer Mail</option>
+                                                                                    <option value="identity_type">By Customer Identity Number</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">{% trans 'Search' %}</button>
+                                                                <div class="col-lg-3 col-md-3">
+                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                 </div>
                                                             </div>
+                                                            <!--<div class="row">-->
+                                                                <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                    <!--<input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>-->
+                                                                <!--</div>-->
+                                                                <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                    <!--<button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">{% trans 'Search' %}</button>-->
+                                                                <!--</div>-->
+                                                            <!--</div>-->
                                                             <div class="row">
                                                                 <div class="col-lg-12">
                                                                     <br/>
@@ -3060,7 +3191,7 @@
                                                     <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly onchange="check_passport_expired_six_month(`adult_passport_expired_date{{forloop.counter}}`);">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly >
                                                         <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -3187,11 +3318,25 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_child{{forloop.counter}}_search_type" name="train_child{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline')">{% trans 'Search' %}</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -3391,7 +3536,7 @@
                                                     <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly onchange="check_passport_expired_six_month(`child_passport_expired_date{{forloop.counter}}`);">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly >
                                                         <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -3482,12 +3627,26 @@
                                                         <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
-                                                        <div class="row" >
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                        <div class="row">
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_infant{{forloop.counter}}_search_type" name="train_infant{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline')">{% trans 'Search' %}</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -3686,7 +3845,7 @@
                                                     <label id="infant_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly onchange="check_passport_expired_six_month(`infant_passport_expired_date{{forloop.counter}}`);">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly >
                                                         <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -3877,6 +4036,9 @@
                                                                         <div class="form-select" id="default-select">
                                                                             <select class="nice-select-default" id="train_booker_search_type" name="train_booker_search_type">
                                                                                 <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
                                                                                 <option value="cor_name">By Corporate Name</option>
                                                                             </select>
                                                                         </div>
@@ -3993,7 +4155,7 @@
                                             <div class="form-select">
                                                 <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('airline');" class="nice-select-default">
                                                     {% for country in countries %}
-                                                    <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                    <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
@@ -4106,13 +4268,35 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search"/>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
+                                                        <!--<div class="row">-->
+                                                            <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                <!--<input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search"/>-->
+                                                            <!--</div>-->
+                                                            <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                <!--<button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <br/>
@@ -4310,7 +4494,7 @@
                                                 <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                 <label>{% trans 'Identity Expired Date' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly onchange="check_passport_expired_six_month(`adult_passport_expired_date{{forloop.counter}}`);">
+                                                    <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly >
                                                     <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 </div>
                                             </div>
@@ -4436,11 +4620,25 @@
                                                 </div>
                                                 <div class="modal-body" style="text-align:left;">
                                                     <div class="row">
-                                                        <div class="col-lg-7 col-md-7 col-sm-7">
-                                                            <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="Search"/>
+                                                        <div class="col-lg-9 col-md-9">
+                                                            <div class="row">
+                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                    <div class="form-select">
+                                                                        <select id="train_child{{forloop.counter}}_search_type" name="train_child{{forloop.counter}}_search_type">
+                                                                            <option value="cust_name">By Customer Name</option>
+                                                                            <option value="mobile">By Customer Mobile</option>
+                                                                            <option value="email">By Customer Mail</option>
+                                                                            <option value="identity_type">By Customer Identity Number</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                    <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-lg-5 col-md-5 col-sm-5">
-                                                            <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline')">Search</button>
+                                                        <div class="col-lg-3 col-md-3">
+                                                            <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -4637,7 +4835,7 @@
                                                 <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                 <label>{% trans 'Identity Expired Date' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly onchange="check_passport_expired_six_month(`child_passport_expired_date{{forloop.counter}}`);">
+                                                    <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly >
                                                     <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 </div>
                                             </div>
@@ -4728,12 +4926,26 @@
                                                     <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
                                                 </div>
                                                 <div class="modal-body" style="text-align:left;">
-                                                    <div class="row" >
-                                                        <div class="col-lg-7 col-md-7 col-sm-7">
-                                                            <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search"/>
+                                                    <div class="row">
+                                                        <div class="col-lg-9 col-md-9">
+                                                            <div class="row">
+                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                    <div class="form-select">
+                                                                        <select id="train_infant{{forloop.counter}}_search_type" name="train_infant{{forloop.counter}}_search_type">
+                                                                            <option value="cust_name">By Customer Name</option>
+                                                                            <option value="mobile">By Customer Mobile</option>
+                                                                            <option value="email">By Customer Mail</option>
+                                                                            <option value="identity_type">By Customer Identity Number</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                    <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-lg-5 col-md-5 col-sm-5">
-                                                            <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline')">Search</button>
+                                                        <div class="col-lg-3 col-md-3">
+                                                            <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -4931,7 +5143,7 @@
                                                 <label id="infant_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                 <label>{% trans 'Identity Expired Date' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly onchange="check_passport_expired_six_month(`infant_passport_expired_date{{forloop.counter}}`);">
+                                                    <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly >
                                                     <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 </div>
                                             </div>
@@ -5110,6 +5322,9 @@
                                                                         <div class="form-select">
                                                                             <select id="train_booker_search_type" name="train_booker_search_type">
                                                                                 <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
                                                                                 <option value="cor_name">By Corporate Name</option>
                                                                             </select>
                                                                         </div>
@@ -5223,7 +5438,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('airline');" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -5336,13 +5551,35 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                    <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search"/>
+                                                                <div class="col-lg-9 col-md-9">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <div class="form-select">
+                                                                                <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type">
+                                                                                    <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="mobile">By Customer Mobile</option>
+                                                                                    <option value="email">By Customer Mail</option>
+                                                                                    <option value="identity_type">By Customer Identity Number</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>
+                                                                <div class="col-lg-3 col-md-3">
+                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                 </div>
                                                             </div>
+                                                            <!--<div class="row">-->
+                                                                <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                    <!--<input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search"/>-->
+                                                                <!--</div>-->
+                                                                <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                    <!--<button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>-->
+                                                                <!--</div>-->
+                                                            <!--</div>-->
                                                             <div class="row">
                                                                 <div class="col-lg-12">
                                                                     <br/>
@@ -5540,7 +5777,7 @@
                                                     <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly onchange="check_passport_expired_six_month(`adult_passport_expired_date{{forloop.counter}}`);">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly >
                                                         <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -5666,11 +5903,25 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="Search"/>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_child{{forloop.counter}}_search_type" name="train_child{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline')">Search</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -5868,7 +6119,7 @@
                                                     <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly onchange="check_passport_expired_six_month(`child_passport_expired_date{{forloop.counter}}`);">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly >
                                                         <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -5933,12 +6184,26 @@
                                                         <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
-                                                        <div class="row" >
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search"/>
+                                                        <div class="row">
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_infant{{forloop.counter}}_search_type" name="train_infant{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline')">Search</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -6135,7 +6400,7 @@
                                                     {% endif %}
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly onchange="check_passport_expired_six_month(`infant_passport_expired_date{{forloop.counter}}`);">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly >
                                                         <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -6343,8 +6608,11 @@
                                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                                         <div class="form-select">
                                                                     <select id="train_booker_search_type" name="train_booker_search_type">
-                                                                       <option value="cust_name">By Customer Name</option>
-                                                                       <option value="cor_name">By Corporate Name</option>
+                                                                        <option value="cust_name">By Customer Name</option>
+                                                                        <option value="mobile">By Customer Mobile</option>
+                                                                        <option value="email">By Customer Mail</option>
+                                                                        <option value="identity_type">By Customer Identity Number</option>
+                                                                        <option value="cor_name">By Corporate Name</option>
                                                                     </select>
                                                                 </div>
                                                                     </div>
@@ -6457,7 +6725,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('airline');" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -6570,13 +6838,35 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                    <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search"/>
+                                                                <div class="col-lg-9 col-md-9">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <div class="form-select">
+                                                                                <select id="train_adult{{forloop.counter}}_search_type" name="train_adult{{forloop.counter}}_search_type">
+                                                                                    <option value="cust_name">By Customer Name</option>
+                                                                                    <option value="mobile">By Customer Mobile</option>
+                                                                                    <option value="email">By Customer Mail</option>
+                                                                                    <option value="identity_type">By Customer Identity Number</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                            <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>
+                                                                <div class="col-lg-3 col-md-3">
+                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                                 </div>
                                                             </div>
+                                                            <!--<div class="row">-->
+                                                                <!--<div class="col-lg-7 col-md-7 col-sm-7">-->
+                                                                    <!--<input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search"/>-->
+                                                                <!--</div>-->
+                                                                <!--<div class="col-lg-5 col-md-5 col-sm-5">-->
+                                                                    <!--<button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>-->
+                                                                <!--</div>-->
+                                                            <!--</div>-->
                                                             <div class="row">
                                                                 <div class="col-lg-12">
                                                                     <br/>
@@ -6774,7 +7064,7 @@
                                                     <label id="adult_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly onchange="check_passport_expired_six_month(`adult_passport_expired_date{{forloop.counter}}`);">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" autocomplete="off" readonly >
                                                         <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -6899,11 +7189,25 @@
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="Search"/>
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_child{{forloop.counter}}_search_type" name="train_child{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline')">Search</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -7100,7 +7404,7 @@
                                                     <label id="child_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly onchange="check_passport_expired_six_month(`child_passport_expired_date{{forloop.counter}}`);">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly >
                                                         <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>
@@ -7165,12 +7469,26 @@
                                                         <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
-                                                        <div class="row" >
-                                                            <div class="col-lg-7 col-md-7 col-sm-7">
-                                                                <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search"/>
+                                                        <div class="row">
+                                                            <div class="col-lg-9 col-md-9">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <div class="form-select">
+                                                                            <select id="train_infant{{forloop.counter}}_search_type" name="train_infant{{forloop.counter}}_search_type">
+                                                                                <option value="cust_name">By Customer Name</option>
+                                                                                <option value="mobile">By Customer Mobile</option>
+                                                                                <option value="email">By Customer Mail</option>
+                                                                                <option value="identity_type">By Customer Identity Number</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                        <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="{% trans 'Search' %}"/>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5">
-                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline')">Search</button>
+                                                            <div class="col-lg-3 col-md-3">
+                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -7367,7 +7685,7 @@
                                                     <label id="infant_identity_expired_date_required{{forloop.counter}}" style="color:{% if is_identity_required == True %}red{% else %}white{%endif%}">*</label>
                                                     <label>{% trans 'Identity Expired Date' %}</label>
                                                     <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly onchange="check_passport_expired_six_month(`infant_passport_expired_date{{forloop.counter}}`);">
+                                                        <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'Lifetime' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lifetime '" readonly >
                                                         <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
                                                 </div>

@@ -2121,6 +2121,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #mobile-nav ul li {
   position: relative;
+  padding-top:15px;
 }
 
 #mobile-nav ul li a {
@@ -2142,7 +2143,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #mobile-nav ul li li {
-  padding-left: 30px;
+  padding-left: 15px;
+  font-size:13px;
+  color:white;
 }
 
 #mobile-nav ul .menu-has-children i {
@@ -8555,7 +8558,7 @@ ul.progress_tabs li.current .image-rounded-icon{
 }
 
 .main-menu{
-    padding: 15px 0px;
+    padding: 0px;
 }
 
 .single-recent-blog-post{
@@ -8944,3 +8947,25 @@ for better animation effect */
   z-index: 1000;
   cursor: pointer;
 }
+
+.menu_header{
+    padding-left:15px !important;
+}
+
+.li_menu{
+    padding-left:5px;
+    margin:20px 0px;
+}
+
+@media (max-width: 991px) {
+    .menu_header{
+        padding-left:30px !important;
+        padding-bottom:10px !important;
+        font-weight:bold !important;
+    }
+
+    .li_menu{
+        margin:5px 0px;
+    }
+}
+

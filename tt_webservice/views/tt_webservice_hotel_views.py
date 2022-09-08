@@ -60,6 +60,8 @@ def api_models(request):
             res = get_top_facility(request)
         elif req_data['action'] == 'search':
             res = search(request)
+        elif req_data['action'] == 'get_current_search':
+            res = get_current_search(request)
         elif req_data['action'] == 'detail':
             res = detail(request)
         elif req_data['action'] == 'get_cancellation_policy':
@@ -320,6 +322,97 @@ def search(request):
             logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
     if data:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "search",
+            "signature": request.POST['signature']
+        }
+        signature = request.POST['signature']
+        url_request = url + 'booking/hotel'
+        res = send_request_api(request, url_request, headers, data, 'POST', 300)
+        set_session(request, 'hotel_response_search', res)
+    else:
+        signature = request.session['hotel_signature']
+        res = request.session['hotel_response_search']
+    try:
+        counter = 0
+        sequence = 0
+        if res['result']['error_code'] == 0:
+            set_session(request, 'hotel_error', {
+                'error_code': res['result']['error_code'],
+                'signature': signature
+            })
+            _logger.info(json.dumps(request.session['hotel_error']))
+
+            hotel_data = []
+            for hotel in res['result']['response']['city_ids']:
+                hotel.update({
+                    'sequence': sequence,
+                    'counter': counter
+                })
+                counter += 1
+                sequence += 1
+
+            counter = 0
+
+            for hotel in res['result']['response']['country_ids']:
+                hotel.update({
+                    'sequence': sequence,
+                    'counter': counter
+                })
+                counter += 1
+                sequence += 1
+
+            counter = 0
+
+            for hotel in res['result']['response']['hotel_ids']:
+                hotel.update({
+                    'sequence': sequence,
+                    'counter': counter
+                })
+                counter += 1
+                sequence += 1
+
+            counter = 0
+
+            for hotel in res['result']['response']['landmark_ids']:
+                hotel.update({
+                    'sequence': sequence,
+                    'counter': counter
+                })
+                counter += 1
+                sequence += 1
+        else:
+            _logger.error("ERROR search_hotel SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_current_search(request):
+    try:
+        data = request.session['hotel_search_request']
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_current_search",
+            "signature": request.POST['signature']
+        }
+        set_session(request, 'hotel_search_request', data)
+    except Exception as e:
+        if request.POST.get('use_cache'):
+            data = request.session['hotel_search_request']
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_current_search",
+                "signature": request.POST['signature']
+            }
+            logging.info(msg='use cache login change b2c to login')
+        else:
+            logging.error(msg=str(e) + '\n' + traceback.format_exc())
+
+    if data:
         url_request = url + 'booking/hotel'
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
         set_session(request, 'hotel_response_search', res)
@@ -379,6 +472,7 @@ def search(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
+
 
 def detail(request):
     try:

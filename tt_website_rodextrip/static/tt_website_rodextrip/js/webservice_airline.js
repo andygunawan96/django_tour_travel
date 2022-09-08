@@ -1106,7 +1106,7 @@ function auto_input_pax_cache_reorder(){
         document.getElementById('booker_id').value = pax_cache_reorder.booker.booker_seq_id;
         $('#booker_phone_code_id').val(pax_cache_reorder.booker.calling_code).trigger('change');
         $('#booker_title').niceSelect('update');
-        $('#booker_nationality_id').val(pax_cache_reorder.booker.nationality_code).trigger('change');
+        $('#booker_nationality_id').val(pax_cache_reorder.booker.nationality_name).trigger('change');
     }
     if(pax_cache_reorder.hasOwnProperty('adult')){
         for(x in pax_cache_reorder.adult){
@@ -1261,8 +1261,7 @@ function get_airline_data_review_after_sales_page(){
            passengers_ssr = msg.passengers_ssr;
            airline_get_detail = msg.airline_get_detail;
            airline_detail('request_new');
-           get_airline_review_after_sales();
-
+           airline_get_provider_list('review_aftersales');
            $( document ).ready(function() {
                 price_arr_repricing = {};
                 pax_type_repricing = [];
@@ -2106,8 +2105,48 @@ function airline_get_provider_list(type, data=''){
                 airline_get_booking_refund(data);
            }else if(type == 'ssr'){
                 airline_detail(ssr_page_type);
+                if(after_sales){
+                    // disable baggage di bawah yg telah di pilih
+                    for(i=1;i<=len_passenger;i++){
+                        for(j in ssr_keys){
+                            if(ssr_keys[j].key == 'baggage'){
+                                for(k=1;k<=ssr_keys[j].len;k++){
+                                    if(document.getElementById(ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).value != ''){
+                                        baggage_option_list = document.getElementById(ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).innerHTML.split('</option>');
+                                        baggage_last_number_delete = 0;
+                                        for(l in baggage_option_list)
+                                            if(baggage_option_list[l].match('selected')){
+                                                baggage_last_number_delete = l;
+                                                break;
+                                            }
+                                        if(baggage_last_number_delete){
+                                            baggage_option_list.splice(0, baggage_last_number_delete);
+                                            document.getElementById(ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).innerHTML = baggage_option_list.join('</option>');
+                                            $('#'+ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).niceSelect('update');
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    is_replace_ssr = false;
+                    for(i in airline_get_detail.provider_bookings){
+                        if(provider_list_data[airline_get_detail.provider_bookings[i].provider].is_replace_ssr)
+                            is_replace_ssr = true;
+                    }
+                    after_sales_setting_text = '';
+                    if(is_replace_ssr)
+                        after_sales_setting_text = 'Replace SSR';
+                    else
+                        after_sales_setting_text = 'Add New SSR';
+                    document.getElementById('after_sales_setting').innerHTML = after_sales_setting_text;
+                    document.getElementById('after_sales_setting_footer').innerHTML = after_sales_setting_text;
+                    document.getElementById('after_sales_setting').hidden = false;
+                }
            }else if(type == 'seat'){
                 airline_detail(seat_page_type);
+           }else if(type == 'review_aftersales'){
+                get_airline_review_after_sales();
            }
            //carrier_to_provider();
        },
@@ -3118,6 +3157,7 @@ function set_segment_provider_get_itinenary(segment, provider, val){
         document.getElementById("airlines_ticket").innerHTML = '';
         data_show = [];
         airline_departure = 'return';
+        reset_airline_filter();
         filtering('filter');
         var total_price = 0;
 
@@ -3205,6 +3245,7 @@ function set_segment_provider_get_itinenary(segment, provider, val){
         document.getElementById("airline_ticket_pick").innerHTML = '';
         airline_pick_mc('all');
         send_search_to_api(counter_search);
+        reset_airline_filter();
         filtering('filter');
     }
 
@@ -3228,6 +3269,36 @@ function set_segment_provider_get_itinenary(segment, provider, val){
         else
             airline_pick_mc('change');
         set_automatic_combo_price();
+    }
+}
+
+function reset_airline_filter(){
+    for(i in carrier_code){
+        document.getElementById('checkbox_airline'+i).checked = false;
+        carrier_code[i].status = false;
+    }for(i in transit_list){
+        document.getElementById('checkbox_transit'+i).checked = false;
+        transit_list[i].status = false;
+    }for(i in transit_duration_list){
+        document.getElementById('checkbox_transit_duration'+i).checked = false;
+        transit_duration_list[i].status = false;
+    }for(i in departure_list){
+        if(i == 0){
+            document.getElementById('checkbox_departure_time'+i).checked = true;
+            departure_list[i].status = true;
+        }else{
+            document.getElementById('checkbox_departure_time'+i).checked = false;
+            departure_list[i].status = false;
+        }
+    }
+    for(i in arrival_list){
+        if(i == 0){
+            document.getElementById('checkbox_arrival_time'+i).checked = true;
+            arrival_list[i].status = true;
+        }else{
+            document.getElementById('checkbox_arrival_time'+i).checked = false;
+            arrival_list[i].status = false;
+        }
     }
 }
 
@@ -14196,6 +14267,7 @@ function sell_reschedule_v2(){
                        hide_modal_waiting_transaction();
                        document.getElementById('show_loading_booking_airline').hidden = false;
                        if(msg.result.error_code == 0){
+                           sell_reschedule_provider = msg.result.response;
                            if(document.getElementById('sell_reschedule_div')){
                                 document.getElementById('sell_reschedule_div').hidden = true;
                            }
@@ -14452,6 +14524,161 @@ function update_booking_after_sales_v2(input_pax_seat = false){
                     window.location = '/airline/booking/' + btoa(msg.result.response.order_number);
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
+//               }else if(msg.result.error_code == 4006){
+//                    Swal.fire({
+//                      type: 'error',
+//                      title: 'Oops!',
+//                      html: '<span style="color: #ff9900;">Error airline update booking </span>' + msg.result.error_msg,
+//                    }).then((result) => {
+//                      if (result.value) {
+//                        hide_modal_waiting_transaction();
+//                      }
+//                    })
+//                    hide_modal_waiting_transaction();
+//                    $('.btn-next').removeClass('running');
+//                    $('.btn-next').prop('disabled', false);
+//                    document.getElementById("overlay-div-box").style.display = "none";
+//                    //modal pop up
+//
+////                    booking_price_detail(msg);
+//
+//                    text=`
+//                        <div style="background-color:`+color+`; margin-top:20px;">
+//                            <center>
+//                                <span style="color:`+text_color+`; font-size:16px;">Old Price Detail <i class="fas fa-money-bill-wave"></i></span>
+//                            </center>
+//                        </div>
+//                        <div style="background-color:white; padding:15px; border: 1px solid `+color+`;">`;
+//                    total_price_show = sell_reschedule_provider.total_price;
+//
+//                    text+=`
+//                            <div>
+//                                <hr/>
+//                            </div>
+//                            <div class="row" style="margin-bottom:10px;">
+//                                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+//                                    <span style="font-size:13px; font-weight: bold;">Grand Total</span>
+//                                </div>
+//                                <div class="col-lg-6 col-xs-6" style="text-align:right;">
+//                                    <span style="font-size:13px; font-weight: bold;">IDR `+getrupiah(total_price_show)+`</span>
+//                                </div>
+//                            </div>`;
+//                text+=`</div>`;
+//                    document.getElementById('old_price').innerHTML = text;
+//
+//                    airline_get_detail = msg;
+//                    total_price = 0;
+//                    commission = 0;
+//                    //new price
+//                    text=`
+//                        <div style="background-color:`+color+`; margin-top:20px;">
+//                            <center>
+//                                <span style="color:`+text_color+`; font-size:16px;">New Price Detail <i class="fas fa-money-bill-wave"></i></span>
+//                            </center>
+//                        </div>
+//                        <div style="background-color:white; padding:15px; border: 1px solid `+color+`;">`;
+//                    total_price_provider_show = [];
+//                    price_provider_show = 0;
+//                    for(i in msg.result.response.passengers[0].sale_service_charges){
+//                        text+=`
+//                        <div style="text-align:center">
+//                            `+i+`
+//                        </div>`;
+//                        for(j in msg.result.response.passengers){
+//                            price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+//                            for(k in msg.result.response.passengers[j].sale_service_charges[i]){
+//                                price[k] = msg.result.response.passengers[j].sale_service_charges[i][k].amount;
+//                                price['currency'] = msg.result.response.passengers[j].sale_service_charges[i][k].currency;
+//                            }
+//
+//                            try{
+//                                price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
+//                            }catch(err){
+//                                console.log(err); // error kalau ada element yg tidak ada
+//                            }
+//                            try{
+//                                price['SSR'] += airline_get_detail.result.response.passengers[j].channel_service_charges.amount_addons;
+//                            }catch(err){
+//                                console.log(err); // error kalau ada element yg tidak ada
+//                            }
+//
+//                            text+=`<div class="row" style="margin-bottom:5px;">
+//                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+//                                    <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Fare
+//                                </div>
+//                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+//                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE))+`</span>
+//                                </div>
+//                            </div>
+//                            <div class="row" style="margin-bottom:5px;">
+//                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+//                                    <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax & Charges
+//                                </div>
+//                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+//                                    <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>
+//                                </div>
+//                            </div>`;
+//                            if(price.SSR != 0 || price.SEAT != 0)
+//                                text+=`
+//                                <div class="row" style="margin-bottom:5px;">
+//                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+//                                        <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` Additional
+//                                    </div>
+//                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+//                                        <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.SSR + price.SEAT))+`</span>
+//                                    </div>
+//                                </div>`;
+//                            if(price.DISC != 0)
+//                                text+=`
+//                                <div class="row" style="margin-bottom:5px;">
+//                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+//                                        <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` DISC
+//                                    </div>
+//                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+//                                        <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.DISC))+`</span>
+//                                    </div>
+//                                </div>`;
+//
+//                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+//                            price_provider_show += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+//                            commission += parseInt(price.RAC);
+//                        }
+//                        total_price_provider_show.push(price_provider_show)
+//                        total_price_show = 0;
+//                    }
+//                    total_price_show = total_price;
+//                    text+=`
+//                    <div>
+//                        <hr/>
+//                    </div>
+//                    <div class="row" style="margin-bottom:10px;">
+//                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+//                            <span style="font-size:13px; font-weight: bold;">Grand Total</span>
+//                        </div>
+//                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+//                            <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
+//                        </div>
+//                    </div>`;
+//                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+//                    text+=`
+//                    <div class="row" id="show_commission_new" style="display:block;">
+//                        <div class="col-lg-12 col-xs-12">
+//                            <div class="alert alert-success">
+//                                <div style="text-align:center;">
+//                                    <span style="font-size:13px;">YPM: IDR `+getrupiah(parseInt(commission*-1))+`</span><br>
+//                                </div>
+//                                <div style="text-align:left;">
+//                                    <span style="font-size:13px;color:red">* Please mark up the price first</span><br>
+//                                </div>
+//                            </div>
+//                        </div>
+//                    </div>`;
+//                    if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
+//                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Hide YPM"/></div>`;
+//                    text+=`</div>`;
+//                    document.getElementById('new_price').innerHTML = text;
+//
+//                   $("#myModal").modal();
                }else{
                     Swal.fire({
                       type: 'warning',

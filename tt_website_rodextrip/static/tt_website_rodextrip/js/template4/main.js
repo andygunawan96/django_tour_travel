@@ -33,7 +33,7 @@ jQuery(document).ready(function($) {
     var check_video_play = 0;
     var check_video_slider = 0;
 
-    if( $(window).width() >= 1200){
+    if( $(window).width() >= 992){
         $('#username_pc').show();
         $('#password_pc').show();
         $('#username_mb').hide();
@@ -49,7 +49,7 @@ jQuery(document).ready(function($) {
     }
 
     $(window).resize(function() {
-        if ($(window).width() >= 1200) {
+        if ($(window).width() >= 992) {
             $('#username_pc').show();
             $('#password_pc').show();
             $('#username_mb').hide();
@@ -139,27 +139,31 @@ jQuery(document).ready(function($) {
 
 		setTimeout(function() {
 			
-			var counter = 0;
-      $('.site-mobile-menu .has-children').each(function(){
-        var $this = $(this);
-        
-        $this.prepend('<span class="arrow-collapse collapsed">');
+          var counter = 0;
+          $('.site-mobile-menu .has-children').each(function(){
+            var $this = $(this);
 
-        $this.find('.arrow-collapse').attr({
-          'data-toggle' : 'collapse',
-          'data-target' : '#collapseItem' + counter,
-        });
+            $this.prepend('<span class="arrow-collapse collapsed">');
 
-        $this.find('> ul').attr({
-          'class' : 'collapse',
-          'id' : 'collapseItem' + counter,
-        });
+            $this.find('.arrow-collapse').attr({
+              'data-toggle' : 'collapse',
+              'data-target' : '#collapseItem' + counter,
+            });
 
-        counter++;
+            $this.find('a').attr({
+              'data-toggle' : 'collapse',
+              'data-target' : '#collapseItem' + counter,
+            });
 
-      });
+            $this.find('> ul').attr({
+              'class' : 'collapse',
+              'id' : 'collapseItem' + counter,
+            });
 
-    }, 1000);
+            counter++;
+          });
+
+        }, 1000);
 
     $('body').on('click', '.arrow-collapse', function(e) {
       var $this = $(this);

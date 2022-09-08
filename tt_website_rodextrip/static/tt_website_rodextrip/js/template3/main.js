@@ -650,10 +650,10 @@ $(document).ready(function(){
     $('body .main-menu .container .mobile-menu .mobile-nav').append('<div id="mobile-body-overly"></div>');
     $('#mobile-nav').find('.balance_mobile').replaceWith('<li><a style="color:white;"><span id="balance_mob"></span></a></li>');
     $('#mobile-nav').find('.credit_mobile').replaceWith('<li><a style="color:white;"><span id="credit_mob"></span></a></li>');
-    $('#mobile-nav').find('.username_mobile').replaceWith('<li style="padding-right:5px;"><div class="input-container-search-ticket"><input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username2" placeholder="Username"/></div></li>');
-    $('#mobile-nav').find('.password_mobile').replaceWith('<li style="padding-right:5px;"><div class="input-container-search-ticket"><input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password2" placeholder="Password"/><div style="margin-top:10px;width:50px;" onclick="change_password_type();"><i id="password_style2" class="fas fa-eye-slash" style="font-size:18px;color:'+text_color_login+';"></i></div></li>');
-    $('#mobile-nav').find('.keep_me_mobile').replaceWith('<li style="padding-right:5px;"><div class="input-container-search-ticket"><label class="check_box_custom" style="margin:5px; float:right;"><span style="font-size:13px; color:white;">Keep Me Signin</span><input type="checkbox" value="" id="keep_me_signin2" name="keep_me_signin" checked="checked"><span class="check_box_span_custom"></span></label></div></li>');
-    $('#mobile-nav').find('.forget_password_mobile').replaceWith('<li style="padding-right:5px;"><div class="input-container-search-ticket"><a style="cursor:pointer; text-transform: unset; padding:0px 5px;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 12px;"></i> Forgot Password</a></div></li>');
+    $('#mobile-nav').find('.username_mobile').replaceWith('<li style="padding-right:5px; padding-top:0px;"><div class="input-container-search-ticket"><input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username2" placeholder="Username"/></div></li>');
+    $('#mobile-nav').find('.password_mobile').replaceWith('<li style="padding-right:5px; padding-top:0px;"><div class="input-container-search-ticket"><input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password2" placeholder="Password"/><div style="margin-top:5px;width:50px;" onclick="change_password_type();"><i id="password_style2" class="fas fa-eye-slash" style="font-size:18px; padding-top:10px; color:white;"></i></div></li>');
+    $('#mobile-nav').find('.keep_me_mobile').replaceWith('<li style="padding-right:5px; padding-top:0px;"><div class="input-container-search-ticket"><label class="check_box_custom" style="margin:5px; float:right;"><span style="font-size:13px; color:white;">Keep Me Signin</span><input type="checkbox" value="" id="keep_me_signin2" name="keep_me_signin" checked="checked"><span class="check_box_span_custom"></span></label></div></li>');
+    $('#mobile-nav').find('.forget_password_mobile').replaceWith('<li style="padding-right:5px; padding-top:5px;"><div class="input-container-search-ticket"><a style="cursor:pointer; text-transform: unset; padding:0px 5px;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 12px;"></i> Forgot Password</a></div></li>');
     $('#mobile-nav').find('.menu-has-children').prepend('<i class="lnr lnr-chevron-down"></i>');
     try{
         document.getElementById("balance_mob").innerHTML = document.getElementById("balance").innerHTML;
@@ -682,6 +682,12 @@ $(document).ready(function(){
       $(this).next().toggleClass('menu-item-active');
       $(this).nextAll('ul').eq(0).slideToggle();
       $(this).toggleClass("lnr-chevron-up lnr-chevron-down");
+    });
+
+    $(document).on('click', '.menu-has-children a', function(e) {
+        $(this).toggleClass('menu-item-active');
+        $(this).nextAll('ul').eq(0).slideToggle();
+        $(this).parent().find('i').first().toggleClass("lnr-chevron-up lnr-chevron-down");
     });
 
     $(document).on('click', '#mobile-nav-toggle', function(e) {
