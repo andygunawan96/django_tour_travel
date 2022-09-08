@@ -7564,11 +7564,107 @@ function get_airline_review_after_sales(){
                         <th style="width:7%;" class="list-of-passenger-left">No</th>
                         <th style="width:28%;">Name</th>
                         <th style="width:7%;">Type</th>
-                        <th style="width:18%;">Birth Date</th>
-                        <th style="width:18%;">SSR Old</th>
-                        <th style="width:18%;">SSR New</th>
+                        <th style="width:16%;">Birth Date</th>
+                        <th style="width:19%;">SSR Old</th>
+                        <th style="width:19%;">SSR New</th>
                     </tr>`;
-                    count_pax = 0
+                    count_pax = 0;
+                    try{
+                        for(pax in airline_get_detail.passengers){
+                            fee_dict = {}; //bikin ke dict agar bisa fees per segment / journey
+                            for(i in airline_get_detail.passengers[pax].fees){
+                                if(fee_dict.hasOwnProperty(airline_get_detail.passengers[pax].fees[i].journey_code) == false){
+                                    fee_dict[airline_get_detail.passengers[pax].fees[i].journey_code] = {
+                                        "fees": [],
+                                    };
+                                    found = false;
+                                    for(j in airline_get_detail.provider_bookings){
+                                        for(k in airline_get_detail.provider_bookings[j].journeys){
+                                            if(airline_get_detail.provider_bookings[j].journeys[k].journey_code == airline_get_detail.passengers[pax].fees[i].journey_code){
+                                                found = true;
+                                                fee_dict[airline_get_detail.passengers[pax].fees[i].journey_code].origin = airline_get_detail.provider_bookings[j].journeys[k].origin;
+                                                fee_dict[airline_get_detail.passengers[pax].fees[i].journey_code].destination = airline_get_detail.provider_bookings[j].journeys[k].destination;
+                                                fee_dict[airline_get_detail.passengers[pax].fees[i].journey_code].departure_date = airline_get_detail.provider_bookings[j].journeys[k].departure_date;
+                                                fee_dict[airline_get_detail.passengers[pax].fees[i].journey_code].pnr = airline_get_detail.passengers[pax].fees[i].pnr;
+                                                break;
+                                            }
+                                            for(l in airline_get_detail.provider_bookings[j].journeys[k].segments){
+                                                if(airline_get_detail.provider_bookings[j].journeys[k].segments[l].segment_code == airline_get_detail.passengers[pax].fees[i].journey_code){
+                                                    found = true;
+                                                    fee_dict[airline_get_detail.passengers[pax].fees[i].journey_code].origin = airline_get_detail.provider_bookings[j].journeys[k].segments[l].origin;
+                                                    fee_dict[airline_get_detail.passengers[pax].fees[i].journey_code].destination = airline_get_detail.provider_bookings[j].journeys[k].segments[l].destination;
+                                                    fee_dict[airline_get_detail.passengers[pax].fees[i].journey_code].departure_date = airline_get_detail.provider_bookings[j].journeys[k].segments[l].departure_date;
+                                                    fee_dict[airline_get_detail.passengers[pax].fees[i].journey_code].pnr = airline_get_detail.passengers[pax].fees[i].pnr;
+                                                    break;
+                                                }
+                                            }
+                                            if(found)
+                                                break;
+                                        }
+                                        if(found)
+                                            break
+                                    }
+                                }
+                                fee_dict[airline_get_detail.passengers[pax].fees[i].journey_code].fees.push({
+                                    "fee_category": airline_get_detail.passengers[pax].fees[i].fee_category,
+                                    "fee_name": airline_get_detail.passengers[pax].fees[i].fee_name
+                                })
+                            }
+                            airline_get_detail.passengers[pax].fee_dict = fee_dict;
+                        }
+                    }catch(err){
+                          console.log(err); // error kalau ada element yg tidak ada
+                    }
+
+                    try{
+                        for(pax in passengers_ssr){
+                            fee_dict = {}; //bikin ke dict agar bisa fees per segment / journey
+                            for(i in passengers_ssr[pax].ssr_list){
+                                if(fee_dict.hasOwnProperty(passengers_ssr[pax].ssr_list[i].journey_code) == false){
+                                    fee_dict[passengers_ssr[pax].ssr_list[i].journey_code] = {
+                                        "fees": [],
+                                    };
+                                    found = false;
+                                    for(j in airline_get_detail.provider_bookings){
+                                        for(k in airline_get_detail.provider_bookings[j].journeys){
+                                            if(airline_get_detail.provider_bookings[j].journeys[k].journey_code == passengers_ssr[pax].ssr_list[i].journey_code){
+                                                found = true;
+                                                fee_dict[passengers_ssr[pax].ssr_list[i].journey_code].origin = airline_get_detail.provider_bookings[j].journeys[k].origin;
+                                                fee_dict[passengers_ssr[pax].ssr_list[i].journey_code].destination = airline_get_detail.provider_bookings[j].journeys[k].destination;
+                                                fee_dict[passengers_ssr[pax].ssr_list[i].journey_code].departure_date = airline_get_detail.provider_bookings[j].journeys[k].departure_date;
+                                                fee_dict[passengers_ssr[pax].ssr_list[i].journey_code].pnr = airline_get_detail.passengers[pax].fees[i].pnr;
+                                                fee_dict[passengers_ssr[pax].ssr_list[i].journey_code].is_replace_ssr = passengers_ssr[pax].ssr_list[i].is_replace_ssr;
+                                                break;
+                                            }
+                                            for(l in airline_get_detail.provider_bookings[j].journeys[k].segments){
+                                                if(airline_get_detail.provider_bookings[j].journeys[k].segments[l].segment_code == passengers_ssr[pax].ssr_list[i].journey_code){
+                                                    found = true;
+                                                    fee_dict[passengers_ssr[pax].ssr_list[i].journey_code].origin = airline_get_detail.provider_bookings[j].journeys[k].segments[l].origin;
+                                                    fee_dict[passengers_ssr[pax].ssr_list[i].journey_code].destination = airline_get_detail.provider_bookings[j].journeys[k].segments[l].destination;
+                                                    fee_dict[passengers_ssr[pax].ssr_list[i].journey_code].departure_date = airline_get_detail.provider_bookings[j].journeys[k].segments[l].departure_date;
+                                                    fee_dict[passengers_ssr[pax].ssr_list[i].journey_code].pnr = airline_get_detail.provider_bookings[j].pnr;
+                                                    fee_dict[passengers_ssr[pax].ssr_list[i].journey_code].is_replace_ssr = passengers_ssr[pax].ssr_list[i].is_replace_ssr;
+                                                    break;
+                                                }
+                                            }
+                                            if(found)
+                                                break;
+                                        }
+                                        if(found)
+                                            break
+                                    }
+                                }
+                                fee_dict[passengers_ssr[pax].ssr_list[i].journey_code].fees.push({
+                                    "fee_category": passengers_ssr[pax].ssr_list[i].availability_type,
+                                    "fee_name": passengers_ssr[pax].ssr_list[i].name
+                                })
+                            }
+                            passengers_ssr[pax].fee_dict = fee_dict;
+                        }
+                    }catch(err){
+                          console.log(err); // error kalau ada element yg tidak ada
+                    }
+                    journey_key = '';
                     for(i in passengers_ssr){
                         text+=`<tr>
                                 <td class="list-of-passenger-left">`+(parseInt(count_pax)+1)+`</td>
@@ -7577,9 +7673,33 @@ function get_airline_review_after_sales(){
                                 <td>`+passengers_ssr[i].birth_date+`</td>
                                 <td>`;
                                   try{
-                                      for(j in airline_get_detail.passengers[i].fees){
-                                        text += `<label>`+airline_get_detail.passengers[i].fees[j].fee_name+ ' ' + airline_get_detail.passengers[i].fees[j].fee_value + `</label><br/>`;
+                                      for(j in airline_get_detail.passengers[i].fee_dict){
+                                            if(journey_key != '' && journey_key != j)
+                                                text += `<hr/>`;
+                                            journey_key = j;
+                                            text += `<label style="color:`+color+`;">`+airline_get_detail.passengers[i].fee_dict[j].origin+` - `+airline_get_detail.passengers[i].fee_dict[j].destination+` (`+airline_get_detail.passengers[i].fee_dict[j].departure_date+`)</label><br/>`;
+                                            for(k in airline_get_detail.passengers[i].fee_dict[j].fees){
+                                                if(airline_get_detail.passengers[i].fee_dict[j].fees[k].fee_category == 'meal'){
+                                                    text+=`<i class="fas fa-utensils"></i> `;
+                                                }
+                                                else if(airline_get_detail.passengers[i].fee_dict[j].fees[k].fee_category == 'baggage'){
+                                                    text+=`<i class="fas fa-suitcase"></i> `;
+                                                }
+                                                else if(airline_get_detail.passengers[i].fee_dict[j].fees[k].fee_category == 'equipment'){
+                                                    text+=`<i class="fas fa-tools"></i> `;
+                                                }
+                                                else if(airline_get_detail.passengers[i].fee_dict[j].fees[k].fee_category == 'seat'){
+                                                    text+=`<img src="/static/tt_website_rodextrip/img/icon/seat.png" style="height:16px; width:auto;"/> `;
+                                                }
+
+                                                text += `<label>`;
+                                                if(airline_get_detail.passengers[i].fee_dict[j].fees[k].fee_name.toLowerCase().includes(airline_get_detail.passengers[i].fee_dict[j].fees[k].fee_category.toLowerCase()) == false)
+                                                    text += airline_get_detail.passengers[i].fee_dict[j].fees[k].fee_category + ': ';
+                                                text += airline_get_detail.passengers[i].fee_dict[j].fees[k].fee_name + `</label><br/>`;
+                                            }
+//                                        text += `<label>`+airline_get_detail.passengers[i].fees[j].fee_name+ ' ' + airline_get_detail.passengers[i].fees[j].fee_value + `</label><br/>`;
                                       }
+                                      journey_key = '';
                                   }catch(err){
                                     console.log(err); // error kalau ada element yg tidak ada
                                   }
@@ -7587,9 +7707,40 @@ function get_airline_review_after_sales(){
                                 </div>
                                 </td>
                                 <td>`;
-                                for(j in passengers_ssr[i].ssr_list){
+                                for(j in passengers_ssr[i].fee_dict){
                                     try{
-                                        text += `<label>`+passengers_ssr[i].ssr_list[j].availability_type+ ' ' + passengers_ssr[i].ssr_list[j].name + `</label><br/>`;
+                                        if(journey_key != '' && journey_key != j)
+                                            text += `<hr/>`;
+                                        journey_key = j;
+                                        text += `<label>`;
+                                        if(!passengers_ssr[i].fee_dict[j].is_replace_ssr)
+                                            text+= 'Add new'
+                                        else
+                                            text += `Change are only for same `+addons_type+` type`;
+                                        text+=`</label>`;
+
+                                        text += `<label style="color:`+color+`;">`+passengers_ssr[i].fee_dict[j].origin+` - `+passengers_ssr[i].fee_dict[j].destination+` (`+passengers_ssr[i].fee_dict[j].departure_date+`)</label><br/>`;
+                                        for(k in passengers_ssr[i].fee_dict[j].fees){
+                                            if(passengers_ssr[i].fee_dict[j].fees[k].fee_category == 'meal'){
+                                                text+=`<i class="fas fa-utensils"></i> `;
+                                            }
+                                            else if(passengers_ssr[i].fee_dict[j].fees[k].fee_category == 'baggage'){
+                                                text+=`<i class="fas fa-suitcase"></i> `;
+                                            }
+                                            else if(passengers_ssr[i].fee_dict[j].fees[k].fee_category == 'equipment'){
+                                                text+=`<i class="fas fa-tools"></i> `;
+                                            }
+                                            else if(passengers_ssr[i].fee_dict[j].fees[k].fee_category == 'seat'){
+                                                text+=`<img src="/static/tt_website_rodextrip/img/icon/seat.png" style="height:16px; width:auto;"/> `;
+                                            }
+
+                                            text += `<label>`;
+                                            if(passengers_ssr[i].fee_dict[j].fees[k].fee_name.toLowerCase().includes(passengers_ssr[i].fee_dict[j].fees[k].fee_category.toLowerCase()) == false)
+                                                text += passengers_ssr[i].fee_dict[j].fees[k].fee_category + ': ';
+                                            text += passengers_ssr[i].fee_dict[j].fees[k].fee_name + `</label><br/>`;
+                                        }
+
+//                                        text += `<label>`+passengers_ssr[i].ssr_list[j].availability_type+ ' ' + passengers_ssr[i].ssr_list[j].name + `</label><br/>`;
                                   }catch(err){
                                     console.log(err); // error kalau ada element yg tidak ada
                                   }
@@ -7621,21 +7772,21 @@ function get_airline_review_after_sales(){
 
                 text+=`</table>
                     <br/>`;
-                is_add_data = true;
-                if(addons_type == 'ssr'){
-                    for(i in airline_get_detail.provider_bookings){
-                        if(provider_list_data[airline_get_detail.provider_bookings[i].provider].is_replace_ssr)
-                            is_replace_data = false;
-                    }
-                }else{
-                    // seat true
-                    is_replace_data = false;
-                }
-                if(is_add_data)
-                    text+=`<label>Notes: Add new</label>`;
-                else{
-                    text+=`<label>Notes: Change are only for same `+addons_type+` type</label>`;
-                }
+//                is_add_data = true;
+//                if(addons_type == 'ssr'){
+//                    for(i in airline_get_detail.provider_bookings){
+//                        if(provider_list_data[airline_get_detail.provider_bookings[i].provider].is_replace_ssr)
+//                            is_replace_data = false;
+//                    }
+//                }else{
+//                    // seat true
+//                    is_replace_data = false;
+//                }
+//                if(is_add_data)
+//                    text+=`<label>Notes: Add new</label>`;
+//                else{
+//                    text+=`<label>Notes: Change are only for same `+addons_type+` type</label>`;
+//                }
                 text+=`
             </div>
         </div>
