@@ -5214,9 +5214,6 @@ function airline_detail(type){
         total_price = 0;
         currency = ''
         for(i in airline_get_detail.passengers[0].sale_service_charges){
-            text += `<div class="row">
-                        <div class="col-lg-12">
-            `;
             for(j in airline_get_detail.passengers){
                 for(k in airline_get_detail.passengers[j].sale_service_charges){
                     for(l in airline_get_detail.passengers[j].sale_service_charges[k]){
@@ -5228,7 +5225,6 @@ function airline_detail(type){
                 break;
 
             }
-            text+=`</div>`;
         }
         if(window.location.pathname.includes('review_after_sales') && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
         {
@@ -5237,29 +5233,31 @@ function airline_detail(type){
                     </div>`;
         }
         text += `
-            <div class="col-lg-7" style="text-align:left;">
-                <label>Additional Price</label><br/>
-            </div>
-            <div class="col-lg-5" style="text-align:right;">`;
-            if(currency == 'IDR')
-            text+=`
-                <label id="additional_price">`+currency+` `+getrupiah(additional_price)+`</label><br/>`;
-            else
-            text+=`
-                <label id="additional_price">`+additional_price+`</label><br/>`;
-            text+=`
-            </div>
-            <div class="col-lg-7" style="text-align:left;">
-                <span style="font-size:14px; font-weight:bold;"><b>Total</b></span><br/>
-            </div>
-            <div class="col-lg-5" style="text-align:right; padding-bottom:10px;">`;
-            if(airline_get_detail.passengers[j].sale_service_charges[k][l].currency == 'IDR')
-            text+=`
-                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+currency+` `+getrupiah(parseFloat(total_price+parseFloat(additional_price)))+`</b></span><br/>`;
-            else
-            text+=`
-                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+getrupiah(total_price+additional_price)+`</b></span><br/>`;
-            text+=`
+            <div class="row">
+                <div class="col-lg-7" style="text-align:left;">
+                    <label>Additional Price</label><br/>
+                </div>
+                <div class="col-lg-5" style="text-align:right;">`;
+                if(currency == 'IDR')
+                text+=`
+                    <label id="additional_price">`+currency+` `+getrupiah(additional_price)+`</label><br/>`;
+                else
+                text+=`
+                    <label id="additional_price">`+additional_price+`</label><br/>`;
+                text+=`
+                </div>
+                <div class="col-lg-7" style="text-align:left;">
+                    <span style="font-size:14px; font-weight:bold;"><b>Total</b></span><br/>
+                </div>
+                <div class="col-lg-5" style="text-align:right; padding-bottom:10px;">`;
+                if(airline_get_detail.passengers[j].sale_service_charges[k][l].currency == 'IDR')
+                text+=`
+                    <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+currency+` `+getrupiah(parseFloat(total_price+parseFloat(additional_price)))+`</b></span><br/>`;
+                else
+                text+=`
+                    <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+getrupiah(total_price+additional_price)+`</b></span><br/>`;
+                text+=`
+                </div>
             </div>`;
     }
     else if(type == 'reschedule'){
