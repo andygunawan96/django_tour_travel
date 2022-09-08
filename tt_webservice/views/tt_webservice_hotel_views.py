@@ -396,7 +396,7 @@ def get_current_search(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_current_search",
-            "signature": request.session['hotel_signature']
+            "signature": request.POST['signature']
         }
         set_session(request, 'hotel_search_request', data)
     except Exception as e:

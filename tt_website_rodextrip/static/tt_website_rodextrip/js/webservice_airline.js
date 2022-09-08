@@ -3157,6 +3157,7 @@ function set_segment_provider_get_itinenary(segment, provider, val){
         document.getElementById("airlines_ticket").innerHTML = '';
         data_show = [];
         airline_departure = 'return';
+        reset_airline_filter();
         filtering('filter');
         var total_price = 0;
 
@@ -3244,6 +3245,7 @@ function set_segment_provider_get_itinenary(segment, provider, val){
         document.getElementById("airline_ticket_pick").innerHTML = '';
         airline_pick_mc('all');
         send_search_to_api(counter_search);
+        reset_airline_filter();
         filtering('filter');
     }
 
@@ -3267,6 +3269,36 @@ function set_segment_provider_get_itinenary(segment, provider, val){
         else
             airline_pick_mc('change');
         set_automatic_combo_price();
+    }
+}
+
+function reset_airline_filter(){
+    for(i in carrier_code){
+        document.getElementById('checkbox_airline'+i).checked = false;
+        carrier_code[i].status = false;
+    }for(i in transit_list){
+        document.getElementById('checkbox_transit'+i).checked = false;
+        transit_list[i].status = false;
+    }for(i in transit_duration_list){
+        document.getElementById('checkbox_transit_duration'+i).checked = false;
+        transit_duration_list[i].status = false;
+    }for(i in departure_list){
+        if(i == 0){
+            document.getElementById('checkbox_departure_time'+i).checked = true;
+            departure_list[i].status = true;
+        }else{
+            document.getElementById('checkbox_departure_time'+i).checked = false;
+            departure_list[i].status = false;
+        }
+    }
+    for(i in arrival_list){
+        if(i == 0){
+            document.getElementById('checkbox_arrival_time'+i).checked = true;
+            arrival_list[i].status = true;
+        }else{
+            document.getElementById('checkbox_arrival_time'+i).checked = false;
+            arrival_list[i].status = false;
+        }
     }
 }
 
