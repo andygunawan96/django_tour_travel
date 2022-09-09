@@ -1237,7 +1237,7 @@ function train_get_booking(data){
                     </div>
                     <div class="col-lg-4" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
-                            if (msg.result.response.state  == 'booked'){
+                            if (msg.result.response.state  == 'booked' || msg.result.response.state  == 'partial_booked' || msg.result.response.state == 'partial_issued'){
                                 try{
                                     if(can_issued)
                                     {

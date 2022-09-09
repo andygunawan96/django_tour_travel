@@ -7450,7 +7450,7 @@ function airline_get_booking(data, sync=false){
                                 `+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`
                                 </h5>
                                 Birth Date: <b>`+msg.result.response.passengers[pax].birth_date+`</b><br/>`;
-                            if(msg.result.response.passengers[pax].identity_type != '' && msg.result.response.passengers[pax].is_identity_valid){
+                            if(msg.result.response.passengers[pax].identity_type != '' && msg.result.response.passengers[pax].is_valid_identity){
                                 text+= msg.result.response.passengers[pax].identity_type.substr(0,1).toUpperCase()+msg.result.response.passengers[pax].identity_type.substr(1,msg.result.response.passengers[pax].identity_type.length)+`: <b>`+msg.result.response.passengers[pax].identity_number+`</b><br/>`;
                             }else if(!msg.result.response.passengers[pax].is_valid_identity)
                                 text+= '<b style="color:red;">Need to Update Identity</b><br/>';
@@ -14093,13 +14093,30 @@ function airline_get_reschedule_availability_v2(){
                hide_modal_waiting_transaction();
                document.getElementById('show_loading_booking_airline').hidden = false;
                if(msg.result.error_code == 0){
-                    document.getElementById('show_loading_booking_airline').style.display = 'block';
-                    document.getElementById('show_loading_booking_airline').hidden = false;
-                    //document.getElementById('ssr_request_after_sales').hidden = true;
+                    error_log = '';
+                    for(i in msg.result.response.reschedule_availability_provider){
+                        if(msg.result.response.reschedule_availability_provider[i].status == 'unavailable'){
+                            error_log += provider_list[i].journeys[0].journey_key + ' ' + provider_list[i].journeys[0].departure_date + ' ' + msg.result.response.reschedule_availability_provider[i].error_msg + '\n';
+                        }
+                    }
+                    if(error_log == ''){
+                        document.getElementById('show_loading_booking_airline').style.display = 'block';
+                        document.getElementById('show_loading_booking_airline').hidden = false;
+                        //document.getElementById('ssr_request_after_sales').hidden = true;
 
-                    document.getElementById('reissued').innerHTML = `<input class="primary-btn-white" style="width:100%;" type="button" onclick="show_loading();please_wait_transaction();airline_get_booking('`+airline_get_detail.result.response.order_number+`')" value="Cancel Reissued">`;
-                    flight_select = 0;
-                    datareissue2(msg.result.response.reschedule_availability_provider);
+                        document.getElementById('reissued').innerHTML = `<input class="primary-btn-white" style="width:100%;" type="button" onclick="show_loading();please_wait_transaction();airline_get_booking('`+airline_get_detail.result.response.order_number+`')" value="Cancel Reissued">`;
+                        flight_select = 0;
+
+                        datareissue2(msg.result.response.reschedule_availability_provider);
+                    }else{
+                        document.getElementById('reissued').hidden = false;
+                        document.getElementById('reissued_req_btn').disabled = false;
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Oops!',
+                            html: error_log,
+                        });
+                    }
                }else{
                     Swal.fire({
                        type: 'error',

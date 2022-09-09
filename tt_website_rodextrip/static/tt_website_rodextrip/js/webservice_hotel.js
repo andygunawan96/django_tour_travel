@@ -399,6 +399,11 @@ function hotel_get_current_search(){
                                  step: step_slider
                             });
                             filtering('filter');
+                            if(hotel_pagination_number != 0){
+                                $('#pagination-container2').pagination('drawPage', hotel_pagination_number);
+                                $('#pagination-container').pagination('drawPage', hotel_pagination_number);
+                                change_image_hotel(hotel_pagination_number);
+                            }
                         }
                         hotel_get_current_search();
                     }
@@ -504,6 +509,11 @@ function hotel_search(){
                          step: step_slider
                     });
                     filtering('filter');
+                    if(hotel_pagination_number != 0){
+                        $('#pagination-container2').pagination('drawPage', hotel_pagination_number);
+                        $('#pagination-container').pagination('drawPage', hotel_pagination_number);
+                        change_image_hotel(hotel_pagination_number);
+                    }
                 }else{
                     //kalau error belum
                     document.getElementById("hotel_error").innerHTML = '';
