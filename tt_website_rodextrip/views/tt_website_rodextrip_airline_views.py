@@ -1392,8 +1392,14 @@ def review(request, signature):
                             pax_request = []
                     set_session(request, 'airline_seat_request_%s' % signature, segment_seat_request)
 
-                except:
-                    print('airline no seatmap')
+                except Exception as e:
+                    try:
+                        passenger = request.session['airline_create_passengers_%s' % signature]['adult'] + request.session['airline_create_passengers_%s' % signature]['child']
+                        for pax in passenger:
+                            if pax.get('seat_list'):
+                                pax.pop('seat_list')
+                    except:
+                        print('airline no seatmap')
 
 
             elif request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-2] == 'passenger':
