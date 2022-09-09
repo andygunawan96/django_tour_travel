@@ -1130,7 +1130,6 @@ function sort(response, check_filter){
         });
         $('#pagination-container').show();
         $('#pagination-container2').show();
-
         $('#hotel_error').hide();
     }
     else{
@@ -3139,12 +3138,15 @@ function change_image_hotel(numb){
                 </div>
                 </form>`;
                 //tambah button ke detail
-            node.className = 'sorting-box-b';
-            node.innerHTML = text;
-            if(document.getElementById(node.id) == null)
-                document.getElementById("hotel_ticket").appendChild(node);
-            else
-                document.getElementById(node.id).innerHTML = node.innerHTML;
+                node.className = 'sorting-box-b';
+                node.innerHTML = text;
+                if(document.getElementById(node.id) == null)
+                    document.getElementById("hotel_ticket").appendChild(node);
+                else
+                    document.getElementById(node.id).innerHTML = node.innerHTML;
+                    document.getElementById(node.id).style.display = 'block';
+            }else{
+                document.getElementById('hotel'+i+'_div').style.display = 'none';
             }
         }
     }
