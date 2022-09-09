@@ -14093,13 +14093,28 @@ function airline_get_reschedule_availability_v2(){
                hide_modal_waiting_transaction();
                document.getElementById('show_loading_booking_airline').hidden = false;
                if(msg.result.error_code == 0){
-                    document.getElementById('show_loading_booking_airline').style.display = 'block';
-                    document.getElementById('show_loading_booking_airline').hidden = false;
-                    //document.getElementById('ssr_request_after_sales').hidden = true;
+                    error_log = '';
+                    for(i in msg.result.response.reschedule_availability_provider){
+                        if(msg.result.response.reschedule_availability_provider[i].status == 'unavailable'){
+                            error_log += provider_list[i].journeys[0].journey_key + ' ' + provider_list[i].journeys[0].departure_date + ' ' + msg.result.response.reschedule_availability_provider[i].error_msg + '\n';
+                        }
+                    }
+                    if(error_log == ''){
+                        document.getElementById('show_loading_booking_airline').style.display = 'block';
+                        document.getElementById('show_loading_booking_airline').hidden = false;
+                        //document.getElementById('ssr_request_after_sales').hidden = true;
 
-                    document.getElementById('reissued').innerHTML = `<input class="primary-btn-white" style="width:100%;" type="button" onclick="show_loading();please_wait_transaction();airline_get_booking('`+airline_get_detail.result.response.order_number+`')" value="Cancel Reissued">`;
-                    flight_select = 0;
-                    datareissue2(msg.result.response.reschedule_availability_provider);
+                        document.getElementById('reissued').innerHTML = `<input class="primary-btn-white" style="width:100%;" type="button" onclick="show_loading();please_wait_transaction();airline_get_booking('`+airline_get_detail.result.response.order_number+`')" value="Cancel Reissued">`;
+                        flight_select = 0;
+
+                        datareissue2(msg.result.response.reschedule_availability_provider);
+                    }else{
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Oops!',
+                            html: error_log,
+                        })
+                    }
                }else{
                     Swal.fire({
                        type: 'error',
