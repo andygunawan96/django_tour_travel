@@ -7450,7 +7450,7 @@ function airline_get_booking(data, sync=false){
                                 `+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`
                                 </h5>
                                 Birth Date: <b>`+msg.result.response.passengers[pax].birth_date+`</b><br/>`;
-                            if(msg.result.response.passengers[pax].identity_type != '' && msg.result.response.passengers[pax].is_identity_valid){
+                            if(msg.result.response.passengers[pax].identity_type != '' && msg.result.response.passengers[pax].is_valid_identity){
                                 text+= msg.result.response.passengers[pax].identity_type.substr(0,1).toUpperCase()+msg.result.response.passengers[pax].identity_type.substr(1,msg.result.response.passengers[pax].identity_type.length)+`: <b>`+msg.result.response.passengers[pax].identity_number+`</b><br/>`;
                             }else if(!msg.result.response.passengers[pax].is_valid_identity)
                                 text+= '<b style="color:red;">Need to Update Identity</b><br/>';
@@ -14109,11 +14109,13 @@ function airline_get_reschedule_availability_v2(){
 
                         datareissue2(msg.result.response.reschedule_availability_provider);
                     }else{
+                        document.getElementById('reissued').hidden = false;
+                        document.getElementById('reissued_req_btn').disabled = false;
                         Swal.fire({
                             type: 'error',
                             title: 'Oops!',
                             html: error_log,
-                        })
+                        });
                     }
                }else{
                     Swal.fire({
