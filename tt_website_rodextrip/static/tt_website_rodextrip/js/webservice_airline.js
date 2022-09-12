@@ -7109,7 +7109,11 @@ function airline_get_booking(data, sync=false){
                                         text+='Update History';
                                     else
                                         text+='Paid';
-                                    text+=`</h5></div></div>`;
+                                    text+=`</h5>`;
+                                    if(msg.result.response.reschedule_list[i].state.includes('validate')){
+                                        text+=`<h5>Please Reconfirm to HO</h5>`
+                                    }
+                                    text+=`</div></div>`;
                                     if(msg.result.response.reschedule_list[i].old_segments.length > 0){
                                         text+=`<h4 style="color:`+color+`">OLD</h4>`;
                                         for(j in msg.result.response.reschedule_list[i].old_segments){
