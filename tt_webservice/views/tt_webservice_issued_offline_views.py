@@ -142,6 +142,7 @@ def set_data_issued_offline(request):
                     temp_date[3] = temp_date[3].split(' ')[1]
                 if temp_date[4] == 'AM' and temp_date[3].split(':')[0] == '12':
                     temp_date[3] = str(datetime.strptime(temp_date[3], '%H:%M:%S') - timedelta(hours=12))
+                    temp_date[3] = temp_date[3].split(' ')[1]
                 arrival = [temp_date[2]+'-'+month[temp_date[1]]+'-'+temp_date[0], temp_date[3].split(':')[0] + ':' + temp_date[3].split(':')[1]]
                 if request.POST['type'] == 'airline':
                     origin = request.POST['line_origin'+str(i)].split(' - ')[0]
