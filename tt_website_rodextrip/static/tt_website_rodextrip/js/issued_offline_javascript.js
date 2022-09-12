@@ -628,7 +628,7 @@ function add_table_of_line(type){
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <span><label style="color:red">*</label>Provider</span><br/>`;
+                    <span><label style="color:red">*</label> Carrier Name</span><br/>`;
                     if(template == 1){
                         text+=`<div class="input-container-search-ticket">`;
                     }
