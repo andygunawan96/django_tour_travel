@@ -10139,12 +10139,10 @@ function reissued_btn(){
                             <input type="text" style="background:white;margin-top:5px;" class="form-control" name="airline_departure" id="airline_departure`+flight+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                         </div>
                     </div>
-                </div>
-            </div>`;
+                </div>`;
                 flight++;
             }
         }
-        text+=`</div>`;
         text+=`
             <div class="row">
                 <div class="col-lg-12">
@@ -10163,7 +10161,8 @@ function reissued_btn(){
                         </select>
                     </div>
                 </div>
-            </div>`;
+            </div>
+        </div>`;
         cabin_class++;
     }
     text += `</div>`;
