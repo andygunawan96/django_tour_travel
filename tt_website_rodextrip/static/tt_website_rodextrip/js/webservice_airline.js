@@ -7109,7 +7109,11 @@ function airline_get_booking(data, sync=false){
                                         text+='Update History';
                                     else
                                         text+='Paid';
-                                    text+=`</h5></div></div>`;
+                                    text+=`</h5>`;
+                                    if(msg.result.response.reschedule_list[i].state.includes('validate')){
+                                        text+=`<h5>Please Reconfirm to HO</h5>`
+                                    }
+                                    text+=`</div></div>`;
                                     if(msg.result.response.reschedule_list[i].old_segments.length > 0){
                                         text+=`<h4 style="color:`+color+`">OLD</h4>`;
                                         for(j in msg.result.response.reschedule_list[i].old_segments){
@@ -10139,12 +10143,10 @@ function reissued_btn(){
                             <input type="text" style="background:white;margin-top:5px;" class="form-control" name="airline_departure" id="airline_departure`+flight+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                         </div>
                     </div>
-                </div>
-            </div>`;
+                </div>`;
                 flight++;
             }
         }
-        text+=`</div>`;
         text+=`
             <div class="row">
                 <div class="col-lg-12">
@@ -10163,7 +10165,8 @@ function reissued_btn(){
                         </select>
                     </div>
                 </div>
-            </div>`;
+            </div>
+        </div>`;
         cabin_class++;
     }
     text += `</div>`;
