@@ -9883,8 +9883,29 @@ function update_booking_after_sales(input_pax_seat = false){
     }
 }
 
-function delete_reissue(val){
-    document.getElementById(val).remove();
+function delete_reissue(provider_index, journey_index){
+    is_need_delete_cabin_class = true;
+    for(j in airline_get_detail.result.response.provider_bookings[provider_index].journeys){
+        try{
+            if(journey_index == j)
+                document.getElementById('reissue_'+provider_index+'_journey'+j).remove();
+            if(document.getElementById('reissue_'+provider_index+'_journey'+j) != null)
+                is_need_delete_cabin_class = false;
+        }catch(err){console.log(err);}
+    }
+    try{
+        if(is_need_delete_cabin_class)
+            document.getElementById('reschedule_cabin_class'+provider_index).remove();
+    }catch(err){console.log(err);}
+    is_need_delete_reissued_btn = true;
+    for(i in airline_get_detail.result.response.provider_bookings){
+        for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
+            if(document.getElementById('reissue_'+i+'_journey'+j) != null)
+                is_need_delete_reissued_btn = false;
+        }
+    }
+    if(is_need_delete_reissued_btn)
+        document.getElementById('reissued_req_btn').remove();
 }
 
 function reroute_btn(){
@@ -10079,14 +10100,16 @@ function reissued_btn(){
 //                        <label onclick="delete_reissue('reissue_`+i+`')">X</label>
 //                       </div>
 //                   </div>`;
+        is_reschedule_print = false;
         for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
             if(moment() < moment(airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date)){
+                is_reschedule_print = true;
                 text += `<div id="reissue_`+i+`_journey`+j+`">`;
                 text += `<div class="row">
                            <div class="col-lg-10 col-xs-10">`;
                     text+=`</div>
                            <div class="col-lg-2 col-xs-2">
-                            <label onclick="delete_reissue('reissue_`+i+`_journey`+j+`')" style="font-size:18px; color:red;"><i class="fas fa-times"></i></label>
+                            <label onclick="delete_reissue(`+i+`,`+j+`)" style="font-size:18px; color:red;"><i class="fas fa-times"></i></label>
                            </div>
                        </div>`;
                 for(k in airline_get_detail.result.response.provider_bookings[i].journeys[j].segments){
@@ -10143,30 +10166,33 @@ function reissued_btn(){
                             <input type="text" style="background:white;margin-top:5px;" class="form-control" name="airline_departure" id="airline_departure`+flight+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                         </div>
                     </div>
-                </div>`;
+                </div>
+            </div>`;
                 flight++;
             }
         }
-        text+=`
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="form-select">
-                        <select id="cabin_class_flight`+cabin_class+`" name="cabin_class_flight`+cabin_class+`" class="nice-select-default reissued-class-airline">
-                            <option value="Y" selected="">Economy</option>`;
-        if(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[0].carrier_code == 'QG')
+        if(is_reschedule_print){
+            text+=`
+                <div class="row" id="reschedule_cabin_class`+i+`">
+                    <div class="col-lg-12">
+                        <div class="form-select">
+                            <select id="cabin_class_flight`+cabin_class+`" name="cabin_class_flight`+cabin_class+`" class="nice-select-default reissued-class-airline">
+                                <option value="Y" selected="">Economy</option>`;
+            if(airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[0].carrier_code == 'QG')
+                text +=`
+                                <option value="W">Royal Green</option>`;
+            else
+                text +=`
+                                <option value="W">Premium Economy</option>`;
             text +=`
-                            <option value="W">Royal Green</option>`;
-        else
-            text +=`
-                            <option value="W">Premium Economy</option>`;
-        text +=`
-                            <option value="C">Business</option>
-                            <option value="F">First Class</option>
-                        </select>
+                                <option value="C">Business</option>
+                                <option value="F">First Class</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>`;
+            </div>`;
+        }
         cabin_class++;
     }
     text += `</div>`;
