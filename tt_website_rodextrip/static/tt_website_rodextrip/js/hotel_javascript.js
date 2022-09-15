@@ -1113,14 +1113,15 @@ function render_hotel_search(hotel_data_print, i){
                         } else {
                             var arr = [];
                             content_price_pop = ``;
-                            for(j in hotel_data_print.external_code){
-                                text += `<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <span style="font-size:13px; font-weight: 500; text-align:left;">` + j +`</span>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                <span style="font-size:13px; font-weight: 700; text-align:right;">-</span>
-                            </div>`;
-                            }
+//                            for(j in hotel_data_print.external_code){
+//                                text += `
+//                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+//                                <span style="font-size:13px; font-weight: 500; text-align:left;">` + j +`</span>
+//                            </div>
+//                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+//                                <span style="font-size:13px; font-weight: 700; text-align:right;">-</span>
+//                            </div>`;
+//                            }
                             text+=`<span class="price_hotel" hidden>Waiting price</span>`;
                         }
                         var total_room = document.getElementById("hotel_room").value;

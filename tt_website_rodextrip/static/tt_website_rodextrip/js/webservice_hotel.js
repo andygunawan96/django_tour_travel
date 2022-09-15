@@ -3069,6 +3069,8 @@ function hotel_get_booking(data){
                         <h5> Cancellation Policy</h5>
                         <hr/>
                         <ul style="list-style-type: disc; margin: 0 15px;">`;
+
+                //cancellation policy
                 if(msg.result.response.hasOwnProperty('cancellation_policy_str'))
                     cancellation_policy_list = msg.result.response.cancellation_policy_str.split(';;');
                 else
@@ -3079,6 +3081,8 @@ function hotel_get_booking(data){
                     text_cancellation_policy += '<li style="list-style: unset;">No Cancellation</li>';
                 text_cancellation_policy += '</ul></div>';
                 document.getElementById('hotel_cancellation_policy_div').innerHTML = text_cancellation_policy;
+                //cancellation policy
+
                 document.getElementById('show_title_hotel').hidden = false;
                 document.getElementById('show_loading_booking_airline').hidden = true;
                 add_repricing();
