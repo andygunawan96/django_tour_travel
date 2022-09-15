@@ -3064,6 +3064,21 @@ function hotel_get_booking(data){
                     </div>`;
                 }catch(err){console.log(err)}
                 document.getElementById('hotel_detail').innerHTML = text_detail;
+                text_cancellation_policy = `
+                    <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
+                        <h5> Cancellation Policy</h5>
+                        <hr/>
+                        <ul style="list-style-type: disc; margin: 0 15px;">`;
+                if(msg.result.response.hasOwnProperty('cancellation_policy_str'))
+                    cancellation_policy_list = msg.result.response.cancellation_policy_str.split(';;');
+                else
+                    cancellation_policy_list = [];
+                for(i in cancellation_policy_list)
+                    text_cancellation_policy += '<li style="list-style: unset;">' + cancellation_policy_list[i] + '</li>';
+                if(cancellation_policy_list.length == 0)
+                    text_cancellation_policy += '<li style="list-style: unset;">No Cancellation</li>';
+                text_cancellation_policy += '</ul></div>';
+                document.getElementById('hotel_cancellation_policy_div').innerHTML = text_cancellation_policy;
                 document.getElementById('show_title_hotel').hidden = false;
                 document.getElementById('show_loading_booking_airline').hidden = true;
                 add_repricing();

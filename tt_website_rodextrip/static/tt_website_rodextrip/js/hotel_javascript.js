@@ -233,6 +233,7 @@ function filtering(type){
     var data = JSON.parse(JSON.stringify(hotel_data));
     checking_slider = update;
     if(type == 'filter'){
+        hotel_pagination_number = 1;
         check_rating = 0;
         for(i in rating_list){
             if(rating_list[i].status == true){
@@ -911,6 +912,7 @@ function render_hotel_search(hotel_data_print, i){
     text += '<form id="hotel'+i+'" action="/hotel/detail" method="POST">';
     //msg.result.response.city_ids[i].sequence
     text+=`
+    <input type="hidden" id="hotel_id`+i+`" value="`+hotel_data_print.id+`"/>
     <div class="row">`;
         if(hotel_data_print.images.length != 0){
             text+=`
