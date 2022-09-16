@@ -233,7 +233,6 @@ function filtering(type){
     var data = JSON.parse(JSON.stringify(hotel_data));
     checking_slider = update;
     if(type == 'filter'){
-        hotel_pagination_number = 1;
         check_rating = 0;
         for(i in rating_list){
             if(rating_list[i].status == true){
@@ -361,6 +360,8 @@ function filtering(type){
             temp_response = data;
             sort(data, 1);
         }
+    }else{
+        sort(hotel_data,1)
     }
 }
 
@@ -1167,12 +1168,14 @@ function render_hotel_search(hotel_data_print, i){
 function filter_name(name_num){
     clearTimeout(myVar);
     myVar = setTimeout(function() {
+        hotel_pagination_number = 1;
         change_filter('hotel_name'+ String(name_num),'');
     }, 500);
 }
 
 function change_filter(type, value){
     var check = 0;
+    hotel_pagination_number = 1;
     if(type == 'rating'){
         rating_list[value].status = !rating_list[value].status;
         document.getElementById("rating_filter"+value).checked = rating_list[value].status;
@@ -2685,6 +2688,7 @@ function checking_price_slider(filter, type){
    $maxPrice = parseFloat(to_price);
    checking_price = 0;
    if($check_load != 0){
+       hotel_pagination_number = 1;
        filtering('filter');
    }
 }
