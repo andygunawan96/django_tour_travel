@@ -288,7 +288,7 @@ def search(request):
                 _logger.error(str(e) + traceback.format_exc())
             if data == request.session['hotel_request_data'] and request.session['hotel_error']['error_code'] == 0 and sum([len(rec) for rec in request.session['hotel_response_search']['result']['response'].values()]) != 0:
                 # or sum([len(rec) for rec in request.session['hotel_response_search']['result']['response'].values()]) == 0
-                data = {}
+                # data = {}
                 set_session(request, 'hotel_signature', request.session['hotel_error']['signature'])
             else:
                 set_session(request, 'hotel_signature', request.session['hotel_error']['signature'])
@@ -321,20 +321,20 @@ def search(request):
         else:
             logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    if data:
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "search",
-            "signature": request.POST['signature']
-        }
-        signature = request.POST['signature']
-        url_request = url + 'booking/hotel'
-        res = send_request_api(request, url_request, headers, data, 'POST', 300)
-        set_session(request, 'hotel_response_search', res)
-    else:
-        signature = request.session['hotel_signature']
-        res = request.session['hotel_response_search']
+    # if data:
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "search",
+        "signature": request.POST['signature']
+    }
+    signature = request.POST['signature']
+    url_request = url + 'booking/hotel'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    set_session(request, 'hotel_response_search', res)
+    # else:
+    #     signature = request.session['hotel_signature']
+    #     res = request.session['hotel_response_search']
     try:
         counter = 0
         sequence = 0
@@ -343,6 +343,7 @@ def search(request):
                 'error_code': res['result']['error_code'],
                 'signature': signature
             })
+            set_session(request, 'hotel_signature', signature)
             _logger.info(json.dumps(request.session['hotel_error']))
 
             hotel_data = []
@@ -412,65 +413,9 @@ def get_current_search(request):
         else:
             logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    if data:
-        url_request = url + 'booking/hotel'
-        res = send_request_api(request, url_request, headers, data, 'POST', 300)
-        set_session(request, 'hotel_response_search', res)
-    else:
-        res = request.session['hotel_response_search']
-    try:
-        counter = 0
-        sequence = 0
-        if res['result']['error_code'] == 0:
-            signature = copy.deepcopy(request.session['hotel_signature'])
-            set_session(request, 'hotel_error', {
-                'error_code': res['result']['error_code'],
-                'signature': signature
-            })
-            _logger.info(json.dumps(request.session['hotel_error']))
-
-            hotel_data = []
-            for hotel in res['result']['response']['city_ids']:
-                hotel.update({
-                    'sequence': sequence,
-                    'counter': counter
-                })
-                counter += 1
-                sequence += 1
-
-            counter = 0
-
-            for hotel in res['result']['response']['country_ids']:
-                hotel.update({
-                    'sequence': sequence,
-                    'counter': counter
-                })
-                counter += 1
-                sequence += 1
-
-            counter = 0
-
-            for hotel in res['result']['response']['hotel_ids']:
-                hotel.update({
-                    'sequence': sequence,
-                    'counter': counter
-                })
-                counter += 1
-                sequence += 1
-
-            counter = 0
-
-            for hotel in res['result']['response']['landmark_ids']:
-                hotel.update({
-                    'sequence': sequence,
-                    'counter': counter
-                })
-                counter += 1
-                sequence += 1
-        else:
-            _logger.error("ERROR search_hotel SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    url_request = url + 'booking/hotel'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    set_session(request, 'hotel_signature', request.POST['signature'])
     return res
 
 
@@ -798,8 +743,8 @@ def get_booking(request):
     url_request = url + 'booking/hotel'
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
-        set_session(request, 'hotel_provision', res)
-        _logger.info(json.dumps(request.session['hotel_provision']))
+        set_session(request, 'hotel_get_booking_%s' % request.POST['signature'], res)
+        _logger.info(json.dumps(request.session['hotel_get_booking_%s' % request.POST['signature']]))
         if res['result']['error_code'] == 0:
             try:
                 res['result']['response']['can_issued'] = False
