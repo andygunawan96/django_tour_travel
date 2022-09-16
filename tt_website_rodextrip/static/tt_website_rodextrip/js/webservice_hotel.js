@@ -335,14 +335,23 @@ function hotel_get_current_search(){
                     'action': 'get_current_search',
                },
                data: {
+                    'destination': $('#hotel_id_destination').val(),
+                    'nationality': $('#hotel_id_nationality').val(),
+                    'checkin': $('#hotel_checkin').val(),
+                    'checkout': $('#hotel_checkout').val(),
+                    'room': $('#hotel_room').val(),
+                    'adult': $('#hotel_adult').val(),
+                    'child': $('#hotel_child').val(),
+                    'child_age': child_age,
+                    'business_trip': $('#business_trip').val(),
                     'signature': signature
                },
                success: function(msg) {
                     console.log(msg);
                     if(msg.result.error_code == 0){
-                        hotel_data = msg.result.response;
                         vendor = [];
                         if(msg.result.response.hotel_ids.length > 0){
+                            hotel_data = msg.result.response;
                             for(i in msg.result.response.hotel_ids){
                                 check = 0;
         //                                        if(vendor.length != 0){
@@ -451,6 +460,7 @@ function hotel_search(){
                gtag('event', 'hotel_search', {});
            try{
                 if(msg.result.error_code==0){
+                    hotel_set_signature(msg.result.signature)
                     hotel_data = msg.result.response;
                     vendor = [];
                     for(i in msg.result.response.hotel_ids){
@@ -558,6 +568,26 @@ function hotel_search(){
    });
 }
 
+function hotel_set_signature(signature_hotel){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/hotel",
+       headers:{
+            'action': 'set_signature',
+       },
+       data: {
+            'signature': signature_hotel
+       },
+       success: function(msg) {
+            signature = signature_hotel;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error set hotel signature');
+            $('#loading-search-hotel').hide();
+       },timeout: 180000
+   });
+}
+
 function hotel_detail_page(){
     $.ajax({
        type: "POST",
@@ -650,8 +680,8 @@ function get_top_facility(){
        },
        success: function(msg) {
         if(msg.result.error_code == 0){
-            hotel_search();
             top_facility = msg.result.response;
+            hotel_search();
             if (top_facility){
                 facility_filter_html = `<hr><h6 class="filter_general" onclick="show_hide_general('hotelFacilities');">Facilities <i class="fas fa-chevron-down" id="hotelFacilities_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelFacilities_generalUp" style="float:right; display:block;"></i></h6>
                 <div id="hotelFacilities_generalShow" style="display:inline-block;">`;
