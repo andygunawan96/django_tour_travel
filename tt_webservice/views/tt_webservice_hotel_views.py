@@ -50,6 +50,8 @@ def api_models(request):
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'signin':
             res = login(request)
+        elif req_data['action'] == 'set_signature':
+            res = set_signature(request)
         elif req_data['action'] == 'get_carriers':
             res = get_carriers(request)
         elif req_data['action'] == 'get_hotel_data_detail_page':
@@ -88,6 +90,8 @@ def api_models(request):
             res = detail_page(request)
         elif req_data['action'] == 'passenger_page':
             res = passenger_page(request)
+        elif req_data['action'] == 'hotel_check_refund_amount':
+            res = hotel_check_refund_amount(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -121,7 +125,7 @@ def login(request):
     try:
         if res['result']['error_code'] == 0:
             create_session_product(request, 'hotel', 20)
-            set_session(request, 'hotel_signature', res['result']['response']['signature'])
+            # set_session(request, 'hotel_signature', res['result']['response']['signature'])
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
@@ -146,6 +150,21 @@ def get_hotel_data_detail_page(request):
         _logger.error('ERROR get train_cache_data file\n' + str(e) + '\n' + traceback.format_exc())
 
     return res
+
+def set_signature(request):
+    try:
+        set_session(request, 'hotel_signature', request.POST['signature'])
+        set_session(request, 'hotel_set_signature', False)
+    except Exception as e:
+        _logger.error('ERROR get train_cache_data file\n' + str(e) + '\n' + traceback.format_exc())
+
+    return {
+        "result":{
+            "response": "",
+            "error_code": 0,
+            "error_msg": ""
+        }
+    }
 
 def get_carriers(request):
     try:
@@ -246,6 +265,7 @@ def search(request):
         destination_id = ''
         hotel_id = ''
         landmark_id = ''
+        set_session(request, 'hotel_set_signature', True)
         try:
             for hotel in response['result']['response']['hotel_config']:
                 if request.POST['destination'] == hotel['name']:
@@ -282,12 +302,12 @@ def search(request):
             hotel_request_data = request.session['hotel_request_data']
             hotel_request_data['hotel_id'] = request.POST.get('id') or ''
             set_session(request, 'hotel_request_data', hotel_request_data)
+            signature = request.session.get('hotel_signature', '')
             try:
                 del request.session['hotel_request_data']['pax_country']
             except Exception as e:
                 _logger.error(str(e) + traceback.format_exc())
-            if data == request.session['hotel_request_data'] and request.session['hotel_error']['error_code'] == 0 and sum([len(rec) for rec in request.session['hotel_response_search']['result']['response'].values()]) != 0:
-                # or sum([len(rec) for rec in request.session['hotel_response_search']['result']['response'].values()]) == 0
+            if data == request.session['hotel_request_data'] and request.session['hotel_error']['error_code'] == 0 and sum([len(rec) for rec in request.session['hotel_response_search_%s' % signature]['result']['response'].values()]) != 0:
                 data = {}
                 set_session(request, 'hotel_signature', request.session['hotel_error']['signature'])
             else:
@@ -331,18 +351,20 @@ def search(request):
         signature = request.POST['signature']
         url_request = url + 'booking/hotel'
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
-        set_session(request, 'hotel_response_search', res)
+        set_session(request, 'hotel_response_search_%s' % signature, res)
     else:
         signature = request.session['hotel_signature']
-        res = request.session['hotel_response_search']
+        res = request.session['hotel_response_search_%s' % signature]
     try:
         counter = 0
         sequence = 0
+        res['result']['signature'] = signature
         if res['result']['error_code'] == 0:
             set_session(request, 'hotel_error', {
                 'error_code': res['result']['error_code'],
                 'signature': signature
             })
+            set_session(request, 'hotel_signature', signature)
             _logger.info(json.dumps(request.session['hotel_error']))
 
             hotel_data = []
@@ -391,7 +413,49 @@ def search(request):
 
 def get_current_search(request):
     try:
-        data = request.session['hotel_search_request']
+        child_age = []
+        if request.POST['child_age'] != '':
+            child_age = request.POST['child_age'].split(',')
+        response = get_cache_data()
+        id = ''
+        country_id = ''
+        destination_id = ''
+        hotel_id = ''
+        landmark_id = ''
+        set_session(request, 'hotel_set_signature', True)
+        try:
+            for hotel in response['result']['response']['hotel_config']:
+                if request.POST['destination'] == hotel['name']:
+                    if hotel['type'] == 'Country':
+                        country_id = int(hotel['id'])
+                        id = int(hotel['id'])
+                    elif hotel['type'] == 'City':
+                        destination_id = int(hotel['id'])
+                        id = int(hotel['id'])
+                    elif hotel['type'] == 'Hotel':
+                        hotel_id = int(hotel['id'])
+                        id = int(hotel['id'])
+                    elif hotel['type'] == 'Landmark':
+                        landmark_id = int(hotel['id'])
+                        id = int(hotel['id'])
+                    break
+        except:
+            pass
+
+        data = {
+            'child': int(request.POST['child']),
+            'hotel_id': request.POST.get('id') or '',
+            'search_name': request.POST.get('destination') and ' - '.join(
+                request.POST.get('destination').split(' - ')[:-1]) or '',
+            'room': int(request.POST['room']),
+            'checkout_date': str(datetime.strptime(request.POST['checkout'], '%d %b %Y'))[:10],
+            'checkin_date': str(datetime.strptime(request.POST['checkin'], '%d %b %Y'))[:10],
+            'adult': int(request.POST['adult']),
+            'destination_id': destination_id,
+            'child_ages': child_age,
+            'nationality': request.POST['nationality'].split(' - ')[0],
+            'is_bussiness_trip': request.POST['business_trip'],
+        }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -412,65 +476,10 @@ def get_current_search(request):
         else:
             logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    if data:
-        url_request = url + 'booking/hotel'
-        res = send_request_api(request, url_request, headers, data, 'POST', 300)
-        set_session(request, 'hotel_response_search', res)
-    else:
-        res = request.session['hotel_response_search']
-    try:
-        counter = 0
-        sequence = 0
-        if res['result']['error_code'] == 0:
-            signature = copy.deepcopy(request.session['hotel_signature'])
-            set_session(request, 'hotel_error', {
-                'error_code': res['result']['error_code'],
-                'signature': signature
-            })
-            _logger.info(json.dumps(request.session['hotel_error']))
-
-            hotel_data = []
-            for hotel in res['result']['response']['city_ids']:
-                hotel.update({
-                    'sequence': sequence,
-                    'counter': counter
-                })
-                counter += 1
-                sequence += 1
-
-            counter = 0
-
-            for hotel in res['result']['response']['country_ids']:
-                hotel.update({
-                    'sequence': sequence,
-                    'counter': counter
-                })
-                counter += 1
-                sequence += 1
-
-            counter = 0
-
-            for hotel in res['result']['response']['hotel_ids']:
-                hotel.update({
-                    'sequence': sequence,
-                    'counter': counter
-                })
-                counter += 1
-                sequence += 1
-
-            counter = 0
-
-            for hotel in res['result']['response']['landmark_ids']:
-                hotel.update({
-                    'sequence': sequence,
-                    'counter': counter
-                })
-                counter += 1
-                sequence += 1
-        else:
-            _logger.error("ERROR search_hotel SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    url_request = url + 'booking/hotel'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    if request.session.get('hotel_set_signature', False):
+        set_session(request, 'hotel_signature', request.POST['signature'])
     return res
 
 
@@ -576,21 +585,28 @@ def get_top_facility(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_top_facility",
-            "signature": request.session['hotel_signature'],
+            "signature": request.POST['signature'],
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     url_request = url + 'booking/hotel'
-    res = send_request_api(request, url_request, headers, data, 'POST')
-    try:
-        set_session(request, 'hotel_cancellation_policy', res)
-        _logger.info(json.dumps(request.session['hotel_cancellation_policy']))
-        if res['result']['error_code'] == 0:
-            _logger.info("get_top_facility_hotel SUCCESS SIGNATURE " + request.session['hotel_signature'])
-        else:
-            _logger.error("get_top_facility_hotel ERROR SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
-    except Exception as e:
-        _logger.error(str(e) + '\n' + traceback.format_exc())
+    file = read_cache("get_hotel_top_facility_data", 'cache_web', 86400)
+    if not file:
+        res = send_request_api(request, url_request, headers, data, 'POST')
+        try:
+            if res['result']['error_code'] == 0:
+                write_cache(res, "get_hotel_top_facility_data", 'cache_web')
+                _logger.info("get_top_facility_hotel SUCCESS SIGNATURE " + request.session['hotel_signature'])
+            else:
+                _logger.error("get_top_facility_hotel ERROR SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+    else:
+        try:
+            res = file
+        except Exception as e:
+            res = []
+            _logger.error('ERROR get_hotel_top_facility_data file\n' + str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_facility_img(request):
@@ -798,8 +814,8 @@ def get_booking(request):
     url_request = url + 'booking/hotel'
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
-        set_session(request, 'hotel_provision', res)
-        _logger.info(json.dumps(request.session['hotel_provision']))
+        set_session(request, 'hotel_get_booking_%s' % request.POST['signature'], res)
+        _logger.info(json.dumps(request.session['hotel_get_booking_%s' % request.POST['signature']]))
         if res['result']['error_code'] == 0:
             try:
                 res['result']['response']['can_issued'] = False
@@ -982,3 +998,44 @@ def passenger_page(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
+
+def hotel_check_refund_amount(request):
+    try:
+        get_booking_dict = request.session['get_booking_%s' % request.POST['signature']] or json.loads(request.POST['hotel_get_booking'])
+        order_number = get_booking_dict['result']['response']['order_number']
+        provider_bookings = []
+        for provider_booking in get_booking_dict['result']['response']['provider_bookings']:
+            provider_bookings.append({
+                "pnr": "",
+                "provider": ""
+            })
+        data = {
+            'order_number': order_number,
+            'provider_bookings': provider_bookings
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "booker_insentif_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/hotel'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            total_upsell = 0
+            for upsell in data['passengers']:
+                for pricing in upsell['pricing']:
+                    total_upsell += pricing['amount']
+            set_session(request, 'hotel_upsell_booker_'+request.POST['signature'], total_upsell)
+            _logger.info(json.dumps(request.session['hotel_upsell_booker_' + request.POST['signature']]))
+            _logger.info("SUCCESS update_service_charge_booker HOTEL SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR update_service_charge_hotel_booker HOTEL SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
