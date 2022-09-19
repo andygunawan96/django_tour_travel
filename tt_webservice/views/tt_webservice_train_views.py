@@ -121,7 +121,6 @@ def login(request):
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
-            _logger.info(json.dumps(request.session['train_signature']))
 
             _logger.info("SIGNIN TRAIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
     except Exception as e:
@@ -150,7 +149,7 @@ def get_config_provider(request):
             if res['result']['error_code'] == 0:
                 #datetime
                 write_cache(res, "train_provider", 'cache_web')
-                _logger.info("get_providers TRAIN RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                _logger.info("get_providers_list TRAIN RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
                     file = read_cache("train_provider", 'cache_web', 90911)
@@ -159,7 +158,6 @@ def get_config_provider(request):
                     _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.info("get_provider_list TRAIN ERROR SIGNATURE " + request.POST['signature'])
-                _logger.info("get_providers TRAIN ERROR SIGNATURE " + request.POST['signature'])
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
@@ -231,7 +229,7 @@ def get_train_data_search_page(request):
         # res = search2(request)
         logging.getLogger("error_info").error("SUCCESS data search page TRAIN")
     except Exception as e:
-        _logger.error('ERROR get train_cache_data file\n' + str(e) + '\n' + traceback.format_exc())
+        _logger.error('ERROR get train_cache_data_search_page\n' + str(e) + '\n' + traceback.format_exc())
 
     return res
 
@@ -245,7 +243,7 @@ def get_train_data_passenger_page(request):
         res['train_request'] = request.session['train_request']
         logging.getLogger("error_info").error("SUCCESS data search page TRAIN")
     except Exception as e:
-        _logger.error('ERROR get train_cache_data file\n' + str(e) + '\n' + traceback.format_exc())
+        _logger.error('ERROR get get_train_data_passenger_page\n' + str(e) + '\n' + traceback.format_exc())
 
     return res
 
@@ -261,7 +259,7 @@ def get_train_data_review_page(request):
         res['upsell_price_dict'] = request.session.get('train_upsell_%s' % request.POST['signature']) and request.session.get('train_upsell_%s' % request.POST['signature']) or {}
         logging.getLogger("error_info").error("SUCCESS data search page TRAIN")
     except Exception as e:
-        _logger.error('ERROR get train_cache_data file\n' + str(e) + '\n' + traceback.format_exc())
+        _logger.error('ERROR get get_train_data_review_page\n' + str(e) + '\n' + traceback.format_exc())
 
     return res
 
@@ -472,7 +470,7 @@ def sell_journeys(request):
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS sell_journeys TRAIN SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR sell_journeys_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR sell_journeys TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -592,10 +590,9 @@ def commit_booking(request):
     try:
         if res['result']['error_code'] == 0:
             set_session(request, 'train_order_number', res['result']['response']['order_number'])
-            _logger.info(json.dumps(request.session['train_order_number']))
             _logger.info("SUCCESS commit_booking TRAIN SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR commit_booking_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR commit_booking TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -693,7 +690,7 @@ def get_booking(request):
                                 break
             _logger.info("SUCCESS get_booking TRAIN SIGNATURE " + request.session['train_signature'])
         else:
-            _logger.error("ERROR get_booking_train TRAIN SIGNATURE " + request.session['train_signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR get_booking TRAIN SIGNATURE " + request.session['train_signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -726,10 +723,9 @@ def update_service_charge(request):
                             total_upsell_dict[upsell['pax_type']] = 0
                         total_upsell_dict[upsell['pax_type']] += pricing['amount']
             set_session(request, 'train_upsell_' + request.POST['signature'], total_upsell_dict)
-            _logger.info(json.dumps(request.session['train_upsell' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge TRAIN SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR update_service_charge_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR update_service_charge TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -759,10 +755,9 @@ def booker_insentif_booking(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             set_session(request, 'train_upsell_booker_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['train_upsell_booker_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge_booker TRAIN SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR update_service_charge_train_booker TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR update_service_charge_booker TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -792,7 +787,7 @@ def seat_map(request):
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS seat_map TRAIN SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR seat_map_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR seat_map TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
 
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -852,9 +847,9 @@ def issued(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("SUCCESS issued AIRLINE SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS issued TRAIN SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR issued AIRLINE SIGNATURE " + request.POST['signature'])
+            _logger.error("ERROR issued TRAIN SIGNATURE " + request.POST['signature'])
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -879,7 +874,7 @@ def cancel(request):
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS cancel TRAIN SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR cancel_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR cancel TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
 
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())

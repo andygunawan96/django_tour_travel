@@ -78,8 +78,8 @@ def get_voucher(request):
     url_request = url + 'account'
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
-        _logger.info(json.dumps(request.session['signature']))
-        request.session.modified = True
+        if res['result']['error_code']:
+            _logger.info("GET_VOUCHER")
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -107,7 +107,7 @@ def set_voucher(request):
     url_request = url + 'account'
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
-        _logger.info(json.dumps(request.POST['signature']))
+        _logger.info("SET VOUCHER")
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -139,7 +139,7 @@ def check_voucher(request):
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS check_voucher VOUCHER " + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR check_voucher_voucher VOUCHER " + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR check_voucher VOUCHER " + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 

@@ -179,7 +179,7 @@ def get_token(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            _logger.info(json.dumps(request.session['visa_signature']))
+            _logger.info("get token insurance")
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -203,7 +203,7 @@ def get_kurs(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            _logger.info(json.dumps(request.session['visa_signature']))
+            _logger.info("get kurs insurance")
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -227,7 +227,7 @@ def get_premi(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            _logger.info(json.dumps(request.session['visa_signature']))
+            _logger.info("get premi insurance")
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -251,7 +251,7 @@ def updata(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            _logger.info(json.dumps(request.session['visa_signature']))
+            _logger.info("updata insurance")
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -333,7 +333,7 @@ def check_benefit_data(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            _logger.info(json.dumps(request.session['visa_signature']))
+            _logger.info("check benefit data insurance")
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -364,7 +364,7 @@ def sell_insurance(request):
     res = send_request_api(request, url_request, headers, data, 'POST',timeout=300)
     try:
         if res['result']['error_code'] == 0:
-            _logger.info(json.dumps(request.session['insurance_signature']))
+            _logger.info("sell insurance SUCCESS")
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -488,7 +488,7 @@ def commit_booking(request):
     res = send_request_api(request, url_request, headers, data, 'POST',timeout=300)
     try:
         if res['result']['error_code'] == 0:
-            _logger.info(json.dumps(request.session['insurance_signature']))
+            _logger.info("commit booking insurance SUCCESS")
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -651,7 +651,6 @@ def update_service_charge(request):
                 for pricing in upsell['pricing']:
                     total_upsell += int(pricing['amount'])
             set_session(request, 'insurance_upsell_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['insurance_upsell_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge INSURANCE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge INSURANCE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -684,7 +683,6 @@ def booker_insentif_booking(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             set_session(request, 'insurance_upsell_booker_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['insurance_upsell_booker_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge_booker INSURANCE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_hotel_booker INSURANCE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

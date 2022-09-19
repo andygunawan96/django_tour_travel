@@ -124,7 +124,7 @@ def login(request):
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
-            _logger.info(json.dumps(request.session['bills_signature']))
+            _logger.info("SIGNIN PPOB")
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -150,11 +150,11 @@ def get_carriers(request):
         try:
             if res['result']['error_code'] == 0:
                 write_cache(res, "get_ppob_carriers", 'cache_web')
-                _logger.info("get_providers BILLS RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                _logger.info("get_carriers PPOB RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 file = read_cache("get_ppob_carriers", 'cache_web', 90911)
                 res = file
-                _logger.info("get_providers BILLS ERROR SIGNATURE " + request.POST['signature'])
+                _logger.info("get_carriers PPOB ERROR SIGNATURE " + request.POST['signature'])
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
@@ -186,11 +186,11 @@ def get_carrier_providers(request):
         try:
             if res['result']['error_code'] == 0:
                 write_cache(res, "get_ppob_carriers_provider", 'cache_web')
-                _logger.info("get_carrier_providers BILLS RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                _logger.info("get_carrier_providers PPOB RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 file = read_cache("get_ppob_carriers_provider", 'cache_web', 90911)
                 res = file
-                _logger.info("get_carrier_providers BILLS ERROR SIGNATURE " + request.POST['signature'])
+                _logger.info("get_carrier_providers PPOB ERROR SIGNATURE " + request.POST['signature'])
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
@@ -296,7 +296,7 @@ def search(request):
             set_session(request, 'ppob_search_response', res)
             request.session.modified = True
         else:
-            _logger.error("ERROR search BILLS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR search PPOB SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -360,9 +360,9 @@ def commit_booking(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("SUCCESS commit_booking VISA SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS commit_booking PPOB SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR commit_booking_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR commit_booking PPOB SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -399,9 +399,9 @@ def get_booking(request):
                         rec1['period_date'] = parse_date_ppob(rec1['period'])
             set_session(request, 'bills_get_booking_response', res)
             request.session.modified = True
-            _logger.info("SUCCESS get_booking VISA SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS get_booking PPOB SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR get_booking_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR get_booking PPOB SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -427,7 +427,7 @@ def cancel(request):
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS cancel PPOB SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR cancel_ppob PPOB SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR cancel PPOB SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -494,7 +494,7 @@ def issued(request):
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS issued PPOB SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR issued_ppob PPOB SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR issued PPOB SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -520,7 +520,7 @@ def resync_status(request):
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS issued PPOB SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR issued_ppob PPOB SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR issued PPOB SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -550,7 +550,6 @@ def update_service_charge(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             set_session(request, 'bills_upsell' + request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['bills_upsell_' + request.POST['signature']]))
             request.session.modified = True
             _logger.info("SUCCESS update_service_charge PPOB SIGNATURE " + request.POST['signature'])
         else:
@@ -584,10 +583,9 @@ def booker_insentif_booking(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             set_session(request, 'ppob_upsell_booker_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['ppob_upsell_booker_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge_booker PPOB SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR update_service_charge_ppob_booker PPOB SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR update_service_charge_booker PPOB SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

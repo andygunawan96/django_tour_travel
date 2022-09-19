@@ -927,36 +927,9 @@ function medical_global_commit_booking(val){
 //                       document.getElementById('medical_booking').action = '/medical/booking/' + btoa(msg.result.response.order_number);
 //                       document.getElementById('medical_booking').submit();
                }else{
-                    Swal.fire({
-                      title: 'Success',
-                      type: 'success',
-                      showCancelButton: true,
-                      confirmButtonColor: '#3085d6',
-                      cancelButtonColor: 'blue',
-                      confirmButtonText: 'Payment',
-                      cancelButtonText: 'View Booking'
-                    }).then((result) => {
-                      if (result.value) {
-                        $('.hold-seat-booking-train').addClass("running");
-                        $('.hold-seat-booking-train').attr("disabled", true);
-                        please_wait_transaction();
-                        send_url_booking('medical', btoa(msg.result.response.order_number), msg.result.response.order_number);
-                        document.getElementById('order_number').value = msg.result.response.order_number;
-                        document.getElementById("passengers").value = JSON.stringify(passengers);
-                        document.getElementById("signature").value = signature;
-                        document.getElementById("provider").value = 'medical';
-                        document.getElementById("type").value = 'medical_global_review';
-                        document.getElementById("voucher_code").value = voucher_code;
-                        document.getElementById("discount").value = JSON.stringify(discount_voucher);
-                        document.getElementById("session_time_input").value = 1200;
-                        document.getElementById('medical_issued').submit();
-
-                      }else{
-                        document.getElementById('medical_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                        document.getElementById('medical_booking').action = '/medical_global/booking/' + btoa(msg.result.response.order_number);
-                        document.getElementById('medical_booking').submit();
-                      }
-                    })
+                    document.getElementById('medical_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                    document.getElementById('medical_booking').action = '/medical_global/booking/' + btoa(msg.result.response.order_number);
+                    document.getElementById('medical_booking').submit();
 //                   if(val == 0){
 //                       document.getElementById('medical_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
 //                       document.getElementById('medical_booking').action = '/medical/booking/' + btoa(msg.result.response.order_number);

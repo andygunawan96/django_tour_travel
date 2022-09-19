@@ -592,7 +592,6 @@ def update_service_charge(request):
                         total_upsell_dict[upsell['pax_type']] += pricing['amount']
             set_session(request, 'event_upsell_'+request.POST['signature'], total_upsell_dict)
             request.session['event_upsell_'+request.POST['signature']] = total_upsell_dict
-            _logger.info(json.dumps(request.session['event_upsell_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge EVENT SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_event EVENT SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -625,7 +624,6 @@ def booker_insentif_booking(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             set_session(request, 'event_upsell_booker_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['event_upsell_booker_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge_booker EVENT SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_event_booker EVENT SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
