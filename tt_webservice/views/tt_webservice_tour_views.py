@@ -118,9 +118,7 @@ def login(request):
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
-            _logger.info(json.dumps(request.session['tour_signature']))
-            _logger.info(
-                "SIGNIN TOUR SUCCESS SIGNATURE " + res['result']['response']['signature'])
+            _logger.info("SIGNIN TOUR SUCCESS SIGNATURE " + res['result']['response']['signature'])
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -146,7 +144,7 @@ def get_carriers(request):
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
                 write_cache(res, "get_tour_carriers", 'cache_web')
-                _logger.info("get_carriers HOTEL RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                _logger.info("get_carriers TOUR RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
                     file = read_cache("get_tour_carriers", 'cache_web', 90911)
@@ -294,7 +292,6 @@ def search(request):
             counter += 1
 
         set_session(request, 'tour_search', data_tour)
-        _logger.info(json.dumps(request.session['tour_search']))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -384,7 +381,6 @@ def get_pricing(request):
             }
         })
         set_session(request, 'tour_price', res)
-        _logger.info(json.dumps(request.session['tour_price']))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -684,7 +680,6 @@ def commit_booking(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     if res['result']['error_code'] == 0:
         set_session(request, 'tour_order_number', res['result']['response']['order_number'])
-        _logger.info(json.dumps(request.session['tour_order_number']))
 
     return res
 
@@ -742,7 +737,6 @@ def get_booking(request):
             res['result']['response']['departure_date_f'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['departure_date'])
             res['result']['response']['arrival_date_f'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['arrival_date'])
             set_session(request, 'tour_get_booking_response', res)
-            _logger.info(json.dumps(request.session['tour_get_booking_response']))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -868,7 +862,6 @@ def update_service_charge(request):
                             total_upsell_dict[upsell['pax_type']] = 0
                         total_upsell_dict[upsell['pax_type']] += pricing['amount']
             set_session(request, 'tour_upsell_' + request.POST['signature'], total_upsell_dict)
-            _logger.info(json.dumps(request.session['tour_upsell_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge TOUR SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge TOUR SIGNATURE " + request.POST['signature'])
@@ -901,7 +894,6 @@ def booker_insentif_booking(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             set_session(request, 'tour_upsell_booker_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['tour_upsell_booker_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge_booker TOUR SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_tour_booker TOUR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

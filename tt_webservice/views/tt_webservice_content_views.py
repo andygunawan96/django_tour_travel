@@ -294,9 +294,9 @@ def get_booking(request):
                     for rec in res['result']['response']:
                         rec['checkin_date'] = convert_string_to_date_to_string_front_end(rec['checkin_date'])
                         rec['checkout_date'] = convert_string_to_date_to_string_front_end(rec['checkout_date'])
-            _logger.info("SUCCESS get booking b2c SIGNATURE " + data['signature'])
+            _logger.info("SUCCESS get_booking_b2c SIGNATURE " + data['signature'])
         else:
-            _logger.error("ERROR get booking b2c SIGNATURE " + data['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR get_booking_b2c SIGNATURE " + data['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -316,9 +316,9 @@ def cancel_payment_method_api(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("SUCCESS cancel payment SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS cancel_payment_method_api SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR cancel payment SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR cancel_payment_method_api SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -1105,7 +1105,7 @@ def create_reservation_issued_request(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("SUCCESS request issued SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS reate_reservation_issued_request SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR create_reservation_issued_request SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
@@ -1137,7 +1137,7 @@ def get_reservation_issued_request(request):
                         app.update({
                             'approved_date': convert_string_to_date_to_string_front_end_with_time(app['approved_date'])
                         })
-            _logger.info("SUCCESS get request issued SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS get_reservation_issued_request SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR get_reservation_issued_request SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
@@ -1164,7 +1164,7 @@ def get_issued_request_list(request):
                     rec.update({
                         'created_date': convert_string_to_date_to_string_front_end_with_time(rec['created_date'])
                     })
-            _logger.info("SUCCESS get request issued list SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS get_issued_request_list SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR get_issued_request_list SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
@@ -1196,7 +1196,7 @@ def approve_reservation_issued_request(request):
                         app.update({
                             'approved_date': convert_string_to_date_to_string_front_end_with_time(app['approved_date'])
                         })
-            _logger.info("SUCCESS approve request issued SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS approve_reservation_issued_request SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR approve_reservation_issued_request SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
@@ -1228,7 +1228,7 @@ def reject_reservation_issued_request(request):
                         app.update({
                             'approved_date': convert_string_to_date_to_string_front_end_with_time(app['approved_date'])
                         })
-            _logger.info("SUCCESS reject request issued SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS reject_reservation_issued_request SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR reject_reservation_issued_request SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
@@ -1260,7 +1260,7 @@ def cancel_reservation_issued_request(request):
                         app.update({
                             'approved_date': convert_string_to_date_to_string_front_end_with_time(app['approved_date'])
                         })
-            _logger.info("SUCCESS cancel request issued SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS cancel_reservation_issued_request SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR cancel_reservation_issued_request SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:

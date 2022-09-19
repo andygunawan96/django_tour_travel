@@ -378,9 +378,9 @@ def get_balance(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("get_balance_account SUCCESS SIGNATURE " + request.POST['signature'])
+            _logger.info("get_balance SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("get_balance_account ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("get_balance ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -517,9 +517,9 @@ def get_transactions(request):
             res = request.session['get_transactions_session']
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("get_transactions_account SUCCESS SIGNATURE " + request.POST['signature'])
+            _logger.info("get_transactions SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("get_transactions_account ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("get_transactions ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -680,9 +680,9 @@ def buy_quota_btbo2(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("get_top_up_amount_account SUCCESS SIGNATURE " + request.POST['signature'])
+            _logger.info("buy_quota_btbo2 SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("get_top_up_amount_account ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("buy_quota_btbo2 ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -707,9 +707,9 @@ def get_top_up_quota(request):
         set_session(request, 'top_up_amount', res['result']['response'])
         _logger.info(json.dumps(request.session['top_up_amount']))
         if res['result']['error_code'] == 0:
-            _logger.info("get_top_up_amount_account SUCCESS SIGNATURE " + request.POST['signature'])
+            _logger.info("get_top_up_quota SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("get_top_up_amount_account ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("get_top_up_quota ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -732,9 +732,9 @@ def get_top_up_amount(request):
         set_session(request, 'top_up_amount', res['result']['response'])
         _logger.info(json.dumps(request.session['top_up_amount']))
         if res['result']['error_code'] == 0:
-            _logger.info("get_top_up_amount_account SUCCESS SIGNATURE " + request.POST['signature'])
+            _logger.info("get_top_up_amount SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("get_top_up_amount_account ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("get_top_up_amount ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -766,9 +766,9 @@ def get_top_up(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("get_top_up_account SUCCESS SIGNATURE " + request.POST['signature'])
+            _logger.info("get_top_up SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("get_top_up_account ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("get_top_up ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -791,9 +791,9 @@ def submit_top_up(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("get_submit_top_up_account SUCCESS SIGNATURE " + request.POST['signature'])
+            _logger.info("submit_top_up SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("get_submit_top_up_account ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("submit_top_up ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -823,9 +823,9 @@ def commit_top_up(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("get_commit_top_up_account SUCCESS SIGNATURE " + request.POST['signature'])
+            _logger.info("commit_top_up SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("get_commit_top_up_account ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("commit_top_up ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -848,9 +848,9 @@ def cancel_top_up(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("get_payment_acquirer_account SUCCESS SIGNATURE " + request.POST['signature'])
+            _logger.info("cancel_top_up SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("get_payment_acquirer_account ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("cancel_top_up ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -873,9 +873,9 @@ def confirm_top_up(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("get_payment_acquirer_account SUCCESS SIGNATURE " + request.POST['signature'])
+            _logger.info("confirm_top_up SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("get_payment_acquirer_account ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("confirm_top_up ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -1039,7 +1039,7 @@ def delete_payment_partner(request):
             }
         }
     except Exception as e:
-        print(e)
+        _logger.error("%s, %s" % (str(e), traceback.format_exc()))
         res = {
             'result': {
                 'error_code': 500,
@@ -1234,7 +1234,7 @@ def delete_about_us(request):
             }
         }
     except Exception as e:
-        print(e)
+        _logger.error("%s, %s" % (str(e), traceback.format_exc()))
         res = {
             'result': {
                 'error_code': 500,
@@ -1422,7 +1422,7 @@ def delete_faq(request):
             }
         }
     except Exception as e:
-        print(e)
+        _logger.error("%s, %s" % (str(e), traceback.format_exc()))
         res = {
             'result': {
                 'error_code': 500,
@@ -1694,9 +1694,9 @@ def get_vendor_balance(request):
                 res = file
         try:
             if res['result']['error_code'] == 0 or res['result']['error_code'] == 500:
-                _logger.info("get_balance_account SUCCESS SIGNATURE " + request.POST['signature'])
+                _logger.info("get_vendor_balance SUCCESS SIGNATURE " + request.POST['signature'])
             else:
-                _logger.error("get_balance_account ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+                _logger.error("get_vendor_balance ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
@@ -1758,9 +1758,9 @@ def request_top_up(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("get_payment_acquirer_account SUCCESS SIGNATURE " + request.POST['signature'])
+            _logger.info("request_top_up SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("get_payment_acquirer_account ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("request_top_up ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

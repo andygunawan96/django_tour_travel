@@ -104,7 +104,6 @@ def signin(request):
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
-            _logger.info(json.dumps(request.session['issued_offline_signature']))
 
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -551,7 +550,6 @@ def get_booking(request):
                             'check_out': convert_string_to_date_to_string_front_end(line['check_out']),
                         })
             set_session(request, 'offline_get_booking_response', res)
-            _logger.info(json.dumps(request.session['offline_get_booking_response']))
             _logger.info("SUCCESS get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -637,7 +635,6 @@ def booker_insentif_booking(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             set_session(request, 'upsell_booker_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['upsell_booker_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge_booker Issued Offline SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_offline_booker Issued Offline SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

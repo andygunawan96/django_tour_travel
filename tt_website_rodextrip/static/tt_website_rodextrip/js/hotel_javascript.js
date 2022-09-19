@@ -1039,16 +1039,14 @@ function render_hotel_search(hotel_data_print, i){
                     text+=`
 
                     <div style="padding-top:10px; height:60px;" id='pagination_image`+i+`'>`;
-                        if(i >= 0 && i<= 19){
-                            var idx_img = 1;
-                            if(hotel_data_print.images.length != 0){
-                                for(idx_img; idx_img < hotel_data_print.images.length; idx_img++){
-                                    if(idx_img < 5){
-                                        text+=`<img class="img_hotel_smallbot" alt="Hotel" src="`+hotel_data_print.images[idx_img].url+`" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" width="50" height="50" onclick="go_to_owl_carousel_bottom(`+idx_img+`, `+i+`);">`;
-                                    }
-                                    else{
-                                        break;
-                                    }
+                        var idx_img = 1;
+                        if(hotel_data_print.images.length != 0){
+                            for(idx_img; idx_img < hotel_data_print.images.length; idx_img++){
+                                if(idx_img < 5){
+                                    text+=`<img class="img_hotel_smallbot" alt="Hotel" src="`+hotel_data_print.images[idx_img].url+`" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" width="50" height="50" onclick="go_to_owl_carousel_bottom(`+idx_img+`, `+i+`);">`;
+                                }
+                                else{
+                                    break;
                                 }
                             }
                         }

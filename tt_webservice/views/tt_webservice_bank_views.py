@@ -92,7 +92,6 @@ def get_balance(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    print("SEND REQUEST BANK")
     url_request = url + 'bank'
     res = send_request_api(request, url_request, headers, data, 'POST')
 

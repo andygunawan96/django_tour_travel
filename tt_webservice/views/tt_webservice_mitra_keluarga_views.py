@@ -132,7 +132,7 @@ def login(request):
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
-            _logger.info(json.dumps(request.session['mitra_keluarga_signature']))
+            _logger.info("SIGNIN MITRA KELUARGA")
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -274,7 +274,6 @@ def commit_booking(request):
         }
 
         data = copy.deepcopy(request.session['mitra_keluarga_data_%s' % request.POST['signature']])
-        _logger.info(json.dumps(data))
         if request.POST.get('test_type'):
             data['data']['carrier_code'] = request.POST['test_type']
         elif request.session.get('test_type_%s' % request.POST['signature']):
@@ -408,7 +407,6 @@ def get_booking(request):
         else:
             _logger.error("ERROR get_booking_SWAB EXPRESS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        print(str(e))
         set_session(request, 'mitra_keluarga_get_booking_response', res)
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -643,8 +641,6 @@ def save_backend(request):
         }
 
         data = json.loads(request.POST['request'])
-        _logger.info(json.dumps(data))
-
         response = get_cache_data()
         res = request.session['mitra_keluarga_passenger_cache']
         for idx, rec in enumerate(data['passengers']):
@@ -696,8 +692,6 @@ def verify_data(request):
         }
 
         data = json.loads(request.POST['request'])
-        _logger.info(json.dumps(data))
-
         response = get_cache_data()
 
         res = request.session['mitra_keluarga_passenger_cache']
@@ -778,7 +772,6 @@ def update_service_charge(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             set_session(request, 'mitra_keluarga_upsell_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['mitra_keluarga_upsell' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge TRAIN SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -811,7 +804,6 @@ def booker_insentif_booking(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             set_session(request, 'mitra_keluarga_upsell_booker_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['mitra_keluarga_upsell_booker_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge_booker MITRA_KELUARGA SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_mitra_keluarga_booker MITRA_KELUARGA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
