@@ -146,13 +146,13 @@ def get_carriers(request):
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
                 write_cache(res, "get_activity_carriers", 'cache_web')
-                _logger.info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                _logger.info("get_carriers ACTIVITY RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
                     file = read_cache("get_activity_carriers", 'cache_web')
                     if file:
                         res = file
-                    _logger.info("get_carriers AIRLINE ERROR USE CACHE SIGNATURE " + request.POST['signature'])
+                    _logger.info("get_carriers ACTIVITY ERROR USE CACHE SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR get_carriers file\n' + str(e) + '\n' + traceback.format_exc())
         except Exception as e:
@@ -163,7 +163,7 @@ def get_carriers(request):
             if file:
                 res = file
         except Exception as e:
-            _logger.error('ERROR get_airline_carriers file\n' + str(e) + '\n' + traceback.format_exc())
+            _logger.error('ERROR get_activity_carriers file\n' + str(e) + '\n' + traceback.format_exc())
 
     return res
 
@@ -278,8 +278,8 @@ def get_details(request):
             set_session(request, 'activity_pick', res['result']['response'])
             _logger.info(json.dumps(request.session['activity_pick']))
             request.session.modified = True
-    except:
-        print('activity error')
+    except Exception as e:
+        _logger.error("%s, %s" % (str(e), traceback.format_exc()))
     return res
 
 
@@ -665,7 +665,6 @@ def commit_booking(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     if res['result']['error_code'] == 0:
         set_session(request, 'activity_order_number', res['result']['response']['order_number'])
-        _logger.info(json.dumps(request.session['activity_order_number']))
     return res
 
 

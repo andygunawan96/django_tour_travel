@@ -459,7 +459,6 @@ def passenger(request, signature):
             except:
                 ff_request = []
         try:
-            _logger.info('AIRLINE PASSENGER')
             values.update({
                 'ff_request': ff_request,
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -603,7 +602,6 @@ def passenger_aftersales(request, signature):
                     break
 
         try:
-            _logger.info('AIRLINE PASSENGER')
             values.update({
                 # 'ff_request': ff_request,
                 'ff_request': [],
@@ -817,26 +815,27 @@ def ssr(request, signature):
                             })
                             if len(pax['fees']):
                                 child[len(child) - 1]['ssr_list'] = []
-                                if ssr_provider.get('is_replace_ssr') and ssr_provider['is_replace_ssr']:
-                                    for fee in pax['fees']:
-                                        for provider in ssr_provider['ssr_availability']:
-                                            for availability in ssr_provider['ssr_availability'][provider]:
-                                                for ssr in availability['ssrs']:
-                                                    if ssr.get('ssr_code'):
-                                                        if ssr['ssr_code'] == fee['fee_code'] and fee['journey_code'] == ssr['journey_code']:
-                                                            child[len(child) - 1]['ssr_list'].append({
-                                                                "fee_code": fee['fee_code'],
-                                                                "journey_code": ssr['journey_code'],
-                                                                "availability_type": fee['fee_category'].lower()
-                                                            })
-                                                    if ssr.get('fee_code'):
-                                                        if fee['fee_code'] == ssr.get('ssr_code') and fee['journey_code'] == ssr['journey_code']:
-                                                            child[len(adult) - 1]['ssr_list'].append({
-                                                                "fee_code": fee['fee_code'],
-                                                                "journey_code": ssr['journey_code'],
-                                                                "availability_type": fee['fee_category'].lower(),
-                                                                "price": fee['amount']
-                                                            })
+                                for ssr_availability_provider in airline_ssr['ssr_availability_provider']:
+                                    if ssr_availability_provider.get('is_replace_ssr') and ssr_availability_provider['is_replace_ssr']:
+                                        for fee in pax['fees']:
+                                            for provider in ssr_availability_provider['ssr_availability']:
+                                                for availability in ssr_availability_provider['ssr_availability'][provider]:
+                                                    for ssr in availability['ssrs']:
+                                                        if ssr.get('ssr_code'):
+                                                            if ssr['ssr_code'] == fee['fee_code'] and fee['journey_code'] == ssr['journey_code']:
+                                                                child[len(child) - 1]['ssr_list'].append({
+                                                                    "fee_code": fee['fee_code'],
+                                                                    "journey_code": ssr['journey_code'],
+                                                                    "availability_type": fee['fee_category'].lower()
+                                                                })
+                                                        if ssr.get('fee_code'):
+                                                            if fee['fee_code'] == ssr.get('ssr_code') and fee['journey_code'] == ssr['journey_code']:
+                                                                child[len(adult) - 1]['ssr_list'].append({
+                                                                    "fee_code": fee['fee_code'],
+                                                                    "journey_code": ssr['journey_code'],
+                                                                    "availability_type": fee['fee_category'].lower(),
+                                                                    "price": fee['amount']
+                                                                })
                         else:
                             adult.append({
                                 "pax_type": 'ADT',
@@ -853,27 +852,28 @@ def ssr(request, signature):
                             })
                             if len(pax['fees']):
                                 adult[len(adult) - 1]['ssr_list'] = []
-                                if ssr_provider.get('is_replace_ssr') and ssr_provider['is_replace_ssr']:
-                                    for fee in pax['fees']:
-                                        for provider in ssr_provider['ssr_availability']:
-                                            for availability in ssr_provider['ssr_availability'][provider]:
-                                                for ssr in availability['ssrs']:
-                                                    if ssr.get('fee_code'):
-                                                        if fee['fee_code'] == ssr.get('fee_code') and fee['journey_code'] == ssr['journey_code']:
-                                                            adult[len(adult) - 1]['ssr_list'].append({
-                                                                "fee_code": fee['fee_code'],
-                                                                "journey_code": ssr['journey_code'],
-                                                                "availability_type": fee['fee_category'].lower(),
-                                                                "price": fee['amount']
-                                                            })
-                                                    elif ssr.get('ssr_code'):
-                                                        if fee['fee_code'] == ssr.get('ssr_code') and fee['journey_code'] == ssr['journey_code']:
-                                                            adult[len(adult) - 1]['ssr_list'].append({
-                                                                "fee_code": fee['fee_code'],
-                                                                "journey_code": ssr['journey_code'],
-                                                                "availability_type": fee['fee_category'].lower(),
-                                                                "price": fee['amount']
-                                                            })
+                                for ssr_availability_provider in airline_ssr['ssr_availability_provider']:
+                                    if ssr_availability_provider.get('is_replace_ssr') and ssr_availability_provider['is_replace_ssr']:
+                                        for fee in pax['fees']:
+                                            for provider in ssr_availability_provider['ssr_availability']:
+                                                for availability in ssr_availability_provider['ssr_availability'][provider]:
+                                                    for ssr in availability['ssrs']:
+                                                        if ssr.get('fee_code'):
+                                                            if fee['fee_code'] == ssr.get('fee_code') and fee['journey_code'] == ssr['journey_code']:
+                                                                adult[len(adult) - 1]['ssr_list'].append({
+                                                                    "fee_code": fee['fee_code'],
+                                                                    "journey_code": ssr['journey_code'],
+                                                                    "availability_type": fee['fee_category'].lower(),
+                                                                    "price": fee['amount']
+                                                                })
+                                                        elif ssr.get('ssr_code'):
+                                                            if fee['fee_code'] == ssr.get('ssr_code') and fee['journey_code'] == ssr['journey_code']:
+                                                                adult[len(adult) - 1]['ssr_list'].append({
+                                                                    "fee_code": fee['fee_code'],
+                                                                    "journey_code": ssr['journey_code'],
+                                                                    "availability_type": fee['fee_category'].lower(),
+                                                                    "price": fee['amount']
+                                                                })
                     else:
                         adult.append({
                             "pax_type": 'ADT',
@@ -1214,8 +1214,6 @@ def seat_map(request, signature):
                                         'price': passenger_obj['price']
                                     })
 
-                    _logger.info('########## AFTER SALES KALAU BOOKED CHECK SINI ###########')
-                    _logger.error(str(e))
                     upsell = 0
                     for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
                         if pax.get('channel_service_charges'):
@@ -1861,7 +1859,8 @@ def review_after_sales(request, signature):
                     if len(sell_ssrs) > 0:
                         request.session['airline_ssr_request_%s' % signature] = sell_ssrs
                     sell_ssrs = []
-                except:
+                except Exception as e:
+                    _logger.error("%s\n%s" % (str(e), traceback.format_exc()))
                     print('airline no ssr')
 
             # SEAT

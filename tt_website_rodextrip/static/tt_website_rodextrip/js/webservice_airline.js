@@ -2116,12 +2116,13 @@ function airline_get_provider_list(type, data=''){
                                         baggage_last_number_delete = 0;
                                         for(l in baggage_option_list)
                                             if(baggage_option_list[l].match('selected')){
-                                                baggage_last_number_delete = l;
+                                                baggage_last_number_delete = parseInt(l) + 1;
                                                 break;
                                             }
                                         if(baggage_last_number_delete){
                                             baggage_option_list.splice(0, baggage_last_number_delete);
-                                            document.getElementById(ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).innerHTML = baggage_option_list.join('</option>');
+                                            baggage_option_list = '<option></option>' + baggage_option_list.join('</option>');
+                                            document.getElementById(ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).innerHTML = baggage_option_list;
                                             $('#'+ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).niceSelect('update');
                                         }
                                     }
@@ -2129,14 +2130,18 @@ function airline_get_provider_list(type, data=''){
                             }
                         }
                     }
-                    for(i in airline_get_detail.provider_bookings){
-                        is_replace_ssr = false;
-                        if(provider_list_data[airline_get_detail.provider_bookings[i].provider].is_replace_ssr)
-                            is_replace_ssr = true;
-                        if(is_replace_ssr)
-                            document.getElementById('provider_info'+parseInt(parseInt(i)+1)).innerHTML = 'Replace SSR'
-                        else
-                            document.getElementById('provider_info'+parseInt(parseInt(i)+1)).innerHTML = 'Add New SSR'
+                    for(i=1;i<=len_passenger;i++){
+                        for(j in airline_get_detail.provider_bookings){
+                            try{
+                                is_replace_ssr = false;
+                                if(provider_list_data[airline_get_detail.provider_bookings[j].provider].is_replace_ssr)
+                                    is_replace_ssr = true;
+                                if(is_replace_ssr)
+                                    document.getElementById('provider_info'+parseInt(parseInt(j)+1) + '_' + i).innerHTML = 'Replace SSR'
+                                else
+                                    document.getElementById('provider_info'+parseInt(parseInt(j)+1) + '_' + i).innerHTML = 'Add New SSR'
+                            }catch(err){console.log(err);}
+                        }
                     }
                 }
            }else if(type == 'seat'){
@@ -5353,40 +5358,10 @@ function airline_commit_booking(val){
                                document.getElementById('airline_booking').submit();
                           }
                         })
-                   }else if(user_login.hasOwnProperty('co_job_position_is_request_required') && user_login.co_job_position_is_request_required == true){
-                    Swal.fire({
-                      title: 'Success',
-                      type: 'success',
-                      confirmButtonColor: 'blue',
-                      confirmButtonText: 'View Booking',
-                    }).then((result) => {
+                   }else{
                         document.getElementById('airline_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
                         document.getElementById('airline_booking').action = '/airline/booking/' + btoa(msg.result.response.order_number);
                         document.getElementById('airline_booking').submit();
-                    })
-                   }else{
-                        Swal.fire({
-                          title: 'Success',
-                          type: 'success',
-                          showCancelButton: true,
-                          confirmButtonColor: '#3085d6',
-                          cancelButtonColor: 'blue',
-                          confirmButtonText: 'Payment',
-                          cancelButtonText: 'View Booking'
-                        }).then((result) => {
-                          if (result.value) {
-                            $('.hold-seat-booking-train').addClass("running");
-                            $('.hold-seat-booking-train').attr("disabled", true);
-                            please_wait_transaction();
-                            send_url_booking('airline', btoa(msg.result.response.order_number), msg.result.response.order_number);
-                            document.getElementById('order_number').value = msg.result.response.order_number;
-                            document.getElementById('airline_issued').submit();
-                          }else{
-                               document.getElementById('airline_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                               document.getElementById('airline_booking').action = '/airline/booking/' + btoa(msg.result.response.order_number);
-                               document.getElementById('airline_booking').submit();
-                          }
-                        })
 //                       document.getElementById('airline_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
 //                       document.getElementById('airline_booking').action = '/airline/booking/' + btoa(msg.result.response.order_number);
 //                       document.getElementById('airline_booking').submit();

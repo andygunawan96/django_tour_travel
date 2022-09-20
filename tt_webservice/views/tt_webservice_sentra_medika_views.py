@@ -132,7 +132,7 @@ def login(request):
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
-            _logger.info(json.dumps(request.session['sentra_medika_signature']))
+            _logger.info("SIGNIN SENTRA MEDIKA")
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -274,7 +274,6 @@ def commit_booking(request):
         }
 
         data = copy.deepcopy(request.session['sentra_medika_data_%s' % request.POST['signature']])
-        _logger.info(json.dumps(data))
         if request.POST.get('test_type'):
             data['data']['carrier_code'] = request.POST['test_type']
         elif request.session.get('test_type_%s' % request.POST['signature']):
@@ -365,7 +364,7 @@ def get_booking(request):
             if request.POST['sync'] == 'true':
                 sync = True
         except Exception as e:
-            _logger.error('get refund booking')
+            _logger.error('get booking')
         data = {
             'order_number': request.POST['order_number'],
             'force_sync': sync
@@ -404,9 +403,9 @@ def get_booking(request):
             time.sleep(2)
             set_session(request, 'sentra_medika_get_booking_response', response)
 
-            _logger.info("SUCCESS get_booking SWAB EXPRESS SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS get_booking SENTRA MEDIKA SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR get_booking_SWAB EXPRESS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR get_booking SENTRA MEDIKA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         print(str(e))
         set_session(request, 'sentra_medika_get_booking_response', res)
@@ -480,9 +479,9 @@ def issued(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("SUCCESS issued SWAB EXPRESS SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS issued SENTRA MEDIKA SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR sentra_medika SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR sentra SENTRA MEDIKA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -511,9 +510,9 @@ def get_result(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("SUCCESS get result SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS get_result SENTRA MEDIKA SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR sentra_medika get result SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR get_result SENTRA MEDIKA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -537,9 +536,9 @@ def cancel(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("SUCCESS sentra_medika_cancel SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS sentra_medika cancel SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR sentra_medika_cancel SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR sentra_medika cancel SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -564,9 +563,9 @@ def confirm_order(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("SUCCESS sentra_medika_confirm_order SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS sentra_medika confirm_order SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR sentra_medika_confirm_order SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR sentra_medika confirm_order SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -592,9 +591,9 @@ def get_transaction_by_analyst(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("SUCCESS issued SWAB EXPRESS SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS get_transaction_by_analyst SENTRA MEDIKA SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR sentra_medika get transaction by analyst SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR  get_transaction_by_analyst SENTRA MEDIKA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -643,7 +642,6 @@ def save_backend(request):
         }
 
         data = json.loads(request.POST['request'])
-        _logger.info(json.dumps(data))
 
         response = get_cache_data()
         res = request.session['sentra_medika_passenger_cache']
@@ -696,7 +694,6 @@ def verify_data(request):
         }
 
         data = json.loads(request.POST['request'])
-        _logger.info(json.dumps(data))
 
         response = get_cache_data()
 
@@ -778,10 +775,9 @@ def update_service_charge(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             set_session(request, 'sentra_medika_upsell_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['sentra_medika_upsell' + request.POST['signature']]))
-            _logger.info("SUCCESS update_service_charge TRAIN SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS update_service_charge SENTRA MEDIKA SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR update_service_charge_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR update_service_charge_train SENTRA MEDIKA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -811,7 +807,6 @@ def booker_insentif_booking(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             set_session(request, 'sentra_medika_upsell_booker_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['sentra_medika_upsell_booker_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge_booker sentra_medika SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_sentra_medika_booker sentra_medika SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

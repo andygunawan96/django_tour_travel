@@ -2485,38 +2485,10 @@ function activity_commit_booking(val){
                         document.getElementById('activity_booking').submit();
                       }
                     })
-                }else if(user_login.hasOwnProperty('co_job_position_is_request_required') && user_login.co_job_position_is_request_required == true){
-                    Swal.fire({
-                      title: 'Success',
-                      type: 'success',
-                      confirmButtonColor: 'blue',
-                      confirmButtonText: 'View Booking',
-                    }).then((result) => {
-                        document.getElementById('activity_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                        document.getElementById('activity_booking').action = '/activity/booking/' + btoa(msg.result.response.order_number);
-                        document.getElementById('activity_booking').submit();
-                    })
                 }else{
-                    Swal.fire({
-                      title: 'Success',
-                      type: 'success',
-                      showCancelButton: true,
-                      confirmButtonColor: '#3085d6',
-                      cancelButtonColor: 'blue',
-                      confirmButtonText: 'Payment',
-                      cancelButtonText: 'View Booking'
-                    }).then((result) => {
-                      if (result.value) {
-                        send_url_booking('activity', btoa(msg.result.response.order_number), msg.result.response.order_number);
-                        document.getElementById('order_number').value = msg.result.response.order_number;
-                        document.getElementById('activity_issued').submit();
-
-                      }else{
-                        document.getElementById('activity_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                        document.getElementById('activity_booking').action = '/activity/booking/' + btoa(msg.result.response.order_number);
-                        document.getElementById('activity_booking').submit();
-                      }
-                    })
+                    document.getElementById('activity_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                    document.getElementById('activity_booking').action = '/activity/booking/' + btoa(msg.result.response.order_number);
+                    document.getElementById('activity_booking').submit();
 //                    document.getElementById('activity_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
 //                    document.getElementById('activity_booking').action = '/activity/booking/' + btoa(msg.result.response.order_number);
 //                    document.getElementById('activity_booking').submit();

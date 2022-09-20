@@ -133,7 +133,7 @@ def login(request):
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
-            _logger.info(json.dumps(request.session['lab_pintar_signature']))
+            _logger.info("SIGNIN LAB PINTAR")
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -266,7 +266,6 @@ def commit_booking(request):
         }
 
         data = copy.deepcopy(request.session['lab_pintar_data_%s' % request.POST['signature']])
-        _logger.info(json.dumps(data))
         if request.POST.get('test_type'):
             data['data']['carrier_code'] = request.POST['test_type']
         elif request.session.get('test_type_%s' % request.POST['signature']):
@@ -633,7 +632,6 @@ def save_backend(request):
         }
 
         data = json.loads(request.POST['request'])
-        _logger.info(json.dumps(data))
 
         response = get_cache_data()
         res = request.session['lab_pintar_passenger_cache']
@@ -686,7 +684,6 @@ def verify_data(request):
         }
 
         data = json.loads(request.POST['request'])
-        _logger.info(json.dumps(data))
 
         response = get_cache_data()
 
@@ -768,7 +765,6 @@ def update_service_charge(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             set_session(request, 'lab_pintar_upsell_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['lab_pintar_upsell' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge TRAIN SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -801,7 +797,6 @@ def booker_insentif_booking(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             set_session(request, 'airline_upsell_booker_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['lab_pintar_upsell_booker_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge_booker LAB PINTAR SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_lab_pintar_booker LAB PINTAR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

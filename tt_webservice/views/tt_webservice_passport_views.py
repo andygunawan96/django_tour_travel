@@ -128,7 +128,7 @@ def login(request):
             set_session(request, 'signature', res['result']['response']['signature'])
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
-            _logger.info(json.dumps(request.session['passport_signature']))
+            _logger.info("SIGNIN PASSPORT")
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -155,13 +155,13 @@ def get_carriers(request):
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
                 write_cache(res, "get_passport_carriers", 'cache_web')
-                _logger.info("get_carriers HOTEL RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                _logger.info("get_carriers PASSPORT RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
                     file = read_cache("get_passport_carriers", 'cache_web')
                     if file:
                         res = file
-                    _logger.info("get_carriers HOTEL ERROR USE CACHE SIGNATURE " + request.POST['signature'])
+                    _logger.info("get_carriers PASSPORT ERROR USE CACHE SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR get_carriers file\n' + str(e) + '\n' + traceback.format_exc())
         except Exception as e:
@@ -251,10 +251,9 @@ def search(request):
         if res['result']['error_code'] == 0:
             set_session(request, 'passport_search', res)
 
-            _logger.info(json.dumps(request.session['passport_search']))
             _logger.info("SUCCESS search PASSPORT SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR search_passport TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR search_passport PASSPORT SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -341,7 +340,7 @@ def update_contact(request):
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS update_contact PASSPORT SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR update_contact_passport PASSPORT SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR update_contact PASSPORT SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -411,7 +410,7 @@ def update_passengers(request):
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS update_passengers PASSPORT SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR update_passengers_passport PASSPORT SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR update_passengers PASSPORT SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -475,7 +474,7 @@ def commit_booking(request):
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS commit_booking PASSPORT SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR commit_booking_passport PASSPORT SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR commit_booking PASSPORT SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -512,7 +511,7 @@ def get_booking(request):
                 pax['birth_date'] = convert_string_to_date_to_string_front_end(pax['birth_date'])
             _logger.info("SUCCESS get_booking PASSPORT SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR get_booking_passport PASSPORT SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR get_booking PASSPORT SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -543,7 +542,6 @@ def update_service_charge(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             set_session(request, 'passport_upsell_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['passport_upsell_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge PASSPORT SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge PASSPORT SIGNATURE " + request.POST['signature'])
@@ -576,10 +574,9 @@ def booker_insentif_booking(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             set_session(request, 'passport_upsell_booker_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['passport_upsell_booker_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge_booker PASSPORT SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR update_service_charge_passport_booker PASSPORT SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR update_service_charge_booker PASSPORT SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

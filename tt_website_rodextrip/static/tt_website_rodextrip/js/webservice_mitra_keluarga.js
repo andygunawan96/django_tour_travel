@@ -747,36 +747,9 @@ function mitra_keluarga_commit_booking(val){
 //                       document.getElementById('medical_booking').action = '/medical/booking/' + btoa(msg.result.response.order_number);
 //                       document.getElementById('medical_booking').submit();
                }else{
-                    Swal.fire({
-                      title: 'Success',
-                      type: 'success',
-                      showCancelButton: true,
-                      confirmButtonColor: '#3085d6',
-                      cancelButtonColor: 'blue',
-                      confirmButtonText: 'Payment',
-                      cancelButtonText: 'View Booking'
-                    }).then((result) => {
-                      if (result.value) {
-                        $('.hold-seat-booking-train').addClass("running");
-                        $('.hold-seat-booking-train').attr("disabled", true);
-                        please_wait_transaction();
-                        send_url_booking('mitra_keluarga', btoa(msg.result.response.order_number), msg.result.response.order_number);
-                        document.getElementById('order_number').value = msg.result.response.order_number;
-                        document.getElementById("passengers").value = JSON.stringify(passengers);
-                        document.getElementById("signature").value = signature;
-                        document.getElementById("provider").value = 'mitrakeluarga';
-                        document.getElementById("type").value = 'mitra_keluarga_review';
-                        document.getElementById("voucher_code").value = voucher_code;
-                        document.getElementById("discount").value = JSON.stringify(discount_voucher);
-                        document.getElementById("session_time_input").value = 1200;
-                        document.getElementById('mitra_keluarga_issued').submit();
-
-                      }else{
-                        document.getElementById('mitra_keluarga_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                        document.getElementById('mitra_keluarga_booking').action = '/mitra_keluarga/booking/' + btoa(msg.result.response.order_number);
-                        document.getElementById('mitra_keluarga_booking').submit();
-                      }
-                    })
+                    document.getElementById('mitra_keluarga_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                    document.getElementById('mitra_keluarga_booking').action = '/mitra_keluarga/booking/' + btoa(msg.result.response.order_number);
+                    document.getElementById('mitra_keluarga_booking').submit();
                }
             }else if(msg.result.error_code == 1011 || msg.result.error_code == 4014){
 

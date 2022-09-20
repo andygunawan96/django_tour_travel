@@ -197,16 +197,15 @@ def get_config_provider(request):
             if res['result']['error_code'] == 0:
                 #datetime
                 write_cache(res, "bus_provider", 'cache_web')
-                _logger.info("get_providers BUS RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                _logger.info("get_config_provider BUS RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
                     file = read_cache("bus_provider", 'cache_web', 90911)
                     if file:
                         res = file
-                    _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
+                    _logger.info("read file bus_provider SUCCESS SIGNATURE " + request.POST['signature'])
                 except Exception as e:
-                    _logger.info("get_provider_list BUS ERROR SIGNATURE " + request.POST['signature'])
-                _logger.info("get_providers BUS ERROR SIGNATURE " + request.POST['signature'])
+                    _logger.info("ERROR read file bus_provider SIGNATURE " + request.POST['signature'])
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
@@ -214,7 +213,7 @@ def get_config_provider(request):
             file = read_cache("bus_provider", 'cache_web', 90911)
             res = file
         except Exception as e:
-            _logger.error('ERROR get_provider_list bus file\n' + str(e) + '\n' + traceback.format_exc())
+            _logger.error('ERROR get_config_provider bus file\n' + str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_carriers(request):
@@ -265,7 +264,7 @@ def get_data(request):
             response = file
 
         # res = search2(request)
-        logging.getLogger("error_info").error("SUCCESS get_data BUS SIGNATURE " + request.POST['signature'])
+        _logger.info("SUCCESS get_data BUS SIGNATURE " + request.POST['signature'])
     except Exception as e:
         _logger.error('ERROR get bus_cache_data file\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -540,7 +539,6 @@ def commit_booking(request):
     try:
         if res['result']['error_code'] == 0:
             set_session(request, 'bus_order_number', res['result']['response']['order_number'])
-            _logger.info(json.dumps(request.session['bus_order_number']))
             _logger.info("SUCCESS commit_booking BUS SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR commit_booking_bus BUS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -668,7 +666,6 @@ def booker_insentif_booking(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             set_session(request, 'bus_upsell_booker_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['bus_upsell_booker_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge_booker BUS SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_bus_booker BUS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -765,9 +762,9 @@ def issued(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 480)
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("SUCCESS issued AIRLINE SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS issued BUS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR issued AIRLINE SIGNATURE " + request.POST['signature'])
+            _logger.error("ERROR issued BUS SIGNATURE " + request.POST['signature'])
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

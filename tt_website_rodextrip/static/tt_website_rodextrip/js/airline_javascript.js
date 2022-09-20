@@ -1752,7 +1752,7 @@ function change_filter(type, value){
         document.getElementById("checkbox_departure_time"+value).checked = departure_list[value].status;
         document.getElementById("checkbox_departure_time2"+value).checked = departure_list[value].status;
     }else if(type == 'arrival'){
-        arrival_list
+//        arrival_list
         if(value == 0)
             for(i in arrival_list){
                 arrival_list[i].status = false
@@ -5367,20 +5367,33 @@ function on_change_ssr(){
                     additional_price += parseInt(passengers[i].seat_list[j].price);
             }
         }
-        if(document.URL.split('/')[document.URL.split('/').length-2] == 'ssr'){
-            for(j in passengers[i].ssr_list){
-                if(passengers[i].ssr_list[j].hasOwnProperty('price')){
-                    additional_price -= passengers[i].ssr_list[j].price;
-                }
-            }
-        }
+//        if(document.URL.split('/')[document.URL.split('/').length-2] == 'ssr'){
+//            for(j in passengers[i].ssr_list){
+//                if(passengers[i].ssr_list[j].hasOwnProperty('price')){
+//                    additional_price -= passengers[i].ssr_list[j].price;
+//                }
+//            }
+//        }
     }
 
     for(i=1;i<=len_passenger;i++){
         for(j in ssr_keys){
             for(k=1;k<=ssr_keys[j].len;k++){
-                if(document.getElementById(ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).value != '')
+                if(document.getElementById(ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).value != ''){
                     additional_price += parseInt(document.getElementById(ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).value.split('_')[1])
+                    if(document.URL.split('/')[document.URL.split('/').length-2] == 'ssr'){
+                        index = i - 1;
+                        try{
+                            for(x in passengers[index].ssr_list){
+                                if(passengers[index].ssr_list[x].journey_code == ssr_keys[j].journey_code && ssr_keys[j].key == passengers[index].ssr_list[x].availability_type){
+                                    additional_price -= passengers[i].ssr_list[x].price;
+                                }
+                            }
+                        }catch(err){
+                            console.log(err)
+                        }
+                    }
+                }
             }
         }
     }
@@ -7562,9 +7575,9 @@ function get_airline_review_after_sales(){
                         <th style="width:7%;" class="list-of-passenger-left">No</th>
                         <th style="width:28%;">Name</th>
                         <th style="width:7%;">Type</th>
-                        <th style="width:16%;">Birth Date</th>
-                        <th style="width:19%;">SSR Old</th>
-                        <th style="width:19%;">SSR New</th>
+                        <th style="width:14%;">Birth Date</th>
+                        <th style="width:20%;">SSR Old</th>
+                        <th style="width:20%;">SSR New</th>
                     </tr>`;
                     count_pax = 0;
                     try{
@@ -7630,7 +7643,7 @@ function get_airline_review_after_sales(){
                                                 fee_dict[passengers_ssr[pax].ssr_list[i].journey_code].origin = airline_get_detail.provider_bookings[j].journeys[k].origin;
                                                 fee_dict[passengers_ssr[pax].ssr_list[i].journey_code].destination = airline_get_detail.provider_bookings[j].journeys[k].destination;
                                                 fee_dict[passengers_ssr[pax].ssr_list[i].journey_code].departure_date = airline_get_detail.provider_bookings[j].journeys[k].departure_date;
-                                                fee_dict[passengers_ssr[pax].ssr_list[i].journey_code].pnr = airline_get_detail.passengers[pax].fees[i].pnr;
+                                                fee_dict[passengers_ssr[pax].ssr_list[i].journey_code].pnr = airline_get_detail.provider_bookings[j].pnr;
                                                 fee_dict[passengers_ssr[pax].ssr_list[i].journey_code].is_replace_ssr = passengers_ssr[pax].ssr_list[i].is_replace_ssr;
                                                 break;
                                             }
@@ -7714,7 +7727,7 @@ function get_airline_review_after_sales(){
                                         if(!passengers_ssr[i].fee_dict[j].is_replace_ssr)
                                             text+= 'Add new'
                                         else
-                                            text += `Change are only for same `+addons_type+` type`;
+                                            text += `Only changed ssr is listed here`;
                                         text+=`</label>`;
 
                                         text += `<label style="color:`+color+`;">`+passengers_ssr[i].fee_dict[j].origin+` - `+passengers_ssr[i].fee_dict[j].destination+` (`+passengers_ssr[i].fee_dict[j].departure_date+`)</label><br/>`;
@@ -7733,6 +7746,13 @@ function get_airline_review_after_sales(){
                                             }
 
                                             text += `<label>`;
+                                            if(passengers_ssr[i].fee_dict[j].fees[k].fee_category == 'baggage'){
+                                                if(!passengers_ssr[i].fee_dict[j].is_replace_ssr)
+                                                    text += `Will be added to `;
+                                                else
+                                                    text += `Will be replaced to `;
+
+                                            }
                                             if(passengers_ssr[i].fee_dict[j].fees[k].fee_name.toLowerCase().includes(passengers_ssr[i].fee_dict[j].fees[k].fee_category.toLowerCase()) == false)
                                                 text += passengers_ssr[i].fee_dict[j].fees[k].fee_category + ': ';
                                             text += passengers_ssr[i].fee_dict[j].fees[k].fee_name + `</label><br/>`;

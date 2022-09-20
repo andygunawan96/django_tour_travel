@@ -130,7 +130,6 @@ def login(request):
             if request.session['user_account'].get('co_customer_parent_seq_id'):
                 webservice_agent.activate_corporate_mode(request, res['result']['response']['signature'])
             _logger.info(json.dumps(request.session['hotel_signature']))
-            _logger.info(json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -145,9 +144,9 @@ def get_hotel_data_detail_page(request):
         if file:
             res['train_carriers'] = file
         res['train_request'] = request.session['train_request']
-        logging.getLogger("error_info").error("SUCCESS data search page TRAIN")
+        _logger.info("SUCCESS data search page HOTEL")
     except Exception as e:
-        _logger.error('ERROR get train_cache_data file\n' + str(e) + '\n' + traceback.format_exc())
+        _logger.error('ERROR get get_hotel_data_detail_page file\n' + str(e) + '\n' + traceback.format_exc())
 
     return res
 
@@ -156,7 +155,7 @@ def set_signature(request):
         set_session(request, 'hotel_signature', request.POST['signature'])
         set_session(request, 'hotel_set_signature', False)
     except Exception as e:
-        _logger.error('ERROR get train_cache_data file\n' + str(e) + '\n' + traceback.format_exc())
+        _logger.error('ERROR set signature file\n' + str(e) + '\n' + traceback.format_exc())
 
     return {
         "result":{
@@ -203,7 +202,7 @@ def get_carriers(request):
             file = read_cache("get_hotel_carriers", 'cache_web', 90911)
             res = file
         except Exception as e:
-            _logger.error('ERROR get_hotel_carriers file\n' + str(e) + '\n' + traceback.format_exc())
+            _logger.error('ERROR get_carriers hotel file\n' + str(e) + '\n' + traceback.format_exc())
 
     return res
 
@@ -248,7 +247,6 @@ def get_auto_complete(request):
                 break
 
         # res = search2(request)
-        # logging.getLogger("error_info").error("SUCCESS get_autocomplete HOTEL SIGNATURE " + request.POST['signature'])
     except Exception as e:
         _logger.error('ERROR get hotel cache data file\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -337,9 +335,9 @@ def search(request):
                 "action": "search",
                 "signature": request.POST['signature']
             }
-            logging.info(msg='use cache login change b2c to login')
+            _logger.info(msg='use cache login change b2c to login')
         else:
-            logging.error(msg=str(e) + '\n' + traceback.format_exc())
+            _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     if data:
         headers = {
@@ -472,9 +470,9 @@ def get_current_search(request):
                 "action": "get_current_search",
                 "signature": request.POST['signature']
             }
-            logging.info(msg='use cache login change b2c to login')
+            _logger.info('current search use cache')
         else:
-            logging.error(msg=str(e) + '\n' + traceback.format_exc())
+            _logger.error('ERROR current search use cache')
 
     url_request = url + 'booking/hotel'
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
@@ -500,6 +498,7 @@ def detail(request):
         }
         set_session(request, 'hotel_detail_request', data)
     except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
         if request.POST.get('use_cache'):
             data = request.session['hotel_detail_request']
             headers = {
@@ -508,9 +507,9 @@ def detail(request):
                 "action": "get_details",
                 "signature": request.POST['signature']
             }
-            logging.info(msg='use cache login change b2c to login')
+            _logger.info('hotel get detail use cache')
         else:
-            logging.error(msg=str(e) + '\n' + traceback.format_exc())
+            _logger.error('error hotel get detail')
     url_request = url + 'booking/hotel'
     res = send_request_api(request, url_request, headers, data, 'POST', timeout=180)
     try:
@@ -544,6 +543,7 @@ def get_cancellation_policy(request):
         }
         set_session(request, 'hotel_get_cancellation_policy_request', data)
     except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
         if request.POST.get('use_cache'):
             data = request.session['hotel_get_cancellation_policy_request']
             headers = {
@@ -552,9 +552,9 @@ def get_cancellation_policy(request):
                 "action": "get_cancellation_policy",
                 "signature": request.POST['signature']
             }
-            logging.info(msg='use cache login change b2c to login')
+            _logger.info('get_cancellation_policy use cache')
         else:
-            logging.error(msg=str(e) + '\n' + traceback.format_exc())
+            _logger.error('ERROR get_cancellation_policy use cache')
     url_request = url + 'booking/hotel'
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
@@ -570,7 +570,6 @@ def get_cancellation_policy(request):
                 'error_code': res['result']['error_code'],
                 'signature': signature
             })
-            _logger.info(json.dumps(request.session['hotel_cancellation_policy']))
             _logger.info("get_details_hotel SUCCESS SIGNATURE " + signature)
         else:
             _logger.error("get_details_hotel ERROR SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
@@ -628,7 +627,6 @@ def get_facility_img(request):
             'error_code': res['result']['error_code'],
             'signature': signature
         })
-        _logger.info(json.dumps(request.session['hotel_error']))
         if res['result']['error_code'] == 0:
             _logger.info("get_facility_img_hotel SUCCESS SIGNATURE " + request.session['hotel_signature'])
         else:
@@ -815,7 +813,6 @@ def get_booking(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     try:
         set_session(request, 'hotel_get_booking_%s' % request.POST['signature'], res)
-        _logger.info(json.dumps(request.session['hotel_get_booking_%s' % request.POST['signature']]))
         if res['result']['error_code'] == 0:
             try:
                 res['result']['response']['can_issued'] = False
@@ -920,7 +917,6 @@ def update_service_charge(request):
                 for pricing in upsell['pricing']:
                     total_upsell += int(pricing['amount'])
             set_session(request, 'hotel_upsell_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['hotel_upsell_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge HOTEL SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_airline HOTEL SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -953,7 +949,6 @@ def booker_insentif_booking(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             set_session(request, 'hotel_upsell_booker_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['hotel_upsell_booker_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge_booker HOTEL SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_hotel_booker HOTEL SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -1006,8 +1001,8 @@ def hotel_check_refund_amount(request):
         provider_bookings = []
         for provider_booking in get_booking_dict['result']['response']['provider_bookings']:
             provider_bookings.append({
-                "pnr": "",
-                "provider": ""
+                "pnr": provider_booking['pnr'],
+                "provider": provider_booking['provider']
             })
         data = {
             'order_number': order_number,
@@ -1016,7 +1011,7 @@ def hotel_check_refund_amount(request):
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "booker_insentif_booking",
+            "action": "check_refund_amount",
             "signature": request.POST['signature'],
         }
     except Exception as e:
@@ -1031,7 +1026,6 @@ def hotel_check_refund_amount(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             set_session(request, 'hotel_upsell_booker_'+request.POST['signature'], total_upsell)
-            _logger.info(json.dumps(request.session['hotel_upsell_booker_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge_booker HOTEL SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_hotel_booker HOTEL SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
