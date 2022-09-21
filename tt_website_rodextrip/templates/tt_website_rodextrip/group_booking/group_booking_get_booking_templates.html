@@ -327,11 +327,12 @@
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <div class="form-select">
-                                                        <select id="train_booker_search_type">
+                                                        <select id="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
                                                             <option value="cust_name">By Customer Name</option>
                                                             <option value="mobile">By Customer Mobile</option>
                                                             <option value="email">By Customer Mail</option>
                                                             <option value="identity_type">By Customer Identity Number</option>
+                                                            <option value="birth_date">By Birth Date</option>
                                                             <option value="cor_name">By Corporate Name</option>
                                                         </select>
                                                     </div>
@@ -388,7 +389,7 @@
                                                     <div class="modal-body">
                                                         <div class="row">
                                                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                                <input class="form-control" type="text" id="train_booker_search" placeholder="Search"/>
+                                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
                                                             </div>
                                                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                                 <button type="button" class="primary-btn" class="btn btn-default" onclick="get_customer_list('booker','1','train')">Search <i class="fas fa-search"></i></button>
@@ -592,11 +593,12 @@
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <div class="form-select">
-                                                        <select id="train_contact_search_type">
+                                                        <select id="train_contact_search_type" onchange="search_type_on_change('train_contact_search_type','train_contact_search');">
                                                             <option value="cust_name">By Customer Name</option>
                                                             <option value="mobile">By Customer Mobile</option>
                                                             <option value="email">By Customer Mail</option>
                                                             <option value="identity_type">By Customer Identity Number</option>
+                                                            <option value="birth_date">By Birth Date</option>
                                                             <option value="cor_name">By Corporate Name</option>
                                                         </select>
                                                     </div>
@@ -638,14 +640,15 @@
                                                     <div class="modal-body">
                                                         <div class="row">
                                                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                                <input class="form-control" type="text" id="train_contact_search" placeholder="Search"/>
+                                                                <input class="form-control" type="text" id="train_contact_search" placeholder="{% trans 'Search' %}"/>
                                                                 {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
                                                                 <div class="form-select">
-                                                                    <select id="train_contact_search_type" name="train_contact_search_type">
+                                                                    <select id="train_contact_search_type" name="train_contact_search_type" onchange="search_type_on_change('train_contact_search_type','train_contact_search');">
                                                                         <option value="cust_name">By Customer Name</option>
                                                                         <option value="mobile">By Customer Mobile</option>
                                                                         <option value="email">By Customer Mail</option>
                                                                         <option value="identity_type">By Customer Identity Number</option>
+                                                                        <option value="birth_date">By Birth Date</option>
                                                                         <option value="cor_name">By Corporate Name</option>
                                                                     </select>
                                                                 </div>

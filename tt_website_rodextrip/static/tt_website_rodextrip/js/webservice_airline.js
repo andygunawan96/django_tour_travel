@@ -2795,7 +2795,6 @@ function change_fare(journey, segment, fares){
                     if(airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].charge_type != 'RAC'){
                         if(airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].charge_type != 'DISC'){
                             price += airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].amount;
-                            console.log(airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j]);
                         }
                         price_discount += airline[journey].segments[i].fares[airline[journey].segments[i].fare_pick].service_charge_summary[j].service_charges[k].amount;
                     }
@@ -3617,13 +3616,14 @@ function get_price_itinerary_request(){
                             //                            $text += 'Arrival: ';
                             //                            $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_name + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_city + ') '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].arrival_date +'\n\n';
 
-                                                         $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_city + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin + ') - ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_city + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination + ')\n';
-                                                         $text += 'Departure Date  : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].departure_date+'\n';
-                                                         if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_terminal)
+                                                        $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_city + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin + ') - ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_city + ' (' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination + ')\n';
+                                                        $text += 'Departure Date  : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].departure_date+'\n';
+                                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_terminal)
                                                             $text += 'Terminal  : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].origin_terminal+'\n';
-                                                         $text += 'Arrival Date    : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].arrival_date +'\n';
-                                                         if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_terminal)
+                                                        $text += 'Arrival Date    : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].arrival_date +'\n';
+                                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_terminal)
                                                             $text += 'Terminal  : '+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].destination_terminal+'\n';
+                                                        $text += '\n';
                                                         for(l in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].legs){
                                                             text+=`
                                                                 <div class="row">
@@ -3695,9 +3695,11 @@ function get_price_itinerary_request(){
                                                             for(l in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares){
                                                                 for(m in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details){
                                                                     if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('BG')){
-                                                                        $text += '• Baggage ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit;
-                                                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name != '' && resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name != 'default_ssr')
-                                                                            $text += ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name;
+                                                                        $text += '• Baggage ';
+                                                                        if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name != '' && resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name.includes('default_ssr') == false)
+                                                                            $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name;
+                                                                        else
+                                                                            $text += resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit;
                                                                         $text += '\n';
                                                                         text += `<br/><i class="fas fa-suitcase"></i><span style="color:`+color+`; font-weight:800;"> Baggage - `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].unit+` </span>`;
                                                                     }else if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('ML')){
@@ -3708,6 +3710,12 @@ function get_price_itinerary_request(){
                                                                 if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_type_name){
                                                                     $text += '• Aircraft: ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_type_name + '\n';
                                                                     text += `<br/><i class="fas fa-plane"></i><span style="color:`+color+`; font-weight:800;"> Aircraft - `+resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].carrier_type_name+` </span>`;
+                                                                }
+                                                                if(resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].description.length > 0){
+                                                                    $text += 'Description: \n';
+                                                                    for(m in resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].description){
+                                                                        $text += '• ' + resJson.result.response.price_itinerary_provider[i].journeys[j].segments[k].fares[l].description[m] + '\n';
+                                                                    }
                                                                 }
                                                             }
                                                             $text += '\n';
@@ -7001,7 +7009,7 @@ function airline_get_booking(data, sync=false){
                                             $text += fare_detail_list[l].detail_name;
                                         }
                                         $text += fare_detail_list[l].amount + ' ' + fare_detail_list[l].unit;
-                                        if(fare_detail_list[l].detail_name != '' && fare_detail_list[l].detail_name != 'default_ssr')
+                                        if(fare_detail_list[l].detail_name != '' && fare_detail_list[l].detail_name.includes('default_ssr') == false)
                                             $text += fare_detail_list[l].detail_name;
                                         $text += '\n';
                                     }

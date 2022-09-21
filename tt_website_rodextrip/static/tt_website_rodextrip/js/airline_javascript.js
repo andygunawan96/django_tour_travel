@@ -4640,9 +4640,11 @@ function airline_detail(type){
                                 for(l in price_itinerary_temp[i].journeys[j].segments[k].fares){
                                     for(m in price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details){
                                         if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('BG')){
-                                            $text += '• Baggage ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].unit;
-                                            if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name != '' && price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name != 'default_ssr')
+                                            $text += '• Baggage ';
+                                            if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name != '' && price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name.includes('default_ssr') == false)
                                                 $text += price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_name;
+                                            else
+                                                $text += price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].unit
                                             $text += '\n';
                                             text += `<br/><i class="fas fa-suitcase"></i><span style="color:`+color+`; font-weight:800;"> Baggage - `+price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].amount + ' ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].unit+` </span>`;
                                         }else if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].fare_details[m].detail_type.includes('ML')){
@@ -4653,6 +4655,12 @@ function airline_detail(type){
                                     if(price_itinerary_temp[i].journeys[j].segments[k].carrier_type_name){
                                         $text += '• Aircraft: ' + price_itinerary_temp[i].journeys[j].segments[k].carrier_type_name + '\n';
                                         text += `<br/><i class="fas fa-plane"></i><span style="color:`+color+`; font-weight:800;"> Aircraft - `+price_itinerary_temp[i].journeys[j].segments[k].carrier_type_name+` </span>`;
+                                    }
+                                    if(price_itinerary_temp[i].journeys[j].segments[k].fares[l].description.length > 0){
+                                        $text += 'Description: \n';
+                                        for(m in price_itinerary_temp[i].journeys[j].segments[k].fares[l].description){
+                                            $text += '• ' + price_itinerary_temp[i].journeys[j].segments[k].fares[l].description[m] + '\n';
+                                        }
                                     }
                                 }
                                 text+=`</div>`;
