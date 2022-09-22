@@ -109,11 +109,12 @@
                                                                     {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
                                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                                         <div class="form-select">
-                                                                            <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                            <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
                                                                                 <option value="cust_name">By Customer Name</option>
                                                                                 <option value="mobile">By Customer Mobile</option>
                                                                                 <option value="email">By Customer Mail</option>
                                                                                 <option value="identity_type">By Customer Identity Number</option>
+                                                                                <option value="birth_date">By Birth Date</option>
                                                                                 <option value="cor_name">By Corporate Name</option>
                                                                             </select>
                                                                         </div>
@@ -341,11 +342,12 @@
                                                                     <div class="row">
                                                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                                                             <div class="form-select">
-                                                                                <select id="train_adult1_search_type" name="train_adult1_search_type">
+                                                                                <select id="train_adult1_search_type" name="train_adult1_search_type" onchange="search_type_on_change('train_adult1_search_type','train_adult1_search');">
                                                                                     <option value="cust_name">By Customer Name</option>
                                                                                     <option value="mobile">By Customer Mobile</option>
                                                                                     <option value="email">By Customer Mail</option>
                                                                                     <option value="identity_type">By Customer Identity Number</option>
+                                                                                    <option value="birth_date">By Birth Date</option>
                                                                                 </select>
                                                                             </div>
                                                                         </div>
@@ -682,11 +684,12 @@
                                                                             <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
                                                                                 {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
                                                                                 <div class="form-select">
-                                                                                    <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                                    <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
                                                                                         <option value="cust_name">By Customer Name</option>
                                                                                         <option value="mobile">By Customer Mobile</option>
                                                                                         <option value="email">By Customer Mail</option>
                                                                                         <option value="identity_type">By Customer Identity Number</option>
+                                                                                        <option value="birth_date">By Birth Date</option>
                                                                                         <option value="cor_name">By Corporate Name</option>
                                                                                     </select>
                                                                                 </div>
@@ -911,11 +914,12 @@
                                                                             <div class="row">
                                                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                                                     <div class="form-select">
-                                                                                        <select id="train_adult1_search_type" name="train_adult1_search_type">
+                                                                                        <select id="train_adult1_search_type" name="train_adult1_search_type" onchange="search_type_on_change('train_adult1_search_type','train_adult1_search');">
                                                                                             <option value="cust_name">By Customer Name</option>
                                                                                             <option value="mobile">By Customer Mobile</option>
                                                                                             <option value="email">By Customer Mail</option>
                                                                                             <option value="identity_type">By Customer Identity Number</option>
+                                                                                            <option value="birth_date">By Birth Date</option>
                                                                                         </select>
                                                                                     </div>
                                                                                 </div>
@@ -1253,11 +1257,12 @@
                                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                                         <div class="form-group">
                                                                             <div class="default-select" id="default-select">
-                                                                                <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                                <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
                                                                                     <option value="cust_name">By Customer Name</option>
                                                                                     <option value="mobile">By Customer Mobile</option>
                                                                                     <option value="email">By Customer Mail</option>
                                                                                     <option value="identity_type">By Customer Identity Number</option>
+                                                                                    <option value="birth_date">By Birth Date</option>
                                                                                     <option value="cor_name">By Corporate Name</option>
                                                                                 </select>
                                                                             </div>
@@ -1482,11 +1487,12 @@
                                                                     <div class="row">
                                                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                                                             <div class="form-select">
-                                                                                <select id="train_adult1_search_type" name="train_adult1_search_type">
+                                                                                <select id="train_adult1_search_type" name="train_adult1_search_type" onchange="search_type_on_change('train_adult1_search_type','train_adult1_search');">
                                                                                     <option value="cust_name">By Customer Name</option>
                                                                                     <option value="mobile">By Customer Mobile</option>
                                                                                     <option value="email">By Customer Mail</option>
                                                                                     <option value="identity_type">By Customer Identity Number</option>
+                                                                                    <option value="birth_date">By Birth Date</option>
                                                                                 </select>
                                                                             </div>
                                                                         </div>
@@ -1822,11 +1828,12 @@
                                                                     <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
                                                                         <div class="input-container-search-ticket btn-group">
                                                                             <div class="form-select" id="default-select">
-                                                                                <select class="nice-select-default" id="train_booker_search_type" name="train_booker_search_type">
+                                                                                <select class="nice-select-default" id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
                                                                                     <option value="cust_name">By Customer Name</option>
                                                                                     <option value="mobile">By Customer Mobile</option>
                                                                                     <option value="email">By Customer Mail</option>
                                                                                     <option value="identity_type">By Customer Identity Number</option>
+                                                                                    <option value="birth_date">By Birth Date</option>
                                                                                     <option value="cor_name">By Corporate Name</option>
                                                                                 </select>
                                                                             </div>
@@ -2052,11 +2059,12 @@
                                                                     <div class="row">
                                                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                                                             <div class="form-select">
-                                                                                <select id="train_adult1_search_type" name="train_adult1_search_type">
+                                                                                <select id="train_adult1_search_type" name="train_adult1_search_type" onchange="search_type_on_change('train_adult1_search_type','train_adult1_search');">
                                                                                     <option value="cust_name">By Customer Name</option>
                                                                                     <option value="mobile">By Customer Mobile</option>
                                                                                     <option value="email">By Customer Mail</option>
                                                                                     <option value="identity_type">By Customer Identity Number</option>
+                                                                                    <option value="birth_date">By Birth Date</option>
                                                                                 </select>
                                                                             </div>
                                                                         </div>
@@ -2389,11 +2397,12 @@
                                                                     {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
                                                                     <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
                                                                         <div class="form-select">
-                                                                            <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                            <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
                                                                                 <option value="cust_name">By Customer Name</option>
                                                                                 <option value="mobile">By Customer Mobile</option>
                                                                                 <option value="email">By Customer Mail</option>
                                                                                 <option value="identity_type">By Customer Identity Number</option>
+                                                                                <option value="birth_date">By Birth Date</option>
                                                                                 <option value="cor_name">By Corporate Name</option>
                                                                             </select>
                                                                         </div>
@@ -2618,11 +2627,12 @@
                                                                     <div class="row">
                                                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                                                             <div class="form-select">
-                                                                                <select id="train_adult1_search_type" name="train_adult1_search_type">
+                                                                                <select id="train_adult1_search_type" name="train_adult1_search_type" onchange="search_type_on_change('train_adult1_search_type','train_adult1_search');">
                                                                                     <option value="cust_name">By Customer Name</option>
                                                                                     <option value="mobile">By Customer Mobile</option>
                                                                                     <option value="email">By Customer Mail</option>
                                                                                     <option value="identity_type">By Customer Identity Number</option>
+                                                                                    <option value="birth_date">By Birth Date</option>
                                                                                 </select>
                                                                             </div>
                                                                         </div>
@@ -2957,11 +2967,12 @@
                                                                     {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
                                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                                         <div class="form-select">
-                                                                            <select id="train_booker_search_type" name="train_booker_search_type">
+                                                                            <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
                                                                                 <option value="cust_name">By Customer Name</option>
                                                                                 <option value="mobile">By Customer Mobile</option>
                                                                                 <option value="email">By Customer Mail</option>
                                                                                 <option value="identity_type">By Customer Identity Number</option>
+                                                                                <option value="birth_date">By Birth Date</option>
                                                                                 <option value="cor_name">By Corporate Name</option>
                                                                             </select>
                                                                         </div>
@@ -3189,11 +3200,12 @@
                                                                     <div class="row">
                                                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                                                             <div class="form-select">
-                                                                                <select id="train_adult1_search_type" name="train_adult1_search_type">
+                                                                                <select id="train_adult1_search_type" name="train_adult1_search_type" onchange="search_type_on_change('train_adult1_search_type','train_adult1_search');">
                                                                                     <option value="cust_name">By Customer Name</option>
                                                                                     <option value="mobile">By Customer Mobile</option>
                                                                                     <option value="email">By Customer Mail</option>
                                                                                     <option value="identity_type">By Customer Identity Number</option>
+                                                                                    <option value="birth_date">By Birth Date</option>
                                                                                 </select>
                                                                             </div>
                                                                         </div>
@@ -3452,25 +3464,31 @@
 <script>
     event_page_passenger();
     $( document ).ready(function() {
-      breadcrumb_create("event", 4, 0);
-      $('.js-example-basic-single').niceSelect('destroy');
-      $('.js-example-basic-single').select2();
-      auto_complete('booker_nationality');
-      auto_complete('booker_phone_code');
-
-      $('input[name="adult_birth_date1"]').daterangepicker({
-          singleDatePicker: true,
-          autoUpdateInput: true,
-          startDate: moment().subtract(18, 'years'),
-          minDate: moment().subtract(100, 'years'),
-          maxDate: moment(),
-          showDropdowns: true,
-          opens: 'center',
-          locale: {
+        breadcrumb_create("event", 4, 0);
+        $('.js-example-basic-single').niceSelect('destroy');
+        $('.js-example-basic-single').select2();
+        auto_complete('booker_nationality');
+        auto_complete('booker_phone_code');
+        document.getElementById("train_adult1_search").addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                var adult_enter = "search_adult_1";
+                document.getElementById(adult_enter).click();
+            }
+        });
+        $('input[name="adult_birth_date1"]').daterangepicker({
+            singleDatePicker: true,
+            autoUpdateInput: true,
+            startDate: moment().subtract(18, 'years'),
+            minDate: moment().subtract(100, 'years'),
+            maxDate: moment(),
+            showDropdowns: true,
+            opens: 'center',
+            locale: {
               format: 'DD MMM YYYY',
-          }
-      });
-      $('input[name="adult_birth_date1"]').val("");
+            }
+        });
+        $('input[name="adult_birth_date1"]').val("");
     });
     {% if 'co_customer_parent_type_name' in username and username.co_customer_parent_type_name == "COR" %}
         get_automatic_booker('{{username.co_customer_seq_id}}');

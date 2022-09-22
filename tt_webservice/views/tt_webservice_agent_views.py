@@ -1220,10 +1220,12 @@ def get_customer_list(request):
             elif request.POST['passenger_type'] == 'infant':
                 upper = 2
                 lower = 0
-
+        name = request.POST['name']
+        if request.POST.get('search_type','cust_name') == 'birth_date':
+            name = parse_date_time_to_server(name)
         data = {
             'search_type': request.POST.get('search_type', 'cust_name'),
-            'name': request.POST['name'],
+            'name': name,
             'upper': upper,
             'lower': lower,
             'type': passenger,

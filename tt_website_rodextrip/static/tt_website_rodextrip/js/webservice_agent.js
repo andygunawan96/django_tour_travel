@@ -1333,31 +1333,34 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
         var like_name_paxs = document.getElementById('train_'+passenger+number+'_search').value;
         var input_type = '';
         var passenger_search_type = document.getElementById('train_'+passenger_type+number+'_search_type').value;
-        if(['cust_name', 'cor_name'].includes(passenger_search_type))
-            input_type == 'name';
+        if(['cust_name', 'cor_name'].includes(passenger_search_type) == true)
+            input_type = 'name';
         else if(passenger_search_type == 'mobile')
-            input_type == 'mobile';
+            input_type = 'mobile';
         else if(passenger_search_type == 'email')
-            input_type == 'email';
+            input_type = 'email';
         else if(passenger_search_type == 'identity_type')
-            input_type == 'identity number';
+            input_type = 'identity number';
 
         var mobile = '';
         var email = '';
         var identity_type = '';
         var identity_number = '';
+        var birth_date = '';
         if(is_show_filter == true)
             try{
                 mobile = document.getElementById('mobile_search_cache').value;
                 email = document.getElementById('email_search_cache').value;
                 identity_type = document.getElementById('identity_type_search_cache').value;
                 identity_number = document.getElementById('identity_number_search_cache').value;
+                birth_date = document.getElementById('birth_date_search_cache').value;
             }catch(err){
                 try{
                     mobile = document.getElementById('mobile_search_teropong').value;
                     email = document.getElementById('email_search_teropong').value;
                     identity_type = document.getElementById('identity_type_search_teropong').value;
                     identity_number = document.getElementById('identity_number_search_teropong').value;
+                    birth_date = document.getElementById('birth_date_search_teropong').value;
                 }catch(err){}
             }
         var msg = {
@@ -1419,6 +1422,20 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
                     </div>
                 </div>
 
+                <div class="col-lg-12 mb-3">
+                    <div class="row">
+                        <div class="col-lg-11">
+                            <label>Birth Date</label>
+                            <div class="input-container-search-ticket">
+                                <input type="text" style="margin-bottom:0px;" class="form-control" id="birth_date_search_cache" value="`+birth_date+`">
+                            </div>
+                        </div>
+                        <div class="col-lg-1">
+                            <button type="button" class="primary-delete-date" style="margin-top:27px;" onclick="delete_expired_date_data('birth_date_search_cache', '')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                        </div>
+                    </div>
+                </div>
+
                 <button type="button" class="primary-btn mb-3" onclick="filter_search_passenger('`+passenger_type+`', '`+number+`', '`+product+`',true);">Filter</button>
 
             </div>`;
@@ -1443,6 +1460,7 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
         var is_same_email = false;
         var is_same_identity_type = false;
         var is_same_identity_number = false;
+        var is_same_birth_date = false;
         var counter_passenger_print = 0;
         for(i in msg.result.response){
             add = false;
@@ -1450,7 +1468,8 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
             is_same_email = false;
             is_same_identity_type = false;
             is_same_identity_number = false;
-            if(mobile == '' && email == '' && identity_type == '' && identity_number == ''){
+            is_same_birth_date = false;
+            if(mobile == '' && email == '' && identity_type == '' && identity_number == '' && birth_date == ''){
                 add = true
             }
             if(add == false){
@@ -1515,7 +1534,15 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
                     is_same_identity_type = true;
                     is_same_identity_number = true;
                 }
-                if(is_same_mobile == true && is_same_email == true && is_same_identity_type == true && is_same_identity_number == true)
+                if(birth_date != ''){
+                    if(birth_date == msg.result.response[i].birth_date)
+                        is_same_birth_date = true;
+                    else
+                        is_same_birth_date = false;
+                }else{
+                    is_same_birth_date = true
+                }
+                if(is_same_mobile == true && is_same_email == true && is_same_identity_type == true && is_same_identity_number == true && is_same_birth_date == true)
                     add = true;
             }
             if(add){
@@ -2089,7 +2116,7 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
         }
 
         if(['passenger', 'adult', 'Adult', 'senior', 'Senior', 'child', 'Child', 'infant', 'Infant', ''].includes(passenger_type) || passenger_type.match('Adult') || passenger_type.match('Child')){
-            document.getElementById('header_search_cache').innerHTML = `<i class="fas fa-search"></i> We found `+counter_passenger_print+` user(s) with name like " `+like_name_paxs+` "`;
+//            document.getElementById('header_search_cache').innerHTML = `<i class="fas fa-search"></i> We found `+counter_passenger_print+` user(s) with name like " `+like_name_paxs+` "`;
             document.getElementById('identity_type_search_cache').value = identity_number;
             if(identity_type != '')
                 document.getElementById('identity_type_search_cache').value = identity_type;
@@ -2186,6 +2213,33 @@ function filter_search_passenger(passenger_type='passenger', number='', product=
             }
         }
     }catch(err){console.log(err);}
+
+    try{
+        $('input[id="birth_date_search_cache"]').daterangepicker({
+            singleDatePicker: true,
+            autoUpdateInput: true,
+            maxDate: moment(),
+            showDropdowns: true,
+            opens: 'center',
+            locale: {
+                format: 'DD MMM YYYY',
+            }
+        });
+        $('input[id="birth_date_search_cache"]').val(birth_date);
+        $('input[id="birth_date_search_teropong"]').daterangepicker({
+            singleDatePicker: true,
+            autoUpdateInput: true,
+            maxDate: moment(),
+            showDropdowns: true,
+            opens: 'center',
+            locale: {
+                format: 'DD MMM YYYY',
+            }
+        });
+        $('input[id="birth_date_search_teropong"]').val(birth_date);
+    }catch(err){
+
+    }
 }
 
 function get_customer_list(passenger, number, product){
@@ -9330,4 +9384,27 @@ function generate_image_identity(counter, id, div_id, label_id, cek_search){
       imageCounter: true,
       imageCounterSeparator: ' of '
     });
+}
+
+function search_type_on_change(id_selection,id_text_input){
+    if(document.getElementById(id_selection).value == 'birth_date'){
+        if(moment(document.getElementById(id_text_input).value)._d == 'Invalid date')
+            $('input[id="'+id_text_input+'"]').val(document.getElementById(id_text_input).value);
+        else
+            $('input[id="'+id_text_input+'"]').val("");
+        $('input[id="'+id_text_input+'"]').daterangepicker({
+            singleDatePicker: true,
+            autoUpdateInput: true,
+            maxDate: moment(),
+            showDropdowns: true,
+            opens: 'center',
+            locale: {
+                format: 'DD MMM YYYY',
+            }
+        });
+    }else{
+        try{
+            $('input[id="'+id_text_input+'"]').data('daterangepicker').remove()
+        }catch(err){}
+    }
 }

@@ -162,11 +162,12 @@ function add_table_of_passenger(type){
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <div class="form-select">
-                                                        <select id="train_`+(counter_passenger+1)+`_search_type">
+                                                        <select id="train_`+(counter_passenger+1)+`_search_type" onchange="search_type_on_change('train_`+(counter_passenger+1)+`_search_type','train_`+(counter_passenger+1)+`_search');">
                                                             <option value="cust_name">By Customer Name</option>
                                                             <option value="mobile">By Customer Mobile</option>
                                                             <option value="email">By Customer Mail</option>
                                                             <option value="identity_type">By Customer Identity Number</option>
+                                                            <option value="birth_date">By Birth Date</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -176,7 +177,7 @@ function add_table_of_passenger(type){
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-3">
-                                            <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('','`+(counter_passenger+1)+`','issued_booking')">Search <i class="fas fa-search"></i></button>
+                                            <button type="button" id="passenger_btn_io_click`+(counter_passenger+1)+`" class="primary-btn" onclick="get_customer_list('','`+(counter_passenger+1)+`','issued_booking')">Search <i class="fas fa-search"></i></button>
                                         </div>
                                     </div>
                                     <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
@@ -550,6 +551,7 @@ function add_table_of_passenger(type){
     $('#adult_identity_type'+parseInt(counter_passenger+1)).niceSelect();
     auto_complete(`adult_nationality`+parseInt(counter_passenger+1));
     counter_passenger++;
+    passenger_number = counter_passenger;
 }
 
 function delete_table_of_passenger(counter){
