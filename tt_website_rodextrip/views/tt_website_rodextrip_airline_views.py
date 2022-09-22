@@ -1459,10 +1459,16 @@ def review(request, signature):
                     passport_ed = ''
                     passport_country_of_issued = ''
                     is_valid_identity = request.POST.get('adult_valid_passport' + str(i + 1), 'off')
+                    is_wheelchair = request.POST.get('adult_wheelchair' + str(i + 1), 'off')
                     if is_valid_identity == 'on':
                         is_valid_identity = False
                     else:
                         is_valid_identity = True
+
+                    if is_wheelchair == 'on':
+                        is_wheelchair = True
+                    else:
+                        is_wheelchair = False
                     if request.POST['adult_id_type' + str(i + 1)]:
                         passport_number = request.POST.get('adult_passport_number' + str(i + 1))
                         passport_ed = request.POST.get('adult_passport_expired_date' + str(i + 1))
@@ -1506,7 +1512,8 @@ def review(request, signature):
                         "ff_numbers": ff_number,
                         "behaviors": json.loads(request.POST['adult_behaviors' + str(i + 1)]) if request.POST.get('adult_behaviors' + str(i + 1)) else {},
                         "identity_image": img_identity_data,
-                        "is_valid_identity": is_valid_identity
+                        "is_valid_identity": is_valid_identity,
+                        "is_request_wheelchair": is_wheelchair
                     })
 
                     if i == 0:
@@ -1604,10 +1611,16 @@ def review(request, signature):
                     passport_ed = ''
                     passport_country_of_issued = ''
                     is_valid_identity = request.POST.get('child_valid_passport' + str(i + 1), 'off')
+                    is_wheelchair = request.POST.get('child_wheelchair' + str(i + 1), 'off')
                     if is_valid_identity == 'on':
                         is_valid_identity = False
                     else:
                         is_valid_identity = True
+
+                    if is_wheelchair == 'on':
+                        is_wheelchair = True
+                    else:
+                        is_wheelchair = False
                     if request.POST['child_id_type' + str(i + 1)]:
                         passport_number = request.POST['child_passport_number' + str(i + 1)]
                         passport_ed = request.POST['child_passport_expired_date' + str(i + 1)]
@@ -1651,7 +1664,8 @@ def review(request, signature):
                         "ff_numbers": ff_number,
                         "behaviors": json.loads(request.POST['child_behaviors' + str(i + 1)]) if request.POST.get('child_behaviors' + str(i + 1)) else {},
                         "identity_image": img_identity_data,
-                        "is_valid_identity": is_valid_identity
+                        "is_valid_identity": is_valid_identity,
+                        "is_request_wheelchair": is_wheelchair
                     })
 
                 for i in range(int(request.session['airline_request_%s' % signature]['infant'])):
@@ -1663,6 +1677,7 @@ def review(request, signature):
                         is_valid_identity = False
                     else:
                         is_valid_identity = True
+                    is_wheelchair = False
                     if request.POST['infant_id_type' + str(i + 1)]:
                         passport_number = request.POST['infant_passport_number' + str(i + 1)]
                         passport_ed = request.POST['infant_passport_expired_date' + str(i + 1)]
@@ -1704,7 +1719,8 @@ def review(request, signature):
                         "identity_type": request.POST['infant_id_type' + str(i + 1)],
                         "behaviors": json.loads(request.POST['infant_behaviors' + str(i + 1)]) if request.POST.get('infant_behaviors' + str(i + 1)) else {},
                         "identity_image": img_identity_data,
-                        "is_valid_identity": is_valid_identity
+                        "is_valid_identity": is_valid_identity,
+                        "is_request_wheelchair": is_wheelchair
                     })
                 airline_create_passengers = {
                     'booker': booker,
