@@ -1720,7 +1720,7 @@ def sell_ssrs(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     if 'airline_sell_ssrs' + request.POST['signature'] in request.session:
         res = request.session['airline_sell_ssrs' + request.POST['signature']]
-    elif ssr_request != {}:
+    elif ssr_requests != {}:
         url_request = url + 'booking/airline'
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:

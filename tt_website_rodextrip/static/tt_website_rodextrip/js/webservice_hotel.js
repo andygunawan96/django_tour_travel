@@ -1345,9 +1345,11 @@ function hotel_provision(price_code, provider){
             //testing end
             provision = msg;
             if(msg.result.error_code == 0){
-                document.getElementById('issued_hotel_btn').disabled = false;
+                if(user_login.co_agent_frontend_security.includes('issued_reservation'))
+                    document.getElementById('issued_hotel_btn').disabled = false;
             }else if(msg.result.error_code == 4006){
-                document.getElementById('issued_hotel_btn').disabled = false;
+                if(user_login.co_agent_frontend_security.includes('issued_reservation'))
+                    document.getElementById('issued_hotel_btn').disabled = false;
             }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
             }else{
@@ -1376,12 +1378,15 @@ function hotel_provision(price_code, provider){
 //                })
                 $('.loader-rodextrip').fadeOut();
             }
-            for (rec in msg.result.response.hotel_norm){
-                if (msg.result.response.hotel_norm[rec]){
-                    data_print = msg.result.response.hotel_norm[rec].replace(/&lt;/g, '<');
-                    data_print = data_print.replace(/&gt;/g, '>');
-                    document.getElementById('js_hotel_norms').innerHTML += '<li class="list-group-item">'+ data_print +'</li>';
+            if(msg.result.response.hasOwnProperty('hotel_norm')){
+                for (rec in msg.result.response.hotel_norm){
+                    if (msg.result.response.hotel_norm[rec]){
+                        data_print = msg.result.response.hotel_norm[rec].replace(/&lt;/g, '<');
+                        data_print = data_print.replace(/&gt;/g, '>');
+                        document.getElementById('js_hotel_norms').innerHTML += '<li class="list-group-item">'+ data_print +'</li>';
+                    }
                 }
+                document.getElementById('js_hotel_norms_container').style.display = 'block';
             }
             if (msg.result.response.cancellation_policy){
                 var text = '';
