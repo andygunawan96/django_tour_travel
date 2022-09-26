@@ -1749,7 +1749,7 @@ function activity_get_detail(activity_uuid){
                         })
                       var temp = ``;
                       temp += `
-                      <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
+                      <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="no_product_type" onclick="">
                           <span>No product type available</span>
                       </label>`;
                       $('#ticket_type').html(temp);
@@ -1761,38 +1761,44 @@ function activity_get_detail(activity_uuid){
                         })
                       var temp = ``;
                       temp += `
-                      <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
+                      <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="no_product_type" onclick="">
                           <span>No product type available</span>
                       </label>`;
                       $('#ticket_type').html(temp);
                    }
                }
            }catch(err){
-               try{
+               if(msg && msg.hasOwnProperty('error_msg') && msg.error_msg)
+               {
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
                       html: '<span style="color: #ff9900;">Error activity get details </span>' + msg.error_msg,
                     })
-                  var temp = ``;
-                  temp += `
-                  <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
-                      <span>No product type available</span>
-                  </label>`;
-                  $('#ticket_type').html(temp);
-               }catch(err){
+               }
+               else if(msg && msg.hasOwnProperty('result') && msg.result.hasOwnProperty('error_msg') && msg.result.error_msg)
+               {
+                    console.log(msg);
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
                       html: '<span style="color: #ff9900;">Error activity detail </span>' + msg.result.error_msg,
                     })
-                  var temp = ``;
-                  temp += `
-                  <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
-                      <span>No product type available</span>
-                  </label>`;
-                  $('#ticket_type').html(temp);
                }
+               else
+               {
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error activity detail </span> No Product type available',
+                    })
+               }
+              var temp = ``;
+              temp += `
+              <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="no_product_type" onclick="">
+                  <span>No product type available</span>
+              </label>`;
+              $('#ticket_type').html(temp);
            }
 
 
@@ -1801,7 +1807,7 @@ function activity_get_detail(activity_uuid){
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error activity detail');
             var temp = ``;
             temp += `
-                <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
+                <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="no_product_type" onclick="">
                 <span>No product type available</span>
                 </label>`;
             $('#ticket_type').html(temp);
@@ -2948,14 +2954,22 @@ function activity_get_booking(data){
                 price_arr_repricing = {};
                 pax_type_repricing = [];
                 can_issued = msg.result.response.can_issued;
-                tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
-                localTime  = moment.utc(tes).toDate();
-                msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
-                data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
-                gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
-                timezone = data_gmt.replace (/[^\d.]/g, '');
-                timezone = timezone.split('')
-                timezone = timezone.filter(item => item !== '0')
+                if (msg.result.response.hold_date)
+                {
+                    tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
+                    localTime  = moment.utc(tes).toDate();
+                    msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                    data_gmt = moment(msg.result.response.hold_date)._d.toString().split(' ')[5];
+                    gmt = data_gmt.replace(/[^a-zA-Z+-]+/g, '');
+                    timezone = data_gmt.replace (/[^\d.]/g, '');
+                    timezone = timezone.split('');
+                    timezone = timezone.filter(item => item !== '0');
+                }
+                else
+                {
+                    gmt = '';
+                    timezone = '';
+                }
 
                 if(msg.result.response.booked_date != ''){
                     tes = moment.utc(msg.result.response.booked_date).format('YYYY-MM-DD HH:mm:ss')
