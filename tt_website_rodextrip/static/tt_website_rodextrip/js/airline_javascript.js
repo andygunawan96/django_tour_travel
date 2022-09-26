@@ -5922,6 +5922,9 @@ function check_passenger(adult, child, infant, type=''){
                     });
                 }
            }
+       }else{
+           if(document.getElementById('adult_valid_passport'+i).checked)
+               list_identity_need_update.push('adult_'+i)
        }
 
 
@@ -6161,6 +6164,9 @@ function check_passenger(adult, child, infant, type=''){
                   $(this).siblings(".select2-container").css('border', '1px solid red');
                });
            }
+       }else{
+           if(document.getElementById('child_valid_passport'+i).checked)
+               list_identity_need_update.push('child_'+i)
        }
        if(typeof ff_request !== 'undefined'){
            if(ff_request.length != 0 && check_ff == 1){
@@ -6375,6 +6381,9 @@ function check_passenger(adult, child, infant, type=''){
                   $(this).siblings(".select2-container").css('border', '1px solid red');
                });
            }
+       }else{
+           if(document.getElementById('infant_valid_passport'+i).checked)
+               list_identity_need_update.push('infant_'+i)
        }
    }
 //   if(error_log != ''){
@@ -6385,7 +6394,14 @@ function check_passenger(adult, child, infant, type=''){
 //            document.getElementById(passenger_id[0]+'_passport_expired_date'+passenger_id[1]).style['border-color'] = 'red';
 //       }
 //   }
-
+   // check don't valid identity
+   for(i in list_identity_need_update){
+        passenger_id = list_identity_need_update[i].split('_');
+        //kalau domestic tapi nationality indonesia pakai dont have valid passport
+        if(is_international == 'false' && is_identity_required == 'true' && document.getElementById(passenger_id[0]+'_nationality'+passenger_id[1]+'_id').value == 'Indonesia'){
+            error_log+= 'Please change identity type to KTP for passenger '+passenger_id[0]+' '+passenger_id[1]+'!</br>\n';
+        }
+   }
 
    if(error_log==''){
         //KALAU DATE DISABLED DARI TEROPONG VALUE TIDAK BISA DI AMBIL EXPIRED DATE TIDAK DI DISABLED FALSE KARENA BISA DI EDIT
