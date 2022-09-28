@@ -620,7 +620,7 @@ function tour_get_details(tour_code){
                 {
                     print_doc_text += `<div class="mb-3" style="text-align:right;">
                                          <button class="primary-btn btn-tour btn-chgsearch" style="border-radius:6px; border: 1px solid #ddd;" onclick="window.location.href='`+tour_data.document_url+`'" target="_blank">
-                                             <i class="fa fa-print" aria-hidden="true"></i> Print Document
+                                             <i class="fa fa-print" aria-hidden="true"></i> Download Document
                                          </button>
                                      </div>`;
                 }
@@ -658,7 +658,10 @@ function tour_get_details(tour_code){
                         <div class="row">
                             <div class="col-lg-12">
                                 <h6 style="border:1px solid #cdcdcd; padding:10px; background:`+color+`; cursor:pointer; overflow-y: hidden; color:`+text_color+`" onclick="show_hide_itinerary_tour(`+it_idx+`)">
-                                    Day `+tour_data.itinerary_ids[it_idx].day+`</span> - `+tour_data.itinerary_ids[it_idx].name+`
+                                    Day `+tour_data.itinerary_ids[it_idx].day+`</span>`;
+                                    if(tour_data.itinerary_ids[it_idx].name)
+                                        itinerary_text+=` - `+tour_data.itinerary_ids[it_idx].name;
+                                    itinerary_text += `
                                     <i class="fas fa-chevron-up" id="itinerary_day`+it_idx+`_down" style="float:right; color:`+text_color+`; display:none;"></i>
                                     <i class="fas fa-chevron-down" id="itinerary_day`+it_idx+`_up" style="float:right; color:`+text_color+`; display:inline-block;"></i>
                                 </h6>
@@ -673,7 +676,12 @@ function tour_get_details(tour_code){
                                             itinerary_text += `<h5><i class="fas fa-angle-right" style="color:`+color+`;"></i> `+tour_data.itinerary_ids[it_idx].items[it_item].timeslot+`</h5>`;
                                         }
                                         itinerary_text += `</div>
-                                        <div class="col-lg-9" style="padding-bottom:15px;">
+                                        <div class="col-lg-9" style="padding-bottom:15px;">`;
+                                        if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
+                                            itinerary_text +=`
+                                                <h5><a href="`+tour_data.itinerary_ids[it_idx].items[it_item].hyperlink+`" style="font-weight:bold;">`+tour_data.itinerary_ids[it_idx].items[it_item].name+`</a></h5>`;
+                                        else
+                                            itinerary_text += `
                                             <h5>`+tour_data.itinerary_ids[it_idx].items[it_item].name+`</h5>`;
                                         if (tour_data.itinerary_ids[it_idx].items[it_item].description){
                                             itinerary_text += `<span style="font-size: 13px;">`+tour_data.itinerary_ids[it_idx].items[it_item].description+`</span><br/>`;
@@ -700,7 +708,12 @@ function tour_get_details(tour_code){
                                                 }
                                         itinerary_text += `
                                             </time>
-                                            <span>
+                                            <span>`;
+                                        if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
+                                            itinerary_text +=`
+                                                <a href="`+tour_data.itinerary_ids[it_idx].items[it_item].hyperlink+`" style="font-weight:bold;">`+tour_data.itinerary_ids[it_idx].items[it_item].name+`</a>`;
+                                        else
+                                            itinerary_text +=`
                                                 <strong>`+tour_data.itinerary_ids[it_idx].items[it_item].name+`</strong>`;
 
                                                 if (tour_data.itinerary_ids[it_idx].items[it_item].description){

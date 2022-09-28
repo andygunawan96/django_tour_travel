@@ -732,6 +732,7 @@ function get_airline_data_passenger_page(type='default'){
                adult = airline_request.adult;
                child = airline_request.child;
                infant = airline_request.infant;
+               data_ssrs = msg.ssr.result.response.ssr_availability_provider;
                if(msg.hasOwnProperty('pax_cache')){
                     pax_cache_reorder = msg.pax_cache;
                     if(msg.pax_cache.hasOwnProperty('booker'))
@@ -2062,9 +2063,24 @@ function airline_get_provider_list(type, data=''){
 
            }else if(type == 'passenger'){
                 check_ff = 0;
+                is_wheelchair = 0
                 for(i in airline_pick){
                     if(provider_list_data[airline_pick[i].provider].is_pre_frequent_flyer == true)
                         check_ff = 1;
+                    if(provider_list_data[airline_pick[i].provider].is_pre_wheelchair == true)
+                        is_wheelchair = 1;
+                }
+                if(is_wheelchair == 1){
+                    //kalau wheelchair di setting dari gateway check apakah ada ssr wheelchair kalau ada print
+                    is_wheelchair = 0;
+                    for(i in data_ssrs){
+                        if(data_ssrs[i].hasOwnProperty('ssr_availability')){
+                            if(data_ssrs[i].ssr_availability.hasOwnProperty('wheelchair')){
+                                is_wheelchair = 1;
+                                break;
+                            }
+                        }
+                    }
                 }
                 if(check_ff == 0){
                     for(i=1;i<=adult;i++){
@@ -2090,6 +2106,44 @@ function airline_get_provider_list(type, data=''){
                                 document.getElementById('infant_ff_value_'+i+'_'+j).innerHTML = '';
                             }catch(err){console.log(err)}
                         }
+                    }
+                }
+                if(is_wheelchair == 1){
+                    for(i=1;i<=adult;i++){
+                        try{
+                            document.getElementById('adult_wheelchar_div'+i).innerHTML = `
+                            <div class="input-container-search-ticket">
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Wheelchair</span>
+                                    <input type="checkbox" id="adult_wheelchair`+i+`" name="adult_wheelchair`+i+`" />
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>`;
+                        }catch(err){console.log(err)}
+                    }
+                    for(i=1;i<=child;i++){
+                        try{
+                            document.getElementById('child_wheelchar_div'+i).innerHTML = `
+                            <div class="input-container-search-ticket">
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Wheelchair</span>
+                                    <input type="checkbox" id="child_wheelchair`+i+`" name="child_wheelchair`+i+`" />
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>`;
+                        }catch(err){console.log(err)}
+                    }
+                    for(i=1;i<=infant;i++){
+                        try{
+                            document.getElementById('infant_wheelchar_div'+i).innerHTML = `
+                            <div class="input-container-search-ticket">
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="color:black;">Wheelchair</span>
+                                    <input type="checkbox" id="infant_wheelchair`+i+`" name="infant_wheelchair`+i+`" />
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>`;
+                        }catch(err){console.log(err)}
                     }
                 }
                 $(function() {

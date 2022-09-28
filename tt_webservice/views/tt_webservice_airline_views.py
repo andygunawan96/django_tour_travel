@@ -395,6 +395,7 @@ def get_data_passenger_page(request):
         res['airline_request'] = request.session['airline_request_%s' % request.POST['signature']]
         if request.session.get('airline_create_passengers_%s' % request.POST['signature']):
             res['pax_cache'] = request.session['airline_create_passengers_%s' % request.POST['signature']]
+        res['ssr'] = request.session.get('airline_get_ssr_%s' % request.POST['signature'])
         res['airline_pick'] = request.session['airline_sell_journey_%s' % request.POST['signature']]['sell_journey_provider']
         res['airline_get_price_request'] = request.session['airline_get_price_request_%s' % request.POST['signature']]
         res['price_itinerary'] = request.session['airline_sell_journey_%s' % request.POST['signature']]
@@ -1654,8 +1655,60 @@ def update_passengers(request):
 
 def sell_ssrs(request):
     try:
+        ssr_data = request.session.get('airline_get_ssr_%s' % request.POST['signature'])
+        ssr_requests = request.session['airline_ssr_request_%s' % request.POST['signature']]
+        passenger_cache = copy.deepcopy(request.session['airline_create_passengers_%s' % request.POST['signature']])
+        counter_passenger = 0
+        for pax_type in passenger_cache:
+            if pax_type not in ['booker', 'contact']:
+                for pax in passenger_cache[pax_type]:
+                    if pax.get('is_request_wheelchair', False):
+                        ## wheelchair
+                        for idx, ssr_provider in enumerate(ssr_data['result']['response']['ssr_availability_provider']):
+                            if ssr_provider.get('ssr_availability'):
+                                if ssr_provider['ssr_availability'].get('wheelchair'):
+                                    if type(ssr_requests) == dict:
+                                        ssr_requests = []
+                                    if not len(ssr_requests) < idx:
+                                        ssr_requests.append({
+                                            "provider": ssr_provider['provider'],
+                                            "sell_ssrs": []
+                                        })
+                                    for idy, ssr_wheelchair in enumerate(ssr_provider['ssr_availability']['wheelchair']):
+                                        is_wheelchair_found = False
+                                        for idz, sell_ssr in enumerate(ssr_requests[idx]['sell_ssrs']):
+                                            if sell_ssr['availability_type'] == 'wheelchair' and sell_ssr['journey_code'] == ssr_wheelchair['journey_code']:
+                                                journey_sequence = idz
+                                                is_wheelchair_found = True
+                                                break
+                                        if not is_wheelchair_found:
+                                            journey_sequence = len(ssr_requests[idx]['sell_ssrs'])
+                                            ssr_requests[idx]['sell_ssrs'].append({
+                                                "journey_code": ssr_wheelchair['journey_code'],
+                                                "passengers": [],
+                                                "availability_type": ssr_wheelchair['availability_type']
+                                            })
+                                        is_passenger_found = False
+                                        for pax in ssr_requests[idx]['sell_ssrs'][journey_sequence]['passengers']:
+                                            if pax['passenger_number'] == counter_passenger:
+                                                is_passenger_found = True
+                                        if not is_passenger_found:
+                                            ssr_requests[idx]['sell_ssrs'][journey_sequence]['passengers'].append({
+                                                "passenger_number": counter_passenger,
+                                                "ssr_code": ssr_wheelchair['ssrs'][0]['ssr_code']
+                                            })
+                    counter_passenger += 1
+
+        ## pop journey without ssr
+        pop_index_list = []
+        for idx, ssr_request in enumerate(ssr_requests):
+            if len(ssr_request['sell_ssrs']) == 0:
+                pop_index_list.append(idx)
+        pop_index_list.reverse()
+        for index in pop_index_list:
+            ssr_requests.pop(index)
         data = {
-            'sell_ssrs_request': request.session['airline_ssr_request_%s' % request.POST['signature']]
+            'sell_ssrs_request': ssr_requests
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -1667,7 +1720,7 @@ def sell_ssrs(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     if 'airline_sell_ssrs' + request.POST['signature'] in request.session:
         res = request.session['airline_sell_ssrs' + request.POST['signature']]
-    elif request.session['airline_ssr_request_%s' % request.POST['signature']] != {}:
+    elif ssr_requests != {}:
         url_request = url + 'booking/airline'
         res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
