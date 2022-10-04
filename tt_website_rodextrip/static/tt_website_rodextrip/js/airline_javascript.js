@@ -5923,8 +5923,9 @@ function check_passenger(adult, child, infant, type=''){
                 }
            }
        }else{
-           if(document.getElementById('adult_valid_passport'+i).checked)
-               list_identity_need_update.push('adult_'+i)
+           if(document.getElementById('adult_valid_passport'+i))
+               if(document.getElementById('adult_valid_passport'+i).checked)
+                   list_identity_need_update.push('adult_'+i)
        }
 
 
@@ -6165,8 +6166,9 @@ function check_passenger(adult, child, infant, type=''){
                });
            }
        }else{
-           if(document.getElementById('child_valid_passport'+i).checked)
-               list_identity_need_update.push('child_'+i)
+           if(document.getElementById('child_valid_passport'+i))
+               if(document.getElementById('child_valid_passport'+i).checked)
+                   list_identity_need_update.push('child_'+i)
        }
        if(typeof ff_request !== 'undefined'){
            if(ff_request.length != 0 && check_ff == 1){
@@ -6382,8 +6384,9 @@ function check_passenger(adult, child, infant, type=''){
                });
            }
        }else{
-           if(document.getElementById('infant_valid_passport'+i).checked)
-               list_identity_need_update.push('infant_'+i)
+           if(document.getElementById('infant_valid_passport'+i))
+               if(document.getElementById('infant_valid_passport'+i).checked)
+                   list_identity_need_update.push('infant_'+i)
        }
    }
 //   if(error_log != ''){
