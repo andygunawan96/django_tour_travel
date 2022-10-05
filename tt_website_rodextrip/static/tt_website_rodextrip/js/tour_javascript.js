@@ -806,7 +806,7 @@ function check_passenger(adult, child, infant){
        if(check_name(document.getElementById('adult_title'+i).value,
        document.getElementById('adult_first_name'+i).value,
        document.getElementById('adult_last_name'+i).value,
-       length) == false){
+       length_name) == false){
            error_log+= 'Total of adult '+i+' name maximum '+length_name+' characters!</br>\n';
            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
            document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
@@ -889,7 +889,7 @@ function check_passenger(adult, child, infant){
        if(check_name(document.getElementById('child_title'+i).value,
        document.getElementById('child_first_name'+i).value,
        document.getElementById('child_last_name'+i).value,
-       length) == false){
+       length_name) == false){
            error_log+= 'Total of child '+i+' name maximum '+length_name+' characters!</br>\n';
            document.getElementById('child_first_name'+i).style['border-color'] = 'red';
            document.getElementById('child_last_name'+i).style['border-color'] = 'red';
@@ -956,7 +956,7 @@ function check_passenger(adult, child, infant){
        if(check_name(document.getElementById('infant_title'+i).value,
        document.getElementById('infant_first_name'+i).value,
        document.getElementById('infant_last_name'+i).value,
-       length) == false){
+       length_name) == false){
            error_log+= 'Total of infant '+i+' name maximum '+length_name+' characters!</br>\n';
            document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
            document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
