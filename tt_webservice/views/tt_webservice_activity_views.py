@@ -328,7 +328,9 @@ def get_activity_carrier_data(request):
         carrier_data = request.session['activity_pick']['carrier_data']
     except Exception as e:
         carrier_data = {
-
+            'adult_length_name': 60,
+            'child_length_name': 60,
+            'infant_length_name': 60
         }
         logging.error(msg=str(e) + '\n' + traceback.format_exc())
 

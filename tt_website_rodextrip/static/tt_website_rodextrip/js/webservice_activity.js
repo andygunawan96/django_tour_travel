@@ -2,9 +2,9 @@ activity_data = [];
 activity_type = [];
 activity_type_pick = '';
 activity_carrier_data = {
-    'adult_length_name': 100,
-    'child_length_name': 100,
-    'infant_length_name': 100
+    'adult_length_name': 60,
+    'child_length_name': 60,
+    'infant_length_name': 60
 };
 activity_date = [];
 activity_timeslot = '';
