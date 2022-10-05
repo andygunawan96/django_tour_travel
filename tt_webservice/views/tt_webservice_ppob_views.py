@@ -489,7 +489,7 @@ def issued(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
     url_request = url + 'booking/ppob'
-    res = send_request_api(request, url_request, headers, data, 'POST')
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("SUCCESS issued PPOB SIGNATURE " + request.POST['signature'])
