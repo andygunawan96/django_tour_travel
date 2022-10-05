@@ -962,24 +962,25 @@ function hotel_detail_request(checkin_date, checkout_date){
                             <hr/>
                         </div>
                     </div>`;
-
-                    text_filter+=`
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h6 class="mb-2">Provider</h6>`;
-                        for(i in provider_list){
-                            text_filter+=`
-                            <div class="checkbox-inline1">
-                               <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="color:black;">`+provider_list[i]+`</span>
-                                    <input type="checkbox" id="checkbox_provider`+i+`" onclick="filter_room_hotel('provider','`+provider_list[i]+`');">
-                                    <span class="check_box_span_custom"></span>
-                                </label><br>
-                            </div>`;
-                        }
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                         text_filter+=`
-                        </div>
-                    </div>`;
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h6 class="mb-2">Provider</h6>`;
+                            for(i in provider_list){
+                                text_filter+=`
+                                <div class="checkbox-inline1">
+                                   <label class="check_box_custom">
+                                        <span class="span-search-ticket" style="color:black;">`+provider_list[i]+`</span>
+                                        <input type="checkbox" id="checkbox_provider`+i+`" onclick="filter_room_hotel('provider','`+provider_list[i]+`');">
+                                        <span class="check_box_span_custom"></span>
+                                    </label><br>
+                                </div>`;
+                            }
+                            text_filter+=`
+                            </div>
+                        </div>`;
+                    }
 
                     text2+=`
                     <div class="row">
@@ -2143,12 +2144,19 @@ function hotel_issued_booking(val){
                               showCancelButton: true,
                               confirmButtonColor: '#3085d6',
                               cancelButtonColor: 'blue',
-                              confirmButtonText: 'Payment',
+                              cancelButtonText: 'View Booking',
+                              confirmButtonText: 'Payment'
                             }).then((result) => {
-                               $('.hold-seat-booking-train').addClass("running");
-                               $('.hold-seat-booking-train').attr("disabled", true);
-                               document.getElementById('order_number').value = msg.result.response.order_number;
-                               document.getElementById('hotel_issued').submit();
+                                if (result.value) {
+                                    $('.hold-seat-booking-train').addClass("running");
+                                    $('.hold-seat-booking-train').attr("disabled", true);
+                                    document.getElementById('order_number').value = msg.result.response.order_number;
+                                    document.getElementById('hotel_issued').submit();
+                                }else{
+                                    document.getElementById('issued').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                                    document.getElementById('issued').action = '/hotel/booking/' + btoa(msg.result.response.order_number);
+                                    document.getElementById('issued').submit();
+                                }
                             })
 
                         }

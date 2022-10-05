@@ -9785,6 +9785,7 @@ function after_sales_next_btn(){
         text+= 'SSR?';
     else if(page == 'seat')
         text+= 'Seat?';
+    text += '<br/>Choose yes to continue to payment';
     Swal.fire({
       title: text,
       type: 'warning',
@@ -12726,12 +12727,14 @@ function get_price_reissue_construct(){
 
 function sell_journey_reissue_construct(){
     title = '';
-    if(airline_get_detail.result.response.state == 'booked')
+    if(airline_get_detail.result.response.state == 'booked'){
         title = 'Are you sure want to change your booking?';
-    else
+    }else{
         title = 'Are you sure want to reissue?';
+        title += '<br/>Choose yes to continue to payment';
+    }
     Swal.fire({
-      title: 'Are you sure want to reissue?',
+      title: title,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -14295,12 +14298,14 @@ function airline_get_reschedule_itinerary_v2(){
 
 function sell_reschedule_v2(){
     title = '';
-    if(airline_get_detail.result.response.state == 'booked')
+    if(airline_get_detail.result.response.state == 'booked'){
         title = 'Are you sure want to change your booking?';
-    else
+    }else{
         title = 'Are you sure want to reissue?';
+        title += '<br/>Choose yes to continue to payment';
+    }
     Swal.fire({
-      title: 'Are you sure want to reissue?',
+      title: title,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

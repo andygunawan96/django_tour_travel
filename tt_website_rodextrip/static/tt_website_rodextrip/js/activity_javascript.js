@@ -889,6 +889,12 @@ function check_passenger(adult, senior, child, infant){
     //booker
     error_log = '';
     //check booker jika teropong
+    length_name = 100;
+    if(length_name > activity_carrier_data.adult_length_name)
+    {
+        length_name = activity_carrier_data.adult_length_name;
+    }
+
     try{
         for(i in passenger_data_pick){
             if(passenger_data_pick[i].sequence != 'booker'){
@@ -915,8 +921,8 @@ function check_passenger(adult, senior, child, infant){
     if(check_name(document.getElementById('booker_title').value,
                     document.getElementById('booker_first_name').value,
                     document.getElementById('booker_last_name').value,
-                    25) == false){
-        error_log+= 'Total of Booker name maximum 25 characters!</br>\n';
+                    length_name) == false){
+        error_log+= 'Total of Booker name maximum '+length_name+' characters!</br>\n';
         document.getElementById('booker_first_name').style['border-color'] = 'red';
         document.getElementById('booker_last_name').style['border-color'] = 'red';
     }else{
@@ -951,7 +957,6 @@ function check_passenger(adult, senior, child, infant){
     }else{
         document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
     }
-    length_name = 25;
 
     try{
         var radios = document.getElementsByName('myRadios');
@@ -973,6 +978,11 @@ function check_passenger(adult, senior, child, infant){
         booker_copy = 'no';
     }
 
+   length_name = 100;
+   if(length_name > activity_carrier_data.adult_length_name)
+   {
+       length_name = activity_carrier_data.adult_length_name;
+   }
    //adult
    for(i=1;i<=adult;i++){
 
@@ -1181,6 +1191,11 @@ function check_passenger(adult, senior, child, infant){
        }
    }
 
+   length_name = 100;
+   if(length_name > activity_carrier_data.adult_length_name)
+   {
+       length_name = activity_carrier_data.adult_length_name;
+   }
    //senior
    for(i=1;i<=senior;i++){
        if(check_name(document.getElementById('senior_title'+i).value,
@@ -1376,6 +1391,11 @@ function check_passenger(adult, senior, child, infant){
        }
    }
 
+   length_name = 100;
+   if(length_name > activity_carrier_data.child_length_name)
+   {
+       length_name = activity_carrier_data.child_length_name;
+   }
    //child
    for(i=1;i<=child;i++){
        if(check_name(document.getElementById('child_title'+i).value,
@@ -1571,6 +1591,11 @@ function check_passenger(adult, senior, child, infant){
        }
    }
 
+   length_name = 100;
+   if(length_name > activity_carrier_data.infant_length_name)
+   {
+       length_name = activity_carrier_data.infant_length_name;
+   }
    //infant
    for(i=1;i<=infant;i++){
        if(check_name(document.getElementById('infant_title'+i).value,
