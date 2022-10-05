@@ -1,6 +1,11 @@
 activity_data = [];
 activity_type = [];
 activity_type_pick = '';
+activity_carrier_data = {
+    'adult_length_name': 60,
+    'child_length_name': 60,
+    'infant_length_name': 60
+};
 activity_date = [];
 activity_timeslot = '';
 additional_price = 0;
@@ -2191,6 +2196,25 @@ function activity_get_price_date(){
           html: '<span style="color: #ff9900;">Please Select Activity Type.</span>',
         })
     }
+}
+
+function get_activity_carrier_data(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/activity",
+       headers:{
+            'action': 'get_activity_carrier_data',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           activity_carrier_data = msg;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
 }
 
 function update_sell_activity(){
