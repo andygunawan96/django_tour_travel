@@ -20,7 +20,6 @@
     time_slot_pick = `{{timeslot_pick}}`;
     additional_price = parseInt({{additional_price}});
 
-
     //check years old
     function check_years_old(sequence, type){
         var birth_date = '';
@@ -9666,6 +9665,8 @@
         auto_complete('infant_nationality{{forloop.counter}}');
         //auto_complete('infant_country_of_issued{{forloop.counter}}');
         {% endfor %}
+
+        get_activity_carrier_data();
     });
 
     $(function() {

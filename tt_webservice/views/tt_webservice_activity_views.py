@@ -59,6 +59,8 @@ def api_models(request):
             res = get_details(request)
         elif req_data['action'] == 'get_pricing':
             res = get_pricing(request)
+        elif req_data['action'] == 'get_activity_carrier_data':
+            res = get_activity_carrier_data(request)
         elif req_data['action'] == 'sell_activity':
             res = sell_activity(request)
         elif req_data['action'] == 'update_contact':
@@ -318,6 +320,19 @@ def get_pricing(request):
     res = send_request_api(request, url_request, headers, data, 'POST')
     set_session(request, 'activity_price', res)
     _logger.info(json.dumps(request.session['activity_price']))
+    return res
+
+
+def get_activity_carrier_data(request):
+    try:
+        carrier_data = request.session['activity_pick']['carrier_data']
+    except Exception as e:
+        carrier_data = {
+
+        }
+        logging.error(msg=str(e) + '\n' + traceback.format_exc())
+
+    res = carrier_data
     return res
 
 
