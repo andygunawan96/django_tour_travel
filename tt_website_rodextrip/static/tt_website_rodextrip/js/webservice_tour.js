@@ -677,14 +677,22 @@ function tour_get_details(tour_code){
                                         }
                                         itinerary_text += `</div>
                                         <div class="col-lg-9" style="padding-bottom:15px;">`;
-                                        if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
-                                            itinerary_text +=`
-                                                <h5><a href="`+tour_data.itinerary_ids[it_idx].items[it_item].hyperlink+`" style="font-weight:bold;">`+tour_data.itinerary_ids[it_idx].items[it_item].name+`</a></h5>`;
-                                        else
+                                        if(tour_data.itinerary_ids[it_idx].items[it_item].name)
                                             itinerary_text += `
                                             <h5>`+tour_data.itinerary_ids[it_idx].items[it_item].name+`</h5>`;
                                         if (tour_data.itinerary_ids[it_idx].items[it_item].description){
-                                            itinerary_text += `<span style="font-size: 13px;">`+tour_data.itinerary_ids[it_idx].items[it_item].description+`</span><br/>`;
+                                            if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
+                                                itinerary_text += `<a style="padding: 0 1.5em 1.5em 1.5em;position: relative;width: 100%;" href="`+tour_data.itinerary_ids[it_idx].items[it_item].hyperlink+`" style="font-size: 13px;">`;
+                                            else
+                                                itinerary_text += `<span style="font-size: 13px;">`;
+                                            if(tour_data.itinerary_ids[it_idx].items[it_item].description)
+                                                itinerary_text += tour_data.itinerary_ids[it_idx].items[it_item].description;
+                                            else if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
+                                                itinerary_text += 'Description';
+                                            if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
+                                                itinerary_text += `</a><br/>`;
+                                            else
+                                                itinerary_text += `</span><br/>`;
                                         }
                                         if (tour_data.itinerary_ids[it_idx].items[it_item].image){
                                             itinerary_text += `
@@ -709,22 +717,27 @@ function tour_get_details(tour_code){
                                         itinerary_text += `
                                             </time>
                                             <span>`;
+                                        if(tour_data.itinerary_ids[it_idx].items[it_item].name)
+                                            itinerary_text +=`
+                                            <strong>`+tour_data.itinerary_ids[it_idx].items[it_item].name+`</strong>`;
                                         if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
-                                            itinerary_text +=`
-                                                <a href="`+tour_data.itinerary_ids[it_idx].items[it_item].hyperlink+`" style="font-weight:bold;">`+tour_data.itinerary_ids[it_idx].items[it_item].name+`</a>`;
+                                            itinerary_text += `<a style="padding: 0 1.5em 1.5em 1.5em;position: relative;width: 100%;" href="`+tour_data.itinerary_ids[it_idx].items[it_item].hyperlink+`">`;
                                         else
-                                            itinerary_text +=`
-                                                <strong>`+tour_data.itinerary_ids[it_idx].items[it_item].name+`</strong>`;
-
-                                                if (tour_data.itinerary_ids[it_idx].items[it_item].description){
-                                                    itinerary_text += tour_data.itinerary_ids[it_idx].items[it_item].description;
-                                                }
-                                                if (tour_data.itinerary_ids[it_idx].items[it_item].image){
-                                                    itinerary_text += `
-                                                    <br/>
-                                                    <label id="show_image_itinerary2`+it_idx+``+it_item+`" onclick="showImageItinerary(`+it_idx+`,`+it_item+`);" style="color:`+color+`; font-weight:700; cursor:pointer;">Show image</label>
-                                                    <img id="image_itinerary2`+it_idx+``+it_item+`" alt="Tour" src="`+tour_data.itinerary_ids[it_idx].items[it_item].image+`" style="width: auto; height: 250px; border:1px solid #cdcdcd; object-fit: cover; display:none;"/>`;
-                                                }
+                                            itinerary_text += `<span>`;
+                                        if (tour_data.itinerary_ids[it_idx].items[it_item].description){
+                                            itinerary_text += tour_data.itinerary_ids[it_idx].items[it_item].description;
+                                        }else if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
+                                            itinerary_text += 'Description'
+                                        if(tour_data.itinerary_ids[it_idx].items[it_item].hasOwnProperty('hyperlink') && tour_data.itinerary_ids[it_idx].items[it_item].hyperlink)
+                                            itinerary_text += `</a>`;
+                                        else
+                                            itinerary_text += `</span>`;
+                                        if (tour_data.itinerary_ids[it_idx].items[it_item].image){
+                                            itinerary_text += `
+                                            <br/>
+                                            <label id="show_image_itinerary2`+it_idx+``+it_item+`" onclick="showImageItinerary(`+it_idx+`,`+it_item+`);" style="color:`+color+`; font-weight:700; cursor:pointer;">Show image</label>
+                                            <img id="image_itinerary2`+it_idx+``+it_item+`" alt="Tour" src="`+tour_data.itinerary_ids[it_idx].items[it_item].image+`" style="width: auto; height: 250px; border:1px solid #cdcdcd; object-fit: cover; display:none;"/>`;
+                                        }
 
                                         itinerary_text += `
                                             </span>
