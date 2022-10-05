@@ -538,7 +538,7 @@ def commit_booking(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     url_request = url + additional_url
-    res = send_request_api(request, url_request, headers, data, 'POST')
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
     set_session(request, "medical_commmit_booking_%s" % request.POST['signature'], res)
 
     return res

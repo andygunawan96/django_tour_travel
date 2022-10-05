@@ -92,6 +92,8 @@ def api_models(request):
             res = passenger_page(request)
         elif req_data['action'] == 'hotel_check_refund_amount':
             res = hotel_check_refund_amount(request)
+        elif req_data['action'] == 'hotel_refund':
+            res = hotel_refund(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -996,7 +998,7 @@ def passenger_page(request):
 
 def hotel_check_refund_amount(request):
     try:
-        get_booking_dict = request.session['get_booking_%s' % request.POST['signature']] or json.loads(request.POST['hotel_get_booking'])
+        get_booking_dict = request.session['hotel_get_booking_%s' % request.POST['signature']] or json.loads(request.POST['hotel_get_booking'])
         order_number = get_booking_dict['result']['response']['order_number']
         provider_bookings = []
         for provider_booking in get_booking_dict['result']['response']['provider_bookings']:
@@ -1021,14 +1023,43 @@ def hotel_check_refund_amount(request):
     res = send_request_api(request, url_request, headers, data, 'POST', 300)
     try:
         if res['result']['error_code'] == 0:
-            total_upsell = 0
-            for upsell in data['passengers']:
-                for pricing in upsell['pricing']:
-                    total_upsell += pricing['amount']
-            set_session(request, 'hotel_upsell_booker_'+request.POST['signature'], total_upsell)
-            _logger.info("SUCCESS update_service_charge_booker HOTEL SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS check_refund_amount HOTEL SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR update_service_charge_hotel_booker HOTEL SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR check_refund_amount HOTEL SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def hotel_refund(request):
+    try:
+        get_booking_dict = request.session['hotel_get_booking_%s' % request.POST['signature']] or json.loads(request.POST['hotel_get_booking'])
+        order_number = get_booking_dict['result']['response']['order_number']
+        provider_bookings = []
+        for provider_booking in get_booking_dict['result']['response']['provider_bookings']:
+            provider_bookings.append({
+                "pnr": provider_booking['pnr'],
+                "provider": provider_booking['provider']
+            })
+        data = {
+            'order_number': order_number,
+            'provider_bookings': provider_bookings
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "cancel_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    url_request = url + 'booking/hotel'
+    res = send_request_api(request, url_request, headers, data, 'POST', 300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS cancel_booking HOTEL SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR cancel_booking HOTEL SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
