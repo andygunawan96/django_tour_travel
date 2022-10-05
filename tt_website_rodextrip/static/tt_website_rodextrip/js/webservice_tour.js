@@ -1,4 +1,9 @@
 var tour_data = [];
+tour_carrier_data = {
+    'adult_length_name': 60,
+    'child_length_name': 60,
+    'infant_length_name': 60
+};
 offset = 0;
 high_price_slider = 0;
 low_price_slider = 99999999;
@@ -975,6 +980,25 @@ function tour_get_details(tour_code){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error tour details');
+       },timeout: 60000
+    });
+}
+
+function get_tour_carrier_data(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/tour",
+       headers:{
+            'action': 'get_tour_carrier_data',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           tour_carrier_data = msg;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
        },timeout: 60000
     });
 }

@@ -66,6 +66,8 @@ def api_models(request):
             res = get_pricing(request)
         elif req_data['action'] == 'get_pricing_cache':
             res = get_pricing_cache(request)
+        elif req_data['action'] == 'get_tour_carrier_data':
+            res = get_tour_carrier_data(request)
         elif req_data['action'] == 'sell_tour':
             res = sell_tour(request)
         elif req_data['action'] == 'update_contact':
@@ -392,6 +394,21 @@ def get_pricing_cache(request):
     except Exception as e:
         res = {}
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+
+def get_tour_carrier_data(request):
+    try:
+        carrier_data = request.session['tour_pick']['carrier_data']
+    except Exception as e:
+        carrier_data = {
+            'adult_length_name': 60,
+            'child_length_name': 60,
+            'infant_length_name': 60
+        }
+        logging.error(msg=str(e) + '\n' + traceback.format_exc())
+
+    res = carrier_data
     return res
 
 
