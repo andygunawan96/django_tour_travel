@@ -1126,7 +1126,7 @@ function bus_get_booking(data, sync=false){
                             <th style="width:30%;">Name</th>
                             <th style="width:15%;">Birth Date</th>
                             <th style="width:15%;">Identity Type</th>
-                            <th style="width:20%;">ID</th>
+                            <th style="width:20%;">ID Number</th>
                             <th style="width:20%;">Seat</th>
                         </tr>`;
                         for(pax in msg.result.response.passengers){

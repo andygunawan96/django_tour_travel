@@ -7362,6 +7362,12 @@ function get_airline_review(){
                                     <b>`+passengers_ssr[i].identity_type.substr(0,1).toUpperCase()+passengers_ssr[i].identity_type.substr(1,passengers_ssr[i].identity_type.length)+`</b>: <i>`+passengers_ssr[i].identity_number+`</i>
                                 </div>`;
                             }
+                            if(passengers_ssr[i].identity_expdate){
+                                text+=`
+                                <div class="col-lg-12">
+                                    <b>Expired Date</b>: <i>`+passengers_ssr[i].identity_expdate+`</i>
+                                </div>`;
+                            }
 
                             text+=`<div class="col-lg-12" style="padding-bottom:15px;">`;
                             try{

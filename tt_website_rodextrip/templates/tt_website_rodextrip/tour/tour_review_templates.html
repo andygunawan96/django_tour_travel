@@ -352,6 +352,14 @@
                                                 Infant
                                                 {% endif %}
                                                 - Birth Date: {{pax.birth_date}}
+                                                {% if pax.identity_number %}
+                                                <br/>
+                                                Passport - {{pax.identity_number}}
+                                                {% endif %}
+                                                {% if pax.identity_expdate %}
+                                                <br/>
+                                                Expired Date - {{pax.identity_expdate}}
+                                                {% endif %}
                                             </span>
                                             <input type="hidden" id="pax_sequence{{forloop.counter}}" value="{{pax.sequence}}"/>
                                             <input type="hidden" id="temp_pax_id{{forloop.counter}}" value="{{pax.temp_pax_id}}"/>
