@@ -2058,10 +2058,15 @@ function check_passenger(adult, child, infant){
     }catch(err){
 
     }
+    var max_length = 60;
+    if(typeof(visa_carriers) !== 'undefined'){
+        if(visa_carriers.hasOwnProperty('VISA'))
+            max_length = visa_carriers['VISA'].adult_length_name;
+    }
     if(check_name(document.getElementById('booker_title').value,
                     document.getElementById('booker_first_name').value,
                     document.getElementById('booker_last_name').value,
-                    25) == false){
+                    max_length) == false){
         error_log+= 'Total of Booker name maximum 25 characters!</br>\n';
         document.getElementById('booker_first_name').style['border-color'] = 'red';
         document.getElementById('booker_last_name').style['border-color'] = 'red';
@@ -2093,7 +2098,6 @@ function check_passenger(adult, child, infant){
     }else{
         document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
     }
-    length = 25;
 
    //adult
    for(i=1;i<=adult;i++){
@@ -2101,8 +2105,8 @@ function check_passenger(adult, child, infant){
        if(check_name(document.getElementById('adult_title'+i).value,
        document.getElementById('adult_first_name'+i).value,
        document.getElementById('adult_last_name'+i).value,
-       length) == false){
-           error_log+= 'Total of adult '+i+' name maximum '+length+' characters!</br>\n';
+       max_length) == false){
+           error_log+= 'Total of adult '+i+' name maximum '+max_length+' characters!</br>\n';
            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
            document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
        }else{
@@ -2171,13 +2175,19 @@ function check_passenger(adult, child, infant){
                 document.getElementById('adult_phone'+i).style['border-color'] = '#EFEFEF';
        }
    }
+
+   if(typeof(visa_carriers) !== 'undefined'){
+        if(visa_carriers.hasOwnProperty('VISA'))
+            max_length = visa_carriers['VISA'].child_length_name;
+   }
+
    //child
    for(i=1;i<=child;i++){
        if(check_name(document.getElementById('child_title'+i).value,
        document.getElementById('child_first_name'+i).value,
        document.getElementById('child_last_name'+i).value,
-       length) == false){
-           error_log+= 'Total of child '+i+' name maximum '+length+' characters!</br>\n';
+       max_length) == false){
+           error_log+= 'Total of child '+i+' name maximum '+max_length+' characters!</br>\n';
            document.getElementById('child_first_name'+i).style['border-color'] = 'red';
            document.getElementById('child_last_name'+i).style['border-color'] = 'red';
        }else{
@@ -2233,13 +2243,17 @@ function check_passenger(adult, child, infant){
        }
    }
 
+   if(typeof(visa_carriers) !== 'undefined'){
+        if(visa_carriers.hasOwnProperty('VISA'))
+            max_length = visa_carriers['VISA'].infant_length_name;
+   }
    //infant
    for(i=1;i<=infant;i++){
        if(check_name(document.getElementById('infant_title'+i).value,
        document.getElementById('infant_first_name'+i).value,
        document.getElementById('infant_last_name'+i).value,
-       length) == false){
-           error_log+= 'Total of infant '+i+' name maximum '+length+' characters!</br>\n';
+       max_length) == false){
+           error_log+= 'Total of infant '+i+' name maximum '+max_length+' characters!</br>\n';
            document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
            document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
        }else{
