@@ -559,6 +559,7 @@ def review(request):
                 contact = request.session['hotel_review_pax']['contact']
                 adult = request.session['hotel_review_pax']['adult']
                 child = request.session['hotel_review_pax']['child']
+                print_json = request.session['hotel_json_printout' + request.session['hotel_signature']]
             hotel_pick = request.session['hotel_detail']
             if hotel_pick.get('description'):
                 hotel_pick.pop('description')
