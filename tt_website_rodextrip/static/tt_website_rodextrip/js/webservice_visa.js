@@ -135,6 +135,7 @@ function visa_page_passenger(){
             passenger = msg.passenger;
             visa = msg.visa;
             visa_request = msg.visa_request;
+            get_carriers_visa();
             sell_visa();
             //update_table('passenger');
        },
