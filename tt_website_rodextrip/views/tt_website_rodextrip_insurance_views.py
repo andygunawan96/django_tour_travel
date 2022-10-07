@@ -282,7 +282,7 @@ def review(request):
                         "title": request.POST['Adult_relation%s_title%s' % (str(i + 1),counter)],
                         "first_name": request.POST['Adult_relation%s_first_name%s' % (str(i + 1),counter)],
                         "last_name": request.POST['Adult_relation%s_last_name%s' % (str(i + 1),counter)],
-                        "nationality": request.POST['Adult_relation%s_nationality%s_id' % (str(i + 1),counter)],
+                        "nationality": request.POST['Adult_relation%s_nationality%s' % (str(i + 1),counter)],
                         "birth_date": request.POST['Adult_relation%s_birth_date%s' % (str(i + 1),counter)],
                         "identity_type": request.POST['Adult_relation%s_identity_type%s' % (str(i + 1),counter)],
                         "identity_number": request.POST['Adult_relation%s_passport_number%s' % (str(i + 1),counter)],
@@ -297,7 +297,7 @@ def review(request):
                         "title": request.POST['Child_relation%s_title%s' % (str(i + 1), counter)],
                         "first_name": request.POST['Child_relation%s_first_name%s' % (str(i + 1), counter)],
                         "last_name": request.POST['Child_relation%s_last_name%s' % (str(i + 1), counter)],
-                        "nationality": request.POST['Child_relation%s_nationality%s_id' % (str(i + 1), counter)],
+                        "nationality": request.POST['Child_relation%s_nationality%s' % (str(i + 1), counter)],
                         "birth_date": request.POST['Child_relation%s_birth_date%s' % (str(i + 1), counter)],
                         "identity_type": request.POST['Child_relation%s_identity_type%s' % (str(i + 1), counter)],
                         "identity_number": request.POST['Child_relation%s_passport_number%s' % (str(i + 1), counter)],
@@ -334,7 +334,7 @@ def review(request):
                     identity_expdate = request.POST['adult_passport_passport_expired_date' + str(i + 1)]
                     identity_country_of_issued = request.POST['adult_passport_passport_country_of_issued' + str(i + 1)]
                 elif request.session['insurance_pick']['provider'] == 'zurich':
-                    if request.POST['adult_additional_benefit' + str(i + 1)]:
+                    if request.POST.get('adult_additional_benefit' + str(i + 1)):
                         addons = json.loads(request.POST['adult_additional_benefit' + str(i + 1)])
 
                 img_identity_data = [sel_img[:2] for sel_img in img_list_data if 'adult' in sel_img[2].lower() and 'identity' in sel_img[2].lower() and str(i + 1) in sel_img[2].lower()]
