@@ -2967,16 +2967,18 @@ function insurance_get_booking(data, sync=false){
                     //======================= Extra Question =========================
 
                     //==================== Print Button =====================
-                    var print_text = '<div class="col-lg-6" style="padding-bottom:10px;">';
+                    var print_text = '';
                     // === Button 1 ===
-                    if (msg.result.response.state  == 'issued') {
+                    print_text += '<div class="col-lg-6" style="padding-bottom:10px;">';
+                    if (msg.result.response.state  == 'issued'){
                         print_text+=`
-                        <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-choose-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket','insurance');" style="width:100%;">
-                            Print Ticket
+                        <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="openInNewTab('`+static_path+`/pdf/Ketentuan Zurich Travel Insurance.pdf');" style="width:100%;">
+                            Print Policy Terms
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
                     }
-                    print_text += '</div><div class="col-lg-6" style="padding-bottom:10px;">';
+                    print_text += '</div>';
+                    print_text += '<div class="col-lg-6" style="padding-bottom:10px;">';
                     // === Button 2 ===
                     if (msg.result.response.state  == 'booked'){
                         print_text+=`
@@ -2985,15 +2987,7 @@ function insurance_get_booking(data, sync=false){
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>`;
                     }else{
-                        print_text+=`
-                        <button class="primary-btn-white hold-seat-booking-train ld-ext-right" type="button" id="button-print-print" onclick="get_printout('` + msg.result.response.order_number + `','ticket_price','insurance');" style="width:100%;">
-                            Print Ticket (With Price)
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>`;
-                    }
-                    print_text += '</div><div class="col-lg-6" style="padding-bottom:10px;">';
                     // === Button 2 ===
-                    if (msg.result.response.state  == 'issued'){
                         print_text+=`
                         <button class="primary-btn-white hold-seat-booking-train ld-ext-right" id="button-print-print" type="button" onclick="get_printout('` + msg.result.response.order_number + `','ticket_original','insurance');" style="width:100%;">
                             Print Policies
