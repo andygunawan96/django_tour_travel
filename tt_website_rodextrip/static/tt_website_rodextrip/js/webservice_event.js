@@ -157,6 +157,8 @@ function event_page_passenger(){
             'signature': signature,
        },
        success: function(msg) {
+            get_carriers_event();
+            event_pick = msg.event_pick;
             event_option_code = msg.event_option_code;
             event_get_extra_question(event_option_code,'event_internal');
             render_object_from_value(event_option_code);

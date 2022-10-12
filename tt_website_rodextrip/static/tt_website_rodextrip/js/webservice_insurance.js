@@ -433,6 +433,25 @@ function filter_name(name_num){
     }, 500);
 }
 
+function get_carriers_insurance(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/insurance",
+       headers:{
+            'action': 'get_carriers',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           insurance_carriers = msg;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+}
+
 function change_filter(type){
     var check = 0;
     if(type == 'insurance_name1'){
@@ -1349,6 +1368,7 @@ function get_insurance_data_passenger_page(){
             'signature': signature
         },
         success: function(msg) {
+            get_carriers_insurance();
             insurance_pick = msg.insurance_pick;
             insurance_request = msg.insurance_request;
             for(i=0;i<adult;i++){
@@ -1644,7 +1664,8 @@ function check_passenger(){
     //booker
     error_log = '';
     //check booker jika teropong
-    length_name = 100;
+
+    length_name = insurance_carriers[insurance_pick.provider].adult_length_name;
 
     try{
         for(i in passenger_data_pick){
@@ -1718,6 +1739,7 @@ function check_passenger(){
    last_departure_date = insurance_request.date_start;
    //adult
    for(i=1;i<=adult;i++){
+        length_name = insurance_carriers[insurance_pick.provider].adult_length_name;
         if(check_name(document.getElementById('adult_title'+i).value,
             document.getElementById('adult_first_name'+i).value,
             document.getElementById('adult_last_name'+i).value,
@@ -1869,7 +1891,8 @@ function check_passenger(){
 
         //PAKET FAMILY
         var counter = 1;
-        var counter_passenger = 2
+        var counter_passenger = 2;
+        length_name = insurance_carriers[insurance_pick.provider].adult_length_name;
         for(var j=1;j<=parseInt(insurance_request.family.adult);j++){
             if(check_name(document.getElementById('Adult_relation'+i+'_title'+counter).value,
                 document.getElementById('Adult_relation'+i+'_first_name'+counter).value,
@@ -1978,6 +2001,7 @@ function check_passenger(){
             counter_passenger++;
         }
         counter_passenger = 1;
+        length_name = insurance_carriers[insurance_pick.provider].child_length_name;
         for(var j=1;j<=parseInt(insurance_request.family.child);j++){
             if(check_name(document.getElementById('Child_relation'+i+'_title'+counter).value,
                 document.getElementById('Child_relation'+i+'_first_name'+counter).value,
@@ -2084,7 +2108,7 @@ function check_passenger(){
             }
             counter_passenger++;
         }
-
+        length_name = insurance_carriers[insurance_pick.provider].adult_length_name;
         if(insurance_pick.provider == 'bcainsurance'){
             //AHLI WARIS WAJIB ISI
             if(check_name(document.getElementById('Adult_relation_beneficiary_title'+i).value,
