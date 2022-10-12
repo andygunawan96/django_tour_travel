@@ -635,6 +635,7 @@ def page_passenger(request):
     try:
         res = {}
         res['event_option_code'] = request.session['event_option_code' + request.POST['signature']]
+        res['event_pick'] = request.session['event_code']
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

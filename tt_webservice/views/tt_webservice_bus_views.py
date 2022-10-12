@@ -880,11 +880,11 @@ def passenger_page(request):
     try:
         res = {}
         res['response'] = request.session['bus_pick']
-        carrier = {}
-        file = read_cache("get_bus_config", 'cache_web', 90911)
-        if file:
-            carrier = file
-        res['bus_carriers'] = carrier
+        # carrier = {}
+        # file = read_cache("get_bus_config", 'cache_web', 90911)
+        # if file:
+        #     carrier = file
+        # res['bus_carriers'] = carrier
         res['response'] = request.session['bus_pick']
         res['bus_request'] = request.session['bus_request']
     except Exception as e:
