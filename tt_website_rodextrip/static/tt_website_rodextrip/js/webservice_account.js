@@ -369,7 +369,7 @@ function show_snooze(val, date, create_date, index){
     document.getElementById('snooze_date_modal').innerHTML = `
     <input type="text" class="form-control mb-3" name="snooze_input_date`+val+`" id="snooze_input_date`+val+`" placeholder="Snooze Date" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Snooze Date '" autocomplete="off" readonly>
     <div style="text-align:right;">
-        <button type="button" class="primary-btn-white-cancel" onclick="close_modal_click('myModalNotification');">
+        <button type="button" data-dismiss="modal" class="primary-btn-white-cancel">
             Cancel
         </button>
         <button type="button" class="primary-btn" onclick="set_snooze_notification(`+val+`, '`+date+`', '`+create_date+`', `+index+`);">

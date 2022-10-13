@@ -88,19 +88,33 @@
                                         </div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_booker" data-backdrop="static" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                         </div>
 
-                                        <div class="modal fade" id="myModal" role="dialog">
-                                            <div class="modal-dialog">
-
+                                        <div class="modal fade" id="myModal_booker" role="dialog">
+                                            <div class="overlay_modal_custom" onclick="close_modal_check('booker', '');"></div>
+                                            <div class="modal-dialog modal_custom_fixed">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Booker List' %} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('booker','');">&times;</button>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 pb-3">
+                                                                <h4 class="modal-title">Booker</h4>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('booker', '');">&times;</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6" id="button_tl_booker">
+
+                                                            </div>
+                                                            <div class="col-xs-6" id="button_tr_booker">
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
@@ -126,7 +140,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3">
-                                                                <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -145,12 +159,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
+                                                        <div id="search_result">
 
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('booker','');">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -325,16 +336,31 @@
                                         </div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult1" onclick="loadingPaxHide();set_passenger_number(1);"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult1" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number(1);"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear1" onclick="clear_passenger('Adult', 1);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                             <div class="modal fade" id="myModal_adult1" role="dialog">
-                                                <div class="modal-dialog">
+                                                <div class="overlay_modal_custom" onclick="close_modal_check('adult', '1');"></div>
+                                                <div class="modal-dialog modal_custom_fixed">
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Adult' %} - 1 <i class="fas fa-address-card"></i></h4>
-                                                            <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','1');">&times;</button>
+                                                            <div class="row">
+                                                                <div class="col-xs-6 pb-3">
+                                                                    <h4 class="modal-title">{% trans 'Adult' %} - 1</h4>
+                                                                </div>
+                                                                <div class="col-xs-6">
+                                                                    <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('adult', '{{forloop.counter}}');">&times;</button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-6" id="button_tl_adult1">
+
+                                                                </div>
+                                                                <div class="col-xs-6" id="button_tr_adult1">
+
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
@@ -357,7 +383,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-3">
-                                                                    <button type="button" id="search_adult_1" class="primary-btn" onclick="get_customer_list('adult',1, 'event');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                    <button type="button" id="search_adult_1" class="primary-btn" onclick="get_customer_list('adult',1, 'event'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                                 </div>
                                                             </div>
                                                             <!--<div class="row">-->
@@ -383,12 +409,9 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result_adult1" style="max-height:600px; overflow:auto; padding:15px;">
+                                                            <div id="search_result_adult1">
 
                                                             </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('adult','1');">{% trans 'Close' %}</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -663,19 +686,33 @@
                                                 </div>
                                                 <div class="col-lg-6 mb-3" style="text-align:right;">
                                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_booker" data-backdrop="static" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                     <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                                     {% endif %}
                                                 </div>
 
-                                                <div class="modal fade" id="myModal" role="dialog">
-                                                    <div class="modal-dialog">
-
+                                                <div class="modal fade" id="myModal_booker" role="dialog">
+                                                    <div class="overlay_modal_custom" onclick="close_modal_check('booker', '');"></div>
+                                                    <div class="modal-dialog modal_custom_fixed">
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Booker List' %} <i class="fas fa-address-card"></i></h4>
-                                                                <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('booker','');">&times;</button>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 pb-3">
+                                                                        <h4 class="modal-title">Booker</h4>
+                                                                    </div>
+                                                                    <div class="col-xs-6">
+                                                                        <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('booker', '');">&times;</button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6" id="button_tl_booker">
+
+                                                                    </div>
+                                                                    <div class="col-xs-6" id="button_tr_booker">
+
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <div class="modal-body">
                                                                 <div class="row">
@@ -701,7 +738,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-3 col-md-3">
-                                                                        <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                        <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -719,12 +756,9 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
+                                                                <div id="search_result">
 
                                                                 </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('booker','');">{% trans 'Close' %}</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -897,16 +931,31 @@
                                                 </div>
                                                 <div class="col-lg-6 mb-3" style="text-align:right;">
                                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult1" onclick="loadingPaxHide();set_passenger_number(1);"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult1" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number(1);"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                     <button type="button" class="primary-btn" id="adult_clear1" onclick="clear_passenger('Adult', 1);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                                     {% endif %}
                                                     <div class="modal fade" id="myModal_adult1" role="dialog">
-                                                        <div class="modal-dialog">
+                                                        <div class="overlay_modal_custom" onclick="close_modal_check('adult', '1');"></div>
+                                                        <div class="modal-dialog modal_custom_fixed">
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Adult' %} - 1 <i class="fas fa-address-card"></i></h4>
-                                                                    <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','1');">&times;</button>
+                                                                    <div class="row">
+                                                                        <div class="col-xs-6 pb-3">
+                                                                            <h4 class="modal-title">{% trans 'Adult' %} - 1</h4>
+                                                                        </div>
+                                                                        <div class="col-xs-6">
+                                                                            <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('adult', '{{forloop.counter}}');">&times;</button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-xs-6" id="button_tl_adult1">
+
+                                                                        </div>
+                                                                        <div class="col-xs-6" id="button_tr_adult1">
+
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                                 <div class="modal-body" style="text-align:left;">
                                                                     <div class="row">
@@ -929,7 +978,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-lg-3 col-md-3">
-                                                                            <button type="button" id="search_adult_1" class="primary-btn" onclick="get_customer_list('adult',1, 'event');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                            <button type="button" id="search_adult_1" class="primary-btn" onclick="get_customer_list('adult',1, 'event'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                                         </div>
                                                                     </div>
                                                                     <!--<div class="row">-->
@@ -955,12 +1004,9 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div id="search_result_adult1" style="max-height:600px; overflow:auto; padding:15px;">
+                                                                    <div id="search_result_adult1">
 
                                                                     </div>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('adult','1');">{% trans 'Close' %}</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1235,19 +1281,33 @@
                                         </div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_booker" data-backdrop="static" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                         </div>
 
-                                        <div class="modal fade" id="myModal" role="dialog">
-                                            <div class="modal-dialog">
-
+                                        <div class="modal fade" id="myModal_booker" role="dialog">
+                                            <div class="overlay_modal_custom" onclick="close_modal_check('booker', '');"></div>
+                                            <div class="modal-dialog modal_custom_fixed">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Booker List' %} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('booker','');">&times;</button>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 pb-3">
+                                                                <h4 class="modal-title">Booker</h4>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('booker', '');">&times;</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6" id="button_tl_booker">
+
+                                                            </div>
+                                                            <div class="col-xs-6" id="button_tr_booker">
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
@@ -1275,7 +1335,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3">
-                                                                <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1293,12 +1353,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
+                                                        <div id="search_result">
 
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('booker','');">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1470,16 +1527,31 @@
                                         </div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult1" onclick="loadingPaxHide();set_passenger_number(1);"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult1" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number(1);"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear1" onclick="clear_passenger('Adult', 1);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                             <div class="modal fade" id="myModal_adult1" role="dialog">
-                                                <div class="modal-dialog">
+                                                <div class="overlay_modal_custom" onclick="close_modal_check('adult', '1');"></div>
+                                                <div class="modal-dialog modal_custom_fixed">
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Adult' %} - 1 <i class="fas fa-address-card"></i></h4>
-                                                            <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','1');">&times;</button>
+                                                            <div class="row">
+                                                                <div class="col-xs-6 pb-3">
+                                                                    <h4 class="modal-title">{% trans 'Adult' %} - 1</h4>
+                                                                </div>
+                                                                <div class="col-xs-6">
+                                                                    <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('adult', '{{forloop.counter}}');">&times;</button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-6" id="button_tl_adult1">
+
+                                                                </div>
+                                                                <div class="col-xs-6" id="button_tr_adult1">
+
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
@@ -1502,7 +1574,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-3">
-                                                                    <button type="button" id="search_adult_1" class="primary-btn" onclick="get_customer_list('adult',1, 'event');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                    <button type="button" id="search_adult_1" class="primary-btn" onclick="get_customer_list('adult',1, 'event'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                                 </div>
                                                             </div>
                                                             <!--<div class="row">-->
@@ -1528,12 +1600,9 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result_adult1" style="max-height:600px; overflow:auto; padding:15px;">
+                                                            <div id="search_result_adult1">
 
                                                             </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('adult','1');">{% trans 'Close' %}</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1806,19 +1875,34 @@
                                         </div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_booker" data-backdrop="static" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                         </div>
 
-                                        <div class="modal fade" id="myModal" role="dialog">
-                                            <div class="modal-dialog">
+                                        <div class="modal fade" id="myModal_booker" role="dialog">
+                                            <div class="overlay_modal_custom" onclick="close_modal_check('booker', '');"></div>
+                                            <div class="modal-dialog modal_custom_fixed">
 
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Booker List' %} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('booker','');">&times;</button>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 pb-3">
+                                                                <h4 class="modal-title">Booker</h4>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('booker', '');">&times;</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6" id="button_tl_booker">
+
+                                                            </div>
+                                                            <div class="col-xs-6" id="button_tr_booker">
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
@@ -1846,7 +1930,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3">
-                                                                <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1864,12 +1948,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
+                                                        <div id="search_result">
 
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('booker','');">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -2042,16 +2123,31 @@
                                         </div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult1" onclick="loadingPaxHide();set_passenger_number(1);"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult1" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number(1);"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear1" onclick="clear_passenger('Adult', 1);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                             <div class="modal fade" id="myModal_adult1" role="dialog">
-                                                <div class="modal-dialog">
+                                                <div class="overlay_modal_custom" onclick="close_modal_check('adult', '1');"></div>
+                                                <div class="modal-dialog modal_custom_fixed">
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Adult' %} - 1 <i class="fas fa-address-card"></i></h4>
-                                                            <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','1');">&times;</button>
+                                                            <div class="row">
+                                                                <div class="col-xs-6 pb-3">
+                                                                    <h4 class="modal-title">{% trans 'Adult' %} - 1</h4>
+                                                                </div>
+                                                                <div class="col-xs-6">
+                                                                    <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('adult', '{{forloop.counter}}');">&times;</button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-6" id="button_tl_adult1">
+
+                                                                </div>
+                                                                <div class="col-xs-6" id="button_tr_adult1">
+
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
@@ -2074,7 +2170,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-3">
-                                                                    <button type="button" id="search_adult_1" class="primary-btn" onclick="get_customer_list('adult',1, 'event');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                    <button type="button" id="search_adult_1" class="primary-btn" onclick="get_customer_list('adult',1, 'event'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                                 </div>
                                                             </div>
                                                             <!--<div class="row">-->
@@ -2100,12 +2196,9 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result_adult1" style="max-height:600px; overflow:auto; padding:15px;">
+                                                            <div id="search_result_adult1">
 
                                                             </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('adult','1');">{% trans 'Close' %}</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2376,19 +2469,33 @@
                                         </div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_booker" data-backdrop="static" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                         </div>
 
-                                        <div class="modal fade" id="myModal" role="dialog">
-                                            <div class="modal-dialog">
-
+                                        <div class="modal fade" id="myModal_booker" role="dialog">
+                                            <div class="overlay_modal_custom" onclick="close_modal_check('booker', '');"></div>
+                                            <div class="modal-dialog modal_custom_fixed">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Booker List' %} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('booker','');">&times;</button>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 pb-3">
+                                                                <h4 class="modal-title">Booker</h4>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('booker', '');">&times;</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6" id="button_tl_booker">
+
+                                                            </div>
+                                                            <div class="col-xs-6" id="button_tr_booker">
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
@@ -2414,7 +2521,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3">
-                                                                <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -2432,12 +2539,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
+                                                        <div id="search_result">
 
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('booker','');">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -2610,16 +2714,31 @@
                                         </div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult1" onclick="loadingPaxHide();set_passenger_number(1);"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult1" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number(1);"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear1" onclick="clear_passenger('Adult', 1);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                             <div class="modal fade" id="myModal_adult1" role="dialog">
-                                                <div class="modal-dialog">
+                                                <div class="overlay_modal_custom" onclick="close_modal_check('adult', '1');"></div>
+                                                <div class="modal-dialog modal_custom_fixed">
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Adult' %} - 1 <i class="fas fa-address-card"></i></h4>
-                                                            <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','1');">&times;</button>
+                                                            <div class="row">
+                                                                <div class="col-xs-6 pb-3">
+                                                                    <h4 class="modal-title">{% trans 'Adult' %} - 1</h4>
+                                                                </div>
+                                                                <div class="col-xs-6">
+                                                                    <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('adult', '{{forloop.counter}}');">&times;</button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-6" id="button_tl_adult1">
+
+                                                                </div>
+                                                                <div class="col-xs-6" id="button_tr_adult1">
+
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
@@ -2642,7 +2761,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-3">
-                                                                    <button type="button" id="search_adult_1" class="primary-btn" onclick="get_customer_list('adult',1, 'event');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                    <button type="button" id="search_adult_1" class="primary-btn" onclick="get_customer_list('adult',1, 'event'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                                 </div>
                                                             </div>
                                                             <!--<div class="row">-->
@@ -2668,12 +2787,9 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result_adult1" style="max-height:600px; overflow:auto; padding:15px;">
+                                                            <div id="search_result_adult1">
 
                                                             </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('adult','1');">{% trans 'Close' %}</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2946,19 +3062,33 @@
                                         </div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_booker" data-backdrop="static" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                         </div>
 
-                                        <div class="modal fade" id="myModal" role="dialog">
-                                            <div class="modal-dialog">
-
+                                        <div class="modal fade" id="myModal_booker" role="dialog">
+                                            <div class="overlay_modal_custom" onclick="close_modal_check('booker', '');"></div>
+                                            <div class="modal-dialog modal_custom_fixed">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Booker List' %} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('booker','');">&times;</button>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 pb-3">
+                                                                <h4 class="modal-title">Booker</h4>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('booker', '');">&times;</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6" id="button_tl_booker">
+
+                                                            </div>
+                                                            <div class="col-xs-6" id="button_tr_booker">
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
@@ -2984,7 +3114,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3">
-                                                                <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -3003,12 +3133,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
+                                                        <div id="search_result">
 
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('booker','');">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -3183,16 +3310,31 @@
                                         </div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult1" onclick="loadingPaxHide();set_passenger_number(1);"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult1" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number(1);"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear1" onclick="clear_passenger('Adult', 1);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                             <div class="modal fade" id="myModal_adult1" role="dialog">
-                                                <div class="modal-dialog">
+                                                <div class="overlay_modal_custom" onclick="close_modal_check('adult', '1');"></div>
+                                                <div class="modal-dialog modal_custom_fixed">
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Adult' %} - 1 <i class="fas fa-address-card"></i></h4>
-                                                            <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','1');">&times;</button>
+                                                            <div class="row">
+                                                                <div class="col-xs-6 pb-3">
+                                                                    <h4 class="modal-title">{% trans 'Adult' %} - 1</h4>
+                                                                </div>
+                                                                <div class="col-xs-6">
+                                                                    <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('adult', '{{forloop.counter}}');">&times;</button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-6" id="button_tl_adult1">
+
+                                                                </div>
+                                                                <div class="col-xs-6" id="button_tr_adult1">
+
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
@@ -3215,7 +3357,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-3">
-                                                                    <button type="button" id="search_adult_1" class="primary-btn" onclick="get_customer_list('adult',1, 'event');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                    <button type="button" id="search_adult_1" class="primary-btn" onclick="get_customer_list('adult',1, 'event'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                                 </div>
                                                             </div>
                                                             <!--<div class="row">-->
@@ -3241,12 +3383,9 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result_adult1" style="max-height:600px; overflow:auto; padding:15px;">
+                                                            <div id="search_result_adult1">
 
                                                             </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('adult','1');">{% trans 'Close' %}</button>
                                                         </div>
                                                     </div>
                                                 </div>

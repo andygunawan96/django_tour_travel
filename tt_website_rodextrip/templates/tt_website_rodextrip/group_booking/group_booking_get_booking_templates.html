@@ -129,42 +129,43 @@
                     </div>
                 </div>
 
+
                 <div id="group_booking">
 
                 </div>
 
-                <div style="text-align:left; margin-top:20px; margin-bottom:15px;" hidden id="list_of_pax">
-                    <h4 class="mb-2" style="border-bottom:3px solid {{color}}; width:fit-content;">List of Passenger</h4>
-                    <div id="btn_pax" style="display:none;">
-                        <div class="row">
-                            <div class="col-xs-12 mb-3">
-                                <button class="primary-btn-ticket" type="button" onclick="add_table_of_passenger('open');"><i class="fas fa-plus"></i> Add</button>
-                                <!--<button class="primary-btn-ticket" type="button" onclick="delete_table_of_passenger();"><i class="fas fa-trash-alt"></i> Delete</button>-->
-                                <button class="primary-btn-ticket" type="button" onclick="openInNewTab('{{ static_path }}js/xlsx/import_groupbooking_template.xlsx')"><i class="fas fa-file-download"></i> Download Format</button>
+                <div style="padding:15px; padding-bottom:15px; border:1px solid #cdcdcd; background-color:white;" hidden id="list_of_pax">
+                    <!--<button class="primary-btn-ticket" type="button" onclick="delete_table_of_passenger();"><i class="fas fa-trash-alt"></i> Delete</button>-->
+                    <h4 class="single_border_custom_left mb-3" style="padding-left:10px;">List of Passenger</h4>
+                    <div class="row" style="margin-bottom:15px;">
+                        <div class="col-lg-12">
+                            <div id="table_of_passenger" name="table_of_passenger" style="width:100%; border:1px solid #cdcdcd; padding:15px 15px 0px 15px;">
+                                <h6 class="mb-3">PLEASE ADD PASSENGER OR UPLOAD FILE FIRST!</h6>
                             </div>
-                            <div class="col-sm-12 mb-3">
-                                <input class="primary-btn-white mt-2" id="fileUpload" style="width:300px; line-height:36px;" type="file" accept=".xlsx">
+                        </div>
+                    </div>
+                    <div id="btn_pax" style="padding:15px; background: #f7f7f7; border:1px solid #cdcdcd; text-align:left; display:none;">
+                        <button class="primary-btn-custom mb-3" type="button" onclick="add_table_of_passenger('open');"><i class="fas fa-plus"></i> Add Passenger</button>
+                        <label style="padding-left:10px; padding-right:10px;">or</label>
+                        <input class="primary-btn-white mt-2" id="fileUpload" style="width:300px; line-height:36px;" type="file" accept=".xlsx">
+                        <div class="row">
+                            <div class="col-lg-6" style="text-align:left;">
+                                <span class="span_link" style="color:{{color}};" onclick="openInNewTab('{{ static_path }}js/xlsx/import_groupbooking_template.xlsx')">
+                                    <i class="fas fa-file-download"></i> Download Format File here
+                                </span>
+                            </div>
+                            <div class="col-lg-6" style="text-align:right;">
                                 <button class="primary-btn-ticket mt-2" type="button" onclick="Upload();"><i class="fas fa-file-upload"></i> Upload file</button>
                             </div>
                         </div>
                     </div>
-                    <div style="margin-top:15px; background:white;">
-                        <div style="overflow-x:auto;">
-                            <table id="table_of_passenger" name="table_of_passenger" style="width:100%;" class="list-of-table list-of-passenger-class">
-                                <tr>
-                                    <th style="width:5%;">No</th>
-                                    <th style="width:40%;">Name</th>
-                                    <th style="width:35%;">Birth Date</th>
-                                    <th style="width:15%;"></th>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
                 </div>
+
                 <div id="btn_print" style="text-align:center;">
 
                 </div>
             </div>
+
             <div class="col-lg-4">
                 <button id="book_btn_group_booking" class="primary-btn-ticket" type="button" style="width:100%; display:none;" onclick="change_state_to_booked()">
                     {% trans 'Book Now' %}
@@ -298,34 +299,55 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="myModalBooker" role="dialog" data-keyboard="false">
-                <div class="modal-dialog">
-
+            <div class="modal fade" id="myModal_booker" role="dialog" data-keyboard="false">
+                <div class="overlay_modal_custom" onclick="close_modal_check('booker', '');"></div>
+                <div class="modal-dialog modal_custom_fixed">
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Booker</h4>
-                            <button type="button" class="close" data-dismiss="modal" onclick="modal('booker',false);">&times;</button>
+                            <div class="row">
+                                <div class="col-xs-6 pb-3">
+                                    <h4 class="modal-title">Booker</h4>
+                                </div>
+                                <div class="col-xs-6">
+                                    <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('booker', '');">&times;</button>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12" style="border-top:1px solid #cdcdcd; padding-top:20px;">
+                                    <div id="radio_airline_search" style="padding:0px; text-align:left;">
+                                        <label class="radio-button-custom">
+                                            <span style="font-size:14px;">Search</span>
+                                            <input type="radio" checked="checked" name="radio_booker" value="search" onclick="radio_button('booker');">
+                                            <span class="checkmark-radio"></span>
+                                        </label>
+                                        <label class="radio-button-custom">
+                                            <span style="font-size:14px;">Input Booker</span>
+                                            <input type="radio" name="radio_booker" value="create" onclick="radio_button('booker'); clear_btn_top('booker', ''); clear_search_pax('booker','');">
+                                            <span class="checkmark-radio"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-xs-6" id="button_tl_booker">
+
+                                </div>
+                                <div class="col-xs-6" id="button_tr_booker">
+
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-body">
-                            <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
-                                <label class="radio-button-custom">
-                                    <span style="font-size:14px;">Search</span>
-                                    <input type="radio" checked="checked" name="radio_booker" value="search" onclick="radio_button('booker');">
-                                    <span class="checkmark-radio"></span>
-                                </label>
-                                <label class="radio-button-custom">
-                                    <span style="font-size:14px;">Input Booker</span>
-                                    <input type="radio" name="radio_booker" value="create" onclick="radio_button('booker');">
-                                    <span class="checkmark-radio"></span>
-                                </label>
-                            </div>
                             <div id="booker_content">
                                 <div id="train_booker_search_div">
                                     <div class="row">
                                         <div class="col-lg-9 col-md-9">
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <div class="col-lg-6 col-md-6">
                                                     <div class="form-select">
                                                         <select id="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
                                                             <option value="cust_name">By Customer Name</option>
@@ -337,255 +359,231 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <div class="col-lg-6 col-md-6">
                                                     <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-3">
-                                            <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','','group_booking')">Search <i class="fas fa-search"></i></button>
+                                            <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','','group_booking'); search_modal_pe_none();">Search</button>
                                         </div>
                                     </div>
-
+                                    <span style="font-size:14px;">{% trans 'Max 100 customers in 1 search' %} </span>
                                     <div id="loading_booker" class="loading-pax-train" style="text-align:center; margin-top:15px; display:none;">
                                         <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} </span><img src="{{static_path}}img/search.gif" alt="Search" style="height:50px; width:50px;"/>
                                     </div>
-                                    <span style="font-size:14px;">{% trans 'Max 100 customers in 1 search' %} </span>
-                                    <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
+
+                                    <div id="search_result">
 
                                     </div>
                                 </div>
-                                <div id="booker_input" style="background-color:white; padding:10px; border:1px solid #cdcdcd;" hidden>
+                                <div id="booker_input" style="padding:15px;" hidden>
                                     <div class="row">
-                                        <div class="col-lg-12">
-                                            <h4>Booker Information</h4>
-                                            <hr/>
-                                        </div>
-                                        <!--<div class="col-lg-6" style="text-align:left;">-->
-                                            <!--<label>Booker Type :</label><br/>-->
-                                            <!--<label class="radio-button-custom">-->
+                                        <div class="col-lg-12 mb-3" style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
+                                            <div class="row">
+                                                <!--<div class="col-lg-6" style="text-align:left;">-->
+                                                <!--<label>Booker Type :</label><br/>-->
+                                                <!--<label class="radio-button-custom">-->
                                                 <!--Corporate-->
                                                 <!--<input type="radio" checked="checked" name="radio-booker-type">-->
                                                 <!--<span class="checkmark-radio"></span>-->
-                                            <!--</label>-->
-                                            <!--<label class="radio-button-custom">-->
+                                                <!--</label>-->
+                                                <!--<label class="radio-button-custom">-->
                                                 <!--Individual-->
                                                 <!--<input type="radio" name="radio-booker-type">-->
                                                 <!--<span class="checkmark-radio"></span>-->
-                                            <!--</label>-->
-                                        <!--</div>-->
-                                        <!--<div class="col-lg-6" style="text-align:right;">-->
-                                        <!--</div>-->
+                                                <!--</label>-->
+                                                <!--</div>-->
+                                                <!--<div class="col-lg-6" style="text-align:right;">-->
+                                                <!--</div>-->
 
-                                        <div class="modal fade" id="myModal" role="dialog">
-                                            <div class="modal-dialog">
-
-                                                <!-- Modal content-->
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">Booker List <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('booker','');">&times;</button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                                            </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                                <button type="button" class="primary-btn" class="btn btn-default" onclick="get_customer_list('booker','1','train')">Search <i class="fas fa-search"></i></button>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row" id="loading-booker-train" style="display:none;">
-                                                            <div class="col-lg-12">
-                                                                <div class="sk-circle">
-                                                                    <div class="sk-circle1 sk-child"></div>
-                                                                    <div class="sk-circle2 sk-child"></div>
-                                                                    <div class="sk-circle3 sk-child"></div>
-                                                                    <div class="sk-circle4 sk-child"></div>
-                                                                    <div class="sk-circle5 sk-child"></div>
-                                                                    <div class="sk-circle6 sk-child"></div>
-                                                                    <div class="sk-circle7 sk-child"></div>
-                                                                    <div class="sk-circle8 sk-child"></div>
-                                                                    <div class="sk-circle9 sk-child"></div>
-                                                                    <div class="sk-circle10 sk-child"></div>
-                                                                    <div class="sk-circle11 sk-child"></div>
-                                                                    <div class="sk-circle12 sk-child"></div>
-                                                                </div>
-                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
-                                                            </div>
-                                                        </div>
-                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="primary-btn-ticket" data-dismiss="modal" onclick="clear_search_pax('booker','');">Confirm</button>
+                                                <div class="col-lg-12" style="text-align:left;">
+                                                    <div class="input-container-search-ticket">
+                                                        <label class="check_box_custom">
+                                                            <span class="span-search-ticket" style="color:black;">{% trans 'Make this to Contact Person' %}</span>
+                                                            <input type="checkbox" id="booker_cp" name="booker_cp" />
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
-                                            <div class="input-container-search-ticket">
-                                                <label class="check_box_custom">
-                                                    <span class="span-search-ticket" style="color:black;">{% trans 'Make this to Contact Person' %}</span>
-                                                    <input type="checkbox" id="booker_cp" name="booker_cp" />
-                                                    <span class="check_box_span_custom"></span>
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
-                                        </div>
-
-                                        <div class="col-lg-6 col-xs-6">
-                                            <label style="color:red">*</label>
-                                            <label>Title</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select-2" id="default-select">
-                                                    <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('issued_offline');">
-                                                        {% for title in adult_title%}
-                                                        <option>{{title}}</option>
-                                                        {% endfor %}
-                                                    </select>
+                                                <div class="col-xs-6 mb-3">
+                                                    <label id="corporate_booker" style="display:none; margin-top:10px; border:1px solid #cdcdcd; background:#1800F1; color:#FFFFFF; padding:15px;"><i class="fas fa-user-tie"></i> Corporate Booker</label>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
-                                            <div class="row" style="margin:0">
-                                                <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                                <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> Corporate Booker</button>
-                                                <div class="modal fade" id="myModalHelp" role="dialog">
-                                                    <div class="modal-dialog">
+                                                <div class="col-xs-6">
 
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">Help <i class="fas fa-address-card"></i></h4>
-                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="col-sm-12">
-                                                                    <center><img src="/static/tt_website_rodextrip/img/id_card.png" alt="ID Card" style="width:100%; height:100%;"></center>
-                                                                </div>
-                                                                <div>
-                                                                    <p>1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).</p>
-                                                                    <p>2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.</p>
-                                                                    <p>3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.</p>
+                                                </div>
+
+                                                <div class="col-lg-6 col-xs-6">
+                                                    <label style="color:red">*</label>
+                                                    <label>Title</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select-2" id="default-select">
+                                                            <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('issued_offline');">
+                                                                {% for title in adult_title%}
+                                                                <option>{{title}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                                    <div class="row" style="margin:0">
+                                                        <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
+                                                        <div class="modal fade" id="myModalHelp" role="dialog">
+                                                            <div class="modal-dialog">
+
+                                                                <!-- Modal content-->
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h4 class="modal-title" style="color:{{text_color}};">Help <i class="fas fa-address-card"></i></h4>
+                                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="col-sm-12">
+                                                                            <center><img src="/static/tt_website_rodextrip/img/id_card.png" alt="ID Card" style="width:100%; height:100%;"></center>
+                                                                        </div>
+                                                                        <div>
+                                                                            <p>1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).</p>
+                                                                            <p>2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.</p>
+                                                                            <p>3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="primary-btn-ticket" data-dismiss="modal">Confirm</button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="primary-btn-ticket" data-dismiss="modal">Confirm</button>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <br/>
-                                            <label style="color:red">*</label>
-                                            <label>First name and middle name (if any)</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('booker_first_name'); change_booker_value('issued_offline');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
-                                                <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
-                                                <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
-                                                <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
-                                                <input type="hidden" class="form-control" name="booker_exp_date" id="booker_exp_date" />
-                                                <input type="hidden" class="form-control" name="booker_country_of_issued" id="booker_country_of_issued" />
-                                            </div>
-                                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <br/>
-                                            <label>Last name</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('booker_last_name'); change_booker_value('issued_offline');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
-                                            </div>
-                                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <label style="color:red">*</label>
-                                            <label>Nationality</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality');change_booker_value('issued_offline');" class="nice-select-default">
-                                                        {% for country in countries %}
-                                                        <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                                <input type="hidden" name="booker_nationality" id="booker_nationality" />
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-lg-6">
-                                            <label style="color:red">*</label>
-                                            <label>Contact Email Address</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('issued_offline');">
-                                            </div>
-                                            <label style="font-size:12px; padding:0;">Example: email@example.com</label>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <label style="color:red">*</label>
-                                            <label style="margin:0;">Contact Person for Urgent Situation</label>
-                                            <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
-                                            <div class="row">
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                    <div class="form-select">
-                                                        <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('issued_offline');" class="nice-select-default">
-                                                            {% for phone in phone_code %}
-                                                            <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
-                                                            {% endfor %}
-                                                        </select>
+                                                <div class="col-lg-12">
+                                                    <br/>
+                                                    <label style="color:red">*</label>
+                                                    <label>First name and middle name (if any)</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" onchange="capitalizeInput('booker_first_name'); change_booker_value('issued_offline');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                        <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
+                                                        <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
+                                                        <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
+                                                        <input type="hidden" class="form-control" name="booker_exp_date" id="booker_exp_date" />
+                                                        <input type="hidden" class="form-control" name="booker_country_of_issued" id="booker_country_of_issued" />
                                                     </div>
-                                                    <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
+                                                    <span style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</span>
                                                 </div>
-                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                                    <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('phone');change_booker_value('issued_offline');">
-                                                    <input type="hidden" class="form-control" name="booker_id" id="booker_id">
+
+                                                <div class="col-lg-12 mb-3">
+                                                    <br/>
+                                                    <label>Last name</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" onchange="capitalizeInput('booker_last_name'); change_booker_value('issued_offline');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                    </div>
+                                                    <span style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</span>
+                                                </div>
+
+                                                <div class="col-lg-12 mb-3">
+                                                    <label style="color:red">*</label>
+                                                    <label>Nationality</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality');change_booker_value('issued_offline');" class="nice-select-default">
+                                                                {% for country in countries %}
+                                                                <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <input type="hidden" name="booker_nationality" id="booker_nationality" />
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-lg-12 mb-3">
+                                                    <label style="color:red">*</label>
+                                                    <label>Contact Email Address</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('issued_offline');">
+                                                    </div>
+                                                    <span style="font-size:12px; padding:0;">Example: email@example.com</span>
+                                                </div>
+
+                                                <div class="col-lg-12">
+                                                    <label style="color:red">*</label>
+                                                    <label style="margin:0;">Contact Person for Urgent Situation</label><br/>
+                                                    <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
+                                                    <div class="row">
+                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                            <div class="form-select">
+                                                                <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('issued_offline');" class="nice-select-default">
+                                                                    {% for phone in phone_code %}
+                                                                    <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                            <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
+                                                        </div>
+                                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                            <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('phone');change_booker_value('issued_offline');">
+                                                            <input type="hidden" class="form-control" name="booker_id" id="booker_id">
+                                                        </div>
+                                                    </div>
+                                                    <span style="font-size:12px; padding:0;">Example: 812345678</span>
                                                 </div>
                                             </div>
-                                            <label style="font-size:12px; padding:0;">Example: 812345678</label>
+                                        </div>
+
+                                        <div class="col-lg-12" style="padding:0px;">
+                                            <button type="button" class="primary-btn-ticket" style="width:100%;" data-dismiss="modal" onclick="group_booking_update_booker();">Confirm</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="primary-btn-ticket" data-dismiss="modal" onclick="group_booking_update_booker();">Confirm</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="modal fade" id="myModalContact" role="dialog" data-keyboard="false">
-                <div class="modal-dialog">
-
+            <div class="modal fade" id="myModal_contact" role="dialog" data-keyboard="false">
+                <div class="overlay_modal_custom" onclick="close_modal_check('contact', '');"></div>
+                <div class="modal-dialog modal_custom_fixed">
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Contact</h4>
-                            <button type="button" class="close" data-dismiss="modal" onclick="modal('contact',false);">&times;</button>
+                            <div class="row">
+                                <div class="col-xs-6 pb-3">
+                                    <h4 class="modal-title">Contact</h4>
+                                </div>
+                                <div class="col-xs-6">
+                                    <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('contact', '');">&times;</button>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12" style="border-top:1px solid #cdcdcd; padding-top:20px;">
+                                    <div id="radio_airline_search" style="padding:0px; text-align:left;">
+                                        <label class="radio-button-custom">
+                                            <span style="font-size:14px;">Search</span>
+                                            <input type="radio" checked="checked" name="radio_contact" value="search" onclick="radio_button('contact');">
+                                            <span class="checkmark-radio"></span>
+                                        </label>
+                                        <label class="radio-button-custom">
+                                            <span style="font-size:14px;">Input Contact</span>
+                                            <input type="radio" name="radio_contact" value="create" onclick="radio_button('contact'); clear_btn_top('contact', ''); clear_search_pax('contact','');">
+                                            <span class="checkmark-radio"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-6" id="button_tl_contact">
+
+                                </div>
+                                <div class="col-xs-6" id="button_tr_contact">
+
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-body">
-                            <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
-                                <label class="radio-button-custom">
-                                    <span style="font-size:14px;">Search</span>
-                                    <input type="radio" checked="checked" name="radio_contact" value="search" onclick="radio_button('contact');">
-                                    <span class="checkmark-radio"></span>
-                                </label>
-                                <label class="radio-button-custom">
-                                    <span style="font-size:14px;">Input Contact</span>
-                                    <input type="radio" name="radio_contact" value="create" onclick="radio_button('contact');">
-                                    <span class="checkmark-radio"></span>
-                                </label>
-                            </div>
                             <div id="contact_content">
                                 <div id="train_contact_search_div">
                                     <div class="row">
@@ -609,206 +607,148 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-3">
-                                            <button type="button" id="contact_search" class="primary-btn" onclick="get_customer_list('contact','','group_booking')">Search <i class="fas fa-search"></i></button>
+                                            <button type="button" id="contact_search" class="primary-btn" onclick="get_customer_list('contact','','group_booking')">Search</button>
                                         </div>
                                     </div>
-
+                                    <span style="font-size:14px;">{% trans 'Max 100 customers in 1 search' %} </span>
                                     <div id="loading_contact" class="loading-pax-train" style="text-align:center; margin-top:15px; display:none;">
                                         <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} </span><img src="{{static_path}}img/search.gif" alt="Search" style="height:50px; width:50px;"/>
                                     </div>
-                                    <span style="font-size:14px;">{% trans 'Max 100 customers in 1 search' %} </span>
-                                    <div id="search_contact_result" style="max-height:600px; overflow:auto; padding:15px;">
+                                    <div id="search_result_contact">
 
                                     </div>
                                 </div>
-                                <div id="contact_input" style="background-color:white; padding:10px; border:1px solid #cdcdcd;" hidden>
+                                <div id="contact_input" style="padding:15px;" hidden>
                                     <div class="row">
-                                        <div class="col-lg-12">
-                                            <h4>Contact Information</h4>
-                                            <hr/>
-                                        </div>
-
-                                        <div class="modal fade" id="myModal" role="dialog">
-                                            <div class="modal-dialog">
-
-                                                <!-- Modal content-->
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">Contact List <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('contact','');">&times;</button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="row">
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                                <input class="form-control" type="text" id="train_contact_search" placeholder="{% trans 'Search' %}"/>
-                                                                {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                                                <div class="form-select">
-                                                                    <select id="train_contact_search_type" name="train_contact_search_type" onchange="search_type_on_change('train_contact_search_type','train_contact_search');">
-                                                                        <option value="cust_name">By Customer Name</option>
-                                                                        <option value="mobile">By Customer Mobile</option>
-                                                                        <option value="email">By Customer Mail</option>
-                                                                        <option value="identity_type">By Customer Identity Number</option>
-                                                                        <option value="birth_date">By Birth Date</option>
-                                                                        <option value="cor_name">By Corporate Name</option>
-                                                                    </select>
-                                                                </div>
-                                                                {% endif %}
-                                                            </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                                <button type="button" class="primary-btn" class="btn btn-default" onclick="get_customer_list('contact','1','train')">Search <i class="fas fa-search"></i></button>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row" id="loading-contact-train" style="display:none;">
-                                                            <div class="col-lg-12">
-                                                                <div class="sk-circle">
-                                                                    <div class="sk-circle1 sk-child"></div>
-                                                                    <div class="sk-circle2 sk-child"></div>
-                                                                    <div class="sk-circle3 sk-child"></div>
-                                                                    <div class="sk-circle4 sk-child"></div>
-                                                                    <div class="sk-circle5 sk-child"></div>
-                                                                    <div class="sk-circle6 sk-child"></div>
-                                                                    <div class="sk-circle7 sk-child"></div>
-                                                                    <div class="sk-circle8 sk-child"></div>
-                                                                    <div class="sk-circle9 sk-child"></div>
-                                                                    <div class="sk-circle10 sk-child"></div>
-                                                                    <div class="sk-circle11 sk-child"></div>
-                                                                    <div class="sk-circle12 sk-child"></div>
-                                                                </div>
-                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
-                                                            </div>
-                                                        </div>
-                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="primary-btn-ticket" data-dismiss="modal" onclick="clear_search_pax('contact','');">Confirm</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6 col-xs-6">
-                                            <label style="color:red">*</label>
-                                            <label>Title</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select-2" id="default-select">
-                                                    <select id="contact_title" name="contact_title" class="nice-select-default">
-                                                        {% for title in adult_title%}
-                                                        <option>{{title}}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
-                                            <div class="row" style="margin:0">
-                                                <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
-                                                <button type="button" class="tooltip-inner" style="display:none" id="corporate_contact" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> Corporate contact</button>
-                                                <div class="modal fade" id="myModalHelp" role="dialog">
-                                                    <div class="modal-dialog">
-
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">Help <i class="fas fa-address-card"></i></h4>
-                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="col-sm-12">
-                                                                    <center><img src="/static/tt_website_rodextrip/img/id_card.png" alt="ID Card" style="width:100%; height:100%;"></center>
-                                                                </div>
-                                                                <div>
-                                                                    <p>1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).</p>
-                                                                    <p>2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.</p>
-                                                                    <p>3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="primary-btn-ticket" data-dismiss="modal">Confirm</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <br/>
-                                            <label style="color:red">*</label>
-                                            <label>First name and middle name (if any)</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('contact_first_name');" class="form-control" name="contact_first_name" id="contact_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
-                                                <input type="hidden" class="form-control" name="contact_birth_date" id="contact_birth_date" />
-                                                <input type="hidden" class="form-control" name="contact_id_type" id="contact_id_type" />
-                                                <input type="hidden" class="form-control" name="contact_id_number" id="contact_id_number" />
-                                                <input type="hidden" class="form-control" name="contact_exp_date" id="contact_exp_date" />
-                                                <input type="hidden" class="form-control" name="contact_country_of_issued" id="contact_country_of_issued" />
-                                            </div>
-                                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <br/>
-                                            <label>Last name</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('contact_last_name');" class="form-control" name="contact_last_name" id="contact_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
-                                            </div>
-                                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <label style="color:red">*</label>
-                                            <label>Nationality</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="contact_nationality_id" style="width:100%;" id="contact_nationality_id" placeholder="Nationality" onchange="auto_complete('contact_nationality');" class="nice-select-default">
-                                                        {% for country in countries %}
-                                                        <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                                <input type="hidden" name="contact_nationality" id="contact_nationality" />
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-lg-6">
-                                            <label style="color:red">*</label>
-                                            <label>Contact Email Address</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="contact_email" id="contact_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
-                                            </div>
-                                            <label style="font-size:12px; padding:0;">Example: email@example.com</label>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <label style="color:red">*</label>
-                                            <label style="margin:0;">Contact Person for Urgent Situation</label>
-                                            <label style="font-size:10px; color:red;">(Must be filled with contact's mobile on first registration)</label>
+                                        <div class="col-lg-12 mb-3" style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
                                             <div class="row">
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                    <div class="form-select">
-                                                        <select class="form-control js-example-basic-single" name="contact_phone_code_id" style="width:100%;" id="contact_phone_code_id" onchange="auto_complete('contact_phone_code');" class="nice-select-default">
-                                                            {% for phone in phone_code %}
-                                                            <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
-                                                    <input type="hidden" name="contact_phone_code" id="contact_phone_code" />
+                                                <div class="col-xs-6 mb-3">
+                                                    <label id="corporate_contact" style="display:none; margin-top:10px; border:1px solid #cdcdcd; background:#1800F1; color:#FFFFFF; padding:15px;"><i class="fas fa-user-tie"></i> Corporate Contact</label>
                                                 </div>
-                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                                    <input type="text" class="form-control" name="contact_phone" id="contact_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" >
-                                                    <input type="hidden" class="form-control" name="contact_id" id="contact_id">
+                                                <div class="col-xs-6">
+
+                                                </div>
+
+                                                <div class="col-lg-6 col-xs-6">
+                                                    <label style="color:red">*</label>
+                                                    <label>Title</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select-2" id="default-select">
+                                                            <select id="contact_title" name="contact_title" class="nice-select-default">
+                                                                {% for title in adult_title%}
+                                                                <option>{{title}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                                    <div class="row" style="margin:0">
+                                                        <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelpContact"><i class="fas fa-info-circle"></i></button>
+                                                        <div class="modal fade" id="myModalHelpContact" role="dialog">
+                                                            <div class="modal-dialog">
+                                                                <!-- Modal content-->
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h4 class="modal-title" style="color:{{text_color}};">Help <i class="fas fa-address-card"></i></h4>
+                                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="col-sm-12">
+                                                                            <center><img src="/static/tt_website_rodextrip/img/id_card.png" alt="ID Card" style="width:100%; height:100%;"></center>
+                                                                        </div>
+                                                                        <div>
+                                                                            <p>1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).</p>
+                                                                            <p>2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.</p>
+                                                                            <p>3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="primary-btn-ticket" data-dismiss="modal">Confirm</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <br/>
+                                                    <label style="color:red">*</label>
+                                                    <label>First name and middle name (if any)</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" onchange="capitalizeInput('contact_first_name');" class="form-control" name="contact_first_name" id="contact_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                        <input type="hidden" class="form-control" name="contact_birth_date" id="contact_birth_date" />
+                                                        <input type="hidden" class="form-control" name="contact_id_type" id="contact_id_type" />
+                                                        <input type="hidden" class="form-control" name="contact_id_number" id="contact_id_number" />
+                                                        <input type="hidden" class="form-control" name="contact_exp_date" id="contact_exp_date" />
+                                                        <input type="hidden" class="form-control" name="contact_country_of_issued" id="contact_country_of_issued" />
+                                                    </div>
+                                                    <span style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</span>
+                                                </div>
+
+                                                <div class="col-lg-12 mb-3">
+                                                    <br/>
+                                                    <label>Last name</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" onchange="capitalizeInput('contact_last_name');" class="form-control" name="contact_last_name" id="contact_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                    </div>
+                                                    <span style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</span>
+                                                </div>
+
+                                                <div class="col-lg-12 mb-3">
+                                                    <label style="color:red">*</label>
+                                                    <label>Nationality</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="contact_nationality_id" style="width:100%;" id="contact_nationality_id" placeholder="Nationality" onchange="auto_complete('contact_nationality');" class="nice-select-default">
+                                                                {% for country in countries %}
+                                                                <option value="{{country.name}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <input type="hidden" name="contact_nationality" id="contact_nationality" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12 mb-3">
+                                                    <label style="color:red">*</label>
+                                                    <label>Contact Email Address</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="contact_email" id="contact_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
+                                                    </div>
+                                                    <span style="font-size:12px; padding:0;">Example: email@example.com</span>
+                                                </div>
+
+                                                <div class="col-lg-12">
+                                                    <label style="color:red">*</label>
+                                                    <label style="margin:0;">Contact Person for Urgent Situation</label><br/>
+                                                    <label style="font-size:10px; color:red;">(Must be filled with contact's mobile on first registration)</label>
+                                                    <div class="row">
+                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                            <div class="form-select">
+                                                                <select class="form-control js-example-basic-single" name="contact_phone_code_id" style="width:100%;" id="contact_phone_code_id" onchange="auto_complete('contact_phone_code');" class="nice-select-default">
+                                                                    {% for phone in phone_code %}
+                                                                    <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                            <input type="hidden" name="contact_phone_code" id="contact_phone_code" />
+                                                        </div>
+                                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                            <input type="text" class="form-control" name="contact_phone" id="contact_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" >
+                                                            <input type="hidden" class="form-control" name="contact_id" id="contact_id">
+                                                        </div>
+                                                    </div>
+                                                    <span style="font-size:12px; padding:0;">Example: 812345678</span>
                                                 </div>
                                             </div>
-                                            <label style="font-size:12px; padding:0;">Example: 812345678</label>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <button type="button" style="width:100%;" class="primary-btn-ticket" data-dismiss="modal" onclick="group_booking_update_contact();">Confirm</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="primary-btn-ticket" data-dismiss="modal" onclick="group_booking_update_contact();">Confirm</button>
                         </div>
                     </div>
                 </div>
