@@ -864,7 +864,7 @@
                                                             <div class="modal-header">
                                                                 <div class="row">
                                                                     <div class="col-xs-6 pb-3">
-                                                                        <h4 class="modal-title">{{rec.pax_type}} - {{forloop.counter}}</h4>
+                                                                        <h4 class="modal-title">{{rec.pax_type}} - {{rec.sequence}}</h4>
                                                                     </div>
                                                                     <div class="col-xs-6">
                                                                         <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('{{rec.pax_type}}_relation{{counter}}', '{{forloop.counter}}');">&times;</button>
@@ -2183,8 +2183,22 @@
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{{rec.pax_type}} - {{rec.sequence}} <i class="fas fa-address-card"></i></h4>
-                                                                <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('{{rec.pax_type}}','{{forloop.counter}}');">&times;</button>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 pb-3">
+                                                                        <h4 class="modal-title">{{rec.pax_type}} - {{rec.sequence}}</h4>
+                                                                    </div>
+                                                                    <div class="col-xs-6">
+                                                                        <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('{{rec.pax_type}}_relation{{counter}}', '{{forloop.counter}}');">&times;</button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6" id="button_tl_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}">
+
+                                                                    </div>
+                                                                    <div class="col-xs-6" id="button_tr_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
@@ -3495,8 +3509,22 @@
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{{rec.pax_type}} - {{rec.sequence}} <i class="fas fa-address-card"></i></h4>
-                                                                <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('{{rec.pax_type}}','{{forloop.counter}}');">&times;</button>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 pb-3">
+                                                                        <h4 class="modal-title">{{rec.pax_type}} - {{rec.sequence}}</h4>
+                                                                    </div>
+                                                                    <div class="col-xs-6">
+                                                                        <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('{{rec.pax_type}}_relation{{counter}}', '{{forloop.counter}}');">&times;</button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6" id="button_tl_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}">
+
+                                                                    </div>
+                                                                    <div class="col-xs-6" id="button_tr_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
@@ -4802,8 +4830,22 @@
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{{rec.pax_type}} - {{rec.sequence}} <i class="fas fa-address-card"></i></h4>
-                                                                <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('{{rec.pax_type}}','{{forloop.counter}}');">&times;</button>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 pb-3">
+                                                                        <h4 class="modal-title">{{rec.pax_type}} - {{rec.sequence}}</h4>
+                                                                    </div>
+                                                                    <div class="col-xs-6">
+                                                                        <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('{{rec.pax_type}}_relation{{counter}}', '{{forloop.counter}}');">&times;</button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6" id="button_tl_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}">
+
+                                                                    </div>
+                                                                    <div class="col-xs-6" id="button_tr_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
@@ -6105,8 +6147,22 @@
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{{rec.pax_type}} - {{rec.sequence}} <i class="fas fa-address-card"></i></h4>
-                                                                <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('{{rec.pax_type}}','{{forloop.counter}}');">&times;</button>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 pb-3">
+                                                                        <h4 class="modal-title">{{rec.pax_type}} - {{rec.sequence}}</h4>
+                                                                    </div>
+                                                                    <div class="col-xs-6">
+                                                                        <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('{{rec.pax_type}}_relation{{counter}}', '{{forloop.counter}}');">&times;</button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6" id="button_tl_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}">
+
+                                                                    </div>
+                                                                    <div class="col-xs-6" id="button_tr_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
@@ -7411,8 +7467,22 @@
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{{rec.pax_type}} - {{rec.sequence}} <i class="fas fa-address-card"></i></h4>
-                                                                <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('{{rec.pax_type}}','{{forloop.counter}}');">&times;</button>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 pb-3">
+                                                                        <h4 class="modal-title">{{rec.pax_type}} - {{rec.sequence}}</h4>
+                                                                    </div>
+                                                                    <div class="col-xs-6">
+                                                                        <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('{{rec.pax_type}}_relation{{counter}}', '{{forloop.counter}}');">&times;</button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6" id="button_tl_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}">
+
+                                                                    </div>
+                                                                    <div class="col-xs-6" id="button_tr_{{rec.pax_type}}_relation{{counter}}{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
