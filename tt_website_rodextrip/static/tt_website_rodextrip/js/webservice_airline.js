@@ -1777,8 +1777,9 @@ function get_retrieve_booking_from_vendor(){
            success: function(msg) {
                data_get_retrieve_booking = msg;
                if(msg.result.error_code == 0){
-                   response = draw_get_booking(msg.result.response)
+                   response = draw_get_booking(msg.result.response);
                    document.getElementById('result_get_booking_from_vendor').innerHTML = response;
+                   document.getElementById('div_result_get_booking_fv').style.display = 'block';
                }else{
                    Swal.fire({
                       type: 'error',

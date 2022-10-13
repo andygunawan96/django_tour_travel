@@ -158,19 +158,33 @@
                                         </div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_booker" data-backdrop="static" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                         </div>
 
-                                        <div class="modal fade" id="myModal" role="dialog">
-                                            <div class="modal-dialog">
-
+                                        <div class="modal fade" id="myModal_booker" role="dialog">
+                                            <div class="overlay_modal_custom" onclick="close_modal_check('booker', '');"></div>
+                                            <div class="modal-dialog modal_custom_fixed">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Booker List' %} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('booker','');">&times;</button>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 pb-3">
+                                                                <h4 class="modal-title">Booker</h4>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('booker', '');">&times;</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6" id="button_tl_booker">
+
+                                                            </div>
+                                                            <div class="col-xs-6" id="button_tr_booker">
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
@@ -196,7 +210,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3">
-                                                                <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -214,12 +228,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
+                                                        <div id="search_result">
 
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('booker','');">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -399,16 +410,31 @@
                                         </div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                             <div class="modal fade" id="myModal_adult{{forloop.counter}}" role="dialog">
-                                                <div class="modal-dialog">
+                                                <div class="overlay_modal_custom" onclick="close_modal_check('adult', '{{forloop.counter}}');"></div>
+                                                <div class="modal-dialog modal_custom_fixed">
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Adult' %} - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                            <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">&times;</button>
+                                                            <div class="row">
+                                                                <div class="col-xs-6 pb-3">
+                                                                    <h4 class="modal-title">{% trans 'Adult' %} - {{forloop.counter}}</h4>
+                                                                </div>
+                                                                <div class="col-xs-6">
+                                                                    <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('adult', '{{forloop.counter}}');">&times;</button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-6" id="button_tl_adult{{forloop.counter}}">
+
+                                                                </div>
+                                                                <div class="col-xs-6" id="button_tr_adult{{forloop.counter}}">
+
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
@@ -431,7 +457,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-3">
-                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                                 </div>
                                                             </div>
                                                             <!--<div class="row">-->
@@ -457,12 +483,9 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
+                                                            <div id="search_result_adult{{forloop.counter}}">
 
                                                             </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">{% trans 'Close' %}</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -759,17 +782,32 @@
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                         </div>
                                         <div class="modal fade" id="myModal_child{{forloop.counter}}" role="dialog">
-                                            <div class="modal-dialog">
+                                            <div class="overlay_modal_custom" onclick="close_modal_check('child', '{{forloop.counter}}');"></div>
+                                            <div class="modal-dialog modal_custom_fixed">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Child' %} - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('child','{{forloop.counter}}');">&times;</button>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 pb-3">
+                                                                <h4 class="modal-title">{% trans 'Child' %} - {{forloop.counter}}</h4>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('child', '{{forloop.counter}}');">&times;</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6" id="button_tl_child{{forloop.counter}}">
+
+                                                            </div>
+                                                            <div class="col-xs-6" id="button_tr_child{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
@@ -792,7 +830,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3">
-                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -810,12 +848,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_child{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
+                                                        <div id="search_result_child{{forloop.counter}}">
 
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('child','{{forloop.counter}}');">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1073,18 +1108,32 @@
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                         </div>
                                         <div class="modal fade" id="myModal_infant{{forloop.counter}}" role="dialog">
-                                            <div class="modal-dialog">
-
+                                            <div class="overlay_modal_custom" onclick="close_modal_check('infant', '{{forloop.counter}}');"></div>
+                                            <div class="modal-dialog modal_custom_fixed">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Infant' %} - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 pb-3">
+                                                                <h4 class="modal-title">{% trans 'Infant' %} - {{forloop.counter}}</h4>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('infant', '{{forloop.counter}}');">&times;</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6" id="button_tl_infant{{forloop.counter}}">
+
+                                                            </div>
+                                                            <div class="col-xs-6" id="button_tr_infant{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
@@ -1107,7 +1156,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3">
-                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1125,12 +1174,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
+                                                        <div id="search_result_infant{{forloop.counter}}">
 
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1476,19 +1522,33 @@
                                                 </div>
                                                 <div class="col-lg-6 mb-3" style="text-align:right;">
                                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_booker" data-backdrop="static" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                     <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                                     {% endif %}
                                                 </div>
 
-                                                <div class="modal fade" id="myModal" role="dialog">
-                                                    <div class="modal-dialog">
-
+                                                <div class="modal fade" id="myModal_booker" role="dialog">
+                                                    <div class="overlay_modal_custom" onclick="close_modal_check('booker', '');"></div>
+                                                    <div class="modal-dialog modal_custom_fixed">
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Booker List' %} <i class="fas fa-address-card"></i></h4>
-                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 pb-3">
+                                                                        <h4 class="modal-title">Booker</h4>
+                                                                    </div>
+                                                                    <div class="col-xs-6">
+                                                                        <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('booker', '');">&times;</button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6" id="button_tl_booker">
+
+                                                                    </div>
+                                                                    <div class="col-xs-6" id="button_tr_booker">
+
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <div class="modal-body">
                                                                 <div class="row">
@@ -1514,7 +1574,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-3 col-md-3">
-                                                                        <button type="button" class="primary-btn" id="booker_search" onclick="get_customer_list('booker','0','airline');">Search <i class="fas fa-search"></i></button>
+                                                                        <button type="button" class="primary-btn" id="booker_search" onclick="get_customer_list('booker','0','airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -1532,12 +1592,9 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
+                                                                <div id="search_result">
 
                                                                 </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1708,16 +1765,31 @@
                                                 </div>
                                                 <div class="col-lg-6" style="text-align:right;">
                                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                     <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                                     {% endif %}
                                                     <div class="modal fade" id="myModal_adult{{forloop.counter}}" role="dialog">
-                                                        <div class="modal-dialog">
+                                                        <div class="overlay_modal_custom" onclick="close_modal_check('adult', '{{forloop.counter}}');"></div>
+                                                        <div class="modal-dialog modal_custom_fixed">
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Adult' %} - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                    <div class="row">
+                                                                        <div class="col-xs-6 pb-3">
+                                                                            <h4 class="modal-title">{% trans 'Adult' %} - {{forloop.counter}}</h4>
+                                                                        </div>
+                                                                        <div class="col-xs-6">
+                                                                            <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('adult', '{{forloop.counter}}');">&times;</button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-xs-6" id="button_tl_adult{{forloop.counter}}">
+
+                                                                        </div>
+                                                                        <div class="col-xs-6" id="button_tr_adult{{forloop.counter}}">
+
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                                 <div class="modal-body" style="text-align:left;">
                                                                     <div class="row">
@@ -1740,7 +1812,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-lg-3 col-md-3">
-                                                                            <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                            <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                                         </div>
                                                                     </div>
                                                                     <!--<div class="row">-->
@@ -1766,12 +1838,9 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
+                                                                    <div id="search_result_adult{{forloop.counter}}">
 
                                                                     </div>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -2056,17 +2125,32 @@
                                                 <div class="col-lg-6" style="text-align:left;"></div>
                                                 <div class="col-lg-6 mb-3" style="text-align:right;">
                                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                     <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                                     {% endif %}
                                                 </div>
                                                 <div class="modal fade" id="myModal_child{{forloop.counter}}" role="dialog">
-                                                    <div class="modal-dialog">
+                                                    <div class="overlay_modal_custom" onclick="close_modal_check('child', '{{forloop.counter}}');"></div>
+                                                    <div class="modal-dialog modal_custom_fixed">
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Child' %} - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 pb-3">
+                                                                        <h4 class="modal-title">{% trans 'Child' %} - {{forloop.counter}}</h4>
+                                                                    </div>
+                                                                    <div class="col-xs-6">
+                                                                        <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('child', '{{forloop.counter}}');">&times;</button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6" id="button_tl_child{{forloop.counter}}">
+
+                                                                    </div>
+                                                                    <div class="col-xs-6" id="button_tr_child{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
@@ -2089,7 +2173,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-3 col-md-3">
-                                                                        <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                        <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -2107,12 +2191,9 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div id="search_result_child{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
+                                                                <div id="search_result_child{{forloop.counter}}">
 
                                                                 </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2362,18 +2443,32 @@
                                                 <div class="col-lg-6" style="text-align:left;"></div>
                                                 <div class="col-lg-6 mb-3" style="text-align:right;">
                                                     {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                                     <button type="button" class="primary-btn" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                                     {% endif %}
                                                 </div>
                                                 <div class="modal fade" id="myModal_infant{{forloop.counter}}" role="dialog">
-                                                    <div class="modal-dialog">
-
+                                                    <div class="overlay_modal_custom" onclick="close_modal_check('infant', '{{forloop.counter}}');"></div>
+                                                    <div class="modal-dialog modal_custom_fixed">
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Infant' %} - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 pb-3">
+                                                                        <h4 class="modal-title">{% trans 'Infant' %} - {{forloop.counter}}</h4>
+                                                                    </div>
+                                                                    <div class="col-xs-6">
+                                                                        <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('infant', '{{forloop.counter}}');">&times;</button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-6" id="button_tl_infant{{forloop.counter}}">
+
+                                                                    </div>
+                                                                    <div class="col-xs-6" id="button_tr_infant{{forloop.counter}}">
+
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
@@ -2396,7 +2491,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-3 col-md-3">
-                                                                        <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                        <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -2414,12 +2509,9 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
+                                                                <div id="search_result_infant{{forloop.counter}}">
 
                                                                 </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2756,19 +2848,33 @@
                                         </div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_booker" data-backdrop="static" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                         </div>
 
-                                        <div class="modal fade" id="myModal" role="dialog">
-                                            <div class="modal-dialog">
-
+                                        <div class="modal fade" id="myModal_booker" role="dialog">
+                                            <div class="overlay_modal_custom" onclick="close_modal_check('booker', '');"></div>
+                                            <div class="modal-dialog modal_custom_fixed">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Booker List' %} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('booker','');">&times;</button>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 pb-3">
+                                                                <h4 class="modal-title">Booker</h4>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('booker', '');">&times;</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6" id="button_tl_booker">
+
+                                                            </div>
+                                                            <div class="col-xs-6" id="button_tr_booker">
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
@@ -2796,7 +2902,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3">
-                                                                <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','airline');">Search <i class="fas fa-search"></i></button>
+                                                                <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -2814,12 +2920,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
+                                                        <div id="search_result">
 
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('booker','');">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -3001,16 +3104,31 @@
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                             <div class="modal fade" id="myModal_adult{{forloop.counter}}" role="dialog">
-                                                <div class="modal-dialog">
+                                                <div class="overlay_modal_custom" onclick="close_modal_check('adult', '{{forloop.counter}}');"></div>
+                                                <div class="modal-dialog modal_custom_fixed">
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Adult' %} - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                            <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">&times;</button>
+                                                            <div class="row">
+                                                                <div class="col-xs-6 pb-3">
+                                                                    <h4 class="modal-title">{% trans 'Adult' %} - {{forloop.counter}}</h4>
+                                                                </div>
+                                                                <div class="col-xs-6">
+                                                                    <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('adult', '{{forloop.counter}}');">&times;</button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-6" id="button_tl_adult{{forloop.counter}}">
+
+                                                                </div>
+                                                                <div class="col-xs-6" id="button_tr_adult{{forloop.counter}}">
+
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
@@ -3033,7 +3151,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-3">
-                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                                 </div>
                                                             </div>
                                                             <!--<div class="row">-->
@@ -3059,12 +3177,9 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
+                                                            <div id="search_result_adult{{forloop.counter}}">
 
                                                             </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">{% trans 'Close' %}</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -3363,17 +3478,32 @@
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> {% trans 'Class' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                         </div>
                                         <div class="modal fade" id="myModal_child{{forloop.counter}}" role="dialog">
-                                            <div class="modal-dialog">
+                                            <div class="overlay_modal_custom" onclick="close_modal_check('child', '{{forloop.counter}}');"></div>
+                                            <div class="modal-dialog modal_custom_fixed">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Child' %} - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('child','{{forloop.counter}}');">&times;</button>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 pb-3">
+                                                                <h4 class="modal-title">{% trans 'Child' %} - {{forloop.counter}}</h4>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('child', '{{forloop.counter}}');">&times;</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6" id="button_tl_child{{forloop.counter}}">
+
+                                                            </div>
+                                                            <div class="col-xs-6" id="button_tr_child{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
@@ -3396,7 +3526,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3">
-                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -3414,12 +3544,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_child{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
+                                                        <div id="search_result_child{{forloop.counter}}">
 
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('child','{{forloop.counter}}');">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -3680,18 +3807,32 @@
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                         </div>
                                         <div class="modal fade" id="myModal_infant{{forloop.counter}}" role="dialog">
-                                            <div class="modal-dialog">
-
+                                            <div class="overlay_modal_custom" onclick="close_modal_check('infant', '{{forloop.counter}}');"></div>
+                                            <div class="modal-dialog modal_custom_fixed">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Infant' %} - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 pb-3">
+                                                                <h4 class="modal-title">{% trans 'Infant' %} - {{forloop.counter}}</h4>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('infant', '{{forloop.counter}}');">&times;</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6" id="button_tl_infant{{forloop.counter}}">
+
+                                                            </div>
+                                                            <div class="col-xs-6" id="button_tr_infant{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
@@ -3714,7 +3855,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3">
-                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -3732,12 +3873,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
+                                                        <div id="search_result_infant{{forloop.counter}}">
 
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -4090,19 +4228,33 @@
                                     </div>
                                     <div class="col-lg-6 mb-3" style="text-align:right;">
                                         {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_booker" data-backdrop="static" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                         <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                         {% endif %}
                                     </div>
 
-                                    <div class="modal fade" id="myModal" role="dialog">
-                                        <div class="modal-dialog">
-
+                                    <div class="modal fade" id="myModal_booker" role="dialog">
+                                        <div class="overlay_modal_custom" onclick="close_modal_check('booker', '');"></div>
+                                        <div class="modal-dialog modal_custom_fixed">
                                             <!-- Modal content-->
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Booker List' %} <i class="fas fa-address-card"></i></h4>
-                                                    <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('booker','');">&times;</button>
+                                                    <div class="row">
+                                                        <div class="col-xs-6 pb-3">
+                                                            <h4 class="modal-title">Booker</h4>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('booker', '');">&times;</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-6" id="button_tl_booker">
+
+                                                        </div>
+                                                        <div class="col-xs-6" id="button_tr_booker">
+
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="row">
@@ -4130,7 +4282,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-3 col-md-3">
-                                                            <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                            <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -4148,12 +4300,9 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
+                                                    <div id="search_result">
 
                                                     </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('booker','');">{% trans 'Close' %}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -4334,16 +4483,31 @@
                                     </div>
                                     <div class="col-lg-6" style="text-align:right;">
                                         {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                         <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                         {% endif %}
                                         <div class="modal fade" id="myModal_adult{{forloop.counter}}" role="dialog">
-                                            <div class="modal-dialog">
+                                            <div class="overlay_modal_custom" onclick="close_modal_check('adult', '{{forloop.counter}}');"></div>
+                                            <div class="modal-dialog modal_custom_fixed">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">&times;</button>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 pb-3">
+                                                                <h4 class="modal-title">{% trans 'Adult' %} - {{forloop.counter}}</h4>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('adult', '{{forloop.counter}}');">&times;</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6" id="button_tl_adult{{forloop.counter}}">
+
+                                                            </div>
+                                                            <div class="col-xs-6" id="button_tr_adult{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
@@ -4366,7 +4530,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3">
-                                                                <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
                                                         <!--<div class="row">-->
@@ -4392,12 +4556,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
+                                                        <div id="search_result_adult{{forloop.counter}}">
 
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -4693,17 +4854,32 @@
                                     <div class="col-lg-6" style="text-align:left;"></div>
                                     <div class="col-lg-6 mb-3" style="text-align:right;">
                                         {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                         <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                         {% endif %}
                                     </div>
                                     <div class="modal fade" id="myModal_child{{forloop.counter}}" role="dialog">
-                                        <div class="modal-dialog">
+                                        <div class="overlay_modal_custom" onclick="close_modal_check('child', '{{forloop.counter}}');"></div>
+                                        <div class="modal-dialog modal_custom_fixed">
                                             <!-- Modal content-->
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Child' %} - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                    <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('child','{{forloop.counter}}');">&times;</button>
+                                                    <div class="row">
+                                                        <div class="col-xs-6 pb-3">
+                                                            <h4 class="modal-title">{% trans 'Child' %} - {{forloop.counter}}</h4>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('child', '{{forloop.counter}}');">&times;</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-6" id="button_tl_child{{forloop.counter}}">
+
+                                                        </div>
+                                                        <div class="col-xs-6" id="button_tr_child{{forloop.counter}}">
+
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="modal-body" style="text-align:left;">
                                                     <div class="row">
@@ -4726,7 +4902,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-3 col-md-3">
-                                                            <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                            <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -4744,12 +4920,9 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div id="search_result_child{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
+                                                    <div id="search_result_child{{forloop.counter}}">
 
                                                     </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('child','{{forloop.counter}}');">{% trans 'Close' %}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -5007,18 +5180,32 @@
                                     <div class="col-lg-6" style="text-align:left;"></div>
                                     <div class="col-lg-6 mb-3" style="text-align:right;">
                                         {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                         <button type="button" class="primary-btn" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                         {% endif %}
                                     </div>
                                     <div class="modal fade" id="myModal_infant{{forloop.counter}}" role="dialog">
-                                        <div class="modal-dialog">
-
+                                        <div class="overlay_modal_custom" onclick="close_modal_check('infant', '{{forloop.counter}}');"></div>
+                                        <div class="modal-dialog modal_custom_fixed">
                                             <!-- Modal content-->
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:{{text_color}};">Infant - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                    <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
+                                                    <div class="row">
+                                                        <div class="col-xs-6 pb-3">
+                                                            <h4 class="modal-title">{% trans 'Infant' %} - {{forloop.counter}}</h4>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('infant', '{{forloop.counter}}');">&times;</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-6" id="button_tl_infant{{forloop.counter}}">
+
+                                                        </div>
+                                                        <div class="col-xs-6" id="button_tr_infant{{forloop.counter}}">
+
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="modal-body" style="text-align:left;">
                                                     <div class="row">
@@ -5041,7 +5228,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-3 col-md-3">
-                                                            <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                            <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -5059,12 +5246,9 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
+                                                    <div id="search_result_infant{{forloop.counter}}">
 
                                                     </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">{% trans 'Close' %}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -5402,19 +5586,33 @@
                                         </div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_booker" data-backdrop="static" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                         </div>
 
-                                        <div class="modal fade" id="myModal" role="dialog">
-                                            <div class="modal-dialog">
-
+                                        <div class="modal fade" id="myModal_booker" role="dialog">
+                                            <div class="overlay_modal_custom" onclick="close_modal_check('booker', '');"></div>
+                                            <div class="modal-dialog modal_custom_fixed">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Booker List' %} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('booker','');">&times;</button>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 pb-3">
+                                                                <h4 class="modal-title">Booker</h4>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('booker', '');">&times;</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6" id="button_tl_booker">
+
+                                                            </div>
+                                                            <div class="col-xs-6" id="button_tr_booker">
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
@@ -5440,7 +5638,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3">
-                                                                <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','airline');">Search <i class="fas fa-search"></i></button>
+                                                                <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -5458,12 +5656,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
+                                                        <div id="search_result">
 
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('booker','');">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -5642,16 +5837,31 @@
                                         </div>
                                         <div class="col-lg-6" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                             <div class="modal fade" id="myModal_adult{{forloop.counter}}" role="dialog">
-                                                <div class="modal-dialog">
+                                                <div class="overlay_modal_custom" onclick="close_modal_check('adult', '{{forloop.counter}}');"></div>
+                                                <div class="modal-dialog modal_custom_fixed">
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                            <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">&times;</button>
+                                                            <div class="row">
+                                                                <div class="col-xs-6 pb-3">
+                                                                    <h4 class="modal-title">{% trans 'Adult' %} - {{forloop.counter}}</h4>
+                                                                </div>
+                                                                <div class="col-xs-6">
+                                                                    <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('adult', '{{forloop.counter}}');">&times;</button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-6" id="button_tl_adult{{forloop.counter}}">
+
+                                                                </div>
+                                                                <div class="col-xs-6" id="button_tr_adult{{forloop.counter}}">
+
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
@@ -5674,7 +5884,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-3">
-                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                                 </div>
                                                             </div>
                                                             <!--<div class="row">-->
@@ -5700,12 +5910,9 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
+                                                            <div id="search_result_adult{{forloop.counter}}">
 
                                                             </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">{% trans 'Close' %}</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -6001,17 +6208,32 @@
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                         </div>
                                         <div class="modal fade" id="myModal_child{{forloop.counter}}" role="dialog">
-                                            <div class="modal-dialog">
+                                            <div class="overlay_modal_custom" onclick="close_modal_check('child', '{{forloop.counter}}');"></div>
+                                            <div class="modal-dialog modal_custom_fixed">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Child' %} - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('child','{{forloop.counter}}');">&times;</button>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 pb-3">
+                                                                <h4 class="modal-title">{% trans 'Child' %} - {{forloop.counter}}</h4>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('child', '{{forloop.counter}}');">&times;</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6" id="button_tl_child{{forloop.counter}}">
+
+                                                            </div>
+                                                            <div class="col-xs-6" id="button_tr_child{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
@@ -6034,7 +6256,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3">
-                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -6052,12 +6274,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_child{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
+                                                        <div id="search_result_child{{forloop.counter}}">
 
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('child','{{forloop.counter}}');">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -6290,18 +6509,32 @@
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                         </div>
                                         <div class="modal fade" id="myModal_infant{{forloop.counter}}" role="dialog">
-                                            <div class="modal-dialog">
-
+                                            <div class="overlay_modal_custom" onclick="close_modal_check('infant', '{{forloop.counter}}');"></div>
+                                            <div class="modal-dialog modal_custom_fixed">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">Infant - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 pb-3">
+                                                                <h4 class="modal-title">{% trans 'Infant' %} - {{forloop.counter}}</h4>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('infant', '{{forloop.counter}}');">&times;</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6" id="button_tl_infant{{forloop.counter}}">
+
+                                                            </div>
+                                                            <div class="col-xs-6" id="button_tr_infant{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
@@ -6324,7 +6557,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3">
-                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -6342,12 +6575,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
+                                                        <div id="search_result_infant{{forloop.counter}}">
 
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -6714,19 +6944,33 @@
                                         </div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security and "corp_limitation" not in username.co_agent_frontend_security and 'co_customer_parent_type_name' not in username %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_booker" data-backdrop="static" onclick="loadingPaxHide();"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                         </div>
 
-                                        <div class="modal fade" id="myModal" role="dialog">
-                                            <div class="modal-dialog">
-
+                                        <div class="modal fade" id="myModal_booker" role="dialog">
+                                            <div class="overlay_modal_custom" onclick="close_modal_check('booker', '');"></div>
+                                            <div class="modal-dialog modal_custom_fixed">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Booker List' %} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('booker','');">&times;</button>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 pb-3">
+                                                                <h4 class="modal-title">Booker</h4>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('booker', '');">&times;</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6" id="button_tl_booker">
+
+                                                            </div>
+                                                            <div class="col-xs-6" id="button_tr_booker">
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
@@ -6752,7 +6996,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3">
-                                                                <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','airline');">Search <i class="fas fa-search"></i></button>
+                                                                <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -6770,12 +7014,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result" style="max-height:600px; overflow:auto; padding:15px;">
+                                                        <div id="search_result">
 
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('booker','');">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -6954,16 +7195,31 @@
                                         </div>
                                         <div class="col-lg-6" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                             <div class="modal fade" id="myModal_adult{{forloop.counter}}" role="dialog">
-                                                <div class="modal-dialog">
+                                                <div class="overlay_modal_custom" onclick="close_modal_check('adult', '{{forloop.counter}}');"></div>
+                                                <div class="modal-dialog modal_custom_fixed">
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:{{text_color}};">Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                            <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">&times;</button>
+                                                            <div class="row">
+                                                                <div class="col-xs-6 pb-3">
+                                                                    <h4 class="modal-title">{% trans 'Adult' %} - {{forloop.counter}}</h4>
+                                                                </div>
+                                                                <div class="col-xs-6">
+                                                                    <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('adult', '{{forloop.counter}}');">&times;</button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-6" id="button_tl_adult{{forloop.counter}}">
+
+                                                                </div>
+                                                                <div class="col-xs-6" id="button_tr_adult{{forloop.counter}}">
+
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
@@ -6986,7 +7242,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-3">
-                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                                 </div>
                                                             </div>
                                                             <!--<div class="row">-->
@@ -7012,12 +7268,9 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div id="search_result_adult{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
+                                                            <div id="search_result_adult{{forloop.counter}}">
 
                                                             </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">{% trans 'Close' %}</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -7312,17 +7565,32 @@
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                         </div>
                                         <div class="modal fade" id="myModal_child{{forloop.counter}}" role="dialog">
-                                            <div class="modal-dialog">
+                                            <div class="overlay_modal_custom" onclick="close_modal_check('child', '{{forloop.counter}}');"></div>
+                                            <div class="modal-dialog modal_custom_fixed">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Child' %} - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('child','{{forloop.counter}}');">&times;</button>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 pb-3">
+                                                                <h4 class="modal-title">{% trans 'Child' %} - {{forloop.counter}}</h4>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('child', '{{forloop.counter}}');">&times;</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6" id="button_tl_child{{forloop.counter}}">
+
+                                                            </div>
+                                                            <div class="col-xs-6" id="button_tr_child{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
@@ -7345,7 +7613,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3">
-                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -7363,12 +7631,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_child{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
+                                                        <div id="search_result_child{{forloop.counter}}">
 
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('child','{{forloop.counter}}');">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -7600,18 +7865,32 @@
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6 mb-3" style="text-align:right;">
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" data-backdrop="static" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> {% trans 'Search' %} <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> {% trans 'Clear' %} <i class="fas fa-times"></i></button>
                                             {% endif %}
                                         </div>
                                         <div class="modal fade" id="myModal_infant{{forloop.counter}}" role="dialog">
-                                            <div class="modal-dialog">
-
+                                            <div class="overlay_modal_custom" onclick="close_modal_check('infant', '{{forloop.counter}}');"></div>
+                                            <div class="modal-dialog modal_custom_fixed">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">Infant - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
+                                                        <div class="row">
+                                                            <div class="col-xs-6 pb-3">
+                                                                <h4 class="modal-title">{% trans 'Infant' %} - {{forloop.counter}}</h4>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('infant', '{{forloop.counter}}');">&times;</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6" id="button_tl_infant{{forloop.counter}}">
+
+                                                            </div>
+                                                            <div class="col-xs-6" id="button_tr_infant{{forloop.counter}}">
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
@@ -7634,7 +7913,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-md-3">
-                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline');">{% trans 'Search' %} <i class="fas fa-search"></i></button>
+                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline'); search_modal_pe_none();">{% trans 'Search' %}</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -7652,12 +7931,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_infant{{forloop.counter}}" style="max-height:600px; overflow:auto; padding:15px;">
+                                                        <div id="search_result_infant{{forloop.counter}}">
 
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
