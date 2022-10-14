@@ -135,6 +135,7 @@ function visa_page_passenger(){
             passenger = msg.passenger;
             visa = msg.visa;
             visa_request = msg.visa_request;
+            get_carriers_visa();
             sell_visa();
             //update_table('passenger');
        },
@@ -1238,6 +1239,12 @@ function visa_get_data(data){
                                                     else
                                              text+=`<span>Infant - `;
                                                     text+=`Birth Date: `+msg.result.response.passengers[i].birth_date+`</span>`;
+                                                    if(msg.result.response.passengers[i].passport_number){
+                                                        text+= `<br/><span>Passport - `+msg.result.response.passengers[i].passport_number+`</span>`;
+                                                    }
+                                                    if(msg.result.response.passengers[i].passport_expdate){
+                                                        text+= `<br/><span>Expired Date - `+moment(msg.result.response.passengers[i].passport_expdate).format('DD MMM YYYY')+`</span>`;
+                                                    }
                                          text+=`</div>
                                                 <div class="col-lg-6" style="text-align:right;">
                                                     <h6>Package</h6>

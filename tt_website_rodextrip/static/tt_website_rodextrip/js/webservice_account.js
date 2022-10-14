@@ -97,6 +97,7 @@ function get_balance(val){
                             <img src="/static/tt_website_rodextrip/images/icon/wallet_black.png" alt="Balance Vendor" style="width:15px; height:15px;">
                             <span style="font-size:14px; font-weight:500;"><span style="color:`+color+`;">`+msg.result.response.currency_code+` `+getrupiah(balance)+`</span></span>`;
                     }
+                    var show_ul_balance = 0;
                     if(msg.result.response.is_show_balance){
                         //BALANCE
                         if(document.getElementById("balance"))
@@ -105,9 +106,13 @@ function get_balance(val){
                             document.getElementById("balance_mob").innerHTML = text;
                         if(document.getElementById("balance_search"))
                             document.getElementById("balance_search").innerHTML = text;
+                        show_ul_balance++;
+                    }else{
+                        if(document.getElementsByClassName("balance_mobile").length > 0)
+                            document.getElementsByClassName("balance_mobile")[0].style.display = 'none';
                     }
                     if(msg.result.response.is_show_credit_limit){
-                        text = `Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+``;
+                        text = `Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit);
                         //CREDIT LIMIT
                         if(document.getElementById("credit_limit"))
                             document.getElementById("credit_limit").innerHTML = text;
@@ -115,6 +120,7 @@ function get_balance(val){
                             document.getElementById("credit_mob").innerHTML = text;
                         if(document.getElementById("credit_search"))
                             document.getElementById("credit_search").innerHTML = text;
+                        show_ul_balance++;
                     }
                     if(msg.result.response.is_show_customer_parent_balance){
                         text = `Corporate Balance: `+msg.result.response.currency_code+ ' ' + getrupiah(customer_parent_balance)+``;
@@ -125,10 +131,18 @@ function get_balance(val){
                             document.getElementById("customer_parent_balance_mob").innerHTML = text;
                         if(document.getElementById("customer_parent_balance_search"))
                             document.getElementById("customer_parent_balance_search").innerHTML = text;
+                        show_ul_balance++;
                     }
-                    if(window.location.href.split('/').length < 7){
-//                        get_transactions_notification(val);
-                        get_transactions_notification();
+                    if(document.getElementById('balance_ul')){
+                        if(show_ul_balance == 1){
+                            document.getElementById('balance_ul').style.height = '55px';
+                        }else{
+                            document.getElementById('balance_ul').style.height = '86px';
+                        }
+                        if(window.location.href.split('/').length < 7){
+    //                        get_transactions_notification(val);
+                            get_transactions_notification();
+                        }
                     }
                     //get_vendor_balance(val);
                     //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
@@ -369,7 +383,7 @@ function show_snooze(val, date, create_date, index){
     document.getElementById('snooze_date_modal').innerHTML = `
     <input type="text" class="form-control mb-3" name="snooze_input_date`+val+`" id="snooze_input_date`+val+`" placeholder="Snooze Date" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Snooze Date '" autocomplete="off" readonly>
     <div style="text-align:right;">
-        <button type="button" class="primary-btn-white-cancel" onclick="close_modal_click('myModalNotification');">
+        <button type="button" data-dismiss="modal" class="primary-btn-white-cancel">
             Cancel
         </button>
         <button type="button" class="primary-btn" onclick="set_snooze_notification(`+val+`, '`+date+`', '`+create_date+`', `+index+`);">

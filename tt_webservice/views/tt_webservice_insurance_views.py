@@ -52,6 +52,8 @@ def api_models(request):
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'signin':
             res = login(request)
+        elif req_data['action'] == 'get_carriers':
+            res = get_carriers(request)
         elif req_data['action'] == 'get_availability':
             res = get_availability(request)
         elif req_data['action'] == 'get_data_passenger_page':
@@ -124,6 +126,47 @@ def login(request):
             _logger.info(json.dumps(request.session['insurance_signature']))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_carriers(request):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_carriers",
+            "signature": request.POST['signature']
+        }
+        data = {
+            "provider_type": 'insurance'
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    file = read_cache("get_insurance_carriers", 'cache_web')
+    if not file:
+        url_request = url + 'content'
+        res = send_request_api(request, url_request, headers, data, 'POST')
+        try:
+            if res['result']['error_code'] == 0:
+                res = res['result']['response']
+                write_cache(res, "get_insurance_carriers", 'cache_web')
+                _logger.info("get_carriers Insurance RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+            else:
+                try:
+                    file = read_cache("get_insurance_carriers", 'cache_web', 90911)
+                    if file:
+                        res = file
+                    _logger.info("get_carriers Insurance ERROR USE CACHE SIGNATURE " + request.POST['signature'])
+                except Exception as e:
+                    _logger.error('ERROR get_carriers file\n' + str(e) + '\n' + traceback.format_exc())
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+    else:
+        try:
+            file = read_cache("get_insurance_carriers", 'cache_web', 90911)
+            res = file
+        except Exception as e:
+            _logger.error('ERROR get_insurance_carriers file\n' + str(e) + '\n' + traceback.format_exc())
+
     return res
 
 def get_availability(request):

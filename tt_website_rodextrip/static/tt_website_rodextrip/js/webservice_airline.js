@@ -1777,8 +1777,9 @@ function get_retrieve_booking_from_vendor(){
            success: function(msg) {
                data_get_retrieve_booking = msg;
                if(msg.result.error_code == 0){
-                   response = draw_get_booking(msg.result.response)
+                   response = draw_get_booking(msg.result.response);
                    document.getElementById('result_get_booking_from_vendor').innerHTML = response;
+                   document.getElementById('div_result_get_booking_fv').style.display = 'block';
                }else{
                    Swal.fire({
                       type: 'error',
@@ -7493,6 +7494,9 @@ function airline_get_booking(data, sync=false){
                                 Birth Date: <b>`+msg.result.response.passengers[pax].birth_date+`</b><br/>`;
                             if(msg.result.response.passengers[pax].identity_type != '' && msg.result.response.passengers[pax].is_valid_identity){
                                 text+= msg.result.response.passengers[pax].identity_type.substr(0,1).toUpperCase()+msg.result.response.passengers[pax].identity_type.substr(1,msg.result.response.passengers[pax].identity_type.length)+`: <b>`+msg.result.response.passengers[pax].identity_number+`</b><br/>`;
+                                if(msg.result.response.passengers[pax].identity_expdate){
+                                    text += `Expired Date: <b>`+moment(msg.result.response.passengers[pax].identity_expdate).format('DD MMM YYYY')+`</b><br/>`;
+                                }
                             }else if(!msg.result.response.passengers[pax].is_valid_identity)
                                 text+= '<b style="color:red;">Need to Update Identity</b><br/>';
                             text+=`Ticket Number: <b>`+ticket+`</b><br/>

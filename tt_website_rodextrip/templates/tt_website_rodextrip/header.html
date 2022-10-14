@@ -80,7 +80,7 @@
                         <h4 class="mb-3"><i class="fas fa-calendar-alt"></i> Snooze until</h4>
                     </div>
                     <div class="col-xs-4" style="text-align:right;">
-                        <i class="fas fa-times text_btn_custom" style="font-size:24px; font-weight:bold;" onclick="close_modal_click('myModalNotification');"></i>
+                        <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times text_btn_custom" style="font-size:24px; font-weight:bold;"></i></button>
                     </div>
                 </div>
                 <div id="snooze_date_modal" style="height:100px;">
@@ -125,17 +125,13 @@
                         </ul>
                     </li>
                     {% if username.co_user_login != '' %}
-                    {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
                     <li class="menu-has-children pt5"><a href="#">{% trans 'Balance & Credit' %}</a>
-                        <ul>
+                        <ul id="balance_ul">
                             <li class="balance_mobile pt5"><a id="balance"></a></li>
                             <li class="credit_mobile pt5"><a id="credit_limit"></a></li>
                             <li class="customer_parent_balance_mobile pt5"><a id="customer_parent_balance"></a></li>
                         </ul>
                     </li>
-                    {% else %}
-                    <li class="balance_mobile pt5"><a id="balance"></a></li>
-                    {% endif %}
 
                     <li class="menu-has-children pt5"><a href="#">{% trans 'Setting' %}</a>
                         <ul>
@@ -397,17 +393,13 @@
                                 <ul id="highlight_header_div" class="dropdown">
                                 </ul>
                             </li>
-                            {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
                             <li><a href="#">{% trans 'Balance & Credit' %}</a>
-                                <ul class="dropdown">
+                                <ul class="dropdown" id="balance_ul">
                                     <li class="balance_mobile"><a id="balance"></a></li>
                                     <li class="credit_mobile"><a id="credit_limit"></a></li>
                                     <li class="customer_parent_balance_mobile"><a id="customer_parent_balance"></a></li>
                                 </ul>
                             </li>
-                            {% else %}
-                            <li class="balance_mobile"><a id="balance"></a></li>
-                            {% endif %}
 
                             <li class="menu-has-children"><a href="#">{% trans 'Setting' %}</a>
                                 <ul class="dropdown">
@@ -629,17 +621,13 @@
                             <ul id="highlight_header_div">
                             </ul>
                         </li>
-                        {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
                         <li class="menu-has-children"><a href="#">{% trans 'Balance & Credit' %}</a>
-                            <ul>
+                            <ul id="balance_ul">
                                 <li class="balance_mobile"><a id="balance"></a></li>
                                 <li class="credit_mobile"><a id="credit_limit"></a></li>
                                 <li class="customer_parent_balance_mobile"><a id="customer_parent_balance"></a></li>
                             </ul>
                         </li>
-                        {% else %}
-                        <li class="balance_mobile" style="color:white;"><a id="balance"></a></li>
-                        {% endif %}
 
 
                         <li class="menu-has-children"><a href="#">{% trans 'Setting' %}</a>
@@ -859,17 +847,13 @@
                             </ul>
                         </li>
 
-                        {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
                         <li class="has-children"><a href="#">{% trans 'Balance & Credit' %}</a>
-                            <ul class="dropdown">
+                            <ul class="dropdown" id="balance_ul">
                                 <li class="balance_mobile"><a id="balance"></a></li>
                                 <li class="credit_mobile"><a id="credit_limit"></a></li>
                                 <li class="customer_parent_balance_mobile" style="color:white;"><a id="customer_parent_balance"></a></li>
                             </ul>
                         </li>
-                        {% else %}
-                        <li class="balance_mobile"><a id="balance"></a></li>
-                        {% endif %}
 
                         <li class="has-children"><a href="#">{% trans 'Setting' %}</a>
                             <ul class="dropdown">
@@ -1089,17 +1073,13 @@
                     </li>
 
                     {% if username.co_user_login != '' %}
-                    {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
                     <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Balance & Credit' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
-                        <ul style="top:65%;">
+                        <ul style="top:65%;" id="balance_ul">
                             <li class="balance_mobile" style="margin-top:8px;"><a id="balance"></a></li>
                             <li class="credit_mobile" style="margin-top:8px;"><a id="credit_limit"></a></li>
                             <li class="customer_parent_balance_mobile" style="margin-top:8px;"><a id="customer_parent_balance"></a></li>
                         </ul>
                     </li>
-                    {% else %}
-                    <li class="balance_mobile" style="margin-top:8px;"><a id="balance"></a></li>
-                    {% endif %}
 
                     <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Setting' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                         <ul style="top:65%;">
@@ -1292,17 +1272,13 @@
                     </ul>
                 </li>
                 {% if username.co_user_login != '' %}
-                {% if "corp_limitation" in username.co_agent_frontend_security or 'co_customer_parent_type_name' in username %}
                 <li class="menu-has-children"><a href="#">{% trans 'Balance & Credit' %} <i class="fas fa-chevron-down"></i></a>
-                    <ul>
+                    <ul id="balance_ul">
                         <li class="balance_mobile pt5"><a id="balance"></a></li>
                         <li class="credit_mobile pt5"><a id="credit_limit"></a></li>
                         <li class="customer_parent_balance_mobile pt5"><a id="customer_parent_balance"></a></li>
                     </ul>
                 </li>
-                {% else %}
-                <li><a id="balance"></a></li>
-                {% endif %}
 
                 <li class="menu-has-children"><a href="#">{% trans 'Setting' %} <i class="fas fa-chevron-down"></i></a>
                     <ul>

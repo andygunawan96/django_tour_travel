@@ -225,6 +225,14 @@
                                             <div class="col-lg-7" style="margin-bottom:10px;">
                                                 <h5 id="adult_name{{counter}}">{{person.number}}. {{person.title}} {{person.first_name}} {{person.last_name}}</h5>
                                                 <span style="font-size:14px;">{% trans 'Adult' %} - {% trans 'Birth Date' %}: {{person.birth_date}}</span>
+                                                {% if person.identity_number %}
+                                                <br/>
+                                                <span style="font-size:14px;">Passport - {{person.identity_number}}</span>
+                                                {% endif %}
+                                                {% if person.identity_expdate %}
+                                                <br/>
+                                                <span style="font-size:14px;">Expired Date - {{person.identity_expdate}}</span>
+                                                {% endif %}
                                             </div>
                                             <div class="col-lg-5" style="text-align:right; margin-bottom:10px;">
                                                 <h6>Price <span id="adult_price{{counter}}"></span></h6>

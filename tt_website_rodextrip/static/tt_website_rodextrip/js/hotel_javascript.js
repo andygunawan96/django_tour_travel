@@ -2924,7 +2924,8 @@ function filter_room_hotel(type, value){
         document.getElementById('checkbox_queen').checked = false;
         document.getElementById('checkbox_king').checked = false;
         for(i in provider_list)
-            document.getElementById('checkbox_provider'+i).checked = false;
+            if(document.getElementById('checkbox_provider'+i))
+                document.getElementById('checkbox_provider'+i).checked = false;
     }else{
         document.getElementById('checkbox_room_all').checked = false;
         //data awal show

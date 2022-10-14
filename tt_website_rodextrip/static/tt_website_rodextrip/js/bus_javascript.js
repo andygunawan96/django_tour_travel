@@ -1424,11 +1424,16 @@ function check_passenger(adult, infant){
     }catch(err){
 
     }
+    length_name = 100;
+    for(i in bus_response){
+        if(bus_carriers[bus_response[i].provider].adult_length_name < length_name)
+            length_name = bus_carriers[bus_response[i].provider].adult_length_name;
+    }
     if(check_name(document.getElementById('booker_title').value,
                     document.getElementById('booker_first_name').value,
                     document.getElementById('booker_last_name').value,
-                    50) == false){
-        error_log+= 'Total of Booker name maximum 50 characters!</br>\n';
+                    length_name) == false){
+        error_log+= 'Total of Booker name maximum '+length_name+' characters!</br>\n';
         document.getElementById('booker_first_name').style['border-color'] = 'red';
         document.getElementById('booker_last_name').style['border-color'] = 'red';
     }else{
@@ -1463,7 +1468,6 @@ function check_passenger(adult, infant){
     }else{
         document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
     }
-    length_name = 50;
 
     var radios = document.getElementsByName('myRadios');
     for (var j = 0, length = radios.length; j < length; j++) {

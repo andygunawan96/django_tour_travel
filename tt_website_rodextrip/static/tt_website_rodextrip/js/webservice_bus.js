@@ -167,29 +167,7 @@ function bus_search_page(){
             bus_signin('');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
-            $('#loading-search-bus').hide();
-       },timeout: 180000
-   });
-}
-
-function bus_search_page(){
-    $.ajax({
-       type: "POST",
-       url: "/webservice/bus",
-       headers:{
-            'action': 'search_page',
-       },
-       data: {
-            'signature': signature
-       },
-       success: function(msg) {
-            bus_request = msg.bus_request;
-            get_bus_config();
-            bus_signin('');
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error data review hotel');
+            error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error search bus');
             $('#loading-search-bus').hide();
        },timeout: 180000
    });
@@ -207,7 +185,8 @@ function bus_passenger_page(){
        },
        success: function(msg) {
             bus_data = msg.response;
-            bus_carriers = msg.bus_carriers;
+            get_carriers_bus();
+//            bus_carriers = msg.bus_carriers;
 
             bus_response = msg.response;
 
@@ -1126,7 +1105,7 @@ function bus_get_booking(data, sync=false){
                             <th style="width:30%;">Name</th>
                             <th style="width:15%;">Birth Date</th>
                             <th style="width:15%;">Identity Type</th>
-                            <th style="width:20%;">ID</th>
+                            <th style="width:20%;">ID Number</th>
                             <th style="width:20%;">Seat</th>
                         </tr>`;
                         for(pax in msg.result.response.passengers){

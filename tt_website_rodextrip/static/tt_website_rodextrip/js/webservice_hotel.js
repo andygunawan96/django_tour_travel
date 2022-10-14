@@ -624,8 +624,9 @@ function hotel_passenger_page(){
             'signature': signature
        },
        success: function(msg) {
+            get_carriers_hotel();
             hotel_price = msg.hotel_price;
-            hotel_request = msg.hotel_request
+            hotel_request = msg.hotel_request;
             hotel_detail();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

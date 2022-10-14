@@ -36,8 +36,9 @@
     }
 
 </style>
+
 {%if "get_booking_from_vendor" in username.co_agent_frontend_security%}
-<button type="button" style="background-color:{{color}};" id="mystickybookingvendor" class="mystickybookingvendor" class="primary-btn" data-toggle="modal" data-target="#myModalPluginVendor">
+<button type="button" style="background-color:{{color}};" id="mystickybookingvendor" class="mystickybookingvendor getbooking-fv-slide-toggle" onclick="on_off_overlay_bar('box-getbooking-fv', 'overlay_box_getbooking_fv');">
     <i class="fas fa-plane-departure"></i>
 </button>
 
@@ -46,27 +47,39 @@
     bottom+=60;
 </script>
 
-<div class="modal fade" id="myModalPluginVendor" role="dialog" data-keyboard="false">
-    <div class="modal-dialog">
+<div class="box-getbooking-fv">
+    <div id="overlay_box_gbv" class="overlay_box_getbooking_fv" style="display:none;" onclick="on_off_overlay_bar('box-getbooking-fv', 'overlay_box_getbooking_fv'); clear_booker_booking_from_vendor();"></div>
+    <div class="box-getbooking-fv-inner">
+        <form action="" class="form-wrap" method="POST" id="get_booking_from_vendor" enctype="multipart/form-data">
+            <div class="row" style="background:white; position:sticky; padding-top:25px; z-index:1000; top:0px;">
+                <div class="col-xs-7">
+                    <h5 style="color:black; font-size:16px;"><i class="fas fa-file"></i> GET BOOKING FROM VENDOR</h5>
+                </div>
+                <div class="col-xs-5" style="text-align:right;">
+                    <i class="fas fa-times text_btn_custom" id="close_gbv" style="font-size:24px; font-weight:bold;" onclick="on_off_overlay_bar('box-getbooking-fv', 'overlay_box_getbooking_fv'); clear_booker_booking_from_vendor();"></i>
+                </div>
+                <div class="col-xs-12">
+                    <hr/>
+                </div>
+                <div class="col-xs-6" id="button_tl_getbooking_fv">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" style="color:{{text_color}};">{% trans 'Get Booking From Vendor' %} <i class="fas fa-plane-departure"></i></h5>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="col-xs-6" id="button_tr_getbooking_fv">
+
+                </div>
             </div>
-            <div class="modal-body">
-                {%if template == 1%}
-                <form action="" class="form-wrap" method="POST" id="get_booking_from_vendor" enctype="multipart/form-data">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="row mt-3" style="background:#f7f7f7;">
+                <div class="col-lg-12" style="padding:15px;">
+                    <div class="row" id="div_search_get_booking_fv">
+                    {%if template == 1%}
+                        <div class="col-lg-12" style="margin-bottom:15px;">
                             <label style="color:red">*</label>
                             <label>{% trans 'PNR' %}</label>
                             <div class="input-container-search-ticket">
                                 <input type="text" class="form-control mb-2" name="pnr2" id="pnr2" placeholder="{% trans 'PNR' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR '">
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-12" style="margin-bottom:15px;">
                             <label style="color:red">*</label>
                             <label>{% trans 'Provider' %}</label>
                             <div class="input-container-search-ticket">
@@ -77,22 +90,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6" id="booker_div" hidden>
+                        <div class="col-lg-12" id="booker_div" hidden style="margin-bottom:15px;">
                             <label style="color:red">*</label>
                             <label>{% trans 'Booker' %}</label>
                             <div class="row">
-                                <div class="col-lg-10">
+                                <div class="col-sm-9 col-xs-8">
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control" name="pnr" id="booker_vendor" placeholder="{% trans 'Booker' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker '" disabled/>
                                         <input type="hidden" class="form-control" name="pnr" id="booker_vendor_id"/>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" id="clear_booker_booking_div" hidden>
+                                <div class="col-sm-3 col-xs-4" id="clear_booker_booking_div" hidden>
                                     <button type="button" class="primary-btn" id="clear_booker_booking_from_vendor_id" onclick="clear_booker_booking_from_vendor();" style="float:right;" hidden><i class="fas fa-times"></i></button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-xs-6" hidden id="cus_parent_div">
+                        <div class="col-lg-12" hidden id="cus_parent_div" style="margin-bottom:15px;">
                             <label style="color:red">*</label>
                             <label>{% trans 'Customer Parent' %}</label>
                             <div class="input-container-search-ticket">
@@ -112,14 +125,14 @@
                         <!--</label>-->
                         <!--</div>-->
                         <!--</div>-->
-                        <div class="col-lg-12" id="search_booker_booking_from_vendor">
+                        <div class="col-lg-12 mb-2" id="search_booker_booking_from_vendor" style="margin-bottom:15px;">
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <label style="color:red">*</label>
                                     <label>{% trans 'Booker' %}</label>
                                     <div class="row">
                                         {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-md-5">
                                             <div class="form-select">
                                                 <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
                                                     <option value="cust_name">By Customer Name</option>
@@ -132,421 +145,154 @@
                                             </div>
                                         </div>
                                         {% endif %}
-                                        <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
+                                        <div class="col-md-7 mb-3">
                                             <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4 mb-3">
-                                    <button type="button" class="primary-btn" id="search_btn_click" onclick="search_btn_booker_get_booking_from_vendor();get_customer_list('booker','','get_booking_vendor');">{% trans 'Search' %}</button>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4 mb-3">
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
-                                    <button type="button" class="primary-btn" id="hide_btn_click" onclick="hide_result_booker_vendor();" style="float:right;" hidden>{% trans 'Hide' %}</button>
-                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-12" id="search_result_booker_vendor" style="width:100%; padding:0px 30px; max-height:400px; overflow:auto;">
-
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12" style="margin-top:15px; text-align:center;">
-                            <hr/>
-                            <input type="button" id="retrieve_booking_from_vendor" class="primary-btn" onclick="get_retrieve_booking_from_vendor();" value="Check PNR" hidden/>
-                        </div>
-                        <div class="col-lg-12" style="margin-top:15px; text-align:center;" id="result_get_booking_from_vendor">
-                        </div>
-                    </div>
-                </form>
-                {% elif template == 2 %}
-                <div class="col-lg-12" style="overflow:auto;background-color:white; padding:10px; border:1px solid #cdcdcd;">
-                    <form action="" class="form-wrap" style="padding:15px; text-align:left;" method="POST" id="get_booking_from_vendor" enctype="multipart/form-data">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <label style="color:red">*</label>
-                                <label>{% trans 'PNR' %}</label>
-                                <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control mb-2" name="pnr2" id="pnr2" placeholder="{% trans 'PNR' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR '">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <label style="color:red">*</label>
-                                <label>{% trans 'Provider' %}</label>
-                                <div class="input-container-search-ticket">
-                                    <div class="form-select-2 mb-2">
-                                        <select id="provider_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default">
-
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6" id="booker_div" hidden>
-                                <label style="color:red">*</label>
-                                <label>{% trans 'Booker' %}</label>
-                                <div class="row">
-                                    <div class="col-lg-10">
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="pnr" id="booker_vendor" placeholder="{% trans 'Booker' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker '" disabled/>
-                                            <input type="hidden" class="form-control" name="pnr" id="booker_vendor_id"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" id="clear_booker_booking_div" hidden>
-                                        <button type="button" class="primary-btn" id="clear_booker_booking_from_vendor_id" onclick="clear_booker_booking_from_vendor();" style="float:right;" hidden><i class="fas fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-xs-6" hidden id="cus_parent_div">
-                                <label style="color:red">*</label>
-                                <label>{% trans 'Customer Parent' %}</label>
-                                <div class="input-container-search-ticket">
-                                    <div class="form-select-2">
-                                        <select id="customer_parent_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default">
-
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--<div class="col-lg-6 col-md-6 col-sm-6">-->
-                            <!--<div class="input-container-search-ticket">-->
-                            <!--<label class="check_box_custom">-->
-                            <!--<span class="span-search-ticket" style="color:black;">Bypass PNR</span>-->
-                            <!--<input type="checkbox" id="duplicate_pnr" name="duplicate_pnr" />-->
-                            <!--<span class="check_box_span_custom"></span>-->
-                            <!--</label>-->
-                            <!--</div>-->
-                            <!--</div>-->
-                            <div class="col-lg-12" id="search_booker_booking_from_vendor">
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
-                                        <label style="color:red">*</label>
-                                        <label>{% trans 'Booker' %}</label>
-                                        <div class="row">
-                                            {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                            <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
-                                                <div class="form-select">
-                                                    <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
-                                                        <option value="cust_name">By Customer Name</option>
-                                                        <option value="mobile">By Customer Mobile</option>
-                                                        <option value="email">By Customer Mail</option>
-                                                        <option value="identity_type">By Customer Identity Number</option>
-                                                        <option value="birth_date">By Birth Date</option>
-                                                        <option value="cor_name">By Corporate Name</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            {% endif %}
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 mb-2">
-                                        <button type="button" class="primary-btn" id="search_btn_click" onclick="search_btn_booker_get_booking_from_vendor();get_customer_list('booker','','get_booking_vendor');">{% trans 'Search' %}</button>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2">
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 mb-2">
-                                        <button type="button" class="primary-btn" id="hide_btn_click" onclick="hide_result_booker_vendor();" style="float:right;" hidden>{% trans 'Hide' %}</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="search_result_booker_vendor" style="padding:15px; width:100%; max-height:400px; overflow:auto;">
-
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12" style="margin-top:15px; text-align:center;">
-                                <hr/>
-                                <input type="button" id="retrieve_booking_from_vendor" class="primary-btn" onclick="get_retrieve_booking_from_vendor();" value="Check PNR" hidden/>
-                            </div>
-                            <div class="col-lg-12" style="margin-top:15px; text-align:center;" id="result_get_booking_from_vendor">
+                    {% elif template == 2 %}
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'PNR' %}</label>
+                            <div class="input-container-search-ticket">
+                                <input type="text" class="form-control mb-2" name="pnr2" id="pnr2" placeholder="{% trans 'PNR' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR '">
                             </div>
                         </div>
-                    </form>
-                </div>
-                {% elif template == 3 %}
-                <div class="col-lg-12" style="overflow:auto;background-color:white; padding:10px; border:1px solid #cdcdcd;">
-                    <form action="" class="form-wrap" style="padding:15px; text-align:left;" method="POST" id="get_booking_from_vendor" enctype="multipart/form-data">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <label style="color:red">*</label>
-                                <label>{% trans 'PNR' %}</label>
-                                <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control mb-2" name="pnr2" id="pnr2" placeholder="{% trans 'PNR' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR '">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <label style="color:red">*</label>
-                                <label>{% trans 'Provider' %}</label>
-                                <div class="input-container-search-ticket mb-2">
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Provider' %}</label>
+                            <div class="input-container-search-ticket">
+                                <div class="form-select-2 mb-2">
                                     <select id="provider_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default">
 
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-6" id="booker_div" hidden>
-                                <label style="color:red">*</label>
-                                <label>{% trans 'Booker' %}</label>
-                                <div class="row">
-                                    <div class="col-lg-10">
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="pnr" id="booker_vendor" placeholder="{% trans 'Booker' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker '" disabled/>
-                                            <input type="hidden" class="form-control" name="pnr" id="booker_vendor_id"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" id="clear_booker_booking_div" hidden>
-                                        <button type="button" class="primary-btn" id="clear_booker_booking_from_vendor_id" onclick="clear_booker_booking_from_vendor();" style="float:right;" hidden><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;" id="booker_div" hidden>
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Booker' %}</label>
+                            <div class="row">
+                                <div class="col-sm-9 col-xs-8">
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control" name="pnr" id="booker_vendor" placeholder="{% trans 'Booker' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker '" disabled/>
+                                        <input type="hidden" class="form-control" name="pnr" id="booker_vendor_id"/>
                                     </div>
                                 </div>
+                                <div class="col-sm-3 col-xs-4" id="clear_booker_booking_div" hidden>
+                                    <button type="button" class="primary-btn" id="clear_booker_booking_from_vendor_id" onclick="clear_booker_booking_from_vendor();" style="float:right;" hidden><i class="fas fa-times"></i></button>
+                                </div>
                             </div>
-                            <div class="col-lg-6 col-xs-6" hidden id="cus_parent_div">
-                                <label style="color:red">*</label>
-                                <label>{% trans 'Customer Parent' %}</label>
-                                <div class="input-container-search-ticket">
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;" hidden id="cus_parent_div">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Customer Parent' %}</label>
+                            <div class="input-container-search-ticket">
+                                <div class="form-select-2">
                                     <select id="customer_parent_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default">
 
                                     </select>
                                 </div>
                             </div>
-                            <!--<div class="col-lg-6 col-md-6 col-sm-6">-->
-                            <!--<div class="input-container-search-ticket">-->
-                            <!--<label class="check_box_custom">-->
-                            <!--<span class="span-search-ticket" style="color:black;">Bypass PNR</span>-->
-                            <!--<input type="checkbox" id="duplicate_pnr" name="duplicate_pnr" />-->
-                            <!--<span class="check_box_span_custom"></span>-->
-                            <!--</label>-->
-                            <!--</div>-->
-                            <!--</div>-->
-                            <div class="col-lg-12" id="search_booker_booking_from_vendor">
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <label style="color:red">*</label>
-                                        <label>{% trans 'Booker' %}</label>
-                                        <div class="row">
-                                            {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <div class="form-group">
-                                                    <div class="default-select" id="default-select">
-                                                        <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
-                                                            <option value="cust_name">By Customer Name</option>
-                                                            <option value="mobile">By Customer Mobile</option>
-                                                            <option value="email">By Customer Mail</option>
-                                                            <option value="identity_type">By Customer Identity Number</option>
-                                                            <option value="birth_date">By Birth Date</option>
-                                                            <option value="cor_name">By Corporate Name</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {% endif %}
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                        </div>
+                        <!--<div class="col-lg-6 col-md-6 col-sm-6">-->
+                        <!--<div class="input-container-search-ticket">-->
+                        <!--<label class="check_box_custom">-->
+                        <!--<span class="span-search-ticket" style="color:black;">Bypass PNR</span>-->
+                        <!--<input type="checkbox" id="duplicate_pnr" name="duplicate_pnr" />-->
+                        <!--<span class="check_box_span_custom"></span>-->
+                        <!--</label>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <div class="col-lg-12" id="search_booker_booking_from_vendor" style="margin-bottom:15px;">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                    <label style="color:red">*</label>
+                                    <label>{% trans 'Booker' %}</label>
+                                    <div class="row">
+                                        {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                        <div class="col-md-5" style="margin-bottom:15px;">
+                                            <div class="form-select">
+                                                <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
+                                                    <option value="cust_name">By Customer Name</option>
+                                                    <option value="mobile">By Customer Mobile</option>
+                                                    <option value="email">By Customer Mail</option>
+                                                    <option value="identity_type">By Customer Identity Number</option>
+                                                    <option value="birth_date">By Birth Date</option>
+                                                    <option value="cor_name">By Corporate Name</option>
+                                                </select>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 mt-2">
-                                        <button type="button" class="primary-btn" id="search_btn_click" onclick="search_btn_booker_get_booking_from_vendor();get_customer_list('booker','','get_booking_vendor');">{% trans 'Search' %}</button>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 mt-2">
-                                        <button type="button" class="primary-btn" id="hide_btn_click" onclick="hide_result_booker_vendor();" style="float:right;" hidden>{% trans 'Hide' %}</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="search_result_booker_vendor" style="padding:15px; width:100%; max-height:400px; overflow:auto;">
-
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12" style="margin-top:15px; text-align:center;">
-                                <hr/>
-                                <input type="button" id="retrieve_booking_from_vendor" class="primary-btn" onclick="get_retrieve_booking_from_vendor();" value="Check PNR" hidden/>
-                            </div>
-                            <div class="col-lg-12" style="margin-top:15px; text-align:center;" id="result_get_booking_from_vendor">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                {% elif template == 4 %}
-                <div class="col-lg-12 banner-right" style="overflow:auto;background-color:white; padding:10px; border:1px solid #cdcdcd;">
-                    <form action="" class="form-wrap" style="padding:15px; text-align:left;" method="POST" id="get_booking_from_vendor" enctype="multipart/form-data">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <label style="color:red">*</label>
-                                <label>{% trans 'PNR' %}</label>
-                                <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control mb-2" name="pnr2" id="pnr2" placeholder="{% trans 'PNR' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR '">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <label style="color:red">*</label>
-                                <label>{% trans 'Provider' %}</label>
-                                <div class="input-container-search-ticket btn-group">
-                                    <div class="form-select mb-2" id="default-select">
-                                        <select id="provider_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default">
-
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6" id="booker_div" hidden>
-                                <label style="color:red">*</label>
-                                <label>{% trans 'Booker' %}</label>
-                                <div class="row">
-                                    <div class="col-lg-10">
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="pnr" id="booker_vendor" placeholder="{% trans 'Booker' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker '" disabled/>
-                                            <input type="hidden" class="form-control" name="pnr" id="booker_vendor_id"/>
+                                        {% endif %}
+                                        <div class="col-md-7">
+                                            <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
                                         </div>
                                     </div>
-                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" id="clear_booker_booking_div" hidden>
-                                        <button type="button" class="primary-btn" id="clear_booker_booking_from_vendor_id" onclick="clear_booker_booking_from_vendor();" style="float:right;" hidden><i class="fas fa-times"></i></button>
-                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-6 col-xs-6" hidden id="cus_parent_div">
-                                <label style="color:red">*</label>
-                                <label>{% trans 'Customer Parent' %}</label>
-                                <div class="input-container-search-ticket">
-                                    <div class="form-select-2">
-                                        <select id="customer_parent_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default">
-
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--<div class="col-lg-6 col-md-6 col-sm-6">-->
-                            <!--<div class="input-container-search-ticket">-->
-                            <!--<label class="check_box_custom">-->
-                            <!--<span class="span-search-ticket" style="color:black;">Bypass PNR</span>-->
-                            <!--<input type="checkbox" id="duplicate_pnr" name="duplicate_pnr" />-->
-                            <!--<span class="check_box_span_custom"></span>-->
-                            <!--</label>-->
-                            <!--</div>-->
-                            <!--</div>-->
-                            <div class="col-lg-12" id="search_booker_booking_from_vendor">
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <label style="color:red">*</label>
-                                        <label>{% trans 'Booker' %}</label>
-                                        <div class="row">
-                                            {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                            <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
-                                                <div class="input-container-search-ticket btn-group">
-                                                    <div class="form-select" id="default-select">
-                                                        <select class="nice-select-default" id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
-                                                            <option value="cust_name">By Customer Name</option>
-                                                            <option value="mobile">By Customer Mobile</option>
-                                                            <option value="email">By Customer Mail</option>
-                                                            <option value="identity_type">By Customer Identity Number</option>
-                                                            <option value="birth_date">By Birth Date</option>
-                                                            <option value="cor_name">By Corporate Name</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {% endif %}
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                        <button type="button" class="primary-btn" id="search_btn_click" onclick="search_btn_booker_get_booking_from_vendor();get_customer_list('booker','','get_booking_vendor');">{% trans 'Search' %}</button>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                        <button type="button" class="primary-btn" id="hide_btn_click" onclick="hide_result_booker_vendor();" style="float:right;" hidden>{% trans 'Hide' %}</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="search_result_booker_vendor" style="padding:15px; width:100%; max-height:400px; overflow:auto;">
-
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12" style="margin-top:15px; text-align:center;">
-                                <hr/>
-                                <input type="button" id="retrieve_booking_from_vendor" class="primary-btn" onclick="get_retrieve_booking_from_vendor();" value="Check PNR" hidden/>
-                            </div>
-                            <div class="col-lg-12" style="margin-top:15px; text-align:center;" id="result_get_booking_from_vendor">
                             </div>
                         </div>
-                    </form>
-                </div>
-                {% elif template == 5 %}
-                <div class="col-lg-12 banner-right" style="overflow:auto;background-color:white; padding:10px; border:1px solid #cdcdcd;">
-                    <form action="" class="form-wrap" style="padding:15px; text-align:left;" method="POST" id="get_booking_from_vendor" enctype="multipart/form-data">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <label style="color:red">*</label>
-                                <label>{% trans 'PNR' %}</label>
-                                <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control mb-2" name="pnr2" id="pnr2" placeholder="{% trans 'PNR' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR '">
-                                </div>
+                    {% elif template == 3 %}
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'PNR' %}</label>
+                            <div class="input-container-search-ticket">
+                                <input type="text" class="form-control mb-2" name="pnr2" id="pnr2" placeholder="{% trans 'PNR' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR '">
                             </div>
-                            <div class="col-lg-6">
-                                <label style="color:red">*</label>
-                                <label>{% trans 'Provider' %}</label>
-                                <div class="input-container-search-ticket btn-group">
-                                    <div class="form-select mb-2">
-                                        <select id="provider_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default" style="width:100%;">
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Provider' %}</label>
+                            <div class="input-container-search-ticket mb-2">
+                                <select id="provider_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default">
 
-                                        </select>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;" id="booker_div" hidden>
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Booker' %}</label>
+                            <div class="row">
+                                <div class="col-sm-9 col-xs-8">
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control" name="pnr" id="booker_vendor" placeholder="{% trans 'Booker' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker '" disabled/>
+                                        <input type="hidden" class="form-control" name="pnr" id="booker_vendor_id"/>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-6" id="booker_div" hidden>
-                                <label style="color:red">*</label>
-                                <label>{% trans 'Booker' %}</label>
-                                <div class="row">
-                                    <div class="col-lg-10">
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="pnr" id="booker_vendor" placeholder="{% trans 'Booker' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker '" disabled/>
-                                            <input type="hidden" class="form-control" name="pnr" id="booker_vendor_id"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" id="clear_booker_booking_div" hidden>
-                                        <button type="button" class="primary-btn" id="clear_booker_booking_from_vendor_id" onclick="clear_booker_booking_from_vendor();" style="float:right;" hidden><i class="fas fa-times"></i></button>
-                                    </div>
+                                <div class="col-sm-3 col-xs-4" id="clear_booker_booking_div" hidden>
+                                    <button type="button" class="primary-btn" id="clear_booker_booking_from_vendor_id" onclick="clear_booker_booking_from_vendor();" style="float:right;" hidden><i class="fas fa-times"></i></button>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-xs-6" hidden id="cus_parent_div">
-                                <label style="color:red">*</label>
-                                <label>{% trans 'Customer Parent' %}</label>
-                                <div class="input-container-search-ticket">
-                                    <div class="form-select">
-                                        <select id="customer_parent_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default">
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;" hidden id="cus_parent_div">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Customer Parent' %}</label>
+                            <div class="input-container-search-ticket">
+                                <select id="customer_parent_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default">
 
-                                        </select>
-                                    </div>
-                                </div>
+                                </select>
                             </div>
-                            <!--<div class="col-lg-6 col-md-6 col-sm-6">-->
-                            <!--<div class="input-container-search-ticket">-->
-                            <!--<label class="check_box_custom">-->
-                            <!--<span class="span-search-ticket" style="color:black;">Bypass PNR</span>-->
-                            <!--<input type="checkbox" id="duplicate_pnr" name="duplicate_pnr" />-->
-                            <!--<span class="check_box_span_custom"></span>-->
-                            <!--</label>-->
-                            <!--</div>-->
-                            <!--</div>-->
-                            <div class="col-lg-12" id="search_booker_booking_from_vendor">
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <label style="color:red">*</label>
-                                        <label>{% trans 'Booker' %}</label>
-                                        <div class="row">
-                                            {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                            <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
-                                                <div class="form-select">
+                        </div>
+                        <!--<div class="col-lg-6 col-md-6 col-sm-6">-->
+                        <!--<div class="input-container-search-ticket">-->
+                        <!--<label class="check_box_custom">-->
+                        <!--<span class="span-search-ticket" style="color:black;">Bypass PNR</span>-->
+                        <!--<input type="checkbox" id="duplicate_pnr" name="duplicate_pnr" />-->
+                        <!--<span class="check_box_span_custom"></span>-->
+                        <!--</label>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <div class="col-lg-12" style="margin-bottom:15px;" id="search_booker_booking_from_vendor">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label style="color:red">*</label>
+                                    <label>{% trans 'Booker' %}</label>
+                                    <div class="row">
+                                        {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <div class="default-select" id="default-select">
                                                     <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
                                                         <option value="cust_name">By Customer Name</option>
                                                         <option value="mobile">By Customer Mobile</option>
@@ -557,171 +303,303 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            {% endif %}
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
-                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                        <button type="button" class="primary-btn" id="search_btn_click" onclick="search_btn_booker_get_booking_from_vendor();get_customer_list('booker','','get_booking_vendor');">{% trans 'Search' %}</button>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                        <button type="button" class="primary-btn" id="hide_btn_click" onclick="hide_result_booker_vendor();" style="float:right;" hidden>{% trans 'Hide' %}</button>
+                                        {% endif %}
+                                        <div class="col-md-7">
+                                            <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div id="search_result_booker_vendor" style="padding:15px; width:100%; max-height:400px; overflow:auto;">
-
-                            </div>
-
                         </div>
-                        <div class="col-lg-12" style="margin-top:15px; text-align:center;">
+                    {% elif template == 4 %}
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'PNR' %}</label>
+                            <div class="input-container-search-ticket">
+                                <input type="text" class="form-control mb-2" name="pnr2" id="pnr2" placeholder="{% trans 'PNR' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR '">
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Provider' %}</label>
+                            <div class="input-container-search-ticket btn-group">
+                                <div class="form-select mb-2" id="default-select">
+                                    <select id="provider_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default">
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;" id="booker_div" hidden>
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Booker' %}</label>
+                            <div class="row">
+                                <div class="col-sm-9 col-xs-8">
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control" name="pnr" id="booker_vendor" placeholder="{% trans 'Booker' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker '" disabled/>
+                                        <input type="hidden" class="form-control" name="pnr" id="booker_vendor_id"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-xs-4" id="clear_booker_booking_div" hidden>
+                                    <button type="button" class="primary-btn" id="clear_booker_booking_from_vendor_id" onclick="clear_booker_booking_from_vendor();" style="float:right;" hidden><i class="fas fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;" hidden id="cus_parent_div">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Customer Parent' %}</label>
+                            <div class="input-container-search-ticket">
+                                <div class="form-select-2">
+                                    <select id="customer_parent_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default">
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="col-lg-6 col-md-6 col-sm-6">-->
+                        <!--<div class="input-container-search-ticket">-->
+                        <!--<label class="check_box_custom">-->
+                        <!--<span class="span-search-ticket" style="color:black;">Bypass PNR</span>-->
+                        <!--<input type="checkbox" id="duplicate_pnr" name="duplicate_pnr" />-->
+                        <!--<span class="check_box_span_custom"></span>-->
+                        <!--</label>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <div class="col-lg-12" style="margin-bottom:15px;" id="search_booker_booking_from_vendor">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label style="color:red">*</label>
+                                    <label>{% trans 'Booker' %}</label>
+                                    <div class="row">
+                                        {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                        <div class="col-md-5">
+                                            <div class="input-container-search-ticket btn-group">
+                                                <div class="form-select" id="default-select">
+                                                    <select class="nice-select-default" id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
+                                                        <option value="cust_name">By Customer Name</option>
+                                                        <option value="mobile">By Customer Mobile</option>
+                                                        <option value="email">By Customer Mail</option>
+                                                        <option value="identity_type">By Customer Identity Number</option>
+                                                        <option value="birth_date">By Birth Date</option>
+                                                        <option value="cor_name">By Corporate Name</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        <div class="col-md-7">
+                                            <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% elif template == 5 %}
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'PNR' %}</label>
+                            <div class="input-container-search-ticket">
+                                <input type="text" class="form-control mb-2" name="pnr2" id="pnr2" placeholder="{% trans 'PNR' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR '">
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Provider' %}</label>
+                            <div class="input-container-search-ticket btn-group">
+                                <div class="form-select mb-2">
+                                    <select id="provider_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default" style="width:100%;">
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;" id="booker_div" hidden>
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Booker' %}</label>
+                            <div class="row">
+                                <div class="col-md-9 col-xs-8">
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control" name="pnr" id="booker_vendor" placeholder="{% trans 'Booker' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker '" disabled/>
+                                        <input type="hidden" class="form-control" name="pnr" id="booker_vendor_id"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-xs-4" id="clear_booker_booking_div" hidden>
+                                    <button type="button" class="primary-btn" id="clear_booker_booking_from_vendor_id" onclick="clear_booker_booking_from_vendor();" style="float:right;" hidden><i class="fas fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;" hidden id="cus_parent_div">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Customer Parent' %}</label>
+                            <div class="input-container-search-ticket">
+                                <div class="form-select">
+                                    <select id="customer_parent_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default">
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="col-lg-6 col-md-6 col-sm-6">-->
+                        <!--<div class="input-container-search-ticket">-->
+                        <!--<label class="check_box_custom">-->
+                        <!--<span class="span-search-ticket" style="color:black;">Bypass PNR</span>-->
+                        <!--<input type="checkbox" id="duplicate_pnr" name="duplicate_pnr" />-->
+                        <!--<span class="check_box_span_custom"></span>-->
+                        <!--</label>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <div class="col-lg-12" style="margin-bottom:15px;" id="search_booker_booking_from_vendor">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label style="color:red">*</label>
+                                    <label>{% trans 'Booker' %}</label>
+                                    <div class="row">
+                                        {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                        <div class="col-md-5">
+                                            <div class="form-select">
+                                                <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
+                                                    <option value="cust_name">By Customer Name</option>
+                                                    <option value="mobile">By Customer Mobile</option>
+                                                    <option value="email">By Customer Mail</option>
+                                                    <option value="identity_type">By Customer Identity Number</option>
+                                                    <option value="birth_date">By Birth Date</option>
+                                                    <option value="cor_name">By Corporate Name</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        <div class="col-md-7">
+                                            <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% elif template == 6 %}
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'PNR' %}</label>
+                            <div class="input-container-search-ticket">
+                                <input type="text" class="form-control mb-2" name="pnr2" id="pnr2" placeholder="{% trans 'PNR' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR '">
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Provider' %}</label>
+                            <div class="input-container-search-ticket">
+                                <div class="form-select-2 mb-2">
+                                    <select id="provider_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default">
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;" id="booker_div" hidden>
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Booker' %}</label>
+                            <div class="row">
+                                <div class="col-sm-9 col-xs-8">
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control" name="pnr" id="booker_vendor" placeholder="{% trans 'Booker' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker '" disabled/>
+                                        <input type="hidden" class="form-control" name="pnr" id="booker_vendor_id"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-xs-4" id="clear_booker_booking_div" hidden>
+                                    <button type="button" class="primary-btn" id="clear_booker_booking_from_vendor_id" onclick="clear_booker_booking_from_vendor();" style="float:right;" hidden><i class="fas fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="margin-bottom:15px;" hidden id="cus_parent_div">
+                            <label style="color:red">*</label>
+                            <label>{% trans 'Customer Parent' %}</label>
+                            <div class="input-container-search-ticket">
+                                <div class="form-select-2">
+                                    <select id="customer_parent_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default">
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="col-lg-6 col-md-6 col-sm-6">-->
+                        <!--<div class="input-container-search-ticket">-->
+                        <!--<label class="check_box_custom">-->
+                        <!--<span class="span-search-ticket" style="color:black;">Bypass PNR</span>-->
+                        <!--<input type="checkbox" id="duplicate_pnr" name="duplicate_pnr" />-->
+                        <!--<span class="check_box_span_custom"></span>-->
+                        <!--</label>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <div class="col-lg-12" style="margin-bottom:15px;" id="search_booker_booking_from_vendor">
                             <hr/>
-                            <input type="button" id="retrieve_booking_from_vendor" class="primary-btn" onclick="get_retrieve_booking_from_vendor();" value="Check PNR" hidden/>
-                        </div>
-                        <div class="col-lg-12" style="margin-top:15px; text-align:center;" id="result_get_booking_from_vendor">
-                        </div>
-                    </form>
-                </div>
-                {% elif template == 6 %}
-                <div class="col-lg-12 banner-right" style="overflow:auto;background-color:white; padding:10px; border:1px solid #cdcdcd;">
-                    <form action="" class="form-wrap" style="padding:15px; text-align:left;" method="POST" id="get_booking_from_vendor" enctype="multipart/form-data">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <label style="color:red">*</label>
-                                <label>{% trans 'PNR' %}</label>
-                                <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control mb-2" name="pnr2" id="pnr2" placeholder="{% trans 'PNR' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR '">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <label style="color:red">*</label>
-                                <label>{% trans 'Provider' %}</label>
-                                <div class="input-container-search-ticket">
-                                    <div class="form-select-2 mb-2">
-                                        <select id="provider_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default">
-
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6" id="booker_div" hidden>
-                                <label style="color:red">*</label>
-                                <label>{% trans 'Booker' %}</label>
-                                <div class="row">
-                                    <div class="col-lg-10">
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="pnr" id="booker_vendor" placeholder="{% trans 'Booker' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker '" disabled/>
-                                            <input type="hidden" class="form-control" name="pnr" id="booker_vendor_id"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" id="clear_booker_booking_div" hidden>
-                                        <button type="button" class="primary-btn" id="clear_booker_booking_from_vendor_id" onclick="clear_booker_booking_from_vendor();" style="float:right;" hidden><i class="fas fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-xs-6" hidden id="cus_parent_div">
-                                <label style="color:red">*</label>
-                                <label>{% trans 'Customer Parent' %}</label>
-                                <div class="input-container-search-ticket">
-                                    <div class="form-select-2">
-                                        <select id="customer_parent_booking_from_vendor" name="provider_booking_from_vendor" class="nice-select-default">
-
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--<div class="col-lg-6 col-md-6 col-sm-6">-->
-                            <!--<div class="input-container-search-ticket">-->
-                            <!--<label class="check_box_custom">-->
-                            <!--<span class="span-search-ticket" style="color:black;">Bypass PNR</span>-->
-                            <!--<input type="checkbox" id="duplicate_pnr" name="duplicate_pnr" />-->
-                            <!--<span class="check_box_span_custom"></span>-->
-                            <!--</label>-->
-                            <!--</div>-->
-                            <!--</div>-->
-                            <div class="col-lg-12" id="search_booker_booking_from_vendor">
-                                <hr/>
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <label style="color:red">*</label>
-                                        <label>{% trans 'Booker' %}</label>
-                                        <div class="row">
-                                            {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <div class="form-select">
-                                                    <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
-                                                        <option value="cust_name">By Customer Name</option>
-                                                        <option value="mobile">By Customer Mobile</option>
-                                                        <option value="email">By Customer Mail</option>
-                                                        <option value="identity_type">By Customer Identity Number</option>
-                                                        <option value="birth_date">By Birth Date</option>
-                                                        <option value="cor_name">By Corporate Name</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            {% endif %}
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label style="color:red">*</label>
+                                    <label>{% trans 'Booker' %}</label>
+                                    <div class="row">
+                                        {% if 'co_customer_parent_type_name' not in username and 'corp_limitation' not in username.co_agent_frontend_security %}
+                                        <div class="col-md-5">
+                                            <div class="form-select">
+                                                <select id="train_booker_search_type" name="train_booker_search_type" onchange="search_type_on_change('train_booker_search_type','train_booker_search');">
+                                                    <option value="cust_name">By Customer Name</option>
+                                                    <option value="mobile">By Customer Mobile</option>
+                                                    <option value="email">By Customer Mail</option>
+                                                    <option value="identity_type">By Customer Identity Number</option>
+                                                    <option value="birth_date">By Birth Date</option>
+                                                    <option value="cor_name">By Corporate Name</option>
+                                                </select>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                        <button type="button" class="primary-btn" id="search_btn_click" onclick="search_btn_booker_get_booking_from_vendor();get_customer_list('booker','','get_booking_vendor');">{% trans 'Search' %}</button>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                        <button type="button" class="primary-btn" id="hide_btn_click" onclick="hide_result_booker_vendor();" style="float:right;" hidden>{% trans 'Hide' %}</button>
+                                        {% endif %}
+                                        <div class="col-md-7">
+                                            <input class="form-control" type="text" id="train_booker_search" placeholder="{% trans 'Search' %}"/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div id="search_result_booker_vendor" style="padding:15px; width:100%; max-height:400px; overflow:auto;">
+                        </div>
+                    {% endif %}
+                        <div class="col-md-6" style="margin-bottom:15px;">
+                            <button type="button" class="primary-btn-white" style="display:none; margin-bottom:0px; float:right; width:100%;" id="btn_booker_get_booking_fv" onclick="next_prev_side_div('btn_booker', 'btn_back', 'div_search', 'div_booker', 'get_booking_fv'); filter_top_right('','','get_booking_vendor');">
+                                {% trans 'List Booker' %}
+                                <i class="fas fa-user"></i>
+                            </button>
+                        </div>
 
-                            </div>
+                        <div class="col-md-6">
+                            <button type="button" class="primary-btn" style="width:100%;" id="search_btn_click" onclick="search_btn_booker_get_booking_from_vendor();get_customer_list('booker','','get_booking_vendor');">{% trans 'Search Booker' %}</button>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-12" style="margin-top:15px; text-align:center;">
-                                <hr/>
-                                <input type="button" id="retrieve_booking_from_vendor" class="primary-btn" onclick="get_retrieve_booking_from_vendor();" value="Check PNR" hidden/>
-                            </div>
-                            <div class="col-lg-12" style="margin-top:15px; text-align:center;" id="result_get_booking_from_vendor">
-                            </div>
+
+                        <div class="col-lg-12 mt-3" style="text-align:left;">
+                            <input type="button" id="retrieve_booking_from_vendor" class="primary-btn" style="width:100%;" onclick="get_retrieve_booking_from_vendor();" value="Check PNR" hidden/>
                         </div>
-                    </form>
+                    </div>
+
+                    <div class="row" id="div_booker_get_booking_fv" style="display:none;">
+                        <div class="col-lg-12" id="search_result_booker_vendor" style="width:100%;">
+
+                        </div>
+                    </div>
+
+                    <div class="row mt-3" id="div_result_get_booking_fv" style="display:none;">
+                        <div class="col-lg-12 mb-3">
+                            <h5>Result</h5>
+                        </div>
+                        <div class="col-lg-12" style="margin-top:5px;" id="result_get_booking_from_vendor">
+                            <h6>No booking found! Please check booking first!</h6>
+                        </div>
+                    </div>
                 </div>
-                {% endif %}
             </div>
-        </div>
+        </form>
     </div>
 </div>
 
+
+
 <script>
     $(function() {
-        $('.mystickypaxs').click(function(){
-            $('#myModalPlugin').modal({
-                backdrop: 'static'
-            });
-        });
         get_provider_booking_from_vendor();
-
-        new jBox('Tooltip', {
-            attach: '#mystickybookingvendor',
-            theme: 'TooltipBorder',
-            width: 200,
-            position: {
-              x: 'left',
-              y: 'center'
-            },
-            outside: 'x',
-            pointer: 'top:15',
-            content: 'Retrieve PNR<br/><b>Get Booking From Vendor</b>',
-            animation: 'move'
-        });
-
     });
     function get_customer_parent(){
         $.ajax({
@@ -752,31 +630,32 @@
         });
     }
 
-    function hide_result_booker_vendor(){
-        if(document.getElementById('search_result_booker_vendor').hidden){
-            document.getElementById('search_result_booker_vendor').hidden = false;
-            document.getElementById('hide_btn_click').innerHTML = 'Hide';
-        }
-        else{
-            document.getElementById('search_result_booker_vendor').hidden = true;
-            document.getElementById('hide_btn_click').innerHTML = 'Unhide';
-        }
-    }
     function clear_booker_booking_from_vendor(){
         document.getElementById('search_booker_booking_from_vendor').hidden = false;
-        document.getElementById('clear_booker_booking_div').hidden = false;
         document.getElementById('booker_div').hidden = true;
         document.getElementById('clear_booker_booking_from_vendor_id').hidden = true;
         document.getElementById('clear_booker_booking_div').hidden = true;
         document.getElementById('cus_parent_div').hidden = true;
-        document.getElementById('hide_btn_click').hidden = true;
         document.getElementById('booker_vendor_id').value = '';
         document.getElementById('customer_parent_booking_from_vendor').value = '';
         document.getElementById('booker_vendor').innerHTML = '';
         document.getElementById('retrieve_booking_from_vendor').hidden = true;
+        document.getElementById('result_get_booking_from_vendor').innerHTML = '';
+        document.getElementById('div_result_get_booking_fv').style.display = 'none';
+        document.getElementById('btn_booker_get_booking_fv').style.display = 'none';
+        document.getElementById('div_search_get_booking_fv').style.display = 'flex';
+        document.getElementById('button_tr_getbooking_fv').innerHTML = '';
+        document.getElementById('button_tl_getbooking_fv').innerHTML = '';
+        document.getElementById('search_btn_click').disabled=false;
+        document.getElementById('search_btn_click').hidden = false;
+        document.getElementById('search_result_booker_vendor').innerHTML = '';
+        document.getElementById('btn_booker_get_booking_fv').disabled = false;
     }
     function search_btn_booker_get_booking_from_vendor(){
         document.getElementById('search_btn_click').disabled=true;
+        document.getElementById('btn_booker_get_booking_fv').style.display = "none";
+        document.getElementById('overlay_box_gbv').style.pointerEvents = "none";
+        document.getElementById('close_gbv').style.pointerEvents = "none";
         if(document.getElementById('train_booker_search').value == ''){
             Swal.fire({
               type: 'error',

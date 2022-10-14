@@ -368,7 +368,7 @@ function add_table_of_passenger_verify(type){
 
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && document.URL.split('/')[document.URL.split('/').length-1] == 'passenger'){
                         text+=`
-                        <button type="button" id="button_search`+counter_passenger+`" class="primary-btn" style="margin-bottom:5px; width:90px; height:40px; font-size:12px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" data-toggle="modal" data-target="#myModalPassengerSearch`+counter_passenger+`" onclick="set_passenger_number(`+counter_passenger+`);">
+                        <button type="button" id="button_search`+counter_passenger+`" class="primary-btn" style="margin-bottom:5px; width:90px; height:40px; font-size:12px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" data-toggle="modal" data-target="#myModal_`+parseInt(counter_passenger+1)+`" data-backdrop="static" onclick="set_passenger_number(`+counter_passenger+`);">
                             Search <i class="fas fa-search"></i>
                         </button>`;
                     }
@@ -397,12 +397,27 @@ function add_table_of_passenger_verify(type){
     var node_modal = document.createElement("div");
 
     text_modal_paxs += `
-    <div class="modal fade" id="myModalPassengerSearch`+counter_passenger+`" role="dialog" data-keyboard="false">
-        <div class="modal-dialog">
+    <div class="modal fade" id="myModal_`+parseInt(counter_passenger+1)+`" role="dialog" data-keyboard="false">
+        <div class="overlay_modal_custom" onclick="close_modal_check('', '`+parseInt(counter_passenger+1)+`');"></div>
+        <div class="modal-dialog modal_custom_fixed">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="color:white;">Customer #`+(counter_passenger+1)+`</h4>
-                    <button type="button" class="close" data-dismiss="modal" onclick="update_contact('passenger',`+parseInt(counter_passenger+1)+`);">&times;</button>
+                    <div class="row">
+                        <div class="col-xs-6 pb-3">
+                            <h4 class="modal-title">Customer #`+(counter_passenger+1)+`</h4>
+                        </div>
+                        <div class="col-xs-6">
+                            <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('', '`+parseInt(counter_passenger+1)+`');">&times;</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6" id="button_tl_`+parseInt(counter_passenger+1)+`">
+
+                        </div>
+                        <div class="col-xs-6" id="button_tr_`+parseInt(counter_passenger+1)+`">
+
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -410,12 +425,12 @@ function add_table_of_passenger_verify(type){
                             <input class="form-control" type="text" id="train_`+(counter_passenger+1)+`_search" placeholder="Search"/>
                         </div>
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <button type="button" class="primary-btn" id="passenger_btn_io_click`+(counter_passenger+1)+`" onclick="get_customer_list('','`+(counter_passenger+1)+`','medical')">Search</button>
+                            <button type="button" class="primary-btn" id="passenger_btn_io_click`+(counter_passenger+1)+`" onclick="get_customer_list('','`+(counter_passenger+1)+`','medical'); search_modal_pe_none();">Search</button>
                         </div>
                     </div>
                     <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
 
-                    <div id="search_result_`+(counter_passenger+1)+`" style="max-height:600px; overflow:auto; padding:15px;">
+                    <div id="search_result_`+(counter_passenger+1)+`">
 
                     </div>
                 </div>
@@ -882,7 +897,7 @@ function add_table_of_passenger(type){
 
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                         text+=`
-                        <button type="button" id="button_search`+counter_passenger+`" class="primary-btn" style="margin-bottom:5px; width:90px; height:40px; font-size:12px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" data-toggle="modal" data-target="#myModalPassengerSearch`+counter_passenger+`" onclick="set_passenger_number(`+counter_passenger+`);">
+                        <button type="button" id="button_search`+counter_passenger+`" class="primary-btn" style="margin-bottom:5px; width:90px; height:40px; font-size:12px; padding-left:12px; padding-right:12px; line-height:30px; font-weight:700;" data-toggle="modal" data-target="#myModal_`+parseInt(counter_passenger+1)+`" data-backdrop="static" onclick="set_passenger_number(`+counter_passenger+`);">
                             Search <i class="fas fa-search"></i>
                         </button>`;
                     }
@@ -911,12 +926,27 @@ function add_table_of_passenger(type){
     var node_modal = document.createElement("div");
 
     text_modal_paxs += `
-    <div class="modal fade" id="myModalPassengerSearch`+counter_passenger+`" role="dialog" data-keyboard="false">
-        <div class="modal-dialog">
+    <div class="modal fade" id="myModal_`+parseInt(counter_passenger+1)+`" role="dialog" data-keyboard="false">
+        <div class="overlay_modal_custom" onclick="close_modal_check('', '`+parseInt(counter_passenger+1)+`');"></div>
+        <div class="modal-dialog modal_custom_fixed">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="color:white;">Customer #`+(counter_passenger+1)+`</h4>
-                    <button type="button" class="close" data-dismiss="modal" onclick="update_contact('passenger',`+parseInt(counter_passenger+1)+`);">&times;</button>
+                    <div class="row">
+                        <div class="col-xs-6 pb-3">
+                            <h4 class="modal-title">Customer #`+(counter_passenger+1)+`</h4>
+                        </div>
+                        <div class="col-xs-6">
+                            <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('', '`+parseInt(counter_passenger+1)+`');">&times;</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6" id="button_tl_`+parseInt(counter_passenger+1)+`">
+
+                        </div>
+                        <div class="col-xs-6" id="button_tr_`+parseInt(counter_passenger+1)+`">
+
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -939,7 +969,7 @@ function add_table_of_passenger(type){
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3">
-                            <button type="button" id="passenger_btn_io_click`+(counter_passenger+1)+`" class="primary-btn" onclick="get_customer_list('','`+(counter_passenger+1)+`','medical');">Search <i class="fas fa-search"></i></button>
+                            <button type="button" id="passenger_btn_io_click`+(counter_passenger+1)+`" class="primary-btn" onclick="get_customer_list('','`+(counter_passenger+1)+`','medical'); search_modal_pe_none();">Search</button>
                         </div>
                     </div>
                     <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
@@ -952,8 +982,7 @@ function add_table_of_passenger(type){
                             </div>
                         </div>
                     </div>
-
-                    <div id="search_result_`+(counter_passenger+1)+`" style="max-height:600px; overflow:auto; padding:15px;">
+                    <div id="search_result_`+(counter_passenger+1)+`">
 
                     </div>
                 </div>

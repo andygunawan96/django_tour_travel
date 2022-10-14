@@ -1113,7 +1113,7 @@ function train_get_booking(data){
                             <th style="width:15%;">Name</th>
                             <th style="width:15%;">Birth Date</th>
                             <th style="width:10%;">Identity Type</th>
-                            <th style="width:20%;">ID</th>
+                            <th style="width:20%;">ID Number</th>
                             <th style="width:15%;">Seat</th>
                             <th style="width:15%;">Status</th>
                         </tr>`;

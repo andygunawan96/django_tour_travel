@@ -47,6 +47,24 @@ $(document).ready(function(){
         document.body.style.overflowY = "hidden";
     });
 
+    //untuk getbooking fromvendor
+    $(".getbooking-fv-slide-toggle").click(function(){
+        $(".box-getbooking-fv").animate({
+            width: "toggle",
+            opacity: "toggle"
+        });
+        document.body.style.overflowY = "hidden";
+    });
+
+    //untuk getbooking fromvendor
+    $(".passenger-db-slide-toggle").click(function(){
+        $(".box-passenger-db").animate({
+            width: "toggle",
+            opacity: "toggle"
+        });
+        document.body.style.overflowY = "hidden";
+    });
+
 //    var slowLoad = window.setTimeout( function() {
 //        alert( "the page is taking its sweet time loading" );
 //    }, 10000 );
@@ -3859,7 +3877,6 @@ function show_loading_reorder(product){
 }
 
 //untuk notif overlay
-//
 
 function on_off_overlay_bar(class_box, overlay_class){
     var overlay_bm = document.getElementsByClassName(overlay_class)[0];
@@ -3881,21 +3898,40 @@ function on_off_overlay_bar(class_box, overlay_class){
     document.body.style.overflowY = "unset";
 }
 
-function close_modal_click(id_modal){
-    $("#"+id_modal).modal('hide');
+//untuk tombol next dan prev
+function next_prev_side_div(btn_from_id, btn_to_id, from_id, to_id, target_id){
+    document.getElementById(btn_from_id+'_'+target_id).style.display = "none";
+    document.getElementById(btn_to_id+'_'+target_id).style.display = "block";
+    document.getElementById(from_id+'_'+target_id).style.display = "none";
+    document.getElementById(to_id+'_'+target_id).style.display = "flex";
 }
 
-function next_prev_side_div(action_id, from_id, to_id, target_id){
-    if(action_id == 'prev'){
-        document.getElementById('prev_'+target_id).style.display = "none";
-        document.getElementById('next_'+target_id).style.display = "block";
+//untuk kosongin tombol di atas
+function clear_btn_top(btn_pax_type, btn_pax_number){
+    document.getElementById("button_tl_"+btn_pax_type+btn_pax_number).innerHTML = '';
+    document.getElementById("button_tr_"+btn_pax_type+btn_pax_number).innerHTML = '';
+}
 
-    }else if(action_id == 'next'){
-        document.getElementById('prev_'+target_id).style.display = "block";
-        document.getElementById('next_'+target_id).style.display = "none";
+//untuk close modal + reset
+function close_modal_check(pax_ty, pax_num){
+    clear_btn_top(pax_ty, pax_num);
+    clear_search_pax(pax_ty, pax_num);
+    //update_contact(pax_ty, pax_num);
+    if(pax_num == ''){
+        $('#myModal_'+pax_ty).modal('hide');
+    }else{
+        $('#myModal_'+pax_ty+pax_num).modal('hide');
     }
+}
 
-    document.getElementById(from_id+'_'+target_id).style.display = "none";
-    document.getElementById(to_id+'_'+target_id).style.display = "block";
+//untuk pointer events disable
+function search_modal_pe_none(){
+    $('.overlay_modal_custom').css('pointer-events','none');
+    $('.modal_custom_close').css('pointer-events','none');
+}
 
+//untuk pointer events enable
+function search_modal_pe_unset(){
+    $('.overlay_modal_custom').css('pointer-events','unset');
+    $('.modal_custom_close').css('pointer-events','unset');
 }
