@@ -931,8 +931,22 @@ function add_table_of_passenger(type){
         <div class="modal-dialog modal_custom_fixed">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="color:white;">Customer #`+(counter_passenger+1)+`</h4>
-                    <button type="button" class="close" data-dismiss="modal" onclick="update_contact('passenger',`+parseInt(counter_passenger+1)+`);">&times;</button>
+                    <div class="row">
+                        <div class="col-xs-6 pb-3">
+                            <h4 class="modal-title">Customer #`+(counter_passenger+1)+`</h4>
+                        </div>
+                        <div class="col-xs-6">
+                            <button type="button" class="close modal_custom_close" data-dismiss="modal" onclick="close_modal_check('', '`+parseInt(counter_passenger+1)+`');">&times;</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6" id="button_tl_`+parseInt(counter_passenger+1)+`">
+
+                        </div>
+                        <div class="col-xs-6" id="button_tr_`+parseInt(counter_passenger+1)+`">
+
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-body">
                     <div class="row">

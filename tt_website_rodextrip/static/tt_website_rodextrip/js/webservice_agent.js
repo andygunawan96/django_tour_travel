@@ -3076,6 +3076,11 @@ function pick_passenger_copy(type, sequence, product, identity=''){
     else{
         // ISI PAX
         try{
+            clear_btn_top(type, passenger_number);
+            clear_search_pax(type, passenger_number);
+        }catch(err){}
+
+        try{
             // IDENTITY
             if(['Booker','booker'].includes(type) == false){
                 var need_identity = null;
