@@ -8164,7 +8164,7 @@ function pick_passenger_cache_copy(val, identity){
     }
     check = 0;
     for(i in passenger_data_pick){
-        if(passenger_data_pick[i].seq_id == document.getElementById(passenger_pick+'_id'+passenger_pick_number).value)
+        if(passenger_data_pick[i].seq_id == passenger_data_cache[val].seq_id && passenger_data_pick[i].sequence != 'booker')
             check = 1;
     }
     if(check == 0){
