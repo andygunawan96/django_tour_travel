@@ -14154,6 +14154,7 @@ function airline_get_reschedule_availability_v2(){
                hide_modal_waiting_transaction();
                document.getElementById('show_loading_booking_airline').hidden = false;
                if(msg.result.error_code == 0){
+                    topFunction();
                     error_log = '';
                     for(i in msg.result.response.reschedule_availability_provider){
                         if(msg.result.response.reschedule_availability_provider[i].status == 'unavailable'){
