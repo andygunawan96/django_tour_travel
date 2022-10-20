@@ -2512,7 +2512,24 @@ function insurance_get_booking(data, sync=false){
                                         <span style="font-weight:600;">`+msg.result.response.hold_date+`</span><br/>`;
                                         $text += 'Hold Date: '+msg.result.response.hold_date+'\n';
                                     }
-
+                                    //destination
+                                    if(msg.result.response.provider_bookings[i].destination){
+                                        text+=`
+                                        <span>Destination: </span>
+                                        <span style="font-weight:600;">`+msg.result.response.provider_bookings[i].destination+`</span><br/>`;
+                                        $text += 'Destination: '+msg.result.response.provider_bookings[i].destination+'\n';
+                                    }
+                                    //start date, end date
+                                    if(msg.result.response.provider_bookings[i].start_date && msg.result.response.provider_bookings[i].end_date){
+                                        text+=`
+                                        <span>Start Date: </span>
+                                        <span style="font-weight:600;">`+moment(msg.result.response.provider_bookings[i].start_date, 'YYYY-MM-DD').format('DD MMM YYYY')+`</span><br/>`;
+                                        text+=`
+                                        <span>End Date: </span>
+                                        <span style="font-weight:600;">`+moment(msg.result.response.provider_bookings[i].end_date, 'YYYY-MM-DD').format('DD MMM YYYY')+`</span><br/>`;
+                                        $text += 'Start Date: '+moment(msg.result.response.provider_bookings[i].start_date, 'YYYY-MM-DD').format('DD MMM YYYY')+'\n';
+                                        $text += 'End Date: '+moment(msg.result.response.provider_bookings[i].end_date, 'YYYY-MM-DD').format('DD MMM YYYY')+'\n';
+                                    }
                             }
                     text+=`</div>
                         </div>`;
