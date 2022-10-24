@@ -695,13 +695,13 @@ function add_table_of_line(type){
                     <div class="col-lg-4 col-md-4">
                         <span><i class="fas fa-calendar-alt"></i><label style="color:red">*</label> Departure Date</span><br/>
                         <div class="input-container-search-ticket">
-                            <input type="text" id='departure`+counter_line+`' class="form-control departure_date" name='departure`+counter_line+`' placeholder="datetime" onchange="date_issued_offline_onchange(`+counter_line+`, 'departure');"/>
+                            <input type="text" id='departure`+counter_line+`' class="form-control departure_date" name='departure`+counter_line+`' placeholder="datetime" onchange="date_issued_offline_onchange(`+counter_line+`, 'departure');" autocomplete="off"/>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4">
                         <span><i class="fas fa-calendar-alt"></i><label style="color:red">*</label> Arrival Date</span><br/>
                         <div class="input-container-search-ticket">
-                            <input type="text" id='arrival`+counter_line+`' class="form-control arrival_date" name='arrival`+counter_line+`' placeholder="datetime" onchange="date_issued_offline_onchange(`+counter_line+`, 'arrival');"/>
+                            <input type="text" id='arrival`+counter_line+`' class="form-control arrival_date" name='arrival`+counter_line+`' placeholder="datetime" onchange="date_issued_offline_onchange(`+counter_line+`, 'arrival');" autocomplete="off"/>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3">
@@ -865,13 +865,13 @@ function add_table_of_line(type){
                     <div class="col-lg-4 col-xs-4">
                         <span><i class="fas fa-calendar-alt"></i><label style="color:red">*</label> Check-in Date</span><br/>
                         <div class="input-container-search-ticket">
-                            <input type="text" id='hotel_check_in`+counter_line+`' class="form-control check-in-date" name='hotel_check_in`+counter_line+`' placeholder="Check in" onclick="date_issued_offline_onchange(`+counter_line+`, 'checkin');"/>
+                            <input type="text" id='hotel_check_in`+counter_line+`' class="form-control check-in-date" name='hotel_check_in`+counter_line+`' placeholder="Check in" onclick="date_issued_offline_onchange(`+counter_line+`, 'checkin');" autocomplete="off"/>
                         </div>
                     </div>
                     <div class="col-lg-4 col-xs-4">
                         <span><i class="fas fa-calendar-alt"></i><label style="color:red">*</label> Check-out Date</span><br/>
                         <div class="input-container-search-ticket">
-                            <input type="text" id='hotel_check_out`+counter_line+`' class="form-control check-out-date" name='hotel_check_out`+counter_line+`' placeholder="Check out" onclick="date_issued_offline_onchange(`+counter_line+`, 'checkout');" />
+                            <input type="text" id='hotel_check_out`+counter_line+`' class="form-control check-out-date" name='hotel_check_out`+counter_line+`' placeholder="Check out" onclick="date_issued_offline_onchange(`+counter_line+`, 'checkout');" autocomplete="off"/>
                         </div>
                     </div>
                     <div class="col-lg-4 col-xs-4">
