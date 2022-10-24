@@ -2463,7 +2463,7 @@ function insurance_get_booking(data, sync=false){
                             <h5>Your booking has been Refund!</h5>
                         </div>`;
                     }
-                    $text += `\n`+msg.result.response.provider_bookings[0].carrier_name + '\n\n';
+                    $text += `\n`+msg.result.response.provider_bookings[0].carrier_name + '\n\nTest\n';
 
                     text = `
                     <div class="mb-3" style="padding:15px; background:white; border:1px solid #cdcdcd;">
