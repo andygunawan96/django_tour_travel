@@ -7461,7 +7461,7 @@ function airline_get_booking(data, sync=false){
                         if(can_change_pax)
                             text+=`
                             <button type="button" class="primary-btn-white" id="button-sync-status" onclick="airline_after_sales_update_pax();">
-                                Update <i class="fas fa-wrench"></i>
+                                Update Identity <i class="fas fa-wrench"></i>
                             </button>`;
                         text+=`
                         </div>
