@@ -7461,7 +7461,7 @@ function airline_get_booking(data, sync=false){
                         if(can_change_pax)
                             text+=`
                             <button type="button" class="primary-btn-white" id="button-sync-status" onclick="airline_after_sales_update_pax();">
-                                Update <i class="fas fa-wrench"></i>
+                                Update Identity <i class="fas fa-wrench"></i>
                             </button>`;
                         text+=`
                         </div>
@@ -14154,6 +14154,7 @@ function airline_get_reschedule_availability_v2(){
                hide_modal_waiting_transaction();
                document.getElementById('show_loading_booking_airline').hidden = false;
                if(msg.result.error_code == 0){
+                    topFunction();
                     error_log = '';
                     for(i in msg.result.response.reschedule_availability_provider){
                         if(msg.result.response.reschedule_availability_provider[i].status == 'unavailable'){

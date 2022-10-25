@@ -1,5 +1,5 @@
 printout_state = 0;
-function get_printout(order_number,mode,provider_type,type='',reschedule_number='',timeout=60){
+function get_printout(order_number,mode,provider_type,type='',reschedule_number='',timeout=180){
     //type ticket, ticket_price, invoice, itinerary, voucher, visa_handling,
     if(printout_state == 0){
         printout_state = 1;

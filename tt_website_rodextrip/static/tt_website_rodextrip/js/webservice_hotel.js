@@ -1266,7 +1266,7 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                     if(result.policies.length != 0){
                         for(i in result.policies){
                             text += '<li style="color:'+color+'; list-style: unset;">' + result.policies[i].cancellation_string + '</li>'
-                            $text2 += result.policies[i].cancellation_string + '\n'
+//                            $text2 += result.policies[i].cancellation_string + '\n'
 
                             //if (result.policies[i].received_amount != 0){
                                 //text += '<li style="color:'+color+'; list-style: unset;">Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>'
