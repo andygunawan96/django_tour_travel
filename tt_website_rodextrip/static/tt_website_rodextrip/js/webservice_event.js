@@ -761,7 +761,7 @@ function event_get_booking(data){
                 text_detail+=`<div class="row">
                 <div class="col-lg-12" style="padding-bottom:10px;">
                     <hr/>
-                    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                    <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
                     share_data();
                     var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                     if (isMobile) {
@@ -2483,7 +2483,7 @@ function get_checked_copy_result(){
     text+=`</div>
     <div class="row">
         <div class="col-lg-12" style="margin-bottom:15px;" id="share_result">
-            <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+            <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
             share_data();
             var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             if (isMobile) {

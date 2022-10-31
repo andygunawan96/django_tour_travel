@@ -1259,14 +1259,20 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                     hotel_room_pick_button();
                 } else if (view_type == '1'){
                     // Passenger Page
-                    var text = '<h4>Cancellation Policy</h4>';
-                    text += '<b id="js_hotel_name">' + result.hotel_name + '</b><hr/>';
+                    var text = '';
+                    text += `
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                            <h4 class="mb-3"><i class="fas fa-ban"></i> Cancellation Policy</h4>
+                            <h6 class="mb-3" id="js_hotel_name">`+result.hotel_name+`</h6>
+                        </div>
+                    </div>`;
                     text += '<ul style="list-style-type: disc; margin: 0 15px;">';
                     //$text2 += '\n Cancellation Policy: \n';
                     if(result.policies.length != 0){
                         for(i in result.policies){
                             text += '<li style="color:'+color+'; list-style: unset;">' + result.policies[i].cancellation_string + '</li>'
-//                            $text2 += result.policies[i].cancellation_string + '\n'
+                            $text2 += result.policies[i].cancellation_string + '\n'
 
                             //if (result.policies[i].received_amount != 0){
                                 //text += '<li style="color:'+color+'; list-style: unset;">Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>'
@@ -2432,141 +2438,128 @@ function hotel_get_booking(data){
                     $text += 'Order Number: '+ msg.result.response.order_number + '\n';
                     $text += msg.result.response.state + '\n';
                     text = `
-                        <h6 class="carrier_code_template">Order Number : </h6><h6>`+msg.result.response.order_number+`</h6><br/>
-                        <table style="width:100%;">
-                            <tr>
-                                <th style="font-size:14px;"><b>Booking Code</b></th>
-                                <th style="font-size:14px;"><b>Status</b></th>
-                            </tr>`;
-                            for(i in msg.result.response.hotel_rooms){
-                                if(list_pnr.includes(msg.result.response.hotel_rooms[i].prov_issued_code) == false){
-                                    text+=`
-                                        <tr>`;
-                                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
-                                        text+=`
-                                            <td>`+msg.result.response.hotel_rooms[i].prov_issued_code+`</td>`;
-                                    else
-                                        text+= `<td> - </td>`;
-                                    text+=`<td>`;
-
-                                    if(msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Expired' ||
-                                        msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Cancel2' ||
-                                        msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Fail_issued'){
-                                        text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
-                                    }
-                                    else if(msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Booked'){
-                                        text+=`<span style="background:#3fa1e8; color:white; padding:0px 15px; border-radius:14px;">`;
-                                    }
-                                    else if(msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Issued'){
-                                        text+=`<span style="background:#30b330; color:white; padding:0px 15px; border-radius:14px;">`;
-                                    }
-                                    else{
-                                        text+=`<span>`;
-                                    }
-
-                                    text+=``+msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase()+`
-                                            </span>
-                                        </td>
-                                    </tr>`;
-                                    list_pnr.push(msg.result.response.hotel_rooms[i].prov_issued_code);
-                                }
-                            }
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                            <h4 class="mb-3"><i class="fas fa-scroll"></i> Order Number: `+msg.result.response.order_number+`</h4>
+                        </div>
+                    </div>`;
+                    if(msg.result.response.hotel_name != false){
                         text+=`
-                        </table>
-                        <hr/>`;
-                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
-                            text+=`
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <span>Agent: <b>`+msg.result.response.agent_name+`</b></span>
-                                    </div>`;
-                            if(msg.result.response.customer_parent_name){
+                        <h4>`+msg.result.response.hotel_name+`</h4>`;
+                    }
+                    if(msg.result.response.hotel_address != false){
+                        text+=`<b>Address: </b><i>`+msg.result.response.hotel_address+`</i><br/>`;
+                    }
+
+                    if(msg.result.response.hotel_phone != false){
+                        text+=`<b>Phone: </b><i>`+msg.result.response.hotel_phone+`</i><br/>`;
+                    }
+
+                    text+=`<b>Check In: </b><i>`+msg.result.response.checkin_date+`</i><br/>`;
+                    text+=`<b>Check Out: </b><i>`+msg.result.response.checkout_date+`</i><hr/>`;
+
+                    text+=`
+                    <table style="width:100%;">
+                        <tr>
+                            <th style="font-size:14px;"><b>Booking Code</b></th>
+                            <th style="font-size:14px;"><b>Status</b></th>
+                        </tr>`;
+                        for(i in msg.result.response.hotel_rooms){
+                            if(list_pnr.includes(msg.result.response.hotel_rooms[i].prov_issued_code) == false){
                                 text+=`
-                                    <div class="col-lg-6">
-                                        <span>Customer: <b>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</b></span>
-                                    </div>`;
+                                    <tr>`;
+                                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                                    text+=`
+                                        <td>`+msg.result.response.hotel_rooms[i].prov_issued_code+`</td>`;
+                                else
+                                    text+= `<td> - </td>`;
+                                text+=`<td>`;
+
+                                if(msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Expired' ||
+                                    msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Cancel2' ||
+                                    msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Fail_issued'){
+                                    text+=`<span style="background:#DC143C; color:white; padding:0px 15px; border-radius:14px;">`;
+                                }
+                                else if(msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Booked'){
+                                    text+=`<span style="background:#3fa1e8; color:white; padding:0px 15px; border-radius:14px;">`;
+                                }
+                                else if(msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase() == 'Issued'){
+                                    text+=`<span style="background:#30b330; color:white; padding:0px 15px; border-radius:14px;">`;
+                                }
+                                else{
+                                    text+=`<span>`;
+                                }
+
+                                text+=``+msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase()+`
+                                        </span>
+                                    </td>
+                                </tr>`;
+                                list_pnr.push(msg.result.response.hotel_rooms[i].prov_issued_code);
                             }
-                            text+= `</div>`;
                         }
+                    text+=`
+                    </table>
+                    <hr/>`;
+
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                        text+=`
+                        <div class="row mb-3">
+                            <div class="col-lg-6">
+                                <b>Agent: </b><i>`+msg.result.response.agent_name+`</i>
+                            </div>`;
+                        if(msg.result.response.customer_parent_name){
+                            text+=`
+                            <div class="col-lg-6">
+                                <b>Customer: </b><i>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</i>
+                            </div>`;
+                        }
+                        text+= `</div>`;
+                    }
+                    text+=`
+                    <div class="row">
+                        <div class="col-lg-3 mb-3">
+                            <span>
+                                <b>Booked by</b><br><i>`+msg.result.response.booked_by+`</i>
+                            </span>
+                        </div>
+                        <div class="col-lg-5 mb-3">
+                            <span>
+                                <b>Booked Date: </b><br>
+                                <i>`;
+                                if(msg.result.response.booked_date != ""){
+                                    text+=``+msg.result.response.booked_date+``;
+                                }else{
+                                    text+=`-`;
+                                }
+                                text+=`
+                                </i>
+                            </span>
+                        </div>
+                    </div>`;
+                    if(msg.result.response.state == 'issued'){
                         text+=`
                         <div class="row">
-                            <div class="col-lg-6">
-                                <h6>Booked</h6>
-                                <span>Date: <b>`;
-                                    if(msg.result.response.booked_date != ""){
-                                        text+=``+msg.result.response.booked_date+``;
-                                    }else{
-                                        text+=`-`
-                                    }
-                                    text+=`</b>
+                            <div class="col-lg-3 mb-3">
+                                <span>
+                                    <b>Issued by</b><br><i>`+msg.result.response.issued_by+`</i>
                                 </span>
-                                <br/>
-                                <span>by <b>`+msg.result.response.booked_by+`</b><span>
                             </div>
+                            <div class="col-lg-5 mb-3">
+                                <span>
+                                    <b>Issued Date: </b><br>
+                                    <i>`;
+                                    if(msg.result.response.issued_date != ""){
+                                        text+=``+msg.result.response.issued_date+``;
+                                    }else{
+                                        text+=`-`;
+                                    }
+                                    text+=`
+                                    </i>
+                                </span>
+                            </div>
+                        </div>`;
+                    }
 
-                            <div class="col-lg-6 mb-3">`;
-                                if(msg.result.response.state == 'issued'){
-                                    text+=`<h6>Issued</h6>
-                                        <span>Date: <b>`;
-                                        if(msg.result.response.issued_date != ""){
-                                            text+=``+msg.result.response.issued_date+``;
-                                        }else{
-                                            text+=`-`
-                                        }
-                                    text+=`</b>
-                                    </span>
-                                    <br/>
-                                    <span>by <b>`+msg.result.response.issued_by+`</b><span>`;
-                                }
-                                text+=`
-                            </div>
-                        </div><hr/>`;
-
-                   text+=`<div class="row" style="margin-top:15px;">`;
-                   if(msg.result.response.hotel_name != false){
-                       text+=`
-                       <div class="col-sm-4">
-                           <h6>Hotel Name: </h6>
-                       </div>
-                       <div class="col-sm-8">
-                           <span>`+msg.result.response.hotel_name+`</span>
-                       </div>`;
-                   }
-                   if(msg.result.response.hotel_address != false){
-                       text+=`
-                       <div class="col-sm-4">
-                           <h6>Hotel Address: </h6>
-                       </div>
-                       <div class="col-sm-8">
-                           <span>`+msg.result.response.hotel_address+`</span>
-                       </div>`;
-                   }
-
-                   if(msg.result.response.hotel_phone != false){
-                       text+=`
-                       <div class="col-sm-4">
-                           <h6>Hotel Phone: </h6>
-                       </div>
-                       <div class="col-sm-8">
-                           <span>`+msg.result.response.hotel_phone+`</span>
-                       </div>`;
-                   }
-                   text+=`</div>`;
-
-                   text+=`<div class="row">
-                            <div class="col-sm-4">
-                                <h6>Check In: </h6>
-                            </div>
-                            <div class="col-sm-8">
-                                <span>`+msg.result.response.checkin_date+`</span>
-                            </div>
-                            <div class="col-sm-4">
-                                <h6>Check Out: </h6>
-                            </div>
-                            <div class="col-sm-8">
-                                <span>`+msg.result.response.checkout_date+`</span>
-                            </div>
-                          </div>`;
                    document.getElementById('hotel_booking').innerHTML = text;
                    if(can_issued){
                        if(msg.result.response.state != 'issued'){
@@ -2588,82 +2581,105 @@ function hotel_get_booking(data){
                        }
                    }
                    text = `
-                        <h4>List of Room(s)</h4>
-                        <hr/>
-                        <div style="overflow-x:auto;">
-                        <table style="width:100%;" id="list-of-passenger">
-                            <tr>
-                                <th class="">No</th>
-                                <th style="width:20%" class="">Name</th>
-                                <th class="">Room(s)</th>
-                                <th class="">Max Person</th>
-                                <th class="">Date</th>
-                                <th class="">Meal Type</th>
-                                <th class="">Rate</th>
-
-                            </tr>`;
-                        for(i in msg.result.response.hotel_rooms){
-                            var oioi = parseInt(i)+1;
-                        text+=`
-                            <tr>
-                                <td>`+oioi+`</td>
-                                <td>`+msg.result.response.hotel_rooms[i].room_name;
-                                 if(msg.result.response.hotel_rooms[i].room_type != '')
-                                    text+=`<br/>`+msg.result.response.hotel_rooms[i].room_type;
-                         text+=`</td>
-                                <td>1</td>
-
-                                <td>`+msg.result.response.hotel_rooms[i].person+` Adult</td>
-                                <td>`;
-                                for(j in msg.result.response.hotel_rooms[i].dates)
-                                    text+=msg.result.response.hotel_rooms[i].dates[j].date+`<br/>`;
-                                text+=`</td>
-                                <td>`;
-                                for(j in msg.result.response.hotel_rooms[i].dates)
-                                    text+=msg.result.response.hotel_rooms[i].dates[j].meal_type+`<br/>`;
-                                text+=`</td>
-                                <td>`;
-                                total_room_night = 0;
-                                for(j in msg.result.response.hotel_rooms[i].dates){
-                                    total_room_night += msg.result.response.hotel_rooms[i].dates.length;
-                                }
-                                for(j in msg.result.response.hotel_rooms[i].dates){
-                                    total_price_print = msg.result.response.hotel_rooms[i].dates[j].sale_price;
-                                    if(csc)
-                                        total_price_print += Math.ceil(csc/total_room_night);
-
-                                    text+=msg.result.response.hotel_rooms[i].currency+` `+getrupiah(total_price_print)+`<br/>`;
-
-                                }
-                                text+=`</td>
-
-                            </tr>`;
-                        }
-                        text+=`</table>
-                        </div>`;
-                   document.getElementById('hotel_list_room').innerHTML = text;
-                   text = '';
-                   text=`
-                        <h5>List of Guest(s)</h5>
-                        <hr/>
-                        <div style="overflow-x:auto;">
-                        <table style="width:100%;" id="list-of-passenger">
-                            <tr>
-                                <th class="">No</th>
-                                <th class="">Name</th>
-                                <th class="">Birth Date</th>
-                            </tr>`;
-                            for(i in msg.result.response.passengers){
-                                var new_int = parseInt(i)+1;
-                                text+=`<tr>
-                                    <td>`+ new_int +`</td>
-                                    <td><span>`+msg.result.response.passengers[i].first_name+` `+msg.result.response.passengers[i].last_name+`</span></td>
-                                    <td><span>`+msg.result.response.passengers[i].birth_date+`</span></td>
-                                </tr>`;
-                            }
-                   text+=`</table>
+                   <div class="row">
+                       <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                          <h4 class="mb-3"><img src="/static/tt_website_rodextrip/images/icon/hotel_black.png" alt="hotel" style="width:20px; height:20px;"> List of Room</h4>
+                       </div>
                    </div>`;
-                   document.getElementById('hotel_passenger').innerHTML = text;
+
+                   for(i in msg.result.response.hotel_rooms){
+                        var num_rooms = parseInt(i)+1;
+                        if(num_rooms == 1){
+                            text+=`<div class="mb-3">
+                            <div class="row">`;
+                        }else{
+                            text+=`<div style="border-top:1px solid #cdcdcd;">
+                            <div class="row mt-3">`;
+                        }
+
+                        text+=`
+                                <div class="col-lg-2">
+                                    <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+ num_rooms +`</h4>
+                                </div>
+                                <div class="col-lg-10">
+                                    <h4>
+                                        `+msg.result.response.hotel_rooms[i].room_name;
+                                        if(msg.result.response.hotel_rooms[i].room_type != '')
+                                           text+=`<br/>`+msg.result.response.hotel_rooms[i].room_type;
+                                    text+=`
+                                    </h4>
+                                    <span><b>Room: </b>1</span><br/>
+                                    <span><b>Max Person: </b><i>`+msg.result.response.hotel_rooms[i].person+` Adult</i></span><br/>
+                                </div>
+                                <div class="col-lg-12 mt-2">`;
+                                    text+=`
+                                    <span><b>Date: </b></span><br/>`;
+                                    total_room_night = 0;
+                                    for(j in msg.result.response.hotel_rooms[i].dates){
+                                        total_room_night += msg.result.response.hotel_rooms[i].dates.length;
+                                    }
+                                    for(j in msg.result.response.hotel_rooms[i].dates){
+                                        if(j > 0){
+                                            text+=`<div class="mb-2"></div>`;
+                                        }
+                                        text+=`
+                                        <i>`+msg.result.response.hotel_rooms[i].dates[j].date+`</i><br/>
+                                        Meal type:
+                                        <i>`+msg.result.response.hotel_rooms[i].dates[j].meal_type+`</i><br/>`;
+                                        total_price_print = msg.result.response.hotel_rooms[i].dates[j].sale_price;
+                                        if(csc)
+                                            total_price_print += Math.ceil(csc/total_room_night);
+                                        text+=`Rate: <i>`+msg.result.response.hotel_rooms[i].currency+` `+getrupiah(total_price_print)+`</i>`;
+                                    }
+                                text+=`
+                                    </div>
+                                </div>
+                             </div>
+                        </div>`;
+                    }
+
+
+                    document.getElementById('hotel_list_room').innerHTML = text;
+
+                    text = '';
+                    text +=`
+                    <div class="row">
+                       <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                            <h4 class="mb-3"><i class="fas fa-users"></i> List of Guest</h4>
+                        </div>
+                    </div>`;
+
+                    for(i in msg.result.response.passengers){
+                        var new_int = parseInt(i)+1;
+                        if(new_int == 1){
+                            text+=`<div style="padding: 10px 0px;">`;
+                        }else{
+                            text+=`<div style="border-top:1px solid #cdcdcd; padding: 10px 0px;">`;
+                        }
+
+                        text+=`
+                             <div class="row">
+                                <div class="col-lg-2">
+                                    <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+ new_int +`</h4>
+                                </div>
+                                <div class="col-lg-9">
+                                    <h4>`+msg.result.response.passengers[i].title+`. `+msg.result.response.passengers[i].first_name+` `+msg.result.response.passengers[i].last_name+`
+                                    <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">`;
+                                        if(msg.result.response.passengers[i].title == 'MR' || msg.result.response.passengers[i].title == 'MRS' || msg.result.response.passengers[i].title == 'MS' ){
+                                            text+=`Adult`;
+                                        }else{
+                                            text+=`Child`;
+                                        }
+                                    text+=`
+                                    </b>
+                                    </h4>
+                                    <span><b>Birth Date: </b><i>`+msg.result.response.passengers[i].birth_date+`</i></span>
+                                </div>
+                             </div>
+                        </div>`;
+                    }
+
+                    document.getElementById('hotel_passenger').innerHTML = text;
                     if(msg.result.response.state == 'issued'){
                         document.getElementById('issued-breadcrumb').classList.add("br-active");
                         document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
@@ -2680,7 +2696,7 @@ function hotel_get_booking(data){
                         document.getElementById('hotel_hide_agent_logo_opt').innerHTML = text;
                         text=`<div class="col-sm-6">
                                     <button type="button" id="button-choose-print" style="width:100%;" class="primary-btn ld-ext-right" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','hotel');">
-                                        Print Voucher
+                                        <i class="fas fa-print"></i> Print Voucher
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>
                                </div>`;
@@ -2756,9 +2772,12 @@ function hotel_get_booking(data){
                     currency = '';
                     service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
                     text_detail=`
-                    <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
-                        <h5> Price Detail</h5>
-                    <hr/>`;
+                    <div style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;">
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                               <h4 class="mb-3">Price Detail</h4>
+                            </div>
+                        </div>`;
 
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
                         text_detail+=`
@@ -2787,7 +2806,7 @@ function hotel_get_booking(data){
                     for (var ro = 0; ro < room_dict.length; ro++) {
                         if (room_dict[ro] != current_room) {
                             if (cnt_room > 0) {
-                                show_name_room += '<span style="color:#f15a22;">'+cnt_room+'x </span>'+ current_room+' + ';
+                                show_name_room += `<span style="color:`+color+`;">`+cnt_room+`x </span>`+ current_room+` + `;
                                 title_name_room += cnt_room+'x '+ current_room+' + ';
                             }
                             current_room = room_dict[ro];
@@ -2797,7 +2816,7 @@ function hotel_get_booking(data){
                         }
                     }
                     if (cnt_room > 0) {
-                        show_name_room += '<span style="color:#f15a22;">'+cnt_room+'x </span>'+ current_room;
+                        show_name_room += `<span style="color:`+color+`;">`+cnt_room+`x </span>`+ current_room;
                         title_name_room += cnt_room+'x '+ current_room;
                     }
 
@@ -3011,7 +3030,7 @@ function hotel_get_booking(data){
                         text_detail+=`<div class="row">
                         <div class="col-lg-12" style="padding-bottom:10px;">
                             <hr/>
-                            <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                            <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
                             share_data();
                             var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                             if (isMobile) {
@@ -3109,9 +3128,12 @@ function hotel_get_booking(data){
                 }catch(err){console.log(err)}
                 document.getElementById('hotel_detail').innerHTML = text_detail;
                 text_cancellation_policy = `
-                    <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
-                        <h5> Cancellation Policy</h5>
-                        <hr/>
+                    <div style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;">
+                        <div class="row">
+                            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                <h4 class="mb-3"><i class="fas fa-ban"></i> Cancellation Policy</h4>
+                            </div>
+                        </div>
                         <ul style="list-style-type: disc; margin: 0 15px;">`;
 
                 //cancellation policy

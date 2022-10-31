@@ -378,7 +378,7 @@ function activity_table_detail(){
            <div class="row">
                 <div class="col-lg-12" style="padding-bottom:10px;">
                     <hr/>
-                    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                    <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
                     share_data();
                     var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                     if (isMobile) {
@@ -646,7 +646,7 @@ function activity_table_detail2(pagetype){
            <div class="row">
                 <div class="col-lg-12" style="padding-bottom:10px;">
                     <hr/>
-                    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                    <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
                     share_data();
                     var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                     if (isMobile) {
