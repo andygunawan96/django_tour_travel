@@ -3855,7 +3855,7 @@ function get_price_itinerary_request(){
 
                 <div class="col-lg-12" style="padding-bottom:10px;">
                 <hr/>
-                <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
                 if(total_discount != 0)
                     $text += '‣ Discount: IDR '+ getrupiah(Math.ceil(total_discount*-1)) + '\n';
                 $text += '‣ Grand Total: IDR '+ getrupiah(Math.ceil(total_price+total_discount)) + '\nPrices and availability may change at any time';
@@ -6708,8 +6708,15 @@ function airline_get_booking(data, sync=false){
                 $text += '‣ Status: '+msg.result.response.state_description + '\n';
                 var localTime;
                 text += `
-                <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-bottom:20px;">
-                    <h6>Order Number : `+msg.result.response.order_number+`</h6><br/>
+                <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-bottom:20px;">
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="padding-bottom:15px; border-bottom:1px solid #cdcdcd;">
+                            <h4>
+                                <i class="fas fa-scroll"></i> Order Number: `+msg.result.response.order_number+`
+                            </h4>
+                        </div>
+                    </div>
+
                     <table style="width:100%;">
                         <tr>
                             <th>PNR</th>`;
@@ -6793,62 +6800,82 @@ function airline_get_booking(data, sync=false){
                         }
                 text+=`
                 </table>
-                    <hr/>`;
+
+                <div class="row" style="padding:0px">
+                    <div class="col-lg-12 mb-3" style="padding-bottom:15px; border-bottom:1px solid #cdcdcd;">
+                    </div>
+                </div>`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                     text+=`
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <span>Agent: <b>`+msg.result.response.agent_name+`</b></span>
-                            </div>`;
+                    <div class="row mb-3">
+                        <div class="col-lg-6">
+                            <b>Agent: </b><i>`+msg.result.response.agent_name+`</i>
+                        </div>`;
                     if(msg.result.response.customer_parent_name){
                         text+=`
-                            <div class="col-lg-6">
-                                <span>Customer: <b>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</b></span>
-                            </div>`;
+                        <div class="col-lg-6">
+                            <b>Customer: </b><i>`+msg.result.response.customer_parent_type_name+` `+msg.result.response.customer_parent_name+`</i>
+                        </div>`;
                     }
                     text+= `</div>`;
                 }
-                text+=`
-                    <div class="row">
-                        <div class="col-lg-6 mb-3">
-                            <h6>Booked</h6>
-                            <span>Date: <b>`;
-                                if(msg.result.response.booked_date != ""){
-                                    text+=``+msg.result.response.booked_date+``;
-                                }else{
-                                    text+=`-`
-                                }
-                                text+=`</b>
-                            </span>
-                            <br/>
-                            <span>by <b>`+msg.result.response.booked_by+`</b><span>
-                        </div>
 
-                        <div class="col-lg-6 mb-3">`;
-                            if(msg.result.response.state == 'issued'){
-                                text+=`<h6>Issued</h6>
-                                    <span>Date: <b>`;
-                                    if(msg.result.response.issued_date != ""){
-                                        text+=``+msg.result.response.issued_date+``;
-                                    }else{
-                                        text+=`-`
-                                    }
-                                text+=`</b>
-                                </span>
-                                <br/>
-                                <span>by <b>`+msg.result.response.issued_by+`</b><span>`;
+                text+=`
+                <div class="row">
+                    <div class="col-lg-3 mb-3">
+                        <span>
+                            <b>Booked by</b><br>`;
+                            text+=`<i>`+msg.result.response.booked_by+`</i>`;
+                        text+=`
+                        </span>
+                    </div>
+                    <div class="col-lg-5 mb-3">
+                        <span>
+                            <b>Booked Date </b><br/>`;
+                            if(msg.result.response.booked_date != ""){
+                                text+=`<i>`+msg.result.response.booked_date+`</i>`;
+                            }else{
+                                text+=`-`
                             }
                             text+=`
-                        </div>
+                        </span>
                     </div>
-                </div>
+                </div>`;
 
-                <div style="background-color:white; border:1px solid #cdcdcd;">
+                if(msg.result.response.state == 'issued'){
+                    text+=`
+                    <div class="row">
+                        <div class="col-lg-3 mb-3">
+                            <span>
+                                <b>Issued by</b><br>`;
+                                text+=`<i>`+msg.result.response.issued_by+`</i>`;
+                            text+=`
+                            </span>
+                        </div>
+                        <div class="col-lg-5 mb-3">
+                            <span>
+                                <b>Issued Date: </b><br/>`;
+                                if(msg.result.response.issued_date != ""){
+                                    text+=`<i>`+msg.result.response.issued_date+`</i>`;
+                                }else{
+                                    text+=`-`;
+                                }
+                                text+=`
+                            </span>
+                        </div>
+                    </div>`;
+                }
+
+                text+=`
+                </div>
+                <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div style="padding:10px; background-color:white;">
-                            <h5> Flight Detail <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png" alt="Flight Detail"/></h5>
-                            <hr/>`;
+                            <div class="row">
+                                <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                    <h4 class="mb-3"><img src="/static/tt_website_rodextrip/images/icon/airlines_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;"> Flight Detail</h4>
+                                </div>
+                            </div>`;
                         check = 0;
                         flight_counter = 1;
                         rules = 0;
@@ -7397,76 +7424,57 @@ function airline_get_booking(data, sync=false){
                         </div>`;
                     }
                 }
+
+                title = '';
+                if(msg.result.response.booker.gender == 'female' && msg.result.response.booker.marital_status == "married")
+                    title = 'MRS';
+                else if(msg.result.response.booker.gender == 'female')
+                    title = 'MS'
+                else
+                    title = 'MR';
+
                 text+=`
-
-                <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
-                    <h5> Booker</h5>
-                    <hr/>
-                    <div style="overflow-x:auto;">
-                    <table style="width:100%" id="list-of-passenger">
-                        <tr>
-                            <th style="width:10%;" class="list-of-passenger-left">No</th>
-                            <th style="width:40%;">Name</th>
-                            <th style="width:30%;">Email</th>
-                            <th style="width:30%;">Phone</th>
-                        </tr>`;
-                        title = '';
-                        if(msg.result.response.booker.gender == 'female' && msg.result.response.booker.marital_status == "married")
-                            title = 'MRS';
-                        else if(msg.result.response.booker.gender == 'female')
-                            title = 'MS'
-                        else
-                            title = 'MR';
-                        text+=`<tr>
-                            <td class="list-of-passenger-left">`+(1)+`</td>
-                            <td>`+title+` `+msg.result.response.booker.name+`</td>
-                            <td>`+msg.result.response.booker.email+`</td>`;
-                        if(msg.result.response.booker.phones.length > 0)
-                        text+=`
-                            <td>`+msg.result.response.booker.phones[0].calling_code+' - '+msg.result.response.booker.phones[0].calling_number+`</td>`;
-                        else
-                        text+=`<td></td>`;
-                        text+=`</tr>
-
-                    </table>
-                    </div>
-                </div>
-                <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
-                    <h5> Contact Person</h5>
-                    <hr/>
-                    <div style="overflow-x:auto;">
-                    <table style="width:100%" id="list-of-passenger">
-                        <tr>
-                            <th style="width:10%;" class="list-of-passenger-left">No</th>
-                            <th style="width:40%;">Name</th>
-                            <th style="width:30%;">Email</th>
-                            <th style="width:30%;">Phone</th>
-                        </tr>`;
-                        text+=`<tr>
-                            <td class="list-of-passenger-left">`+(1)+`</td>
-                            <td>`+msg.result.response.contact.title+` `+msg.result.response.contact.name+`</td>
-                            <td>`+msg.result.response.contact.email+`</td>
-                            <td>`+msg.result.response.contact.phone+`</td>
-                        </tr>
-                    </table>
-                    </div>
-                </div>
-
-                <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
+                <div style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-top:20px;">
                     <div class="row">
-                        <div class="col-lg-6">
-                            <h5> List of Passenger</h5>
-                        </div>
-                        <div class="col-lg-6" style="text-align:right;">`;
-                        if(can_change_pax)
-                            text+=`
-                            <button type="button" class="primary-btn-white" id="button-sync-status" onclick="airline_after_sales_update_pax();">
-                                Update Identity <i class="fas fa-wrench"></i>
-                            </button>`;
-                        text+=`
+                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                            <h4 class="mb-3"><i class="fas fa-user"></i> Booker</h4>
                         </div>
                     </div>
-                    <hr/>
+                    <h5>
+                        `+title+` `+msg.result.response.booker.name+`
+                    </h5>
+                    <b>Email: </b><i>`+msg.result.response.booker.email+`</i><br>`;
+                    if(msg.result.response.booker.phones.length > 0){
+                        text+=`<b>Phone: </b><i>`+msg.result.response.booker.phones[0].calling_code+' - '+msg.result.response.booker.phones[0].calling_number+`</i><br>`;
+                    }
+                text+=`
+                </div>
+                <div style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-top:20px;">
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                            <h4 class="mb-3"><i class="fas fa-user"></i> Contact Person</h4>
+                        </div>
+                    </div>
+                    <h5>
+                        `+msg.result.response.contact.title+` `+msg.result.response.contact.name+`
+                    </h5>
+                    <b>Email: </b><i>`+msg.result.response.contact.email+`</i><br>
+                    <b>Phone: </b><i>`+msg.result.response.contact.phone+`</i><br>
+                </div>
+
+                <div style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-top:20px;">
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                            <h4 class="mb-3"><i class="fas fa-users"></i> List of Passenger</h4>`;
+                            if(can_change_pax){
+                                text+=`
+                                <button type="button" class="primary-btn-white" id="button-sync-status" onclick="airline_after_sales_update_pax();">
+                                    Update Identity <i class="fas fa-wrench"></i>
+                                </button>`;
+                            }
+                    text+=`
+                        </div>
+                    </div>
                     <div class="row">`;
                         for(pax in msg.result.response.passengers){
                             ticket = '';
@@ -7488,18 +7496,19 @@ function airline_get_booking(data, sync=false){
 
                             text+=`
                             <div class="col-lg-12">
-                                <h5>`+(parseInt(pax)+1)+`.
+                                <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+(parseInt(pax)+1)+`</h4>
+                                <h5>
                                 `+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`
                                 </h5>
-                                Birth Date: <b>`+msg.result.response.passengers[pax].birth_date+`</b><br/>`;
+                                <b>Birth Date:</b> <i>`+msg.result.response.passengers[pax].birth_date+`</i><br/>`;
                             if(msg.result.response.passengers[pax].identity_type != '' && msg.result.response.passengers[pax].is_valid_identity){
-                                text+= msg.result.response.passengers[pax].identity_type.substr(0,1).toUpperCase()+msg.result.response.passengers[pax].identity_type.substr(1,msg.result.response.passengers[pax].identity_type.length)+`: <b>`+msg.result.response.passengers[pax].identity_number+`</b><br/>`;
+                                text+= `<b>`+msg.result.response.passengers[pax].identity_type.substr(0,1).toUpperCase()+msg.result.response.passengers[pax].identity_type.substr(1,msg.result.response.passengers[pax].identity_type.length)+`:</b> <i>`+msg.result.response.passengers[pax].identity_number+`</i><br/>`;
                                 if(msg.result.response.passengers[pax].identity_expdate){
-                                    text += `Expired Date: <b>`+moment(msg.result.response.passengers[pax].identity_expdate).format('DD MMM YYYY')+`</b><br/>`;
+                                    text += `<b>Expired Date: </b>`+moment(msg.result.response.passengers[pax].identity_expdate).format('DD MMM YYYY')+`</b><br/>`;
                                 }
                             }else if(!msg.result.response.passengers[pax].is_valid_identity)
                                 text+= '<b style="color:red;">Need to Update Identity</b><br/>';
-                            text+=`Ticket Number: <b>`+ticket+`</b><br/>
+                            text+=`<b>Ticket Number:</b> <i>`+ticket+`</i><br/>
                                 `+ff_request;
                                 fee_dict = {}; //bikin ke dict agar bisa fees per segment / journey
                                       try{
@@ -7624,7 +7633,7 @@ function airline_get_booking(data, sync=false){
                             if (msg.result.response.state == 'issued'){
                                 text+=`
                                 <button type="button" id="button-choose-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','airline');">
-                                    Print Ticket
+                                    <i class="fas fa-print"></i> Print Ticket
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
                             }
@@ -7637,14 +7646,14 @@ function airline_get_booking(data, sync=false){
                             if (msg.result.response.state  == 'booked'){
                                 text+=`
                                 <button type="button" id="button-print-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','airline');">
-                                    Print Form
+                                    <i class="fas fa-print"></i> Print Form
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
                             }
                             else if (msg.result.response.state == 'issued'){
                                 text+=`
                                 <button type="button" class="primary-btn ld-ext-right" id="button-print-print" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_price','airline');">
-                                    Print Ticket (Price)
+                                    <i class="fas fa-print"></i> Print Ticket (Price)
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
                             }
@@ -7656,7 +7665,7 @@ function airline_get_booking(data, sync=false){
                     <div class="col-lg-6 col-md-6" style="padding-bottom:10px;">`;
                         text+=`
                         <button type="button" id="button-print-ori" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_original','airline',120);">
-                            Print Ori Ticket
+                            <i class="fas fa-print"></i> Print Ori Ticket
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>
                     </div>`;
@@ -7740,9 +7749,12 @@ function airline_get_booking(data, sync=false){
                 csc = 0;
                 service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
                 text_detail=`
-                <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
-                    <h5> Price Detail</h5>
-                <hr/>`;
+                <div style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;">
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                            <h4 class="mb-3"> Price Detail</h5>
+                        </div>
+                    </div>`;
 
                 //repricing
                 type_amount_repricing = ['Repricing'];
@@ -7971,7 +7983,7 @@ function airline_get_booking(data, sync=false){
                     text_detail+=`<div class="row">
                     <div class="col-lg-12" style="padding-bottom:10px;">
                         <hr/>
-                        <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                        <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
                         share_data();
                         var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                         if (isMobile) {
@@ -12425,7 +12437,7 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
     text+=`
     <div class="col-lg-12" style="padding-bottom:10px;">
     <hr/>
-    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+    <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
     share_data();
     var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile) {
@@ -13785,7 +13797,7 @@ function airline_get_booking_refund(data){
 //                text_detail+=`<div class="row">
 //                <div class="col-lg-12" style="padding-bottom:10px;">
 //                    <hr/>
-//                    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+//                    <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
 //                    share_data();
 //                    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 //                    if (isMobile) {
@@ -14278,7 +14290,7 @@ function airline_get_reschedule_itinerary_v2(){
                get_airline_channel_repricing_data_reschedule(msg.result.response.reschedule_itinerary_provider);
                console.log(msg.result.response.reschedule_itinerary_provider);
                document.getElementById('airline_detail').innerHTML += `
-                <div class="col-lg-12" style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;" id="sell_reschedule_div">
+                <div class="col-lg-12" style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;" id="sell_reschedule_div">
                     <input type="button" class="primary-btn" style="width:100%;" onclick="sell_reschedule_v2();" value="Proceed">
                 </div>`;
 
