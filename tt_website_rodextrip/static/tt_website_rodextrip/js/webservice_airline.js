@@ -7170,7 +7170,7 @@ function airline_get_booking(data, sync=false){
                                         reschedule_time = moment(localTime).format('DD MMM YYYY HH:mm');
                                     }
                                     text+= reschedule_time + ', ';
-                                    if(msg.result.response.reschedule_list[i].state.includes('cancel'))
+                                    if(['draft', 'cancel', 'cancel2'].includes(msg.result.response.reschedule_list[i].state))
                                         text+='Update History';
                                     else
                                         text+='Paid';

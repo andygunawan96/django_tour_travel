@@ -2568,6 +2568,14 @@ function check_passenger(){
                 check_form_booker = 1;
             }else{
                 document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
+            }if(document.getElementById('booker_phone_code_id').value==''){
+                error_log+= 'Please choose phone number code for booker!</br>\n';
+                $("#booker_phone_code_id").each(function() {
+                  $(this).siblings(".select2-container").css('border', '1px solid red');
+                });
+                document.getElementById('booker_phone').style['border-color'] = 'red';
+            }else{
+                document.getElementById('booker_phone').style['border-color'] = '#EFEFEF';
             }if(check_phone_number(document.getElementById('booker_phone').value)==false){
                 error_log+= 'Phone number Booker only contain number 8 - 12 digits!</br>\n';
                 document.getElementById('booker_phone').style['border-color'] = 'red';
