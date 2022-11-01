@@ -636,8 +636,10 @@ function group_booking_get_booking(order_number){
                     <div class="row">
                         <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:15px; background:white;">
                             <div class="row">
-                                <div class="col-lg-12" style="padding-bottom:15px;">
-                                    <h5 class="single_border_custom_left" style="padding-left:10px;">`+msg.result.response.order_number+`</h5>
+                                <div class="col-lg-12" style="padding-bottom:15px; border-bottom:1px solid #cdcdcd;">
+                                    <h4>
+                                        <i class="fas fa-scroll"></i> Order Number: `+msg.result.response.order_number+`
+                                    </h4>
                                 </div>
                                 <div class="col-lg-12" style="text-align:right; padding-top:15px;">
                                     <b style="padding-right:10px;"><i>State:</b></i>`;
@@ -674,11 +676,9 @@ function group_booking_get_booking(order_number){
                                         if(msg.result.response.state == 'booked'){
                                             text+=`
                                             <div class="col-lg-4" style="padding:15px;">
-                                                <span>
-                                                    <b>Hold Date</b><br>`;
-                                                    text+=`<i>`+msg.result.response.hold_date+`</i>`;
+                                                <b>Hold Date</b><br>`;
+                                                text+=`<i>`+msg.result.response.hold_date+`</i>`;
                                                 text+=`
-                                                </span>
                                             </div>`;
                                         }
                                         text+=`
@@ -733,7 +733,7 @@ function group_booking_get_booking(order_number){
                                     <div class="col-lg-5 mb-3">
                                         <span>
                                             <b>Issued Date: </b><br/>`;
-                                            if(msg.result.response.booked_date != ""){
+                                            if(msg.result.response.issued_date != ""){
                                                 text+=`<i>`+msg.result.response.issued_date+`</i>`;
                                             }else{
                                                 text+=`-`;
@@ -763,8 +763,10 @@ function group_booking_get_booking(order_number){
                 text+=`
                 <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-bottom:20px;">
                     <div class="row">
-                        <div class="col-lg-12" style="padding-bottom:15px;">
-                            <h5 class="single_border_custom_left" style="padding-left:10px;">Group Booking Request</h5>
+                        <div class="col-lg-12" style="padding-bottom:15px; border-bottom:1px solid #cdcdcd;">
+                            <h4>
+                                <i class="fas fa-sticky-note"></i> Group Booking Request
+                            </h4>
                         </div>
                         <div class="col-lg-12" style="padding-top:15px;">
                             <h5 class="single_border_custom_bottom mb-2" style="width:max-content;">Departure</h5>
@@ -855,8 +857,10 @@ function group_booking_get_booking(order_number){
                 <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-bottom:20px;">
                     <div class="row">`;
                         text+= `
-                        <div class="col-sm-12">
-                            <h5 class="single_border_custom_left" style="padding-left:10px;">Ticket</h5>
+                        <div class="col-lg-12 mb-2" style="border-bottom: 1px solid #cdcdcd;">
+                            <h4 class="mb-3">
+                                <i class="fas fa-ticket-alt"></i> Ticket
+                            </h4>
                         </div>`;
 
                         rules = 0;
@@ -1279,10 +1283,12 @@ function group_booking_get_booking(order_number){
                 text+=`</div>`;
 
                 text+=`
-                <div class="col-lg-12" style="padding-top:15px; padding-bottom:15px; border:1px solid #cdcdcd; background-color:white;">
+                <div class="col-lg-12 mb-3" style="padding-top:15px; padding-bottom:15px; border:1px solid #cdcdcd; background-color:white;">
                     <div class="row">
+                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">`;
+                            text+=`<h4 class="mb-3"><i class="fas fa-user"></i> Booker</h4>
+                        </div>
                         <div class="col-lg-12">`;
-                            text+=`<h5 class="single_border_custom_left mb-3" style="padding-left:10px;">Booker</h5>`;
                             if(msg.result.response.booker.name != false){
                                 title = '';
                                 if(msg.result.response.booker.gender == 'female' && msg.result.response.booker.marital_status == "married")
@@ -1335,9 +1341,13 @@ function group_booking_get_booking(order_number){
                         text+=`
                         </div>
                     </div>
-                    <div class="row pt-3" style="border-top:1px solid #cdcdcd;">
+                </div>
+                <div class="col-lg-12 mb-3" style="padding-bottom:15px; border:1px solid #cdcdcd; background-color:white;">
+                    <div class="row pt-3">
+                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">`;
+                            text+=`<h4 class="mb-3"><i class="fas fa-user"></i> Contact Person</h4>
+                        </div>
                         <div class="col-lg-12">`;
-                            text+=`<h5 class="single_border_custom_left mb-3" style="padding-left:10px;">Contact Person</h5>`;
                             if(msg.result.response.contact.name != false){
 
                                 text+=`
@@ -1407,7 +1417,7 @@ function group_booking_get_booking(order_number){
                                 if (msg.result.response.state == 'issued'){
                                     text+=`
                                     <button type="button" id="button-choose-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','groupbooking');">
-                                        Print Ticket
+                                        <i class="fas fa-print"></i> Print Ticket
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>`;
                                 }
@@ -1420,14 +1430,14 @@ function group_booking_get_booking(order_number){
                                 if (msg.result.response.state  == 'booked'){
                                     text+=`
                                     <button type="button" id="button-print-print" class="primary-btn ld-ext-right" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','groupbooking');">
-                                        Print Form
+                                        <i class="fas fa-print"></i> Print Form
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>`;
                                 }
                                 else if (msg.result.response.state == 'issued'){
                                     text+=`
                                     <button type="button" class="primary-btn ld-ext-right" id="button-print-print" style="width:100%;" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_price','groupbooking');">
-                                        Print Ticket (Price)
+                                        <i class="fas fa-print"></i> Print Ticket (Price)
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>`;
                                 }
@@ -1438,10 +1448,11 @@ function group_booking_get_booking(order_number){
                             if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                                 if (msg.result.response.state == 'issued'){
                                     text+=`
-                                    <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                        <input type="button" class="primary-btn" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
+                                    <button type="button" class="issued-booking-train primary-btn ld-ext-right" style="width:100%;" data-toggle="modal" data-target="#printInvoice">
+                                        <i class="fas fa-print"></i> Print Invoice
                                         <div class="ld ld-ring ld-cycle"></div>
-                                    </a>`;
+                                    </button>`;
+
                                     // modal invoice
                                     text+=`
                                         <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
@@ -1513,9 +1524,12 @@ function group_booking_get_booking(order_number){
                     csc = 0;
                     service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
                     text_detail=`
-                    <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
-                        <h5> Price Detail</h5>
-                    <hr/>`;
+                    <div style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;">
+                        <div class="row">
+                            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                <h4 class="mb-3">Price Detail</h4>
+                            </div>
+                        </div>`;
 
                     //repricing
                     type_amount_repricing = ['Repricing'];
@@ -1728,7 +1742,7 @@ function group_booking_get_booking(order_number){
                         text_detail+=`<div class="row">
                         <div class="col-lg-12" style="padding-bottom:10px;">
                             <hr/>
-                            <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                            <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
                             share_data();
                             var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                             if (isMobile) {

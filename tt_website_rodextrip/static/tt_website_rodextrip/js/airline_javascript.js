@@ -4443,10 +4443,9 @@ function airline_detail(type){
         rules = 0;
         $text = '';
         text += `
-        <div class="row" style="margin-bottom:5px; ">
-            <div class="col-lg-12">
-               <h4> Price Detail </h4>
-               <hr/>
+        <div class="row" style="margin-bottom:5px;">
+            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                <h4 class="mb-3"> Price Detail</h5>
             </div>
         </div>`;
         text += `
@@ -5044,7 +5043,7 @@ function airline_detail(type){
         <div class="row">
             <div class="col-lg-12" style="padding-bottom:10px;">
                 <hr/>
-                <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
 
                 $text += '‣ Grand Total: '+airline_price[0].ADT.currency+' '+ getrupiah(grand_total_price + total_discount) + '\nPrices and availability may change at any time';
 
@@ -7391,9 +7390,13 @@ function check_passenger_aftersales(adult, child, infant, type=''){
 
 function get_airline_review(){
     text = '';
-    text = `<div style="background:white; margin-bottom:15px; padding:10px; border:1px solid #cdcdcd;">
-            <h4>Flight Detail</h4>
-            <hr/>`;
+    text = `
+    <div style="background:white; margin-bottom:15px; padding:15px; border:1px solid #cdcdcd;">
+        <div class="row">
+            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                <h4 class="mb-3"><img src="/static/tt_website_rodextrip/images/icon/airlines_black.png" alt="undefined" style="width:20px; height:20px;"> Flight Detail</h4>
+            </div>
+        </div>`;
     flight_count = 0;
     for(i in airline_pick){
         airline_pick[i].price_itinerary = airline_pick[i].journeys;
@@ -7494,26 +7497,21 @@ function get_airline_review(){
     text+=`
     <div class="row">
         <div class="col-lg-12">
-            <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
-                <h4>Contact(s) Person</h4><hr/>
-                <div style="overflow-x:auto;">
-                <table style="width:100%;" id="list-of-passenger">
-                    <tr>
-                        <th style="width:7%;" class="list-of-passenger-left">No</th>
-                        <th style="width:28%;">Name</th>
-                        <th style="width:7%;">Email</th>
-                        <th style="width:18%;">Phone Number</th>
-                    </tr>`;
-                    for(i in passengers.contact){
-                        text+=`<tr>
-                                <td class="list-of-passenger-left">`+(parseInt(i)+1)+`</td>
-                                <td>`+passengers.contact[i].title+` `+passengers.contact[i].first_name+` `+ passengers.contact[i].last_name +`</td>
-                                <td>`+passengers.contact[i].email+`</td>
-                                <td>`+passengers.contact[i].calling_code+` - `+passengers.contact[i].mobile+`</td>
-                               </tr>`;
-                    }
-                text+=`</table>
-                </div>
+            <div style="background:white; padding:15px; border:1px solid #cdcdcd;">
+                <div class="row">
+                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                        <h4 class="mb-3"><i class="fas fa-user"></i> Contact Person</h4>
+                    </div>
+                </div>`;
+                for(i in passengers.contact){
+                    text+=`
+                    <h5>
+                        `+passengers.contact[i].title+` `+passengers.contact[i].first_name+` `+ passengers.contact[i].last_name +`
+                    </h5>
+                    <b>Email: </b><i>`+passengers.contact[i].email+`</i><br>
+                    <b>Phone: </b><i>`+passengers.contact[i].calling_code+` - `+passengers.contact[i].mobile+`</i><br>`;
+                }
+                text+=`
             </div>
         </div>
     </div>`;
@@ -7522,10 +7520,10 @@ function get_airline_review(){
     text+=`
     <div class="row" style="padding-top:20px;">
         <div class="col-lg-12">
-            <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
+            <div style="background:white; padding:15px; border:1px solid #cdcdcd;">
                 <div class="row">
                     <div class="col-lg-6 mb-2">
-                        <h4>Seat & SSR</h4>
+                        <h4><i class="fas fa-sticky-note"></i> Seat & SSR</h4>
                     </div>
                     <div class="col-lg-6 mb-2" style="text-align:right;">
                         <button type="button" class="primary-btn-white hold-seat-booking-train ld-ext-right" style="width:unset; margin-bottom:unset;" id="btn-search-train" onclick="window.location.href = '/airline/passenger/`+signature+`';" style="width:100%;">
@@ -7534,14 +7532,28 @@ function get_airline_review(){
                         </button>
                     </div>
                 </div>
-                <div class="row" style="padding:5px;">`;
+                <div class="row">`;
                     count_pax = 0;
                     for(i in passengers_ssr){
                         text+=`
                             <div class="col-lg-12 mb-2" style="padding-top:15px; border-top:1px solid #cdcdcd;">
+                            <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+(parseInt(count_pax)+1)+`</h4>
                             <h5>
-                            <span style="color:`+color+`;">`+(parseInt(count_pax)+1)+`.</span>
-                            `+passengers_ssr[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name+`</h5>`;
+                                `+passengers_ssr[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name+``;
+
+                            if(passengers_ssr[i].pax_type == 'ADT'){
+                                text+=`
+                                <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
+                                    <i class="fas fa-user"></i> Adult
+                                </b>`;
+                            }else if(passengers_ssr[i].pax_type == 'CHD'){
+                                text+=`
+                                <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
+                                    <i class="fas fa-user"></i> Child
+                                </b>`;
+                            }
+                            text+=`
+                            </h5>`;
                             text+=`</div>
                             <div class="col-lg-12">`;
 //                            if(passengers_ssr[i].pax_type == 'ADT')
@@ -7571,12 +7583,13 @@ function get_airline_review(){
                             }catch(err){
                                 console.log(err); // error kalau ada element yg tidak ada
                             }
+
                             if(passengers_ssr[i].hasOwnProperty('behaviors') && Object.keys(passengers_ssr[i].behaviors).length > 0){
-                                text+=`<label id="pop_behaviors`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behavior History <i class="fas fa-chevron-down"></i></label>`;
+                                text+=`<label id="pop_behaviors`+i+`" style="color:`+color+`;margin-bottom:unset;"> See Behavior History <i class="fas fa-chevron-down"></i></label><br/>`;
                             }
 
                             if(passengers_ssr[i].ssr_list.length){
-                                text+=`<br/><b>SSR:</b><br/>`;
+                                text+=`<b>SSR:</b><br/>`;
                             }
                             fee_dict = {}
                             for(j in passengers_ssr[i].ssr_list){
@@ -7594,7 +7607,7 @@ function get_airline_review(){
                                 })
                             }
                             for(j in fee_dict){
-                                text += `<span style="font-weight:500;">`+fee_dict[j].origin+` - `+fee_dict[j].destination+` (`+fee_dict[j].departure_date+`)</span><br/>`;
+                                text += `<i>`+fee_dict[j].origin+` - `+fee_dict[j].destination+` (`+fee_dict[j].departure_date+`)</i><br/>`;
                                 for(k in fee_dict[j].fees){
                                     if(fee_dict[j].fees[k].ssr_type == 'ML'){
                                         text+=`<i class="fas fa-utensils"></i> `;
@@ -7614,8 +7627,7 @@ function get_airline_review(){
                             }
                             for(j in passengers_ssr[i].seat_list){
                                 if(passengers_ssr[i].seat_list[j].seat_pick != ''){
-                                    text+=`<img src="/static/tt_website_rodextrip/img/icon/seat.png" style="height:16px; width:auto;"/>`;
-                                    text+= `<span style="font-weight:500;"> `+passengers_ssr[i].seat_list[j].segment_code+` (`+moment(passengers_ssr[i].seat_list[j].departure_date).format('DD MMM YYYY') +`): ` +passengers_ssr[i].seat_list[j].seat_pick + '</span><br>';
+                                    text+= `<span style="font-weight:500;"><i>`+passengers_ssr[i].seat_list[j].segment_code+` (`+moment(passengers_ssr[i].seat_list[j].departure_date).format('DD MMM YYYY') +`)</i><br/><img src="/static/tt_website_rodextrip/img/icon/seat.png" style="height:16px; width:auto;"/> ` +passengers_ssr[i].seat_list[j].seat_pick + '</span><br>';
                                 }
                             }
                             text+=`
@@ -7625,10 +7637,16 @@ function get_airline_review(){
                     for(i in passengers.infant){
                         text+=`
                         <div class="col-lg-12 mb-2" style="padding-top:15px; border-top:1px solid #cdcdcd;">
-                            <h5><span style="color:`+color+`;"> `+(parseInt(count_pax)+1)+`.</span>
-                            `+passengers.infant[i].title+` `+passengers.infant[i].first_name+` `+ passengers.infant[i].last_name +`</h5>
-                            <b>Infant - </b>
-                            Birth Date: <b>`+passengers.infant[i].birth_date+`</b>
+                            <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+(parseInt(count_pax)+1)+`</h4>
+                            <h5>
+                                `+passengers.infant[i].title+` `+passengers.infant[i].first_name+` `+ passengers.infant[i].last_name +`
+                                <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
+                                    <i class="fas fa-user"></i> Infant
+                                </b>
+                            </h5>
+                        </div>
+                        <div class="col-lg-12">
+                            <b>Birth Date:</b> <i>`+passengers.infant[i].birth_date+`</i>
                         </div>`;
                         if(passengers.infant[i].identity_type)
                             text+=`
@@ -8445,7 +8463,7 @@ function get_checked_copy_result(){
     text+=`
     </div>
     <div class="col-lg-12" style="margin-bottom:15px;" id="share_result">
-        <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+        <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
         share_data();
         var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         if (isMobile) {
@@ -9052,7 +9070,7 @@ function get_checked_copy_resultReschedule(){
     text+=`
     </div>
     <div class="col-lg-12" style="margin-bottom:15px;" id="share_result">
-        <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+        <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
         share_data();
         var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         if (isMobile) {

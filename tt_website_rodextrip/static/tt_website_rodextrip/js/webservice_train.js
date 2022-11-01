@@ -814,8 +814,14 @@ function train_get_booking(data){
                 if(msg.result.response.state == 'booked')
                     $text += 'Hold Date:\n';
                 text += `
-                <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-bottom:20px;">
-                    <h6>Order Number : `+msg.result.response.order_number+`</h6><br/>
+                <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-bottom:20px;">
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                            <h4 class="mb-3">
+                                <i class="fas fa-scroll"></i> Order Number: `+msg.result.response.order_number+`
+                            </h4>
+                        </div>
+                    </div>
                     <table style="width:100%;">
                         <tr>
                             <th>PNR</th>`;
@@ -937,9 +943,12 @@ function train_get_booking(data){
                 <div style="background-color:white; border:1px solid #cdcdcd;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div style="padding:10px; background-color:white;">
-                            <h5> Train Detail </h5>
-                            <hr/>`;
+                            <div style="padding:15px; background-color:white;">
+                            <div class="row">
+                                <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                    <h4 class="mb-3"><img src="/static/tt_website_rodextrip/images/icon/train_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;"> Train Detail</h4>
+                                </div>
+                            </div>`;
                         check = 0;
                         flight_counter = 1;
                         for(i in msg.result.response.provider_bookings){
@@ -1053,70 +1062,49 @@ function train_get_booking(data){
                             </div>
                         </div>
                     </div>
+                </div>`;
+
+                if(msg.result.response.booker.gender == 'female' && msg.result.response.booker.marital_status == "married")
+                    title = 'MRS';
+                else if(msg.result.response.booker.gender == 'female')
+                    title = 'MS'
+                else
+                    title = 'MR';
+
+                text+=`
+                <div class="mb-3" style="border:1px solid #cdcdcd; padding:15px; background-color:white; margin-top:20px;">
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                            <h4 class="mb-3"><i class="fas fa-user"></i> Booker</h4>
+                        </div>
+                    </div>
+                    <h5>
+                        `+title+` `+msg.result.response.booker.name+`
+                    </h5>
+                    <b>Email: </b><i>`+msg.result.response.booker.email+`</i><br/>
+                    <b>Phone: </b><i>`+msg.result.response.booker.phones[0].calling_code+' - '+msg.result.response.booker.phones[0].calling_number+`</i><br/>
                 </div>
 
-                <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
-                    <h5> Booker</h5>
-                    <hr/>
-                    <div style="overflow-x:auto;">
-                    <table style="width:100%" id="list-of-passenger">
-                        <tr>
-                            <th style="width:10%;" class="list-of-passenger-left">No</th>
-                            <th style="width:40%;">Name</th>
-                            <th style="width:30%;">Email</th>
-                            <th style="width:30%;">Phone</th>
-                        </tr>`;
-                        title = '';
-                        if(msg.result.response.booker.gender == 'female' && msg.result.response.booker.marital_status == "married")
-                            title = 'MRS';
-                        else if(msg.result.response.booker.gender == 'female')
-                            title = 'MS'
-                        else
-                            title = 'MR';
-                        text+=`<tr>
-                            <td class="list-of-passenger-left">`+(1)+`</td>
-                            <td>`+title+` `+msg.result.response.booker.name+`</td>
-                            <td>`+msg.result.response.booker.email+`</td>
-                            <td>`+msg.result.response.booker.phones[0].calling_code+' - '+msg.result.response.booker.phones[0].calling_number+`</td>
-                        </tr>
-                    </table>
+                <div class="mb-3" style="border:1px solid #cdcdcd; padding:15px; background-color:white;">
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                            <h4 class="mb-3"><i class="fas fa-user"></i> Contact Person</h4>
+                        </div>
                     </div>
-                </div>
-                <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
-                    <h5> Contact Person</h5>
-                    <hr/>
-                    <div style="overflow-x:auto;">
-                    <table style="width:100%" id="list-of-passenger">
-                        <tr>
-                            <th style="width:10%;" class="list-of-passenger-left">No</th>
-                            <th style="width:40%;">Name</th>
-                            <th style="width:30%;">Email</th>
-                            <th style="width:30%;">Phone</th>
-                        </tr>`;
-                        text+=`<tr>
-                            <td class="list-of-passenger-left">`+(1)+`</td>
-                            <td> `+msg.result.response.contact.title+` `+msg.result.response.contact.name+`</td>
-                            <td>`+msg.result.response.contact.email+`</td>
-                            <td>`+msg.result.response.contact.phone+`</td>
-                        </tr>
-                    </table>
-                    </div>
+                    <h5>
+                        `+msg.result.response.contact.title+` `+msg.result.response.contact.name+`
+                    </h5>
+                    <b>Email: </b><i>`+msg.result.response.contact.email+`</i><br/>
+                    <b>Phone: </b><i>`+msg.result.response.contact.phone+`</i><br/>
                 </div>
 
-                <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
-                    <h5> List of Passenger</h5>
-                    <hr/>
-                    <div style="overflow-x:auto;">
-                    <table style="width:100%" id="list-of-passenger">
-                        <tr>
-                            <th style="width:5%;" class="list-of-passenger-left">No</th>
-                            <th style="width:15%;">Name</th>
-                            <th style="width:15%;">Birth Date</th>
-                            <th style="width:10%;">Identity Type</th>
-                            <th style="width:20%;">ID Number</th>
-                            <th style="width:15%;">Seat</th>
-                            <th style="width:15%;">Status</th>
-                        </tr>`;
+                <div style="border:1px solid #cdcdcd; padding:15px; background-color:white;">
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                            <h4 class="mb-3"><i class="fas fa-users"></i> List of Passenger</h4>
+                        </div>
+                    </div>
+                    <div class="row">`;
                         for(pax in msg.result.response.passengers){
                             ticket = [];
                             give_space = false;
@@ -1140,41 +1128,65 @@ function train_get_booking(data){
 
                                 }
                             }
-                            text+=`<tr>
-                                <td class="list-of-passenger-left">`+(parseInt(pax)+1)+`</td>
-                                <td>`+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`</td>
-                                <td>`+msg.result.response.passengers[pax].birth_date+`</td>
-                                <td>`+msg.result.response.passengers[pax].identity_type.charAt(0).toUpperCase()+msg.result.response.passengers[pax].identity_type.slice(1).toLowerCase()+`</td>
-                                <td>`+msg.result.response.passengers[pax].identity_number+`</td>
-                                <td>`;
-                                for(i in ticket)
-                                    if(ticket[i].seat.split(',').length == 2)
-                                    text += ticket[i].journey+`<br/>`+ticket[i].seat.split(',')[0] + ' ' + ticket[i].seat.split(',')[1] +`<br/>`;
-                                text+=`
-                                </td>
-                                <td>`;
-
-                            if(msg.result.response.passengers[pax].hasOwnProperty('temporary_field'))
-                                for(j in msg.result.response.passengers[pax].temporary_field){
-                                    for(k in msg.result.response.passengers[pax].temporary_field[j]){
-                                        if(give_space)
-                                            text += `<br/>`;
-                                        if(give_space == false)
-                                            give_space = true;
-                                        text += `<span>`+k+` </span>`;
-                                        if(msg.result.response.passengers[pax].temporary_field[j][k])
-                                            text += `<i class="fas fa-check-square" style="color:blue"></i>`;
-                                        else
-                                            text += `<i class="fas fa-times" style="color:blue"></i>`;
-
+                            text+=`
+                            <div class="col-lg-12">
+                                <div class="row">`;
+                                    if(pax == 0){
+                                        text+=`<div class="col-lg-12">`;
+                                    }else{
+                                        text+=`<div class="col-lg-12">
+                                        <hr/>`;
                                     }
-                                }
-                        text+=`</td>
+                                    text+=`
+                                        <h4 id="passenger_number0" class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#`+(parseInt(pax)+1)+`</h4>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <h5>
+                                            `+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`
+                                            <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">`;
+                                            if(msg.result.response.passengers[pax].pax_type == 'ADT'){
+                                                 text+=` Adult`;
+                                            }
+                                            else if(msg.result.response.passengers[pax].pax_type == 'INF'){
+                                                 text+=` Infant`;
+                                            }
+                                        text+=`
+                                            </b>
+                                        </h5>
+                                        <b>Birth Date: </b><i>`+msg.result.response.passengers[pax].birth_date+`</i><br/>
+                                        <b>`+msg.result.response.passengers[pax].identity_type.charAt(0).toUpperCase()+msg.result.response.passengers[pax].identity_type.slice(1).toLowerCase()+`: </b>
+                                        <i>`+msg.result.response.passengers[pax].identity_number+`</i><br/>
+                                        <b>Status: </b><i>`;
+                                        if(msg.result.response.passengers[pax].hasOwnProperty('temporary_field'))
+                                            for(j in msg.result.response.passengers[pax].temporary_field){
+                                                for(k in msg.result.response.passengers[pax].temporary_field[j]){
+                                                    if(give_space)
+                                                        text += `<br/>`;
+                                                    if(give_space == false)
+                                                        give_space = true;
+                                                    text += `<span>`+k+` </span>`;
+                                                    if(msg.result.response.passengers[pax].temporary_field[j][k])
+                                                        text += `<i class="fas fa-check-square" style="color:blue"></i>`;
+                                                    else
+                                                        text += `<i class="fas fa-times" style="color:blue"></i>`;
 
-                            </tr>`;
+                                                }
+                                            }
+                                        text+=`
+                                        </i><br/>
+                                        <b>Seat: </b><br/><i>`;
+                                        for(i in ticket){
+                                            if(ticket[i].seat.split(',').length == 2){
+                                                text += ticket[i].journey+`<br/>`+ticket[i].seat.split(',')[0] + ' ' + ticket[i].seat.split(',')[1] +`<br/>`;
+                                            }
+                                        }
+                                        text+=`
+                                        </i>
+                                    </div>
+                                </div>
+                            </div>`;
                         }
-
-                    text+=`</table>
+                        text+=`
                         </div>
                     </div>
                 </div>`;
@@ -1335,9 +1347,12 @@ function train_get_booking(data){
                 commission = 0;
                 service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'CSC'];
                 text_detail=`
-                <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
-                    <h5> Price Detail</h5>
-                <hr/>`;
+                <div style="background-color:white; padding:15px; border: 1px solid #cdcdcd; margin-bottom:15px;">
+                    <div class="row">
+                        <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                            <h4 class="mb-3">Price Detail</h4>
+                        </div>
+                    </div>`;
 
                 //repricing
                 type_amount_repricing = ['Repricing'];
@@ -1551,7 +1566,7 @@ function train_get_booking(data){
                     text_detail+=`<div class="row">
                     <div class="col-lg-12" style="padding-bottom:10px;">
                         <hr/>
-                        <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                        <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
                         share_data();
                         var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                         if (isMobile) {

@@ -74,8 +74,11 @@ function get_balance(val){
 //                        try{
 //                            document.getElementById("balance_search").style.color = "black";
 //                        }catch(err){}
-
-                        text = `Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+``;
+                        text = '';
+                        if(msg.result.response.is_show_point_reward == true){
+                            text = `Point: `+msg.result.response.currency_code + ' ' + getrupiah(msg.result.response.point_reward)+`<br/>`;
+                        }
+                        text += `Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+``;
 
                     }else{
                         //BALANCE VENDOR
@@ -112,7 +115,7 @@ function get_balance(val){
                             document.getElementsByClassName("balance_mobile")[0].style.display = 'none';
                     }
                     if(msg.result.response.is_show_credit_limit){
-                        text = `Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit);
+                        text = `<br/>Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit);
                         //CREDIT LIMIT
                         if(document.getElementById("credit_limit"))
                             document.getElementById("credit_limit").innerHTML = text;
@@ -134,11 +137,11 @@ function get_balance(val){
                         show_ul_balance++;
                     }
                     if(document.getElementById('balance_ul')){
-                        if(show_ul_balance == 1){
-                            document.getElementById('balance_ul').style.height = '55px';
-                        }else{
-                            document.getElementById('balance_ul').style.height = '86px';
-                        }
+//                        if(show_ul_balance == 1){
+//                            document.getElementById('balance_ul').style.height = '100px';
+//                        }else{
+//                            document.getElementById('balance_ul').style.height = '100px';
+//                        }
                         if(window.location.href.split('/').length < 7){
     //                        get_transactions_notification(val);
                             get_transactions_notification();
@@ -1426,11 +1429,11 @@ function table_top_up_history(){
             <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; width:100%; padding:15px 15px 0px 15px;">
                 <div class="row">
                     <div class="col-lg-6 mb-3">
-                        <h5 class="single_border_custom_left" style="padding-left:10px;">
+                        <h4 class="single_border_custom_left" style="padding-left:10px;">
                             `+(parseInt(i)+1)+`.
                             <span name="order_number" style="padding-right:5px;">`+data[i].name+` </span>
                             <img src="/static/tt_website_rodextrip/images/icon/wallet_black.png" alt="Top Up" style="width:15px; height:15px;">
-                        </h5>
+                        </h4>
                     </div>
 
                     <div class="col-lg-6 mb-3" style="text-align:right;">

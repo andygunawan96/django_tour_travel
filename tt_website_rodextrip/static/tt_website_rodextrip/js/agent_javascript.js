@@ -133,50 +133,52 @@ function table_reservation(data, mode_view, restart=false){
                     text+=`
                     <div class="row">
                         <div class="col-lg-6 mb-3">
-                            <h5 class="single_border_custom_left" style="padding-left:10px;">
+                            <h4 class="single_border_custom_left" style="padding-left:10px;">`;
+
+                            if(data[i].provider_type == "airline"){
+                                text += `<img src="/static/tt_website_rodextrip/images/icon/airlines_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
+                            }else if(data[i].provider_type == "train"){
+                                text += `<img src="/static/tt_website_rodextrip/images/icon/train_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
+                            }else if(data[i].provider_type == "hotel"){
+                                text += `<img src="/static/tt_website_rodextrip/images/icon/hotel_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
+                            }else if(data[i].provider_type == "activity"){
+                                text += `<img src="/static/tt_website_rodextrip/images/icon/activity_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
+                            }else if(data[i].provider_type == "tour"){
+                                text += `<img src="/static/tt_website_rodextrip/images/icon/tour_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
+                            }else if(data[i].provider_type == "visa"){
+                                text += `<img src="/static/tt_website_rodextrip/images/icon/visa_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
+                            }else if(data[i].provider_type == "passport"){
+                                text += `<img src="/static/tt_website_rodextrip/images/icon/passport_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
+                            }else if(data[i].provider_type == "ppob"){
+                                text += `<img src="/static/tt_website_rodextrip/images/icon/ppob_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
+                            }else if(data[i].provider_type == "event"){
+                                text += `<img src="/static/tt_website_rodextrip/images/icon/event_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
+                            }else if(data[i].provider_type == "bus"){
+                                text += `<img src="/static/tt_website_rodextrip/images/icon/bus_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
+                            }else if(data[i].provider_type == "insurance"){
+                                text += `<img src="/static/tt_website_rodextrip/images/icon/insurance_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
+                            }else if(data[i].provider_type == "offline"){
+                                text += `<img src="/static/tt_website_rodextrip/images/icon/offline_black.png" alt="`+data[i].provider_type+`" style="width:auto; height:20px;">`;
+                            }else if(data[i].provider_type == "groupbooking"){
+                                text += `<img src="/static/tt_website_rodextrip/images/icon/groupbooking_black.png" alt="`+data[i].provider_type+`" style="width:auto; height:20px;">`;
+                            }else if(data[i].provider_type == "mitrakeluarga"){
+                                text += `<img src="/static/tt_website_rodextrip/images/icon/mitra_keluarga.png" alt="`+data[i].provider_type+`" style="width:auto; height:20px;">`;
+                            }else if(data[i].provider_type == "phc"){
+                                text += `<img src="/static/tt_website_rodextrip/images/icon/phc_logo.png" alt="`+data[i].provider_type+`" style="width:auto; height:20px;">`;
+                            }else if(data[i].provider_type == "labpintar"){
+                                text += `<img src="/static/tt_website_rodextrip/images/icon/lab_pintar.png" alt="`+data[i].provider_type+`" style="width:auto; height:20px;">`;
+                            }else if(data[i].provider_type == "sentramedika"){
+                                text += `<img src="/static/tt_website_rodextrip/images/icon/sentra_medika.png" alt="`+data[i].provider_type+`" style="width:auto; height:20px;">`;
+                            }else if(data[i].provider_type == "periksain"){
+                                text += `<img src="/static/tt_website_rodextrip/images/icon/periksain.png" alt="`+data[i].provider_type+`" style="width:auto; height:20px;">`;
+                            }else{
+                                text += `<img src="/static/tt_website_rodextrip/images/icon/wallet_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
+                            }
+
+                            text+=`
                                 `+(data_counter+1)+`.
                                 <span name="order_number" style="padding-right:5px;">`+data[i].order_number+` </span>`;
-
-                                if(data[i].provider_type == "airline"){
-                                    text += `<img src="/static/tt_website_rodextrip/images/icon/airlines_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
-                                }else if(data[i].provider_type == "train"){
-                                    text += `<img src="/static/tt_website_rodextrip/images/icon/train_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
-                                }else if(data[i].provider_type == "hotel"){
-                                    text += `<img src="/static/tt_website_rodextrip/images/icon/hotel_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
-                                }else if(data[i].provider_type == "activity"){
-                                    text += `<img src="/static/tt_website_rodextrip/images/icon/activity_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
-                                }else if(data[i].provider_type == "tour"){
-                                    text += `<img src="/static/tt_website_rodextrip/images/icon/tour_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
-                                }else if(data[i].provider_type == "visa"){
-                                    text += `<img src="/static/tt_website_rodextrip/images/icon/visa_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
-                                }else if(data[i].provider_type == "passport"){
-                                    text += `<img src="/static/tt_website_rodextrip/images/icon/passport_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
-                                }else if(data[i].provider_type == "ppob"){
-                                    text += `<img src="/static/tt_website_rodextrip/images/icon/ppob_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
-                                }else if(data[i].provider_type == "event"){
-                                    text += `<img src="/static/tt_website_rodextrip/images/icon/event_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
-                                }else if(data[i].provider_type == "bus"){
-                                    text += `<img src="/static/tt_website_rodextrip/images/icon/bus_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
-                                }else if(data[i].provider_type == "insurance"){
-                                    text += `<img src="/static/tt_website_rodextrip/images/icon/insurance_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
-                                }else if(data[i].provider_type == "offline"){
-                                    text += `<img src="/static/tt_website_rodextrip/images/icon/offline_black.png" alt="`+data[i].provider_type+`" style="width:auto; height:20px;">`;
-                                }else if(data[i].provider_type == "groupbooking"){
-                                    text += `<img src="/static/tt_website_rodextrip/images/icon/groupbooking_black.png" alt="`+data[i].provider_type+`" style="width:auto; height:20px;">`;
-                                }else if(data[i].provider_type == "mitrakeluarga"){
-                                    text += `<img src="/static/tt_website_rodextrip/images/icon/mitra_keluarga.png" alt="`+data[i].provider_type+`" style="width:auto; height:20px;">`;
-                                }else if(data[i].provider_type == "phc"){
-                                    text += `<img src="/static/tt_website_rodextrip/images/icon/phc_logo.png" alt="`+data[i].provider_type+`" style="width:auto; height:20px;">`;
-                                }else if(data[i].provider_type == "labpintar"){
-                                    text += `<img src="/static/tt_website_rodextrip/images/icon/lab_pintar.png" alt="`+data[i].provider_type+`" style="width:auto; height:20px;">`;
-                                }else if(data[i].provider_type == "sentramedika"){
-                                    text += `<img src="/static/tt_website_rodextrip/images/icon/sentra_medika.png" alt="`+data[i].provider_type+`" style="width:auto; height:20px;">`;
-                                }else if(data[i].provider_type == "periksain"){
-                                    text += `<img src="/static/tt_website_rodextrip/images/icon/periksain.png" alt="`+data[i].provider_type+`" style="width:auto; height:20px;">`;
-                                }else{
-                                    text += `<img src="/static/tt_website_rodextrip/images/icon/wallet_black.png" alt="`+data[i].provider_type+`" style="width:20px; height:20px;">`;
-                                }
-                            text+=`</h5>
+                            text+=`</h4>
                         </div>
                         <div class="col-lg-6 mb-3" style="text-align:right;">
                             <b style="padding-right:10px;"><i>State:</b></i>`;

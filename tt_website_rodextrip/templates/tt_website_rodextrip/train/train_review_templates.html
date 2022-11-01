@@ -162,10 +162,12 @@
                 <div class="col-lg-8">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div style="padding:10px; background-color:white; border:1px solid #cdcdcd;">
-                                <h4>{% trans 'Train Detail' %}</h4>
-                                <hr/>
-
+                            <div style="padding:15px; background-color:white; border:1px solid #cdcdcd;">
+                                <div class="row">
+                                    <div class="col-lg-12 mb-3" style="border-bottom: 1px solid #cdcdcd;">
+                                        <h4 class="mb-3"><img src="/static/tt_website_rodextrip/images/icon/train_black.png" alt="undefined" style="width:20px; height:20px;"> {% trans 'Train Detail' %}</h4>
+                                    </div>
+                                </div>
                                 {% for data in response %}
                                 {% if forloop.counter == 1 %}
                                 <h5>{% trans 'Departure' %}</h5>
@@ -220,50 +222,52 @@
                         </div>
 
                         <div class="col-lg-12" style="padding-bottom:20px;">
-                            <div style="border:1px solid #cdcdcd; padding:10px; background-color:white;">
-                                <h4>{% trans 'List of Passenger' %}</h4>
-                                <hr/>
-                                <div style="overflow-x:auto;">
-                                <table style="width:100%;" id="list-of-passenger">
-                                    <tr>
-                                        <th>{% trans 'Name' %}</th>
-                                        <th>{% trans 'Birth Date' %}</th>
-                                        <th>{% trans 'Pax Type' %}</th>
-                                        <th>{% trans 'ID Type' %}</th>
-                                        <th>{% trans 'ID Number' %}</th>
-                                    </tr>
+                            <div style="border:1px solid #cdcdcd; padding:15px; background-color:white;">
+                                <div class="row">
+                                    <div class="col-lg-12" style="border-bottom: 1px solid #cdcdcd;">
+                                        <h4 class="mb-3"><i class="fas fa-users"></i> {% trans 'List of Passenger' %}</h4>
+                                    </div>
+                                </div>
+                                <div class="row" id="list-of-passenger">
                                     {% for adult in passenger.adult%}
-                                    <tr>
-                                        <td>{{adult.title}} {{adult.first_name}} {{adult.last_name}}</td>
-                                        <td>{{adult.birth_date}}</td>
-                                        <td>{% trans 'Adult' %}</td>
-                                        <td>
-                                            {% for id_type in id_types %}
-                                            {% if id_type.0 == adult.identity_type %}
-                                            {{id_type.1}}
-                                            {% endif %}
-                                            {% endfor%}
-                                        </td>
-                                        <td>{{adult.identity_number}}</td>
-                                    </tr>
+                                    {% if forloop.first %}
+                                    <div class="col-lg-12 pt-3 pb-3">
+                                    {% else %}
+                                    <div class="col-lg-12 pt-3 pb-3" style="border-top: 1px solid #cdcdcd;">
+                                    {% endif %}
+                                        <h5>
+                                            {{adult.title}} {{adult.first_name}} {{adult.last_name}}
+                                            <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
+                                                <i class="fas fa-user"></i> Adult
+                                            </b>
+                                        </h5>
+                                        <b>Birth Date: </b><i>{{adult.birth_date}}</i><br/>
+                                        {% for id_type in id_types %}
+                                        {% if id_type.0 == adult.identity_type %}
+                                        <b>{{id_type.1}}: </b>
+                                        {% endif %}
+                                        {% endfor%}
+                                        <i>{{adult.identity_number}}</i>
+                                    </div>
                                     {% endfor %}
 
                                     {% for infant in passenger.infant%}
-                                    <tr>
-                                        <td>{{infant.title}} {{infant.first_name}} {{infant.last_name}}</td>
-                                        <td>{{infant.birth_date}}</td>
-                                        <td>{% trans 'Infant' %}</td>
-                                        <td>
-                                            {% for id_type in id_types %}
-                                            {% if id_type.0 == infant.identity_type %}
-                                            {{id_type.1}}
-                                            {% endif %}
-                                            {% endfor%}
-                                        </td>
-                                        <td>{{infant.identity_number}}</td>
-                                    </tr>
+                                    <div class="col-lg-12 pt-3 pb-3" style="border-top: 1px solid #cdcdcd;">
+                                        <h5>
+                                            {{infant.title}} {{infant.first_name}} {{infant.last_name}}
+                                            <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
+                                                <i class="fas fa-user"></i> Infant
+                                            </b>
+                                        </h5>
+                                        <b>Birth Date: </b><i>{{infant.birth_date}}</i><br/>
+                                        {% for id_type in id_types %}
+                                        {% if id_type.0 == infant.identity_type %}
+                                        <b>{{id_type.1}}: </b>
+                                        {% endif %}
+                                        {% endfor%}
+                                        <i>{{infant.identity_number}}</i>
+                                    </div>
                                     {% endfor %}
-                                </table>
                                 </div>
                             </div>
                         </div>
@@ -280,7 +284,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4" style="padding-bottom:20px;">
-                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="train_detail">
+                    <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;" id="train_detail">
 
                     </div>
                     {% include 'tt_website_rodextrip/voucher_code.html'  %}

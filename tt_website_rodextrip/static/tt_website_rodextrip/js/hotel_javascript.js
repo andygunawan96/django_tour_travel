@@ -2036,10 +2036,9 @@ function hotel_detail(old_cancellation_policy){
         new_cancellation_text = old_cancellation_text;
     }
     text = `
-    <div class="row" style="margin-bottom:5px; ">
-        <div class="col-lg-12">
-           <h4>Price Detail</h4>
-           <hr/>
+    <div class="row" style="margin-bottom:5px;">
+        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+           <h4 class="mb-3">Price Detail</h4>
         </div>
     </div>`;
 
@@ -2063,7 +2062,7 @@ function hotel_detail(old_cancellation_policy){
     for (var ro = 0; ro < room_dict.length; ro++) {
         if (room_dict[ro] != current_room) {
             if (cnt_room > 0) {
-                show_name_room += '<span style="color:#f15a22;">'+cnt_room+'x </span>'+ current_room+' + ';
+                show_name_room += `<span style="color:`+color+`;">`+cnt_room+`x </span>`+ current_room+` + `;
                 title_name_room += cnt_room+'x '+ current_room+' + ';
             }
             current_room = room_dict[ro];
@@ -2073,7 +2072,7 @@ function hotel_detail(old_cancellation_policy){
         }
     }
     if (cnt_room > 0) {
-        show_name_room += '<span style="color:#f15a22;">'+cnt_room+'x </span>'+ current_room;
+        show_name_room += `<span style="color:`+color+`;">`+cnt_room+`x </span>`+ current_room;
         title_name_room += cnt_room+'x '+ current_room;
     }
 
@@ -2239,7 +2238,7 @@ function hotel_detail(old_cancellation_policy){
     }
 
     text += `<div class="row"><div class="col-lg-12" style="padding-bottom:15px;">
-        <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+        <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
         share_data2();
         var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         if (isMobile) {
@@ -2409,7 +2408,7 @@ function get_checked_copy_result(){
     $text += '\n===Price may change at any time===';
     text+=`</div>
     <div class="col-lg-12" style="margin-bottom:15px;" id="share_result">
-        <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+        <span style="font-size:14px; font-weight:bold;"><i class="fas fa-share-alt"></i> Share This on:</span><br/>`;
         share_data();
         var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         if (isMobile) {
