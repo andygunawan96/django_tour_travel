@@ -174,6 +174,7 @@ function agent_register_get_config(){
             document.getElementById('partnership_tab').innerHTML = text_partnership_tab;
             document.getElementById('partnership').innerHTML = text_partnership;
             document.getElementById('agent_type_id').innerHTML = text;
+            onchange_agent_type();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error agent registration get config');
@@ -239,7 +240,7 @@ function get_promotions(){
                 }
                 document.getElementById('promotion').innerHTML = text;
                 if(template == 1 || template == 3 || template == 4 || template == 5){
-                    $('#promotion').niceSelect();
+                    $('#promotion').niceSelect('update');
                 }else if(template == 2){
                     $('#promotion').niceSelect("update");
                 }
@@ -247,7 +248,7 @@ function get_promotions(){
                 text = '<option value="" disabled selected>Promotions</option>';
                 document.getElementById('promotion').innerHTML = text;
                 if(template == 1 || template == 3 || template == 4 || template == 5){
-                    $('#promotion').niceSelect();
+                    $('#promotion').niceSelect('update');
                 }else if(template == 2){
                     $('#promotion').niceSelect("update");
                 }
