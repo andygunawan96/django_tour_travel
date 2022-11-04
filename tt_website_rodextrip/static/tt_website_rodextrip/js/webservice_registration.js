@@ -174,7 +174,6 @@ function agent_register_get_config(){
             document.getElementById('partnership_tab').innerHTML = text_partnership_tab;
             document.getElementById('partnership').innerHTML = text_partnership;
             document.getElementById('agent_type_id').innerHTML = text;
-            onchange_agent_type();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             error_ajax(XMLHttpRequest, textStatus, errorThrown, 'Error agent registration get config');

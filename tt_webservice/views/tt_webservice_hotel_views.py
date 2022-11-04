@@ -741,7 +741,8 @@ def create_booking(request):
                 data.update({
                     'member': member,
                     'acquirer_seq_id': request.POST['acquirer_seq_id'],
-                    'voucher': {}
+                    'voucher': {},
+                    'agent_payment_method': request.POST.get('agent_payment') or False, ## kalau tidak kirim default balance normal
                 })
                 try:
                     if request.POST['use_point'] == 'false':
@@ -853,7 +854,8 @@ def issued_b2c(request):
             'order_number': request.POST['order_number'],
             'member': member,
             'acquirer_seq_id': request.POST['acquirer_seq_id'],
-            'voucher': {}
+            'voucher': {},
+            'agent_payment_method': request.POST.get('agent_payment') or False, ## kalau tidak kirim default balance normal
         }
         provider = []
         if request.POST['voucher_code'] != '':

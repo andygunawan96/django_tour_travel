@@ -5370,6 +5370,7 @@ function airline_commit_booking(val){
     try{
         formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
         formData.append('member', payment_acq2[payment_method][selected].method);
+        formData.append('agent_payment', document.getElementById('payment_ho_id') ? document.getElementById('payment_ho_id').value : '');
         formData.append('voucher_code', voucher_code);
         if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
         {
@@ -8984,6 +8985,10 @@ function airline_issued(data){
         formData.append('member', payment_acq2[payment_method][selected].method);
         formData.append('signature', signature);
         formData.append('voucher_code', voucher_code);
+        default_payment_to_ho = ''
+        if(total_price_payment_acq == 0)
+            default_payment_to_ho = 'balance'
+        formData.append('agent_payment', document.getElementById('payment_ho_id') ? document.getElementById('payment_ho_id').value : default_payment_to_ho);
         formData.append('booking', temp_data);
         try{
             var radios = document.getElementsByName('use_point');
@@ -14576,6 +14581,10 @@ function update_booking_after_sales_v2(input_pax_seat = false){
     if($("[name='radio_payment_type']").val() != undefined){
         data['acquirer_seq_id'] = payment_acq2[payment_method][selected].acquirer_seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
+        default_payment_to_ho = ''
+        if(total_price_payment_acq == 0)
+            default_payment_to_ho = 'balance'
+        data['agent_payment'] = document.getElementById('payment_ho_id') ? document.getElementById('payment_ho_id').value : default_payment_to_ho;
     }
     pax_seat = {};
     try{

@@ -504,6 +504,7 @@ def commit_booking(request):
                 data.update({
                     'member': member,
                     'acquirer_seq_id': request.POST['acquirer_seq_id'],
+                    'agent_payment_method': request.POST.get('agent_payment') or False, ## kalau tidak kirim default balance normal
                 })
         except Exception as e:
             _logger.error(str(e) + traceback.format_exc())
@@ -614,7 +615,8 @@ def issued(request):
             'order_number': request.POST['order_number'],
             'member': member,
             'acquirer_seq_id': request.POST['acquirer_seq_id'],
-            'voucher': {}
+            'voucher': {},
+            'agent_payment_method': request.POST.get('agent_payment') or False, ## kalau tidak kirim default balance normal
         }
 
         try:
