@@ -619,7 +619,7 @@ function activity_table_detail2(pagetype){
    }
    text += `<hr style="padding:0px;">`;
    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-       text +=`<div style="text-align:right;"><img alt="Bank" src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+       text +=`<div style="text-align:right;"><img alt="Bank" src="/static/tt_website_rodextrip/img/bank.png" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
    }
 
 //    try{

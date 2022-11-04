@@ -1408,27 +1408,19 @@ function train_get_booking(data){
                                     'Repricing': price['CSC']
                                 }
                             }
-                            text_repricing = `
-                            <div class="col-lg-12">
-                                <div style="padding:5px;" class="row">
-                                    <div class="col-lg-3"></div>
-                                    <div class="col-lg-3">Price</div>
-                                    <div class="col-lg-3">Repricing</div>
-                                    <div class="col-lg-3">Total</div>
-                                </div>
-                            </div>`;
+                            text_repricing = '';
                             for(k in price_arr_repricing){
                                 for(l in price_arr_repricing[k]){
                                     text_repricing += `
                                     <div class="col-lg-12">
                                         <div style="padding:5px;" class="row" id="adult">
-                                            <div class="col-lg-3" id="`+j+`_`+k+`">`+l+`</div>
-                                            <div class="col-lg-3" id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
+                                            <div class="col-lg-12" id="`+j+`_`+k+`"><h6>`+l+`</h6></div>
+                                            <div class="col-lg-4" id="`+l+`_price"><b>Price </b><br/><i>`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</i></div>`;
                                             if(price_arr_repricing[k][l].Repricing == 0)
-                                                text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">-</div>`;
+                                                text_repricing+=`<div class="col-lg-4" id="`+l+`_repricing"><b>Repricing </b><br/>-</div>`;
                                             else
-                                                text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
-                                            text_repricing+=`<div class="col-lg-3" id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
+                                                text_repricing+=`<div class="col-lg-4" id="`+l+`_repricing"><b>Repricing </b><br/><i>`+getrupiah(price_arr_repricing[k][l].Repricing)+`</i></div>`;
+                                            text_repricing+=`<div class="col-lg-4" id="`+l+`_total"><b>Total </b><br/><i>`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</i></div>
                                         </div>
                                     </div>`;
                                 }
@@ -1440,9 +1432,9 @@ function train_get_booking(data){
                             text_repricing += `
                                 <div class="col-lg-12">
                                     <div style="padding:5px;" class="row" id="booker_repricing" hidden>
-                                    <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
+                                    <div class="col-lg-6" id="repricing_booker_name"><b>Booker Insentif</b></div>
                                     <div class="col-lg-3" id="repriring_booker_repricing"></div>
-                                    <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
+                                    <div class="col-lg-3" id="repriring_booker_total"><i>`+booker_insentif+`</i></div>
                                     </div>
                                 </div>`;
                             text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
@@ -1556,9 +1548,9 @@ function train_get_booking(data){
                     </div>`;
 
                     if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                     }else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                         document.getElementById('repricing_type').innerHTML = '<option value="booker">Booker</option>';
                         $('#repricing_type').niceSelect('update');
                         reset_repricing();

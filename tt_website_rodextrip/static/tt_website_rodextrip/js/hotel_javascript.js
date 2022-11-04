@@ -2203,7 +2203,7 @@ function hotel_detail(old_cancellation_policy){
     text += `<div class="row">
         <div class="col-lg-12"><hr/></div>`;
         if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-            text+=`<div class="col-lg-12"><div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div></div>`;
+            text+=`<div class="col-lg-12"><div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div></div>`;
         }
         if (typeof upsell_price !== 'undefined'){
             if(upsell_price != 0){
