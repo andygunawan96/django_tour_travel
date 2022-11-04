@@ -2923,6 +2923,9 @@ function group_booking_issued_booking(){
         }
     }
     payment_method_choice = group_booking_get_detail.result.response.payment_rules_available[issued_pick].payment_rules_seq_id;
+    default_payment_to_ho = ''
+    if(total_price_payment_acq == 0)
+        default_payment_to_ho = 'balance'
     getToken();
     $.ajax({
        type: "POST",
@@ -2935,6 +2938,7 @@ function group_booking_issued_booking(){
            'payment_method': payment_method_choice,
            'acquirer_seq_id': payment_acq2[payment_method][selected].acquirer_seq_id,
            'member': payment_acq2[payment_method][selected].method,
+           'agent_payment': document.getElementById('payment_ho_id') ? document.getElementById('payment_ho_id').value : default_payment_to_ho,
            'signature': signature,
            'voucher_code': voucher_code,
        },

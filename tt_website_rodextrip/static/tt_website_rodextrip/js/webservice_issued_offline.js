@@ -913,9 +913,13 @@ function update_passenger(){
 function commit_booking(){
     show_loading();
     please_wait_transaction();
+    default_payment_to_ho = ''
+    if(total_price_payment_acq == 0)
+        default_payment_to_ho = 'balance';
     data = {
         'acquirer_seq_id':payment_acq2[payment_method][selected].acquirer_seq_id,
         'member':payment_acq2[payment_method][selected].method,
+        'agent_payment': document.getElementById('payment_ho_id') ? document.getElementById('payment_ho_id').value : default_payment_to_ho,
         'voucher_code': voucher_code
     }
 
