@@ -557,6 +557,27 @@ function activity_table_detail2(pagetype){
                 else if(price.service_charge_summary[pri].pax_type == "INF")
                     text+=`Infant`;
             text+=`@ `+price.service_charge_summary[pri].service_charges[0].currency+` `;
+            price_type = {
+                'fare': 0,
+                'tax':  0,
+                'rac':  0,
+                'roc':  0,
+                'disc':  0,
+                'currency': 'IDR'
+            }
+            for(x in price.service_charge_summary[pri].service_charges){
+                if(price.service_charge_summary[pri].service_charges[x].charge_code == 'fare'){
+                    price_type['fare'] += price.service_charge_summary[pri].service_charges[x].total;
+                }else if(price.service_charge_summary[pri].service_charges[x].charge_code == 'tax'){
+                    price_type['tax'] += price.service_charge_summary[pri].service_charges[x].total;
+                }else if(price.service_charge_summary[pri].service_charges[x].charge_code == 'roc'){
+                    price_type['roc'] += price.service_charge_summary[pri].service_charges[x].total;
+                }else if(price.service_charge_summary[pri].service_charges[x].charge_code == 'rac'){
+                    price_type['rac'] += price.service_charge_summary[pri].service_charges[x].total;
+                }else if(price.service_charge_summary[pri].service_charges[x].charge_code == 'disc'){
+                    price_type['disc'] += price.service_charge_summary[pri].service_charges[x].total;
+                }
+            }
             if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty(price.service_charge_summary[pri].pax_type)){ //with upsell
                 text+= getrupiah(price.service_charge_summary[pri].base_price + (upsell_price_dict[price.service_charge_summary[pri].pax_type] / price.service_charge_summary[pri].pax_count))+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">`+price.service_charge_summary[pri].service_charges[0].currency+` `;
                 text+= getrupiah(price.service_charge_summary[pri].total_price + (upsell_price_dict[price.service_charge_summary[pri].pax_type]))+`</span></div>`;
@@ -566,6 +587,12 @@ function activity_table_detail2(pagetype){
                 text+= getrupiah(price.service_charge_summary[pri].total_price)+`</span></div>`;
                 $test += price.service_charge_summary[pri].pax_count + ' ' + price.service_charge_summary[pri].pax_type + ' Price @'+price.service_charge_summary[pri].service_charges[0].currency+' ' + getrupiah(price.service_charge_summary[pri].base_price)+'\n';
             }
+
+
+            total_price_provider.push({
+                'provider': response.provider_code,
+                'price': price_type
+            });
 
             text+= `</div>`;
             grand_total += price.service_charge_summary[pri].total_price;
