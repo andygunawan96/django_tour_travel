@@ -3532,11 +3532,6 @@ function get_price_itinerary_request(){
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="alert alert-warning" role="alert">
-                                <span style="font-weight:bold;"> Please check before going to the next page!</span>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
                             <div class="row">`;
                             flight_count = 0;
                             max_flight = 0;
@@ -3580,7 +3575,7 @@ function get_price_itinerary_request(){
                                     <div class="col-lg-12" style="display:block;" id="flight_div_sh`+flight_count+`">
                                         <div class="row">
                                             <div class="col-lg-12">
-                                                <div style="padding:15px; border:1px solid #cdcdcd;">`;
+                                                <div style="padding:15px; border:1px solid #cdcdcd; background:white;">`;
                                                 if(i == 0 && j == 0 && resJson.result.response.is_combo_price == true && journey.length > 1){
                                                     //text += `<marquee direction="down" behavior="alternate" height="50">
                                                     //<marquee behavior="alternate"><font size="5">Special Price</font></marquee>
@@ -4054,7 +4049,7 @@ function render_price_in_get_price(text, $text, $text_share){
 
     text+=`
     <div class="col-lg-12" id="rules`+rules+`">
-        <div style="padding:15px; border:1px solid #cdcdcd;">
+        <div style="padding:15px; border:1px solid #cdcdcd; background:white;">
             <span class="carrier_code_template"> Term and Condition </span><br/>
             <span style="font-size:16px; font-weight:bold;">PLEASE WAIT ... </span>
             <div class="sk-circle">
@@ -4084,7 +4079,7 @@ function render_price_in_get_price(text, $text, $text_share){
     <div class="col-lg-12" id="div-subtotal`+subtotal_div+`">
         <div class="row">
             <div class="col-lg-12">
-                <div style="padding:15px; border-right:1px solid #cdcdcd; border-left:1px solid #cdcdcd;">
+                <div style="padding:15px; border-right:1px solid #cdcdcd; border-left:1px solid #cdcdcd; background:white;">
                     <div class="row">
                         <div class="col-lg-6 col-xs-6">
 
@@ -4119,7 +4114,7 @@ function render_price_in_get_price(text, $text, $text_share){
                     }
                     text+=`
                     <div class="col-lg-12">
-                        <div style="padding:15px; border-right:1px solid #cdcdcd; border-left:1px solid #cdcdcd;">
+                        <div style="padding:15px; border-right:1px solid #cdcdcd; border-left:1px solid #cdcdcd; background:white;">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                     <span style="font-size:13px; font-weight:500;"><b>`+airline_request.adult+`x</b> Adult Fare @ `+airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare))+`</span><br/>
@@ -4168,7 +4163,7 @@ function render_price_in_get_price(text, $text, $text_share){
                     }
                     text+=`
                     <div class="col-lg-12">
-                        <div style="padding:15px; border-right:1px solid #cdcdcd; border-left:1px solid #cdcdcd;">
+                        <div style="padding:15px; border-right:1px solid #cdcdcd; border-left:1px solid #cdcdcd; background:white;">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                     <span style="font-size:13px; font-weight:500;"><b>`+airline_request.child+`x</b> Child Fare @ `+airline_price[price_counter].CHD.currency+' '+getrupiah(Math.ceil(airline_price[price_counter].CHD.fare))+`</span><br/>
@@ -4221,7 +4216,7 @@ function render_price_in_get_price(text, $text, $text_share){
                     }
                     text+=`
                     <div class="col-lg-12">
-                        <div style="padding:15px; border-right:1px solid #cdcdcd; border-left:1px solid #cdcdcd;">
+                        <div style="padding:15px; border-right:1px solid #cdcdcd; border-left:1px solid #cdcdcd; background:white;">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                     <span style="font-size:13px; font-weight:500;"><b>`+airline_request.infant+`x</b> Infant Fare @ `+airline_price[price_counter].INF.currency+' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare))+`</span><br/>
@@ -4250,7 +4245,7 @@ function render_price_in_get_price(text, $text, $text_share){
             if(discount != 0){
                 text += `
                 <div class="col-lg-12">
-                    <div style="padding:15px; border-right:1px solid #cdcdcd; border-left:1px solid #cdcdcd;">
+                    <div style="padding:15px; border-right:1px solid #cdcdcd; border-left:1px solid #cdcdcd; background:white;">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                 <span style="font-size:13px; font-weight:500;">Discount</span>
@@ -4271,7 +4266,7 @@ function render_price_in_get_price(text, $text, $text_share){
 
     text += `
     <div class="col-lg-12 mb-3">
-        <div style="padding:15px; border:1px solid #cdcdcd;">
+        <div style="padding:15px; border:1px solid #cdcdcd; background:white;">
             <div class="row">
                 <div class="col-lg-12" style="text-align:right;">
                     <span id="span-subtotal-up`+subtotal_div+`" style="display:none; color:`+color+`; font-weight:bold; cursor:pointer;" onclick="show_hide_subtotal(`+subtotal_div+`)">View Detail <i class="fas fa-chevron-up"></i></span>
@@ -4326,9 +4321,9 @@ function get_fare_rules(){
                     if(msg.result.response.fare_rule_provider[i].hasOwnProperty('journeys') == true){
                         if(msg.result.response.fare_rule_provider[i].hasOwnProperty('rules') && msg.result.response.fare_rule_provider[i].rules.length != 0){
                             text_fare+=`
-                                <span id="span-tac-up`+count_fare+`" class="carrier_code_template" style="display:block; cursor:pointer; padding:15px; border-right:1px solid #cdcdcd; border-left:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd; font-weight:bold;" onclick="show_hide_tac(`+count_fare+`);"> Show Term and Condition <i class="fas fa-chevron-down" style="float:right;"></i></span>
-                                <span id="span-tac-down`+count_fare+`" class="carrier_code_template" style="display:none; cursor:pointer; padding:15px; border-right:1px solid #cdcdcd; border-left:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd; font-weight:bold;" onclick="show_hide_tac(`+count_fare+`);"> Hide Term and Condition <i class="fas fa-chevron-up" style="float:right;"></i></span>
-                                <div id="div-tac`+count_fare+`" style="display:none; padding:15px; border:1px solid #cdcdcd;">`;
+                                <span id="span-tac-up`+count_fare+`" class="carrier_code_template" style="display:block; cursor:pointer; padding:15px; border-right:1px solid #cdcdcd; border-left:1px solid #cdcdcd; background:white; border-bottom:1px solid #cdcdcd; font-weight:bold;" onclick="show_hide_tac(`+count_fare+`);"> Show Term and Condition <i class="fas fa-chevron-down" style="float:right;"></i></span>
+                                <span id="span-tac-down`+count_fare+`" class="carrier_code_template" style="display:none; cursor:pointer; padding:15px; border-right:1px solid #cdcdcd; border-left:1px solid #cdcdcd; background:white; border-bottom:1px solid #cdcdcd; font-weight:bold;" onclick="show_hide_tac(`+count_fare+`);"> Hide Term and Condition <i class="fas fa-chevron-up" style="float:right;"></i></span>
+                                <div id="div-tac`+count_fare+`" style="display:none; padding:15px; border:1px solid #cdcdcd; background:white;">`;
                             for(k in msg.result.response.fare_rule_provider[i].rules){
                                 if(msg.result.response.fare_rule_provider[i].rules[k] != ""){
                                     text_fare += `<span style="font-weight:bold;">`+msg.result.response.fare_rule_provider[i].rules[k].name+`</span><br/>`;
@@ -4348,7 +4343,7 @@ function get_fare_rules(){
                                 text_fare += `<span style="font-weight:400;"><i class="fas fa-circle" style="font-size:9px;"></i> No fare rules</span><br/>`;
                             text_fare+=`</div>`;
                         }else{
-                            text_fare += '<div style="padding:15px; border:1px solid #cdcdcd; font-weight:bold;">No fare rules</div>';
+                            text_fare += '<div style="padding:15px; border:1px solid #cdcdcd; background:white; font-weight:bold;">No fare rules</div>';
                         }
                         try{
                             document.getElementById('rules'+count_fare).innerHTML = text_fare;
@@ -6869,7 +6864,7 @@ function airline_get_booking(data, sync=false){
 
                 text+=`
                 </div>
-                <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
+                <div style="background-color:white; padding:15px; border:1px solid #cdcdcd; background:white;">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="row">
@@ -7822,27 +7817,19 @@ function airline_get_booking(data, sync=false){
                                     'Repricing': price['CSC']
                                 }
                             }
-                            text_repricing = `
-                            <div class="col-lg-12">
-                                <div style="padding:5px;" class="row">
-                                    <div class="col-lg-3"></div>
-                                    <div class="col-lg-3">Price</div>
-                                    <div class="col-lg-3">Repricing</div>
-                                    <div class="col-lg-3">Total</div>
-                                </div>
-                            </div>`;
+                            text_repricing = '';
                             for(k in price_arr_repricing){
                                 for(l in price_arr_repricing[k]){
                                     text_repricing += `
                                     <div class="col-lg-12">
                                         <div style="padding:5px;" class="row" id="adult">
-                                            <div class="col-lg-3" id="`+j+`_`+k+`">`+l+`</div>
-                                            <div class="col-lg-3" id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
+                                            <div class="col-lg-12" id="`+j+`_`+k+`"><h6>`+l+`</h6></div>
+                                            <div class="col-lg-4" id="`+l+`_price"><b>Price </b><br/><i>`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</i></div>`;
                                             if(price_arr_repricing[k][l].Repricing == 0)
-                                                text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">-</div>`;
+                                                text_repricing+=`<div class="col-lg-4" id="`+l+`_repricing"><b>Repricing </b><br/>-</div>`;
                                             else
-                                                text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
-                                            text_repricing+=`<div class="col-lg-3" id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
+                                                text_repricing+=`<div class="col-lg-4" id="`+l+`_repricing"><b>Repricing </b><br/><i>`+getrupiah(price_arr_repricing[k][l].Repricing)+`</i></div>`;
+                                            text_repricing+=`<div class="col-lg-" id="`+l+`_total"><b>Total </b><br/><i>`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</i></div>
                                         </div>
                                     </div>`;
                                 }
@@ -7854,9 +7841,9 @@ function airline_get_booking(data, sync=false){
                             text_repricing += `
                                 <div class="col-lg-12">
                                     <div style="padding:5px;" class="row" id="booker_repricing" hidden>
-                                    <div class="col-lg-6" id="repricing_booker_name">Booker Insentif</div>
+                                    <div class="col-lg-6" id="repricing_booker_name"><b>Booker Insentif</b></div>
                                     <div class="col-lg-3" id="repriring_booker_repricing"></div>
-                                    <div class="col-lg-3" id="repriring_booker_total">`+booker_insentif+`</div>
+                                    <div class="col-lg-3" id="repriring_booker_total"><i>`+booker_insentif+`</i></div>
                                     </div>
                                 </div>`;
 
@@ -7974,9 +7961,9 @@ function airline_get_booking(data, sync=false){
                         </div>
                     </div>`;
                     if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                     else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                         document.getElementById('repricing_type').innerHTML = '<option value="booker">Booker</option>';
                         $('#repricing_type').niceSelect('update');
                         reset_repricing();
@@ -11006,7 +10993,7 @@ function render_ticket_reissue(){
                                                text+=`
                                                </button>
                                                <ul id="provider_seat_content`+i+``+j+`" class="dropdown-menu" style="background:unset; padding:0px 15px 15px 15px; z-index:5; border:unset;">
-                                                  <div style="background:white; padding:15px; border:1px solid #cdcdcd; overflow-y:auto; height:200px;">
+                                                  <div style="background:white; padding:15px; border:1px solid #cdcdcd; background:white; overflow-y:auto; height:200px;">
                                                   <div class="row">
                                                       <div class="col-lg-12">
                                                            <h6>(Class Of Service / Seat left)</h6>
@@ -11992,7 +11979,7 @@ function get_chosen_ticket(type='all'){
                             text+=`
                             </button>
                             <ul id="provider_seat_content`+i+``+j+`" class="dropdown-menu" style="background:unset; padding:0px 15px 15px 15px; z-index:5; border:unset;">
-                               <div style="background:white; padding:15px; border:1px solid #cdcdcd; overflow-y:auto; height:200px;">
+                               <div style="background:white; padding:15px; border:1px solid #cdcdcd; background:white; overflow-y:auto; height:200px;">
                                    <div class="row">
                                        <div class="col-lg-12">
                                             <h6>(Class Of Service / Seat left)</h6>
@@ -12398,7 +12385,7 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee, 
     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
     {
         text +=`<div class="col-lg-12">
-                    <div style="text-align:right; padding-bottom:10px; padding-top:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>
+                    <div style="text-align:right; padding-bottom:10px; padding-top:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>
                 </div>`;
     }
     if(airline_get_detail.result.response.state == 'booked' ){

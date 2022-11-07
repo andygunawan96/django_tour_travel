@@ -48,7 +48,10 @@ function add_table_of_equation(percentage=true, is_ssr=false){
     if(repricing_type != 'booker'){
         var node = document.createElement("div");
         text += `
-        <div class="col-lg-4" style="padding:0px;">
+        <div class="col-lg-12">
+            #`+parseInt(counter+1)+`
+        </div>
+        <div class="col-lg-4">
             <span style="font-size:11px;">Type</span><br/>
             <div class="form-select">
                 <div class="input-container-search-ticket">
@@ -60,7 +63,7 @@ function add_table_of_equation(percentage=true, is_ssr=false){
             </div>
         </div>`;
         text += `
-        <div class="col-lg-4" style="padding:0px;">
+        <div class="col-lg-4">
             <span style="font-size:11px;">Pax Type</span><br/>
             <div class="input-container-search-ticket">
                 <div class="form-select">
@@ -74,7 +77,7 @@ function add_table_of_equation(percentage=true, is_ssr=false){
             </div>
         </div>`;
         text += `
-            <div class="col-lg-4" style="padding:0px;">`;
+            <div class="col-lg-4">`;
             text+=`
                 <span style="font-size:11px;">Price (number`;
                 if(percentage==true)
@@ -87,7 +90,8 @@ function add_table_of_equation(percentage=true, is_ssr=false){
                         </div>
                     </div>
                 </div>
-            </div>`;
+            </div>
+            <div class="col-lg-12"><br/></div>`;
         node.className = 'row';
         node.innerHTML = text;
         node.setAttribute('id', 'div'+counter);
@@ -98,7 +102,7 @@ function add_table_of_equation(percentage=true, is_ssr=false){
     }else{
         var node = document.createElement("div");
         text += `
-        <div class="col-lg-6" style="padding:0px;">
+        <div class="col-lg-6">
             <span style="font-size:11px;">Type</span><br/>
             <div class="form-select">
                 <div class="input-container-search-ticket">
@@ -109,7 +113,7 @@ function add_table_of_equation(percentage=true, is_ssr=false){
             </div>
         </div>`;
         text += `
-            <div class="col-lg-6" style="padding:0px;">`;
+            <div class="col-lg-6">`;
             text+=`
                 <span style="font-size:11px;">Price </span><br/>
                 <div class="banner-right">
@@ -240,8 +244,8 @@ function calculate(type){
                     document.getElementById(j+'_total').innerHTML = getrupiah(price_duplication[i][j].total);
                 }
             }
-            text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
-            document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
+            text = `<input class="primary-btn-ticket mt-3 mb-3" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
+            document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket mt-3 mb-3" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
         }else if(type == 'airline_review'){
             for(i in price_duplication){
                 for(j in price_duplication[i]){
@@ -252,8 +256,8 @@ function calculate(type){
                     document.getElementById(j+'_total').innerHTML = getrupiah(price_duplication[i][j].total);
                 }
             }
-            text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge();" value="Set Upsell Downsell">`;
-            document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('review');" value="Set Upsell Downsell">`;
+            text = `<input class="primary-btn-ticket mt-3 mb-3" type="button" onclick="update_service_charge();" value="Set Upsell Downsell">`;
+            document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket mt-3 mb-3" type="button" onclick="update_service_charge('review');" value="Set Upsell Downsell">`;
         }else if(type == 'train'){
             for(i in price_duplication){
                 for(j in price_duplication[i]){
@@ -264,8 +268,8 @@ function calculate(type){
                     document.getElementById(j+'_total').innerHTML = getrupiah(price_duplication[i][j].total);
                 }
             }
-            text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
-            document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
+            text = `<input class="primary-btn-ticket mt-3 mb-3" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
+            document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket mt-3 mb-3" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
         }else if(type == 'activity'){
             for(i in price_duplication){
                 for(j in price_duplication[i]){
@@ -276,8 +280,8 @@ function calculate(type){
                     document.getElementById(j+'_total').innerHTML = getrupiah(price_duplication[i][j].total);
                 }
             }
-            text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
-            document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
+            text = `<input class="primary-btn-ticket mt-3 mb-3" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
+            document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket mt-3 mb-3" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
         }else if(type == 'tour'){
             console.log(price_duplication);
             for(i in price_duplication){
@@ -289,8 +293,8 @@ function calculate(type){
                     document.getElementById(j+'_total').innerHTML = getrupiah(price_duplication[i][j].total);
                 }
             }
-            text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
-            document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
+            text = `<input class="primary-btn-ticket mt-3 mb-3" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
+            document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket mt-3 mb-3" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
         }else if(type == 'request_new'){
             console.log(price_duplication);
             additional_price = 0;
@@ -325,8 +329,8 @@ function calculate(type){
                     <input type="button" class="primary-btn" style="width:100%;" onclick="sell_reschedule_v2();" value="Proceed">
                 </div>`;
             }
-            text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('request_new');" value="Set Upsell Downsell">`;
-//            document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('request_new');" value="Set Upsell Downsell">`;
+            text = `<input class="primary-btn-ticket mt-3 mb-3" type="button" onclick="update_service_charge('request_new');" value="Set Upsell Downsell">`;
+//            document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket mt-3 mb-3" type="button" onclick="update_service_charge('request_new');" value="Set Upsell Downsell">`;
         }else if(type == 'request_new_review'){
             ssr_pax_list = []
             for(temp_pax in passengers_ssr){
@@ -368,8 +372,8 @@ function calculate(type){
                     }
                 }
             }
-            text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('request_new_review');" value="Set Upsell Downsell">`;
-            document.getElementById('ssr_repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('request_new_review');" value="Set Upsell Downsell">`;
+            text = `<input class="primary-btn-ticket mt-3 mb-3" type="button" onclick="update_service_charge('request_new_review');" value="Set Upsell Downsell">`;
+            document.getElementById('ssr_repricing_button').innerHTML = `<input class="primary-btn-ticket mt-3 mb-3" type="button" onclick="update_service_charge('request_new_review');" value="Set Upsell Downsell">`;
         }else{
             for(i in price_duplication){
                 for(j in price_duplication[i]){
@@ -380,8 +384,8 @@ function calculate(type){
                     document.getElementById(j+'_total').innerHTML = getrupiah(price_duplication[i][j].total);
                 }
             }
-            text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
-            document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
+            text = `<input class="primary-btn-ticket mt-3 mb-3" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
+            document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket mt-3 mb-3" type="button" onclick="update_service_charge('booking');" value="Set Upsell Downsell">`;
         }
     }else{
         var total_price_booker = 0;
@@ -392,6 +396,6 @@ function calculate(type){
             list.push(parseInt(selection_calculation.join('')));
         }
         document.getElementById('repriring_booker_total').innerHTML = getrupiah(total_price_booker);
-        document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_insentif_booker('booking');" value="Set Insentif Booker">`;
+        document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket mb-3 mt-3" type="button" onclick="update_insentif_booker('booking');" value="Set Insentif Booker">`;
     }
 }

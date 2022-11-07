@@ -623,14 +623,14 @@ function train_get_detail(){
             }
         }
     }
-    train_detail_text += `
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="alert alert-warning" role="alert">
-                <span style="font-weight:bold;"> Please check before going to the next page!</span>
-            </div>
-        </div>
-    </div>`;
+//    train_detail_text += `
+//    <div class="row">
+//        <div class="col-lg-12">
+//            <div class="alert alert-warning" role="alert">
+//                <span style="font-weight:bold;"> Please check before going to the next page!</span>
+//            </div>
+//        </div>
+//    </div>`;
     for(i in journeys){
         $text +=
             journeys[i].carrier_name+`- `+journeys[i].carrier_number+`(`+journeys[i].cabin_class[1]+`)\n`+
@@ -667,7 +667,7 @@ function train_get_detail(){
         <i class="fas fa-caret-down" style="float:right; font-size:18px;"></i>
         </h6>
 
-        <div class="col-lg-12" id="train_div_sh`+i+`" style="border:1px solid #cdcdcd; padding:10px 15px; display:block;">
+        <div class="col-lg-12" id="train_div_sh`+i+`" style="border:1px solid #cdcdcd; background:white; padding:10px 15px; display:block;">
             <div class="row">
                 <div class="col-lg-12">`;
                 if(journeys[i].hasOwnProperty('search_banner')){
@@ -725,7 +725,7 @@ function train_get_detail(){
                 </div>
             </div>
         </div>
-        <div style="margin-bottom:15px; padding:15px; border-left:1px solid #cdcdcd;border-right:1px solid #cdcdcd;border-bottom:1px solid #cdcdcd;">
+        <div style="margin-bottom:15px; background:white; padding:15px; border-left:1px solid #cdcdcd;border-right:1px solid #cdcdcd;border-bottom:1px solid #cdcdcd;">
             <div class="row">`;
                 sub_total_count = 0;
                 tax = 0;
@@ -815,24 +815,23 @@ function train_get_detail(){
             </div>
         </div>`;
     }
-
+    train_detail_text += `
+    <div class="row" style="padding-top:10px; background:white;">`;
     try{
         if(total_discount != 0){
             train_detail_text += `
-            <div class="row" style="margin-bottom:5px;">
-                <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                    <span style="font-size:13px; font-weight:bold;"><b>Discount</b></span><br>
-                </div>
-                <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                    <span style="font-size:13px; font-weight:bold; color:#e04022; font-weight:bold;"> -`+price['currency']+` `+getrupiah(total_discount*-1)+`</span><br>
-                </div>
+            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                <span style="font-size:13px; font-weight:bold;"><b>Discount</b></span><br>
+            </div>
+            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                <span style="font-size:13px; font-weight:bold; color:#e04022; font-weight:bold;"> -`+price['currency']+` `+getrupiah(total_discount*-1)+`</span><br>
             </div>`;
+
             $text += '‣ Discount: IDR ' +getrupiah(total_discount*-1) + '\n';
         }
     }catch(err){console.log(err);}
 
     train_detail_text += `
-        <div class="row" style="margin-bottom:5px;">
             <div class="col-lg-6 col-xs-6" style="text-align:left;">
                 <span style="font-size:13px;font-weight:bold;"><b>Total</b></span><br>
             </div>
@@ -861,12 +860,13 @@ function train_get_detail(){
                     <a href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
             }
         train_detail_text +=`
-            </div>
-        </div>`;
-        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-            train_detail_text+= print_commission(total_commission,'show_commission')
+            </div>`;
+        if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+            train_detail_text += `<div class="col-lg-12">`;
+            train_detail_text+= print_commission(total_commission,'show_commission');
+            train_detail_text += `</div>`;
+        }
         train_detail_text+=`
-        <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
                 <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
             </div>
@@ -953,24 +953,18 @@ function train_detail(){
             }
         }
         //repricing
-        text_repricing = `
-        <div class="col-lg-12">
-            <div style="padding:5px;" class="row">
-                <div class="col-lg-6"></div>
-                <div class="col-lg-6">Repricing</div>
-            </div>
-        </div>`;
+        text_repricing = '';
         for(k in price_arr_repricing){
             for(l in price_arr_repricing[k]){
                 text_repricing += `
                 <div class="col-lg-12">
                     <div style="padding:5px;" class="row" id="adult">
-                        <div class="col-lg-6" id="`+j+`_`+k+`">`+l+`</div>
+                        <div class="col-lg-12" id="`+j+`_`+k+`"><h6>`+l+`</h6></div>
                         <div hidden id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
                         if(price_arr_repricing[k][l].Repricing == 0)
-                            text_repricing+=`<div class="col-lg-6" id="`+l+`_repricing">-</div>`;
+                            text_repricing+=`<div class="col-lg-4" id="`+l+`_repricing"><b>Repricing </b><br/>-</div>`;
                         else
-                            text_repricing+=`<div class="col-lg-6" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
+                            text_repricing+=`<div class="col-lg-4" id="`+l+`_repricing"><b>Repricing </b><br/><i>`+getrupiah(price_arr_repricing[k][l].Repricing)+`</i></div>`;
                         text_repricing+=`<div hidden id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
                     </div>
                 </div>`;
@@ -1187,9 +1181,6 @@ function train_detail(){
             </div>
         </div>`;
     }
-    if(document.URL.split('/')[document.URL.split('/').length-2] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-        text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
-    }
     grand_total_price = total_price + total_tax;
     try{
         // upsell pindah ke pax
@@ -1221,6 +1212,9 @@ function train_detail(){
             <span style="font-size:13px;"><b>`+price['currency']+` `+getrupiah(grand_total_price)+`</b></span><br>
         </div>
     </div>`;
+    if(document.URL.split('/')[document.URL.split('/').length-2] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+        text+=`<div class="mb-3" style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+    }
     if(user_login.co_agent_frontend_security.includes('see_commission') == true && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
         text+= print_commission(total_commission,'show_commission')
 //    $text += '1x Convenience fee '+price['currency']+' '+ getrupiah(total_tax) + '\n\n';
