@@ -742,7 +742,8 @@ function visa_commit_booking(){
     }
     formData.append('force_issued', 'false');
     formData.append('signature', signature);
-    formData.append('voucher_code', '');
+    if(typeof(voucher_code) !== 'undefined')
+        formData.append('voucher_code', voucher_code);
 
     try{
         formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);

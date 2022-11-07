@@ -655,7 +655,8 @@ function bus_create_booking(val){
     }
     try{
 //      formData.append('voucher_code', voucher_code);
-        formData.append('voucher_code', '');
+        if(typeof(voucher_code) !== 'undefined')
+            formData.append('voucher_code', voucher_code);
     }catch(err){
         console.log(err); // error kalau ada element yg tidak ada
     }

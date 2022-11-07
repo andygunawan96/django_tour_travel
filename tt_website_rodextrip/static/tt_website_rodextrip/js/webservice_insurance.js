@@ -1452,7 +1452,7 @@ function insurance_commit_booking(){
             try{
                 formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
                 formData.append('member', payment_acq2[payment_method][selected].method);
-                formData.append('voucher_code', voucher_code);
+//                formData.append('voucher_code', voucher_code);
                 if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
                 {
                     formData.append('payment_reference', document.getElementById('pay_ref_text').value);
@@ -1460,6 +1460,8 @@ function insurance_commit_booking(){
             }catch(err){
                 console.log(err); // error kalau ada element yg tidak ada
             }
+            if(typeof(voucher_code) !== 'undefined')
+                formData.append('voucher_code', voucher_code);
             $.ajax({
                type: "POST",
                url: "/webservice/insurance",

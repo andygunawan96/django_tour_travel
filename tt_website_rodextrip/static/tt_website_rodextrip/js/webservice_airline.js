@@ -3469,7 +3469,6 @@ function get_price_itinerary_request(){
                 }
            }
            get_price_airline_response = resJson
-           airline_get_price_request = get_price_airline_response.result.request
            price_type = {};
            airline_price = [];
            price_counter = 0;
@@ -3477,6 +3476,7 @@ function get_price_itinerary_request(){
            check_journey = '';
            check_provider = '';
            if(resJson.result.error_code == 0 && resJson.result.response.price_itinerary_provider.length!=0){
+                airline_get_price_request = get_price_airline_response.result.request
                 for(i in resJson.result.response.price_itinerary_provider){
                     for(j in resJson.result.response.price_itinerary_provider[i].journeys){
                         for(k in resJson.result.response.price_itinerary_provider[i].journeys[j].segments){
@@ -5351,7 +5351,8 @@ function airline_commit_booking(val){
     var formData = new FormData($('#global_payment_form').get(0));
     formData.append('value', val);
     formData.append('signature', signature);
-    formData.append('voucher_code', '');
+    if(typeof(voucher_code) !== 'undefined')
+        formData.append('voucher_code', voucher_code);
     try{
         var radios = document.getElementsByName('use_point');
         for (var j = 0, length = radios.length; j < length; j++) {
