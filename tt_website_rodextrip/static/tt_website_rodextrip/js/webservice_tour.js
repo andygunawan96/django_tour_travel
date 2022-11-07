@@ -1173,6 +1173,8 @@ function commit_booking_tour(val)
     var formData = new FormData($('#global_payment_form').get(0));
     formData.append('value', val);
     formData.append('signature', signature);
+    if(typeof(voucher_code) !== 'undefined')
+        formData.append('voucher_code', voucher_code);
     try{
         formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
         formData.append('member', payment_acq2[payment_method][selected].method);
@@ -1181,7 +1183,6 @@ function commit_booking_tour(val)
         if(total_price_payment_acq == 0)
             default_payment_to_ho = 'balance'
         formData.append('agent_payment', document.getElementById('payment_ho_id') ? document.getElementById('payment_ho_id').value : default_payment_to_ho);
-        formData.append('voucher_code', voucher_code);
         if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
         {
             formData.append('payment_reference', document.getElementById('pay_ref_text').value);
