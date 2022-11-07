@@ -2555,7 +2555,7 @@ function activity_commit_booking(val){
             $('.hold-seat-booking-train').prop('disabled', false);
             $('.hold-seat-booking-train').removeClass("running");
             hide_modal_waiting_transaction();
-       },timeout: 60000
+       },timeout: 300000
     });
 }
 
@@ -2696,7 +2696,7 @@ function activity_issued_booking(order_number)
             $('.hold-seat-booking-train').prop('disabled', false);
             $('.hold-seat-booking-train').removeClass("running");
             hide_modal_waiting_transaction();
-       },timeout: 60000
+       },timeout: 300000
     });
 }
 
