@@ -653,7 +653,7 @@ def commit_booking(request):
 
             if request.POST['voucher_code'] != '':
                 data.update({
-                    'voucher': data_voucher(request.POST['voucher_code'], 'activity', [request.session['activity_pick']['provider']]),
+                    'voucher': data_voucher(request.POST['voucher_code'], 'activity', [request.session['activity_pick']['provider_code']]),
                 })
             if request.POST.get('payment_reference'):
                 data.update({

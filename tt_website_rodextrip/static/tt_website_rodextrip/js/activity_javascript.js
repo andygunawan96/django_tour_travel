@@ -588,11 +588,14 @@ function activity_table_detail2(pagetype){
                 $test += price.service_charge_summary[pri].pax_count + ' ' + price.service_charge_summary[pri].pax_type + ' Price @'+price.service_charge_summary[pri].service_charges[0].currency+' ' + getrupiah(price.service_charge_summary[pri].base_price)+'\n';
             }
 
-
-            total_price_provider.push({
-                'provider': response.provider_code,
-                'price': price_type
-            });
+            try{
+                total_price_provider.push({
+                    'provider': response.provider_code,
+                    'price': price_type
+                });
+            }catch(err){
+                console.log(err);
+            }
 
             text+= `</div>`;
             grand_total += price.service_charge_summary[pri].total_price;
@@ -617,6 +620,7 @@ function activity_table_detail2(pagetype){
        }
 
    }catch(err){
+        console.log(err)
    }
 
    if(additional_price != 0)
