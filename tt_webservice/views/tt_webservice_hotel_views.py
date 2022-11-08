@@ -725,7 +725,7 @@ def create_booking(request):
             'kwargs': {
                 'force_issued': bool(int(request.POST['force_issued']))
             },
-            'special_request': request.session['hotel_request']['special_request'],
+            'special_request': request.session['hotel_request']['special_request'] if request.session['hotel_request'].get('special_request') else '',
             'resv_name': '',
             'os_res_no': '',
             'journeys_booking': ''
