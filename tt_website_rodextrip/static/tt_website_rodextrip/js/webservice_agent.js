@@ -5271,6 +5271,7 @@ function clear_passenger(type, sequence){
             document.getElementById('booker_div_avatar').innerHTML = '';
             document.getElementById('booker_div_avatar').hidden = true;
         }
+        document.getElementById('corporate_booker').style.display = 'none';
         document.getElementById('booker_first_name').value = '';
         document.getElementById('booker_first_name').readOnly = false;
         document.getElementById('booker_last_name').value = '';
