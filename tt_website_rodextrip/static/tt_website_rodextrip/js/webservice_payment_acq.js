@@ -95,7 +95,7 @@ function render_payment(){
                 </div>`;
             payment_counter = 1;
             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                if(typeof(payment_ho) !== 'undefined' && payment_ho.length > 1 && total_price_payment_acq > 0){
+                if(typeof(payment_ho) !== 'undefined' && payment_ho.length > 1 && total_price_payment_acq > 0 && type_render != 'top_up'){
                     text+=`
                         <h6 style="padding-bottom:10px;">`+payment_counter+`. Payment HO Via: </h6>`;
                         if(template == 1 || template == 5){
