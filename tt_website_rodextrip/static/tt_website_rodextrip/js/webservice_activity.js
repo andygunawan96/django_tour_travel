@@ -2464,10 +2464,12 @@ function activity_commit_booking(val){
     var formData = new FormData($('#global_payment_form').get(0));
     formData.append('value', val);
     formData.append('signature', signature);
+    if(typeof(voucher_code) !== 'undefined')
+        formData.append('voucher_code', voucher_code);
     try{
         formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
         formData.append('member', payment_acq2[payment_method][selected].method);
-        formData.append('voucher_code', voucher_code);
+        formData.append('agent_payment', document.getElementById('payment_ho_id') ? document.getElementById('payment_ho_id').value : '');
         if (document.getElementById('is_attach_pay_ref') && document.getElementById('is_attach_pay_ref').checked == true)
         {
             formData.append('payment_reference', document.getElementById('pay_ref_text').value);
@@ -2553,7 +2555,7 @@ function activity_commit_booking(val){
             $('.hold-seat-booking-train').prop('disabled', false);
             $('.hold-seat-booking-train').removeClass("running");
             hide_modal_waiting_transaction();
-       },timeout: 60000
+       },timeout: 300000
     });
 }
 
@@ -2574,6 +2576,10 @@ function activity_issued_booking(order_number)
     formData.append('order_number', order_number);
     formData.append('acquirer_seq_id', payment_acq2[payment_method][selected].acquirer_seq_id);
     formData.append('member', payment_acq2[payment_method][selected].method);
+    default_payment_to_ho = ''
+    if(total_price_payment_acq == 0)
+        default_payment_to_ho = 'balance';
+    formData.append('agent_payment', document.getElementById('payment_ho_id') ? document.getElementById('payment_ho_id').value : default_payment_to_ho);
     formData.append('signature', signature);
     formData.append('voucher_code', voucher_code);
     formData.append('booking', temp_data);
@@ -2690,7 +2696,7 @@ function activity_issued_booking(order_number)
             $('.hold-seat-booking-train').prop('disabled', false);
             $('.hold-seat-booking-train').removeClass("running");
             hide_modal_waiting_transaction();
-       },timeout: 60000
+       },timeout: 300000
     });
 }
 
@@ -3757,9 +3763,9 @@ function activity_get_booking(data){
                       </div>
                  </div>`;
                  if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                    price_text+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                    price_text+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                  else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                    price_text+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                    price_text+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                     document.getElementById('repricing_type').innerHTML = '<option value="booker">Booker</option>';
                     $('#repricing_type').niceSelect('update');
                     reset_repricing();

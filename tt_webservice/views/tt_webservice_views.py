@@ -68,7 +68,8 @@ def read_cache(file_name, folder, time=300):
                 else:
                     return False
             except:
-                return data
+                # return data data lama sudah terpindah semua, kalau tidak sesuai ambil cache baru
+                return False
 
     except Exception as e:
         return False

@@ -11,6 +11,8 @@ function toggle_show_attach_pay_ref() {
     }
 }
 
+total_price_payment_acq = 100000000;
+
 function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signature,type,agent_seq_id,top_up_name){
     order_number_id = order_number;
     $.ajax({
@@ -37,15 +39,18 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             }catch(err){
                 console.log(err) //ada element yg tidak ada
             }
-            for(i in msg.result.response){
-                for(j in msg.result.response[i]){
-                    for(k in msg.result.response[i][j]){
-                        msg.result.response[i][j][k].method = i;
-                        payment_acq2[j] = msg.result.response[i][j];
+            for(i in msg.result.response['customer']){
+                for(j in msg.result.response['customer'][i]){
+                    for(k in msg.result.response['customer'][i][j]){
+                        msg.result.response['customer'][i][j][k].method = i;
+                        payment_acq2[j] = msg.result.response['customer'][i][j];
+                        if(total_price_payment_acq > msg.result.response['customer'][i][j][k].total_amount)
+                            total_price_payment_acq = msg.result.response['customer'][i][j][k].total_amount
                     }
                 }
+                payment_ho = msg.result.response['agent'];
             }
-            if('cash' in payment_acq2 == false){
+            if('cash' in payment_acq2 == false && user_login.co_agent_frontend_security.includes('corp_limitation') == false){
                 if(window.location.href.includes('confirm_order') == false)
                     if(document.getElementById('id_login_booking'))
                         document.getElementById('id_login_booking').style.display = 'block';
@@ -87,11 +92,44 @@ function render_payment(){
                     <div class="input-container-search-ticket">
                         <input type="file" class="form-control o_website_form_input" id="pay_ref_file" name="pay_ref_file" multiple/>
                     </div>
-                </div>
-            `;
-
-            text+=`
-            <h6 style="padding-bottom:10px;">1. Payment Via: </h6>`;
+                </div>`;
+            payment_counter = 1;
+            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                if(typeof(payment_ho) !== 'undefined' && payment_ho.length > 1 && total_price_payment_acq > 0 && type_render != 'top_up'){
+                    text+=`
+                        <h6 style="padding-bottom:10px;">`+payment_counter+`. Payment HO Via: </h6>`;
+                        if(template == 1 || template == 5){
+                            text+=`<div class="input-container-search-ticket btn-group">`;
+                        }else if(template == 4){
+                            text+=`<div style="display:flex; margin-bottom:15px; width:100%;">`;
+                        }else{
+                            text+=`<div>`;
+                        }
+                        if(template == 1 || template == 2 || template == 4 || template == 5){
+                            text+=`<div class="form-select" id="default-select">`;
+                        }else if(template == 3){
+                            text+=`<div class="default-select" style="margin-bottom:15px;">`;
+                        }
+                        if(template == 4){
+                            text+=`<select class="nice-select-default rounded payment_method" id="payment_ho_id">`;
+                        }else{
+                            text+=`<select class="payment_method" id="payment_ho_id">`;
+                        }
+                        for(i in payment_ho){
+                            text+=`<option value="`+payment_ho[i].payment_method+`">`+payment_ho[i].name+`</option>`;
+                        }
+                        text+=`</select>
+                        </div>
+                    </div>`;
+                    payment_counter++;
+                }
+            }
+            if(payment_counter == 1) // agar tidak binggung kalau b2c
+                text+=`
+            <h6 style="padding-bottom:10px;">`+payment_counter+`. Payment Via: </h6>`;
+            else // untuk agent agar bisa bedakan payment customer / payment ke HO (untuk agent yg punya credit limit saja)
+                text+=`
+            <h6 style="padding-bottom:10px;">`+payment_counter+`. Payment Customer Via: </h6>`;
             if(template == 1 || template == 5){
                 text+=`<div class="input-container-search-ticket btn-group">`;
             }else if(template == 4){
@@ -134,6 +172,12 @@ function render_payment(){
             $("#loading_payment_acq").hide();
 
             $('#payment_via').niceSelect();
+            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
+                if(typeof(payment_ho) !== 'undefined' && payment_ho.length > 1){
+                    $('#payment_ho_id').niceSelect();
+                }
+            }
+            payment_counter++;
             set_payment(val_render,type_render);
         //            focus_box('payment_acq');
         //            document.getElementById('payment_acq').hidden = false;
@@ -227,7 +271,7 @@ function set_price(val, type, product_type){
     text = '';
     if(+payment_acq2[payment_method][selected].hasOwnProperty('description_msg') == true)
         document.getElementById('set_detail').innerHTML = `<i>`+payment_acq2[payment_method][selected].description_msg +'</i>';
-    text += ` <h6 style="padding-bottom:10px;">2. Payment Detail: </h6>`;
+    text += ` <h6 style="padding-bottom:10px;">`+payment_counter+`. Payment Detail: </h6>`;
     if(payment_method != 'credit_limit'){
         if(payment_method == 'payment_gateway' && payment_acq2[payment_method][selected].online_wallet == true){
             text+=`<div class='row'>
@@ -980,7 +1024,7 @@ function set_price(val, type, product_type){
             }
         }
         can_use_point = 0;
-        if(typeof(get_balance_response) !== 'undefined' && type != 'top_up' && get_balance_response.result.response.is_show_point_reward){
+        if(typeof(get_balance_response) !== 'undefined' && type != 'top_up' && get_balance_response.result.response.is_show_point_reward && total_price_payment_acq > 0){
             text+=`
                 <div class="col-sm-5" style='text-align:left;'>
                     <span style="font-size:13px;"> Use Points: </span>

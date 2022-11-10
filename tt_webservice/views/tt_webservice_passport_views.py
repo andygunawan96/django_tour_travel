@@ -431,7 +431,8 @@ def commit_booking(request):
         data.update({
             'member': member,
             'acquirer_seq_id': request.POST['acquirer_seq_id'],
-            'voucher': {}
+            'voucher': {},
+            'agent_payment_method': request.POST.get('agent_payment') or False, ## kalau tidak kirim default balance normal
         })
         try:
             if request.POST['use_point'] == 'false':

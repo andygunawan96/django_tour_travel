@@ -913,9 +913,13 @@ function update_passenger(){
 function commit_booking(){
     show_loading();
     please_wait_transaction();
+    default_payment_to_ho = ''
+    if(total_price_payment_acq == 0)
+        default_payment_to_ho = 'balance';
     data = {
         'acquirer_seq_id':payment_acq2[payment_method][selected].acquirer_seq_id,
         'member':payment_acq2[payment_method][selected].method,
+        'agent_payment': document.getElementById('payment_ho_id') ? document.getElementById('payment_ho_id').value : default_payment_to_ho,
         'voucher_code': voucher_code
     }
 
@@ -1817,9 +1821,9 @@ function get_booking_offline(data){
                             </div>
                         </div>`;
                         if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
-                            text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                            text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                         else if(msg.result.response.state == 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-                            text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                            text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                             document.getElementById('repricing_type').innerHTML = '<option value="booker">Booker</option>';
                             $('#repricing_type').niceSelect('update');
                             reset_repricing();

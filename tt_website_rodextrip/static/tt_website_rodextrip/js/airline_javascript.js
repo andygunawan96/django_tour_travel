@@ -4983,24 +4983,18 @@ function airline_detail(type){
                 }
             }
             //repricing
-            text_repricing = `
-            <div class="col-lg-12">
-                <div style="padding:5px;" class="row">
-                    <div class="col-lg-6"></div>
-                    <div class="col-lg-6">Repricing</div>
-                </div>
-            </div>`;
+            text_repricing = '';
             for(k in price_arr_repricing){
                 for(l in price_arr_repricing[k]){
                     text_repricing += `
                     <div class="col-lg-12">
                         <div style="padding:5px;" class="row" id="adult">
-                            <div class="col-lg-6" id="`+j+`_`+k+`">`+l+`</div>
+                            <div class="col-lg-12" id="`+j+`_`+k+`"><h6>`+l+`</h6></div>
                             <div hidden id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
                             if(price_arr_repricing[k][l].Repricing == 0)
-                                text_repricing+=`<div class="col-lg-6" id="`+l+`_repricing">-</div>`;
+                                text_repricing+=`<div class="col-lg-4" id="`+l+`_repricing"><b>Repricing </b><br/>-</div>`;
                             else
-                                text_repricing+=`<div class="col-lg-6" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
+                                text_repricing+=`<div class="col-lg-4" id="`+l+`_repricing"><b>Repricing </b><br/><i>`+getrupiah(price_arr_repricing[k][l].Repricing)+`</i></div>`;
                             text_repricing+=`<div hidden id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
                         </div>
                     </div>`;
@@ -5009,24 +5003,18 @@ function airline_detail(type){
             text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
             document.getElementById('repricing_div').innerHTML = text_repricing;
 
-            text_repricing2 = `
-            <div class="col-lg-12">
-                <div style="padding:5px;" class="row">
-                    <div class="col-lg-6"></div>
-                    <div class="col-lg-6">Repricing</div>
-                </div>
-            </div>`;
+            text_repricing2 = '';
             for(k in price_arr_repricing){
                 for(l in price_arr_repricing[k]){
                     text_repricing2 += `
                     <div class="col-lg-12">
                         <div style="padding:5px;" class="row" id="adult">
-                            <div class="col-lg-6" id="`+j+`_`+k+`">`+l+`</div>
+                            <div class="col-lg-12" id="`+j+`_`+k+`"><h6>`+l+`</h6></div>
                             <div hidden id="`+l+`_price_ssr">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
                             if(price_arr_repricing[k][l].Repricing == 0)
-                                text_repricing2+=`<div class="col-lg-6" id="`+l+`_repricing_ssr">-</div>`;
+                                text_repricing2+=`<div class="col-lg-4" id="`+l+`_repricing_ssr"><b>Repricing </b><br/>-</div>`;
                             else
-                                text_repricing2+=`<div class="col-lg-6" id="`+l+`_repricing_ssr">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
+                                text_repricing2+=`<div class="col-lg-4" id="`+l+`_repricing_ssr"><b>Repricing </b><br/><i>`+getrupiah(price_arr_repricing[k][l].Repricing)+`</i></div>`;
                             text_repricing2+=`<div hidden id="`+l+`_total_ssr">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
                         </div>
                     </div>`;
@@ -5037,7 +5025,7 @@ function airline_detail(type){
             //repricing
         }
         if(document.URL.split('/')[document.URL.split('/').length-2] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-            text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+            text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
         }
         text+=`
         <div class="row">
@@ -5236,7 +5224,7 @@ function airline_detail(type){
         if(window.location.pathname.includes('review_after_sales') && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false)
         {
             text +=`<div class="col-lg-12">
-                        <div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>
+                        <div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>
                     </div>`;
         }
         text += `
@@ -5453,28 +5441,20 @@ function get_airline_channel_repricing_data(){
             }
         }
 
-        text_repricing = `
-        <div class="col-lg-12">
-            <div style="padding:5px;" class="row">
-                <div class="col-lg-3"></div>
-                <div class="col-lg-3">Price</div>
-                <div class="col-lg-3">Repricing</div>
-                <div class="col-lg-3">Total</div>
-            </div>
-        </div>`;
+        text_repricing = '';
 
         for(k in price_arr_repricing){
             for(l in price_arr_repricing[k]){
                 text_repricing += `
                 <div class="col-lg-12">
                     <div style="padding:5px;" class="row" id="adult">
-                        <div class="col-lg-3" id="`+j+`_`+k+`">`+l+`</div>
-                        <div class="col-lg-3" id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
+                        <div class="col-lg-12" id="`+j+`_`+k+`"><h6>`+l+`</h6></div>
+                        <div class="col-lg-4" id="`+l+`_price"><b>Price </b><br/><i>`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</i></div>`;
                         if(price_arr_repricing[k][l].Repricing == 0)
-                            text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">-</div>`;
+                            text_repricing+=`<div class="col-lg-4" id="`+l+`_repricing"><b>Repricing </b><br/>-</div>`;
                         else
-                            text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
-                        text_repricing+=`<div class="col-lg-3" id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
+                            text_repricing+=`<div class="col-lg-4" id="`+l+`_repricing"><b>Repricing </b><br/><i>`+getrupiah(price_arr_repricing[k][l].Repricing)+`</i></div>`;
+                        text_repricing+=`<div class="col-lg-4" id="`+l+`_total"><b>Total </b><br/><i>`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</i></div>
                     </div>
                 </div>`;
             }
@@ -5566,28 +5546,20 @@ function get_airline_channel_repricing_data_reschedule(msg){
             }
         }
 
-        text_repricing = `
-        <div class="col-lg-12">
-            <div style="padding:5px;" class="row">
-                <div class="col-lg-3"></div>
-                <div class="col-lg-3">Price</div>
-                <div class="col-lg-3">Repricing</div>
-                <div class="col-lg-3">Total</div>
-            </div>
-        </div>`;
+        text_repricing = '';
 
         for(k in price_arr_repricing){
             for(l in price_arr_repricing[k]){
                 text_repricing += `
                 <div class="col-lg-12">
                     <div style="padding:5px;" class="row" id="adult">
-                        <div class="col-lg-3" id="`+j+`_`+k+`">`+l+`</div>
-                        <div class="col-lg-3" id="`+l+`_price">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</div>`;
+                        <div class="col-lg-12" id="`+j+`_`+k+`"><h6>`+l+`</h6></div>
+                        <div class="col-lg-4" id="`+l+`_price"><b>Price </b><br/><i>`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax)+`</i></div>`;
                         if(price_arr_repricing[k][l].Repricing == 0)
-                            text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">-</div>`;
+                            text_repricing+=`<div class="col-lg-4" id="`+l+`_repricing"><b>Repricing </b><br/>-</div>`;
                         else
-                            text_repricing+=`<div class="col-lg-3" id="`+l+`_repricing">`+getrupiah(price_arr_repricing[k][l].Repricing)+`</div>`;
-                        text_repricing+=`<div class="col-lg-3" id="`+l+`_total">`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</div>
+                            text_repricing+=`<div class="col-lg-4" id="`+l+`_repricing"><b>Repricing </b><br/><i>`+getrupiah(price_arr_repricing[k][l].Repricing)+`</i></div>`;
+                        text_repricing+=`<div class="col-lg-4" id="`+l+`_total"><b>Total </b><br/><i>`+getrupiah(price_arr_repricing[k][l].Fare + price_arr_repricing[k][l].Tax + price_arr_repricing[k][l].Repricing)+`</i></div>
                     </div>
                 </div>`;
             }

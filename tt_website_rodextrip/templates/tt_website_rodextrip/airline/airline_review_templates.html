@@ -435,16 +435,22 @@
                     </div>
                 </div>
                 <div class="modal fade" id="myModalRepricing" role="dialog">
-                    <div class="modal-dialog" style="width:100% !important; height:100% !important; max-width:1200px;padding: 0;">
-
+                    <div class="overlay_modal_custom" data-dismiss="modal"></div>
+                    <div class="modal-dialog modal_custom_fixed">
                         <!-- Modal content-->
-                        <div class="modal-content" style="border-radius: 0;">
+                        <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Reprice Change' %} <i class="fas fa-money"></i></h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <div class="row">
+                                    <div class="col-xs-6 pb-3">
+                                        <h4 class="modal-title"><i class="fas fa-money"></i> {% trans 'Reprice Change' %}</h4>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <button type="button" class="close modal_custom_close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="modal-body">
-                                <ul class="create_tabs" id="myTab" role="tablist">
+                            <div class="modal-body" style="padding: 0px;">
+                                <ul class="create_tabs" id="myTab" role="tablist" style="padding:0px 15px;">
                                     <li class="create_tab-link current" data-tab="regular_upsell" onclick="reset_repricing();">
                                         <label><span class="hidden-xs">Pricing</span></label>
                                     </li>
@@ -455,39 +461,31 @@
                                 <div class="tab-content" id="myTabContent">
                                     <div id="regular_upsell" class="create_tab-content current">
                                         <div class="row">
-                                            <div class="col-lg-8">
-                                                <div class="row" id="pricing" style="padding:15px;">
-                                                    <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
+                                            <div class="col-lg-12">
+                                                <div class="row" id="pricing">
+                                                    <div class="col-lg-12" style="border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd; background-color:white;">
                                                         <div class="row">
                                                             <div class="col-lg-12">
-                                                                <h4 style="padding-top:10px;">{% trans 'Pricing' %}</h4>
-                                                                <hr/>
+                                                                <h4 class="single_border_custom_left" style="margin-top:15px; margin-bottom:15px; padding-left:10px; word-break:break-word;">{% trans 'Pricing' %}</h4>
                                                             </div>
-                                                            <div class="col-lg-12" style="text-align:right;">
+                                                            <div class="col-lg-12 mb-3">
                                                                 <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation(false);"><i class="fas fa-plus-circle"></i></button>
-                                                                <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
-                                                                <br/>
+                                                                <button class="primary-btn-cancel" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
                                                             </div>
-                                                            <div class="col-lg-12">
-                                                                <div style="padding:10px;" id="table_of_equation">
+                                                            <div class="col-lg-12" id="table_of_equation" style="height:300px; overflow:auto;">
 
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
-                                                                <hr/>
-                                                                <center>
-                                                                    <input class="primary-btn-ticket" type="button" onclick="calculate('airline_review');" value="Calculate">
-                                                                </center>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px; text-align:center;">
+                                                        <input class="primary-btn-ticket" type="button" onclick="calculate('airline_review');" value="Calculate">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4">
-                                                <div class="row" style="padding:15px;">
-                                                    <div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd; margin-top:15px;">
-                                                        <h4>{% trans 'Result Pricing' %}</h4>
-                                                        <hr/>
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-12" style="border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd; background-color:white;">
+                                                        <h4 class="single_border_custom_left" style="margin-top:15px; margin-bottom:15px; padding-left:10px; word-break:break-word;">{% trans 'Result Pricing' %}</h4>
                                                         <div class="row" id="repricing_div">
 
                                                         </div>
@@ -498,40 +496,34 @@
                                     </div>
                                     <div id="ssr_upsell" class="create_tab-content">
                                         <div class="row">
-                                            <div class="col-lg-8">
-                                                <div class="row" id="ssr_pricing" style="padding:15px;">
-                                                    <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
+                                            <div class="col-lg-12">
+                                                <div class="row" id="ssr_pricing">
+                                                    <div class="col-lg-12" style="border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd; background-color:white; margin-top:15px;">
                                                         <div class="row">
-                                                            <div class="col-lg-12">
-                                                                <h4 style="padding-top:10px;">{% trans 'Addons Pricing' %}</h4>
-                                                                <h5>{% trans '(Will only affect passengers who buy SSR(s) or pick seats)' %}</h5>
-                                                                <hr/>
+                                                            <div class="col-lg-12 mb-3">
+                                                                <h4 class="single_border_custom_left" style="margin-top:15px; margin-bottom:15px; padding-left:10px; word-break:break-word;">{% trans 'Addons Pricing' %}</h4>
+                                                                <b>{% trans '(Will only affect passengers who buy SSR(s) or pick seats)' %}</b>
                                                             </div>
-                                                            <div class="col-lg-12" style="text-align:right;">
+                                                            <div class="col-lg-12 mb-3" style="text-align:right;">
                                                                 <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation(false, true);"><i class="fas fa-plus-circle"></i></button>
-                                                                <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
-                                                                <br/>
+                                                                <button class="primary-btn-cancel" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
                                                             </div>
-                                                            <div class="col-lg-12">
-                                                                <div style="padding:10px;" id="ssr_table_of_equation">
+                                                            <div class="col-lg-12" style="height:300px; overflow:auto;" id="ssr_table_of_equation">
+                                                                <div >
 
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
-                                                                <hr/>
-                                                                <center>
-                                                                    <input class="primary-btn-ticket" type="button" onclick="calculate('request_new_review');" value="Calculate">
-                                                                </center>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4">
-                                                <div class="row" style="padding:15px;">
-                                                    <div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd; margin-top:15px;">
-                                                        <h4>{% trans 'Result Pricing' %}</h4>
-                                                        <hr/>
+                                            <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px; text-align:center;">
+                                                <input class="primary-btn-ticket" type="button" onclick="calculate('request_new_review');" value="Calculate">
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-12" style="background-color:white; border-top:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd; margin-top:15px;">
+                                                        <h4 class="single_border_custom_left" style="margin-top:15px; margin-bottom:15px; padding-left:10px; word-break:break-word;">{% trans 'Result Pricing' %}</h4>
                                                         <div class="row" id="ssr_repricing_div">
 
                                                         </div>
@@ -541,9 +533,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>

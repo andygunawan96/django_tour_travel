@@ -149,13 +149,28 @@ function check_voucher(){
             }
         }else if(provider_type_id == 'activity'){
             try{
-                provider_id.push(response.provider)
-            }catch(err){
-//                console.log(act_get_booking.result.response.provider);
+                //booking
                 for(idx in act_get_booking.result.response.provider_booking){
                     provider_id.push(act_get_booking.result.response.provider_booking[idx].provider);
                 }
+                for(i in act_get_booking.result.response.passengers){
+                    passenger_list.push({
+                        'first_name': act_get_booking.result.response.passengers[i].first_name,
+                        'last_name': act_get_booking.result.response.passengers[i].last_name
+                    })
+                }
+            }catch(err){
+                //review
+                provider_id.push(response.provider_code);
+
+                for(i in all_pax){
+                    passenger_list.push({
+                        'first_name': all_pax[i].first_name,
+                        'last_name': all_pax[i].last_name
+                    })
+                }
             }
+
             try{
                 order_number = act_get_booking.result.response.order_number;
             }catch(err){

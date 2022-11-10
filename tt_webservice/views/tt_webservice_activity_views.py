@@ -639,7 +639,8 @@ def commit_booking(request):
             data.update({
                 'member': member,
                 'acquirer_seq_id': request.POST['acquirer_seq_id'],
-                'voucher': {}
+                'voucher': {},
+                'agent_payment_method': request.POST.get('agent_payment') or False, ## kalau tidak kirim default balance normal
             })
 
             try:
@@ -652,7 +653,7 @@ def commit_booking(request):
 
             if request.POST['voucher_code'] != '':
                 data.update({
-                    'voucher': data_voucher(request.POST['voucher_code'], 'activity', [request.session['activity_pick']['provider']]),
+                    'voucher': data_voucher(request.POST['voucher_code'], 'activity', [request.session['activity_pick']['provider_code']]),
                 })
             if request.POST.get('payment_reference'):
                 data.update({
@@ -729,6 +730,7 @@ def issued_booking(request):
             'order_number': request.POST['order_number'],
             'member': member,
             'acquirer_seq_id': request.POST['acquirer_seq_id'],
+            'agent_payment_method': request.POST.get('agent_payment') or False, ## kalau tidak kirim default balance normal
             'voucher': {}
         }
         try:

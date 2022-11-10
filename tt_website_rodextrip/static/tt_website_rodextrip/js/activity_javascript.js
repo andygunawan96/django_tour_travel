@@ -557,6 +557,27 @@ function activity_table_detail2(pagetype){
                 else if(price.service_charge_summary[pri].pax_type == "INF")
                     text+=`Infant`;
             text+=`@ `+price.service_charge_summary[pri].service_charges[0].currency+` `;
+            price_type = {
+                'fare': 0,
+                'tax':  0,
+                'rac':  0,
+                'roc':  0,
+                'disc':  0,
+                'currency': 'IDR'
+            }
+            for(x in price.service_charge_summary[pri].service_charges){
+                if(price.service_charge_summary[pri].service_charges[x].charge_code == 'fare'){
+                    price_type['fare'] += price.service_charge_summary[pri].service_charges[x].total;
+                }else if(price.service_charge_summary[pri].service_charges[x].charge_code == 'tax'){
+                    price_type['tax'] += price.service_charge_summary[pri].service_charges[x].total;
+                }else if(price.service_charge_summary[pri].service_charges[x].charge_code == 'roc'){
+                    price_type['roc'] += price.service_charge_summary[pri].service_charges[x].total;
+                }else if(price.service_charge_summary[pri].service_charges[x].charge_code == 'rac'){
+                    price_type['rac'] += price.service_charge_summary[pri].service_charges[x].total;
+                }else if(price.service_charge_summary[pri].service_charges[x].charge_code == 'disc'){
+                    price_type['disc'] += price.service_charge_summary[pri].service_charges[x].total;
+                }
+            }
             if(typeof upsell_price_dict !== 'undefined' && upsell_price_dict.hasOwnProperty(price.service_charge_summary[pri].pax_type)){ //with upsell
                 text+= getrupiah(price.service_charge_summary[pri].base_price + (upsell_price_dict[price.service_charge_summary[pri].pax_type] / price.service_charge_summary[pri].pax_count))+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">`+price.service_charge_summary[pri].service_charges[0].currency+` `;
                 text+= getrupiah(price.service_charge_summary[pri].total_price + (upsell_price_dict[price.service_charge_summary[pri].pax_type]))+`</span></div>`;
@@ -565,6 +586,15 @@ function activity_table_detail2(pagetype){
                 text+= getrupiah(price.service_charge_summary[pri].base_price)+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">`+price.service_charge_summary[pri].service_charges[0].currency+` `;
                 text+= getrupiah(price.service_charge_summary[pri].total_price)+`</span></div>`;
                 $test += price.service_charge_summary[pri].pax_count + ' ' + price.service_charge_summary[pri].pax_type + ' Price @'+price.service_charge_summary[pri].service_charges[0].currency+' ' + getrupiah(price.service_charge_summary[pri].base_price)+'\n';
+            }
+
+            try{
+                total_price_provider.push({
+                    'provider': response.provider_code,
+                    'price': price_type
+                });
+            }catch(err){
+                console.log(err);
             }
 
             text+= `</div>`;
@@ -590,6 +620,7 @@ function activity_table_detail2(pagetype){
        }
 
    }catch(err){
+        console.log(err)
    }
 
    if(additional_price != 0)
@@ -619,7 +650,7 @@ function activity_table_detail2(pagetype){
    }
    text += `<hr style="padding:0px;">`;
    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false && user_login.co_agent_frontend_security.includes("corp_limitation") == false){
-       text +=`<div style="text-align:right;"><img alt="Bank" src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+       text +=`<div style="text-align:right;"><img alt="Bank" src="/static/tt_website_rodextrip/img/bank.png" style="width:auto; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
    }
 
 //    try{

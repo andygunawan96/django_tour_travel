@@ -1335,6 +1335,13 @@ def get_javascript_version():
         file = read_cache("javascript_version", 'cache_web', 90911)
         if file:
             javascript_version = int(file)
+        else:
+            file = open(var_log_path('cache_web') + "javascript_version.txt", "r")
+            data = file.read()
+            file.close()
+            if data:
+                write_cache(data, 'javascript_version')
+                javascript_version = int(data)
     except Exception as e:
         _logger.error('ERROR javascript_version file\n' + str(e) + '\n' + traceback.format_exc())
     return javascript_version

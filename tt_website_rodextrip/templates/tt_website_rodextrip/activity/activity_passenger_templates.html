@@ -86,11 +86,10 @@
                     <div class="col-lg-8" style="margin-top:10px;">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div id="booker" style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                                <div id="booker" style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
                                     <div class="row">
-                                        <div class="col-lg-12">
-                                            <h4>{% trans 'Booker Information' %}</h4>
-                                            <hr/>
+                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                            <h4 class="mb-3"><i class="fas fa-user"></i> {% trans 'Booker Information' %}</h4>
                                             <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
                                         <div class="col-lg-12 col-md-12 col-sm-12" id="booker_div_avatar" hidden>
@@ -310,7 +309,7 @@
                         <br/>
                         <div class="row" style="margin-bottom:20px;">
                             <div class="col-lg-12">
-                                <div style="background:white; padding:10px; border:1px solid {{color}};">
+                                <div style="background:white; padding:15px; border:1px solid #cdcdcd;">
                                     {% if adult_count != 0 %}
                                     <label>{% trans 'Do you book this ticket for you' %}?</label><br/>
                                     <label class="radio-button-custom">
@@ -341,15 +340,15 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
-                                            <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h6>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                     <input type="hidden" id="adult_sku_id{{forloop.counter}}" name="adult_sku_id{{forloop.counter}}" value="{{adult.sku_id}}"/>
                                     <input type="hidden" id="adult_sku_title{{forloop.counter}}" name="adult_sku_title{{forloop.counter}}" value="{{adult.title}}"/>
                                     <input type="hidden" id="adult_sku_real_id{{forloop.counter}}" name="adult_sku_real_id{{forloop.counter}}" value="{{adult.sku_real_id}}"/>
@@ -702,15 +701,15 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('senior', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h6>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="senior_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="senior_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px; display:none;" id="senior_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px;" id="senior_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="senior_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; display:none;" id="senior_paxs{{forloop.counter}}">
                                     <input type="hidden" id="senior_sku_id{{forloop.counter}}" name="senior_sku_id{{forloop.counter}}" value="{{senior.sku_id}}"/>
                                     <input type="hidden" id="senior_sku_title{{forloop.counter}}" name="senior_sku_title{{forloop.counter}}" value="{{senior.title}}"/>
                                     <input type="hidden" id="senior_sku_real_id{{forloop.counter}}" name="senior_sku_real_id{{forloop.counter}}" value="{{senior.sku_real_id}}"/>
@@ -1055,15 +1054,15 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
-                                            <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h6>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="child_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px;" id="child_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="child_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; display:none;" id="child_paxs{{forloop.counter}}">
                                     <input type="hidden" id="child_sku_id{{forloop.counter}}" name="child_sku_id{{forloop.counter}}" value="{{child.sku_id}}"/>
                                     <input type="hidden" id="child_sku_title{{forloop.counter}}" name="child_sku_title{{forloop.counter}}" value="{{child.title}}"/>
                                     <input type="hidden" id="child_sku_real_id{{forloop.counter}}" name="child_sku_real_id{{forloop.counter}}" value="{{child.sku_real_id}}"/>
@@ -1378,16 +1377,16 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
-                                            <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h6>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="infant_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; display:none;" id="infant_paxs{{forloop.counter}}">
                                     <input type="hidden" id="infant_sku_id{{forloop.counter}}" name="infant_sku_id{{forloop.counter}}" value="{{infant.sku_id}}"/>
                                     <input type="hidden" id="infant_sku_title{{forloop.counter}}" name="infant_sku_title{{forloop.counter}}" value="{{infant.title}}"/>
                                     <input type="hidden" id="infant_sku_real_id{{forloop.counter}}" name="infant_sku_real_id{{forloop.counter}}" value="{{infant.sku_real_id}}"/>
@@ -1640,9 +1639,12 @@
                     </div>
                     <div class="col-lg-4" style="margin-top:10px;">
                         <div class="row">
-                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="activity_detail">
-                                <h4> Price Detail </h4>
-                                <hr/>
+                            <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd;" id="activity_detail">
+                                <div class="row">
+                                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                        <h4 class="mb-3"> Price Detail</h4>
+                                    </div>
+                                </div>
                                 <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
                                 {% if response.name != detail.name %}
                                 <br/><span id="product_type_title" style="font-size:13px; font-weight:500;">{{detail.name}}</span>
@@ -1744,11 +1746,10 @@
                         <div class="col-lg-8" style="margin-top:10px;">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div id="booker" style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                                    <div id="booker" style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
                                         <div class="row">
-                                            <div class="col-lg-12">
-                                                <h4>{% trans 'Booker Information' %}</h4>
-                                                <hr/>
+                                            <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                                <h4 class="mb-3"><i class="fas fa-user"></i> {% trans 'Booker Information' %}</h4>
                                                 <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                             </div>
                                             <div class="col-lg-12 col-md-12 col-sm-12" id="booker_div_avatar" hidden>
@@ -1965,7 +1966,7 @@
                             <br/>
                             <div class="row" style="margin-bottom:20px;">
                                 <div class="col-lg-12">
-                                    <div style="background:white; padding:10px; border:1px solid {{color}};">
+                                    <div style="background:white; padding:15px; border:1px solid #cdcdcd;">
                                         {% if adult_count != 0 %}
                                         <label>{% trans 'Do you book this ticket for you' %}?</label><br/>
                                         <label class="radio-button-custom">
@@ -1996,15 +1997,15 @@
                                     <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
-                                                <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h6>
+                                                <h4><i class="fas fa-user"></i> {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h4>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="text-align:right;">
-                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                                <span style="text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                                <span style="text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
+                                    <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                         <input type="hidden" id="adult_sku_id{{forloop.counter}}" name="adult_sku_id{{forloop.counter}}" value="{{adult.sku_id}}"/>
                                         <input type="hidden" id="adult_sku_title{{forloop.counter}}" name="adult_sku_title{{forloop.counter}}" value="{{adult.title}}"/>
                                         <input type="hidden" id="adult_sku_real_id{{forloop.counter}}" name="adult_sku_real_id{{forloop.counter}}" value="{{adult.sku_real_id}}"/>
@@ -2347,15 +2348,15 @@
                                     <div class="passenger_div" onclick="show_paxs_airline('senior', '{{forloop.counter}}');">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h6>
+                                                <h4><i class="fas fa-user"></i> {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h4>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="senior_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="senior_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                                <span style="text-align:right; margin-right:5px; display:none;" id="senior_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                                <span style="text-align:right; margin-right:5px;" id="senior_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="senior_paxs{{forloop.counter}}">
+                                    <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; display:none;" id="senior_paxs{{forloop.counter}}">
                                         <input type="hidden" id="senior_sku_id{{forloop.counter}}" name="senior_sku_id{{forloop.counter}}" value="{{senior.sku_id}}"/>
                                         <input type="hidden" id="senior_sku_title{{forloop.counter}}" name="senior_sku_title{{forloop.counter}}" value="{{senior.title}}"/>
                                         <input type="hidden" id="senior_sku_real_id{{forloop.counter}}" name="senior_sku_real_id{{forloop.counter}}" value="{{senior.sku_real_id}}"/>
@@ -2692,15 +2693,15 @@
                                     <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
-                                                <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h6>
+                                                <h4><i class="fas fa-user"></i> {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h4>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="text-align:right;">
-                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="child_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                                <span style="text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                                <span style="text-align:right; margin-right:5px;" id="child_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="child_paxs{{forloop.counter}}">
+                                    <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; display:none;" id="child_paxs{{forloop.counter}}">
                                         <input type="hidden" id="child_sku_id{{forloop.counter}}" name="child_sku_id{{forloop.counter}}" value="{{child.sku_id}}"/>
                                         <input type="hidden" id="child_sku_title{{forloop.counter}}" name="child_sku_title{{forloop.counter}}" value="{{child.title}}"/>
                                         <input type="hidden" id="child_sku_real_id{{forloop.counter}}" name="child_sku_real_id{{forloop.counter}}" value="{{child.sku_real_id}}"/>
@@ -3007,16 +3008,16 @@
                                     <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
-                                                <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h6>
+                                                <h4><i class="fas fa-user"></i> {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h4>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="text-align:right;">
-                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                                <span style="text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                                <span style="text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="infant_paxs{{forloop.counter}}">
+                                    <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; display:none;" id="infant_paxs{{forloop.counter}}">
                                         <input type="hidden" id="infant_sku_id{{forloop.counter}}" name="infant_sku_id{{forloop.counter}}" value="{{infant.sku_id}}"/>
                                         <input type="hidden" id="infant_sku_title{{forloop.counter}}" name="infant_sku_title{{forloop.counter}}" value="{{infant.title}}"/>
                                         <input type="hidden" id="infant_sku_real_id{{forloop.counter}}" name="infant_sku_real_id{{forloop.counter}}" value="{{infant.sku_real_id}}"/>
@@ -3366,11 +3367,10 @@
                     <div class="col-lg-8" style="margin-top:10px;">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div id="booker" style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                                <div id="booker" style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
                                     <div class="row">
-                                        <div class="col-lg-12">
-                                            <h4>{% trans 'Booker Information' %}</h4>
-                                            <hr/>
+                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                            <h4 class="mb-3"><i class="fas fa-user"></i> {% trans 'Booker Information' %}</h4>
                                             <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
                                         <div class="col-lg-12 col-md-12 col-sm-12" id="booker_div_avatar" hidden>
@@ -3595,7 +3595,7 @@
                         <br/>
                         <div class="row" style="margin-bottom:20px;">
                             <div class="col-lg-12">
-                                <div style="background:white; padding:10px; border:1px solid {{color}};">
+                                <div style="background:white; padding:15px; border:1px solid #cdcdcd;">
                                     {% if adult_count != 0 %}
                                     <label>{% trans 'Do you book this ticket for you' %}?</label><br/>
                                     <label class="radio-button-custom">
@@ -3626,15 +3626,15 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
-                                            <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h6>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                     <input type="hidden" id="adult_sku_id{{forloop.counter}}" name="adult_sku_id{{forloop.counter}}" value="{{adult.sku_id}}"/>
                                     <input type="hidden" id="adult_sku_title{{forloop.counter}}" name="adult_sku_title{{forloop.counter}}" value="{{adult.title}}"/>
                                     <input type="hidden" id="adult_sku_real_id{{forloop.counter}}" name="adult_sku_real_id{{forloop.counter}}" value="{{adult.sku_real_id}}"/>
@@ -3991,15 +3991,15 @@
                                         <div class="passenger_div" onclick="show_paxs_airline('senior', '{{forloop.counter}}');">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                    <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h6>
+                                                    <h4><i class="fas fa-user"></i> {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h4>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                                    <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="senior_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                                    <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="senior_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                                    <span style="text-align:right; margin-right:5px; display:none;" id="senior_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                                    <span style="text-align:right; margin-right:5px;" id="senior_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="senior_paxs{{forloop.counter}}">
+                                        <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; display:none;" id="senior_paxs{{forloop.counter}}">
                                             <input type="hidden" id="senior_sku_id{{forloop.counter}}" name="senior_sku_id{{forloop.counter}}" value="{{senior.sku_id}}"/>
                                             <input type="hidden" id="senior_sku_title{{forloop.counter}}" name="senior_sku_title{{forloop.counter}}" value="{{senior.title}}"/>
                                             <input type="hidden" id="senior_sku_real_id{{forloop.counter}}" name="senior_sku_real_id{{forloop.counter}}" value="{{senior.sku_real_id}}"/>
@@ -4350,15 +4350,15 @@
                                                 <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
-                                                            <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h6>
+                                                            <h4><i class="fas fa-user"></i> {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h4>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="text-align:right;">
-                                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="child_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                                            <span style="text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                                            <span style="text-align:right; margin-right:5px;" id="child_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="child_paxs{{forloop.counter}}">
+                                                <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; display:none;" id="child_paxs{{forloop.counter}}">
                                                     <input type="hidden" id="child_sku_id{{forloop.counter}}" name="child_sku_id{{forloop.counter}}" value="{{child.sku_id}}"/>
                                                     <input type="hidden" id="child_sku_title{{forloop.counter}}" name="child_sku_title{{forloop.counter}}" value="{{child.title}}"/>
                                                     <input type="hidden" id="child_sku_real_id{{forloop.counter}}" name="child_sku_real_id{{forloop.counter}}" value="{{child.sku_real_id}}"/>
@@ -4680,16 +4680,16 @@
                                                         <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
                                                             <div class="row">
                                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
-                                                                    <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h6>
+                                                                    <h4><i class="fas fa-user"></i> {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h4>
                                                                 </div>
                                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="text-align:right;">
-                                                                    <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                                                    <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                                                    <span style="text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                                                    <span style="text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                                                 </div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="infant_paxs{{forloop.counter}}">
+                                                        <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; display:none;" id="infant_paxs{{forloop.counter}}">
                                                             <input type="hidden" id="infant_sku_id{{forloop.counter}}" name="infant_sku_id{{forloop.counter}}" value="{{infant.sku_id}}"/>
                                                             <input type="hidden" id="infant_sku_title{{forloop.counter}}" name="infant_sku_title{{forloop.counter}}" value="{{infant.title}}"/>
                                                             <input type="hidden" id="infant_sku_real_id{{forloop.counter}}" name="infant_sku_real_id{{forloop.counter}}" value="{{infant.sku_real_id}}"/>
@@ -5046,11 +5046,10 @@
                 <div class="col-lg-8" style="margin-top:10px;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div id="booker" style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                            <div id="booker" style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
                                 <div class="row">
-                                    <div class="col-lg-12">
-                                        <h4>{% trans 'Booker Information' %}</h4>
-                                        <hr/>
+                                    <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                        <h4 class="mb-3"><i class="fas fa-user"></i> {% trans 'Booker Information' %}</h4>
                                         <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-sm-12" id="booker_div_avatar" hidden>
@@ -5273,7 +5272,7 @@
                     <br/>
                     <div class="row" style="margin-bottom:20px;">
                         <div class="col-lg-12">
-                            <div style="background:white; padding:10px; border:1px solid {{color}};">
+                            <div style="background:white; padding:15px; border:1px solid #cdcdcd;">
                                 {% if adult_count != 0 %}
                                 <label>{% trans 'Do you book this ticket for you' %}?</label><br/>
                                 <label class="radio-button-custom">
@@ -5304,15 +5303,15 @@
                             <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
-                                        <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h6>
+                                        <h4><i class="fas fa-user"></i> {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h4>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="text-align:right;">
-                                        <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                        <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                        <span style="text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                        <span style="text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
+                            <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                 <input type="hidden" id="adult_sku_id{{forloop.counter}}" name="adult_sku_id{{forloop.counter}}" value="{{adult.sku_id}}"/>
                                 <input type="hidden" id="adult_sku_title{{forloop.counter}}" name="adult_sku_title{{forloop.counter}}" value="{{adult.title}}"/>
                                 <input type="hidden" id="adult_sku_real_id{{forloop.counter}}" name="adult_sku_real_id{{forloop.counter}}" value="{{adult.sku_real_id}}"/>
@@ -5663,15 +5662,15 @@
                             <div class="passenger_div" onclick="show_paxs_airline('senior', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                        <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h6>
+                                        <h4><i class="fas fa-user"></i> {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h4>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                        <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="senior_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                        <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="senior_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                        <span style="text-align:right; margin-right:5px; display:none;" id="senior_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                        <span style="text-align:right; margin-right:5px;" id="senior_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="senior_paxs{{forloop.counter}}">
+                            <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; display:none;" id="senior_paxs{{forloop.counter}}">
                                 <input type="hidden" id="senior_sku_id{{forloop.counter}}" name="senior_sku_id{{forloop.counter}}" value="{{senior.sku_id}}"/>
                                 <input type="hidden" id="senior_sku_title{{forloop.counter}}" name="senior_sku_title{{forloop.counter}}" value="{{senior.title}}"/>
                                 <input type="hidden" id="senior_sku_real_id{{forloop.counter}}" name="senior_sku_real_id{{forloop.counter}}" value="{{senior.sku_real_id}}"/>
@@ -6016,15 +6015,15 @@
                             <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
-                                        <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h6>
+                                        <h4><i class="fas fa-user"></i> {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h4>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="text-align:right;">
-                                        <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                        <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="child_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                        <span style="text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                        <span style="text-align:right; margin-right:5px;" id="child_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="child_paxs{{forloop.counter}}">
+                            <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; display:none;" id="child_paxs{{forloop.counter}}">
                                 <input type="hidden" id="child_sku_id{{forloop.counter}}" name="child_sku_id{{forloop.counter}}" value="{{child.sku_id}}"/>
                                 <input type="hidden" id="child_sku_title{{forloop.counter}}" name="child_sku_title{{forloop.counter}}" value="{{child.title}}"/>
                                 <input type="hidden" id="child_sku_real_id{{forloop.counter}}" name="child_sku_real_id{{forloop.counter}}" value="{{child.sku_real_id}}"/>
@@ -6339,16 +6338,16 @@
                             <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
-                                        <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h6>
+                                        <h4><i class="fas fa-user"></i> {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h4>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="text-align:right;">
-                                        <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                        <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                        <span style="text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                        <span style="text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="infant_paxs{{forloop.counter}}">
+                            <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; display:none;" id="infant_paxs{{forloop.counter}}">
                                 <input type="hidden" id="infant_sku_id{{forloop.counter}}" name="infant_sku_id{{forloop.counter}}" value="{{infant.sku_id}}"/>
                                 <input type="hidden" id="infant_sku_title{{forloop.counter}}" name="infant_sku_title{{forloop.counter}}" value="{{infant.title}}"/>
                                 <input type="hidden" id="infant_sku_real_id{{forloop.counter}}" name="infant_sku_real_id{{forloop.counter}}" value="{{infant.sku_real_id}}"/>
@@ -6701,11 +6700,10 @@
                     <div class="col-lg-8" style="margin-top:10px;">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div id="booker" style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                                <div id="booker" style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
                                     <div class="row">
-                                        <div class="col-lg-12">
-                                            <h4>{% trans 'Booker Information' %}</h4>
-                                            <hr/>
+                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                            <h4 class="mb-3"><i class="fas fa-user"></i> {% trans 'Booker Information' %}</h4>
                                             <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
                                         <div class="col-lg-12 col-md-12 col-sm-12" id="booker_div_avatar" hidden>
@@ -6924,7 +6922,7 @@
                         <br/>
                         <div class="row" style="margin-bottom:20px;">
                             <div class="col-lg-12">
-                                <div style="background:white; padding:10px; border:1px solid {{color}};">
+                                <div style="background:white; padding:15px; border:1px solid #cdcdcd;">
                                     {% if adult_count != 0 %}
                                     <label>{% trans 'Do you book this ticket for you' %}?</label><br/>
                                     <label class="radio-button-custom">
@@ -6955,15 +6953,15 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
-                                            <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h6>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                     <input type="hidden" id="adult_sku_id{{forloop.counter}}" name="adult_sku_id{{forloop.counter}}" value="{{adult.sku_id}}"/>
                                     <input type="hidden" id="adult_sku_title{{forloop.counter}}" name="adult_sku_title{{forloop.counter}}" value="{{adult.title}}"/>
                                     <input type="hidden" id="adult_sku_real_id{{forloop.counter}}" name="adult_sku_real_id{{forloop.counter}}" value="{{adult.sku_real_id}}"/>
@@ -7314,15 +7312,15 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('senior', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h6>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="senior_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="senior_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px; display:none;" id="senior_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px;" id="senior_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="senior_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; display:none;" id="senior_paxs{{forloop.counter}}">
                                     <input type="hidden" id="senior_sku_id{{forloop.counter}}" name="senior_sku_id{{forloop.counter}}" value="{{senior.sku_id}}"/>
                                     <input type="hidden" id="senior_sku_title{{forloop.counter}}" name="senior_sku_title{{forloop.counter}}" value="{{senior.title}}"/>
                                     <input type="hidden" id="senior_sku_real_id{{forloop.counter}}" name="senior_sku_real_id{{forloop.counter}}" value="{{senior.sku_real_id}}"/>
@@ -7667,15 +7665,15 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
-                                            <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h6>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="child_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px;" id="child_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="child_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; display:none;" id="child_paxs{{forloop.counter}}">
                                     <input type="hidden" id="child_sku_id{{forloop.counter}}" name="child_sku_id{{forloop.counter}}" value="{{child.sku_id}}"/>
                                     <input type="hidden" id="child_sku_title{{forloop.counter}}" name="child_sku_title{{forloop.counter}}" value="{{child.title}}"/>
                                     <input type="hidden" id="child_sku_real_id{{forloop.counter}}" name="child_sku_real_id{{forloop.counter}}" value="{{child.sku_real_id}}"/>
@@ -7990,16 +7988,16 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
-                                            <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h6>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="infant_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; display:none;" id="infant_paxs{{forloop.counter}}">
                                     <input type="hidden" id="infant_sku_id{{forloop.counter}}" name="infant_sku_id{{forloop.counter}}" value="{{infant.sku_id}}"/>
                                     <input type="hidden" id="infant_sku_title{{forloop.counter}}" name="infant_sku_title{{forloop.counter}}" value="{{infant.title}}"/>
                                     <input type="hidden" id="infant_sku_real_id{{forloop.counter}}" name="infant_sku_real_id{{forloop.counter}}" value="{{infant.sku_real_id}}"/>
@@ -8358,11 +8356,10 @@
                     <div class="col-lg-8" style="margin-top:10px;">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div id="booker" style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                                <div id="booker" style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
                                     <div class="row">
-                                        <div class="col-lg-12">
-                                            <h4>{% trans 'Booker Information' %}</h4>
-                                            <hr/>
+                                        <div class="col-lg-12 mb-3" style="border-bottom:1px solid #cdcdcd;">
+                                            <h4 class="mb-3"><i class="fas fa-user"></i> {% trans 'Booker Information' %}</h4>
                                             <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker"><i class="fas fa-money-bill-wave-alt"></i> {% trans 'Corporate Booker' %}</button>
                                         </div>
                                         <div class="col-lg-12 col-md-12 col-sm-12" id="booker_div_avatar" hidden>
@@ -8583,7 +8580,7 @@
                         <br/>
                         <div class="row" style="margin-bottom:20px;">
                             <div class="col-lg-12">
-                                <div style="background:white; padding:10px; border:1px solid {{color}};">
+                                <div style="background:white; padding:15px; border:1px solid #cdcdcd;">
                                     {% if adult_count != 0 %}
                                     <label>{% trans 'Do you book this ticket for you' %}?</label><br/>
                                     <label class="radio-button-custom">
@@ -8614,15 +8611,15 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
-                                            <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h6>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Adult' %} - {{forloop.counter}} - (Ticket: {{adult.title}})</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                     <input type="hidden" id="adult_sku_id{{forloop.counter}}" name="adult_sku_id{{forloop.counter}}" value="{{adult.sku_id}}"/>
                                     <input type="hidden" id="adult_sku_title{{forloop.counter}}" name="adult_sku_title{{forloop.counter}}" value="{{adult.title}}"/>
                                     <input type="hidden" id="adult_sku_real_id{{forloop.counter}}" name="adult_sku_real_id{{forloop.counter}}" value="{{adult.sku_real_id}}"/>
@@ -8973,15 +8970,15 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('senior', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h6>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Senior' %} - {{forloop.counter}} - (Ticket: {{senior.title}})</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="senior_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="senior_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px; display:none;" id="senior_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px;" id="senior_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="senior_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; display:none;" id="senior_paxs{{forloop.counter}}">
                                     <input type="hidden" id="senior_sku_id{{forloop.counter}}" name="senior_sku_id{{forloop.counter}}" value="{{senior.sku_id}}"/>
                                     <input type="hidden" id="senior_sku_title{{forloop.counter}}" name="senior_sku_title{{forloop.counter}}" value="{{senior.title}}"/>
                                     <input type="hidden" id="senior_sku_real_id{{forloop.counter}}" name="senior_sku_real_id{{forloop.counter}}" value="{{senior.sku_real_id}}"/>
@@ -9326,15 +9323,15 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
-                                            <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h6>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Child' %} - {{forloop.counter}} - (Ticket: {{child.title}})</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="child_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px;" id="child_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="child_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; display:none;" id="child_paxs{{forloop.counter}}">
                                     <input type="hidden" id="child_sku_id{{forloop.counter}}" name="child_sku_id{{forloop.counter}}" value="{{child.sku_id}}"/>
                                     <input type="hidden" id="child_sku_title{{forloop.counter}}" name="child_sku_title{{forloop.counter}}" value="{{child.title}}"/>
                                     <input type="hidden" id="child_sku_real_id{{forloop.counter}}" name="child_sku_real_id{{forloop.counter}}" value="{{child.sku_real_id}}"/>
@@ -9649,16 +9646,16 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="text-align:left;">
-                                            <h6 style="color:{{text_color}};">{% trans 'Guest' %} {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h6>
+                                            <h4><i class="fas fa-user"></i> {% trans 'Infant' %} - {{forloop.counter}} - (Ticket: {{infant.title}})</h4>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="text-align:right;">
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="infant_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:15px; border:1px solid #cdcdcd; display:none;" id="infant_paxs{{forloop.counter}}">
                                     <input type="hidden" id="infant_sku_id{{forloop.counter}}" name="infant_sku_id{{forloop.counter}}" value="{{infant.sku_id}}"/>
                                     <input type="hidden" id="infant_sku_title{{forloop.counter}}" name="infant_sku_title{{forloop.counter}}" value="{{infant.title}}"/>
                                     <input type="hidden" id="infant_sku_real_id{{forloop.counter}}" name="infant_sku_real_id{{forloop.counter}}" value="{{infant.sku_real_id}}"/>

@@ -1722,12 +1722,19 @@
                 </div>
 
                 <div class="modal fade" id="myModalTicketTrain" role="dialog">
-                    <div class="modal-dialog">
+                    <div class="overlay_modal_custom" data-dismiss="modal"></div>
+                    <div class="modal-dialog modal_custom_fixed">
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:{{text_color}};"><i class="fas fa-shopping-cart"></i></i> {% trans 'My Order' %}</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <div class="row">
+                                    <div class="col-xs-6 pb-3">
+                                        <h4 class="modal-title"><i class="fas fa-shopping-cart"></i></i> My Order</h4>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <button type="button" class="close modal_custom_close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-body">
                                 <div class="row" id="choose-ticket-train">
@@ -1787,6 +1794,7 @@
         </div>
     </div>
 </div>
+
 
 <button class="myticket" id="button_chart_train" style="display:none;" data-toggle="modal" data-target="#myModalTicketTrain">
     <span style="color:{{text_color}}; font-size:16px;"><i class="fas fa-shopping-cart"></i></span>
