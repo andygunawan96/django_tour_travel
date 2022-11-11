@@ -363,6 +363,7 @@
 								// enter to accept
 								if ((val>0)&&(val<=o.pages))
 								methods._selectPage.call(self, val - 1);
+								pagination_numb(val);
 							} else if (event.which === 27) {
 								// escape to cancel
 								$ellip.empty().html(o.ellipseText);
@@ -372,6 +373,7 @@
 							var val = $(this).val();
 							if (val !== '') {
 								methods._selectPage.call(self, val - 1);
+								pagination_numb(val);
 							}
 							$ellip.empty().html(o.ellipseText);
 							return false;
