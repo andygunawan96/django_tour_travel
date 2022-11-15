@@ -258,7 +258,7 @@ function airline_check_search_values(){
 }
 
 function add_multi_city(type){
-    if(counter_airline_search != 6){
+    if(counter_airline_search != 4){
         counter_airline_search++;
         if(counter_airline_search == 1){
             quantity_adult_flight = parseInt(document.getElementById('adult_flight').value);
@@ -1131,7 +1131,7 @@ function add_multi_city(type){
         Swal.fire({
           type: 'warning',
           title: 'Oops!',
-          html: '3 Flight maximum in 1 search!',
+          html: '4 Flight maximum in 1 search!',
        })
     }
 }
