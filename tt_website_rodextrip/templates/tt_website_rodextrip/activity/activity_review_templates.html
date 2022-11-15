@@ -297,7 +297,7 @@
                                 </div>
                                 {% if contact_person|length > 0 %}
                                 {% for con in contact_person %}
-                                {{forloop.counter}}.
+                                <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#{{forloop.counter}}</h4>
                                 <h5>
                                     {{con.title}}. {{con.first_name}} {{con.last_name}}
                                 </h5>
@@ -323,24 +323,24 @@
                                         <h4 class="mb-3"><i class="fas fa-users"></i> {% trans 'List of Guest(s)' %}</h4>
                                     </div>
                                 </div>
-                                <table style="width:100%;" id="list-of-passengers" class="list-of-passenger-class">
-                                    <tr>
-                                        <th style="width:5%;" class="list-of-passenger-left">No</th>
-                                        <th style="width:45%;">{% trans 'Full Name' %}</th>
-                                        <th style="width:10%;">{% trans 'Type' %}</th>
-                                        <th style="width:25%;">{% trans 'Birth Date' %}</th>
-                                        <th style="width:15%;" class="list-of-passenger-right">{% trans 'Ticket' %}</th>
-                                    </tr>
+                                <div class="row" id="list-of-passengers">
                                     {% for pax in all_pax %}
-                                    <tr>
-                                        <td>{{forloop.counter}}</td>
-                                        <td>{{pax.title}}. {{pax.first_name}} {{pax.last_name}}</td>
-                                        <td>{{pax.pax_type_str}}</td>
-                                        <td>{{pax.birth_date}}</td>
-                                        <td>{{pax.sku_title}}</td>
-                                    </tr>
+                                    <div class="col-lg-12">
+                                        <h4 class="single_border_custom_bottom" style="margin-bottom:5px; width:50px; word-break:break-word;">#{{forloop.counter}}</h4>
+                                        <h5>
+                                            {{pax.title}}. {{pax.first_name}} {{pax.last_name}}
+                                            <b style="background:white; font-size:13px; color:black; padding:0px 15px; display:unset; border: 1px solid #cdcdcd; border-radius:7px;">
+                                                <i class="fas fa-user"></i> {{pax.pax_type_str}}
+                                            </b>
+                                        </h5>
+                                        <b>Birth Date:</b> <i>{{pax.birth_date}}</i><br>
+                                        <b>Ticket:</b> <i>{{pax.sku_title}}</i><br>
+                                        {% if not forloop.last %}
+                                        <hr>
+                                        {% endif %}
+                                    </div>
                                     {% endfor %}
-                                </table>
+                                </div>
                             </div>
                         </div>
                     </div>

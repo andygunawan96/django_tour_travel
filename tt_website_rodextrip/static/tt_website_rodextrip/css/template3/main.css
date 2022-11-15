@@ -8744,16 +8744,16 @@ ul.progress_tabs li.current .image-rounded-icon{
 }
 
 .single_border_custom_top{
-    border-top:8px solid #f15a22;
+    border-top:5px solid #f15a22;
 }
 .single_border_custom_right{
-    border-right:8px solid #f15a22;
+    border-right:5px solid #f15a22;
 }
 .single_border_custom_bottom{
-    border-bottom:8px solid #f15a22;
+    border-bottom:5px solid #f15a22;
 }
 .single_border_custom_left{
-    border-left:8px solid #f15a22;
+    border-left:5px solid #f15a22;
 }
 
 .modal{
